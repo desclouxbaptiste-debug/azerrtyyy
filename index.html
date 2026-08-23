@@ -5,35 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CAO Kombucha — Le kombucha vivant, brassé à la main</title>
 <meta name="description" content="CAO Kombucha : kombucha artisanal brassé en petites cuvées, fermenté naturellement, faible en sucre et riche en probiotiques vivants.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23047857'/%3E%3Ctext x='16' y='22' font-size='16' font-family='Georgia,serif' fill='%23ECFDF5' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%237C3AED'/%3E%3Ctext x='16' y='22' font-size='16' font-family='Georgia,serif' fill='white' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
 <a class="skip-link" href="#main">Aller au contenu</a>
 
-<header class="site-header" id="site-header">
-  <div class="container header-inner">
+<header class="site-header">
+  <div class="header-bar">
     <a href="#accueil" class="logo" aria-label="CAO Kombucha, accueil">
-      <span class="logo-mark" aria-hidden="true">
-        <svg viewBox="0 0 40 40" width="36" height="36">
-          <circle cx="20" cy="20" r="19" fill="#047857"/>
-          <path d="M14 26 C14 18 14 14 20 12 C26 14 26 18 26 26 C26 29 23 31 20 31 C17 31 14 29 14 26 Z" fill="#ECFDF5" opacity="0.95"/>
-          <circle cx="17.5" cy="21" r="1.4" fill="#10B981"/>
-          <circle cx="21" cy="17" r="1" fill="#10B981"/>
-          <circle cx="22.5" cy="24" r="1.2" fill="#10B981"/>
-        </svg>
-      </span>
+      <span class="logo-mark" aria-hidden="true"></span>
       <span class="logo-text">CAO<span class="logo-sub">Kombucha</span></span>
     </a>
 
-    <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
+    <nav class="main-nav" aria-label="Navigation principale">
       <ul>
         <li><a href="#bienfaits">Bienfaits</a></li>
-        <li><a href="#histoire">Notre histoire</a></li>
+        <li><a href="#histoire">Histoire</a></li>
         <li><a href="#fabrication">Fabrication</a></li>
         <li><a href="#saveurs">Saveurs</a></li>
         <li><a href="#avis">Avis</a></li>
@@ -42,7 +34,7 @@
     </nav>
 
     <div class="header-actions">
-      <a href="#contact" class="btn btn-primary btn-sm">Où nous trouver</a>
+      <a href="#contact" class="btn btn-light btn-sm">Où nous trouver</a>
       <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Ouvrir le menu">
         <span></span><span></span><span></span>
       </button>
@@ -63,49 +55,68 @@
 
 <main id="main">
 
-  <!-- HERO -->
-  <section class="hero" id="accueil">
-    <div class="container hero-inner">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">Brassé à la main &middot; Fermentation vivante</p>
-        <h1>Le kombucha vivant,<br>brassé à la main.</h1>
-        <p class="hero-lead">CAO Kombucha est fermenté en petites cuvées à partir de thé bio, de culture SCOBY vivante et de fruits entiers. Aucune pasteurisation, aucun arôme artificiel — juste du temps et des bulles naturelles.</p>
-        <div class="hero-actions">
-          <a href="#saveurs" class="btn btn-primary">Découvrir nos saveurs</a>
-          <a href="#histoire" class="btn btn-ghost">Notre histoire</a>
-        </div>
-        <ul class="trust-badges" aria-label="Points forts du produit">
-          <li>Bio &amp; artisanal</li>
-          <li>Probiotiques vivants</li>
-          <li>Faible en sucre</li>
-          <li>Sans pasteurisation</li>
-        </ul>
-      </div>
+  <!-- HERO CAROUSEL -->
+  <section class="hero" id="accueil" aria-roledescription="carrousel" aria-label="Nos saveurs en vedette">
 
-      <div class="hero-visual reveal" aria-hidden="true">
-        <svg viewBox="0 0 320 420" class="bottle-illustration">
-          <ellipse cx="160" cy="400" rx="90" ry="14" fill="#047857" opacity="0.12"/>
-          <path d="M130 40 h60 v50 c26 18 40 46 40 90 v170 c0 22 -18 40 -40 40 h-20 c-22 0 -40 -18 -40 -40 v-170 c0 -44 14 -72 40 -90 Z" fill="#065f46" opacity="0.08"/>
-          <path d="M136 46 h48 v46 c24 16 36 42 36 84 v164 c0 20 -16 36 -36 36 h-16 c-20 0 -36 -16 -36 -36 v-164 c0 -42 12 -68 36 -84 Z" fill="url(#bottleGrad)"/>
-          <rect x="134" y="30" width="52" height="20" rx="6" fill="#047857"/>
-          <rect x="140" y="16" width="40" height="18" rx="5" fill="#065f46"/>
-          <rect x="112" y="190" width="96" height="120" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="2"/>
-          <text x="160" y="230" text-anchor="middle" font-family="Lora, serif" font-size="20" font-weight="600" fill="#047857">CAO</text>
-          <text x="160" y="252" text-anchor="middle" font-family="Raleway, sans-serif" font-size="11" letter-spacing="2" fill="#059669">KOMBUCHA</text>
-          <text x="160" y="284" text-anchor="middle" font-family="Raleway, sans-serif" font-size="10" fill="#475569">Gingembre &amp; Citron</text>
-          <g fill="#D9F99D" opacity="0.9">
-            <circle cx="150" cy="150" r="4"><animate attributeName="cy" values="150;90;150" dur="6s" repeatCount="indefinite"/></circle>
-            <circle cx="172" cy="170" r="3"><animate attributeName="cy" values="170;100;170" dur="5s" repeatCount="indefinite"/></circle>
-            <circle cx="160" cy="120" r="2.5"><animate attributeName="cy" values="120;70;120" dur="4.5s" repeatCount="indefinite"/></circle>
-          </g>
-          <defs>
-            <linearGradient id="bottleGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#10B981"/>
-              <stop offset="100%" stop-color="#047857"/>
-            </linearGradient>
-          </defs>
-        </svg>
+    <div class="hero-slide hero-slide--1 is-active" data-slide="0">
+      <img class="bottle-side bottle-side--left" alt="" aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 460'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FBBF24'/%3E%3Cstop offset='100%25' stop-color='%23F59E0B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='62' y='14' width='56' height='30' rx='8' fill='%23E7E9EE'/%3E%3Crect x='62' y='14' width='56' height='10' rx='6' fill='%23C7CBD6'/%3E%3Crect x='76' y='42' width='28' height='36' fill='url(%23g1)'/%3E%3Cpath d='M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z' fill='url(%23g1)'/%3E%3Cpath d='M64 130 C60 160 58 190 58 230 L58 380' fill='none' stroke='white' stroke-opacity='0.3' stroke-width='6' stroke-linecap='round'/%3E%3Crect x='46' y='230' width='88' height='130' rx='16' fill='%23FBF7EF'/%3E%3Ctext x='90' y='270' text-anchor='middle' font-family='Poppins, sans-serif' font-size='17' font-weight='800' fill='%23142018'%3EGINGEMBRE%3C/text%3E%3Ctext x='90' y='288' text-anchor='middle' font-family='Poppins, sans-serif' font-size='17' font-weight='800' fill='%23142018'%3E%26amp%3B CITRON%3C/text%3E%3Ctext x='90' y='340' text-anchor='middle' font-family='Manrope, sans-serif' font-size='10' letter-spacing='2' fill='%23708078'%3EKOMBUCHA%3C/text%3E%3C/svg%3E">
+      <img class="bottle-side bottle-side--right" alt="" aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 460'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23A78BFA'/%3E%3Cstop offset='100%25' stop-color='%237C3AED'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='62' y='14' width='56' height='30' rx='8' fill='%23E7E9EE'/%3E%3Crect x='62' y='14' width='56' height='10' rx='6' fill='%23C7CBD6'/%3E%3Crect x='76' y='42' width='28' height='36' fill='url(%23g2)'/%3E%3Cpath d='M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z' fill='url(%23g2)'/%3E%3Cpath d='M64 130 C60 160 58 190 58 230 L58 380' fill='none' stroke='white' stroke-opacity='0.3' stroke-width='6' stroke-linecap='round'/%3E%3Crect x='46' y='230' width='88' height='130' rx='16' fill='%23FBF7EF'/%3E%3Ctext x='90' y='270' text-anchor='middle' font-family='Poppins, sans-serif' font-size='16' font-weight='800' fill='%23142018'%3EHIBISCUS%3C/text%3E%3Ctext x='90' y='288' text-anchor='middle' font-family='Poppins, sans-serif' font-size='13' font-weight='800' fill='%23142018'%3EFRUITS ROUGES%3C/text%3E%3Ctext x='90' y='340' text-anchor='middle' font-family='Manrope, sans-serif' font-size='10' letter-spacing='2' fill='%23708078'%3EKOMBUCHA%3C/text%3E%3C/svg%3E">
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Nouvelles saveurs de la semaine</p>
+        <h1 class="hero-heading">Gingembre<span class="hero-and">&amp;</span>Hibiscus</h1>
+        <p class="hero-lead">Deux cuvées vives et pétillantes, brassées à la main à partir de thé bio et de fruits entiers.</p>
+        <div class="hero-actions">
+          <a href="#saveurs" class="btn btn-light">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 4 9v12h6v-6h4v6h6V9l-8-6Z" fill="currentColor"/></svg>
+            Voir la gamme
+          </a>
+        </div>
       </div>
+    </div>
+
+    <div class="hero-slide hero-slide--2" data-slide="1">
+      <img class="bottle-side bottle-side--left" alt="" aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 460'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%2334D399'/%3E%3Cstop offset='100%25' stop-color='%23059669'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='62' y='14' width='56' height='30' rx='8' fill='%23E7E9EE'/%3E%3Crect x='62' y='14' width='56' height='10' rx='6' fill='%23C7CBD6'/%3E%3Crect x='76' y='42' width='28' height='36' fill='url(%23g3)'/%3E%3Cpath d='M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z' fill='url(%23g3)'/%3E%3Cpath d='M64 130 C60 160 58 190 58 230 L58 380' fill='none' stroke='white' stroke-opacity='0.3' stroke-width='6' stroke-linecap='round'/%3E%3Crect x='46' y='230' width='88' height='130' rx='16' fill='%23FBF7EF'/%3E%3Ctext x='90' y='270' text-anchor='middle' font-family='Poppins, sans-serif' font-size='17' font-weight='800' fill='%23142018'%3EMENTHE%3C/text%3E%3Ctext x='90' y='288' text-anchor='middle' font-family='Poppins, sans-serif' font-size='13' font-weight='800' fill='%23142018'%3E%26amp%3B CONCOMBRE%3C/text%3E%3Ctext x='90' y='340' text-anchor='middle' font-family='Manrope, sans-serif' font-size='10' letter-spacing='2' fill='%23708078'%3EKOMBUCHA%3C/text%3E%3C/svg%3E">
+      <img class="bottle-side bottle-side--right" alt="" aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 460'%3E%3Cdefs%3E%3ClinearGradient id='g4' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FDBA74'/%3E%3Cstop offset='100%25' stop-color='%23F97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='62' y='14' width='56' height='30' rx='8' fill='%23E7E9EE'/%3E%3Crect x='62' y='14' width='56' height='10' rx='6' fill='%23C7CBD6'/%3E%3Crect x='76' y='42' width='28' height='36' fill='url(%23g4)'/%3E%3Cpath d='M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z' fill='url(%23g4)'/%3E%3Cpath d='M64 130 C60 160 58 190 58 230 L58 380' fill='none' stroke='white' stroke-opacity='0.3' stroke-width='6' stroke-linecap='round'/%3E%3Crect x='46' y='230' width='88' height='130' rx='16' fill='%23FBF7EF'/%3E%3Ctext x='90' y='270' text-anchor='middle' font-family='Poppins, sans-serif' font-size='17' font-weight='800' fill='%23142018'%3ECURCUMA%3C/text%3E%3Ctext x='90' y='288' text-anchor='middle' font-family='Poppins, sans-serif' font-size='17' font-weight='800' fill='%23142018'%3E%26amp%3B ORANGE%3C/text%3E%3Ctext x='90' y='340' text-anchor='middle' font-family='Manrope, sans-serif' font-size='10' letter-spacing='2' fill='%23708078'%3EKOMBUCHA%3C/text%3E%3C/svg%3E">
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Les incontournables</p>
+        <h1 class="hero-heading">Menthe<span class="hero-and">&amp;</span>Curcuma</h1>
+        <p class="hero-lead">Fraîcheur mentholée d'un côté, chaleur épicée de l'autre — deux classiques de la gamme CAO.</p>
+        <div class="hero-actions">
+          <a href="#saveurs" class="btn btn-light">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 4 9v12h6v-6h4v6h6V9l-8-6Z" fill="currentColor"/></svg>
+            Voir la gamme
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-slide hero-slide--3" data-slide="2">
+      <img class="bottle-side bottle-side--left" alt="" aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 460'%3E%3Cdefs%3E%3ClinearGradient id='g5' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23F9A8D4'/%3E%3Cstop offset='100%25' stop-color='%23EC4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='62' y='14' width='56' height='30' rx='8' fill='%23E7E9EE'/%3E%3Crect x='62' y='14' width='56' height='10' rx='6' fill='%23C7CBD6'/%3E%3Crect x='76' y='42' width='28' height='36' fill='url(%23g5)'/%3E%3Cpath d='M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z' fill='url(%23g5)'/%3E%3Cpath d='M64 130 C60 160 58 190 58 230 L58 380' fill='none' stroke='white' stroke-opacity='0.3' stroke-width='6' stroke-linecap='round'/%3E%3Crect x='46' y='230' width='88' height='130' rx='16' fill='%23FBF7EF'/%3E%3Ctext x='90' y='270' text-anchor='middle' font-family='Poppins, sans-serif' font-size='15' font-weight='800' fill='%23142018'%3EFRAMBOISE%3C/text%3E%3Ctext x='90' y='288' text-anchor='middle' font-family='Poppins, sans-serif' font-size='15' font-weight='800' fill='%23142018'%3E%26amp%3B BASILIC%3C/text%3E%3Ctext x='90' y='340' text-anchor='middle' font-family='Manrope, sans-serif' font-size='10' letter-spacing='2' fill='%23708078'%3EKOMBUCHA%3C/text%3E%3C/svg%3E">
+      <img class="bottle-side bottle-side--right" alt="" aria-hidden="true" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 460'%3E%3Cdefs%3E%3ClinearGradient id='g6' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%232DD4BF'/%3E%3Cstop offset='100%25' stop-color='%230D9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='62' y='14' width='56' height='30' rx='8' fill='%23E7E9EE'/%3E%3Crect x='62' y='14' width='56' height='10' rx='6' fill='%23C7CBD6'/%3E%3Crect x='76' y='42' width='28' height='36' fill='url(%23g6)'/%3E%3Cpath d='M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z' fill='url(%23g6)'/%3E%3Cpath d='M64 130 C60 160 58 190 58 230 L58 380' fill='none' stroke='white' stroke-opacity='0.3' stroke-width='6' stroke-linecap='round'/%3E%3Crect x='46' y='230' width='88' height='130' rx='16' fill='%23FBF7EF'/%3E%3Ctext x='90' y='278' text-anchor='middle' font-family='Poppins, sans-serif' font-size='19' font-weight='800' fill='%23142018'%3ENATURE%3C/text%3E%3Ctext x='90' y='340' text-anchor='middle' font-family='Manrope, sans-serif' font-size='10' letter-spacing='2' fill='%23708078'%3EKOMBUCHA%3C/text%3E%3C/svg%3E">
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Fait pour durer</p>
+        <h1 class="hero-heading">Framboise<span class="hero-and">&amp;</span>Nature</h1>
+        <p class="hero-lead">Du sucré-salé surprenant au kombucha brut sans artifice, pour tous les palais.</p>
+        <div class="hero-actions">
+          <a href="#saveurs" class="btn btn-light">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 4 9v12h6v-6h4v6h6V9l-8-6Z" fill="currentColor"/></svg>
+            Voir la gamme
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <button class="hero-arrow hero-arrow--prev" id="hero-prev" aria-label="Saveurs précédentes">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6 9 12l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="hero-arrow hero-arrow--next" id="hero-next" aria-label="Saveurs suivantes">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="hero-controls" id="hero-dots" role="tablist" aria-label="Choisir une paire de saveurs">
+      <button class="hero-dot is-active" data-goto="0" role="tab" aria-selected="true" aria-label="Gingembre et Hibiscus"></button>
+      <button class="hero-dot" data-goto="1" role="tab" aria-selected="false" aria-label="Menthe et Curcuma"></button>
+      <button class="hero-dot" data-goto="2" role="tab" aria-selected="false" aria-label="Framboise et Nature"></button>
     </div>
   </section>
 
@@ -121,7 +132,7 @@
       <div class="grid grid-4">
         <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M12 2c4 3 7 7 7 11a7 7 0 1 1-14 0c0-4 3-8 7-11Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 22V12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2c4 3 7 7 7 11a7 7 0 1 1-14 0c0-4 3-8 7-11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 22V12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
           <h3>Probiotiques vivants</h3>
           <p>Une culture SCOBY active qui nourrit naturellement votre microbiote intestinal.</p>
@@ -129,7 +140,7 @@
 
         <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M4 12h16M4 12c0-4 4-7 8-7s8 3 8 7-4 7-8 7-8-3-8-7Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M4 12h16M4 12c0-4 4-7 8-7s8 3 8 7-4 7-8 7-8-3-8-7Z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
           </div>
           <h3>Digestion facilitée</h3>
           <p>Les enzymes et acides organiques issus de la fermentation soutiennent le confort digestif.</p>
@@ -137,7 +148,7 @@
 
         <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7 4.9 19.1M19.1 4.9l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7 4.9 19.1M19.1 4.9l-1.4 1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
           </div>
           <h3>Énergie naturelle</h3>
           <p>Une légère touche de thé et de caféine naturelle, sans le coup de barre du sucre raffiné.</p>
@@ -145,7 +156,7 @@
 
         <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h16v6H4z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4v6M8 14v6" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h16v6H4z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 4v6M8 14v6" stroke="currentColor" stroke-width="1.8"/></svg>
           </div>
           <h3>Faible en sucre</h3>
           <p>Le sucre initial est en grande partie consommé par la fermentation : moins de 4g par bouteille.</p>
@@ -155,18 +166,17 @@
   </section>
 
   <!-- HISTOIRE -->
-  <section class="section section-alt" id="histoire">
+  <section class="section section-dark" id="histoire">
     <div class="container story-inner">
-      <div class="story-visual reveal" aria-hidden="true">
-        <svg viewBox="0 0 320 280" class="story-illustration">
-          <circle cx="160" cy="140" r="120" fill="#D1FAE5"/>
-          <path d="M100 190 Q160 100 220 190" fill="none" stroke="#047857" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="100" cy="190" r="8" fill="#059669"/>
-          <circle cx="220" cy="190" r="8" fill="#059669"/>
-          <circle cx="160" cy="122" r="8" fill="#D97706"/>
-          <ellipse cx="160" cy="215" rx="70" ry="18" fill="#047857" opacity="0.15"/>
-          <rect x="120" y="140" width="80" height="75" rx="12" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="2"/>
-          <path d="M132 140 v-18 a28 28 0 0 1 56 0 v18" fill="none" stroke="#059669" stroke-width="3"/>
+      <div class="story-visual reveal">
+        <svg viewBox="0 0 320 280" class="story-illustration" aria-hidden="true">
+          <path d="M100 190 Q160 100 220 190" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+          <circle cx="100" cy="190" r="9" fill="#FBF7EF"/>
+          <circle cx="220" cy="190" r="9" fill="#FBF7EF"/>
+          <circle cx="160" cy="122" r="9" fill="#FDE68A"/>
+          <ellipse cx="160" cy="215" rx="70" ry="18" fill="#000000" opacity="0.15"/>
+          <rect x="120" y="140" width="80" height="75" rx="16" fill="#FBF7EF"/>
+          <path d="M132 140 v-18 a28 28 0 0 1 56 0 v18" fill="none" stroke="#FFFFFF" stroke-width="4"/>
         </svg>
       </div>
 
@@ -219,7 +229,7 @@
   </section>
 
   <!-- SAVEURS -->
-  <section class="section section-alt" id="saveurs">
+  <section class="section" id="saveurs" style="background: var(--cream-dim);">
     <div class="container">
       <div class="section-head reveal">
         <p class="eyebrow">La gamme</p>
@@ -228,43 +238,43 @@
       </div>
 
       <div class="grid grid-3">
-        <article class="flavor-card reveal">
-          <div class="flavor-swatch" style="--swatch: #F59E0B;"></div>
+        <article class="flavor-card flavor-card--ginger reveal">
+          <svg class="flavor-bottle" viewBox="0 0 180 460" aria-hidden="true"><defs><linearGradient id="cg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF7EF" stop-opacity="0.9"/><stop offset="100%" stop-color="#FBF7EF" stop-opacity="0.7"/></linearGradient></defs><rect x="62" y="14" width="56" height="30" rx="8" fill="#F4F4F6"/><rect x="76" y="42" width="28" height="36" fill="url(#cg1)"/><path d="M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z" fill="url(#cg1)"/><rect x="46" y="230" width="88" height="120" rx="16" fill="#F59E0B"/><text x="90" y="290" text-anchor="middle" font-family="Poppins, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">CAO</text></svg>
           <span class="flavor-tag">Best-seller</span>
           <h3>Gingembre &amp; Citron</h3>
           <p>Piquant, vif et rafraîchissant — le classique qui a tout lancé.</p>
         </article>
 
-        <article class="flavor-card reveal">
-          <div class="flavor-swatch" style="--swatch: #E11D48;"></div>
+        <article class="flavor-card flavor-card--hibiscus reveal">
+          <svg class="flavor-bottle" viewBox="0 0 180 460" aria-hidden="true"><defs><linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF7EF" stop-opacity="0.9"/><stop offset="100%" stop-color="#FBF7EF" stop-opacity="0.7"/></linearGradient></defs><rect x="62" y="14" width="56" height="30" rx="8" fill="#F4F4F6"/><rect x="76" y="42" width="28" height="36" fill="url(#cg2)"/><path d="M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z" fill="url(#cg2)"/><rect x="46" y="230" width="88" height="120" rx="16" fill="#DB2777"/><text x="90" y="290" text-anchor="middle" font-family="Poppins, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">CAO</text></svg>
           <span class="flavor-tag">Fruité</span>
           <h3>Hibiscus &amp; Fruits rouges</h3>
           <p>Une robe rosée, acidulée et légèrement florale.</p>
         </article>
 
-        <article class="flavor-card reveal">
-          <div class="flavor-swatch" style="--swatch: #22C55E;"></div>
+        <article class="flavor-card flavor-card--mint reveal">
+          <svg class="flavor-bottle" viewBox="0 0 180 460" aria-hidden="true"><defs><linearGradient id="cg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF7EF" stop-opacity="0.9"/><stop offset="100%" stop-color="#FBF7EF" stop-opacity="0.7"/></linearGradient></defs><rect x="62" y="14" width="56" height="30" rx="8" fill="#F4F4F6"/><rect x="76" y="42" width="28" height="36" fill="url(#cg3)"/><path d="M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z" fill="url(#cg3)"/><rect x="46" y="230" width="88" height="120" rx="16" fill="#059669"/><text x="90" y="290" text-anchor="middle" font-family="Poppins, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">CAO</text></svg>
           <span class="flavor-tag">Frais</span>
           <h3>Menthe &amp; Concombre</h3>
           <p>Ultra désaltérant, parfait après le sport ou en été.</p>
         </article>
 
-        <article class="flavor-card reveal">
-          <div class="flavor-swatch" style="--swatch: #F97316;"></div>
+        <article class="flavor-card flavor-card--turmeric reveal">
+          <svg class="flavor-bottle" viewBox="0 0 180 460" aria-hidden="true"><defs><linearGradient id="cg4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF7EF" stop-opacity="0.9"/><stop offset="100%" stop-color="#FBF7EF" stop-opacity="0.7"/></linearGradient></defs><rect x="62" y="14" width="56" height="30" rx="8" fill="#F4F4F6"/><rect x="76" y="42" width="28" height="36" fill="url(#cg4)"/><path d="M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z" fill="url(#cg4)"/><rect x="46" y="230" width="88" height="120" rx="16" fill="#F97316"/><text x="90" y="290" text-anchor="middle" font-family="Poppins, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">CAO</text></svg>
           <span class="flavor-tag">Épicé</span>
           <h3>Curcuma &amp; Orange</h3>
           <p>Chaleureux et légèrement poivré, avec une pointe d'agrume.</p>
         </article>
 
-        <article class="flavor-card reveal">
-          <div class="flavor-swatch" style="--swatch: #DB2777;"></div>
+        <article class="flavor-card flavor-card--raspberry reveal">
+          <svg class="flavor-bottle" viewBox="0 0 180 460" aria-hidden="true"><defs><linearGradient id="cg5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF7EF" stop-opacity="0.9"/><stop offset="100%" stop-color="#FBF7EF" stop-opacity="0.7"/></linearGradient></defs><rect x="62" y="14" width="56" height="30" rx="8" fill="#F4F4F6"/><rect x="76" y="42" width="28" height="36" fill="url(#cg5)"/><path d="M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z" fill="url(#cg5)"/><rect x="46" y="230" width="88" height="120" rx="16" fill="#EC4899"/><text x="90" y="290" text-anchor="middle" font-family="Poppins, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">CAO</text></svg>
           <span class="flavor-tag">Nouveau</span>
           <h3>Framboise &amp; Basilic</h3>
           <p>Un duo surprenant, sucré-salé et très parfumé.</p>
         </article>
 
-        <article class="flavor-card reveal">
-          <div class="flavor-swatch" style="--swatch: #059669;"></div>
+        <article class="flavor-card flavor-card--nature reveal">
+          <svg class="flavor-bottle" viewBox="0 0 180 460" aria-hidden="true"><defs><linearGradient id="cg6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF7EF" stop-opacity="0.9"/><stop offset="100%" stop-color="#FBF7EF" stop-opacity="0.7"/></linearGradient></defs><rect x="62" y="14" width="56" height="30" rx="8" fill="#F4F4F6"/><rect x="76" y="42" width="28" height="36" fill="url(#cg6)"/><path d="M76 78 C76 66 104 66 104 78 L118 118 C124 132 128 150 128 168 L128 400 C128 424 108 444 90 444 C72 444 52 424 52 400 L52 168 C52 150 56 132 62 118 Z" fill="url(#cg6)"/><rect x="46" y="230" width="88" height="120" rx="16" fill="#0D9488"/><text x="90" y="290" text-anchor="middle" font-family="Poppins, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">CAO</text></svg>
           <span class="flavor-tag">Original</span>
           <h3>Nature</h3>
           <p>Le kombucha brut, sans ajout, pour les puristes.</p>
@@ -274,7 +284,7 @@
   </section>
 
   <!-- AVIS -->
-  <section class="section" id="avis">
+  <section class="section section-dark" id="avis">
     <div class="container">
       <div class="section-head reveal">
         <p class="eyebrow">Ce qu'on en dit</p>

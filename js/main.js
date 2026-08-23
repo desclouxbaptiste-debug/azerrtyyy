@@ -1,7 +1,6 @@
 (function () {
   'use strict';
 
-  var header = document.getElementById('site-header');
   var navToggle = document.getElementById('nav-toggle');
   var mobileNav = document.getElementById('mobile-nav');
   var yearEl = document.getElementById('year');
@@ -15,14 +14,6 @@
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
-
-  // Sticky header shadow on scroll
-  function onScroll() {
-    if (!header) return;
-    header.classList.toggle('is-scrolled', window.scrollY > 8);
-  }
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
 
   // Mobile nav toggle
   if (navToggle && mobileNav) {
@@ -40,6 +31,62 @@
         mobileNav.hidden = true;
       });
     });
+  }
+
+  // Hero carousel
+  var hero = document.querySelector('.hero');
+  if (hero) {
+    var slides = Array.prototype.slice.call(hero.querySelectorAll('.hero-slide'));
+    var dots = Array.prototype.slice.call(hero.querySelectorAll('.hero-dot'));
+    var prevBtn = document.getElementById('hero-prev');
+    var nextBtn = document.getElementById('hero-next');
+    var current = 0;
+    var timer = null;
+    var AUTOPLAY_MS = 6000;
+
+    function goTo(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle('is-active', i === current);
+      });
+      dots.forEach(function (dot, i) {
+        dot.classList.toggle('is-active', i === current);
+        dot.setAttribute('aria-selected', String(i === current));
+      });
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    function startAutoplay() {
+      if (prefersReducedMotion || slides.length < 2) return;
+      stopAutoplay();
+      timer = window.setInterval(next, AUTOPLAY_MS);
+    }
+    function stopAutoplay() {
+      if (timer) { window.clearInterval(timer); timer = null; }
+    }
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        goTo(parseInt(dot.getAttribute('data-goto'), 10));
+        startAutoplay();
+      });
+    });
+    if (prevBtn) prevBtn.addEventListener('click', function () { prev(); startAutoplay(); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { next(); startAutoplay(); });
+
+    hero.addEventListener('mouseenter', stopAutoplay);
+    hero.addEventListener('mouseleave', startAutoplay);
+    hero.addEventListener('focusin', stopAutoplay);
+    hero.addEventListener('focusout', startAutoplay);
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { stopAutoplay(); } else { startAutoplay(); }
+    });
+
+    goTo(0);
+    startAutoplay();
   }
 
   // Scroll reveal animations
