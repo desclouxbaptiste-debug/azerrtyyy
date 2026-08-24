@@ -1,62 +1,75 @@
-import { randomUUID } from "crypto";
-import { promises as fs } from "fs";
-import os from "os";
-import path from "path";
-import type { Group, GroupSummary, Item } from "./types";
+import { prisma } from "./prisma";
+import type { Group, GroupSummary, Item, Member } from "./types";
+import type {
+  Group as DbGroup,
+  Item as DbItem,
+  Member as DbMember,
+} from "@/generated/prisma/client";
 
-// Kept outside the project directory so writes never trigger the dev
-// file watcher (which would otherwise fast-refresh the app on every edit).
-const DATA_DIR = path.join(os.tmpdir(), "panier-commun-data");
-const DATA_FILE = path.join(DATA_DIR, "store.json");
-
-type StoreShape = {
-  groups: Record<string, Group>;
+const groupInclude = {
+  members: { orderBy: { joinedAt: "asc" as const } },
+  items: { orderBy: { createdAt: "desc" as const } },
 };
 
-// Serializes all reads+writes through a single queue so concurrent
-// requests never clobber each other's changes to the JSON file.
-let queue: Promise<unknown> = Promise.resolve();
+type DbGroupWithRelations = DbGroup & {
+  members: DbMember[];
+  items: DbItem[];
+};
 
-function withLock<T>(fn: () => Promise<T>): Promise<T> {
-  const result = queue.then(fn, fn);
-  queue = result.then(
-    () => undefined,
-    () => undefined
-  );
-  return result;
+function toMember(m: DbMember): Member {
+  return {
+    clientId: m.clientId,
+    name: m.name,
+    color: m.color,
+    joinedAt: m.joinedAt.getTime(),
+  };
 }
 
-async function readStore(): Promise<StoreShape> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, "utf-8");
-    return JSON.parse(raw) as StoreShape;
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === "ENOENT") {
-      return { groups: {} };
-    }
-    throw err;
-  }
+function toItem(i: DbItem): Item {
+  return {
+    id: i.id,
+    name: i.name,
+    quantity: i.quantity,
+    note: i.note,
+    checked: i.checked,
+    addedBy: i.addedByClientId,
+    addedByName: i.addedByName,
+    checkedBy: i.checkedByClientId,
+    checkedByName: i.checkedByName,
+    createdAt: i.createdAt.getTime(),
+  };
 }
 
-async function writeStore(store: StoreShape): Promise<void> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  const tmpFile = `${DATA_FILE}.tmp`;
-  await fs.writeFile(tmpFile, JSON.stringify(store, null, 2), "utf-8");
-  await fs.rename(tmpFile, DATA_FILE);
+function toGroup(g: DbGroupWithRelations): Group {
+  return {
+    id: g.id,
+    name: g.name,
+    inviteCode: g.inviteCode,
+    createdAt: g.createdAt.getTime(),
+    members: g.members.map(toMember),
+    items: g.items.map(toItem),
+  };
+}
+
+function toSummary(g: DbGroupWithRelations): GroupSummary {
+  return {
+    id: g.id,
+    name: g.name,
+    inviteCode: g.inviteCode,
+    memberCount: g.members.length,
+    itemCount: g.items.length,
+    uncheckedCount: g.items.filter((i) => !i.checked).length,
+  };
 }
 
 // Excludes visually ambiguous characters (0/O, 1/I) from invite codes.
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-function generateInviteCode(existing: Set<string>): string {
-  let code: string;
-  do {
-    code = Array.from(
-      { length: 6 },
-      () => CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)]
-    ).join("");
-  } while (existing.has(code));
-  return code;
+function generateInviteCode(): string {
+  return Array.from(
+    { length: 6 },
+    () => CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)]
+  ).join("");
 }
 
 const MEMBER_COLORS = [
@@ -74,93 +87,103 @@ function colorForIndex(i: number): string {
   return MEMBER_COLORS[i % MEMBER_COLORS.length];
 }
 
-function toSummary(group: Group): GroupSummary {
-  return {
-    id: group.id,
-    name: group.name,
-    inviteCode: group.inviteCode,
-    memberCount: group.members.length,
-    itemCount: group.items.length,
-    uncheckedCount: group.items.filter((i) => !i.checked).length,
-  };
+function isUniqueConstraintError(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "code" in err &&
+    (err as { code?: string }).code === "P2002"
+  );
 }
 
 export async function createGroup(
   name: string,
   creator: { clientId: string; name: string }
 ): Promise<Group> {
-  return withLock(async () => {
-    const store = await readStore();
-    const existingCodes = new Set(
-      Object.values(store.groups).map((g) => g.inviteCode)
-    );
-    const group: Group = {
-      id: randomUUID(),
-      name,
-      inviteCode: generateInviteCode(existingCodes),
-      createdAt: Date.now(),
-      members: [
-        {
-          clientId: creator.clientId,
-          name: creator.name,
-          color: colorForIndex(0),
-          joinedAt: Date.now(),
+  for (let attempt = 0; attempt < 8; attempt++) {
+    try {
+      const group = await prisma.group.create({
+        data: {
+          name,
+          inviteCode: generateInviteCode(),
+          members: {
+            create: {
+              clientId: creator.clientId,
+              name: creator.name,
+              color: colorForIndex(0),
+            },
+          },
         },
-      ],
-      items: [],
-    };
-    store.groups[group.id] = group;
-    await writeStore(store);
-    return group;
-  });
+        include: groupInclude,
+      });
+      return toGroup(group);
+    } catch (err) {
+      if (isUniqueConstraintError(err)) continue;
+      throw err;
+    }
+  }
+  throw new Error("Impossible de générer un code d'invitation unique");
 }
 
 export async function joinGroupByCode(
   code: string,
   member: { clientId: string; name: string }
 ): Promise<Group | null> {
-  return withLock(async () => {
-    const store = await readStore();
-    const normalized = code.trim().toUpperCase();
-    const group = Object.values(store.groups).find(
-      (g) => g.inviteCode === normalized
-    );
-    if (!group) return null;
-    const already = group.members.find((m) => m.clientId === member.clientId);
-    if (already) {
-      already.name = member.name;
-    } else {
-      group.members.push({
+  const normalized = code.trim().toUpperCase();
+  const group = await prisma.group.findUnique({
+    where: { inviteCode: normalized },
+    include: groupInclude,
+  });
+  if (!group) return null;
+
+  const already = group.members.find((m) => m.clientId === member.clientId);
+  if (already) {
+    if (already.name !== member.name) {
+      await prisma.member.update({
+        where: { id: already.id },
+        data: { name: member.name },
+      });
+    }
+  } else {
+    await prisma.member.create({
+      data: {
+        groupId: group.id,
         clientId: member.clientId,
         name: member.name,
         color: colorForIndex(group.members.length),
-        joinedAt: Date.now(),
-      });
-    }
-    await writeStore(store);
-    return group;
+      },
+    });
+  }
+
+  const updated = await prisma.group.findUnique({
+    where: { id: group.id },
+    include: groupInclude,
   });
+  return updated ? toGroup(updated) : null;
 }
 
 export async function getGroupsForClient(
   clientId: string
 ): Promise<GroupSummary[]> {
-  const store = await readStore();
-  return Object.values(store.groups)
-    .filter((g) => g.members.some((m) => m.clientId === clientId))
-    .sort((a, b) => b.createdAt - a.createdAt)
-    .map(toSummary);
+  const groups = await prisma.group.findMany({
+    where: { members: { some: { clientId } } },
+    include: groupInclude,
+    orderBy: { createdAt: "desc" },
+  });
+  return groups.map(toSummary);
 }
 
 export async function getGroupForClient(
   groupId: string,
   clientId: string
 ): Promise<Group | null> {
-  const store = await readStore();
-  const group = store.groups[groupId];
+  const group = await prisma.group.findUnique({
+    where: { id: groupId },
+    include: groupInclude,
+  });
   if (!group) return null;
   if (!group.members.some((m) => m.clientId === clientId)) return null;
-  return group;
+  return toGroup(group);
 }
 
 export async function addItem(
@@ -168,28 +191,22 @@ export async function addItem(
   clientId: string,
   input: { name: string; quantity: string; note: string }
 ): Promise<Item | null> {
-  return withLock(async () => {
-    const store = await readStore();
-    const group = store.groups[groupId];
-    if (!group) return null;
-    const member = group.members.find((m) => m.clientId === clientId);
-    if (!member) return null;
-    const item: Item = {
-      id: randomUUID(),
+  const member = await prisma.member.findFirst({
+    where: { groupId, clientId },
+  });
+  if (!member) return null;
+
+  const item = await prisma.item.create({
+    data: {
+      groupId,
       name: input.name.trim(),
       quantity: input.quantity.trim(),
       note: input.note.trim(),
-      checked: false,
-      addedBy: clientId,
+      addedByClientId: clientId,
       addedByName: member.name,
-      checkedBy: null,
-      checkedByName: null,
-      createdAt: Date.now(),
-    };
-    group.items.unshift(item);
-    await writeStore(store);
-    return item;
+    },
   });
+  return toItem(item);
 }
 
 export async function setItemChecked(
@@ -198,20 +215,26 @@ export async function setItemChecked(
   itemId: string,
   checked: boolean
 ): Promise<Group | null> {
-  return withLock(async () => {
-    const store = await readStore();
-    const group = store.groups[groupId];
-    if (!group) return null;
-    const member = group.members.find((m) => m.clientId === clientId);
-    if (!member) return null;
-    const item = group.items.find((i) => i.id === itemId);
-    if (!item) return null;
-    item.checked = checked;
-    item.checkedBy = checked ? clientId : null;
-    item.checkedByName = checked ? member.name : null;
-    await writeStore(store);
-    return group;
+  const member = await prisma.member.findFirst({
+    where: { groupId, clientId },
   });
+  if (!member) return null;
+
+  const { count } = await prisma.item.updateMany({
+    where: { id: itemId, groupId },
+    data: {
+      checked,
+      checkedByClientId: checked ? clientId : null,
+      checkedByName: checked ? member.name : null,
+    },
+  });
+  if (count === 0) return null;
+
+  const group = await prisma.group.findUnique({
+    where: { id: groupId },
+    include: groupInclude,
+  });
+  return group ? toGroup(group) : null;
 }
 
 export async function deleteItem(
@@ -219,34 +242,31 @@ export async function deleteItem(
   clientId: string,
   itemId: string
 ): Promise<boolean> {
-  return withLock(async () => {
-    const store = await readStore();
-    const group = store.groups[groupId];
-    if (!group) return false;
-    if (!group.members.some((m) => m.clientId === clientId)) return false;
-    const before = group.items.length;
-    group.items = group.items.filter((i) => i.id !== itemId);
-    if (group.items.length === before) return false;
-    await writeStore(store);
-    return true;
+  const member = await prisma.member.findFirst({
+    where: { groupId, clientId },
   });
+  if (!member) return false;
+
+  const { count } = await prisma.item.deleteMany({
+    where: { id: itemId, groupId },
+  });
+  return count > 0;
 }
 
 export async function leaveGroup(
   groupId: string,
   clientId: string
 ): Promise<boolean> {
-  return withLock(async () => {
-    const store = await readStore();
-    const group = store.groups[groupId];
-    if (!group) return false;
-    const before = group.members.length;
-    group.members = group.members.filter((m) => m.clientId !== clientId);
-    if (group.members.length === before) return false;
-    if (group.members.length === 0) {
-      delete store.groups[groupId];
-    }
-    await writeStore(store);
-    return true;
+  const member = await prisma.member.findFirst({
+    where: { groupId, clientId },
   });
+  if (!member) return false;
+
+  await prisma.member.delete({ where: { id: member.id } });
+
+  const remaining = await prisma.member.count({ where: { groupId } });
+  if (remaining === 0) {
+    await prisma.group.delete({ where: { id: groupId } });
+  }
+  return true;
 }

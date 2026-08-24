@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Group {
+  id         String   @id @default(cuid())
+  name       String
+  inviteCode String   @unique
+  createdAt  DateTime @default(now())
+
+  members Member[]
+  items   Item[]
+}
+
+model Member {
+  id       String   @id @default(cuid())
+  clientId String
+  name     String
+  color    String
+  joinedAt DateTime @default(now())
+
+  groupId String
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, clientId])
+}
+
+// addedBy/checkedBy are snapshots of the member's name at the time of the
+// action rather than a foreign key, so items keep a readable history even
+// after that member leaves the group.
+model Item {
+  id                String   @id @default(cuid())
+  name              String
+  quantity          String
+  note              String
+  checked           Boolean  @default(false)
+  addedByClientId   String
+  addedByName       String
+  checkedByClientId String?
+  checkedByName     String?
+  createdAt         DateTime @default(now())
+
+  groupId String
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([groupId])
+}
