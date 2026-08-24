@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# app data (local JSON store)
+/data
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

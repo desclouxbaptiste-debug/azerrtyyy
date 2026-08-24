@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paris Saint-Germain — Ici c'est Paris",
+  title: "Panier Commun — Listes de courses partagées",
   description:
-    "Site vitrine non officiel dédié au Paris Saint-Germain : histoire du club, palmarès, Parc des Princes et ambiance supporters.",
+    "Créez un groupe avec vos proches et gérez votre liste de courses ensemble, en temps réel.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
