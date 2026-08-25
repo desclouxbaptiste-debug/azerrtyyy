@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Strike Protocol (`/game`)
+
+A browser-based wave-survival FPS (Three.js, WebGL) lives at `/game`, playable
+with keyboard/mouse on desktop and touch controls on mobile. Source is under
+`src/game/` (engine, HUD, weapons, economy) plus the route in `src/app/game/`.
+
+- Weapons and enemy waves scale with in-game "Crédits" earned from kills,
+  persisted to `localStorage` — no account/server needed to play.
+- A premium "Or" currency can be bought with real money via Stripe Checkout
+  (`src/app/api/checkout`, `src/app/api/verify-purchase`). Copy `.env.example`
+  to `.env.local` and set `STRIPE_SECRET_KEY` to enable it — without a key,
+  the game still works, only the real-money packs are disabled.
+- This is a single-player, client-side-economy prototype: there's no database,
+  so `localStorage` currency isn't cheat-proof and purchase crediting is
+  best-effort (deduped per browser via a stored session id). A production
+  "rentable" version would need real accounts + a server-side wallet.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

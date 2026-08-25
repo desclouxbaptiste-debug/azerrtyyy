@@ -146,4 +146,32 @@
       transform: translateY(6px);
     }
   }
+
+  .dmg-flash {
+    animation: dmgFlash 0.26s ease-out forwards;
+  }
+
+  @keyframes dmgFlash {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  .hit-pulse {
+    animation: hitPulse 0.14s ease-out forwards;
+  }
+
+  @keyframes hitPulse {
+    0% {
+      transform: translate(-50%, -50%) scale(0.6);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(2.2);
+      opacity: 0;
+    }
+  }
 }
