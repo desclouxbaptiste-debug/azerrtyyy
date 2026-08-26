@@ -1,25 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BarChart3, MessageSquareText, TrendingUp } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
-import { fadeUp, staggerContainer } from "./variants";
+import { clipReveal, drawLine, fadeUp, staggerContainer } from "./variants";
 
 const features = [
   {
-    icon: TrendingUp,
+    index: "01",
     title: "Détection des signaux d'achat",
     description:
       "Twist repère en temps réel les intentions d'achat cachées dans chaque échange et alerte vos commerciaux au bon moment.",
   },
   {
-    icon: MessageSquareText,
+    index: "02",
     title: "Objections neutralisées à l'instant",
     description:
       "Une bibliothèque de réponses générée à partir de vos meilleurs deals, suggérée en direct pendant l'appel.",
   },
   {
-    icon: BarChart3,
+    index: "03",
     title: "Pipeline piloté par la donnée",
     description:
       "Prévisions de closing fiables à 92 %, priorisation automatique des deals chauds, reporting sans effort.",
@@ -29,52 +29,54 @@ const features = [
 export function TwistFeatures() {
   return (
     <section id="features" className="relative px-6 py-28">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-4xl">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           variants={staggerContainer(0.1)}
-          className="mx-auto max-w-2xl text-center"
+          className="max-w-2xl"
         >
           <motion.span
             variants={fadeUp}
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-fuchsia-400"
+            className="font-[family-name:var(--font-mono-ui)] text-xs uppercase tracking-[0.25em] text-orange-700"
           >
             Pourquoi Twist
           </motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="mt-4 text-balance text-3xl font-extrabold tracking-tight text-white sm:text-4xl"
-          >
-            Tout ce qu&apos;il faut pour closer plus vite
-          </motion.h2>
-          <motion.p variants={fadeUp} className="mt-4 text-pretty text-white/60">
-            Une seule plateforme pour écouter, comprendre et accélérer chaque conversation
-            commerciale.
-          </motion.p>
+          <h2 className="mt-4 overflow-hidden text-balance font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-[#111110] sm:text-4xl">
+            <motion.span variants={clipReveal} className="block">
+              Tout ce qu&apos;il faut pour closer plus vite
+            </motion.span>
+          </h2>
         </motion.div>
 
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          variants={staggerContainer(0.12)}
-          className="mt-16 grid gap-6 md:grid-cols-3"
+          variants={staggerContainer(0.15)}
+          className="mt-16 border-t border-[#111110]/10"
         >
           {features.map((feature) => (
             <motion.div
-              key={feature.title}
+              key={feature.index}
               variants={fadeUp}
-              whileHover={{ y: -6 }}
-              transition={{ type: "spring", stiffness: 300, damping: 24 }}
-              className="group relative rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl transition-colors duration-300 hover:border-white/20"
+              className="group relative grid grid-cols-[auto_1fr_auto] items-start gap-6 border-b border-[#111110]/10 py-10 sm:grid-cols-[4rem_1fr_auto] sm:items-center sm:gap-10"
             >
-              <div className="flex size-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_24px_rgba(129,86,240,0.45)]">
-                <feature.icon className="size-6 text-white" strokeWidth={2} />
+              <span className="font-[family-name:var(--font-mono-ui)] text-sm text-[#111110]/40">{feature.index}</span>
+              <div>
+                <h3 className="font-[family-name:var(--font-display)] text-xl font-bold text-[#111110] sm:text-2xl">
+                  {feature.title}
+                </h3>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#111110]/60 sm:text-base">
+                  {feature.description}
+                </p>
               </div>
-              <h3 className="mt-6 text-lg font-bold text-white">{feature.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">{feature.description}</p>
+              <ArrowUpRight className="hidden size-6 shrink-0 text-[#111110]/30 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-orange-700 sm:block" />
+              <motion.span
+                variants={drawLine}
+                className="absolute bottom-0 left-0 h-px w-full origin-left bg-orange-700"
+              />
             </motion.div>
           ))}
         </motion.div>

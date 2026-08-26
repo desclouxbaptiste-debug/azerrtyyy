@@ -2,6 +2,10 @@
 
 import { motion, useReducedMotion, type Transition } from "framer-motion";
 
+/**
+ * Editorial hero backdrop: a fine hairline grid plus a single slow-moving
+ * warm gradient wash — restrained on purpose, unlike a saturated aurora glow.
+ */
 export function AuroraBackground({
   intensity = "hero",
 }: {
@@ -20,24 +24,24 @@ export function AuroraBackground({
       ease: "easeInOut",
     };
 
-    return { animate: { x: path, y: path.map((v) => v * 0.6) }, transition };
+    return { animate: { x: path, y: path.map((v) => v * 0.4) }, transition };
   };
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <motion.div
-        className={`absolute left-1/2 top-[-10%] h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-indigo-600/40 blur-[110px] ${subtle ? "opacity-30" : "opacity-60"}`}
-        {...loop(20, [-60, 60, -60])}
+      <div
+        className="absolute inset-0 opacity-[0.5]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #11111008 1px, transparent 1px), linear-gradient(to bottom, #11111008 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+        }}
       />
       <motion.div
-        className={`absolute right-[5%] top-[20%] h-[28rem] w-[28rem] rounded-full bg-fuchsia-600/30 blur-[100px] ${subtle ? "opacity-25" : "opacity-50"}`}
-        {...loop(24, [50, -40, 50])}
+        className={`absolute left-1/2 top-[-15%] h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-orange-600/[0.12] blur-[120px] ${subtle ? "opacity-60" : "opacity-100"}`}
+        {...loop(26, [-50, 50, -50])}
       />
-      <motion.div
-        className={`absolute left-[8%] bottom-[-5%] h-[26rem] w-[26rem] rounded-full bg-violet-600/30 blur-[100px] ${subtle ? "opacity-25" : "opacity-45"}`}
-        {...loop(28, [-40, 50, -40])}
-      />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#07070d_75%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#F6F4EF] to-transparent" />
     </div>
   );
 }

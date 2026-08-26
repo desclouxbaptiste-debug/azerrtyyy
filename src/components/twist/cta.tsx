@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-import { AuroraBackground } from "./aurora-background";
-import { fadeUp, staggerContainer } from "./variants";
+import { clipReveal, drawLine, fadeUp, staggerContainer } from "./variants";
 
 export function TwistCta() {
   return (
@@ -14,17 +13,19 @@ export function TwistCta() {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={staggerContainer(0.12)}
-        className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 px-8 py-16 text-center sm:px-16"
+        className="relative mx-auto max-w-5xl bg-[#111110] px-8 py-16 text-center text-[#F6F4EF] sm:px-16"
       >
-        <AuroraBackground intensity="subtle" />
+        <motion.span
+          variants={drawLine}
+          className="absolute left-0 top-0 h-[3px] w-full origin-left bg-orange-700"
+        />
 
-        <motion.h2
-          variants={fadeUp}
-          className="text-balance text-3xl font-extrabold tracking-tight text-white sm:text-4xl"
-        >
-          Prêt à closer plus vite ?
-        </motion.h2>
-        <motion.p variants={fadeUp} className="mx-auto mt-4 max-w-xl text-pretty text-white/60">
+        <h2 className="overflow-hidden text-balance font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight sm:text-4xl">
+          <motion.span variants={clipReveal} className="block">
+            Prêt à closer plus vite ?
+          </motion.span>
+        </h2>
+        <motion.p variants={fadeUp} className="mx-auto mt-4 max-w-xl text-pretty text-[#F6F4EF]/60">
           Rejoignez les équipes commerciales qui laissent Twist faire le travail difficile
           pendant qu&apos;elles signent.
         </motion.p>
@@ -32,20 +33,20 @@ export function TwistCta() {
         <motion.div variants={fadeUp} className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
             href="#top"
-            className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-7 py-3.5 text-sm font-bold text-[#1a0f00] transition-transform duration-200 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+            className="group inline-flex cursor-pointer items-center gap-2 border border-orange-700 bg-orange-700 px-7 py-3.5 text-sm font-semibold text-[#F6F4EF] transition-colors duration-200 hover:bg-orange-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
           >
             Démarrer gratuitement
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
           </a>
           <a
             href="mailto:hello@twist.app"
-            className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex cursor-pointer items-center gap-2 border border-[#F6F4EF]/20 px-7 py-3.5 text-sm font-semibold text-[#F6F4EF] transition-colors duration-200 hover:border-[#F6F4EF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F6F4EF]"
           >
             Parler à un expert
           </a>
         </motion.div>
 
-        <motion.p variants={fadeUp} className="mt-6 text-xs text-white/40">
+        <motion.p variants={fadeUp} className="mt-6 font-[family-name:var(--font-mono-ui)] text-xs uppercase tracking-widest text-[#F6F4EF]/40">
           Aucune carte bancaire requise · Setup en 5 minutes
         </motion.p>
       </motion.div>

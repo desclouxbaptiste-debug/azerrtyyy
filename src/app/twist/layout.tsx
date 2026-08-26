@@ -1,12 +1,25 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 
 import { TwistMotionProvider } from "@/components/twist/motion-provider";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-twist",
+});
+
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "700", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono-ui",
 });
 
 export const metadata: Metadata = {
@@ -17,7 +30,9 @@ export const metadata: Metadata = {
 
 export default function TwistLayout({ children }: LayoutProps<"/twist">) {
   return (
-    <div className={`${plusJakarta.variable} min-h-svh bg-[#07070d] font-[family-name:var(--font-twist)] text-white antialiased`}>
+    <div
+      className={`${inter.variable} ${playfairDisplay.variable} ${jetBrainsMono.variable} min-h-svh bg-[#F6F4EF] font-[family-name:var(--font-twist)] text-[#111110] antialiased`}
+    >
       <TwistMotionProvider>{children}</TwistMotionProvider>
     </div>
   );

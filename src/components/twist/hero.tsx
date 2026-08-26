@@ -1,15 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, PlayCircle, Sparkles } from "lucide-react";
+import { ArrowRight, PlayCircle } from "lucide-react";
 
 import { AuroraBackground } from "./aurora-background";
-import { fadeUp, staggerContainer } from "./variants";
+import { clipReveal, fadeUp, staggerContainer } from "./variants";
 
 const stats = [
-  { value: "+34%", label: "taux de closing" },
-  { value: "-2 jours", label: "cycle de vente moyen" },
-  { value: "12 400+", label: "appels analysés / semaine" },
+  { value: "+34%", label: "Taux de closing" },
+  { value: "−2j", label: "Cycle de vente moyen" },
+  { value: "12 400+", label: "Appels analysés / semaine" },
 ];
 
 export function TwistHero() {
@@ -28,27 +28,24 @@ export function TwistHero() {
       >
         <motion.span
           variants={fadeUp}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-white/80 backdrop-blur-md"
+          className="mb-8 inline-flex items-center gap-2 font-[family-name:var(--font-mono-ui)] text-xs uppercase tracking-[0.25em] text-[#111110]/50"
         >
-          <Sparkles className="size-3.5 text-fuchsia-400" />
+          <span className="size-1.5 bg-orange-700" />
           Twist — Sales Closing OS
         </motion.span>
 
-        <motion.h1
-          variants={fadeUp}
-          className="text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-7xl"
-        >
-          Closez plus vite.
-          <br />
-          Closez{" "}
-          <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-amber-300 bg-clip-text text-transparent">
-            plus juste.
-          </span>
-        </motion.h1>
+        <h1 className="overflow-hidden text-balance font-[family-name:var(--font-display)] text-4xl font-bold leading-[1.05] tracking-tight text-[#111110] sm:text-6xl lg:text-7xl">
+          <motion.span variants={clipReveal} className="block">
+            Closez plus vite.
+          </motion.span>
+          <motion.span variants={clipReveal} className="block italic text-orange-700">
+            Closez plus juste.
+          </motion.span>
+        </h1>
 
         <motion.p
           variants={fadeUp}
-          className="mt-6 max-w-2xl text-pretty text-base text-white/60 sm:text-lg"
+          className="mt-8 max-w-2xl text-pretty text-base leading-relaxed text-[#111110]/60 sm:text-lg"
         >
           Twist analyse chaque appel, détecte les signaux d&apos;achat et neutralise les
           objections en temps réel — pour donner à vos commerciaux le mot juste qui fait
@@ -58,14 +55,14 @@ export function TwistHero() {
         <motion.div variants={fadeUp} className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
           <a
             href="#cta"
-            className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-7 py-3.5 text-sm font-bold text-[#1a0f00] transition-transform duration-200 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+            className="group inline-flex cursor-pointer items-center gap-2 border border-[#111110] bg-[#111110] px-7 py-3.5 text-sm font-semibold text-[#F6F4EF] transition-colors duration-200 hover:bg-orange-700 hover:border-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111110]"
           >
             Démarrer gratuitement
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
           </a>
           <a
             href="#features"
-            className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex cursor-pointer items-center gap-2 border border-[#111110]/20 px-7 py-3.5 text-sm font-semibold text-[#111110] transition-colors duration-200 hover:border-[#111110] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111110]"
           >
             <PlayCircle className="size-4" />
             Voir Twist en action
@@ -74,13 +71,13 @@ export function TwistHero() {
 
         <motion.dl
           variants={fadeUp}
-          className="mt-16 grid grid-cols-1 gap-8 border-t border-white/10 pt-10 sm:grid-cols-3 sm:gap-12"
+          className="mt-16 grid w-full max-w-2xl grid-cols-1 divide-y divide-[#111110]/10 border-y border-[#111110]/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0"
         >
           {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center">
+            <div key={stat.label} className="flex flex-col items-center gap-1 py-6 sm:py-8">
               <dt className="sr-only">{stat.label}</dt>
-              <dd className="text-2xl font-extrabold text-white sm:text-3xl">{stat.value}</dd>
-              <span className="mt-1 text-xs text-white/50 sm:text-sm">{stat.label}</span>
+              <dd className="font-[family-name:var(--font-mono-ui)] text-2xl font-bold text-[#111110] sm:text-3xl">{stat.value}</dd>
+              <span className="text-xs uppercase tracking-wide text-[#111110]/50">{stat.label}</span>
             </div>
           ))}
         </motion.dl>
