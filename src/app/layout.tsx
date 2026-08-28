@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paris Saint-Germain — Ici c'est Paris",
+  title: "Rendezo — Rendez-vous et rappels automatiques",
   description:
-    "Site vitrine non officiel dédié au Paris Saint-Germain : histoire du club, palmarès, Parc des Princes et ambiance supporters.",
+    "Mini SaaS de prise de rendez-vous en ligne avec rappels automatiques par email pour les professionnels.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
