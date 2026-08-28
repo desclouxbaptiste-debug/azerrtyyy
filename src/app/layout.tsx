@@ -1,32 +1,31 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const baloo = Baloo_2({
+  variable: "--font-baloo",
   subsets: ["latin"],
+  weight: ["600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Paris Saint-Germain — Ici c'est Paris",
+  title: "Tchiao Kombucha — Le kombucha qui pétille de vie",
   description:
-    "Site vitrine non officiel dédié au Paris Saint-Germain : histoire du club, palmarès, Parc des Princes et ambiance supporters.",
+    "Tchiao Kombucha : kombucha artisanal, naturel et pétillant en 8 saveurs. Une canette 3D à faire tourner, du thé récolté à la main, une fermentation vivante.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${baloo.variable} ${nunito.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
-        {children}
-      </body>
+      <body className="min-h-full bg-[#FCF6EC] text-[#2F2521]">{children}</body>
     </html>
   );
 }
