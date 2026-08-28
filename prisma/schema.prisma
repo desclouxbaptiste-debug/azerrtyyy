@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Business {
+  id                    String         @id @default(cuid())
+  slug                  String         @unique
+  name                  String
+  email                 String         @unique
+  passwordHash          String
+  phone                 String?
+  timezone              String         @default("Europe/Paris")
+  slotDurationMinutes   Int            @default(30)
+  bufferMinutes         Int            @default(0)
+  reminderHoursBefore   Int            @default(24)
+  bookingWindowDays     Int            @default(30)
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  workingHours          WorkingHour[]
+  appointments          Appointment[]
+}
+
+model WorkingHour {
+  id          String   @id @default(cuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  weekday     Int // 0 = Sunday ... 6 = Saturday
+  startMinute Int // minutes since midnight
+  endMinute   Int // minutes since midnight
+
+  @@unique([businessId, weekday])
+  @@index([businessId])
+}
+
+enum AppointmentStatus {
+  CONFIRMED
+  CANCELLED
+}
+
+model Appointment {
+  id             String            @id @default(cuid())
+  businessId     String
+  business       Business          @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customerName   String
+  customerEmail  String
+  customerPhone  String?
+  notes          String?
+  startAt        DateTime
+  endAt          DateTime
+  status         AppointmentStatus @default(CONFIRMED)
+  reminderSentAt DateTime?
+  createdAt      DateTime          @default(now())
+
+  @@index([businessId, startAt])
+}
