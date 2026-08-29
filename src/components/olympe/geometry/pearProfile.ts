@@ -2,24 +2,28 @@ import * as THREE from "three";
 
 /**
  * Silhouette of the pear (radius, height) traced bottom → top, revolved
- * into a LatheGeometry. Values tuned by eye for a classic Anjou-pear profile.
+ * into a LatheGeometry. Tuned against a reference photo for the
+ * characteristic wide, rounded base, pronounced shoulder, and short neck
+ * (a plain teardrop reads as an onion, not a pear — the shoulder is the tell).
  */
 const PROFILE_POINTS: [number, number][] = [
   [0, 0],
-  [0.32, 0.02],
-  [0.5, 0.08],
-  [0.6, 0.18],
-  [0.63, 0.3],
-  [0.6, 0.45],
-  [0.52, 0.62],
-  [0.42, 0.76],
-  [0.32, 0.87],
-  [0.24, 0.95],
-  [0.17, 1.02],
-  [0.12, 1.09],
-  [0.09, 1.16],
-  [0.06, 1.22],
-  [0, 1.27],
+  [0.18, 0.03],
+  [0.3, 0.09],
+  [0.38, 0.18],
+  [0.415, 0.28],
+  [0.42, 0.36],
+  [0.4, 0.45],
+  [0.36, 0.53],
+  [0.3, 0.62],
+  [0.23, 0.7],
+  [0.17, 0.79],
+  [0.135, 0.87],
+  [0.115, 0.95],
+  [0.1, 1.02],
+  [0.088, 1.08],
+  [0.075, 1.14],
+  [0, 1.2],
 ];
 
 export function buildPearGeometry(radialSegments = 96): THREE.LatheGeometry {

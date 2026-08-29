@@ -7,6 +7,7 @@ import { buildPearGeometry, PEAR_CENTER_Y } from "./geometry/pearProfile";
 import { createStatueTextures } from "./textures/marbleGoldTexture";
 import { createPearSkinTextures } from "./textures/pearSkinTexture";
 import { Droplets } from "./Droplets";
+import { PearLeaf } from "./PearLeaf";
 import { STAGES, localT, smoothstep, lerp } from "./scrollStages";
 
 export function PearStatue({ progressRef }: { progressRef: React.RefObject<number> }) {
@@ -104,15 +105,27 @@ export function PearStatue({ progressRef }: { progressRef: React.RefObject<numbe
         />
       </mesh>
 
-      {/* stem */}
-      <mesh position={[0.02, PEAR_CENTER_Y + 0.08, 0]} rotation={[0, 0, 0.22]} castShadow>
-        <cylinderGeometry args={[0.014, 0.022, 0.2, 10]} />
-        <meshStandardMaterial color="#6b4a2b" roughness={0.7} />
+      {/* stem, slightly bent */}
+      <mesh position={[0.015, PEAR_CENTER_Y + 0.09, 0]} rotation={[0, 0, 0.16]} castShadow>
+        <cylinderGeometry args={[0.013, 0.021, 0.2, 10]} />
+        <meshStandardMaterial color="#6b4a2b" roughness={0.75} />
       </mesh>
-      <mesh position={[0.1, PEAR_CENTER_Y + 0.14, 0.02]} rotation={[0.3, 0.5, 0.5]} castShadow>
-        <sphereGeometry args={[0.09, 12, 8]} />
-        <meshStandardMaterial color="#4c6b2f" roughness={0.5} />
+      <mesh position={[0.05, PEAR_CENTER_Y + 0.19, 0]} rotation={[0, 0, 0.4]} castShadow>
+        <cylinderGeometry args={[0.009, 0.014, 0.09, 8]} />
+        <meshStandardMaterial color="#5a3f24" roughness={0.75} />
       </mesh>
+
+      {/* two leaves branching from the stem, angled apart like a fresh-picked pear */}
+      <PearLeaf
+        position={[0.04, PEAR_CENTER_Y + 0.15, 0.01]}
+        rotation={[0.3, 0.5, -0.55]}
+        scale={0.85}
+      />
+      <PearLeaf
+        position={[0.03, PEAR_CENTER_Y + 0.13, -0.015]}
+        rotation={[-0.25, -0.7, 0.65]}
+        scale={0.7}
+      />
 
       <mesh ref={flashRef}>
         <sphereGeometry args={[0.72, 24, 24]} />
