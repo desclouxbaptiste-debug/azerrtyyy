@@ -26,9 +26,54 @@ const PROFILE_POINTS: [number, number][] = [
   [0, 1.2],
 ];
 
-export function buildPearGeometry(radialSegments = 96): THREE.LatheGeometry {
+function smoothstepLocal(x: number, edge0: number, edge1: number): number {
+  const t = THREE.MathUtils.clamp((x - edge0) / (edge1 - edge0), 0, 1);
+  return t * t * (3 - 2 * t);
+}
+
+/**
+ * Smooth, seamless (periodic in theta) pseudo-noise built from a few
+ * mismatched sine octaves — cheap stand-in for simplex noise that needs no
+ * external library, good enough for gentle organic surface variation.
+ */
+function organicBump(theta: number, y: number): number {
+  return (
+    0.5 * Math.sin(theta * 3 + y * 4.1) +
+    0.3 * Math.sin(theta * 5 - y * 2.7 + 1.3) +
+    0.2 * Math.sin(theta * 8 + y * 6.2 + 3.1) +
+    0.15 * Math.sin(theta * 13 - y * 3.4 + 5.7)
+  );
+}
+
+/**
+ * Revolves the profile into a lathe, then displaces every vertex radially by
+ * a smooth noise field so the surface reads as a real, slightly irregular
+ * fruit rather than a perfectly round machined solid. The two pole vertices
+ * (radius 0) are left untouched so the tips stay clean.
+ */
+export function buildPearGeometry(radialSegments = 96, bumpAmount = 0.02): THREE.LatheGeometry {
   const points = PROFILE_POINTS.map(([x, y]) => new THREE.Vector2(x, y));
   const geometry = new THREE.LatheGeometry(points, radialSegments);
+
+  const maxRadius = Math.max(...PROFILE_POINTS.map(([x]) => x));
+  const position = geometry.attributes.position;
+  for (let i = 0; i < position.count; i++) {
+    const x = position.getX(i);
+    const y = position.getY(i);
+    const z = position.getZ(i);
+    const radius = Math.sqrt(x * x + z * z);
+    if (radius < 1e-5) continue;
+
+    const theta = Math.atan2(z, x);
+    const bump = organicBump(theta, y);
+    const fade = smoothstepLocal(radius, 0, maxRadius * 0.3);
+    const newRadius = radius + bump * bumpAmount * fade;
+    const scale = newRadius / radius;
+    position.setX(i, x * scale);
+    position.setZ(i, z * scale);
+  }
+  position.needsUpdate = true;
+
   geometry.center();
   geometry.computeVertexNormals();
   return geometry;
