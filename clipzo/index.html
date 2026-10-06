@@ -53,7 +53,7 @@
           <a class="nav-link" href="#contact" data-open="contact">Contact</a>
         </nav>
 
-        <button class="sign-in" type="button" data-open="pricing">Connexion</button>
+        <button class="sign-in" type="button" data-open="account">Connexion</button>
 
         <button
           class="burger"
@@ -72,7 +72,7 @@
           <span class="trust-avatar a1"><span class="trust-inner"><i class="fa-brands fa-youtube"></i></span></span>
           <span class="trust-avatar a2"><span class="trust-inner"><i class="fa-brands fa-twitch"></i></span></span>
           <span class="trust-avatar a3"><span class="trust-inner"><i class="fa-brands fa-tiktok"></i></span></span>
-          <span class="trust-pill">Utilisé par 2000+ créateurs</span>
+          <span class="trust-pill">YouTube, Twitch, TikTok et plus</span>
         </div>
 
         <h1 class="headline anim">
@@ -94,23 +94,23 @@
       <section class="stats" aria-label="Chiffres clés">
         <div class="stat anim" style="--d: 0.5s">
           <span class="stat-icon" aria-hidden="true">&lt;</span>
-          <span class="stat-value" data-target="90" data-suffix="s" data-decimals="0">0s</span>
-          <span class="stat-label">Analyse d'une vidéo</span>
+          <span class="stat-value" data-target="7" data-suffix="" data-decimals="0">0</span>
+          <span class="stat-label">Signaux analysés chaque seconde</span>
         </div>
         <div class="stat anim" style="--d: 0.58s">
           <span class="stat-icon" aria-hidden="true">%</span>
-          <span class="stat-value" data-target="98.7" data-suffix="%" data-decimals="1">0%</span>
-          <span class="stat-label">Coupes au bon moment</span>
+          <span class="stat-value" data-target="3" data-suffix=" min" data-decimals="0">0 min</span>
+          <span class="stat-label">Shorts de 1 à 3 minutes</span>
         </div>
         <div class="stat anim" style="--d: 0.66s">
           <span class="stat-icon" aria-hidden="true">*</span>
-          <span class="stat-value" data-target="24" data-suffix="/7" data-decimals="0">0/7</span>
-          <span class="stat-label">IA disponible</span>
+          <span class="stat-value" data-target="12" data-suffix="" data-decimals="0">0</span>
+          <span class="stat-label">Shorts max par vidéo</span>
         </div>
         <div class="stat anim" style="--d: 0.74s">
           <span class="stat-icon" aria-hidden="true">#</span>
-          <span class="stat-value" data-target="2.4" data-suffix="M" data-decimals="1">0M</span>
-          <span class="stat-label">Shorts générés</span>
+          <span class="stat-value" data-target="10" data-suffix=" h" data-decimals="0">0 h</span>
+          <span class="stat-label">De vidéo analysées d'un coup</span>
         </div>
       </section>
     </div>
@@ -122,7 +122,7 @@
       <a class="m-link" href="#studio" data-open="studio" style="--i: 1">Studio IA</a>
       <a class="m-link" href="#tarifs" data-open="pricing" style="--i: 2">Tarifs</a>
       <a class="m-link" href="#contact" data-open="contact" style="--i: 3">Contact</a>
-      <button class="m-sign-in" type="button" data-open="pricing" style="--i: 4">Connexion</button>
+      <button class="m-sign-in" type="button" data-open="account" style="--i: 4">Connexion</button>
     </nav>
 
     <!-- ============ Panels ============ -->
@@ -139,10 +139,19 @@
       </header>
 
       <div class="panel-body">
-        <div class="plan-bar">
+        <div class="plan-bar plan-bar-member">
           <span>Forfait : <strong class="plan-name">Gratuit</strong></span>
           <span class="quota"></span>
           <button class="link-btn" type="button" data-open="pricing">Changer de forfait</button>
+        </div>
+        <div class="plan-bar plan-bar-guest" hidden>
+          <span class="guest-msg">
+            <i class="fa-solid fa-circle-user" aria-hidden="true"></i>Connecte-toi pour lancer une analyse
+          </span>
+          <span class="guest-actions">
+            <button class="link-btn" type="button" data-open="account" data-mode="login">Se connecter</button>
+            <button class="link-btn" type="button" data-open="account" data-mode="signup">Créer un compte</button>
+          </span>
         </div>
 
         <p class="demo-banner" hidden>
@@ -363,6 +372,94 @@
           <label class="field"><span class="field-label">Message</span><textarea class="text-input" name="msg" rows="4" required placeholder="Ta chaîne, ton besoin…"></textarea></label>
           <button class="cta cta-block" type="submit">Envoyer</button>
         </form>
+      </div>
+    </section>
+
+    <!-- Account (live mode: needs the Clipzo server) -->
+    <section class="panel panel-narrow" id="panel-account" role="dialog" aria-modal="true" aria-labelledby="account-title" hidden>
+      <header class="panel-head">
+        <div>
+          <p class="panel-kicker">Compte</p>
+          <h2 class="panel-title" id="account-title" tabindex="-1">Connecte-toi</h2>
+        </div>
+        <button class="panel-close" type="button" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+
+      <div class="panel-body">
+        <div class="auth">
+          <p class="auth-intro" hidden>
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+            <span class="auth-intro-text" id="auth-intro-text"></span>
+          </p>
+
+          <div class="auth-toggle" role="radiogroup" aria-label="Se connecter ou créer un compte">
+            <label><input type="radio" name="auth-mode" value="login" checked /><span>Se connecter</span></label>
+            <label><input type="radio" name="auth-mode" value="signup" /><span>Créer un compte</span></label>
+          </div>
+
+          <form class="auth-form" novalidate>
+            <div class="field">
+              <label class="field-label" for="auth-email">E-mail</label>
+              <input
+                class="text-input"
+                id="auth-email"
+                type="email"
+                name="email"
+                autocomplete="email"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="toi@exemple.com"
+                required
+                data-autofocus
+              />
+            </div>
+            <div class="field">
+              <label class="field-label" for="auth-password">Mot de passe</label>
+              <span class="pw-wrap">
+                <input
+                  class="text-input pw-input"
+                  id="auth-password"
+                  type="password"
+                  name="password"
+                  autocomplete="current-password"
+                  required
+                />
+                <button class="pw-toggle" type="button" aria-label="Afficher le mot de passe" aria-pressed="false" aria-controls="auth-password">
+                  <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                </button>
+              </span>
+              <span class="field-hint pw-hint" id="auth-pw-hint" hidden>8 caractères minimum.</span>
+            </div>
+            <p class="form-error auth-error" role="alert" hidden></p>
+            <button class="cta cta-block auth-submit" type="submit">Se connecter</button>
+            <p class="auth-note" hidden>
+              <i class="fa-solid fa-gift" aria-hidden="true"></i>Gratuit : 3 shorts par mois, sans carte bancaire.
+            </p>
+          </form>
+        </div>
+
+        <div class="acct" hidden>
+          <div class="acct-id">
+            <span class="acct-avatar" aria-hidden="true"></span>
+            <div class="acct-who">
+              <p class="acct-email"></p>
+              <p class="acct-plan-line">Forfait <strong class="acct-plan"></strong></p>
+            </div>
+          </div>
+
+          <div class="acct-usage">
+            <p class="acct-quota"></p>
+            <div class="meter" aria-hidden="true"><span class="meter-used"></span><span class="meter-reserved"></span></div>
+            <p class="acct-sub" hidden></p>
+            <p class="acct-renew" hidden></p>
+          </div>
+
+          <div class="acct-actions">
+            <button class="cta cta-block acct-manage" type="button" hidden>Gérer mon abonnement</button>
+            <button class="plan-btn acct-plans" type="button" data-open="pricing">Voir les forfaits</button>
+            <button class="link-btn acct-logout" type="button">Se déconnecter</button>
+          </div>
+        </div>
       </div>
     </section>
 

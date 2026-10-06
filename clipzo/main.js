@@ -129,16 +129,20 @@
     studio: $("#panel-studio"),
     pricing: $("#panel-pricing"),
     contact: $("#panel-contact"),
+    account: $("#panel-account"),
   };
   let openPanel = null;
   let lastFocus = null;
+  const panelName = (panel) => Object.keys(panels).find((k) => panels[k] === panel) || null;
 
   // A hidden panel keeps playing its videos: pause them when it closes
   const pauseMedia = (root) => $$("video", root).forEach((v) => v.pause());
+  const isShown = (node) => node.getClientRects().length > 0;
 
   function showPanel(name) {
     const panel = panels[name];
     if (!panel) return;
+    if (name === "account") renderAccount();
     if (openPanel && openPanel !== panel) {
       pauseMedia(openPanel);
       openPanel.hidden = true;
@@ -147,7 +151,8 @@
     panelOverlay.hidden = false;
     panel.hidden = false;
     setBackgroundInert(true);
-    const first = $("input, textarea, .panel-close", panel);
+    // A [data-autofocus] field wins (account email), otherwise the first control as before
+    const first = $$("[data-autofocus]", panel).concat($$("input, textarea, .panel-close", panel)).find(isShown);
     if (first) first.focus({ preventScroll: true });
     if (name === "studio") {
       refreshPlanUI();
@@ -157,6 +162,7 @@
 
   function hidePanel() {
     if (!openPanel) return;
+    if (openPanel === panels.account) authBack = null;
     pauseMedia(openPanel);
     openPanel.hidden = true;
     panelOverlay.hidden = true;
@@ -176,7 +182,9 @@
     const trigger = e.target.closest("[data-open]");
     if (!trigger) return;
     e.preventDefault();
-    showPanel(trigger.dataset.open);
+    // Signing in from the studio or the pricing brings the person back there afterwards
+    if (trigger.dataset.open === "account") openAccount(trigger.dataset.mode, "", panelName(openPanel));
+    else showPanel(trigger.dataset.open);
   });
   $$(".panel-close").forEach((b) => b.addEventListener("click", hidePanel));
   panelOverlay.addEventListener("click", hidePanel);
@@ -187,51 +195,89 @@
     else if (!menu.hidden) setMenu(false);
   });
 
-  /* ---------------- Plans & quota ---------------- */
+  /* ---------------- Plans, account & quota ---------------- */
   const PLANS = {
     free: { name: "Gratuit", quota: 3, maxClips: 5, rank: 0 },
     creator: { name: "Créateur", quota: 50, maxClips: 8, rank: 1 },
     pro: { name: "Pro", quota: Infinity, maxClips: 12, rank: 2 },
   };
-  const monthKey = new Date().toISOString().slice(0, 7);
-  let plan = store.get("clipzo.plan", "free");
-  if (!PLANS[plan]) plan = "free";
-  let usage = loadUsage();
+  // Live mode: the plan and the monthly quota belong to the signed-in account, the server charges them.
+  // Demo mode (no server): the plan is a local switch to try the options, nothing is ever charged.
+  const api = { mode: "pending", features: {}, checking: null, me: null };
+  const isLive = () => api.mode === "live";
+  let demoPlan = store.get("clipzo.plan", "free");
+  if (!PLANS[demoPlan]) demoPlan = "free";
+  let currentUser = null; // live mode: the signed-in account (/api/me), null when logged out
   let activeJob = null; // the server analysis being followed (live mode)
+  let billingInterval = "month";
+  let authMode = "login";
+  let authBack = null; // panel to bring back once signed in ("studio", "pricing")
 
-  function loadUsage() {
-    const u = store.get("clipzo.usage", null);
-    return u && u.month === monthKey && Number.isFinite(u.used) ? u : { month: monthKey, used: 0 };
-  }
+  const planKey = () => (isLive() ? (currentUser ? currentUser.plan : "free") : demoPlan);
+  const hasPlan = (min) => PLANS[planKey()].rank >= PLANS[min].rank;
 
-  // Shorts are charged when they are delivered; a running analysis holds its requested count meanwhile
-  const reserved = () => (activeJob && activeJob.id && !activeJob.charged ? activeJob.count : 0);
-  const remaining = () => PLANS[plan].quota - loadUsage().used - reserved();
-
-  function chargeShorts(n) {
-    usage = loadUsage();
-    usage.used += n;
-    store.set("clipzo.usage", usage);
-    refreshPlanUI();
+  // Shorts that can still be requested this month (Infinity: unlimited)
+  function shortsLeft() {
+    if (!isLive()) return PLANS[demoPlan].quota;
+    if (!currentUser) return 0;
+    return currentUser.quota.remaining === null ? Infinity : currentUser.quota.remaining;
   }
 
   window.addEventListener("storage", (e) => {
-    if (e.key === "clipzo.usage" || e.key === "clipzo.plan") {
-      usage = loadUsage();
-      const p = store.get("clipzo.plan", plan);
-      if (PLANS[p]) plan = p;
-      refreshPlanUI();
-    }
+    if (e.key !== "clipzo.plan") return;
+    const p = store.get("clipzo.plan", demoPlan);
+    if (PLANS[p]) demoPlan = p;
+    refreshPlanUI();
   });
-  const hasPlan = (min) => PLANS[plan].rank >= PLANS[min].rank;
+
+  const memberBar = $(".plan-bar-member");
+  const guestBar = $(".plan-bar-guest");
+  const accountTitle = $("#account-title");
+  const authBox = $(".auth");
+  const authIntro = $(".auth-intro");
+  const authIntroText = $(".auth-intro-text");
+  const authForm = $(".auth-form");
+  const authEmail = $("#auth-email");
+  const authPassword = $("#auth-password");
+  const pwToggle = $(".pw-toggle");
+  const pwHint = $(".pw-hint");
+  const authError = $(".auth-error");
+  const authSubmit = $(".auth-submit");
+  const authNote = $(".auth-note");
+  const acctBox = $(".acct");
+  const acctAvatar = $(".acct-avatar");
+  const acctEmail = $(".acct-email");
+  const acctPlan = $(".acct-plan");
+  const acctQuota = $(".acct-quota");
+  const meter = $(".meter");
+  const meterUsed = $(".meter-used");
+  const meterReserved = $(".meter-reserved");
+  const acctSub = $(".acct-sub");
+  const acctRenew = $(".acct-renew");
+  const acctManage = $(".acct-manage");
+  const acctLogout = $(".acct-logout");
+
+  function quotaLine(user) {
+    if (user) {
+      const q = user.quota;
+      return q.remaining === null || q.limit === null
+        ? "Shorts illimités"
+        : `${q.remaining} / ${q.limit} shorts restants ce mois-ci`;
+    }
+    const p = PLANS[planKey()];
+    return p.quota === Infinity ? "Shorts illimités" : `${p.quota} / ${p.quota} shorts restants ce mois-ci`;
+  }
 
   function refreshPlanUI() {
-    const p = PLANS[plan];
-    $(".plan-name").textContent = p.name;
-    $(".quota").textContent =
-      p.quota === Infinity
-        ? "Shorts illimités"
-        : `${Math.max(0, remaining())} / ${p.quota} shorts restants ce mois-ci`;
+    const key = planKey();
+    const p = PLANS[key];
+    const user = isLive() ? currentUser : null;
+    const guest = isLive() && !user;
+
+    memberBar.hidden = guest;
+    guestBar.hidden = !guest;
+    $(".plan-name").textContent = user ? user.label : p.name;
+    $(".quota").textContent = quotaLine(user);
 
     $$(".opt[data-min]").forEach((opt) => {
       const locked = !hasPlan(opt.dataset.min);
@@ -242,23 +288,24 @@
     const checkedCount = $('input[name="count"]:checked');
     if (checkedCount && +checkedCount.value > p.maxClips) $('input[name="count"][value="3"]').checked = true;
 
-    $$(".plan").forEach((card) => card.classList.toggle("is-current", card.dataset.plan === plan));
+    $$(".plan").forEach((card) => card.classList.toggle("is-current", !guest && card.dataset.plan === key));
     $$("[data-choose]").forEach((btn) => {
-      const isCur = btn.dataset.choose === plan;
-      btn.textContent = isCur ? "Forfait actuel" : btn.dataset.label;
-      btn.disabled = isCur;
+      if (btn.classList.contains("is-loading")) return;
+      const choice = btn.dataset.choose;
+      const isCur = !guest && choice === key;
+      // A paid account goes back to free by cancelling its subscription (Stripe portal)
+      const downgrade = !!user && choice === "free" && key !== "free";
+      btn.textContent = isCur ? "Forfait actuel" : downgrade ? "Revenir au Gratuit" : btn.dataset.label;
+      btn.disabled = isCur || (downgrade && !user.billing.canManage);
     });
+
+    $$(".sign-in, .m-sign-in").forEach((b) => (b.textContent = user ? "Mon compte" : "Connexion"));
+    if (openPanel === panels.account) renderAccount();
   }
 
   $$("[data-choose]").forEach((btn) => {
     btn.dataset.label = btn.textContent;
-    btn.addEventListener("click", () => {
-      plan = btn.dataset.choose;
-      store.set("clipzo.plan", plan);
-      refreshPlanUI();
-      toast(`Forfait ${PLANS[plan].name} activé (démo — aucun paiement)`);
-      setTimeout(() => showPanel("studio"), 500);
-    });
+    btn.addEventListener("click", () => choosePlan(btn));
   });
 
   // Locked options / counts → nudge to pricing
@@ -273,7 +320,7 @@
   });
   $$('input[name="count"]').forEach((input) => {
     input.addEventListener("change", () => {
-      if (+input.value > PLANS[plan].maxClips) {
+      if (+input.value > PLANS[planKey()].maxClips) {
         const min = +input.value > PLANS.creator.maxClips ? "pro" : "creator";
         $('input[name="count"][value="3"]').checked = true;
         toast(`${input.value} shorts par vidéo : forfait ${PLANS[min].name}`);
@@ -285,6 +332,7 @@
   $$(".bill").forEach((b) =>
     b.addEventListener("click", () => {
       const yearly = b.dataset.bill === "year";
+      billingInterval = yearly ? "year" : "month";
       $$(".bill").forEach((x) => {
         const on = x === b;
         x.classList.toggle("is-on", on);
@@ -294,6 +342,341 @@
       $$(".per").forEach((p) => (p.textContent = yearly ? "/mois, facturé à l'année" : "/mois"));
     })
   );
+
+  /* ---------- Account (live mode) ---------- */
+  const MSG_OFFLINE = "Impossible de joindre le serveur Clipzo. Vérifie ta connexion puis réessaie.";
+
+  // JSON call to the API. Same origin: the HttpOnly session cookie goes along. Rejects on network errors only
+  function apiCall(method, url, payload) {
+    const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    const timer = setTimeout(() => ctrl && ctrl.abort(), 15000);
+    const init = {
+      method,
+      cache: "no-store",
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+      signal: ctrl ? ctrl.signal : undefined,
+    };
+    if (payload !== undefined) {
+      init.headers["Content-Type"] = "application/json";
+      init.body = JSON.stringify(payload);
+    }
+    return fetch(url, init)
+      .then((res) => res.json().then((data) => ({ status: res.status, data }), () => ({ status: res.status, data: null })))
+      .finally(() => clearTimeout(timer));
+  }
+
+  // Server account → trusted shape (numbers checked, texts trimmed; they only ever reach textContent)
+  function readUser(raw) {
+    if (!raw || typeof raw !== "object" || !text(raw.email)) return null;
+    const plan = PLANS[raw.plan] ? raw.plan : "free";
+    const q = raw.quota && typeof raw.quota === "object" ? raw.quota : {};
+    const b = raw.billing && typeof raw.billing === "object" ? raw.billing : {};
+    const count = (v) => (Number.isFinite(v) && v >= 0 ? Math.floor(v) : null);
+    const used = count(q.used) || 0;
+    const reserved = count(q.reserved) || 0;
+    const limit = count(q.limit); // null: unlimited
+    const left = count(q.remaining);
+    return {
+      email: text(raw.email),
+      plan,
+      label: text(raw.plan_label) || PLANS[plan].name,
+      quota: {
+        limit,
+        used,
+        reserved,
+        remaining: limit === null ? null : left === null ? Math.max(0, limit - used - reserved) : left,
+        month: text(q.month),
+      },
+      billing: {
+        status: text(b.status),
+        renewsAt: Number.isFinite(b.renews_at) && b.renews_at > 0 ? b.renews_at * 1000 : null,
+        cancelAtEnd: b.cancel_at_period_end === true,
+        canManage: b.can_manage === true,
+      },
+    };
+  }
+
+  function setUser(raw) {
+    currentUser = readUser(raw);
+    refreshPlanUI();
+  }
+
+  // Resolves to the signed-in account (null when logged out). Unreachable server: keeps what it had
+  function loadMe() {
+    if (api.me) return api.me;
+    api.me = apiCall("GET", "/api/me")
+      .then(({ status, data }) => {
+        if (status === 200 && data && typeof data === "object") setUser(data.user);
+        else if (status === 401) setUser(null);
+        return currentUser;
+      })
+      .catch(() => currentUser)
+      .finally(() => {
+        api.me = null;
+      });
+    return api.me;
+  }
+
+  // Plan or quota changed from another tab (subscription, analysis): refresh when coming back
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && isLive()) loadMe();
+  });
+
+  const frDate = (ms) =>
+    new Date(ms).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }).replace(/^1 /, "1er ");
+
+  // "2026-10" → "1er novembre": the monthly quota starts over with the next month
+  function resetDay(month) {
+    const m = /^(\d{4})-(\d{2})$/.exec(month);
+    return m ? `1er ${new Date(+m[1], +m[2], 1).toLocaleDateString("fr-FR", { month: "long" })}` : "";
+  }
+
+  function renderAccount() {
+    const user = isLive() ? currentUser : null;
+    authBox.hidden = !!user;
+    acctBox.hidden = !user;
+    accountTitle.textContent = user ? "Mon compte" : authMode === "signup" ? "Crée ton compte" : "Connecte-toi";
+    if (!user) return;
+
+    const q = user.quota;
+    const b = user.billing;
+    acctAvatar.textContent = user.email.charAt(0).toUpperCase();
+    acctEmail.textContent = user.email;
+    acctEmail.title = user.email;
+    acctPlan.textContent = user.label;
+    acctPlan.dataset.plan = user.plan;
+
+    const unlimited = q.limit === null;
+    const s = q.used > 1 ? "s" : "";
+    acctQuota.textContent = unlimited ? "Shorts illimités" : `${q.used} short${s} utilisé${s} sur ${q.limit} ce mois-ci`;
+    meter.hidden = unlimited;
+    const share = (n) => `${(Math.min(1, n / Math.max(1, q.limit)) * 100).toFixed(1)}%`;
+    meterUsed.style.width = unlimited ? "0" : share(q.used);
+    meterReserved.style.width = unlimited ? "0" : share(Math.min(q.reserved, Math.max(0, q.limit - q.used)));
+    const sub = [];
+    if (!unlimited && q.reserved > 0) {
+      sub.push(`${q.reserved} réservé${q.reserved > 1 ? "s" : ""} par une analyse en cours`);
+    }
+    if (!unlimited && resetDay(q.month)) sub.push(`remise à zéro le ${resetDay(q.month)}`);
+    const subLine = sub.join(" · ");
+    acctSub.textContent = subLine.charAt(0).toUpperCase() + subLine.slice(1);
+    acctSub.hidden = !subLine;
+
+    let renew = "";
+    if (b.status === "past_due" || b.status === "unpaid") {
+      renew = "Paiement en attente : mets à jour ta carte depuis « Gérer mon abonnement ».";
+    } else if (b.renewsAt && b.cancelAtEnd) renew = `Se termine le ${frDate(b.renewsAt)} (résiliation programmée)`;
+    else if (b.renewsAt) renew = `Renouvellement le ${frDate(b.renewsAt)}`;
+    acctRenew.textContent = renew;
+    acctRenew.hidden = !renew;
+    acctManage.hidden = !b.canManage;
+  }
+
+  // Signed out: login / sign-up form (with an optional reason). Signed in: the account summary
+  async function openAccount(mode, note, back) {
+    await modeReady();
+    if (!isLive()) {
+      showPanel("pricing"); // demo: accounts need the Clipzo server, the pricing shows what they unlock
+      return;
+    }
+    if (api.me) await api.me;
+    authBack = back && back !== "account" ? back : null;
+    authIntroText.textContent = note || "";
+    authIntro.hidden = !note;
+    // Announced with the dialog title by screen readers
+    if (note) panels.account.setAttribute("aria-describedby", authIntroText.id);
+    else panels.account.removeAttribute("aria-describedby");
+    authError.hidden = true;
+    if (!currentUser) setAuthMode(mode || "login");
+    showPanel("account");
+    if (currentUser) loadMe(); // fresh quota and subscription
+  }
+
+  function setAuthMode(mode) {
+    authMode = mode === "signup" ? "signup" : "login";
+    const signup = authMode === "signup";
+    $(`input[name="auth-mode"][value="${authMode}"]`).checked = true;
+    authPassword.setAttribute("autocomplete", signup ? "new-password" : "current-password");
+    if (signup) {
+      authPassword.minLength = 8;
+      authPassword.setAttribute("aria-describedby", pwHint.id);
+    } else {
+      authPassword.removeAttribute("minlength");
+      authPassword.removeAttribute("aria-describedby");
+    }
+    pwHint.hidden = !signup;
+    authNote.hidden = !signup;
+    if (!authSubmit.classList.contains("is-loading")) authSubmit.textContent = submitLabel();
+    authError.hidden = true;
+    if (!currentUser) accountTitle.textContent = signup ? "Crée ton compte" : "Connecte-toi";
+  }
+  const submitLabel = () => (authMode === "signup" ? "Créer mon compte" : "Se connecter");
+
+  $$('input[name="auth-mode"]').forEach((input) => input.addEventListener("change", () => setAuthMode(input.value)));
+
+  function setPasswordVisible(on) {
+    authPassword.type = on ? "text" : "password";
+    pwToggle.setAttribute("aria-pressed", String(on));
+    $("i", pwToggle).className = on ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
+  }
+  pwToggle.addEventListener("click", () => setPasswordVisible(authPassword.type === "password"));
+
+  // Loading state of a button while the server answers
+  function setBusy(btn, label) {
+    btn.dataset.idle = btn.textContent;
+    btn.disabled = true;
+    btn.classList.add("is-loading");
+    btn.setAttribute("aria-busy", "true");
+    btn.textContent = "";
+    btn.append(icon("fa-solid fa-circle-notch fa-spin"), ` ${label}`);
+  }
+  function setIdle(btn, label = btn.dataset.idle) {
+    btn.disabled = false;
+    btn.classList.remove("is-loading");
+    btn.removeAttribute("aria-busy");
+    btn.textContent = label;
+  }
+
+  function authFail(message, field) {
+    authError.textContent = message;
+    authError.hidden = false;
+    if (!field) return;
+    field.focus();
+    if (field === authPassword) field.select();
+  }
+
+  function authMessage(res) {
+    if (!res) return MSG_OFFLINE;
+    const detail = res.data && typeof res.data.detail === "string" ? res.data.detail.trim() : "";
+    if (detail) return detail;
+    if (res.status === 401) return "E-mail ou mot de passe incorrect.";
+    if (res.status === 409) return "Un compte existe déjà avec cet e-mail : connecte-toi.";
+    if (res.status === 429) return "Trop de tentatives : attends un peu puis réessaie.";
+    if (res.status === 400 || res.status === 422) return "Vérifie ton e-mail et ton mot de passe (8 caractères minimum).";
+    return "Le serveur n'a pas pu te connecter. Réessaie dans un instant.";
+  }
+
+  let authBusy = false;
+  authForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (authBusy) return;
+    const signup = authMode === "signup";
+    const email = authEmail.value.trim();
+    const password = authPassword.value;
+    if (!email || !authEmail.checkValidity()) {
+      authFail("Entre une adresse e-mail valide, par exemple toi@exemple.com.", authEmail);
+      return;
+    }
+    if (!password) {
+      authFail(signup ? "Choisis un mot de passe." : "Entre ton mot de passe.", authPassword);
+      return;
+    }
+    if (signup && password.length < 8) {
+      authFail("Ton mot de passe doit faire au moins 8 caractères.", authPassword);
+      return;
+    }
+    authError.hidden = true;
+    authBusy = true;
+    setBusy(authSubmit, signup ? "Création du compte…" : "Connexion…");
+    const res = await apiCall("POST", signup ? "/api/auth/signup" : "/api/auth/login", { email, password }).catch(
+      () => null
+    );
+    authBusy = false;
+    setIdle(authSubmit, submitLabel());
+    if (res && res.status === 200 && res.data && readUser(res.data.user)) signedIn(res.data.user, signup);
+    else authFail(authMessage(res), res && res.status === 409 ? authEmail : authPassword);
+  });
+
+  function signedIn(rawUser, isNew) {
+    setUser(rawUser);
+    authPassword.value = "";
+    setPasswordVisible(false);
+    toast(isNew ? "Bienvenue sur Clipzo : ton compte est prêt !" : "Content de te revoir !");
+    const back = authBack;
+    authBack = null;
+    if (openPanel !== panels.account) return; // closed while the server answered
+    if (!back) {
+      accountTitle.focus({ preventScroll: true });
+      return;
+    }
+    // Back where the person was: they press the button again themselves, nothing starts on its own
+    showPanel(back);
+    if (back === "studio" && !form.hidden) $('button[type="submit"]', form).focus({ preventScroll: true });
+  }
+
+  acctLogout.addEventListener("click", async () => {
+    setBusy(acctLogout, "Déconnexion…");
+    const res = await apiCall("POST", "/api/auth/logout").catch(() => null);
+    setIdle(acctLogout);
+    if (!res || (res.status !== 200 && res.status !== 401)) {
+      toast(res ? apiError(res.status, res.data) : MSG_OFFLINE);
+      return;
+    }
+    // Shared computer: nothing of the account that left stays on screen
+    stopJob();
+    showForm();
+    authForm.reset();
+    setUser(null);
+    hidePanel();
+    toast("Déconnexion réussie, à bientôt !");
+  });
+
+  /* ---------- Subscriptions (Stripe, live mode) ---------- */
+  const CHECKOUT_KEY = "clipzo.checkout";
+
+  async function choosePlan(btn) {
+    await modeReady();
+    const choice = btn.dataset.choose;
+    if (!isLive()) {
+      // Demo: switch the local plan to try its options, nothing is paid
+      demoPlan = choice;
+      store.set("clipzo.plan", demoPlan);
+      refreshPlanUI();
+      toast(`Forfait ${PLANS[demoPlan].name} activé (démo — aucun paiement)`);
+      setTimeout(() => showPanel("studio"), 500);
+      return;
+    }
+    if (api.me) await api.me;
+    if (!currentUser) {
+      if (choice === "free") openAccount("signup", "Crée ton compte gratuit pour lancer ta première analyse.", "studio");
+      else openAccount("signup", "Crée ton compte pour t'abonner.", "pricing");
+      return;
+    }
+    if (choice === planKey()) return;
+    if (choice === "free") billingRedirect(btn, "/api/billing/portal"); // back to free: cancel in the portal
+    else billingRedirect(btn, "/api/billing/checkout", { plan: choice, interval: billingInterval });
+  }
+
+  // Checkout or customer portal: the server answers with the Stripe page to send the person to
+  async function billingRedirect(btn, endpoint, payload) {
+    setBusy(btn, "Redirection…");
+    const res = await apiCall("POST", endpoint, payload).catch(() => null);
+    const url = res && res.status === 200 && res.data ? safeUrl(res.data.url) : null;
+    if (url) {
+      if (payload && res.data.portal !== true) session.set(CHECKOUT_KEY, { from: planKey() });
+      window.location.assign(url);
+      return;
+    }
+    setIdle(btn);
+    refreshPlanUI();
+    if (res && res.status === 401) {
+      setUser(null);
+      openAccount("login", "Ta session a expiré : reconnecte-toi pour continuer.", panelName(openPanel));
+      return;
+    }
+    toast(res ? apiError(res.status, res.data) : MSG_OFFLINE);
+  }
+
+  acctManage.addEventListener("click", () => billingRedirect(acctManage, "/api/billing/portal"));
+
+  // Back from Stripe with the browser's back button: the page can come from the cache, busy buttons included
+  window.addEventListener("pageshow", (e) => {
+    if (!e.persisted) return;
+    $$(".is-loading").forEach((btn) => setIdle(btn));
+    refreshPlanUI();
+    if (isLive()) loadMe();
+  });
 
   refreshPlanUI();
 
@@ -445,8 +828,6 @@
   }
 
   /* ---------- Server connection: live analysis, or demo fallback ---------- */
-  const api = { mode: "pending", features: {}, checking: null };
-
   function setMode(mode, features) {
     const was = api.mode;
     const isLive = mode === "live";
@@ -458,6 +839,8 @@
     if (isLive && was === "demo" && openPanel === panels.studio) {
       toast("Serveur d'analyse connecté : place aux vrais shorts !");
     }
+    if (isLive) loadMe(); // plan & quota of the signed-in account
+    refreshPlanUI();
     if (isLive && !activeJob) resumeJob();
   }
 
@@ -483,7 +866,10 @@
 
   function onStudioOpen() {
     if (api.mode === "demo") checkHealth();
-    else if (api.mode === "live" && !activeJob) resumeJob();
+    else if (api.mode === "live") {
+      loadMe();
+      if (!activeJob) resumeJob();
+    }
   }
 
   /* ---------- Source: link or video file ---------- */
@@ -918,11 +1304,11 @@
     });
   }
 
-  function newJob(id, ytId, count = 0, charged = false) {
-    return { id, ytId, count, charged, thumb: null, timer: 0, xhr: null, failures: 0, stopped: false };
+  function newJob(id, ytId, count = 0) {
+    return { id, ytId, count, thumb: null, timer: 0, xhr: null, failures: 0, stopped: false };
   }
 
-  const saveJob = (job) => session.set(JOB_KEY, { id: job.id, ytId: job.ytId, count: job.count, charged: job.charged });
+  const saveJob = (job) => session.set(JOB_KEY, { id: job.id, ytId: job.ytId, count: job.count });
 
   function stopJob() {
     if (activeJob) {
@@ -937,7 +1323,17 @@
   function failJob(message) {
     stopJob();
     showForm(message);
+    if (isLive()) loadMe(); // the shorts held by this analysis are free again
     if (openPanel !== panels.studio) toast("L'analyse n'a pas abouti : ouvre le Studio IA pour voir pourquoi.");
+  }
+
+  // No (more) session on the server: ask to sign in, then come back to the studio
+  function needAccount() {
+    const expired = !!currentUser;
+    if (expired) authEmail.value = currentUser.email;
+    setUser(null);
+    if (expired) openAccount("login", "Ta session a expiré : reconnecte-toi pour lancer ton analyse.", "studio");
+    else openAccount("signup", "Crée ton compte gratuit pour lancer ta première analyse.", "studio");
   }
 
   async function startLive({ parsed, file, duration, count, opts }) {
@@ -955,6 +1351,8 @@
     progressSource.hidden = false;
     setMessage(file ? "Envoi du fichier… 0 %" : "Envoi du lien au serveur d'analyse…");
 
+    // "plan" is informative only: the server applies the plan of the signed-in account
+    const plan = planKey();
     const settings = { duration, count, plan, options: opts };
     let res;
     try {
@@ -982,15 +1380,21 @@
       return;
     }
     if (job.stopped) return;
+    if (res.status === 401) {
+      stopJob();
+      showForm();
+      needAccount();
+      return;
+    }
     if (res.status < 200 || res.status >= 300 || !res.data || !validId(res.data.id)) {
-      failJob(apiError(res.status, res.data));
+      failJob(apiError(res.status, res.data)); // 402: the server's quota message, shown as is
       return;
     }
 
-    // The server took the job. The quota is charged when the shorts are delivered (finishJob)
+    // The server took the job and holds its shorts; it charges the ones delivered when the job ends
     job.id = res.data.id;
     saveJob(job);
-    refreshPlanUI();
+    loadMe();
     setMessage("Demande acceptée, l'analyse démarre…");
     poll(job);
   }
@@ -1000,7 +1404,7 @@
     if (activeJob || demoRunning || !saved || !validId(saved.id)) return;
     const ytId = typeof saved.ytId === "string" && /^[\w-]{11}$/.test(saved.ytId) ? saved.ytId : null;
     const count = Number.isInteger(saved.count) ? saved.count : 0;
-    const job = newJob(saved.id, ytId, count, saved.charged === true);
+    const job = newJob(saved.id, ytId, count);
     activeJob = job;
     showProgress(ytId ? ytThumb(ytId) : GRADIENTS[0]);
     cancelBtn.hidden = false;
@@ -1033,6 +1437,7 @@
     } else if (status === 404) {
       failJob(text(data && data.detail) || MSG_EXPIRED);
     } else if (status >= 400 && status < 500 && status !== 408 && status !== 429) {
+      if (status === 401) setUser(null);
       failJob(apiError(status, data));
     } else {
       // Network error, 5xx, 408 or 429: the job keeps running on the server, keep following it
@@ -1082,15 +1487,11 @@
   function finishJob(interrupted) {
     const n = clipsList.childElementCount;
     const job = activeJob;
-    if (job && !job.charged) {
-      job.charged = true; // saved before charging so a reload can't charge twice
-      saveJob(job);
-      if (n) chargeShorts(n);
-    }
     if (job) {
       job.stopped = true;
       clearTimeout(job.timer);
     }
+    loadMe(); // the server charged the delivered shorts: show the new quota
     progress.hidden = true;
     cancelBtn.hidden = true;
     results.hidden = false;
@@ -1246,12 +1647,21 @@
       urlInput.focus();
       return;
     }
+    // Live: an account is needed, and its quota is checked here first (the server has the last word)
+    if (isLive() && !currentUser) {
+      needAccount();
+      return;
+    }
     const count = +$('input[name="count"]:checked').value;
-    if (remaining() < count) {
+    const left = shortsLeft();
+    if (left < count) {
+      const q = isLive() ? currentUser.quota : { limit: PLANS[demoPlan].quota, reserved: 0 };
       showError(
-        remaining() <= 0
-          ? `Tu as utilisé tes ${PLANS[plan].quota} shorts du mois. Passe à un forfait supérieur pour continuer.`
-          : `Il te reste ${remaining()} short(s) ce mois-ci. Réduis le nombre ou passe à un forfait supérieur.`
+        left > 0
+          ? `Il te reste ${left} short${left > 1 ? "s" : ""} ce mois-ci. Réduis le nombre ou passe à un forfait supérieur.`
+          : q.reserved > 0
+            ? "Tes shorts restants sont réservés par une analyse en cours. Attends qu'elle se termine ou passe à un forfait supérieur."
+            : `Tu as utilisé tes ${q.limit} shorts du mois. Passe à un forfait supérieur pour continuer.`
       );
       return;
     }
@@ -1281,6 +1691,7 @@
     if (submitting) return;
     submitting = true;
     await modeReady(); // the very first health check may still be running
+    if (api.me) await api.me; // …and so may the account
     submitting = false;
     submitStudio();
   });
@@ -1288,7 +1699,9 @@
   cancelBtn.addEventListener("click", () => {
     const id = activeJob && activeJob.id;
     if (id) {
-      fetch(`/api/jobs/${encodeURIComponent(id)}/cancel`, { method: "POST", keepalive: true }).catch(() => {});
+      fetch(`/api/jobs/${encodeURIComponent(id)}/cancel`, { method: "POST", keepalive: true })
+        .catch(() => {})
+        .then(() => loadMe()); // its reserved shorts are released
     }
     stopJob();
     showForm();
@@ -1301,8 +1714,46 @@
     if (sourceMode === "link") urlInput.select();
   });
 
+  /* ---------- Back from Stripe Checkout: /?billing=success | /?billing=cancel ---------- */
+  function readBillingReturn() {
+    const params = new URLSearchParams(location.search);
+    const value = params.get("billing");
+    if (value === null) return null;
+    params.delete("billing");
+    const qs = params.toString();
+    try {
+      history.replaceState(history.state, "", location.pathname + (qs ? `?${qs}` : "") + location.hash);
+    } catch {
+      /* the address keeps its query string, nothing else depends on it */
+    }
+    return value;
+  }
+  const billingReturn = readBillingReturn();
+
+  // Stripe confirms the payment to the server a few seconds later (webhook): follow the plan until it changes
+  function watchActivation() {
+    const saved = session.get(CHECKOUT_KEY);
+    session.remove(CHECKOUT_KEY);
+    const from = saved && PLANS[saved.from] ? saved.from : "free";
+    let tries = 0;
+    toast("Paiement reçu, activation de ton forfait…");
+    const check = () =>
+      loadMe().then((user) => {
+        if (user && user.plan !== from) toast(`Forfait ${user.label} activé`);
+        else if (++tries < 10) setTimeout(check, 2000);
+        else toast("Paiement reçu : ton forfait sera activé dans quelques instants. Recharge la page si besoin.");
+      });
+    check();
+  }
+
   setSource("link");
   checkHealth().then(() => {
+    if (billingReturn === "success" && isLive()) watchActivation();
+    else if (billingReturn === "cancel") {
+      session.remove(CHECKOUT_KEY);
+      toast("Paiement annulé");
+      showPanel("pricing");
+    }
     // Reload during an analysis: bring the studio back with the job it was following
     if (activeJob && !openPanel) showPanel("studio");
   });
