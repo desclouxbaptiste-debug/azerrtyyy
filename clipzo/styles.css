@@ -672,6 +672,153 @@ button {
   color: var(--muted);
 }
 
+.demo-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: -6px 0 18px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255, 59, 92, 0.5);
+  background: rgba(255, 59, 92, 0.08);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #d6d6d6;
+}
+
+.demo-banner i {
+  margin-top: 3px;
+  color: var(--accent);
+}
+
+.demo-banner strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Source: link or file */
+.src-head {
+  align-items: center;
+  gap: 12px;
+}
+
+.src-toggle {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.src-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.src-toggle span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 13px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #bdbdbd;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.src-toggle span i {
+  font-size: 11px;
+}
+
+.src-toggle input:checked + span {
+  background: #fff;
+  color: #000;
+}
+
+.src-toggle input:focus-visible + span {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.src-link,
+.src-file {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 128px;
+  padding: 18px 16px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.drop:hover,
+.drop.is-drag {
+  border-color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.drop.has-file {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.file-input:focus-visible + .drop {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.drop-icon {
+  margin-bottom: 6px;
+  font-size: 22px;
+  color: var(--muted);
+}
+
+.drop.has-file .drop-icon {
+  color: #fff;
+}
+
+.drop-title {
+  max-width: 100%;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drop-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
 .studio-form {
   display: flex;
   flex-direction: column;
@@ -877,19 +1024,32 @@ button {
 /* Progress */
 .progress {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 20px;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 18px 20px;
   align-items: center;
+}
+
+.progress:focus,
+.results-title:focus {
+  outline: none;
 }
 
 .studio-form[hidden],
 .progress[hidden],
-.results[hidden] {
+.results[hidden],
+.demo-banner[hidden],
+.src-link[hidden],
+.src-file[hidden],
+.progress-source[hidden],
+.results-source[hidden],
+.curve-slot[hidden],
+.warnings[hidden],
+.clips-empty[hidden],
+.demo-note[hidden] {
   display: none;
 }
 
 .progress-thumb {
-  grid-row: span 2;
   aspect-ratio: 9 / 16;
   border-radius: 16px;
   background: #1c1c1e center / cover no-repeat;
@@ -972,7 +1132,218 @@ button {
   transition: width 0.3s linear;
 }
 
+.progress-main {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.progress-source,
+.results-source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.source-icon {
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.source-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-dur {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: -6px;
+}
+
+.progress-msg {
+  margin: 0;
+  min-height: 1.45em;
+  min-width: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #cfcfcf;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.progress-cancel {
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+.progress-curve {
+  grid-column: 1 / -1;
+}
+
+/* Virality curve */
+.curve-slot {
+  animation: linkIn 0.45s var(--ease) both;
+}
+
+.curve {
+  margin: 0;
+  padding: 12px 14px 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+}
+
+.curve-plot {
+  position: relative;
+  height: 118px;
+}
+
+.curve-plot svg,
+.curve-band {
+  position: absolute;
+  top: 24px;
+  bottom: 0;
+}
+
+.curve-plot svg {
+  left: 0;
+  width: 100%;
+  height: calc(100% - 24px);
+  overflow: visible;
+}
+
+.curve-area {
+  fill: rgba(255, 255, 255, 0.1);
+}
+
+.curve-line {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.curve-band {
+  min-width: 3px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, rgba(255, 59, 92, 0.55), rgba(255, 59, 92, 0.2));
+  box-shadow: inset 0 2px 0 var(--accent);
+}
+
+.curve-rank {
+  position: absolute;
+  top: calc(var(--row, 0) * 21px);
+  z-index: 1;
+  transform: translateX(-50%);
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 2px #19191b;
+}
+
+.curve-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.curve-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.curve-keys,
+.curve-signals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin: 0;
+  font-size: 11.5px;
+  color: #c4c4c4;
+}
+
+.curve-signals {
+  gap: 6px;
+}
+
+.curve-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.key-line {
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.key-band {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: rgba(255, 59, 92, 0.6);
+  box-shadow: inset 0 2px 0 var(--accent);
+}
+
+.curve-signals-label {
+  margin-right: 2px;
+  color: var(--muted);
+}
+
+.signal {
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #e0e0e0;
+  white-space: nowrap;
+}
+
 /* Results */
+.progress:not([hidden]) + .results {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
 .results-head {
   display: flex;
   align-items: center;
@@ -984,6 +1355,50 @@ button {
   margin: 0;
   font-size: 17px;
   font-weight: 600;
+}
+
+.results-source {
+  margin: -4px 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #cfcfcf;
+}
+
+.results-curve {
+  margin-bottom: 14px;
+}
+
+.warnings {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.warnings li {
+  display: flex;
+  gap: 8px;
+}
+
+.warnings i {
+  margin-top: 3px;
+  font-size: 11px;
+  color: #ffb703;
+}
+
+.clips-empty {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 13px;
+  line-height: 1.5;
+  color: #cfcfcf;
 }
 
 .clips {
@@ -1017,6 +1432,35 @@ button {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 35%, transparent 55%, rgba(0, 0, 0, 0.8));
+}
+
+/* Live clips: a real player fills the 9:16 box, overlays never catch clicks */
+.clip-video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.clip-video.is-landscape {
+  object-fit: contain;
+}
+
+.clip-thumb.is-live::before {
+  z-index: 1;
+  bottom: auto;
+  height: 32%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent);
+  pointer-events: none;
+}
+
+.clip-thumb.is-live .clip-score,
+.clip-thumb.is-live .clip-dur {
+  z-index: 2;
+  pointer-events: none;
 }
 
 .clip-score {
@@ -1105,9 +1549,61 @@ button {
   margin: 0;
   font-size: 11.5px;
   color: #9fb4ff;
+  overflow-wrap: anywhere;
+}
+
+.clip-rank {
+  color: #fff;
+  font-weight: 600;
+}
+
+.clip-hook {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #dedede;
+  overflow-wrap: anywhere;
+}
+
+.clip-hook i {
+  margin-top: 2px;
+  font-size: 9px;
+  color: var(--accent);
+}
+
+.clip-why {
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.clip-why-title {
+  margin: 0 0 5px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.clip-why ul {
+  margin: 0;
+  padding-left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: #bdbdbd;
+  overflow-wrap: anywhere;
 }
 
 .clip-dl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
   height: 34px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1316,16 +1812,20 @@ button {
 .toast {
   position: fixed;
   z-index: 40;
-  left: 50%;
+  left: 16px;
+  right: 16px;
   bottom: 24px;
-  transform: translateX(-50%);
+  width: max-content;
   max-width: calc(100% - 32px);
+  margin: 0 auto;
   padding: 12px 18px;
-  border-radius: 999px;
+  border-radius: 22px;
   background: #fff;
   color: #000;
   font-size: 13.5px;
   font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   animation: linkIn 0.3s var(--ease) both;
 }
@@ -1438,7 +1938,17 @@ button {
   }
 
   .progress {
-    grid-template-columns: 90px 1fr;
+    grid-template-columns: 90px minmax(0, 1fr);
+    column-gap: 16px;
+  }
+
+  .steps {
+    gap: 8px;
+    font-size: 13.5px;
+  }
+
+  .curve-plot {
+    height: 104px;
   }
 
   .clips {

@@ -23,6 +23,32 @@
     },
   };
 
+  // Per-tab memory (active analysis job), so a reload resumes where it was
+  const session = {
+    get(key) {
+      try {
+        const v = sessionStorage.getItem(key);
+        return v === null ? null : JSON.parse(v);
+      } catch {
+        return null;
+      }
+    },
+    set(key, value) {
+      try {
+        sessionStorage.setItem(key, JSON.stringify(value));
+      } catch {
+        /* storage unavailable: the job is only followed until the page closes */
+      }
+    },
+    remove(key) {
+      try {
+        sessionStorage.removeItem(key);
+      } catch {
+        /* nothing to clean */
+      }
+    },
+  };
+
   /* ---------------- Toast ---------------- */
   const toastEl = $(".toast");
   let toastTimer;
@@ -107,21 +133,30 @@
   let openPanel = null;
   let lastFocus = null;
 
+  // A hidden panel keeps playing its videos: pause them when it closes
+  const pauseMedia = (root) => $$("video", root).forEach((v) => v.pause());
+
   function showPanel(name) {
     const panel = panels[name];
     if (!panel) return;
-    if (openPanel && openPanel !== panel) openPanel.hidden = true;
-    else lastFocus = document.activeElement;
+    if (openPanel && openPanel !== panel) {
+      pauseMedia(openPanel);
+      openPanel.hidden = true;
+    } else lastFocus = document.activeElement;
     openPanel = panel;
     panelOverlay.hidden = false;
     panel.hidden = false;
     const first = $("input, textarea, .panel-close", panel);
     if (first) first.focus({ preventScroll: true });
-    if (name === "studio") refreshPlanUI();
+    if (name === "studio") {
+      refreshPlanUI();
+      onStudioOpen();
+    }
   }
 
   function hidePanel() {
     if (!openPanel) return;
+    pauseMedia(openPanel);
     openPanel.hidden = true;
     panelOverlay.hidden = true;
     openPanel = null;
@@ -239,17 +274,45 @@
     { id: "kick", name: "Kick", icon: "fa-solid fa-k", color: "#53fc18", re: /kick\.com/i },
     { id: "instagram", name: "Instagram", icon: "fa-brands fa-instagram", color: "#e1306c", re: /instagram\.com/i },
   ];
+  const UPLOAD = { id: "upload", name: "Fichier importé", icon: "fa-solid fa-file-video", color: "#ffffff" };
+  const platformById = (id) => PLATFORMS.find((p) => p.id === id) || UPLOAD;
 
   const form = $(".studio-form");
   const urlInput = $(".url-input");
   const platformIcon = $(".platform-icon");
   const urlHint = $(".url-hint");
+  const featureHint = $(".feature-hint");
+  const srcLabel = $(".src-label");
+  const srcLink = $(".src-link");
+  const srcFile = $(".src-file");
+  const fileInput = $(".file-input");
+  const drop = $(".drop");
+  const dropIcon = $(".drop-icon");
+  const dropTitle = $(".drop-title");
+  const dropSub = $(".drop-sub");
   const errorEl = $(".form-error");
   const range = $(".range");
   const durationOut = $(".duration-out");
+  const demoBanner = $(".demo-banner");
+  const studioBody = $(".panel-body", panels.studio);
   const progress = $(".progress");
+  const progressThumb = $(".progress-thumb");
+  const progressSource = $(".progress-source");
+  const steps = $$(".steps li");
+  const bar = $(".bar");
+  const barFill = $(".bar span");
+  const progressMsg = $(".progress-msg");
+  const cancelBtn = $(".progress-cancel");
+  const progressCurve = $(".progress-curve");
   const results = $(".results");
+  const resultsTitle = $(".results-title");
+  const restartBtn = $(".restart");
+  const resultsSource = $(".results-source");
+  const resultsCurve = $(".results-curve");
+  const warningsEl = $(".warnings");
   const clipsList = $(".clips");
+  const clipsEmpty = $(".clips-empty");
+  const demoNote = $(".demo-note");
 
   const fmtDuration = (s) => {
     const m = Math.floor(s / 60);
@@ -262,6 +325,50 @@
     const r = Math.floor(s % 60);
     const mm = String(m).padStart(h ? 2 : 1, "0");
     return (h ? h + ":" : "") + mm + ":" + String(r).padStart(2, "0");
+  };
+  const fmtSize = (bytes) => {
+    const units = ["o", "Ko", "Mo", "Go"];
+    let n = bytes;
+    let u = 0;
+    while (n >= 1024 && u < units.length - 1) {
+      n /= 1024;
+      u++;
+    }
+    return `${n.toLocaleString("fr-FR", { maximumFractionDigits: u ? 1 : 0 })} ${units[u]}`;
+  };
+  const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
+  const clamp01 = (v) => Math.max(0, Math.min(1, num(v)));
+  const text = (v) => (typeof v === "string" ? v.trim() : "");
+
+  // DOM builders: server-provided text only ever goes through textContent
+  function el(tag, className, content) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (content !== undefined) node.textContent = content;
+    return node;
+  }
+  function icon(className) {
+    const i = el("i", className);
+    i.setAttribute("aria-hidden", "true");
+    return i;
+  }
+
+  // Only http(s) URLs (absolute, or relative to this site) make it into the page
+  function safeUrl(raw) {
+    if (!text(raw)) return null;
+    try {
+      const u = new URL(raw, location.href);
+      return u.protocol === "https:" || u.protocol === "http:" ? u.href : null;
+    } catch {
+      return null;
+    }
+  }
+  const cssUrl = (u) => `url(${JSON.stringify(u)})`;
+  const ytThumb = (id) => cssUrl(`https://i.ytimg.com/vi/${id}/hqdefault.jpg`);
+
+  // Focus moves only while the studio is on screen: a background job must not steal it
+  const focusIn = (target) => {
+    if (openPanel === panels.studio) target.focus({ preventScroll: true });
   };
 
   range.addEventListener("input", () => (durationOut.textContent = fmtDuration(+range.value)));
@@ -297,6 +404,315 @@
       : "YouTube, Twitch (VOD & clips), TikTok, X, Kick, Instagram";
   });
 
+  function showError(message) {
+    errorEl.textContent = message;
+    errorEl.hidden = false;
+  }
+
+  /* ---------- Server connection: live analysis, or demo fallback ---------- */
+  const api = { mode: "pending", features: {}, checking: null };
+
+  function setMode(mode, features) {
+    const was = api.mode;
+    const isLive = mode === "live";
+    api.mode = mode;
+    api.features = features && typeof features === "object" ? features : {};
+    demoBanner.hidden = mode !== "demo";
+    featureHint.hidden = !(isLive && api.features.download === false);
+    if (!isLive && sourceMode === "file") setSource("link");
+    if (isLive && was === "demo" && openPanel === panels.studio) {
+      toast("Serveur d'analyse connecté : place aux vrais shorts !");
+    }
+    if (isLive && !activeJob) resumeJob();
+  }
+
+  function checkHealth() {
+    if (api.checking) return api.checking;
+    const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    const timer = setTimeout(() => ctrl && ctrl.abort(), 3000);
+    api.checking = fetch("/api/health", {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+      signal: ctrl ? ctrl.signal : undefined,
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setMode(data && data.ok === true ? "live" : "demo", data && data.features))
+      .catch(() => setMode("demo"))
+      .finally(() => {
+        clearTimeout(timer);
+        api.checking = null;
+      });
+    return api.checking;
+  }
+  const modeReady = () => api.checking || Promise.resolve();
+
+  function onStudioOpen() {
+    if (api.mode === "demo") checkHealth();
+    else if (api.mode === "live" && !activeJob) resumeJob();
+  }
+
+  /* ---------- Source: link or video file ---------- */
+  let sourceMode = "link";
+  let chosenFile = null;
+
+  function setSource(mode) {
+    const isFile = mode === "file";
+    sourceMode = isFile ? "file" : "link";
+    $(`input[name="source"][value="${sourceMode}"]`).checked = true;
+    srcLink.hidden = isFile;
+    srcFile.hidden = !isFile;
+    srcLabel.textContent = isFile ? "Fichier vidéo" : "Lien de la vidéo";
+    srcLabel.htmlFor = isFile ? "studio-file" : "studio-url";
+    errorEl.hidden = true;
+  }
+
+  $$('input[name="source"]').forEach((input) =>
+    input.addEventListener("change", async () => {
+      if (input.value !== "file") {
+        setSource("link");
+        return;
+      }
+      await modeReady();
+      if (api.mode === "live") {
+        setSource("file");
+      } else {
+        setSource("link");
+        toast("L'import de fichier a besoin du serveur d'analyse : lance-le (voir README) ou colle un lien.");
+      }
+    })
+  );
+
+  const VIDEO_EXT = /\.(mp4|m4v|mov|mkv|webm|avi|flv|wmv|mpe?g|ts|3gp)$/i;
+
+  function pickFile(file) {
+    if (!file) return;
+    if (!/^video\//.test(file.type) && !VIDEO_EXT.test(file.name)) {
+      fileInput.value = "";
+      showError("Ce fichier n'est pas une vidéo. Choisis un MP4, MOV, MKV ou WebM.");
+      return;
+    }
+    chosenFile = file;
+    errorEl.hidden = true;
+    drop.classList.add("has-file");
+    dropIcon.className = "fa-solid fa-circle-check drop-icon";
+    dropTitle.textContent = file.name;
+    dropTitle.title = file.name;
+    dropSub.textContent = `${fmtSize(file.size)} · clique pour changer`;
+  }
+
+  fileInput.addEventListener("change", () => pickFile(fileInput.files[0]));
+
+  const hasFiles = (e) => !!e.dataTransfer && Array.from(e.dataTransfer.types || []).includes("Files");
+  ["dragenter", "dragover"].forEach((type) =>
+    drop.addEventListener(type, (e) => {
+      if (!hasFiles(e)) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "copy";
+      drop.classList.add("is-drag");
+    })
+  );
+  drop.addEventListener("dragleave", (e) => {
+    if (!drop.contains(e.relatedTarget)) drop.classList.remove("is-drag");
+  });
+  drop.addEventListener("drop", (e) => {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    drop.classList.remove("is-drag");
+    pickFile(e.dataTransfer.files[0]);
+  });
+  // A file dropped beside the zone must not make the browser leave the page to open it
+  window.addEventListener("dragover", (e) => hasFiles(e) && e.preventDefault());
+  window.addEventListener("drop", (e) => hasFiles(e) && e.preventDefault());
+
+  /* ---------- Progress & results views ---------- */
+  function setSteps(active, allDone) {
+    steps.forEach((li, i) => {
+      li.classList.toggle("is-done", allDone || i < active);
+      li.classList.toggle("is-active", !allDone && i === active);
+    });
+  }
+
+  let barValue = 0;
+  function setBar(value, keepUp) {
+    barValue = keepUp ? Math.max(barValue, clamp01(value)) : clamp01(value);
+    barFill.style.width = `${(barValue * 100).toFixed(1)}%`;
+    bar.setAttribute("aria-valuenow", String(Math.round(barValue * 100)));
+  }
+
+  function setMessage(msg) {
+    if (progressMsg.textContent !== msg) progressMsg.textContent = msg;
+  }
+
+  function clearBlock(node) {
+    node.hidden = true;
+    node.textContent = "";
+    delete node.dataset.key;
+  }
+
+  function resetResults() {
+    pauseMedia(clipsList);
+    clipsList.textContent = "";
+    liveCards.clear();
+    resultsTitle.textContent = "Tes shorts sont prêts";
+    restartBtn.hidden = false;
+    clearBlock(resultsSource);
+    clearBlock(resultsCurve);
+    clearBlock(warningsEl);
+    clipsEmpty.hidden = true;
+    demoNote.hidden = true;
+  }
+
+  function showProgress(thumbBg) {
+    resetResults();
+    setSteps(-1, false);
+    setBar(0);
+    setMessage("");
+    progressThumb.style.backgroundImage = thumbBg;
+    clearBlock(progressSource);
+    clearBlock(progressCurve);
+    cancelBtn.hidden = true;
+    form.hidden = true;
+    results.hidden = true;
+    progress.hidden = false;
+    focusIn(progress);
+  }
+
+  function showForm(message) {
+    progress.hidden = true;
+    results.hidden = true;
+    resetResults();
+    form.hidden = false;
+    focusIn(sourceMode === "file" ? fileInput : urlInput);
+    if (message) {
+      showError(message);
+      errorEl.scrollIntoView({ block: "nearest" }); // sits under the fold on phones
+    }
+  }
+
+  function showSourceLine(target, source) {
+    const platform = platformById(source.platform);
+    const title = text(source.title) || platform.name;
+    const length = num(source.duration);
+    const key = `${platform.id}|${title}|${length}`;
+    if (target.dataset.key === key) return;
+    target.dataset.key = key;
+    target.textContent = "";
+    const logo = icon(`${platform.icon} source-icon`);
+    logo.style.color = platform.color;
+    const name = el("span", "source-title", title);
+    name.title = title;
+    target.append(logo, name);
+    if (length > 0) target.append(el("span", "source-dur", fmtTime(length)));
+  }
+
+  /* ---------- Virality curve ---------- */
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const SIGNALS = [
+    ["audio", "Pics audio"],
+    ["scenes", "Changements de plan"],
+    ["heatmap", "Moments les plus revus YouTube"],
+    ["chat", "Activité du chat"],
+    ["transcript", "Transcription"],
+    ["llm", "Analyse IA (Claude)"],
+    ["faces", "Suivi du visage"],
+  ];
+
+  function svgNode(tag, attrs) {
+    const node = document.createElementNS(SVG_NS, tag);
+    Object.keys(attrs).forEach((k) => node.setAttribute(k, attrs[k]));
+    return node;
+  }
+
+  function drawCurve(slot, points, clips, length, signals) {
+    const windows =
+      length > 0
+        ? clips.map((c, i) => {
+            const from = clamp01(num(c.start) / length);
+            return { rank: i + 1, from, to: Math.max(from, clamp01(num(c.end) / length)) };
+          })
+        : [];
+    const used = SIGNALS.filter(([k]) => k === "audio" || k === "scenes" || signals[k] === true).map((s) => s[1]);
+    const key = JSON.stringify([points, windows, used, length]);
+    if (slot.dataset.key === key) return;
+    slot.dataset.key = key;
+
+    // Line + low-opacity area, stretched to the box (stroke width stays constant)
+    const W = 1000;
+    const H = 100;
+    const PAD = 4;
+    const stepX = W / (points.length - 1);
+    const line = points
+      .map((v, i) => `${i ? "L" : "M"}${(i * stepX).toFixed(1)},${(H - PAD - v * (H - 2 * PAD)).toFixed(1)}`)
+      .join("");
+    const svg = svgNode("svg", {
+      viewBox: `0 0 ${W} ${H}`,
+      preserveAspectRatio: "none",
+      "aria-hidden": "true",
+      focusable: "false",
+    });
+    svg.append(
+      svgNode("path", { class: "curve-area", d: `${line}L${W},${H}L0,${H}Z` }),
+      svgNode("path", { class: "curve-line", d: line, "vector-effect": "non-scaling-stroke" })
+    );
+
+    const plot = el("div", "curve-plot");
+    plot.setAttribute("role", "img");
+    plot.setAttribute(
+      "aria-label",
+      windows.length
+        ? `Courbe d'intérêt de la vidéo, ${windows.length} passage${windows.length > 1 ? "s" : ""} retenu${windows.length > 1 ? "s" : ""} pour tes shorts`
+        : "Courbe d'intérêt de la vidéo"
+    );
+    windows.forEach((w) => {
+      const band = el("span", "curve-band");
+      band.style.left = `${(w.from * 100).toFixed(2)}%`;
+      band.style.width = `${((w.to - w.from) * 100).toFixed(2)}%`;
+      plot.append(band);
+    });
+    plot.append(svg);
+
+    // Rank numbers sit in a lane above the plot; neighbours that would touch stack on another row
+    const lastInRow = [];
+    windows
+      .slice()
+      .sort((a, b) => a.from + a.to - (b.from + b.to))
+      .forEach((w) => {
+        const center = ((w.from + w.to) / 2) * 100;
+        let row = lastInRow.findIndex((x) => center - x >= 4.5);
+        if (row === -1) row = lastInRow.length < 3 ? lastInRow.length : 0;
+        lastInRow[row] = center;
+        const tag = el("span", "curve-rank", String(w.rank));
+        tag.style.left = `${center.toFixed(2)}%`;
+        tag.style.setProperty("--row", row);
+        plot.append(tag);
+      });
+
+    const axis = el("div", "curve-axis");
+    axis.append(el("span", "", "0:00"), el("span", "", length > 0 ? fmtTime(length) : ""));
+
+    const keys = el("p", "curve-keys");
+    const keyLine = el("span", "curve-key");
+    keyLine.append(el("span", "key-line"), "Intérêt estimé au fil de la vidéo");
+    keys.append(keyLine);
+    if (windows.length) {
+      const keyBand = el("span", "curve-key");
+      keyBand.append(el("span", "key-band"), "Passages retenus");
+      keys.append(keyBand);
+    }
+    const sigs = el("p", "curve-signals");
+    sigs.append(el("span", "curve-signals-label", "Signaux utilisés :"));
+    used.forEach((label) => sigs.append(el("span", "signal", label)));
+    const legend = el("figcaption", "curve-legend");
+    legend.append(keys, sigs);
+
+    const fig = el("figure", "curve");
+    fig.append(plot, axis, legend);
+    slot.textContent = "";
+    slot.append(fig);
+    slot.hidden = false;
+  }
+
+  /* ---------- Demo mode (no server): simulated cuts ---------- */
   // Deterministic pseudo-random from the URL, so the same link gives the same cuts
   function seeded(str) {
     let h = 2166136261;
@@ -360,7 +776,7 @@
   }
 
   function renderClips(parsed, clips) {
-    const thumb = parsed.ytId ? `url("https://i.ytimg.com/vi/${parsed.ytId}/hqdefault.jpg")` : null;
+    const thumb = parsed.ytId ? ytThumb(parsed.ytId) : null;
     clipsList.innerHTML = "";
     clips.forEach((c, i) => {
       const li = document.createElement("li");
@@ -381,57 +797,412 @@
         <button class="clip-dl" type="button"><i class="fa-solid fa-download"></i> Exporter</button>`;
       $(".clip-title", li).textContent = c.title;
       $(".clip-dl", li).addEventListener("click", () =>
-        toast("Démo : l'export MP4 sera disponible une fois le backend branché")
+        toast("Démo : l'export MP4 a besoin du serveur d'analyse (voir README)")
       );
       clipsList.appendChild(li);
     });
   }
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  let demoRunning = false;
 
   async function runAnalysis(parsed, duration, count, opts) {
-    form.hidden = true;
-    results.hidden = true;
-    progress.hidden = false;
-    const thumb = $(".progress-thumb");
-    thumb.style.backgroundImage = parsed.ytId
-      ? `url("https://i.ytimg.com/vi/${parsed.ytId}/hqdefault.jpg")`
-      : GRADIENTS[0];
-
-    const steps = $$(".steps li");
-    const bar = $(".bar span");
-    steps.forEach((s) => s.classList.remove("is-active", "is-done"));
-    bar.style.width = "0%";
-
+    demoRunning = true;
+    showProgress(parsed.ytId ? ytThumb(parsed.ytId) : GRADIENTS[0]);
     const stepMs = reduceMotion ? 120 : 850;
     for (let i = 0; i < steps.length; i++) {
-      steps[i].classList.add("is-active");
-      bar.style.width = `${((i + 1) / steps.length) * 100}%`;
+      setSteps(i, false);
+      setBar((i + 1) / steps.length);
+      setMessage(`Simulation · ${steps[i].textContent}…`);
       await sleep(stepMs);
-      steps[i].classList.replace("is-active", "is-done");
     }
-
+    setSteps(steps.length, true);
     renderClips(parsed, buildClips(parsed, duration, count, opts));
+    demoNote.hidden = false;
     progress.hidden = true;
     results.hidden = false;
+    demoRunning = false;
+    focusIn(resultsTitle);
   }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const parsed = parseUrl(urlInput.value);
-    if (!parsed) {
-      errorEl.textContent = "Colle un lien valide YouTube, Twitch, TikTok, X, Kick ou Instagram.";
-      errorEl.hidden = false;
+  /* ---------- Live analysis (server API) ---------- */
+  const JOB_KEY = "clipzo.job";
+  const POLL_MS = 1500;
+  const MAX_RETRIES = 5;
+  const MSG_NETWORK =
+    "Impossible de joindre le serveur d'analyse. Vérifie qu'il tourne et que tu es bien connecté, puis réessaie.";
+  const MSG_LOST = "La connexion avec le serveur d'analyse est perdue. Vérifie qu'il tourne puis relance l'analyse.";
+  const MSG_EXPIRED = "Cette analyse a expiré ou n'existe plus sur le serveur. Relance-la.";
+  const MSG_FAILED = "L'analyse n'a pas abouti. Réessaie ou tente avec une autre vidéo.";
+  const validId = (id) => typeof id === "string" && /^[\w-]{1,64}$/.test(id);
+  const liveCards = new Map();
+  let activeJob = null;
+
+  function apiError(status, data) {
+    const detail = data && typeof data.detail === "string" ? data.detail.trim() : "";
+    if (detail) return detail;
+    if (status === 413) return "Ce fichier est trop lourd pour le serveur. Essaie avec une vidéo plus courte ou plus légère.";
+    if (status === 400 || status === 422) {
+      return "Le serveur n'a pas accepté ces réglages. Vérifie ta vidéo, la durée et le nombre de shorts, puis réessaie.";
+    }
+    if (status === 429) return "Le serveur est déjà bien occupé. Attends quelques secondes puis relance l'analyse.";
+    if (status >= 500) return "Le serveur d'analyse a rencontré un problème. Réessaie dans un instant.";
+    if (status >= 200 && status < 300) return "Réponse inattendue du serveur d'analyse. Réessaie dans un instant.";
+    return `Le serveur a refusé la demande (erreur ${status}). Réessaie dans un instant.`;
+  }
+
+  // XMLHttpRequest rather than fetch: it reports upload progress
+  function send(job, url, payload, onUpload) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      job.xhr = xhr;
+      xhr.open("POST", url);
+      xhr.setRequestHeader("Accept", "application/json");
+      let data = payload;
+      if (!(payload instanceof FormData)) {
+        xhr.setRequestHeader("Content-Type", "application/json");
+        data = JSON.stringify(payload);
+      }
+      if (onUpload) {
+        xhr.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable && e.total > 0) onUpload(e.loaded / e.total);
+        });
+      }
+      xhr.addEventListener("load", () => {
+        job.xhr = null;
+        let json = null;
+        try {
+          json = JSON.parse(xhr.responseText);
+        } catch {
+          /* not JSON (proxy error page…): the status code says enough */
+        }
+        resolve({ status: xhr.status, data: json });
+      });
+      xhr.addEventListener("error", () => reject(new Error("network")));
+      xhr.addEventListener("abort", () => reject(new Error("abort")));
+      xhr.send(data);
+    });
+  }
+
+  function newJob(id, ytId) {
+    return { id, ytId, thumb: null, timer: 0, xhr: null, failures: 0, stopped: false };
+  }
+
+  function stopJob() {
+    if (activeJob) {
+      activeJob.stopped = true;
+      clearTimeout(activeJob.timer);
+      if (activeJob.xhr) activeJob.xhr.abort();
+      activeJob = null;
+    }
+    session.remove(JOB_KEY);
+  }
+
+  function failJob(message) {
+    stopJob();
+    showForm(message);
+    if (openPanel !== panels.studio) toast("L'analyse n'a pas abouti : ouvre le Studio IA pour voir pourquoi.");
+  }
+
+  async function startLive({ parsed, file, duration, count, opts }) {
+    const job = newJob(null, parsed ? parsed.ytId : null);
+    activeJob = job;
+    showProgress(job.ytId ? ytThumb(job.ytId) : GRADIENTS[0]);
+    setSteps(0, false);
+    cancelBtn.hidden = false;
+    showSourceLine(
+      progressSource,
+      file
+        ? { platform: "upload", title: file.name }
+        : { platform: parsed.platform.id, title: parsed.url.href.replace(/^https?:\/\/(www\.)?/i, "") }
+    );
+    progressSource.hidden = false;
+    setMessage(file ? "Envoi du fichier… 0 %" : "Envoi du lien au serveur d'analyse…");
+
+    const settings = { duration, count, plan, options: opts };
+    let res;
+    try {
+      if (file) {
+        const fd = new FormData();
+        fd.append("file", file, file.name);
+        fd.append("duration", String(duration));
+        fd.append("count", String(count));
+        fd.append("plan", plan);
+        fd.append("options", JSON.stringify(opts));
+        res = await send(job, "/api/jobs/upload", fd, (ratio) => {
+          if (job.stopped) return;
+          setBar(ratio / steps.length, true);
+          setMessage(
+            ratio < 1 ? `Envoi du fichier… ${Math.floor(ratio * 100)} %` : "Fichier envoyé, le serveur prend le relais…"
+          );
+        });
+      } else {
+        res = await send(job, "/api/jobs", { url: parsed.url.href, ...settings });
+      }
+    } catch {
+      if (job.stopped) return; // abandoned by the user
+      failJob(MSG_NETWORK);
+      checkHealth(); // falls back to demo mode if the server is really gone
+      return;
+    }
+    if (job.stopped) return;
+    if (res.status < 200 || res.status >= 300 || !res.data || !validId(res.data.id)) {
+      failJob(apiError(res.status, res.data));
+      return;
+    }
+
+    // The server took the job: only now does it count against the monthly quota
+    job.id = res.data.id;
+    usage.used += count;
+    store.set("clipzo.usage", usage);
+    refreshPlanUI();
+    session.set(JOB_KEY, { id: job.id, ytId: job.ytId });
+    setMessage("Demande acceptée, l'analyse démarre…");
+    poll(job);
+  }
+
+  function resumeJob() {
+    const saved = session.get(JOB_KEY);
+    if (activeJob || demoRunning || !saved || !validId(saved.id)) return;
+    const ytId = typeof saved.ytId === "string" && /^[\w-]{11}$/.test(saved.ytId) ? saved.ytId : null;
+    const job = newJob(saved.id, ytId);
+    activeJob = job;
+    showProgress(ytId ? ytThumb(ytId) : GRADIENTS[0]);
+    cancelBtn.hidden = false;
+    setMessage("Reprise du suivi de ton analyse…");
+    poll(job);
+  }
+
+  async function poll(job) {
+    let status = 0;
+    let data = null;
+    try {
+      const res = await fetch(`/api/jobs/${encodeURIComponent(job.id)}`, {
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      status = res.status;
+      data = await res.json().catch(() => null);
+    } catch {
+      status = 0; // network error: retried below
+    }
+    if (job.stopped) return;
+
+    if (status === 200 && data && typeof data === "object") {
+      job.failures = 0;
+      renderJob(job, data);
+      if (data.status === "error") failJob(text(data.error) || MSG_FAILED);
+      else if (data.status === "done") finishJob();
+      else job.timer = setTimeout(() => poll(job), POLL_MS);
+    } else if (status === 404) {
+      failJob(text(data && data.detail) || MSG_EXPIRED);
+    } else if (status >= 400 && status < 500 && status !== 408 && status !== 429) {
+      failJob(apiError(status, data));
+    } else if (++job.failures > MAX_RETRIES) {
+      failJob(MSG_LOST);
+    } else {
+      job.timer = setTimeout(() => poll(job), POLL_MS);
+    }
+  }
+
+  function renderJob(job, data) {
+    const isDone = data.status === "done";
+    const queued = data.status === "queued" || data.step === "queued";
+    const idx = Math.min(steps.length - 1, Math.max(0, Math.floor(num(data.step_index))));
+    const source = data.source && typeof data.source === "object" ? data.source : null;
+    const length = source ? num(source.duration) : 0;
+    const clips = Array.isArray(data.clips) ? data.clips.filter((c) => c && typeof c === "object") : [];
+    const curve = Array.isArray(data.curve) && data.curve.length > 1 ? data.curve.map(clamp01) : null;
+    const signals = data.signals && typeof data.signals === "object" ? data.signals : {};
+
+    setSteps(queued ? -1 : idx, isDone);
+    setBar(isDone ? 1 : data.progress, true);
+    setMessage(text(data.message) || (queued ? "En file d'attente…" : `${steps[idx].textContent}…`));
+
+    if (source) {
+      const thumb = safeUrl(source.thumbnail);
+      if (thumb && thumb !== job.thumb) {
+        job.thumb = thumb;
+        progressThumb.style.backgroundImage = cssUrl(thumb);
+      }
+      showSourceLine(progressSource, source);
+      showSourceLine(resultsSource, source);
+      progressSource.hidden = false;
+    }
+    if (curve) drawCurve(isDone ? resultsCurve : progressCurve, curve, clips, length, signals);
+    renderWarnings(data.warnings);
+    renderLiveClips(clips);
+
+    // While the cuts are rendered, finished shorts already show up under the progress
+    if (!isDone) {
+      const n = clipsList.childElementCount;
+      results.hidden = n === 0;
+      resultsTitle.textContent = `${n} short${n > 1 ? "s" : ""} déjà prêt${n > 1 ? "s" : ""}…`;
+      restartBtn.hidden = true;
+    }
+  }
+
+  function finishJob() {
+    const n = clipsList.childElementCount;
+    progress.hidden = true;
+    cancelBtn.hidden = true;
+    results.hidden = false;
+    restartBtn.hidden = false;
+    resultsTitle.textContent = n ? "Tes shorts sont prêts" : "Analyse terminée";
+    resultsSource.hidden = !resultsSource.dataset.key;
+    clipsEmpty.hidden = n > 0;
+    studioBody.scrollTop = 0;
+    focusIn(resultsTitle);
+    if (openPanel !== panels.studio) toast("Tes shorts sont prêts : ouvre le Studio IA pour les voir.");
+  }
+
+  function renderWarnings(list) {
+    const items = Array.isArray(list) ? list.map(text).filter(Boolean) : [];
+    const key = JSON.stringify(items);
+    if (warningsEl.dataset.key === key) return;
+    warningsEl.dataset.key = key;
+    warningsEl.textContent = "";
+    items.forEach((w) => {
+      const li = el("li");
+      li.append(icon("fa-solid fa-triangle-exclamation"), el("span", "", w));
+      warningsEl.append(li);
+    });
+    warningsEl.hidden = items.length === 0;
+  }
+
+  const clipKey = (c) => (Number.isInteger(c.index) ? `#${c.index}` : `${num(c.start)}-${num(c.end)}`);
+
+  // Clips arrive one by one: add the new ones, keep the server's order, never rebuild a playing video
+  function renderLiveClips(clips) {
+    let fresh = 0;
+    clips.forEach((c, i) => {
+      const key = clipKey(c);
+      let card = liveCards.get(key);
+      if (!card) {
+        card = buildLiveClip(c);
+        card.style.setProperty("--i", fresh++);
+        liveCards.set(key, card);
+      }
+      setRank(card, i + 1);
+      if (clipsList.children[i] !== card) clipsList.insertBefore(card, clipsList.children[i] || null);
+    });
+    while (clipsList.children.length > clips.length) {
+      const extra = clipsList.lastElementChild;
+      liveCards.forEach((card, key) => card === extra && liveCards.delete(key));
+      extra.remove();
+    }
+  }
+
+  function buildLiveClip(c) {
+    const start = num(c.start);
+    const end = Math.max(start, num(c.end));
+    const length = num(c.duration) || end - start;
+    const score = Math.round(Math.max(0, Math.min(100, num(c.score))));
+    const title = text(c.title) || "Moment fort";
+    const videoUrl = safeUrl(c.video_url);
+    const thumbUrl = safeUrl(c.thumb_url);
+
+    const li = el("li", "clip clip-live");
+    const box = el("div", "clip-thumb is-live");
+    if (thumbUrl) box.style.backgroundImage = cssUrl(thumbUrl);
+    if (videoUrl) {
+      const video = el("video", "clip-video");
+      video.controls = true;
+      video.playsInline = true;
+      video.setAttribute("playsinline", "");
+      video.preload = "metadata";
+      if (thumbUrl) video.poster = thumbUrl;
+      video.src = videoUrl;
+      video.setAttribute("aria-label", `Aperçu du short : ${title}`);
+      // Kept 9:16 when it is; a landscape render is shown whole rather than cropped
+      video.addEventListener("loadedmetadata", () =>
+        video.classList.toggle("is-landscape", video.videoWidth > video.videoHeight)
+      );
+      box.append(video);
+    }
+    box.append(
+      el("span", `clip-score${score >= 85 ? " hot" : ""}`, `🔥 ${score}%`),
+      el("span", "clip-dur", fmtTime(length))
+    );
+    li.append(box, el("p", "clip-title", title));
+
+    const meta = el("p", "clip-meta");
+    meta.append(el("span", "clip-rank"), ` · ${fmtTime(start)} → ${fmtTime(end)}`);
+    li.append(meta);
+
+    const hook = text(c.hook);
+    if (hook) {
+      const p = el("p", "clip-hook");
+      p.append(icon("fa-solid fa-quote-left"), el("span", "", hook));
+      li.append(p);
+    }
+
+    const tags = (Array.isArray(c.hashtags) ? c.hashtags : [])
+      .map(text)
+      .filter(Boolean)
+      .map((t) => (t.startsWith("#") ? t : `#${t}`));
+    if (tags.length) li.append(el("p", "clip-tags", tags.join(" ")));
+
+    const reasons = (Array.isArray(c.reasons) ? c.reasons : []).map(text).filter(Boolean).slice(0, 3);
+    if (reasons.length) {
+      const why = el("div", "clip-why");
+      const list = el("ul");
+      reasons.forEach((r) => list.append(el("li", "", r)));
+      why.append(el("p", "clip-why-title", "Pourquoi ça peut percer"), list);
+      li.append(why);
+    }
+
+    if (videoUrl) {
+      const dl = el("a", "clip-dl");
+      dl.href = videoUrl;
+      dl.append(icon("fa-solid fa-download"), " Télécharger");
+      li.append(dl);
+    }
+    return li;
+  }
+
+  function setRank(card, rank) {
+    $(".clip-rank", card).textContent = `#${rank}`;
+    const dl = $(".clip-dl", card);
+    if (dl) {
+      dl.download = `clipzo-short-${rank}.mp4`;
+      dl.setAttribute("aria-label", `Télécharger le short n°${rank}`);
+    }
+  }
+
+  // One preview plays at a time
+  clipsList.addEventListener(
+    "play",
+    (e) => $$("video", clipsList).forEach((v) => v !== e.target && v.pause()),
+    true
+  );
+
+  /* ---------- Submit ---------- */
+  function submitStudio() {
+    const fromFile = sourceMode === "file";
+    if (fromFile && api.mode !== "live") {
+      setSource("link");
+      toast("L'import de fichier a besoin du serveur d'analyse : lance-le (voir README) ou colle un lien.");
+      return;
+    }
+    const parsed = fromFile ? null : parseUrl(urlInput.value);
+    if (fromFile && !chosenFile) {
+      showError("Choisis d'abord ta vidéo : clique sur la zone ou glisse ton fichier dedans.");
+      fileInput.focus();
+      return;
+    }
+    if (!fromFile && !parsed) {
+      showError("Colle un lien valide YouTube, Twitch, TikTok, X, Kick ou Instagram.");
       urlInput.focus();
       return;
     }
     const count = +$('input[name="count"]:checked').value;
     if (remaining() < count) {
-      errorEl.textContent =
+      showError(
         remaining() <= 0
           ? `Tu as utilisé tes ${PLANS[plan].quota} shorts du mois. Passe à un forfait supérieur pour continuer.`
-          : `Il te reste ${remaining()} short(s) ce mois-ci. Réduis le nombre ou passe à un forfait supérieur.`;
-      errorEl.hidden = false;
+          : `Il te reste ${remaining()} short(s) ce mois-ci. Réduis le nombre ou passe à un forfait supérieur.`
+      );
       return;
     }
     errorEl.hidden = true;
@@ -444,17 +1215,45 @@
       hooks: fd.has("hooks"),
       animsubs: fd.has("animsubs"),
     };
+    const duration = +range.value;
 
+    if (api.mode === "live") {
+      startLive({ parsed, file: fromFile ? chosenFile : null, duration, count, opts });
+      return;
+    }
+    // Demo: nothing leaves the browser, so the quota is used right away
     usage.used += count;
     store.set("clipzo.usage", usage);
     refreshPlanUI();
-    runAnalysis(parsed, +range.value, count, opts);
+    runAnalysis(parsed, duration, count, opts);
+  }
+
+  let submitting = false;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (submitting) return;
+    submitting = true;
+    await modeReady(); // the very first health check may still be running
+    submitting = false;
+    submitStudio();
   });
 
-  $(".restart").addEventListener("click", () => {
-    results.hidden = true;
-    form.hidden = false;
-    urlInput.select();
+  cancelBtn.addEventListener("click", () => {
+    stopJob();
+    showForm();
+    toast("Analyse abandonnée");
+  });
+
+  restartBtn.addEventListener("click", () => {
+    stopJob();
+    showForm();
+    if (sourceMode === "link") urlInput.select();
+  });
+
+  setSource("link");
+  checkHealth().then(() => {
+    // Reload during an analysis: bring the studio back with the job it was following
+    if (activeJob && !openPanel) showPanel("studio");
   });
 
   /* ---------------- Contact ---------------- */

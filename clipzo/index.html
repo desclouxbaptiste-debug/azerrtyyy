@@ -145,22 +145,53 @@
           <button class="link-btn" type="button" data-open="pricing">Changer de forfait</button>
         </div>
 
+        <p class="demo-banner" hidden>
+          <i class="fa-solid fa-flask" aria-hidden="true"></i>
+          <span>
+            <strong>Mode démo :</strong> le serveur d'analyse n'est pas connecté, les shorts affichés sont simulés.
+            Lance le serveur (voir README) pour un vrai découpage.
+          </span>
+        </p>
+
         <form class="studio-form" novalidate>
-          <label class="field">
-            <span class="field-label">Lien de la vidéo</span>
-            <span class="url-wrap">
-              <i class="fa-solid fa-link platform-icon" aria-hidden="true"></i>
-              <input
-                class="url-input"
-                type="url"
-                name="url"
-                placeholder="https://www.youtube.com/watch?v=… · twitch.tv/videos/… · tiktok.com/@…"
-                autocomplete="off"
-                required
-              />
-            </span>
-            <span class="field-hint url-hint">YouTube, Twitch (VOD &amp; clips), TikTok, X, Kick, Instagram</span>
-          </label>
+          <div class="field src-field">
+            <div class="field-label src-head">
+              <label class="src-label" for="studio-url">Lien de la vidéo</label>
+              <div class="src-toggle" role="radiogroup" aria-label="Source de la vidéo">
+                <label><input type="radio" name="source" value="link" checked /><span><i class="fa-solid fa-link" aria-hidden="true"></i>Lien</span></label>
+                <label><input type="radio" name="source" value="file" /><span><i class="fa-solid fa-file-video" aria-hidden="true"></i>Fichier</span></label>
+              </div>
+            </div>
+
+            <div class="src-link">
+              <span class="url-wrap">
+                <i class="fa-solid fa-link platform-icon" aria-hidden="true"></i>
+                <input
+                  class="url-input"
+                  id="studio-url"
+                  type="url"
+                  name="url"
+                  placeholder="https://www.youtube.com/watch?v=… · twitch.tv/videos/… · tiktok.com/@…"
+                  autocomplete="off"
+                  required
+                />
+              </span>
+              <span class="field-hint url-hint">YouTube, Twitch (VOD &amp; clips), TikTok, X, Kick, Instagram</span>
+              <span class="field-hint feature-hint" hidden>
+                Le serveur ne peut pas récupérer de liens pour l'instant : passe par « Fichier » pour importer ta vidéo.
+              </span>
+            </div>
+
+            <div class="src-file" hidden>
+              <input class="file-input" id="studio-file" type="file" name="file" accept="video/*" />
+              <label class="drop" for="studio-file">
+                <i class="fa-solid fa-cloud-arrow-up drop-icon" aria-hidden="true"></i>
+                <span class="drop-title">Glisse ta vidéo ici</span>
+                <span class="drop-sub">ou clique pour choisir un fichier</span>
+              </label>
+              <span class="field-hint">MP4, MOV, MKV, WebM… La vidéo est envoyée à ton serveur d'analyse Clipzo.</span>
+            </div>
+          </div>
 
           <div class="field">
             <span class="field-label">
@@ -188,7 +219,7 @@
               <label class="opt" data-min="creator"><input type="checkbox" name="subs" /><span>Sous-titres automatiques <em class="badge">Créateur</em></span></label>
               <label class="opt" data-min="creator"><input type="checkbox" name="nowm" /><span>Sans filigrane <em class="badge">Créateur</em></span></label>
               <label class="opt" data-min="pro"><input type="checkbox" name="hooks" /><span>Titres &amp; hashtags IA <em class="badge">Pro</em></span></label>
-              <label class="opt" data-min="pro"><input type="checkbox" name="animsubs" /><span>Sous-titres animés + traduction <em class="badge">Pro</em></span></label>
+              <label class="opt" data-min="pro"><input type="checkbox" name="animsubs" /><span>Sous-titres animés mot par mot <em class="badge">Pro</em></span></label>
             </div>
           </div>
 
@@ -196,28 +227,53 @@
           <button class="cta cta-block" type="submit">Lancer l'analyse IA</button>
         </form>
 
-        <div class="progress" hidden>
+        <div class="progress" tabindex="-1" hidden>
           <div class="progress-thumb"></div>
-          <ol class="steps">
-            <li data-step="0">Récupération de la vidéo</li>
-            <li data-step="1">Transcription de l'audio</li>
-            <li data-step="2">Détection des moments forts</li>
-            <li data-step="3">Score de viralité</li>
-            <li data-step="4">Découpage &amp; recadrage</li>
-          </ol>
-          <div class="bar"><span></span></div>
+          <div class="progress-main">
+            <p class="progress-source" hidden></p>
+            <ol class="steps">
+              <li data-step="0">Récupération de la vidéo</li>
+              <li data-step="1">Analyse audio</li>
+              <li data-step="2">Transcription</li>
+              <li data-step="3">Détection des scènes</li>
+              <li data-step="4">Score de viralité</li>
+              <li data-step="5">Découpage &amp; recadrage</li>
+            </ol>
+            <div
+              class="bar"
+              role="progressbar"
+              aria-label="Avancement de l'analyse"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <span></span>
+            </div>
+            <div class="progress-line">
+              <p class="progress-msg" aria-live="polite"></p>
+              <button class="link-btn progress-cancel" type="button" hidden>Abandonner</button>
+            </div>
+          </div>
+          <div class="curve-slot progress-curve" hidden></div>
         </div>
 
         <div class="results" hidden>
           <div class="results-head">
-            <h3>Tes shorts sont prêts</h3>
+            <h3 class="results-title" tabindex="-1">Tes shorts sont prêts</h3>
             <button class="link-btn restart" type="button">Nouvelle vidéo</button>
           </div>
+          <p class="results-source" hidden></p>
+          <div class="curve-slot results-curve" hidden></div>
+          <ul class="warnings" hidden></ul>
           <ul class="clips"></ul>
-          <p class="demo-note">
-            <i class="fa-solid fa-circle-info"></i>
-            Version démo : l'interface est fonctionnelle, l'analyse vidéo réelle se branche sur un backend
-            (téléchargement, transcription, détection IA, rendu).
+          <p class="clips-empty" hidden>
+            Aucun passage assez fort n'a été repéré dans cette vidéo. Essaie une autre durée de short ou une vidéo
+            plus longue.
+          </p>
+          <p class="demo-note" hidden>
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            Shorts simulés : en mode démo, rien n'est téléchargé ni découpé. Titres, timecodes et scores sont des
+            exemples générés à partir du lien.
           </p>
         </div>
       </div>
@@ -248,7 +304,7 @@
               <li><i class="fa-solid fa-check"></i>3 shorts par mois</li>
               <li><i class="fa-solid fa-check"></i>Durée au choix de 1 à 3 min</li>
               <li><i class="fa-solid fa-check"></i>Recadrage 9:16 automatique</li>
-              <li><i class="fa-solid fa-check"></i>Export 720p</li>
+              <li><i class="fa-solid fa-check"></i>Vidéos jusqu'à 1 h, export 720p</li>
               <li class="off"><i class="fa-solid fa-xmark"></i>Filigrane Clipzo</li>
               <li class="off"><i class="fa-solid fa-xmark"></i>Pas de sous-titres</li>
             </ul>
@@ -262,11 +318,11 @@
             <ul class="feats">
               <li><i class="fa-solid fa-check"></i><strong>50 shorts par mois</strong></li>
               <li><i class="fa-solid fa-check"></i>Jusqu'à 8 shorts par vidéo</li>
-              <li><i class="fa-solid fa-check"></i>Sous-titres automatiques FR / EN</li>
+              <li><i class="fa-solid fa-check"></i>Sous-titres automatiques</li>
               <li><i class="fa-solid fa-check"></i>Sans filigrane</li>
               <li><i class="fa-solid fa-check"></i>Export 1080p</li>
               <li><i class="fa-solid fa-check"></i>Suivi du visage du streamer</li>
-              <li><i class="fa-solid fa-check"></i>Score de viralité par clip</li>
+              <li><i class="fa-solid fa-check"></i>Vidéos jusqu'à 3 h</li>
             </ul>
             <button class="plan-btn" type="button" data-choose="creator">Choisir Créateur</button>
           </article>
@@ -279,11 +335,10 @@
             <ul class="feats">
               <li><i class="fa-solid fa-check"></i><strong>Shorts illimités</strong></li>
               <li><i class="fa-solid fa-check"></i>Jusqu'à 12 shorts par vidéo</li>
-              <li><i class="fa-solid fa-check"></i>Sous-titres animés + 30 langues</li>
-              <li><i class="fa-solid fa-check"></i>Titres, descriptions &amp; hashtags IA</li>
-              <li><i class="fa-solid fa-check"></i>Publication directe TikTok, YouTube, Instagram</li>
+              <li><i class="fa-solid fa-check"></i>Sous-titres animés mot par mot</li>
+              <li><i class="fa-solid fa-check"></i>Titres, accroches &amp; hashtags écrits par l'IA</li>
               <li><i class="fa-solid fa-check"></i>VOD Twitch longues (jusqu'à 10 h)</li>
-              <li><i class="fa-solid fa-check"></i>Export 4K &amp; traitement prioritaire</li>
+              <li><i class="fa-solid fa-check"></i>Export 4K quand la source est en 4K</li>
             </ul>
             <button class="plan-btn plan-btn-pro" type="button" data-choose="pro">Passer Pro</button>
           </article>
