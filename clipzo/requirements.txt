@@ -1,0 +1,13 @@
+# Clipzo server — Python 3.10+, plus ffmpeg installed on the system.
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+# YouTube / Twitch / TikTok / X / Kick / Instagram downloads. "deno" installs the JavaScript
+# runtime YouTube now requires. Update often: pip install -U "yt-dlp[default,deno]"
+yt-dlp[default,deno]>=2026.8.19
+faster-whisper>=1.2.1
+numpy>=2.0
+# 4.x still ships the face detector used for the 9:16 crop (5.x removed it)
+opencv-python-headless>=4.10,<5
+anthropic>=1.11,<2
+pydantic>=2.8
