@@ -85,9 +85,8 @@ Ensuite, pour chaque short :
 | Suivi du visage | non | oui | oui |
 | Titres et hashtags IA | non | non | oui |
 
-Les limites par vidéo sont appliquées par le serveur dans `server/config.py`. Le quota mensuel est compté
-dans le navigateur, uniquement pour les shorts réellement livrés : une analyse annulée ou en échec ne
-coûte rien, et le mode démo ne touche pas au quota.
+Toutes ces limites sont appliquées par le serveur (`server/config.py`). Le quota mensuel ne compte que les
+shorts réellement livrés : une analyse annulée ou en échec ne coûte rien.
 
 ## Réglages (variables d'environnement)
 
@@ -102,22 +101,81 @@ coûte rien, et le mode démo ne touche pas au quota.
 | `CLIPZO_DATA_DIR` | `clipzo/data` | Dossier des shorts générés (effacés au bout de 24 h) |
 | `CLIPZO_JOB_TTL_HOURS` | `24` | Durée de conservation des shorts |
 | `CLIPZO_MAX_UPLOAD_MB` | `4096` | Taille max des fichiers envoyés |
-| `CLIPZO_FORCE_PLAN` | vide | Impose un forfait (`free`, `creator`, `pro`) quel que soit le navigateur |
 | `CLIPZO_HOST` / `CLIPZO_PORT` | `127.0.0.1` / `8000` | Adresse d'écoute |
+| `STRIPE_SECRET_KEY` | vide | Clé secrète Stripe : active les abonnements payants |
+| `STRIPE_WEBHOOK_SECRET` | vide | Secret du webhook Stripe (voir « Brancher Stripe ») |
+| `STRIPE_PRICE_*` | vide | Identifiants de prix Stripe (facultatif) |
+| `CLIPZO_PUBLIC_URL` | vide | Adresse publique du site, ex. `https://clipzo.fr` (liens de retour Stripe) |
+| `CLIPZO_TRUST_PROXY` | vide | `1` derrière un reverse proxy (adresse réelle des visiteurs) |
+| `CLIPZO_COOKIE_SECURE` | vide | `1` pour n'envoyer le cookie de connexion qu'en HTTPS |
 
-## Avant de mettre en ligne
+## Comptes et abonnements
 
-- **Comptes et paiement ne sont pas encore faits.** Le forfait est choisi dans le navigateur, donc
-  n'importe qui peut se mettre en Pro. Il faut ajouter des comptes utilisateurs et un paiement (Stripe par
-  exemple) avant de faire payer. En attendant, `CLIPZO_FORCE_PLAN=free` bloque tout le monde en Gratuit.
+- Chaque utilisateur crée un compte (e-mail + mot de passe) pour lancer une analyse. Le compte gratuit
+  donne 3 shorts par mois, sans carte bancaire.
+- Le forfait et le quota sont gérés par le serveur (base SQLite dans `CLIPZO_DATA_DIR/clipzo.db`) :
+  seuls les shorts livrés sont décomptés, une analyse annulée ou en échec ne coûte rien.
+- Les abonnements Créateur et Pro passent par Stripe : page de paiement Stripe pour s'abonner, portail
+  client Stripe pour changer de carte, de forfait ou résilier. Le serveur suit l'état de l'abonnement grâce
+  aux notifications (webhooks) de Stripe.
+- Sans clé Stripe, personne ne peut acheter de forfait, mais tu peux en donner un à la main :
+
+  ```bash
+  python -m server.admin users                       # liste des comptes
+  python -m server.admin set-plan ami@exemple.com pro
+  ```
+
+  (avec Docker : `docker compose -f docker-compose.prod.yml exec clipzo python -m server.admin users`)
+
+## Mettre le site en ligne
+
+Il faut un serveur qui tourne en continu, avec au moins 4 Go de mémoire (par exemple un petit VPS
+Hetzner, OVH ou Scaleway, autour de 5 € par mois), et un nom de domaine.
+
+1. **Domaine.** Chez ton registrar, crée un enregistrement DNS de type `A` qui pointe ton domaine
+   (par exemple `clipzo.fr`) vers l'adresse IP du serveur.
+2. **Docker.** Sur le serveur (Ubuntu/Debian) : `curl -fsSL https://get.docker.com | sh`
+3. **Le code.** `git clone <ton dépôt> && cd <ton dépôt>/clipzo`
+4. **Les réglages.** `cp env.example .env`, puis ouvre `.env` et remplis au moins `CLIPZO_DOMAIN`.
+5. **Lancement.** `docker compose -f docker-compose.prod.yml up -d --build`
+
+   Caddy obtient tout seul le certificat HTTPS. Le site répond sur `https://ton-domaine` au bout d'une
+   minute environ. La première analyse télécharge le modèle Whisper (environ 500 Mo).
+6. **Mises à jour.** `git pull && docker compose -f docker-compose.prod.yml up -d --build`
+7. **Sauvegardes.** Les comptes sont dans le volume `clipzo-data`. Pour en faire une copie :
+   `docker compose -f docker-compose.prod.yml exec clipzo python -m server.admin backup`
+   (le fichier `sauvegarde-<date>.db` est écrit dans `/data` ; copie-le ailleurs que sur le serveur).
+
+### Brancher Stripe
+
+1. Crée un compte sur https://dashboard.stripe.com et reste d'abord en **mode test**.
+2. **Clé API.** Développeurs → Clés API → copie la clé secrète (`sk_test_...`) dans `STRIPE_SECRET_KEY`.
+3. **Webhook.** Développeurs → Webhooks → Ajouter un endpoint :
+   - URL : `https://ton-domaine/api/billing/webhook`
+   - Événements : `checkout.session.completed`, `customer.subscription.created`,
+     `customer.subscription.updated`, `customer.subscription.deleted`
+
+   Copie le « secret de signature » (`whsec_...`) dans `STRIPE_WEBHOOK_SECRET`.
+4. **Portail client.** Paramètres → Facturation → Portail client : active-le et autorise la résiliation.
+   Pour que les clients puissent changer de forfait eux-mêmes, crée les 4 prix (Créateur et Pro, mensuel
+   et annuel) dans le catalogue de produits, ajoute-les au portail et mets leurs identifiants (`price_...`)
+   dans les variables `STRIPE_PRICE_*`. Sans ces identifiants, les prix 5 € / 10 € par mois (‑20 % à
+   l'année) sont créés automatiquement au paiement, et changer de forfait se fait en résiliant puis en
+   se réabonnant.
+5. Relance le site (`docker compose ... up -d`), puis teste un abonnement avec la carte de test
+   `4242 4242 4242 4242` (date future, n'importe quel code).
+6. Quand tout marche, refais les étapes 2 à 4 en **mode live** avec les vraies clés.
+
+### À savoir
+
 - **Droits sur les vidéos.** Ne découpe que des vidéos dont tu as les droits ou l'accord du créateur, et
   respecte les conditions d'utilisation des plateformes.
 - **Machine.** La transcription est l'étape la plus lourde : compte quelques minutes par heure de vidéo
   avec une carte graphique, beaucoup plus sur un simple processeur.
-- **yt-dlp.** Les plateformes changent souvent : mets à jour régulièrement avec
-  `pip install -U "yt-dlp[default,deno]"`.
-- **HTTPS.** Pour un accès public, place un reverse proxy (Caddy, Nginx) devant le serveur et règle sa
-  taille maximale d'envoi de fichiers.
+- **yt-dlp.** Les plateformes changent souvent : reconstruis l'image régulièrement
+  (`up -d --build`) pour avoir la dernière version de yt-dlp.
+- **Factures et TVA.** Stripe envoie les reçus ; pour la TVA et les mentions légales (CGV, politique de
+  confidentialité), renseigne-toi selon ton statut (micro-entreprise, société).
 
 ## Tests
 

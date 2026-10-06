@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
-from . import config, llm, media, reframe, render, sources, transcribe, virality
+from . import accounts, config, llm, media, reframe, render, sources, transcribe, virality
 from .jobs import Job, JobCancelled, job_dir
 from .sources import PLATFORM_NAMES, Source, SourceError
 
@@ -219,6 +219,12 @@ def run(job: Job) -> None:
             log.exception("job %s failed", job.id)
             job.fail("Erreur inattendue pendant le traitement. Réessaie, ou envoie directement le fichier vidéo.")
     finally:
+        # Only delivered shorts count against the monthly quota (cancelled / failed analyses are free).
+        if req.user_id is not None and job.clips:
+            try:
+                accounts.add_usage(req.user_id, len(job.clips), req.month)
+            except Exception:  # noqa: BLE001 - never lose the shorts because of the counter
+                log.exception("could not record usage for job %s", job.id)
         # Keep the shorts, drop the heavy intermediate files.
         raw_audio.unlink(missing_ok=True)
         if source is not None:

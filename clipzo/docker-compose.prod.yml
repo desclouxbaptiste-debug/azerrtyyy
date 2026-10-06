@@ -1,0 +1,39 @@
+# Production: the site on your domain over HTTPS.
+#   cp env.example .env   (then fill it in)
+#   docker compose -f docker-compose.prod.yml up -d --build
+services:
+  clipzo:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      CLIPZO_TRUST_PROXY: "1"          # real visitor address comes from Caddy
+      CLIPZO_COOKIE_SECURE: "1"        # login cookie only sent over HTTPS
+      CLIPZO_PUBLIC_URL: "https://${CLIPZO_DOMAIN:?mets ton domaine dans .env}"
+    volumes:
+      - clipzo-data:/data              # accounts database + generated shorts
+      - whisper-models:/root/.cache/huggingface
+    expose:
+      - "8000"                         # only reachable through Caddy
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - clipzo
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      CLIPZO_DOMAIN: ${CLIPZO_DOMAIN}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  clipzo-data:
+  whisper-models:
+  caddy-data:
+  caddy-config:

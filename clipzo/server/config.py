@@ -56,9 +56,32 @@ CLAUDE_EFFORT = os.environ.get("CLIPZO_CLAUDE_EFFORT", "medium")
 # Comma-separated origins allowed to call the API from another domain (empty = same origin only).
 CORS_ORIGINS = [o.strip() for o in os.environ.get("CLIPZO_CORS_ORIGINS", "").split(",") if o.strip()]
 
-# Accounts and payments are not built yet: the plan is chosen by the browser.
-# Set CLIPZO_FORCE_PLAN=free|creator|pro to ignore what the browser sends.
-FORCE_PLAN = os.environ.get("CLIPZO_FORCE_PLAN") or None
+# Accounts: sessions last 30 days. The cookie is marked Secure on HTTPS (or always with CLIPZO_COOKIE_SECURE=1).
+SESSION_DAYS = _env_int("CLIPZO_SESSION_DAYS", 30)
+COOKIE_SECURE = os.environ.get("CLIPZO_COOKIE_SECURE") == "1"
+DB_PATH = Path(os.environ.get("CLIPZO_DB", DATA_DIR / "clipzo.db"))
+
+# Public address of the site (e.g. https://clipzo.fr), used for the Stripe return links.
+# Empty = taken from the incoming request.
+PUBLIC_URL = os.environ.get("CLIPZO_PUBLIC_URL", "").rstrip("/")
+
+# Stripe subscriptions. Without STRIPE_SECRET_KEY the paid plans can't be bought on this server
+# (an admin can still set a plan with `python -m server.admin set-plan <email> pro`).
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+# Optional: prices created in the Stripe dashboard. When empty, prices are created on the fly
+# from PRICES_CENTS below (simplest setup).
+STRIPE_PRICE_IDS = {
+    ("creator", "month"): os.environ.get("STRIPE_PRICE_CREATOR_MONTH", ""),
+    ("creator", "year"): os.environ.get("STRIPE_PRICE_CREATOR_YEAR", ""),
+    ("pro", "month"): os.environ.get("STRIPE_PRICE_PRO_MONTH", ""),
+    ("pro", "year"): os.environ.get("STRIPE_PRICE_PRO_YEAR", ""),
+}
+# Euro cents. Yearly = 12 months at -20 %.
+PRICES_CENTS = {
+    ("creator", "month"): 500, ("creator", "year"): 4800,
+    ("pro", "month"): 1000, ("pro", "year"): 9600,
+}
 
 MIN_CLIP_SECONDS = 60
 MAX_CLIP_SECONDS = 180
@@ -75,6 +98,7 @@ def clip_bounds(seconds: int) -> tuple[int, int]:
 class Plan:
     key: str
     label: str
+    monthly_quota: int | None  # shorts per month, None = unlimited
     max_clips: int
     max_source_minutes: int
     out_width: int  # 9:16 output, height = width * 16 / 9
@@ -95,17 +119,17 @@ class Plan:
 
 PLANS: dict[str, Plan] = {
     "free": Plan(
-        key="free", label="Gratuit", max_clips=5, max_source_minutes=60, out_width=720,
+        key="free", label="Gratuit", monthly_quota=3, max_clips=5, max_source_minutes=60, out_width=720,
         allow_4k=False, watermark_required=True, subtitles=False, animated_subtitles=False,
         ai_titles=False, face_tracking=False,
     ),
     "creator": Plan(
-        key="creator", label="Créateur", max_clips=8, max_source_minutes=180, out_width=1080,
+        key="creator", label="Créateur", monthly_quota=50, max_clips=8, max_source_minutes=180, out_width=1080,
         allow_4k=False, watermark_required=False, subtitles=True, animated_subtitles=False,
         ai_titles=False, face_tracking=True,
     ),
     "pro": Plan(
-        key="pro", label="Pro", max_clips=12, max_source_minutes=600, out_width=1080,
+        key="pro", label="Pro", monthly_quota=None, max_clips=12, max_source_minutes=600, out_width=1080,
         allow_4k=True, watermark_required=False, subtitles=True, animated_subtitles=True,
         ai_titles=True, face_tracking=True,
     ),

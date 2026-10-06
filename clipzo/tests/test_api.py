@@ -6,8 +6,21 @@ import pytest
 from fastapi.testclient import TestClient
 
 from conftest import needs_ffmpeg
-from server import app as app_module
+from server import accounts, app as app_module
 from server import config, transcribe
+
+_seq = iter(range(1, 10_000))
+
+
+def as_user(client, plan="free"):
+    """Log the test client in as a brand new account on `plan`."""
+    client.cookies.clear()
+    email = f"user{next(_seq)}@example.com"
+    r = client.post("/api/auth/signup", json={"email": email, "password": "motdepasse123"})
+    assert r.status_code == 200, r.text
+    user = accounts.get_user_by_email(email)
+    accounts.set_plan(user.id, plan)
+    return user
 
 
 @pytest.fixture(scope="module")
@@ -51,6 +64,7 @@ def test_site_is_served_but_not_the_code(client):
     ({"url": "https://youtu.be/abc", "duration": 90, "count": 3, "plan": "gold"}, 422, None),
 ])
 def test_job_validation(client, payload, status, needle):
+    as_user(client, "free")
     r = client.post("/api/jobs", json=payload)
     assert r.status_code == status
     if needle:
@@ -65,6 +79,7 @@ def test_unknown_job_and_bad_file_names(client):
 
 
 def test_upload_rejects_non_video(client):
+    as_user(client, "free")
     r = client.post("/api/jobs/upload", files={"file": ("x.mp4", b"not a video at all", "video/mp4")},
                     data={"duration": "60", "count": "1", "plan": "free", "options": "{}"})
     assert r.status_code == 400
@@ -72,6 +87,7 @@ def test_upload_rejects_non_video(client):
 
 
 def test_upload_without_file(client):
+    as_user(client, "free")
     r = client.post("/api/jobs/upload", data={"duration": "60", "count": "1", "plan": "free"})
     assert r.status_code == 400
 
@@ -116,6 +132,7 @@ def test_full_pipeline_with_upload(client, sample_video, monkeypatch):
         messages=SimpleNamespace(create=fake_create)))
 
     options = {"reframe": True, "subs": True, "nowm": True, "hooks": True, "animsubs": True}
+    as_user(client, "pro")
     with sample_video.open("rb") as fh:
         r = client.post("/api/jobs/upload", files={"file": ("ma video.mp4", fh, "video/mp4")},
                         data={"duration": "60", "count": "2", "plan": "pro", "options": json.dumps(options)})
@@ -149,6 +166,7 @@ def test_full_pipeline_with_upload(client, sample_video, monkeypatch):
 
 @needs_ffmpeg
 def test_free_plan_gets_watermark_and_no_paid_options(client, sample_video):
+    user = as_user(client, "free")
     with sample_video.open("rb") as fh:
         r = client.post("/api/jobs/upload", files={"file": ("clip.mp4", fh, "video/mp4")},
                         data={"duration": "60", "count": "1", "plan": "free",
@@ -160,6 +178,10 @@ def test_free_plan_gets_watermark_and_no_paid_options(client, sample_video):
     clip = job["clips"][0]
     assert (clip["width"], clip["height"]) == (720, 1280)
     assert clip["hashtags"] == [] and clip["subtitles"] is False
+    # the delivered short is charged once the job is over
+    assert accounts.used_this_month(user.id) == len(job["clips"])
+    me = client.get("/api/me").json()["user"]
+    assert me["quota"]["used"] == len(job["clips"]) and me["quota"]["reserved"] == 0
 
 
 def test_client_id_uses_the_address_our_proxy_appended(monkeypatch):
@@ -189,6 +211,7 @@ def test_cancel_unknown_job(client):
 
 @needs_ffmpeg
 def test_cancel_stops_a_running_job(client, sample_video):
+    user = as_user(client, "creator")
     with sample_video.open("rb") as fh:
         r = client.post("/api/jobs/upload", files={"file": ("c.mp4", fh, "video/mp4")},
                         data={"duration": "60", "count": "1", "plan": "free", "options": "{}"})
@@ -200,3 +223,4 @@ def test_cancel_stops_a_running_job(client, sample_video):
     data = wait_for(client, job_id, timeout=60)
     assert data["status"] == "error" and data["error"] == "Analyse annulée."
     assert data["clips"] == []
+    assert accounts.used_this_month(user.id) == 0  # a cancelled analysis costs nothing

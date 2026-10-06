@@ -10,4 +10,5 @@ numpy>=2.0
 # 4.x still ships the face detector used for the 9:16 crop (5.x removed it)
 opencv-python-headless>=4.10,<5
 anthropic>=1.11,<2
+stripe>=12,<17
 pydantic>=2.8

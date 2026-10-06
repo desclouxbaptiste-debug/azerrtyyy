@@ -30,6 +30,8 @@ class JobRequest:
     count: int
     plan: str
     options: dict[str, bool]
+    user_id: int | None = None
+    month: str | None = None  # quota month the delivered shorts are charged to
 
 
 @dataclass
@@ -182,6 +184,10 @@ class QueueFull(RuntimeError):
     pass
 
 
+class QuotaExceeded(RuntimeError):
+    pass
+
+
 class JobCancelled(RuntimeError):
     """Raised inside the pipeline when the user cancelled the analysis."""
 
@@ -191,13 +197,15 @@ class JobStore:
         self.jobs: dict[str, Job] = {}
         self.order: list[str] = []  # queued job ids, oldest first
         self.lock = threading.Lock()
-        self.executor = ThreadPoolExecutor(max_workers=config.WORKERS, thread_name_prefix="clipzo-job")
+        self.executor: ThreadPoolExecutor | None = None
         self._stop = threading.Event()
         self._cleaner: threading.Thread | None = None
 
     # -- lifecycle --------------------------------------------------------------
     def start(self) -> None:
         config.JOBS_DIR.mkdir(parents=True, exist_ok=True)
+        self._stop = threading.Event()
+        self.executor = ThreadPoolExecutor(max_workers=config.WORKERS, thread_name_prefix="clipzo-job")
         self._restore()
         self._cleanup()
         self._cleaner = threading.Thread(target=self._cleanup_loop, daemon=True, name="clipzo-cleanup")
@@ -205,7 +213,8 @@ class JobStore:
 
     def stop(self) -> None:
         self._stop.set()
-        self.executor.shutdown(wait=False, cancel_futures=True)
+        if self.executor is not None:
+            self.executor.shutdown(wait=False, cancel_futures=True)
 
     def _restore(self) -> None:
         for path in config.JOBS_DIR.glob("*/job.json"):
@@ -243,21 +252,43 @@ class JobStore:
                 pass
 
     # -- submission ---------------------------------------------------------------
-    def _check_capacity_locked(self, client: str) -> None:
+    def _check_capacity_locked(self, client: str, user=None, count: int = 0) -> None:
         pending = [j for j in self.jobs.values() if j.status in ("queued", "running")]
         if len(pending) >= config.MAX_QUEUED_JOBS:
             raise QueueFull("Le serveur est très demandé : réessaie dans quelques minutes.")
         mine = [j for j in pending if j.client == client]
         if len(mine) >= config.MAX_ACTIVE_JOBS_PER_CLIENT:
             raise QueueFull("Tu as déjà des vidéos en cours d'analyse : attends qu'elles soient finies.")
+        if user is not None and user.plan_obj.monthly_quota is not None:
+            from . import accounts
 
-    def check_capacity(self, client: str) -> None:
-        with self.lock:
-            self._check_capacity_locked(client)
+            limit = user.plan_obj.monthly_quota
+            used = accounts.used_this_month(user.id) + self._reserved_locked(user.id)
+            if used + count > limit:
+                left = max(0, limit - used)
+                raise QuotaExceeded(
+                    f"Tu as utilisé tes {limit} shorts du mois avec le forfait {user.plan_obj.label} : "
+                    "passe à un forfait supérieur pour continuer." if left == 0 else
+                    f"Il te reste {left} short{'s' if left > 1 else ''} ce mois-ci : réduis le nombre "
+                    "ou passe à un forfait supérieur."
+                )
 
-    def create(self, client: str, request: JobRequest) -> Job:
+    def _reserved_locked(self, user_id: int) -> int:
+        return sum(j.request.count for j in self.jobs.values()
+                   if j.request.user_id == user_id and j.status in ("queued", "running"))
+
+    def reserved_for(self, user_id: int) -> int:
+        """Shorts requested by this user's analyses still in progress (not charged yet)."""
         with self.lock:
-            self._check_capacity_locked(client)
+            return self._reserved_locked(user_id)
+
+    def check_capacity(self, client: str, user=None, count: int = 0) -> None:
+        with self.lock:
+            self._check_capacity_locked(client, user, count)
+
+    def create(self, client: str, request: JobRequest, user=None) -> Job:
+        with self.lock:
+            self._check_capacity_locked(client, user, request.count)
             job = Job(id=uuid.uuid4().hex, client=client, request=request)
             job_dir(job.id).mkdir(parents=True, exist_ok=True)
             self.jobs[job.id] = job
@@ -278,6 +309,7 @@ class JobStore:
                 return
             run(job)
 
+        assert self.executor is not None, "JobStore.start() was not called"
         self.executor.submit(task)
 
     def cancel(self, job: Job) -> None:
