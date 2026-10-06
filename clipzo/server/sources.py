@@ -9,7 +9,7 @@ import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urlunsplit
 
 from . import config
 from .media import MediaError, ProbeInfo, probe
@@ -64,8 +64,18 @@ class Source:
     chat: list[tuple[float, str]] = field(default_factory=list)  # (seconds, message)
 
 
+_HOST_RE = re.compile(r"^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$")
+
+
 def detect_platform(url: str) -> str:
     """Return the platform id for a supported public video link, or raise SourceError."""
+    return canonical(url)[0]
+
+
+def canonical(url: str) -> tuple[str, str]:
+    """Validate a link and rebuild it from its parsed parts: (platform, clean https URL).
+
+    The downloader only ever sees the rebuilt URL, so it reads exactly the host we checked."""
     raw = (url or "").strip()
     if len(raw) > 2048:
         raise SourceError("Ce lien est trop long.")
@@ -86,15 +96,13 @@ def detect_platform(url: str) -> str:
         raise SourceError("Colle un lien YouTube, Twitch, TikTok, X, Kick ou Instagram.")
     except ValueError:
         pass
+    if not _HOST_RE.match(host):
+        raise SourceError("Ce lien n'est pas valide.")
     for domain, platform in PLATFORM_DOMAINS.items():
         if host == domain or host.endswith("." + domain):
-            return platform
+            clean = urlunsplit(("https", host, parts.path or "/", parts.query, ""))
+            return platform, clean
     raise SourceError("Colle un lien YouTube, Twitch, TikTok, X, Kick ou Instagram.")
-
-
-def normalize_url(url: str) -> str:
-    raw = url.strip()
-    return raw if re.match(r"^https?://", raw, re.I) else "https://" + raw
 
 
 def download(url: str, job_dir: Path, plan: config.Plan, progress: ProgressFn) -> Source:
@@ -102,8 +110,7 @@ def download(url: str, job_dir: Path, plan: config.Plan, progress: ProgressFn) -
     import yt_dlp
     from yt_dlp.utils import DownloadError
 
-    platform = detect_platform(url)
-    url = normalize_url(url)
+    platform, url = canonical(url)
     max_height = 2160 if plan.allow_4k else 1080
     max_seconds = plan.max_source_minutes * 60
 

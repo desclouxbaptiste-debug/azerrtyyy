@@ -38,13 +38,13 @@ Chaque seconde de la vidéo reçoit un score d'intérêt calculé à partir de p
 
 | Signal | Ce qui est mesuré | Poids |
 |---|---|---|
-| Moments les plus revus | La courbe « les plus revus » de YouTube, quand elle existe | 30 % |
-| Chat du live | Pics de messages et d'emotes (KEKW, POG, 😂…) dans le chat des rediffusions YouTube | 22 % |
-| Énergie du son | Volume par rapport aux 2 minutes autour : un passage plus intense que le reste | 16 % |
+| Moments les plus revus | La courbe « les plus revus » de YouTube, quand elle existe | 26 % |
+| Chat du live | Pics de messages et d'emotes (KEKW, POG, 😂…) dans le chat des rediffusions YouTube | 18 % |
+| Énergie du son | Volume par rapport aux 2 minutes autour : un passage plus intense que le reste | 14 % |
 | Pics sonores | Hausses brusques de volume : cris, rires, réactions | 12 % |
-| Paroles | Rires, mots forts (« incroyable », « jamais vu », « c'est fou »…), exclamations | 14 % |
-| Débit de parole | On parle plus vite quand ça devient intéressant | 8 % |
-| Image | Changements de plan, mouvements rapides | 8 % |
+| Paroles | Rires, mots forts (« incroyable », « jamais vu », « c'est fou »…), exclamations | 20 % |
+| Débit de parole | On parle plus vite quand ça devient intéressant | 5 % |
+| Image | Changements de plan, mouvements rapides | 5 % |
 
 Les signaux absents (pas de chat, pas de transcription…) sont simplement retirés du calcul.
 
@@ -86,7 +86,8 @@ Ensuite, pour chaque short :
 | Titres et hashtags IA | non | non | oui |
 
 Les limites par vidéo sont appliquées par le serveur dans `server/config.py`. Le quota mensuel est compté
-dans le navigateur.
+dans le navigateur, uniquement pour les shorts réellement livrés : une analyse annulée ou en échec ne
+coûte rien, et le mode démo ne touche pas au quota.
 
 ## Réglages (variables d'environnement)
 

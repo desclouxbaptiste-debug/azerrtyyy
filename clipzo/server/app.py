@@ -58,10 +58,16 @@ class JobIn(BaseModel):
 
 
 def _client_id(request: Request) -> str:
+    """Who is asking, for the per-person job limit.
+
+    Behind a reverse proxy (CLIPZO_TRUST_PROXY=1) the real address is the LAST entry of
+    X-Forwarded-For: that's the one our proxy appended. Earlier entries are sent by the client
+    and can be anything.
+    """
     if os.environ.get("CLIPZO_TRUST_PROXY") == "1":
-        fwd = request.headers.get("x-forwarded-for", "")
+        fwd = [p.strip() for p in request.headers.get("x-forwarded-for", "").split(",") if p.strip()]
         if fwd:
-            return fwd.split(",")[0].strip()
+            return fwd[-1]
     return request.client.host if request.client else "unknown"
 
 
@@ -70,6 +76,14 @@ def _check_plan(plan_key: str, count: int) -> config.Plan:
     if count > plan.max_clips:
         raise HTTPException(400, f"Ton forfait {plan.label} permet jusqu'à {plan.max_clips} shorts par vidéo.")
     return plan
+
+
+def _check_capacity(request: Request) -> None:
+    """Refuse early (before reading a large upload) when the queue or this person's quota is full."""
+    try:
+        store.check_capacity(_client_id(request))
+    except jobs.QueueFull as exc:
+        raise HTTPException(429, str(exc)) from exc
 
 
 def _create(request: Request, req: jobs.JobRequest) -> jobs.Job:
@@ -115,9 +129,14 @@ def create_job(body: JobIn, request: Request) -> dict:
 @app.post("/api/jobs/upload", status_code=202)
 async def create_upload_job(request: Request) -> dict:
     limit = config.MAX_UPLOAD_MB * 1024 * 1024
-    length = request.headers.get("content-length")
-    if length and length.isdigit() and int(length) > limit + 1024 * 1024:
+    length = request.headers.get("content-length", "")
+    # The body is buffered to a temp file while it is parsed, so its size must be known first:
+    # browsers always send Content-Length for a file upload, a chunked body is refused.
+    if not length.isdigit():
+        raise HTTPException(411, "Envoi refusé : taille du fichier inconnue.")
+    if int(length) > limit + 1024 * 1024:
         raise HTTPException(413, f"Fichier trop lourd (maximum {config.MAX_UPLOAD_MB} Mo).")
+    _check_capacity(request)
     try:
         form = await request.form(max_files=1, max_fields=10)
     except Exception as exc:  # noqa: BLE001 - malformed multipart bodies
@@ -144,6 +163,10 @@ async def create_upload_job(request: Request) -> dict:
     except sources.SourceError as exc:
         store.discard(job)
         raise HTTPException(400, str(exc)) from exc
+    except Exception as exc:  # disk full, ffprobe missing...: never leave a job stuck in "queued"
+        store.discard(job)
+        log.exception("upload failed")
+        raise HTTPException(500, "L'envoi du fichier a échoué côté serveur. Réessaie dans un instant.") from exc
     finally:
         await upload.close()
     job.upload_path = str(source.path)
@@ -163,6 +186,18 @@ def get_job(job_id: str) -> dict:
     if job is None:
         raise HTTPException(404, "Analyse introuvable ou expirée : relance-la.")
     return job.public(store.queue_position(job_id))
+
+
+@app.post("/api/jobs/{job_id}/cancel")
+def cancel_job(job_id: str) -> dict:
+    if not re.fullmatch(jobs.JOB_ID_RE, job_id):
+        raise HTTPException(404, "Analyse introuvable.")
+    job = store.get(job_id)
+    if job is None:
+        raise HTTPException(404, "Analyse introuvable ou expirée.")
+    if job.status in ("queued", "running"):
+        store.cancel(job)
+    return {"id": job.id, "status": job.status}
 
 
 @app.get("/api/jobs/{job_id}/clips/{name}")

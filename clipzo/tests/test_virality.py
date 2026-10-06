@@ -49,7 +49,7 @@ def test_short_video_gives_one_whole_clip():
     mean, peak = calm_audio(45, rng)
     a = virality.analyse(45.3, mean, peak, None, None, None, None, clip_seconds=60, count=3)
     assert len(a.candidates) == 1
-    assert a.candidates[0].start == 0 and a.candidates[0].end == 46
+    assert a.candidates[0].start == 0 and a.candidates[0].end == 45.3
 
 
 def test_heatmap_and_chat_drive_the_choice():
@@ -96,3 +96,107 @@ def test_more_candidates_than_fit():
     mean, peak = calm_audio(200, rng)
     a = virality.analyse(200, mean, peak, None, None, None, None, clip_seconds=90, count=12)
     assert 1 <= len(a.candidates) <= 2
+
+
+# ---- regressions from the review ---------------------------------------------------------------
+
+def neutral_transcript(n, rng, rate=3.0):
+    segs, t = [], 0.0
+    while t < n - 6:
+        length = float(rng.uniform(2.5, 6.0))
+        k = max(1, int(length * rate))
+        words = [Word(t + i * length / k, t + (i + 0.8) * length / k, "mot") for i in range(k)]
+        segs.append(Segment(t, t + length, " ".join(w.text for w in words) + ".", words))
+        t += length + float(rng.uniform(0.2, 0.8))
+    return Transcript("fr", segs)
+
+
+def test_quiet_speaker_laughter_is_found_in_continuous_speech():
+    """Podcast with a loud host and a quieter guest: the guest's laughter must still win."""
+    hits = 0
+    for seed in range(20):
+        rng = np.random.default_rng(seed)
+        n = 1200
+        mean = np.where((np.arange(n) // 60) % 2 == 0, -18.0, -24.0).astype(np.float32) + rng.normal(0, 1.5, n).astype(np.float32)
+        peak = mean + 4
+        burst = 60 * 7 + 20  # inside a guest turn
+        segs = []
+        for t in range(0, n - 5, 5):
+            text = "hahaha mdr c'est incroyable" if burst <= t < burst + 12 else "on parle du sujet du jour"
+            ws = [Word(t + i * 0.8, t + i * 0.8 + 0.6, w) for i, w in enumerate(text.split())]
+            segs.append(Segment(t, t + 4.4, text, ws))
+        a = virality.analyse(n, mean, peak, None, Transcript("fr", segs), None, None, clip_seconds=60, count=3)
+        best = a.candidates[0]
+        hits += best.start <= burst + 4 <= best.end
+    assert hits >= 17, hits
+
+
+def test_refined_clips_respect_bounds_and_never_overlap():
+    for seed in range(40):
+        rng = np.random.default_rng(seed)
+        n = int(rng.integers(300, 1500))
+        dur = n - float(rng.uniform(0, 0.99))
+        L = int(rng.choice([60, 75, 90, 120, 150, 180]))
+        mean, peak = calm_audio(n, rng)
+        for _ in range(4):
+            t = int(rng.integers(0, n - 10))
+            mean[t:t + 6] += 15
+            peak[t:t + 6] += 20
+        tr = neutral_transcript(n, rng) if seed % 2 else None
+        a = virality.analyse(dur, mean, peak, None, tr, None, None, clip_seconds=L, count=6)
+        lo, hi = virality.config.clip_bounds(L)
+        spans = sorted((c.start, c.end) for c in a.candidates)
+        for s, e in spans:
+            assert 0 <= s < e <= dur + 1e-6
+            assert lo - 0.5 <= e - s <= hi + 0.5, (seed, L, s, e)
+        for (s1, e1), (s2, e2) in zip(spans, spans[1:]):
+            assert e1 <= s2 + 1e-6, (seed, spans)
+        for c in a.candidates:
+            assert c.start <= c.peak_time <= c.end
+
+
+def test_snapping_never_cuts_the_start_of_the_moment():
+    misses = 0
+    for seed in range(40):
+        rng = np.random.default_rng(seed)
+        n = 1200
+        mean, peak = calm_audio(n, rng)
+        t = int(rng.integers(100, 1000))
+        mean[t:t + 4] += 18
+        peak[t:t + 4] += 25
+        a = virality.analyse(n, mean, peak, None, neutral_transcript(n, rng), None, None, clip_seconds=60, count=1)
+        c = a.candidates[0]
+        misses += not (c.start <= t and t + 4 <= c.end)
+    assert misses <= 2, misses
+
+
+def test_neutral_transcript_does_not_hide_a_shout():
+    misses = 0
+    for seed in range(40):
+        rng = np.random.default_rng(seed)
+        n = 1200
+        mean = (-18 + rng.normal(0, 4, n)).astype(np.float32)
+        peak = mean + 4
+        t = int(rng.integers(50, 1100))
+        mean[t:t + 4] += 15
+        peak[t:t + 4] += 20
+        a = virality.analyse(n, mean, peak, None, neutral_transcript(n, rng), None, None, clip_seconds=60, count=1)
+        c = a.candidates[0]
+        misses += not (c.start <= t + 2 <= c.end)
+    assert misses <= 6, misses
+
+
+def test_calm_tutorial_gets_no_fake_emotion():
+    rng = np.random.default_rng(9)
+    n = 900
+    mean, peak = calm_audio(n, rng)
+    lines = ["Tu prends la clé de dix, tu vois quoi", "Il faut pas serrer trop fort",
+             "Personne ne fait attention à ça", "C'est le meilleur réglage"]
+    segs = []
+    for i, t in enumerate(range(0, n - 5, 5)):
+        text = lines[i % len(lines)]
+        ws = [Word(t + j * 0.6, t + j * 0.6 + 0.5, w) for j, w in enumerate(text.split())]
+        segs.append(Segment(t, t + 4.5, text, ws))
+    a = virality.analyse(n, mean, peak, None, Transcript("fr", segs), None, None, clip_seconds=60, count=3)
+    for c in a.candidates:
+        assert not any("Émotion" in r for r in c.reasons), c.reasons

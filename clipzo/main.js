@@ -146,6 +146,7 @@
     openPanel = panel;
     panelOverlay.hidden = false;
     panel.hidden = false;
+    setBackgroundInert(true);
     const first = $("input, textarea, .panel-close", panel);
     if (first) first.focus({ preventScroll: true });
     if (name === "studio") {
@@ -160,7 +161,15 @@
     openPanel.hidden = true;
     panelOverlay.hidden = true;
     openPanel = null;
+    setBackgroundInert(false);
     if (lastFocus) lastFocus.focus({ preventScroll: true });
+  }
+
+  // aria-modal panels: keyboard focus must not reach the page underneath
+  function setBackgroundInert(on) {
+    $$(".page, .mobile-menu").forEach((node) => {
+      node.inert = on;
+    });
   }
 
   document.addEventListener("click", (e) => {
@@ -187,10 +196,33 @@
   const monthKey = new Date().toISOString().slice(0, 7);
   let plan = store.get("clipzo.plan", "free");
   if (!PLANS[plan]) plan = "free";
-  let usage = store.get("clipzo.usage", { month: monthKey, used: 0 });
-  if (usage.month !== monthKey) usage = { month: monthKey, used: 0 };
+  let usage = loadUsage();
+  let activeJob = null; // the server analysis being followed (live mode)
 
-  const remaining = () => PLANS[plan].quota - usage.used;
+  function loadUsage() {
+    const u = store.get("clipzo.usage", null);
+    return u && u.month === monthKey && Number.isFinite(u.used) ? u : { month: monthKey, used: 0 };
+  }
+
+  // Shorts are charged when they are delivered; a running analysis holds its requested count meanwhile
+  const reserved = () => (activeJob && activeJob.id && !activeJob.charged ? activeJob.count : 0);
+  const remaining = () => PLANS[plan].quota - loadUsage().used - reserved();
+
+  function chargeShorts(n) {
+    usage = loadUsage();
+    usage.used += n;
+    store.set("clipzo.usage", usage);
+    refreshPlanUI();
+  }
+
+  window.addEventListener("storage", (e) => {
+    if (e.key === "clipzo.usage" || e.key === "clipzo.plan") {
+      usage = loadUsage();
+      const p = store.get("clipzo.plan", plan);
+      if (PLANS[p]) plan = p;
+      refreshPlanUI();
+    }
+  });
   const hasPlan = (min) => PLANS[plan].rank >= PLANS[min].rank;
 
   function refreshPlanUI() {
@@ -267,12 +299,12 @@
 
   /* ---------------- Studio ---------------- */
   const PLATFORMS = [
-    { id: "youtube", name: "YouTube", icon: "fa-brands fa-youtube", color: "#ff0033", re: /(?:youtube\.com|youtu\.be)/i },
-    { id: "twitch", name: "Twitch", icon: "fa-brands fa-twitch", color: "#9146ff", re: /twitch\.tv/i },
-    { id: "tiktok", name: "TikTok", icon: "fa-brands fa-tiktok", color: "#25f4ee", re: /tiktok\.com/i },
-    { id: "x", name: "X", icon: "fa-brands fa-x-twitter", color: "#ffffff", re: /(?:twitter\.com|x\.com)/i },
-    { id: "kick", name: "Kick", icon: "fa-solid fa-k", color: "#53fc18", re: /kick\.com/i },
-    { id: "instagram", name: "Instagram", icon: "fa-brands fa-instagram", color: "#e1306c", re: /instagram\.com/i },
+    { id: "youtube", name: "YouTube", icon: "fa-brands fa-youtube", color: "#ff0033", re: /(?:^|\.)(?:youtube\.com|youtu\.be)$/i },
+    { id: "twitch", name: "Twitch", icon: "fa-brands fa-twitch", color: "#9146ff", re: /(?:^|\.)twitch\.tv$/i },
+    { id: "tiktok", name: "TikTok", icon: "fa-brands fa-tiktok", color: "#25f4ee", re: /(?:^|\.)tiktok\.com$/i },
+    { id: "x", name: "X", icon: "fa-brands fa-x-twitter", color: "#ffffff", re: /(?:^|\.)(?:twitter\.com|x\.com)$/i },
+    { id: "kick", name: "Kick", icon: "fa-solid fa-k", color: "#53fc18", re: /(?:^|\.)kick\.com$/i },
+    { id: "instagram", name: "Instagram", icon: "fa-brands fa-instagram", color: "#e1306c", re: /(?:^|\.)instagram\.com$/i },
   ];
   const UPLOAD = { id: "upload", name: "Fichier importé", icon: "fa-solid fa-file-video", color: "#ffffff" };
   const platformById = (id) => PLATFORMS.find((p) => p.id === id) || UPLOAD;
@@ -371,7 +403,10 @@
     if (openPanel === panels.studio) target.focus({ preventScroll: true });
   };
 
-  range.addEventListener("input", () => (durationOut.textContent = fmtDuration(+range.value)));
+  range.addEventListener("input", () => {
+    durationOut.textContent = fmtDuration(+range.value);
+    range.setAttribute("aria-valuetext", fmtDuration(+range.value));
+  });
 
   function parseUrl(raw) {
     let url;
@@ -631,7 +666,7 @@
             return { rank: i + 1, from, to: Math.max(from, clamp01(num(c.end) / length)) };
           })
         : [];
-    const used = SIGNALS.filter(([k]) => k === "audio" || k === "scenes" || signals[k] === true).map((s) => s[1]);
+    const used = SIGNALS.filter(([k]) => signals[k] === true).map((s) => s[1]);
     const key = JSON.stringify([points, windows, used, length]);
     if (slot.dataset.key === key) return;
     slot.dataset.key = key;
@@ -828,15 +863,14 @@
   /* ---------- Live analysis (server API) ---------- */
   const JOB_KEY = "clipzo.job";
   const POLL_MS = 1500;
-  const MAX_RETRIES = 5;
+  const MAX_BACKOFF_MS = 30000;
   const MSG_NETWORK =
     "Impossible de joindre le serveur d'analyse. Vérifie qu'il tourne et que tu es bien connecté, puis réessaie.";
-  const MSG_LOST = "La connexion avec le serveur d'analyse est perdue. Vérifie qu'il tourne puis relance l'analyse.";
+  const MSG_LOST = "Connexion au serveur d'analyse perdue, ton analyse continue de son côté.";
   const MSG_EXPIRED = "Cette analyse a expiré ou n'existe plus sur le serveur. Relance-la.";
   const MSG_FAILED = "L'analyse n'a pas abouti. Réessaie ou tente avec une autre vidéo.";
   const validId = (id) => typeof id === "string" && /^[\w-]{1,64}$/.test(id);
   const liveCards = new Map();
-  let activeJob = null;
 
   function apiError(status, data) {
     const detail = data && typeof data.detail === "string" ? data.detail.trim() : "";
@@ -884,9 +918,11 @@
     });
   }
 
-  function newJob(id, ytId) {
-    return { id, ytId, thumb: null, timer: 0, xhr: null, failures: 0, stopped: false };
+  function newJob(id, ytId, count = 0, charged = false) {
+    return { id, ytId, count, charged, thumb: null, timer: 0, xhr: null, failures: 0, stopped: false };
   }
+
+  const saveJob = (job) => session.set(JOB_KEY, { id: job.id, ytId: job.ytId, count: job.count, charged: job.charged });
 
   function stopJob() {
     if (activeJob) {
@@ -905,7 +941,7 @@
   }
 
   async function startLive({ parsed, file, duration, count, opts }) {
-    const job = newJob(null, parsed ? parsed.ytId : null);
+    const job = newJob(null, parsed ? parsed.ytId : null, count);
     activeJob = job;
     showProgress(job.ytId ? ytThumb(job.ytId) : GRADIENTS[0]);
     setSteps(0, false);
@@ -951,12 +987,10 @@
       return;
     }
 
-    // The server took the job: only now does it count against the monthly quota
+    // The server took the job. The quota is charged when the shorts are delivered (finishJob)
     job.id = res.data.id;
-    usage.used += count;
-    store.set("clipzo.usage", usage);
+    saveJob(job);
     refreshPlanUI();
-    session.set(JOB_KEY, { id: job.id, ytId: job.ytId });
     setMessage("Demande acceptée, l'analyse démarre…");
     poll(job);
   }
@@ -965,7 +999,8 @@
     const saved = session.get(JOB_KEY);
     if (activeJob || demoRunning || !saved || !validId(saved.id)) return;
     const ytId = typeof saved.ytId === "string" && /^[\w-]{11}$/.test(saved.ytId) ? saved.ytId : null;
-    const job = newJob(saved.id, ytId);
+    const count = Number.isInteger(saved.count) ? saved.count : 0;
+    const job = newJob(saved.id, ytId, count, saved.charged === true);
     activeJob = job;
     showProgress(ytId ? ytThumb(ytId) : GRADIENTS[0]);
     cancelBtn.hidden = false;
@@ -991,17 +1026,19 @@
     if (status === 200 && data && typeof data === "object") {
       job.failures = 0;
       renderJob(job, data);
-      if (data.status === "error") failJob(text(data.error) || MSG_FAILED);
+      if (data.status === "error" && clipsList.childElementCount > 0) finishJob(text(data.error) || MSG_FAILED);
+      else if (data.status === "error") failJob(text(data.error) || MSG_FAILED);
       else if (data.status === "done") finishJob();
       else job.timer = setTimeout(() => poll(job), POLL_MS);
     } else if (status === 404) {
       failJob(text(data && data.detail) || MSG_EXPIRED);
     } else if (status >= 400 && status < 500 && status !== 408 && status !== 429) {
       failJob(apiError(status, data));
-    } else if (++job.failures > MAX_RETRIES) {
-      failJob(MSG_LOST);
     } else {
-      job.timer = setTimeout(() => poll(job), POLL_MS);
+      // Network error, 5xx, 408 or 429: the job keeps running on the server, keep following it
+      const wait = Math.min(MAX_BACKOFF_MS, POLL_MS * 2 ** Math.min(++job.failures, 5));
+      if (job.failures >= 3) setMessage(`${MSG_LOST} Nouvel essai dans ${Math.round(wait / 1000)} s…`);
+      job.timer = setTimeout(() => poll(job), wait);
     }
   }
 
@@ -1042,13 +1079,26 @@
     }
   }
 
-  function finishJob() {
+  function finishJob(interrupted) {
     const n = clipsList.childElementCount;
+    const job = activeJob;
+    if (job && !job.charged) {
+      job.charged = true; // saved before charging so a reload can't charge twice
+      saveJob(job);
+      if (n) chargeShorts(n);
+    }
+    if (job) {
+      job.stopped = true;
+      clearTimeout(job.timer);
+    }
     progress.hidden = true;
     cancelBtn.hidden = true;
     results.hidden = false;
     restartBtn.hidden = false;
-    resultsTitle.textContent = n ? "Tes shorts sont prêts" : "Analyse terminée";
+    resultsTitle.textContent = interrupted
+      ? `Analyse interrompue : ${n} short${n > 1 ? "s" : ""} récupéré${n > 1 ? "s" : ""}`
+      : n ? "Tes shorts sont prêts" : "Analyse terminée";
+    if (interrupted) toast(interrupted);
     resultsSource.hidden = !resultsSource.dataset.key;
     clipsEmpty.hidden = n > 0;
     studioBody.scrollTop = 0;
@@ -1221,10 +1271,7 @@
       startLive({ parsed, file: fromFile ? chosenFile : null, duration, count, opts });
       return;
     }
-    // Demo: nothing leaves the browser, so the quota is used right away
-    usage.used += count;
-    store.set("clipzo.usage", usage);
-    refreshPlanUI();
+    // Demo: simulated shorts, the real quota is left alone
     runAnalysis(parsed, duration, count, opts);
   }
 
@@ -1239,9 +1286,13 @@
   });
 
   cancelBtn.addEventListener("click", () => {
+    const id = activeJob && activeJob.id;
+    if (id) {
+      fetch(`/api/jobs/${encodeURIComponent(id)}/cancel`, { method: "POST", keepalive: true }).catch(() => {});
+    }
     stopJob();
     showForm();
-    toast("Analyse abandonnée");
+    toast("Analyse annulée : rien n'a été décompté de ton quota.");
   });
 
   restartBtn.addEventListener("click", () => {

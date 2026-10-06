@@ -27,13 +27,30 @@ def test_parse_clamps_and_dedupes():
          "hashtags": [], "why": ["Chute inattendue"]},
     ]}
     out = llm.parse_choices(data, cands(), clip_seconds=90, count=3, duration=1000)
-    assert [c.candidate.start for c in out] == [400, 100]
+    assert [c.candidate.start for c in out] == [400, 100, 800]  # the 3rd is topped up from the algorithm
+    assert out[2].virality == 42 and out[2].hashtags == [] and out[2].why == []
     first = out[0]
     assert first.virality == 100
     assert first.start >= 400 - llm.CONTEXT_PAD and first.end <= 490 + llm.CONTEXT_PAD
     assert 76 <= first.end - first.start <= 104
     assert first.hashtags == ["#fun", "#ok"] and len(first.why) == 3 and len(first.title) <= 90
     assert out[1].title == "Best" and out[1].start == 98
+
+
+def test_parse_survives_garbage_values_and_trims_overlaps():
+    data = {"clips": [
+        {"candidate_id": 0, "virality": "high", "start": "nan", "end": None, "title": "", "hook": "",
+         "hashtags": None, "why": "pas une liste"},
+        {"candidate_id": 1, "virality": 70, "start": 150, "end": 240, "title": "B", "hook": "", "hashtags": [], "why": []},
+    ]}
+    adjacent = [Candidate(100, 190, 0.5, 80, 140), Candidate(190, 280, 0.4, 70, 230)]
+    out = llm.parse_choices(data, adjacent, clip_seconds=90, count=2, duration=1000)
+    assert len(out) == 2
+    a, b = out
+    assert (a.start, a.end, a.virality, a.why) == (100, 190, 80, [])
+    assert b.start >= a.end and 76 - 0.5 <= b.end - b.start <= 104
+    with pytest.raises(llm.LLMUnavailable):
+        llm.parse_choices([1, 2], adjacent, 90, 2, 1000)
 
 
 def test_parse_with_nothing_usable_raises():

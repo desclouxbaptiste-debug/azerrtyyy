@@ -160,3 +160,43 @@ def test_free_plan_gets_watermark_and_no_paid_options(client, sample_video):
     clip = job["clips"][0]
     assert (clip["width"], clip["height"]) == (720, 1280)
     assert clip["hashtags"] == [] and clip["subtitles"] is False
+
+
+def test_client_id_uses_the_address_our_proxy_appended(monkeypatch):
+    from starlette.requests import Request
+
+    monkeypatch.setenv("CLIPZO_TRUST_PROXY", "1")
+    scope = {"type": "http", "headers": [(b"x-forwarded-for", b"10.0.0.7, 203.0.113.9")], "client": ("127.0.0.1", 1)}
+    assert app_module._client_id(Request(scope)) == "203.0.113.9"
+    monkeypatch.delenv("CLIPZO_TRUST_PROXY")
+    assert app_module._client_id(Request(scope)) == "127.0.0.1"
+
+
+def test_upload_without_length_is_refused(client):
+    def body():
+        yield b"--x\r\nContent-Disposition: form-data; name=\"file\"; filename=\"a.mp4\"\r\n\r\n"
+        yield b"0" * 1000
+        yield b"\r\n--x--\r\n"
+
+    r = client.post("/api/jobs/upload", content=body(),
+                    headers={"content-type": "multipart/form-data; boundary=x"})
+    assert r.status_code == 411
+
+
+def test_cancel_unknown_job(client):
+    assert client.post("/api/jobs/" + "0" * 32 + "/cancel").status_code == 404
+
+
+@needs_ffmpeg
+def test_cancel_stops_a_running_job(client, sample_video):
+    with sample_video.open("rb") as fh:
+        r = client.post("/api/jobs/upload", files={"file": ("c.mp4", fh, "video/mp4")},
+                        data={"duration": "60", "count": "1", "plan": "free", "options": "{}"})
+    job_id = r.json()["id"]
+    deadline = time.time() + 30
+    while client.get(f"/api/jobs/{job_id}").json()["status"] == "queued" and time.time() < deadline:
+        time.sleep(0.1)
+    assert client.post(f"/api/jobs/{job_id}/cancel").status_code == 200
+    data = wait_for(client, job_id, timeout=60)
+    assert data["status"] == "error" and data["error"] == "Analyse annulée."
+    assert data["clips"] == []

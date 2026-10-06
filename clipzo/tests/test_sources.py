@@ -64,3 +64,21 @@ def test_friendly_errors():
     assert "privée" in sources._friendly_download_error("ERROR: Private video")
     assert "introuvable" in sources._friendly_download_error("ERROR: Video unavailable")
     assert sources._friendly_download_error("random failure").startswith("Impossible")
+
+
+@pytest.mark.parametrize("url", [
+    "https://evil.com%2F.youtube.com/watch?v=x",
+    "https://a\\.youtube.com/x",
+    "https://you tube.com/watch",
+    "https://-bad-.youtube.com/watch",
+])
+def test_malformed_hosts_are_rejected(url):
+    with pytest.raises(sources.SourceError):
+        sources.detect_platform(url)
+
+
+def test_downloader_gets_a_rebuilt_url():
+    platform, url = sources.canonical("  WWW.YouTube.com/watch?v=dQw4w9WgXcQ#t=10  ")
+    assert platform == "youtube"
+    assert url == "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    assert sources.canonical("http://youtu.be")[1] == "https://youtu.be/"

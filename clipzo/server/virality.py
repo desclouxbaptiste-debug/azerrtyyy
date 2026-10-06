@@ -28,13 +28,13 @@ from . import config
 from .transcribe import Transcript
 
 WEIGHTS = {
-    "heatmap": 0.30,
-    "chat": 0.22,
-    "energy": 0.16,
+    "heatmap": 0.26,
+    "chat": 0.18,
+    "energy": 0.14,
     "spike": 0.12,
-    "text": 0.14,
-    "speech": 0.08,
-    "visual": 0.08,
+    "text": 0.20,
+    "speech": 0.05,
+    "visual": 0.05,
 }
 
 CURVE_POINTS = 240
@@ -42,16 +42,14 @@ HOOK_SECONDS = 5
 CHAT_REACTION_DELAY = 6  # chat reacts a few seconds after what happened on screen
 
 _LAUGH = {"haha", "hahaha", "hahahaha", "mdr", "ptdr", "lol", "lmao", "xd", "rires", "rire", "laughs", "laughter", "laughing", "jpp"}
+# Only words that carry emotion. Everyday words ("quoi", "trop", "jamais", "what", "best"...) are left out:
+# they appear in every calm tutorial and would make every passage look exciting.
 _HYPE = {
     # French
-    "incroyable", "jamais", "dingue", "fou", "folle", "ouf", "énorme", "enorme", "sérieux", "serieux", "quoi",
-    "attends", "regarde", "putain", "merde", "bordel", "wow", "waouh", "chaud", "masterclass", "clutch",
-    "record", "secret", "vérité", "verite", "erreur", "pire", "meilleur", "personne", "impossible", "choqué",
-    "choque", "hallucinant", "terrible", "magnifique", "gagné", "gagne", "perdu", "argent", "millions", "euros",
-    "mort", "crise", "scandale", "honte", "trop", "grave", "zinzin", "abusé", "abuse", "frérot", "frero",
+    "incroyable", "dingue", "ouf", "putain", "bordel", "wow", "waouh", "masterclass", "clutch",
+    "impossible", "choqué", "choque", "hallucinant", "scandale", "zinzin", "abusé", "abuse", "inimaginable",
     # English
-    "insane", "crazy", "wtf", "omg", "never", "best", "worst", "truth", "mistake", "unbelievable", "huge",
-    "insanely", "literally", "money", "million", "dead", "shocked", "wild", "bro", "dude", "what",
+    "insane", "crazy", "wtf", "omg", "unbelievable", "insanely", "shocked",
 }
 _HYPE_PHRASES = ["oh mon dieu", "oh my god", "c'est fou", "non mais", "jamais vu", "pas possible", "c'est pas vrai",
                  "let's go", "lets go", "oh là là", "oh la la", "tu te rends compte", "no way", "oh no"]
@@ -114,16 +112,17 @@ def _rolling_median(x: np.ndarray, window: int) -> np.ndarray:
     return out
 
 
-def _robust_z(x: np.ndarray, mask: np.ndarray | None = None) -> np.ndarray:
+def _robust_z(x: np.ndarray, mask: np.ndarray | None = None, min_scale: float = 1e-6) -> np.ndarray:
+    """(x - median) / MAD. `min_scale` is the smallest change that means something for this signal,
+    so a flat signal with tiny jitter stays near 0 instead of spanning the whole range."""
     ref = x[mask] if mask is not None and mask.any() else x
     if ref.size == 0:
         return np.zeros_like(x)
     med = float(np.median(ref))
     mad = float(np.median(np.abs(ref - med))) * 1.4826
     if mad < 1e-6:
-        std = float(ref.std())
-        mad = std if std > 1e-6 else 1.0
-    return (x - med) / mad
+        mad = float(ref.std())
+    return (x - med) / max(mad, min_scale, 1e-6)
 
 
 def _squash(z: np.ndarray) -> np.ndarray:
@@ -150,17 +149,17 @@ def _norm(text: str) -> str:
 def audio_features(loud_mean: np.ndarray, loud_peak: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """(energy, spike, silent) per second."""
     n = len(loud_mean)
-    floor = float(np.percentile(loud_mean, 10)) if n else -90.0
-    silent = (loud_mean < max(-55.0, floor + 3.0)) | (loud_mean < -60.0)
+    median = float(np.median(loud_mean)) if n else -90.0
+    silent = (loud_mean < -60.0) | (loud_mean < min(-40.0, median - 20.0))
     voiced = ~silent
 
     rel = loud_mean - _rolling_median(loud_mean, 121)
-    energy = _squash(_robust_z(rel, voiced))
+    energy = _squash(_robust_z(rel, voiced, min_scale=2.0))  # < 2 dB swings are just noise
     energy[silent] *= 0.2
 
     prev = np.convolve(np.pad(loud_peak, (3, 0), mode="edge"), np.ones(3) / 3, mode="valid")[:n]
     onset = np.clip(loud_peak - prev, 0, None)
-    spike = _smooth(_squash(_robust_z(onset, voiced)), 1.5)
+    spike = _smooth(_squash(_robust_z(onset, voiced, min_scale=1.5)), 1.5)
     spike[silent] *= 0.3
     return energy, spike, silent
 
@@ -201,7 +200,7 @@ def text_features(transcript: Transcript, n: int) -> tuple[np.ndarray, np.ndarra
     hype = 1.0 - np.exp(-_smooth(hype, 2.0) / 0.6)
     speech = _smooth(rate, 2.5)
     speaking = speech > 0.3
-    speech = _squash(_robust_z(speech, speaking)) * speaking
+    speech = _squash(_robust_z(speech, speaking, min_scale=0.5)) * speaking  # words per second
     return hype.astype(np.float32), speech.astype(np.float32), found
 
 
@@ -232,12 +231,12 @@ def chat_feature(chat: list[tuple[float, str]], n: int) -> tuple[np.ndarray, np.
         i = min(n - 1, max(0, int(t) - CHAT_REACTION_DELAY))
         rate[i] += 1.0 + 0.5 * min(3, len(_CHAT_HYPE.findall(text or "")))
     smoothed = _smooth(rate, 4.0)
-    return _squash(_robust_z(smoothed)), smoothed
+    return _squash(_robust_z(smoothed, min_scale=0.2)), smoothed
 
 
 def visual_feature(scenes: np.ndarray) -> np.ndarray:
     peak3 = sliding_window_view(np.pad(scenes, 1, mode="edge"), 3).max(axis=1)
-    return _smooth(_squash(_robust_z(peak3)), 1.5)
+    return _smooth(_squash(_robust_z(peak3, min_scale=0.02)), 1.5)  # encoder noise is ~0.001
 
 
 # ---------------------------------------------------------------- main entry
@@ -285,10 +284,10 @@ def analyse(
     interest = _smooth(np.asarray(interest, dtype=np.float32), 2.0)
 
     curve = _downsample_max(interest, CURVE_POINTS)
-    candidates, all_raw = _select_windows(interest, silent, n, clip_seconds, count)
+    candidates, all_raw = _select_windows(interest, silent, n, clip_seconds, count, duration)
     for cand in candidates:
-        _refine_bounds(cand, transcript, loud_mean, scenes, n, clip_seconds)
-    _remove_overlaps(candidates)
+        _refine_bounds(cand, transcript, loud_mean, scenes, duration, clip_seconds)
+    _remove_overlaps(candidates, duration, clip_seconds)
     _score_and_explain(candidates, all_raw, interest, feats, chat_rate, hype_words, silent)
     for cand in candidates:
         _describe(cand, transcript, platform)
@@ -325,19 +324,21 @@ def _window_scores(interest: np.ndarray, silent: np.ndarray, L: int) -> tuple[np
         peak[i: i + len(view)] = view.max(axis=1)
         pos[i: i + len(view)] = view.argmax(axis=1) / max(1, L - 1)
     raw = 0.45 * mean + 0.30 * peak + 0.15 * hook - 0.30 * dead
-    raw = raw * np.where((pos >= 0.08) & (pos <= 0.88), 1.0, 0.88)
+    raw = raw - 0.06 * ((pos < 0.08) | (pos > 0.88))  # payoff at the very edge risks being cut
     return raw.astype(np.float32), pos
 
 
 def _select_windows(interest: np.ndarray, silent: np.ndarray, n: int, L: int,
-                    count: int) -> tuple[list[Candidate], np.ndarray | None]:
-    if n <= L or n < config.MIN_CLIP_SECONDS:
+                    count: int, duration: float) -> tuple[list[Candidate], np.ndarray | None]:
+    if duration <= L or duration < config.MIN_CLIP_SECONDS or n <= L:
         # Short video: the whole thing is the only possible clip.
         peak = int(np.argmax(interest)) if n else 0
-        only = Candidate(start=0.0, end=float(n), raw=float(interest.mean()) if n else 0.0, score=0, peak_time=float(peak))
+        only = Candidate(start=0.0, end=round(float(duration), 2), raw=float(interest.mean()) if n else 0.0,
+                         score=0, peak_time=float(min(peak, duration)))
         return [only], None
     raw, pos = _window_scores(interest, silent, L)
-    gap = 5
+    _, hi = config.clip_bounds(L)
+    gap = (hi - L) + 9  # refining may move a start ~8 s earlier and stretch the end to `hi`
     order = np.argsort(-raw, kind="stable")
     chosen: list[int] = []
     for s in order:
@@ -354,38 +355,39 @@ def _select_windows(interest: np.ndarray, silent: np.ndarray, n: int, L: int,
 
 
 def _refine_bounds(cand: Candidate, transcript: Transcript | None, loud: np.ndarray,
-                   scenes: np.ndarray | None, n: int, L: int) -> None:
-    if n <= L or n < config.MIN_CLIP_SECONDS:
-        cand.start, cand.end = 0.0, float(n)
+                   scenes: np.ndarray | None, duration: float, L: int) -> None:
+    """Move the edges onto sentence boundaries (or pauses / cuts) without losing the moment itself."""
+    if duration <= L or duration < config.MIN_CLIP_SECONDS:
+        cand.start, cand.end = 0.0, round(float(duration), 2)
         return
     lo, hi = config.clip_bounds(L)
-    start, end = cand.start, cand.end
+    start = cand.start
+    latest = min(cand.start, cand.peak_time - 1.0)  # never start after the moment begins
 
     if transcript and transcript.segments:
-        starts = [s.start for s in transcript.segments if start - 8 <= s.start <= start + 5]
-        if starts:
-            start = min(starts, key=lambda t: abs(t - cand.start))
-        else:
-            start = _quietest(loud, start - 3, start + 1)
+        starts = [s.start for s in transcript.segments if cand.start - 8 <= s.start <= latest]
+        start = max(starts) if starts else _quietest(loud, latest - 3, latest)
         target = start + L
-        ends = [s.end for s in transcript.segments if start + lo <= s.end <= start + hi]
+        ends = [s.end for s in transcript.segments
+                if start + lo <= s.end <= start + hi and s.end >= cand.peak_time + 1]
         end = min(ends, key=lambda t: abs(t - target)) if ends else _quietest(loud, target - 2, target + 2) + 0.5
     else:
-        cut = _scene_cut(scenes, start - 3, start + 3)
-        start = cut if cut is not None else _quietest(loud, start - 3, start + 1)
+        cut = _scene_cut(scenes, latest - 3, latest)
+        start = cut if cut is not None else _quietest(loud, latest - 3, latest)
         end = _quietest(loud, start + L - 3, start + L + 3) + 0.5
 
     start = max(0.0, start - 0.15)  # tiny lead-in so the first word isn't clipped
-    end = min(float(n), end + 0.25)
+    end = min(duration, end + 0.25)
+    if end < cand.peak_time + 1:
+        end = min(duration, cand.peak_time + 3)
     dur = end - start
     if dur < lo:
-        end = min(float(n), start + lo)
+        end = min(duration, start + lo)
         start = max(0.0, end - lo)
     elif dur > hi:
         end = start + hi
     cand.start, cand.end = round(start, 2), round(end, 2)
-    if not (cand.start <= cand.peak_time <= cand.end):
-        cand.peak_time = (cand.start + cand.end) / 2
+    cand.peak_time = min(max(cand.peak_time, cand.start), cand.end)
 
 
 def _quietest(loud: np.ndarray, a: float, b: float) -> float:
@@ -407,14 +409,22 @@ def _scene_cut(scenes: np.ndarray | None, a: float, b: float) -> float | None:
     return float(i0 + j) if seg[j] >= 0.3 else None
 
 
-def _remove_overlaps(cands: list[Candidate]) -> None:
-    ordered = sorted(cands, key=lambda c: c.start)
-    for prev, cur in zip(ordered, ordered[1:]):
-        if cur.start < prev.end:
-            cur.start = prev.end
-            if cur.end - cur.start < config.MIN_CLIP_SECONDS * 0.8:
-                cur.raw = -1.0  # squeezed out: drop it
-    cands[:] = [c for c in cands if c.raw > -1.0 or len(cands) == 1]
+def _remove_overlaps(cands: list[Candidate], duration: float, L: int) -> None:
+    """Safety net: trim a clip that still overlaps the previous one, keep it only if it stays long enough."""
+    if len(cands) < 2:
+        return
+    lo, _ = config.clip_bounds(L)
+    kept: list[Candidate] = []
+    for cur in sorted(cands, key=lambda c: c.start):
+        if kept and cur.start < kept[-1].end:
+            cur.start = kept[-1].end
+            if cur.end - cur.start < lo:
+                cur.end = round(min(duration, cur.start + lo), 2)
+            if cur.end - cur.start < lo - 0.5:
+                continue  # no room left for a full-length short here
+            cur.peak_time = min(max(cur.peak_time, cur.start), cur.end)
+        kept.append(cur)
+    cands[:] = kept
 
 
 def _score_and_explain(cands: list[Candidate], all_raw: np.ndarray | None, interest: np.ndarray,
@@ -444,7 +454,7 @@ def _score_and_explain(cands: list[Candidate], all_raw: np.ndarray | None, inter
         if "rires" in words:
             reasons.append((2.0, "Rires détectés : moment drôle"))
         other = [w for w in words if w != "rires"]
-        if other:
+        if len(other) >= 2:
             top = max(set(other), key=other.count)
             reasons.append((1.6, f"Émotion forte dans les paroles (« {top} »)"))
         if "spike" in win and ratio["spike"] > 1.25:
@@ -456,13 +466,16 @@ def _score_and_explain(cands: list[Candidate], all_raw: np.ndarray | None, inter
         if "visual" in win and ratio["visual"] > 1.3:
             reasons.append((ratio["visual"] * 0.8, "Montage dynamique : beaucoup de changements d'image"))
         hook = float(interest[a: min(b, a + HOOK_SECONDS)].mean()) if b > a else 0.0
-        if hook > float(np.percentile(interest, 75)):
+        window_mean = float(interest[a:b].mean()) if b > a else 0.0
+        if hook > float(np.percentile(interest, 90)) and hook > window_mean * 1.15:
             reasons.append((1.2, "Accroche forte dès les premières secondes"))
         dead = float(silent[a:b].mean()) if b > a else 0.0
         if dead < 0.03 and "energy" in feats:
             reasons.append((0.5, "Aucun temps mort"))
         reasons.sort(key=lambda r: r[0], reverse=True)
-        c.reasons = [r[1] for r in reasons[:4]] or ["Moment le plus intense repéré par l'analyse"]
+        fallback = ("Moment le plus intense repéré par l'analyse" if c.score >= 60
+                    else "Peu de moments forts dans cette vidéo : meilleur passage restant")
+        c.reasons = [r[1] for r in reasons[:4]] or [fallback]
 
 
 def _describe(c: Candidate, transcript: Transcript | None, platform: str) -> None:

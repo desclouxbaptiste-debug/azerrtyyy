@@ -46,11 +46,13 @@ class Job:
     error: str | None = None
     source: dict | None = None
     signals: dict = field(default_factory=lambda: {
-        "heatmap": False, "chat": False, "transcript": False, "llm": False, "faces": False})
+        "audio": False, "scenes": False, "heatmap": False, "chat": False,
+        "transcript": False, "llm": False, "faces": False})
     curve: list[float] | None = None
     clips: list[dict] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     upload_path: str | None = None  # set when the source was uploaded
+    cancel_requested: bool = False
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
     _last_save: float = 0.0
 
@@ -66,6 +68,7 @@ class Job:
         return round(min(0.99, done + STEP_WEIGHTS[self.step] * self.step_progress), 4)
 
     def set_step(self, step: str, message: str) -> None:
+        self.check_cancel()
         with self._lock:
             self.status = "running"
             self.step = step
@@ -74,7 +77,12 @@ class Job:
             self.message = message
         self.save(force=True)
 
+    def check_cancel(self) -> None:
+        if self.cancel_requested:
+            raise JobCancelled()
+
     def update(self, fraction: float | None = None, message: str | None = None) -> None:
+        self.check_cancel()  # progress callbacks are the natural place to stop a long step
         with self._lock:
             if fraction is not None:
                 self.step_progress = max(0.0, min(1.0, fraction))
@@ -174,6 +182,10 @@ class QueueFull(RuntimeError):
     pass
 
 
+class JobCancelled(RuntimeError):
+    """Raised inside the pipeline when the user cancelled the analysis."""
+
+
 class JobStore:
     def __init__(self) -> None:
         self.jobs: dict[str, Job] = {}
@@ -212,7 +224,11 @@ class JobStore:
 
     def _cleanup(self) -> None:
         cutoff = time.time() - config.JOB_TTL_HOURS * 3600
+        stale = time.time() - 6 * 3600
         with self.lock:
+            for j in self.jobs.values():
+                if j.status == "queued" and j.created_at < stale and j.id not in self.order:
+                    j.status, j.error, j.message = "error", "Analyse interrompue.", "Analyse interrompue."
             expired = [j for j in self.jobs.values() if j.created_at < cutoff and j.status in ("done", "error")]
             for j in expired:
                 self.jobs.pop(j.id, None)
@@ -227,14 +243,21 @@ class JobStore:
                 pass
 
     # -- submission ---------------------------------------------------------------
+    def _check_capacity_locked(self, client: str) -> None:
+        pending = [j for j in self.jobs.values() if j.status in ("queued", "running")]
+        if len(pending) >= config.MAX_QUEUED_JOBS:
+            raise QueueFull("Le serveur est très demandé : réessaie dans quelques minutes.")
+        mine = [j for j in pending if j.client == client]
+        if len(mine) >= config.MAX_ACTIVE_JOBS_PER_CLIENT:
+            raise QueueFull("Tu as déjà des vidéos en cours d'analyse : attends qu'elles soient finies.")
+
+    def check_capacity(self, client: str) -> None:
+        with self.lock:
+            self._check_capacity_locked(client)
+
     def create(self, client: str, request: JobRequest) -> Job:
         with self.lock:
-            pending = [j for j in self.jobs.values() if j.status in ("queued", "running")]
-            if len(pending) >= config.MAX_QUEUED_JOBS:
-                raise QueueFull("Le serveur est très demandé : réessaie dans quelques minutes.")
-            mine = [j for j in pending if j.client == client]
-            if len(mine) >= config.MAX_ACTIVE_JOBS_PER_CLIENT:
-                raise QueueFull("Tu as déjà des vidéos en cours d'analyse : attends qu'elles soient finies.")
+            self._check_capacity_locked(client)
             job = Job(id=uuid.uuid4().hex, client=client, request=request)
             job_dir(job.id).mkdir(parents=True, exist_ok=True)
             self.jobs[job.id] = job
@@ -251,9 +274,21 @@ class JobStore:
             with self.lock:
                 if job.id in self.order:
                     self.order.remove(job.id)
+            if job.cancel_requested:
+                return
             run(job)
 
         self.executor.submit(task)
+
+    def cancel(self, job: Job) -> None:
+        """Stop an analysis: a queued job never starts, a running one stops at its next progress tick."""
+        job.cancel_requested = True
+        with self.lock:
+            queued = job.id in self.order
+            if queued:
+                self.order.remove(job.id)
+        if queued or job.status == "queued":
+            job.fail("Analyse annulée.")
 
     def discard(self, job: Job) -> None:
         with self.lock:

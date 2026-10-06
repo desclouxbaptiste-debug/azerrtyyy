@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from . import config, llm, media, reframe, render, sources, transcribe, virality
-from .jobs import Job, job_dir
+from .jobs import Job, JobCancelled, job_dir
 from .sources import PLATFORM_NAMES, Source, SourceError
 
 log = logging.getLogger("clipzo.pipeline")
@@ -77,7 +77,7 @@ def run(job: Job) -> None:
         pcm = np.zeros(0, dtype=np.int16)
         if info.has_audio:
             media.extract_audio(source.path, raw_audio, info.duration, lambda f: job.update(f * 0.8))
-            pcm = media.load_pcm(raw_audio)
+            pcm = media.load_pcm(raw_audio)[: (n + 1) * media.AUDIO_RATE]
             loud_mean, loud_peak = media.loudness_per_second(pcm, n)
         else:
             loud_mean = loud_peak = np.full(n, -90.0, dtype=np.float32)
@@ -123,8 +123,11 @@ def run(job: Job) -> None:
             clip_seconds=req.duration, count=pool, platform=source.platform,
         )
         job.curve = analysis.curve
-        job.signals["heatmap"] = "heatmap" in analysis.signals_used
-        job.signals["chat"] = "chat" in analysis.signals_used
+        used = set(analysis.signals_used)
+        job.signals.update({
+            "audio": "energy" in used, "scenes": "visual" in used,
+            "heatmap": "heatmap" in used, "chat": "chat" in used,
+        })
         job.update(0.5)
 
         picks = _picks_from_algorithm(analysis.candidates[: req.count])
@@ -137,10 +140,21 @@ def run(job: Job) -> None:
                 job.signals["llm"] = True
             except llm.LLMUnavailable as exc:
                 job.warn(f"Analyse IA indisponible ({exc}) : classement par l'algorithme seul.")
+            except Exception:  # noqa: BLE001 - Claude is a bonus, never fail the job for it
+                log.exception("Claude ranking failed for %s", job.id)
+                job.warn("Analyse IA indisponible : classement par l'algorithme seul.")
+        if opts["hooks"] and not job.signals["llm"]:
+            why = ("pas de paroles à analyser" if config.llm_configured()
+                   else "Claude n'est pas configuré sur ce serveur")
+            job.warn(f"Titres IA indisponibles ({why}) : titres tirés de la vidéo.")
         if not opts["hooks"]:
             for p in picks:
                 p["hashtags"] = []
         picks.sort(key=lambda p: p["score"], reverse=True)
+        if len(picks) < req.count:
+            job.warn(f"Cette vidéo n'a la place que pour {len(picks)} short{'s' if len(picks) > 1 else ''} "
+                     f"distinct{'s' if len(picks) > 1 else ''} de cette durée (tu en demandais {req.count}). "
+                     "Seuls les shorts livrés sont décomptés.")
         job.update(1.0)
 
         # 6. Render --------------------------------------------------------------------
@@ -162,10 +176,15 @@ def run(job: Job) -> None:
                     face_x = reframe.face_center(source.path, p["start"], p["end"] - p["start"])
                 except Exception as exc:  # noqa: BLE001 - optional, fall back to the blurred layout
                     log.warning("face tracking failed: %s", exc)
-            result = render.render_clip(
-                source.path, info, p["start"], p["end"], clip_dir, i, plan, render_opts,
-                transcript, face_x, p["peak"], prog,
-            )
+            try:
+                result = render.render_clip(
+                    source.path, info, p["start"], p["end"], clip_dir, i, plan, render_opts,
+                    transcript, face_x, p["peak"], prog,
+                )
+            except media.MediaError:
+                log.warning("render of short %d failed for %s", i + 1, job.id)
+                job.warn(f"Le short n°{i + 1} n'a pas pu être découpé : il a été ignoré.")
+                continue
             if result.layout == "face":
                 job.signals["faces"] = True
             job.add_clip({
@@ -186,12 +205,19 @@ def run(job: Job) -> None:
                 "layout": result.layout,
                 "subtitles": result.has_subtitles,
             })
+        if not job.clips:
+            raise media.MediaError("Aucun short n'a pu être découpé dans cette vidéo.")
         job.finish()
+    except JobCancelled:
+        job.fail("Analyse annulée.")
     except (SourceError, media.MediaError) as exc:
-        job.fail(str(exc))
+        job.fail("Analyse annulée." if job.cancel_requested else str(exc))
     except Exception:  # noqa: BLE001 - never leave a job stuck in "running"
-        log.exception("job %s failed", job.id)
-        job.fail("Erreur inattendue pendant le traitement. Réessaie, ou envoie directement le fichier vidéo.")
+        if job.cancel_requested:
+            job.fail("Analyse annulée.")
+        else:
+            log.exception("job %s failed", job.id)
+            job.fail("Erreur inattendue pendant le traitement. Réessaie, ou envoie directement le fichier vidéo.")
     finally:
         # Keep the shorts, drop the heavy intermediate files.
         raw_audio.unlink(missing_ok=True)

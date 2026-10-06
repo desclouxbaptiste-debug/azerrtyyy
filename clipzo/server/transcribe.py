@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import threading
+import time
 from dataclasses import dataclass, field
 from typing import Callable
 
@@ -61,6 +62,8 @@ class Transcript:
 _model = None
 _model_lock = threading.Lock()
 _model_error: str | None = None
+_model_error_at = 0.0
+RETRY_AFTER = 600  # a failed model download (network blip) is retried after 10 minutes
 
 
 def available() -> bool:
@@ -70,11 +73,11 @@ def available() -> bool:
         import faster_whisper  # noqa: F401
     except ImportError:
         return False
-    return _model_error is None
+    return _model_error is None or time.monotonic() - _model_error_at > RETRY_AFTER
 
 
 def _get_model():
-    global _model, _model_error
+    global _model, _model_error, _model_error_at
     if not available():
         raise TranscriptionUnavailable(_model_error or "faster-whisper n'est pas installé.")
     with _model_lock:
@@ -87,8 +90,10 @@ def _get_model():
                     device=config.WHISPER_DEVICE,
                     compute_type=config.WHISPER_COMPUTE_TYPE,
                 )
+                _model_error = None
             except Exception as exc:  # noqa: BLE001 - download/runtime errors vary by backend
                 _model_error = f"modèle Whisper « {config.WHISPER_MODEL} » indisponible ({exc.__class__.__name__})"
+                _model_error_at = time.monotonic()
                 raise TranscriptionUnavailable(_model_error) from exc
         return _model
 
@@ -96,6 +101,7 @@ def _get_model():
 def transcribe(pcm: np.ndarray, duration: float, progress: ProgressFn | None = None) -> Transcript:
     """Transcribe int16 mono 16 kHz samples. Timestamps are in seconds from the start of the video."""
     model = _get_model()
+    pcm = pcm[: int((duration + 1) * AUDIO_RATE)]
     total = len(pcm)
     segments: list[Segment] = []
     language = config.WHISPER_LANGUAGE

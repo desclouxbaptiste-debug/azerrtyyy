@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 from dataclasses import dataclass
 
 from . import config
@@ -180,26 +181,36 @@ def rank(title: str, platform: str, transcript: Transcript, candidates: list[Can
     return parse_choices(data, candidates, clip_seconds, count, duration)
 
 
+def _num(value, default: float) -> float:
+    try:
+        f = float(value)
+    except (TypeError, ValueError):
+        return default
+    return f if math.isfinite(f) else default
+
+
+def _trim(start: float, end: float, taken: list[tuple[float, float]]) -> tuple[float, float]:
+    """Cut [start, end] so it doesn't overlap any span already taken."""
+    for a, b in taken:
+        if start < b and end > a:
+            if a <= start:
+                start = b
+            else:
+                end = a
+    return start, end
+
+
 def parse_choices(data: dict, candidates: list[Candidate], clip_seconds: int, count: int,
                   duration: float) -> list[LLMChoice]:
-    """Validate Claude's answer and clamp every value to what the renderer accepts."""
+    """Validate Claude's answer, clamp every value to what the renderer accepts, and top up
+    with the algorithm's next best candidates if Claude kept fewer than requested."""
     lo, hi = config.clip_bounds(clip_seconds)
     if duration < lo:
         lo = hi = duration
     choices: list[LLMChoice] = []
     used: set[int] = set()
-    for item in data.get("clips") or []:
-        try:
-            cid = int(item["candidate_id"])
-        except (KeyError, TypeError, ValueError):
-            continue
-        if cid in used or not 0 <= cid < len(candidates):
-            continue
-        cand = candidates[cid]
-        try:
-            start, end = float(item.get("start", cand.start)), float(item.get("end", cand.end))
-        except (TypeError, ValueError):
-            start, end = cand.start, cand.end
+
+    def fit(cand: Candidate, start: float, end: float) -> tuple[float, float] | None:
         # Claude may only move the edges inside the transcript it was shown.
         start = min(max(start, cand.start - CONTEXT_PAD, 0.0), cand.end)
         end = max(min(end, cand.end + CONTEXT_PAD, duration), start)
@@ -208,28 +219,59 @@ def parse_choices(data: dict, candidates: list[Candidate], clip_seconds: int, co
             start = max(0.0, end - lo)
         if end - start > hi:
             end = start + hi
-        if any(start < c.end and end > c.start for c in choices):
-            start, end = cand.start, cand.end
-            if any(start < c.end and end > c.start for c in choices):
-                continue
+        taken = [(c.start, c.end) for c in choices]
+        for s, e in ((start, end), (cand.start, cand.end)):
+            s, e = _trim(s, e, taken)
+            if e - s >= lo - 0.5:
+                return round(s, 2), round(e, 2)
+        return None
+
+    items = data.get("clips") if isinstance(data, dict) else None
+    for item in items or []:
+        if not isinstance(item, dict):
+            continue
+        try:
+            cid = int(item["candidate_id"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if cid in used or not 0 <= cid < len(candidates):
+            continue
+        cand = candidates[cid]
+        span = fit(cand, _num(item.get("start"), cand.start), _num(item.get("end"), cand.end))
+        if span is None:
+            continue
         used.add(cid)
         tags = []
         for t in item.get("hashtags") or []:
             t = str(t).strip().replace(" ", "")
             if t:
                 tags.append(t if t.startswith("#") else "#" + t)
+        why = item.get("why") if isinstance(item.get("why"), list) else []
         choices.append(LLMChoice(
             candidate=cand,
-            virality=max(0, min(100, int(item.get("virality", cand.score) or 0))),
-            start=round(start, 2),
-            end=round(end, 2),
+            virality=int(max(0.0, min(100.0, _num(item.get("virality"), cand.score)))),
+            start=span[0],
+            end=span[1],
             title=str(item.get("title") or cand.title)[:90].strip(),
             hook=str(item.get("hook") or cand.hook)[:120].strip(),
             hashtags=tags[:6],
-            why=[str(w)[:120].strip() for w in (item.get("why") or []) if str(w).strip()][:3],
+            why=[str(w)[:120].strip() for w in why if str(w).strip()][:3],
         ))
         if len(choices) >= count:
             break
     if not choices:
         raise LLMUnavailable("Claude n'a retenu aucun moment.")
+
+    # Top up: the creator asked for `count` shorts. Moments Claude didn't keep get a lower score.
+    for cid, cand in enumerate(candidates):
+        if len(choices) >= count:
+            break
+        if cid in used:
+            continue
+        span = fit(cand, cand.start, cand.end)
+        if span is None:
+            continue
+        used.add(cid)
+        choices.append(LLMChoice(candidate=cand, virality=int(cand.score * 0.7), start=span[0], end=span[1],
+                                 title=cand.title, hook=cand.hook, hashtags=[], why=[]))
     return choices

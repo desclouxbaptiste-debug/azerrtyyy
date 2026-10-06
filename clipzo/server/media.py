@@ -8,6 +8,7 @@ import math
 import re
 import subprocess
 import threading
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
@@ -83,16 +84,24 @@ def run_ffmpeg(args: list[str], duration: float | None = None, progress: Progres
     t = threading.Thread(target=drain, daemon=True)
     t.start()
     assert proc.stdout is not None
-    for line in proc.stdout:
-        if progress and duration and line.startswith("out_time_us="):
-            value = _to_float(line.split("=", 1)[1])
-            if value is not None and value >= 0:
-                progress(min(1.0, value / 1e6 / duration))
+    deadline = time.monotonic() + timeout if timeout else None
     try:
-        proc.wait(timeout=timeout)
+        for line in proc.stdout:
+            if deadline and time.monotonic() > deadline:
+                raise MediaError("Le traitement vidéo a pris trop de temps.")
+            if progress and duration and line.startswith("out_time_us="):
+                value = _to_float(line.split("=", 1)[1])
+                if value is not None and value >= 0:
+                    progress(min(1.0, value / 1e6 / duration))
+        proc.wait(timeout=max(1.0, deadline - time.monotonic()) if deadline else None)
     except subprocess.TimeoutExpired:
         proc.kill()
+        proc.wait()
         raise MediaError("Le traitement vidéo a pris trop de temps.")
+    except BaseException:
+        proc.kill()  # cancelled, timed out or crashed: don't leave ffmpeg running
+        proc.wait()
+        raise
     t.join(timeout=5)
     stderr = "".join(stderr_chunks)
     if proc.returncode != 0:
@@ -104,9 +113,11 @@ def run_ffmpeg(args: list[str], duration: float | None = None, progress: Progres
 
 def extract_audio(src: Path, dest: Path, duration: float, progress: ProgressFn | None = None) -> Path:
     """Decode the soundtrack to raw signed 16-bit mono PCM (no header, easy to memory-map)."""
+    # `-t`: never decode more than the probed duration (a file can lie about its length in its header).
     run_ffmpeg(
-        ["-i", str(src), "-vn", "-ac", "1", "-ar", str(AUDIO_RATE), "-f", "s16le", "-acodec", "pcm_s16le", str(dest)],
-        duration=duration, progress=progress,
+        ["-i", str(src), "-t", f"{duration + 1:.3f}", "-vn", "-ac", "1", "-ar", str(AUDIO_RATE),
+         "-f", "s16le", "-acodec", "pcm_s16le", str(dest)],
+        duration=duration, progress=progress, timeout=max(600.0, duration * 2),
     )
     return dest
 
@@ -156,8 +167,8 @@ def scene_scores_per_second(src: Path, duration: float, work_dir: Path,
         "select='gte(scene\\,0)',"
         f"metadata=print:key=lavfi.scene_score:file={out_name}"
     )
-    run_ffmpeg(["-i", str(src), "-an", "-sn", "-dn", "-vf", vf, "-f", "null", "-"],
-               duration=duration, progress=progress, cwd=work_dir)
+    run_ffmpeg(["-i", str(src), "-t", f"{duration + 1:.3f}", "-an", "-sn", "-dn", "-vf", vf, "-f", "null", "-"],
+               duration=duration, progress=progress, cwd=work_dir, timeout=max(900.0, duration * 3))
     scores = np.zeros(n, dtype=np.float32)
     text = (work_dir / out_name).read_text(errors="ignore") if (work_dir / out_name).exists() else ""
     for t_str, s_str in _SCENE_RE.findall(text):
