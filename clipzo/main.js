@@ -463,7 +463,7 @@
     if (!e.target.reportValidity()) return;
     e.target.reset();
     hidePanel();
-    toast("Message envoyé — on te répond sous 24 h (démo)");
+    toast("Démo : ce formulaire n'envoie encore rien (service d'envoi à brancher)");
   });
 
   // Deep links: #studio, #tarifs, #contact
