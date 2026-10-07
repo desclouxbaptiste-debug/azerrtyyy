@@ -37,6 +37,10 @@ async def lifespan(_: FastAPI):
         log.error("Mac : brew install ffmpeg   |   Linux : sudo apt install ffmpeg")
         log.error("Ou indique son dossier : CLIPZO_FFMPEG_DIR=C:\\chemin\\vers\\ffmpeg\\bin")
         log.error("=" * 70)
+    if not billing.configured():
+        log.info("Paiement Stripe non configuré : les forfaits payants ne peuvent pas être achetés (README, "
+                 "« Brancher Stripe »). Pour tester un forfait : %s -m server.admin set-plan <email> pro",
+                 "py" if os.name == "nt" else "python")
     store.start()
     log.info("Clipzo ready — data in %s, %d worker(s), Claude: %s, Whisper: %s",
              config.DATA_DIR, config.WORKERS, "on" if config.llm_configured() else "off",

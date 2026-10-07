@@ -2333,3 +2333,25 @@ button {
   background: rgba(255, 255, 255, 0.1);
   white-space: nowrap;
 }
+
+/* Pricing on a server without Stripe */
+.billing-banner {
+  margin: 0 0 18px;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.billing-banner i {
+  color: #fff;
+}
+
+.billing-banner:focus {
+  outline: none;
+  border-style: solid;
+  border-color: var(--accent);
+}
+
+.billing-banner code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}

@@ -145,13 +145,18 @@ shorts réellement livrés : une analyse annulée ou en échec ne coûte rien.
 - Les abonnements Créateur et Pro passent par Stripe : page de paiement Stripe pour s'abonner, portail
   client Stripe pour changer de carte, de forfait ou résilier. Le serveur suit l'état de l'abonnement grâce
   aux notifications (webhooks) de Stripe.
-- Sans clé Stripe, personne ne peut acheter de forfait, mais tu peux en donner un à la main :
+- Sans clé Stripe, personne ne peut acheter de forfait (la page Tarifs l'indique), mais tu peux en donner
+  un à la main, par exemple pour tester les options payantes sur ton ordinateur. Dans un **autre terminal**,
+  ouvert dans le dossier `clipzo` (avec le `.venv` activé si tu en utilises un), pendant que le serveur
+  tourne :
 
   ```bash
   python -m server.admin users                       # liste des comptes
   python -m server.admin set-plan ami@exemple.com pro
+  python -m server.admin set-plan ami@exemple.com free   # retour au forfait gratuit
   ```
 
+  Sous Windows, remplace `python` par `py`. Recharge ensuite la page du site.
   (avec Docker : `docker compose -f docker-compose.prod.yml exec clipzo python -m server.admin users`)
 
 ## Mettre le site en ligne
@@ -191,6 +196,12 @@ Hetzner, OVH ou Scaleway, autour de 5 € par mois), et un nom de domaine.
    se réabonnant.
 5. Relance le site (`docker compose ... up -d`), puis teste un abonnement avec la carte de test
    `4242 4242 4242 4242` (date future, n'importe quel code).
+
+   **Tester Stripe sur ton ordinateur** (sans domaine) : Stripe ne peut pas joindre `localhost`, alors
+   installe la [Stripe CLI](https://docs.stripe.com/stripe-cli), puis `stripe login` et
+   `stripe listen --forward-to localhost:8000/api/billing/webhook`. Elle affiche un secret `whsec_...` :
+   mets-le dans `STRIPE_WEBHOOK_SECRET` (avec ta clé `sk_test_...` dans `STRIPE_SECRET_KEY`) et relance
+   `py -m server`, en laissant `stripe listen` ouvert pendant tes essais.
 6. Quand tout marche, refais les étapes 2 à 4 en **mode live** avec les vraies clés.
 
 ### À savoir

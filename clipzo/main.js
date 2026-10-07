@@ -268,6 +268,21 @@
     return p.quota === Infinity ? "Shorts illimités" : `${p.quota} / ${p.quota} shorts restants ce mois-ci`;
   }
 
+  // Live server without Stripe: say so on the pricing page instead of failing at each click.
+  // On the owner's own computer, also show how to give an account a plan by hand to test it.
+  const billingBanner = $(".billing-banner");
+  const billingOff = () => isLive() && api.features.billing === false;
+  const onOwnComputer = /^(localhost|127\.\d+\.\d+\.\d+|0\.0\.0\.0|\[::1\])$/.test(location.hostname);
+
+  function refreshBillingBanner(user) {
+    billingBanner.hidden = !billingOff();
+    $(".billing-local", billingBanner).hidden = !onOwnComputer;
+    const py = /Windows/i.test(navigator.userAgent) ? "py" : "python3";
+    let email = user ? user.email : "ton@email";
+    if (/[^\w.@+-]/.test(email)) email = `"${email}"`; // cmd / shell special characters
+    $(".billing-cmd", billingBanner).textContent = `${py} -m server.admin set-plan ${email} pro`;
+  }
+
   function refreshPlanUI() {
     const key = planKey();
     const p = PLANS[key];
@@ -300,6 +315,7 @@
     });
 
     $$(".sign-in, .m-sign-in").forEach((b) => (b.textContent = user ? "Mon compte" : "Connexion"));
+    refreshBillingBanner(user);
     if (openPanel === panels.account) renderAccount();
   }
 
@@ -635,6 +651,14 @@
       refreshPlanUI();
       toast(`Forfait ${PLANS[demoPlan].name} activé (démo — aucun paiement)`);
       setTimeout(() => showPanel("studio"), 500);
+      return;
+    }
+    if (choice !== "free" && billingOff()) {
+      // Nothing to buy on this server: no sign-up detour, no request bound to fail
+      refreshPlanUI();
+      toast("Le paiement n'est pas encore activé sur ce serveur.");
+      billingBanner.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+      billingBanner.focus({ preventScroll: true });
       return;
     }
     if (api.me) await api.me;
