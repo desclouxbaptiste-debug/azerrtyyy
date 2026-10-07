@@ -16,9 +16,35 @@ docker compose up --build
 
 Ouvre ensuite http://localhost:8000.
 
-### Sans Docker
+### Sans Docker, sous Windows
 
-Il faut Python 3.10+ et ffmpeg (`sudo apt install ffmpeg` sur Ubuntu, `brew install ffmpeg` sur Mac).
+Dans un terminal (`cmd`) :
+
+```bat
+winget install Python.Python.3.12
+winget install Gyan.FFmpeg
+```
+
+**Ferme le terminal et rouvre-en un** (sinon il ne connaît pas encore ffmpeg), puis :
+
+```bat
+cd chemin\vers\clipzo
+py -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+set ANTHROPIC_API_KEY=sk-ant-...
+py -m server
+```
+
+(`set ANTHROPIC_API_KEY` est facultatif.) Ouvre ensuite http://localhost:8000.
+
+Si le serveur affiche « ffmpeg est introuvable », vérifie avec `ffmpeg -version` dans un nouveau terminal.
+Si ffmpeg est installé ailleurs, indique son dossier `bin` :
+`set CLIPZO_FFMPEG_DIR=C:\ffmpeg\bin` avant `py -m server`.
+
+### Sans Docker, sous Mac ou Linux
+
+Il faut Python 3.10+ et ffmpeg (`brew install ffmpeg` sur Mac, `sudo apt install ffmpeg` sur Ubuntu).
 
 ```bash
 cd clipzo
@@ -102,6 +128,7 @@ shorts réellement livrés : une analyse annulée ou en échec ne coûte rien.
 | `CLIPZO_JOB_TTL_HOURS` | `24` | Durée de conservation des shorts |
 | `CLIPZO_MAX_UPLOAD_MB` | `4096` | Taille max des fichiers envoyés |
 | `CLIPZO_HOST` / `CLIPZO_PORT` | `127.0.0.1` / `8000` | Adresse d'écoute |
+| `CLIPZO_FFMPEG_DIR` | vide | Dossier qui contient `ffmpeg` et `ffprobe`, s'ils ne sont pas dans le PATH |
 | `STRIPE_SECRET_KEY` | vide | Clé secrète Stripe : active les abonnements payants |
 | `STRIPE_WEBHOOK_SECRET` | vide | Secret du webhook Stripe (voir « Brancher Stripe ») |
 | `STRIPE_PRICE_*` | vide | Identifiants de prix Stripe (facultatif) |

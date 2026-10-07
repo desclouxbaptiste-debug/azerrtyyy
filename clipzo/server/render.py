@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Callable
 
 from . import config
-from .media import MediaError, ProbeInfo, probe, run_ffmpeg
+from .media import FONT_NAME, MediaError, ProbeInfo, install_font, probe, run_ffmpeg
 from .subtitles import build_ass
 from .transcribe import Transcript
 
@@ -99,16 +99,19 @@ def render_clip(src: Path, info: ProbeInfo, start: float, end: float, out_dir: P
 
     chain = []
     has_subs = False
+    has_font = install_font(out_dir)
     if opts.subtitles and transcript is not None:
         ass = build_ass(transcript, start, end, out_w, out_h, animated=opts.animated_subtitles)
         if ass:
             (out_dir / f"{index}.ass").write_text(ass, encoding="utf-8")
-            chain.append(f"ass={index}.ass")  # relative path: ffmpeg runs inside out_dir, no escaping issues
+            # relative paths: ffmpeg runs inside out_dir, so no drive letters or backslashes to escape
+            chain.append(f"ass={index}.ass:fontsdir=." if has_font else f"ass={index}.ass")
             has_subs = True
     if opts.watermark:
         size = max(18, int(min(out_w, out_h) * 0.045))
+        font = f"fontfile={FONT_NAME}:" if has_font else ""
         chain.append(
-            f"drawtext=text=clipzo:fontcolor=white@0.72:fontsize={size}:"
+            f"drawtext={font}text=clipzo:fontcolor=white@0.72:fontsize={size}:"
             f"x=w-tw-{int(out_w * 0.05)}:y={int(out_h * 0.05)}:shadowcolor=black@0.45:shadowx=2:shadowy=2"
         )
     chain.append("format=yuv420p")

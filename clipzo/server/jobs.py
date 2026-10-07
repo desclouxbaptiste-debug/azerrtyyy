@@ -188,9 +188,12 @@ def job_dir(job_id: str) -> Path:
 def drop_inputs(job_id: str) -> None:
     """Delete the heavy working files of a job (source video, audio), keep its shorts."""
     d = job_dir(job_id)
-    for pattern in ("upload.*", "source.*", "audio.s16le", "clips/*.part.mp4", "clips/*.ass"):
+    for pattern in ("upload.*", "source.*", "audio.s16le", "clips/*.part.mp4", "clips/*.ass", "clips/clipzo-font.ttf"):
         for f in d.glob(pattern):
-            f.unlink(missing_ok=True)
+            try:
+                f.unlink(missing_ok=True)
+            except OSError as exc:  # still open (Windows): retried by the next cleanup
+                log.warning("could not delete %s: %s", f, exc)
 
 
 class QueueFull(RuntimeError):

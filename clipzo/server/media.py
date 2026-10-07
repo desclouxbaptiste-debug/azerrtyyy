@@ -5,7 +5,9 @@ from __future__ import annotations
 import json
 import logging
 import math
+import os
 import re
+import shutil
 import subprocess
 import threading
 import time
@@ -17,6 +19,55 @@ from typing import Callable
 import numpy as np
 
 log = logging.getLogger("clipzo.media")
+
+# Font shipped with Clipzo (DejaVu Sans Bold, free licence) for subtitles and the watermark:
+# Windows ffmpeg builds often can't find any system font for drawtext.
+FONT_FILE = Path(__file__).resolve().parent / "fonts" / "DejaVuSans-Bold.ttf"
+FONT_NAME = "clipzo-font.ttf"  # copied next to each render, so filters only use a relative name
+
+
+def _add_ffmpeg_to_path() -> None:
+    """Find ffmpeg when it is installed but this terminal's PATH doesn't know it yet (typical right
+    after `winget install Gyan.FFmpeg` on Windows), or in the folder given by CLIPZO_FFMPEG_DIR."""
+    exe = "ffmpeg.exe" if os.name == "nt" else "ffmpeg"
+    candidates: list[Path] = []
+    if os.environ.get("CLIPZO_FFMPEG_DIR"):
+        candidates.append(Path(os.environ["CLIPZO_FFMPEG_DIR"]))
+    if os.name == "nt":
+        local = os.environ.get("LOCALAPPDATA")
+        if local:
+            winget = Path(local, "Microsoft", "WinGet")
+            candidates += sorted(winget.joinpath("Packages").glob("Gyan.FFmpeg*/*/bin"), reverse=True)
+            candidates.append(winget / "Links")
+        candidates += [Path("C:/ffmpeg/bin"), Path(os.environ.get("ProgramFiles", "C:/Program Files"), "ffmpeg", "bin")]
+    for d in candidates:
+        if (d / exe).is_file():
+            os.environ["PATH"] = str(d) + os.pathsep + os.environ.get("PATH", "")
+            log.info("ffmpeg found in %s", d)
+            return
+
+
+def ffmpeg_available() -> bool:
+    """True when both ffmpeg and ffprobe can be run."""
+    if os.environ.get("CLIPZO_FFMPEG_DIR") or not (shutil.which("ffmpeg") and shutil.which("ffprobe")):
+        _add_ffmpeg_to_path()
+    return bool(shutil.which("ffmpeg") and shutil.which("ffprobe"))
+
+
+FFMPEG_MISSING = ("ffmpeg n'est pas installé sur l'ordinateur qui fait tourner Clipzo. Installe-le "
+                  "(Windows : « winget install Gyan.FFmpeg », Mac : « brew install ffmpeg », "
+                  "Linux : « sudo apt install ffmpeg »), puis relance le serveur.")
+
+
+def install_font(out_dir: Path) -> bool:
+    """Copy the bundled font next to a render. False if the font file is missing."""
+    dest = out_dir / FONT_NAME
+    if dest.exists():
+        return True
+    if not FONT_FILE.is_file():
+        return False
+    shutil.copyfile(FONT_FILE, dest)
+    return True
 
 AUDIO_RATE = 16000  # mono 16 kHz: what Whisper expects, plenty for loudness analysis
 

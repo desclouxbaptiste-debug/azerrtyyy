@@ -47,3 +47,30 @@ def test_timeout_fires_even_when_ffmpeg_prints_nothing(tmp_path):
     with pytest.raises(media.MediaError):
         media.run_ffmpeg(["-f", "lavfi", "-i", "anullsrc", "-f", "null", "-"], timeout=2)  # endless input
     assert time.monotonic() - start < 15
+
+
+def test_ffmpeg_folder_from_the_environment_is_used(tmp_path, monkeypatch):
+    import os
+
+    fake = tmp_path / "bin"
+    fake.mkdir()
+    for name in ("ffmpeg", "ffprobe", "ffmpeg.exe", "ffprobe.exe"):
+        f = fake / name
+        f.write_text("#!/bin/sh\nexit 0\n")
+        f.chmod(0o755)
+    monkeypatch.setenv("CLIPZO_FFMPEG_DIR", str(fake))
+    monkeypatch.setenv("PATH", "/nonexistent")
+    assert media.ffmpeg_available()
+    assert os.environ["PATH"].split(os.pathsep)[0] == str(fake)
+
+
+def test_missing_ffmpeg_is_reported(monkeypatch):
+    monkeypatch.delenv("CLIPZO_FFMPEG_DIR", raising=False)
+    monkeypatch.setenv("PATH", "/nonexistent")
+    assert media.ffmpeg_available() is False
+
+
+def test_bundled_font_is_installed_next_to_renders(tmp_path):
+    assert media.FONT_FILE.is_file()
+    assert media.install_font(tmp_path)
+    assert (tmp_path / media.FONT_NAME).stat().st_size == media.FONT_FILE.stat().st_size

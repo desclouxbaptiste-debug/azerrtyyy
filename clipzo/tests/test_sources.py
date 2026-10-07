@@ -82,3 +82,9 @@ def test_downloader_gets_a_rebuilt_url():
     assert platform == "youtube"
     assert url == "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     assert sources.canonical("http://youtu.be")[1] == "https://youtu.be/"
+
+
+def test_missing_ffmpeg_error_is_explained():
+    msg = sources._friendly_download_error(
+        "ERROR: You have requested merging of multiple formats but ffmpeg is not installed. Aborting due to --abort-on-error")
+    assert "ffmpeg n'est pas installé" in msg and "winget install Gyan.FFmpeg" in msg

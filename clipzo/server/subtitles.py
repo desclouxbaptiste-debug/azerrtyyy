@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from .transcribe import Transcript, Word
 
-FONT = "DejaVu Sans"  # installed with fonts-dejavu-core; libass falls back to any sans font
+FONT = "DejaVu Sans"  # bundled in server/fonts (loaded through fontsdir), any sans font as fallback
 HIGHLIGHT = "&H004AE2FF"  # ASS colours are &HAABBGGRR: this is #FFE24A (yellow)
 WHITE = "&H00FFFFFF"
 

@@ -145,6 +145,9 @@ def download(url: str, job_dir: Path, plan: config.Plan, progress: ProgressFn) -
         # YouTube needs a JavaScript runtime: Deno (installed by yt-dlp[deno]) or Node 22+.
         "js_runtimes": {"deno": {}, "node": {}},
     }
+    ffmpeg = shutil.which("ffmpeg")
+    if ffmpeg:
+        opts["ffmpeg_location"] = str(Path(ffmpeg).parent)
     progress(0.0, "Lecture des infos de la vidéo…")
     try:
         with yt_dlp.YoutubeDL(opts) as ydl:
@@ -305,6 +308,10 @@ def parse_youtube_chat(path: Path) -> list[tuple[float, str]]:
 
 def _friendly_download_error(message: str) -> str:
     m = message.lower()
+    if "ffmpeg" in m and ("not installed" in m or "not found" in m):
+        from .media import FFMPEG_MISSING
+
+        return FFMPEG_MISSING
     if "private" in m or "privée" in m:
         return "Cette vidéo est privée : impossible de la récupérer."
     if "sign in" in m or "login" in m or "age" in m and "restricted" in m or "cookies" in m:

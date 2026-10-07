@@ -263,3 +263,13 @@ def test_signups_are_limited_per_connection(client, monkeypatch):
              for i in range(3)]
     assert codes == [200, 200, 429]
     accounts._signups.clear()
+
+
+def test_jobs_are_refused_clearly_without_ffmpeg(client, monkeypatch):
+    from server import media
+
+    signup(client, "ffmpeg-less@example.com")
+    monkeypatch.setattr(media, "ffmpeg_available", lambda: False)
+    r = client.post("/api/jobs", json={"url": "https://youtu.be/abc", "duration": 90, "count": 1})
+    assert r.status_code == 503 and "winget install Gyan.FFmpeg" in r.json()["detail"]
+    assert client.get("/api/health").json()["features"]["ffmpeg"] is False

@@ -105,6 +105,9 @@ def run(job: Job) -> None:
             opts["subs"] = opts["animsubs"] = False
         job.update(1.0)
 
+        pcm = None  # release the memory-mapped audio: Windows can't delete a file that is still mapped
+        _remove(raw_audio)
+
         # 4. Visual changes ------------------------------------------------------------
         job.set_step("scenes", "Détection des changements de plan…")
         try:
@@ -224,10 +227,18 @@ def run(job: Job) -> None:
             job.fail("Erreur inattendue pendant le traitement. Réessaie, ou envoie directement le fichier vidéo.")
     finally:
         # Keep the shorts, drop the heavy intermediate files.
-        raw_audio.unlink(missing_ok=True)
+        pcm = None
+        _remove(raw_audio)
         if source is not None:
-            source.path.unlink(missing_ok=True)
+            _remove(source.path)
         drop_inputs(job.id)
+
+
+def _remove(path: Path) -> None:
+    try:
+        path.unlink(missing_ok=True)
+    except OSError as exc:  # e.g. still open on Windows: the cleanup thread retries later
+        log.warning("could not delete %s: %s", path, exc)
 
 
 def _charge(job: Job, shorts: int) -> None:

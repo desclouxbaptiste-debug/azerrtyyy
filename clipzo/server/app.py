@@ -19,7 +19,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.datastructures import UploadFile
 
-from . import accounts, billing, config, jobs, reframe, sources, transcribe
+from . import accounts, billing, config, jobs, media, reframe, sources, transcribe
 
 logging.basicConfig(level=os.environ.get("CLIPZO_LOG_LEVEL", "INFO"), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 log = logging.getLogger("clipzo")
@@ -30,6 +30,13 @@ store = jobs.JobStore()
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     accounts.db()  # create the database file and tables
+    if not media.ffmpeg_available():
+        log.error("=" * 70)
+        log.error("ffmpeg est introuvable : aucune vidéo ne pourra être analysée.")
+        log.error("Windows : winget install Gyan.FFmpeg   (puis ferme et rouvre ce terminal)")
+        log.error("Mac : brew install ffmpeg   |   Linux : sudo apt install ffmpeg")
+        log.error("Ou indique son dossier : CLIPZO_FFMPEG_DIR=C:\\chemin\\vers\\ffmpeg\\bin")
+        log.error("=" * 70)
     store.start()
     log.info("Clipzo ready — data in %s, %d worker(s), Claude: %s, Whisper: %s",
              config.DATA_DIR, config.WORKERS, "on" if config.llm_configured() else "off",
@@ -111,6 +118,8 @@ def _require_user(request: Request) -> accounts.User:
     user = _current_user(request)
     if user is None:
         raise HTTPException(401, "Connecte-toi pour lancer une analyse.")
+    if not media.ffmpeg_available():
+        raise HTTPException(503, media.FFMPEG_MISSING)
     return user
 
 
@@ -242,6 +251,7 @@ def health() -> dict:
             "face_tracking": reframe.available(),
             "accounts": True,
             "billing": billing.configured(),
+            "ffmpeg": media.ffmpeg_available(),
         },
         "limits": {"max_upload_mb": config.MAX_UPLOAD_MB},
         "plans": {k: p.public() for k, p in config.PLANS.items()},

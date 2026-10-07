@@ -697,6 +697,7 @@
   const platformIcon = $(".platform-icon");
   const urlHint = $(".url-hint");
   const featureHint = $(".feature-hint");
+  const ffmpegBanner = $(".ffmpeg-banner");
   const srcLabel = $(".src-label");
   const srcLink = $(".src-link");
   const srcFile = $(".src-file");
@@ -835,6 +836,7 @@
     api.features = features && typeof features === "object" ? features : {};
     demoBanner.hidden = mode !== "demo";
     featureHint.hidden = !(isLive && api.features.download === false);
+    ffmpegBanner.hidden = !(isLive && api.features.ffmpeg === false);
     if (!isLive && sourceMode === "file") setSource("link");
     if (isLive && was === "demo" && openPanel === panels.studio) {
       toast("Serveur d'analyse connecté : place aux vrais shorts !");
