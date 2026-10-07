@@ -16,6 +16,10 @@ from . import accounts, config
 
 
 def main(argv: list[str]) -> int:
+    try:
+        sys.stdout.reconfigure(errors="replace")  # Windows consoles / redirections in a legacy code page
+    except AttributeError:
+        pass
     if not argv or argv[0] in ("-h", "--help"):
         print(__doc__)
         return 0
@@ -37,7 +41,7 @@ def main(argv: list[str]) -> int:
             print(f"Aucun compte pour {email}")
             return 1
         accounts.set_plan(user.id, plan)
-        print(f"{user.email} → {config.PLANS[plan].label}")
+        print(f"{user.email} -> {config.PLANS[plan].label}")
         if user.stripe_subscription_id:
             print("Attention : ce compte a un abonnement Stripe, le prochain événement Stripe remplacera ce réglage.")
         return 0

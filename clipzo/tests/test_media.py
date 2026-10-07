@@ -1,3 +1,5 @@
+import pytest
+
 from conftest import needs_ffmpeg
 from server import media
 
@@ -74,3 +76,35 @@ def test_bundled_font_is_installed_next_to_renders(tmp_path):
     assert media.FONT_FILE.is_file()
     assert media.install_font(tmp_path)
     assert (tmp_path / media.FONT_NAME).stat().st_size == media.FONT_FILE.stat().st_size
+
+
+@needs_ffmpeg
+def test_probe_reads_titles_with_emojis_and_curly_quotes(tmp_path):
+    """ffprobe prints UTF-8: Windows used to decode it with its ANSI code page and crash."""
+    import subprocess
+
+    src = tmp_path / "vidéo “fou” 😍.mp4"
+    subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "lavfi", "-i", "testsrc=size=160x90:rate=10",
+                    "-t", "2", "-metadata", "title=C’est “fou” 😍", "-c:v", "libx264", "-preset", "ultrafast", str(src)],
+                   check=True)
+    info = media.probe(src)
+    assert 1.5 <= info.duration <= 2.5 and (info.width, info.height) == (160, 90)
+
+
+def test_ffmpeg_folder_is_not_added_twice(tmp_path, monkeypatch):
+    import os
+
+    exe = "ffmpeg.exe" if os.name == "nt" else "ffmpeg"
+    (tmp_path / exe).write_text("")
+    monkeypatch.setenv("CLIPZO_FFMPEG_DIR", str(tmp_path))
+    monkeypatch.setenv("PATH", str(tmp_path) + os.pathsep + "/usr/bin")
+    media._add_ffmpeg_to_path()
+    media._add_ffmpeg_to_path()
+    assert os.environ["PATH"].split(os.pathsep).count(str(tmp_path)) == 1
+
+
+def test_face_detector_loads():
+    pytest.importorskip("cv2")
+    from server import reframe
+
+    assert reframe.available()

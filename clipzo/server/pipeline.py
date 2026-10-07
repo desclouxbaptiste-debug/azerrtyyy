@@ -95,6 +95,12 @@ def run(job: Job) -> None:
                 )
             except transcribe.TranscriptionUnavailable as exc:
                 job.warn(f"Transcription indisponible ({exc}) : pas de sous-titres, analyse sans les paroles.")
+            except JobCancelled:
+                raise
+            except Exception:  # noqa: BLE001 - e.g. a GPU library missing: the video can still be cut
+                log.exception("transcription failed for %s", job.id)
+                transcript = None
+                job.warn("Transcription indisponible : pas de sous-titres, analyse sans les paroles.")
         elif len(pcm):
             job.warn("Transcription désactivée sur ce serveur : pas de sous-titres, analyse sans les paroles.")
         if transcript is not None:

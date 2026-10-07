@@ -25,10 +25,14 @@ def _get_cascade():
         try:
             import cv2
 
-            path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-            c = cv2.CascadeClassifier(path)
-            if c.empty():
-                raise RuntimeError(f"cascade not found at {path}")
+            # Read through Python, parse from memory: OpenCV's own file opening fails on Windows
+            # when the path has non-ASCII characters (C:\\Users\\Élodie\\...).
+            path = Path(cv2.data.haarcascades) / "haarcascade_frontalface_default.xml"
+            storage = cv2.FileStorage(path.read_text(encoding="utf-8"),
+                                      cv2.FILE_STORAGE_READ | cv2.FILE_STORAGE_MEMORY)
+            c = cv2.CascadeClassifier()
+            if not c.read(storage.getFirstTopLevelNode()) or c.empty():
+                raise RuntimeError(f"cascade unreadable at {path}")
             _cascade = c
         except Exception as exc:  # noqa: BLE001 - optional feature
             log.warning("Face tracking disabled: %s", exc)

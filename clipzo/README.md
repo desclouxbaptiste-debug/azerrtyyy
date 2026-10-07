@@ -122,7 +122,7 @@ shorts réellement livrés : une analyse annulée ou en échec ne coûte rien.
 | `CLIPZO_CLAUDE_MODEL` | `claude-opus-5-5` | Modèle Claude utilisé |
 | `CLIPZO_CLAUDE_EFFORT` | `medium` | Effort de réflexion de Claude (`low`, `medium`, `high`) |
 | `CLIPZO_WHISPER_MODEL` | `small` | Modèle de transcription (`base`, `small`, `medium`, `large-v3`, ou `off`) |
-| `CLIPZO_WHISPER_DEVICE` | `auto` | `cuda` pour utiliser une carte graphique NVIDIA |
+| `CLIPZO_WHISPER_DEVICE` | `auto` (`cpu` sous Windows) | `cuda` pour utiliser une carte graphique NVIDIA (sous Windows, il faut aussi installer cuBLAS et cuDNN) |
 | `CLIPZO_WORKERS` | `1` | Vidéos traitées en même temps |
 | `CLIPZO_DATA_DIR` | `clipzo/data` | Dossier des shorts générés (effacés au bout de 24 h) |
 | `CLIPZO_JOB_TTL_HOURS` | `24` | Durée de conservation des shorts |

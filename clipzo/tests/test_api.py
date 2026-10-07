@@ -229,3 +229,24 @@ def test_cancel_stops_a_running_job(client, sample_video):
     assert data["status"] == "error" and data["error"] == "Analyse annulée."
     assert data["clips"] == []
     assert accounts.used_this_month(user.id) == 0  # a cancelled analysis costs nothing
+
+
+@needs_ffmpeg
+def test_transcription_crash_still_delivers_shorts(client, sample_video, monkeypatch):
+    """A broken speech model (e.g. a GPU library missing on Windows) must not fail the whole analysis."""
+
+    class BrokenWhisper:
+        def transcribe(self, audio, **kwargs):
+            raise RuntimeError("Library cublas64_12.dll is not found or cannot be loaded")
+
+    monkeypatch.setattr(transcribe, "available", lambda: True)
+    monkeypatch.setattr(transcribe, "_get_model", lambda: BrokenWhisper())
+    as_user(client, "creator")
+    with sample_video.open("rb") as fh:
+        r = client.post("/api/jobs/upload", files={"file": ("gpu.mp4", fh, "video/mp4")},
+                        data={"duration": "60", "count": "1", "plan": "creator", "options": "{}"})
+    assert r.status_code == 202, r.text
+    job = wait_for(client, r.json()["id"])
+    assert job["status"] == "done", job
+    assert len(job["clips"]) == 1
+    assert any("Transcription indisponible" in w for w in job["warnings"])

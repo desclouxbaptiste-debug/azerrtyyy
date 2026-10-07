@@ -45,7 +45,8 @@ MAX_DOWNLOAD_MB = _env_int("CLIPZO_MAX_DOWNLOAD_MB", 8192)
 # Speech-to-text (faster-whisper). "small" is a good speed/quality balance on CPU;
 # "medium" or "large-v3" are better on a GPU. CLIPZO_WHISPER_MODEL=off disables it.
 WHISPER_MODEL = os.environ.get("CLIPZO_WHISPER_MODEL", "small")
-WHISPER_DEVICE = os.environ.get("CLIPZO_WHISPER_DEVICE", "auto")
+# Windows: "auto" would pick an NVIDIA card, but the Windows wheel lacks cuBLAS/cuDNN, so CPU by default.
+WHISPER_DEVICE = os.environ.get("CLIPZO_WHISPER_DEVICE") or ("cpu" if os.name == "nt" else "auto")
 WHISPER_COMPUTE_TYPE = os.environ.get("CLIPZO_WHISPER_COMPUTE", "int8")
 WHISPER_LANGUAGE = os.environ.get("CLIPZO_WHISPER_LANGUAGE") or None  # None = auto-detect
 

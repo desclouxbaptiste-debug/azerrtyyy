@@ -40,10 +40,13 @@ def _add_ffmpeg_to_path() -> None:
             candidates += sorted(winget.joinpath("Packages").glob("Gyan.FFmpeg*/*/bin"), reverse=True)
             candidates.append(winget / "Links")
         candidates += [Path("C:/ffmpeg/bin"), Path(os.environ.get("ProgramFiles", "C:/Program Files"), "ffmpeg", "bin")]
+    current = os.environ.get("PATH", "")
+    known = {os.path.normcase(p) for p in current.split(os.pathsep) if p}
     for d in candidates:
         if (d / exe).is_file():
-            os.environ["PATH"] = str(d) + os.pathsep + os.environ.get("PATH", "")
-            log.info("ffmpeg found in %s", d)
+            if os.path.normcase(str(d)) not in known:
+                os.environ["PATH"] = str(d) + os.pathsep + current
+                log.info("ffmpeg found in %s", d)
             return
 
 
@@ -96,10 +99,12 @@ def probe(path: Path) -> ProbeInfo:
     try:
         out = subprocess.run(
             ["ffprobe", "-v", "error", "-print_format", "json", "-show_format", "-show_streams", str(path)],
-            capture_output=True, text=True, timeout=120, check=True,
+            # ffprobe writes UTF-8 (titles with emojis, accented paths); Windows would otherwise
+            # decode it with its ANSI code page and crash on some characters.
+            capture_output=True, encoding="utf-8", errors="replace", timeout=120, check=True,
         ).stdout
         data = json.loads(out)
-    except (subprocess.SubprocessError, json.JSONDecodeError) as exc:
+    except (subprocess.SubprocessError, OSError, ValueError, TypeError) as exc:
         raise MediaError("Ce fichier n'est pas une vidéo lisible.") from exc
 
     streams = data.get("streams", [])
