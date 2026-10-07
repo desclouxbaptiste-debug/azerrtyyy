@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from . import accounts, config, llm, media, reframe, render, sources, transcribe, virality
-from .jobs import Job, JobCancelled, job_dir
+from .jobs import Job, JobCancelled, drop_inputs, job_dir
 from .sources import PLATFORM_NAMES, Source, SourceError
 
 log = logging.getLogger("clipzo.pipeline")
@@ -135,11 +135,14 @@ def run(job: Job) -> None:
             job.update(0.6, "Claude analyse les meilleurs moments…")
             try:
                 choices = llm.rank(source.title, PLATFORM_NAMES.get(source.platform, source.platform), transcript,
-                                   analysis.candidates, req.duration, req.count, info.duration)
-                picks = _picks_from_llm(choices, ai_text=opts["hooks"])
+                                   analysis.candidates, req.duration, req.count, info.duration,
+                                   check_cancel=job.check_cancel)
+                picks = _picks_from_llm(choices, ai_text=opts["hooks"], transcript=transcript)
                 job.signals["llm"] = True
             except llm.LLMUnavailable as exc:
                 job.warn(f"Analyse IA indisponible ({exc}) : classement par l'algorithme seul.")
+            except JobCancelled:
+                raise
             except Exception:  # noqa: BLE001 - Claude is a bonus, never fail the job for it
                 log.exception("Claude ranking failed for %s", job.id)
                 job.warn("Analyse IA indisponible : classement par l'algorithme seul.")
@@ -205,6 +208,7 @@ def run(job: Job) -> None:
                 "layout": result.layout,
                 "subtitles": result.has_subtitles,
             })
+            _charge(job, 1)  # each short counts as soon as it is delivered
         if not job.clips:
             raise media.MediaError("Aucun short n'a pu être découpé dans cette vidéo.")
         job.finish()
@@ -219,18 +223,21 @@ def run(job: Job) -> None:
             log.exception("job %s failed", job.id)
             job.fail("Erreur inattendue pendant le traitement. Réessaie, ou envoie directement le fichier vidéo.")
     finally:
-        # Only delivered shorts count against the monthly quota (cancelled / failed analyses are free).
-        if req.user_id is not None and job.clips:
-            try:
-                accounts.add_usage(req.user_id, len(job.clips), req.month)
-            except Exception:  # noqa: BLE001 - never lose the shorts because of the counter
-                log.exception("could not record usage for job %s", job.id)
         # Keep the shorts, drop the heavy intermediate files.
         raw_audio.unlink(missing_ok=True)
         if source is not None:
             source.path.unlink(missing_ok=True)
-        for leftover in work.glob("source.*"):
-            leftover.unlink(missing_ok=True)
+        drop_inputs(job.id)
+
+
+def _charge(job: Job, shorts: int) -> None:
+    """Only delivered shorts count against the monthly quota (cancelled / failed analyses are free)."""
+    if job.request.user_id is None:
+        return
+    try:
+        accounts.add_usage(job.request.user_id, shorts, job.request.month)
+    except Exception:  # noqa: BLE001 - never lose a short because of the counter
+        log.exception("could not record usage for job %s", job.id)
 
 
 def _picks_from_algorithm(cands: list[virality.Candidate]) -> list[dict]:
@@ -240,11 +247,18 @@ def _picks_from_algorithm(cands: list[virality.Candidate]) -> list[dict]:
     } for c in cands]
 
 
-def _picks_from_llm(choices: list[llm.LLMChoice], ai_text: bool) -> list[dict]:
+def _picks_from_llm(choices: list[llm.LLMChoice], ai_text: bool,
+                    transcript: transcribe.Transcript | None = None) -> list[dict]:
     """Claude's ranking for every plan; its titles, hooks and hashtags only when the plan includes them."""
     picks = []
     for ch in choices:
         c = ch.candidate
+        # Claude may have moved the edges: text shown to the creator must match the final cut.
+        text, first = c.transcript, c.hook
+        if transcript is not None and transcript.segments:
+            text = transcript.text_between(ch.start, ch.end) or c.transcript
+            seg = next((s for s in transcript.segments if s.start >= ch.start - 0.5 and s.start < ch.end), None)
+            first = virality._shorten(seg.text, 110) if seg else c.hook
         reasons = list(ch.why)
         for r in c.reasons:
             if len(reasons) >= 4:
@@ -256,9 +270,9 @@ def _picks_from_llm(choices: list[llm.LLMChoice], ai_text: bool) -> list[dict]:
             "peak": c.peak_time if ch.start <= c.peak_time <= ch.end else (ch.start + ch.end) / 2,
             "score": round(0.6 * ch.virality + 0.4 * c.score),
             "title": (ch.title or c.title) if ai_text else c.title,
-            "hook": (ch.hook or c.hook) if ai_text else c.hook,
+            "hook": (ch.hook or first) if ai_text else first,
             "hashtags": (ch.hashtags or list(c.hashtags)) if ai_text else [],
             "reasons": reasons,
-            "transcript": c.transcript,
+            "transcript": text,
         })
     return picks

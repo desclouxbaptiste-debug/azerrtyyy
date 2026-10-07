@@ -36,3 +36,31 @@ def test_words_outside_the_clip_are_dropped():
     assert subtitles.build_ass(transcript(), 30.0, 90.0, 720, 1280, animated=False) is None
     ass = subtitles.build_ass(transcript(), 13.5, 40.0, 720, 1280, animated=False)
     assert "Salut" not in ass and "Regarde" in ass
+
+
+def _events(ass):
+    out = []
+    for line in ass.splitlines():
+        if line.startswith("Dialogue:"):
+            parts = line.split(",", 3)
+            out.append((parts[1], parts[2]))
+    return out
+
+
+def test_events_never_overlap_on_fast_speech():
+    words = [Word(11.0 + i * 0.1, 11.0 + i * 0.1 + 0.08, w) for i, w in enumerate(["un", "deux", "trois", "quatre", "cinq", "six", "sept"])]
+    tr = Transcript("fr", [Segment(11.0, 11.7, " ".join(w.text for w in words), words)])
+    for animated in (True, False):
+        ass = subtitles.build_ass(tr, 10.0, 20.0, 1080, 1920, animated=animated)
+        ev = _events(ass)
+        for (a1, b1), (a2, b2) in zip(ev, ev[1:]):
+            assert b1 <= a2, (animated, ev)
+
+
+def test_landscape_captions_are_sized_from_the_short_side():
+    ass_v = subtitles.build_ass(transcript(), 9.0, 20.0, 1080, 1920, animated=False)
+    ass_h = subtitles.build_ass(transcript(), 9.0, 20.0, 1920, 1080, animated=False)
+    size = lambda a: int(a.split("Style: Default,")[1].split(",")[1])  # noqa: E731
+    margin = lambda a: int(a.split("Style: Default,")[1].split(",")[20])  # noqa: E731
+    assert size(ass_v) == size(ass_h)
+    assert margin(ass_h) < margin(ass_v)

@@ -144,7 +144,7 @@ def _check_plan(plan: config.Plan, count: int) -> None:
 def _check_capacity(request: Request, user: accounts.User, count: int) -> None:
     """Refuse early (before reading a large upload) when the queue or this person's quota is full."""
     try:
-        store.check_capacity(f"user:{user.id}", user, count)
+        store.check_capacity(f"user:{user.id}", user, count, ip=_client_id(request))
     except jobs.QueueFull as exc:
         raise HTTPException(429, str(exc)) from exc
     except jobs.QuotaExceeded as exc:
@@ -153,7 +153,7 @@ def _check_capacity(request: Request, user: accounts.User, count: int) -> None:
 
 def _create(request: Request, user: accounts.User, req: jobs.JobRequest) -> jobs.Job:
     try:
-        return store.create(f"user:{user.id}", req, user)
+        return store.create(f"user:{user.id}", req, user, ip=_client_id(request))
     except jobs.QueueFull as exc:
         raise HTTPException(429, str(exc)) from exc
     except jobs.QuotaExceeded as exc:
@@ -163,6 +163,7 @@ def _create(request: Request, user: accounts.User, req: jobs.JobRequest) -> jobs
 @app.post("/api/auth/signup")
 def signup(body: Credentials, request: Request, response: Response) -> dict:
     try:
+        accounts.check_signup_rate(_client_id(request))
         user = accounts.create_user(body.email, body.password)
     except accounts.AccountError as exc:
         raise HTTPException(exc.status, str(exc)) from exc

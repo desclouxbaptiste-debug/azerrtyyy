@@ -55,8 +55,10 @@ def build_ass(transcript: Transcript, start: float, end: float, width: int, heig
     words = clip_words(transcript, start, end)
     if not words:
         return None
-    font_size = int(width * (0.075 if animated else 0.062))
-    margin_v = int(height * 0.27)  # lower third, above the TikTok / Shorts buttons
+    base = min(width, height)  # sized from the short side: right on 9:16 and on a kept landscape frame
+    font_size = int(base * (0.075 if animated else 0.062))
+    # 9:16: lower third, above the TikTok / Shorts buttons. Landscape: near the bottom like TV subtitles.
+    margin_v = int(height * (0.27 if height > width else 0.08))
     margin_h = int(width * 0.07)
     header = f"""[Script Info]
 ScriptType: v4.00+
@@ -76,11 +78,13 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     clip_len = end - start
     if animated:
         # Pro: 3 words at a time, in capitals, the word being spoken pops in yellow.
-        for chunk in chunk_words(words, max_words=3, max_chars=22):
+        chunks = chunk_words(words, max_words=3, max_chars=22)
+        for k, chunk in enumerate(chunks):
+            next_start = chunks[k + 1][0].start if k + 1 < len(chunks) else clip_len
             for i, w in enumerate(chunk):
                 a = w.start
                 b = chunk[i + 1].start if i + 1 < len(chunk) else max(w.end, a + 0.25)
-                b = min(b, clip_len)
+                b = min(b, clip_len, next_start)  # never overlap the next group of words
                 if b <= a:
                     continue
                 parts = []
@@ -96,9 +100,13 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
                 lines.append(f"Dialogue: 0,{_ts(a)},{_ts(b)},Default,,0,0,0,,{' '.join(parts)}")
     else:
         # Créateur: classic two-line captions.
-        for chunk in chunk_words(words, max_words=7, max_chars=38):
+        chunks = chunk_words(words, max_words=7, max_chars=38)
+        for k, chunk in enumerate(chunks):
+            next_start = chunks[k + 1][0].start if k + 1 < len(chunks) else clip_len
             a = chunk[0].start
-            b = min(clip_len, max(chunk[-1].end, a + 0.6))
+            b = min(clip_len, next_start, max(chunk[-1].end, a + 0.6))
+            if b <= a:
+                continue
             text = " ".join(w.text for w in chunk)
             lines.append(f"Dialogue: 0,{_ts(a)},{_ts(b)},Default,,0,0,0,,{text}")
     if not lines:

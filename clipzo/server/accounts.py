@@ -118,6 +118,7 @@ def reset_for_tests() -> None:
             _conn.close()
         _conn = None
         _failures.clear()
+        _signups.clear()
 
 
 def month_key(ts: float | None = None) -> str:
@@ -162,6 +163,21 @@ def _row_to_user(row: sqlite3.Row | None) -> User | None:
 
 def normalize_email(email: str) -> str:
     return (email or "").strip().lower()
+
+
+_signups: dict[str, list[float]] = {}
+
+
+def check_signup_rate(client: str) -> None:
+    """A few free accounts per connection and per hour: enough for a household, not for a bot."""
+    now = time.time()
+    with _lock:
+        recent = [t for t in _signups.get(client, []) if now - t < 3600]
+        if len(recent) >= config.MAX_SIGNUPS_PER_IP_HOUR:
+            _signups[client] = recent
+            raise AccountError("Trop de comptes créés depuis ta connexion : réessaie dans une heure.", 429)
+        recent.append(now)
+        _signups[client] = recent
 
 
 def create_user(email: str, password: str) -> User:

@@ -91,6 +91,11 @@ def render_clip(src: Path, info: ProbeInfo, start: float, end: float, out_dir: P
 
     out_w, out_h = output_size(info, plan, opts.reframe)
     graph, layout = build_filter(info, out_w, out_h, opts.reframe, face_x)
+    # Before any reframing: deinterlace (only frames flagged interlaced) and square the pixels.
+    pre = "bwdif=mode=send_frame:deint=interlaced,"
+    if info.sar != 1.0:
+        pre += "scale=trunc(iw*sar/2)*2:ih,setsar=1,"
+    graph = graph.replace("[0:v]", "[0:v]" + pre, 1)
 
     chain = []
     has_subs = False
@@ -101,7 +106,7 @@ def render_clip(src: Path, info: ProbeInfo, start: float, end: float, out_dir: P
             chain.append(f"ass={index}.ass")  # relative path: ffmpeg runs inside out_dir, no escaping issues
             has_subs = True
     if opts.watermark:
-        size = max(18, int(out_w * 0.045))
+        size = max(18, int(min(out_w, out_h) * 0.045))
         chain.append(
             f"drawtext=text=clipzo:fontcolor=white@0.72:fontsize={size}:"
             f"x=w-tw-{int(out_w * 0.05)}:y={int(out_h * 0.05)}:shadowcolor=black@0.45:shadowx=2:shadowy=2"
@@ -134,8 +139,11 @@ def render_clip(src: Path, info: ProbeInfo, start: float, end: float, out_dir: P
     thumb = out_dir / f"{index}.jpg"
     # Most representative frame of the 4 s around the peak (skips flashes and blurry transition frames).
     at = min(max(0.0, peak_time - start - 2.0), max(0.0, rendered.duration - 4.0))
-    run_ffmpeg(["-ss", f"{at:.3f}", "-t", "4", "-i", video.name, "-vf", "thumbnail=n=48,scale=540:-2",
+    run_ffmpeg(["-ss", f"{at:.3f}", "-t", "4", "-i", video.name, "-vf", "fps=12,thumbnail=n=48,scale=540:-2",
                 "-frames:v", "1", "-q:v", "4", thumb.name], cwd=out_dir, timeout=120)
+    if not thumb.exists():  # e.g. a window past the last video frame: take the first frame instead
+        run_ffmpeg(["-i", video.name, "-vf", "scale=540:-2", "-frames:v", "1", "-q:v", "4", thumb.name],
+                   cwd=out_dir, timeout=120)
     return RenderResult(video=video, thumb=thumb, width=rendered.width, height=rendered.height,
                         layout=layout, duration=rendered.duration, has_subtitles=has_subs)
 
@@ -147,7 +155,7 @@ def _loudnorm_filter(src: Path, start: float, duration: float) -> str:
     """Two-pass loudness normalisation: measure the clip's audio, then correct it linearly."""
     base = f"loudnorm=I={TARGET_LUFS}:TP=-1.5:LRA=11"
     try:
-        err = run_ffmpeg(["-ss", f"{start:.3f}", "-i", str(src), "-t", f"{duration:.3f}", "-vn",
+        err = run_ffmpeg(["-ss", f"{start:.3f}", "-i", str(src), "-t", f"{duration:.3f}", "-map", "0:a:0", "-vn",
                           "-af", base + ":print_format=json", "-f", "null", "-"], timeout=max(120, duration * 4))
         m = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", err)
         data = json.loads(m.group(0)) if m else {}

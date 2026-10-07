@@ -127,9 +127,14 @@ def test_full_pipeline_with_upload(client, sample_video, monkeypatch):
                               "hashtags": ["#gaming", "clutch"], "why": ["Réaction très forte"]}]}
         return SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(type="text", text=json.dumps(payload))])
 
+    from test_llm import FakeStream
+
+    def fake_stream(**kw):
+        return FakeStream(fake_create(**kw))
+
     monkeypatch.setattr(anthropic, "Anthropic", lambda **kw: SimpleNamespace(
-        beta=SimpleNamespace(messages=SimpleNamespace(create=fake_create)),
-        messages=SimpleNamespace(create=fake_create)))
+        beta=SimpleNamespace(messages=SimpleNamespace(stream=fake_stream)),
+        messages=SimpleNamespace(stream=fake_stream)))
 
     options = {"reframe": True, "subs": True, "nowm": True, "hooks": True, "animsubs": True}
     as_user(client, "pro")

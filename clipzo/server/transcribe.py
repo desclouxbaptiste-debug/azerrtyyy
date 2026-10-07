@@ -105,6 +105,7 @@ def transcribe(pcm: np.ndarray, duration: float, progress: ProgressFn | None = N
     total = len(pcm)
     segments: list[Segment] = []
     language = config.WHISPER_LANGUAGE
+    detected: str | None = None
     chunk = CHUNK_SECONDS * AUDIO_RATE
     for offset in range(0, max(total, 1), chunk):
         piece = np.asarray(pcm[offset: offset + chunk], dtype=np.float32) / 32768.0
@@ -120,7 +121,10 @@ def transcribe(pcm: np.ndarray, duration: float, progress: ProgressFn | None = N
             beam_size=1,
             condition_on_previous_text=False,
         )
-        language = language or info.language  # keep the language detected on the first chunk
+        detected = detected or info.language
+        # Lock the language for the next chunks only when the guess is reliable (not music or silence).
+        if language is None and getattr(info, "language_probability", 0) >= 0.5:
+            language = info.language
         for seg in seg_iter:
             words = [
                 Word(start=t0 + w.start, end=t0 + w.end, text=w.word.strip())
@@ -133,4 +137,4 @@ def transcribe(pcm: np.ndarray, duration: float, progress: ProgressFn | None = N
                 progress(min(1.0, (t0 + seg.end) / duration))
     if progress:
         progress(1.0)
-    return Transcript(language=language or "fr", segments=segments)
+    return Transcript(language=language or detected or "fr", segments=segments)

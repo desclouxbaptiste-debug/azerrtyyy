@@ -9,6 +9,7 @@ import re
 import subprocess
 import threading
 import time
+from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
@@ -33,6 +34,7 @@ class ProbeInfo:
     height: int
     fps: float
     has_audio: bool
+    sar: float = 1.0  # pixel aspect ratio (anamorphic sources have non-square pixels)
 
     @property
     def is_vertical(self) -> bool:
@@ -54,56 +56,75 @@ def probe(path: Path) -> ProbeInfo:
     if video is None:
         raise MediaError("Aucune piste vidéo trouvée dans ce fichier.")
 
-    duration = _to_float(data.get("format", {}).get("duration")) or _to_float(video.get("duration"))
-    if not duration or duration <= 0:
+    format_duration = _to_float(data.get("format", {}).get("duration"))
+    video_duration = _to_float(video.get("duration"))
+    # Audio can run past the end of the picture: only the part with video can become a short.
+    candidates = [d for d in (format_duration, video_duration) if d and d > 0]
+    duration = min(candidates) if candidates else None
+    if not duration:
         raise MediaError("Impossible de lire la durée de la vidéo.")
 
     width, height = int(video.get("width") or 0), int(video.get("height") or 0)
     if width <= 0 or height <= 0:
         raise MediaError("Dimensions de la vidéo illisibles.")
+    sar = _parse_ratio(video.get("sample_aspect_ratio")) or 1.0
+    if abs(sar - 1.0) > 0.01:
+        width = max(2, int(round(width * sar / 2)) * 2)  # display width
     if abs(_rotation(video)) in (90, 270):  # phone videos: ffmpeg auto-rotates when decoding
         width, height = height, width
 
     fps = _parse_rate(video.get("avg_frame_rate")) or _parse_rate(video.get("r_frame_rate")) or 30.0
     has_audio = any(s.get("codec_type") == "audio" for s in streams)
-    return ProbeInfo(duration=duration, width=width, height=height, fps=min(fps, 60.0), has_audio=has_audio)
+    return ProbeInfo(duration=duration, width=width, height=height, fps=min(fps, 60.0), has_audio=has_audio,
+                     sar=sar if abs(sar - 1.0) > 0.01 else 1.0)
 
 
 def run_ffmpeg(args: list[str], duration: float | None = None, progress: ProgressFn | None = None,
                cwd: Path | None = None, timeout: float | None = None) -> str:
     """Run ffmpeg, report progress (0..1) from `-progress`, return stderr. Raises MediaError on failure."""
     cmd = ["ffmpeg", "-hide_banner", "-nostdin", "-y", "-progress", "pipe:1", "-nostats", *args]
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
-    stderr_chunks: list[str] = []
+    # errors="replace": metadata in a legacy encoding (Latin-1 titles...) must never break the reading
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                            encoding="utf-8", errors="replace", cwd=cwd)
+    stderr_lines: deque[str] = deque(maxlen=4000)  # bounded: a broken stream can print millions of warnings
 
     def drain() -> None:
         assert proc.stderr is not None
         for line in proc.stderr:
-            stderr_chunks.append(line)
+            stderr_lines.append(line)
 
     t = threading.Thread(target=drain, daemon=True)
     t.start()
+    # The time limit is enforced by its own timer, so it fires even if ffmpeg stops printing anything.
+    timed_out = threading.Event()
+
+    def kill_on_timeout() -> None:
+        timed_out.set()
+        proc.kill()
+
+    killer = threading.Timer(timeout, kill_on_timeout) if timeout else None
+    if killer:
+        killer.daemon = True
+        killer.start()
     assert proc.stdout is not None
-    deadline = time.monotonic() + timeout if timeout else None
     try:
         for line in proc.stdout:
-            if deadline and time.monotonic() > deadline:
-                raise MediaError("Le traitement vidéo a pris trop de temps.")
             if progress and duration and line.startswith("out_time_us="):
                 value = _to_float(line.split("=", 1)[1])
                 if value is not None and value >= 0:
                     progress(min(1.0, value / 1e6 / duration))
-        proc.wait(timeout=max(1.0, deadline - time.monotonic()) if deadline else None)
-    except subprocess.TimeoutExpired:
-        proc.kill()
         proc.wait()
-        raise MediaError("Le traitement vidéo a pris trop de temps.")
     except BaseException:
-        proc.kill()  # cancelled, timed out or crashed: don't leave ffmpeg running
+        proc.kill()  # cancelled or crashed: don't leave ffmpeg running
         proc.wait()
         raise
+    finally:
+        if killer:
+            killer.cancel()
     t.join(timeout=5)
-    stderr = "".join(stderr_chunks)
+    if timed_out.is_set():
+        raise MediaError("Le traitement vidéo a pris trop de temps.")
+    stderr = "".join(stderr_lines)
     if proc.returncode != 0:
         tail = "\n".join(stderr.strip().splitlines()[-8:])
         log.warning("ffmpeg failed (%s): %s", proc.returncode, tail[-1500:])
@@ -114,8 +135,11 @@ def run_ffmpeg(args: list[str], duration: float | None = None, progress: Progres
 def extract_audio(src: Path, dest: Path, duration: float, progress: ProgressFn | None = None) -> Path:
     """Decode the soundtrack to raw signed 16-bit mono PCM (no header, easy to memory-map)."""
     # `-t`: never decode more than the probed duration (a file can lie about its length in its header).
+    # aresample async/first_pts: pad silence where the audio starts late or has holes, so sample N
+    # is exactly at N / AUDIO_RATE seconds on the video timeline (the one the cuts use).
     run_ffmpeg(
-        ["-i", str(src), "-t", f"{duration + 1:.3f}", "-vn", "-ac", "1", "-ar", str(AUDIO_RATE),
+        ["-i", str(src), "-t", f"{duration + 1:.3f}", "-map", "0:a:0", "-vn",
+         "-af", "aresample=async=1:first_pts=0", "-ac", "1", "-ar", str(AUDIO_RATE),
          "-f", "s16le", "-acodec", "pcm_s16le", str(dest)],
         duration=duration, progress=progress, timeout=max(600.0, duration * 2),
     )
@@ -219,6 +243,17 @@ def _rotation(stream: dict) -> int:
             except (TypeError, ValueError):
                 return 0
     return 0
+
+
+def _parse_ratio(value: str | None) -> float | None:
+    """"4:3" -> 1.333; None for missing or "0:1"."""
+    if not value or ":" not in value:
+        return None
+    try:
+        num, den = (float(x) for x in value.split(":", 1))
+    except ValueError:
+        return None
+    return num / den if num > 0 and den > 0 else None
 
 
 def _parse_rate(value: str | None) -> float | None:

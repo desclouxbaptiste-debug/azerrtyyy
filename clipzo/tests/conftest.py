@@ -13,6 +13,8 @@ os.environ["CLIPZO_DATA_DIR"] = str(_TMP / "data")
 os.environ.setdefault("CLIPZO_WHISPER_MODEL", "off")
 os.environ["CLIPZO_LLM"] = "off"
 os.environ["CLIPZO_MAX_JOBS_PER_CLIENT"] = "50"
+os.environ["CLIPZO_MAX_JOBS_PER_IP"] = "50"
+os.environ["CLIPZO_MAX_SIGNUPS_PER_IP_HOUR"] = "1000"
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 HAS_FFMPEG = shutil.which("ffmpeg") is not None and shutil.which("ffprobe") is not None

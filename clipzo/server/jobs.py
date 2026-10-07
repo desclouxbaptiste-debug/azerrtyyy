@@ -55,6 +55,8 @@ class Job:
     warnings: list[str] = field(default_factory=list)
     upload_path: str | None = None  # set when the source was uploaded
     cancel_requested: bool = False
+    finished_at: float | None = None  # shorts are kept JOB_TTL_HOURS after this
+    ip: str = ""
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
     _last_save: float = 0.0
 
@@ -87,7 +89,8 @@ class Job:
         self.check_cancel()  # progress callbacks are the natural place to stop a long step
         with self._lock:
             if fraction is not None:
-                self.step_progress = max(0.0, min(1.0, fraction))
+                # never backwards within a step (yt-dlp downloads video then audio, each from 0 %)
+                self.step_progress = max(self.step_progress, min(1.0, fraction))
             if message is not None:
                 self.message = message
         self.save()
@@ -105,6 +108,7 @@ class Job:
 
     def finish(self) -> None:
         with self._lock:
+            self.finished_at = time.time()
             self.status = "done"
             self.step = "done"
             self.step_index = len(STEPS) - 1
@@ -114,6 +118,7 @@ class Job:
 
     def fail(self, message: str) -> None:
         with self._lock:
+            self.finished_at = time.time()
             self.status = "error"
             self.error = message
             self.message = message
@@ -149,7 +154,7 @@ class Job:
         with self._lock:
             data = {
                 "id": self.id, "client": self.client, "request": asdict(self.request),
-                "created_at": self.created_at, "status": self.status, "step": self.step,
+                "created_at": self.created_at, "finished_at": self.finished_at, "status": self.status, "step": self.step,
                 "step_index": self.step_index, "step_progress": self.step_progress,
                 "message": self.message, "error": self.error, "source": self.source,
                 "signals": self.signals, "curve": self.curve, "clips": self.clips, "warnings": self.warnings,
@@ -169,7 +174,7 @@ class Job:
             job = cls(id=data["id"], client=data.get("client", ""), request=JobRequest(**data["request"]))
         except (OSError, json.JSONDecodeError, KeyError, TypeError):
             return None
-        for key in ("created_at", "status", "step", "step_index", "step_progress", "message", "error",
+        for key in ("created_at", "finished_at", "status", "step", "step_index", "step_progress", "message", "error",
                     "source", "signals", "curve", "clips", "warnings"):
             if key in data:
                 setattr(job, key, data[key])
@@ -178,6 +183,14 @@ class Job:
 
 def job_dir(job_id: str) -> Path:
     return config.JOBS_DIR / job_id
+
+
+def drop_inputs(job_id: str) -> None:
+    """Delete the heavy working files of a job (source video, audio), keep its shorts."""
+    d = job_dir(job_id)
+    for pattern in ("upload.*", "source.*", "audio.s16le", "clips/*.part.mp4", "clips/*.ass"):
+        for f in d.glob(pattern):
+            f.unlink(missing_ok=True)
 
 
 class QueueFull(RuntimeError):
@@ -213,6 +226,10 @@ class JobStore:
 
     def stop(self) -> None:
         self._stop.set()
+        with self.lock:
+            for j in self.jobs.values():
+                if j.status in ("queued", "running"):
+                    j.cancel_requested = True  # pipelines stop at their next progress tick
         if self.executor is not None:
             self.executor.shutdown(wait=False, cancel_futures=True)
 
@@ -224,7 +241,9 @@ class JobStore:
             if job.status in ("queued", "running"):
                 job.status = "error"
                 job.error = job.message = "Le serveur a redémarré pendant le traitement. Relance l'analyse."
+                job.finished_at = time.time()
                 job.save(force=True)
+                drop_inputs(job.id)
             self.jobs[job.id] = job
 
     def _cleanup_loop(self) -> None:
@@ -238,7 +257,8 @@ class JobStore:
             for j in self.jobs.values():
                 if j.status == "queued" and j.created_at < stale and j.id not in self.order:
                     j.status, j.error, j.message = "error", "Analyse interrompue.", "Analyse interrompue."
-            expired = [j for j in self.jobs.values() if j.created_at < cutoff and j.status in ("done", "error")]
+            expired = [j for j in self.jobs.values()
+                       if (j.finished_at or j.created_at) < cutoff and j.status in ("done", "error")]
             for j in expired:
                 self.jobs.pop(j.id, None)
         for j in expired:
@@ -252,13 +272,17 @@ class JobStore:
                 pass
 
     # -- submission ---------------------------------------------------------------
-    def _check_capacity_locked(self, client: str, user=None, count: int = 0) -> None:
+    def _check_capacity_locked(self, client: str, user=None, count: int = 0, ip: str = "") -> None:
         pending = [j for j in self.jobs.values() if j.status in ("queued", "running")]
         if len(pending) >= config.MAX_QUEUED_JOBS:
             raise QueueFull("Le serveur est très demandé : réessaie dans quelques minutes.")
         mine = [j for j in pending if j.client == client]
         if len(mine) >= config.MAX_ACTIVE_JOBS_PER_CLIENT:
             raise QueueFull("Tu as déjà des vidéos en cours d'analyse : attends qu'elles soient finies.")
+        # Free accounts are free to create: also limit per connection so one person with many
+        # accounts can't fill the queue for everybody.
+        if ip and sum(1 for j in pending if j.ip == ip) >= config.MAX_ACTIVE_JOBS_PER_IP:
+            raise QueueFull("Trop d'analyses en cours depuis ta connexion : attends qu'elles soient finies.")
         if user is not None and user.plan_obj.monthly_quota is not None:
             from . import accounts
 
@@ -274,7 +298,8 @@ class JobStore:
                 )
 
     def _reserved_locked(self, user_id: int) -> int:
-        return sum(j.request.count for j in self.jobs.values()
+        # shorts already delivered are charged as they arrive, only the rest is reserved
+        return sum(max(0, j.request.count - len(j.clips)) for j in self.jobs.values()
                    if j.request.user_id == user_id and j.status in ("queued", "running"))
 
     def reserved_for(self, user_id: int) -> int:
@@ -282,14 +307,14 @@ class JobStore:
         with self.lock:
             return self._reserved_locked(user_id)
 
-    def check_capacity(self, client: str, user=None, count: int = 0) -> None:
+    def check_capacity(self, client: str, user=None, count: int = 0, ip: str = "") -> None:
         with self.lock:
-            self._check_capacity_locked(client, user, count)
+            self._check_capacity_locked(client, user, count, ip)
 
-    def create(self, client: str, request: JobRequest, user=None) -> Job:
+    def create(self, client: str, request: JobRequest, user=None, ip: str = "") -> Job:
         with self.lock:
-            self._check_capacity_locked(client, user, request.count)
-            job = Job(id=uuid.uuid4().hex, client=client, request=request)
+            self._check_capacity_locked(client, user, request.count, ip)
+            job = Job(id=uuid.uuid4().hex, client=client, request=request, ip=ip)
             job_dir(job.id).mkdir(parents=True, exist_ok=True)
             self.jobs[job.id] = job
         job.save(force=True)
@@ -306,6 +331,7 @@ class JobStore:
                 if job.id in self.order:
                     self.order.remove(job.id)
             if job.cancel_requested:
+                drop_inputs(job.id)
                 return
             run(job)
 
@@ -321,6 +347,7 @@ class JobStore:
                 self.order.remove(job.id)
         if queued or job.status == "queued":
             job.fail("Analyse annulée.")
+            drop_inputs(job.id)
 
     def discard(self, job: Job) -> None:
         with self.lock:

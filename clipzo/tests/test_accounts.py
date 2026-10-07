@@ -253,3 +253,13 @@ def test_past_due_keeps_access_unpaid_removes_it(client, stripe_mock):
     send_event(client, {"id": "evt_c", "type": "customer.subscription.updated", "created": now + 2,
                         "data": {"object": subscription("sub_j", user.id, "creator", status="unpaid", customer="cus_j")}})
     assert accounts.get_user(user.id).plan == "free"
+
+
+def test_signups_are_limited_per_connection(client, monkeypatch):
+    monkeypatch.setattr(config, "MAX_SIGNUPS_PER_IP_HOUR", 2)
+    accounts._signups.clear()
+    client.cookies.clear()
+    codes = [client.post("/api/auth/signup", json={"email": f"bot{i}@example.com", "password": PASSWORD}).status_code
+             for i in range(3)]
+    assert codes == [200, 200, 429]
+    accounts._signups.clear()
