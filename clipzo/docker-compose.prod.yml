@@ -9,6 +9,7 @@ services:
     environment:
       CLIPZO_TRUST_PROXY: "1"          # real visitor address comes from Caddy
       CLIPZO_COOKIE_SECURE: "1"        # login cookie only sent over HTTPS
+      CLIPZO_ADMIN_CMD: "docker compose -f docker-compose.prod.yml exec clipzo python -m server.admin"
       CLIPZO_PUBLIC_URL: "https://${CLIPZO_DOMAIN:?mets ton domaine dans .env}"
     volumes:
       - clipzo-data:/data              # accounts database + generated shorts

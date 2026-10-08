@@ -2355,3 +2355,8 @@ button {
   white-space: normal;
   overflow-wrap: anywhere;
 }
+
+.billing-banner .link-btn {
+  font: inherit;
+  padding: 0;
+}

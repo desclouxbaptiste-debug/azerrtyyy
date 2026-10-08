@@ -320,8 +320,20 @@
             <strong>Paiement pas encore activé :</strong> les forfaits payants ne peuvent pas encore être achetés
             sur ce serveur.
             <span class="billing-local" hidden>
-              Pour tester un forfait sans payer, ouvre un autre terminal dans le dossier <code>clipzo</code>, tape
-              <code class="billing-cmd">py -m server.admin set-plan ton@email pro</code> puis recharge la page.
+              <span class="billing-tip" data-tip="guest">
+                Pour tester un forfait sans payer,
+                <button class="link-btn" type="button" data-open="account" data-mode="signup">crée d'abord ton compte</button>,
+                puis tape <code class="billing-cmd"></code> dans un autre terminal ouvert dans le dossier
+                <code>clipzo</code> (là où tu lances le serveur) et recharge la page.
+              </span>
+              <span class="billing-tip" data-tip="free">
+                Pour tester un forfait sans payer, tape <code class="billing-cmd"></code> dans un autre terminal
+                ouvert dans le dossier <code>clipzo</code> (là où tu lances le serveur), puis recharge la page.
+              </span>
+              <span class="billing-tip" data-tip="paid">
+                Pour revenir au forfait Gratuit, tape <code class="billing-cmd"></code> dans un autre terminal
+                ouvert dans le dossier <code>clipzo</code> (là où tu lances le serveur), puis recharge la page.
+              </span>
               Pour encaisser de vrais paiements, branche Stripe (README, « Brancher Stripe »).
             </span>
           </span>

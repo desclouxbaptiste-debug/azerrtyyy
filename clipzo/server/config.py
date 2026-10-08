@@ -71,6 +71,9 @@ PUBLIC_URL = os.environ.get("CLIPZO_PUBLIC_URL", "").rstrip("/")
 # Stripe subscriptions. Without STRIPE_SECRET_KEY the paid plans can't be bought on this server
 # (an admin can still set a plan with `python -m server.admin set-plan <email> pro`).
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
+# How to run the admin commands where this server runs (the Docker compose files set their own).
+ADMIN_COMMAND = os.environ.get("CLIPZO_ADMIN_CMD") or (
+    "py -m server.admin" if os.name == "nt" else "python3 -m server.admin")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 # Optional: prices created in the Stripe dashboard. When empty, prices are created on the fly
 # from PRICES_CENTS below (simplest setup).

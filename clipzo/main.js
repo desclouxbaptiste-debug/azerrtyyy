@@ -158,6 +158,7 @@
       refreshPlanUI();
       onStudioOpen();
     }
+    if (name === "pricing") refreshFeatures();
   }
 
   function hidePanel() {
@@ -203,7 +204,7 @@
   };
   // Live mode: the plan and the monthly quota belong to the signed-in account, the server charges them.
   // Demo mode (no server): the plan is a local switch to try the options, nothing is ever charged.
-  const api = { mode: "pending", features: {}, checking: null, me: null };
+  const api = { mode: "pending", features: {}, adminCommand: "", checking: null, me: null };
   const isLive = () => api.mode === "live";
   let demoPlan = store.get("clipzo.plan", "free");
   if (!PLANS[demoPlan]) demoPlan = "free";
@@ -277,10 +278,14 @@
   function refreshBillingBanner(user) {
     billingBanner.hidden = !billingOff();
     $(".billing-local", billingBanner).hidden = !onOwnComputer;
-    const py = /Windows/i.test(navigator.userAgent) ? "py" : "python3";
-    let email = user ? user.email : "ton@email";
-    if (/[^\w.@+-]/.test(email)) email = `"${email}"`; // cmd / shell special characters
-    $(".billing-cmd", billingBanner).textContent = `${py} -m server.admin set-plan ${email} pro`;
+    const tip = !user ? "guest" : user.plan === "free" ? "free" : "paid";
+    $$(".billing-tip", billingBanner).forEach((t) => (t.hidden = t.dataset.tip !== tip));
+    // The server says how its admin commands run (Docker, Windows…); the browser's OS as a fallback
+    const admin = api.adminCommand || (/Windows/i.test(navigator.userAgent) ? "py" : "python3") + " -m server.admin";
+    // Only plain addresses go in the command: no quoting is safe in cmd, PowerShell and sh at once
+    const email = user && /^[\w.@+-]+$/.test(user.email) ? user.email : "ton@email";
+    const cmd = `${admin} set-plan ${email} ${tip === "paid" ? "free" : "pro"}`;
+    $$(".billing-cmd", billingBanner).forEach((c) => (c.textContent = cmd));
   }
 
   function refreshPlanUI() {
@@ -436,7 +441,9 @@
 
   // Plan or quota changed from another tab (subscription, analysis): refresh when coming back
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden && isLive()) loadMe();
+    if (document.hidden || !isLive()) return;
+    loadMe();
+    refreshFeatures();
   });
 
   const frDate = (ms) =>
@@ -653,6 +660,8 @@
       setTimeout(() => showPanel("studio"), 500);
       return;
     }
+    // The server may have been restarted with Stripe since the page loaded
+    if (choice !== "free" && billingOff()) await refreshFeatures();
     if (choice !== "free" && billingOff()) {
       // Nothing to buy on this server: no sign-up detour, no request bound to fail
       refreshPlanUI();
@@ -853,14 +862,41 @@
   }
 
   /* ---------- Server connection: live analysis, or demo fallback ---------- */
-  function setMode(mode, features) {
+  // What the server can do right now (it may be restarted with ffmpeg or Stripe while the page stays open)
+  function applyHealth(data) {
+    const live = api.mode === "live";
+    api.features = data && data.features && typeof data.features === "object" ? data.features : {};
+    api.adminCommand = live && data ? text(data.admin_command).slice(0, 200) : "";
+    featureHint.hidden = !(live && api.features.download === false);
+    ffmpegBanner.hidden = !(live && api.features.ffmpeg === false);
+  }
+
+  // Re-read the features without ever switching to demo mode: a failed request changes nothing
+  function refreshFeatures() {
+    if (!isLive()) return Promise.resolve();
+    const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    const timer = setTimeout(() => ctrl && ctrl.abort(), 3000);
+    return fetch("/api/health", {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+      signal: ctrl ? ctrl.signal : undefined,
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!data || data.ok !== true || !isLive()) return;
+        applyHealth(data);
+        refreshPlanUI();
+      })
+      .catch(() => {})
+      .finally(() => clearTimeout(timer));
+  }
+
+  function setMode(mode, data) {
     const was = api.mode;
     const isLive = mode === "live";
     api.mode = mode;
-    api.features = features && typeof features === "object" ? features : {};
+    applyHealth(data);
     demoBanner.hidden = mode !== "demo";
-    featureHint.hidden = !(isLive && api.features.download === false);
-    ffmpegBanner.hidden = !(isLive && api.features.ffmpeg === false);
     if (!isLive && sourceMode === "file") setSource("link");
     if (isLive && was === "demo" && openPanel === panels.studio) {
       toast("Serveur d'analyse connecté : place aux vrais shorts !");
@@ -880,7 +916,7 @@
       signal: ctrl ? ctrl.signal : undefined,
     })
       .then((res) => (res.ok ? res.json() : null))
-      .then((data) => setMode(data && data.ok === true ? "live" : "demo", data && data.features))
+      .then((data) => setMode(data && data.ok === true ? "live" : "demo", data))
       .catch(() => setMode("demo"))
       .finally(() => {
         clearTimeout(timer);

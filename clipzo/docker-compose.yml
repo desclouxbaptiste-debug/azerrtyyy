@@ -7,6 +7,9 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - CLIPZO_WHISPER_MODEL=${CLIPZO_WHISPER_MODEL:-small}
       - CLIPZO_WORKERS=${CLIPZO_WORKERS:-1}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+      - CLIPZO_ADMIN_CMD=docker compose exec clipzo python -m server.admin
     volumes:
       - clipzo-data:/data
       - whisper-models:/root/.cache/huggingface

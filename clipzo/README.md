@@ -156,8 +156,11 @@ shorts réellement livrés : une analyse annulée ou en échec ne coûte rien.
   python -m server.admin set-plan ami@exemple.com free   # retour au forfait gratuit
   ```
 
-  Sous Windows, remplace `python` par `py`. Recharge ensuite la page du site.
-  (avec Docker : `docker compose -f docker-compose.prod.yml exec clipzo python -m server.admin users`)
+  Sous Windows, remplace `python` par `py`. Recharge ensuite la page du site. Le compte doit déjà exister
+  (crée-le d'abord sur le site).
+  Avec Docker, lance la même commande dans le conteneur, depuis le dossier `clipzo` :
+  `docker compose exec clipzo python -m server.admin set-plan ami@exemple.com pro` en local, ou
+  `docker compose -f docker-compose.prod.yml exec clipzo python -m server.admin ...` sur le serveur.
 
 ## Mettre le site en ligne
 
@@ -198,10 +201,19 @@ Hetzner, OVH ou Scaleway, autour de 5 € par mois), et un nom de domaine.
    `4242 4242 4242 4242` (date future, n'importe quel code).
 
    **Tester Stripe sur ton ordinateur** (sans domaine) : Stripe ne peut pas joindre `localhost`, alors
-   installe la [Stripe CLI](https://docs.stripe.com/stripe-cli), puis `stripe login` et
-   `stripe listen --forward-to localhost:8000/api/billing/webhook`. Elle affiche un secret `whsec_...` :
-   mets-le dans `STRIPE_WEBHOOK_SECRET` (avec ta clé `sk_test_...` dans `STRIPE_SECRET_KEY`) et relance
-   `py -m server`, en laissant `stripe listen` ouvert pendant tes essais.
+   installe la [Stripe CLI](https://docs.stripe.com/stripe-cli). Dans un premier terminal, lance
+   `stripe login` puis `stripe listen --forward-to localhost:8000/api/billing/webhook` et laisse-le
+   ouvert : il affiche un secret `whsec_...`. Dans le terminal du serveur (dossier `clipzo`), arrête-le
+   avec Ctrl+C puis relance-le avec les deux clés :
+
+   ```bat
+   set STRIPE_SECRET_KEY=sk_test_...
+   set STRIPE_WEBHOOK_SECRET=whsec_...
+   py -m server
+   ```
+
+   (Mac/Linux : `export` au lieu de `set`, et `python -m server`.) `py -m server` ne lit pas le fichier
+   `.env` : il ne sert qu'avec Docker (`docker compose up` le lit aussi pour ces deux clés).
 6. Quand tout marche, refais les étapes 2 à 4 en **mode live** avec les vraies clés.
 
 ### À savoir

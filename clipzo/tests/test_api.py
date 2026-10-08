@@ -47,6 +47,17 @@ def test_health(client):
     assert body["features"]["llm"] is False
 
 
+def test_health_tells_how_to_give_a_plan_only_while_stripe_is_off(client, monkeypatch):
+    monkeypatch.setattr(config, "ADMIN_COMMAND", "docker compose exec clipzo python -m server.admin")
+    body = client.get("/api/health").json()
+    assert body["features"]["billing"] is False
+    assert body["admin_command"] == "docker compose exec clipzo python -m server.admin"
+
+    monkeypatch.setattr(config, "STRIPE_SECRET_KEY", "sk_test_x")
+    body = client.get("/api/health").json()
+    assert body["features"]["billing"] is True and "admin_command" not in body
+
+
 def test_site_is_served_but_not_the_code(client):
     assert client.get("/").status_code == 200
     assert "text/html" in client.get("/").headers["content-type"]

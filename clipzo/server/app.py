@@ -39,8 +39,7 @@ async def lifespan(_: FastAPI):
         log.error("=" * 70)
     if not billing.configured():
         log.info("Paiement Stripe non configuré : les forfaits payants ne peuvent pas être achetés (README, "
-                 "« Brancher Stripe »). Pour tester un forfait : %s -m server.admin set-plan <email> pro",
-                 "py" if os.name == "nt" else "python")
+                 "« Brancher Stripe »). Pour tester un forfait : %s set-plan ton@email pro", config.ADMIN_COMMAND)
     store.start()
     log.info("Clipzo ready — data in %s, %d worker(s), Claude: %s, Whisper: %s",
              config.DATA_DIR, config.WORKERS, "on" if config.llm_configured() else "off",
@@ -245,7 +244,7 @@ async def billing_webhook(request: Request) -> dict:
 
 @app.get("/api/health")
 def health() -> dict:
-    return {
+    data = {
         "ok": True,
         "version": "1.0",
         "features": {
@@ -260,6 +259,10 @@ def health() -> dict:
         "limits": {"max_upload_mb": config.MAX_UPLOAD_MB},
         "plans": {k: p.public() for k, p in config.PLANS.items()},
     }
+    if not billing.configured():
+        # Shown to the owner on their own computer: how to give a plan by hand while Stripe is off
+        data["admin_command"] = config.ADMIN_COMMAND
+    return data
 
 
 @app.post("/api/jobs", status_code=202)
