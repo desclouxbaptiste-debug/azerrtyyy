@@ -28,7 +28,9 @@ def main(argv: list[str]) -> int:
         rows = accounts.db().execute("SELECT id, email, plan, billing_status, created_at FROM users ORDER BY id").fetchall()
         for r in rows:
             used = accounts.used_this_month(r["id"])
-            print(f"{r['id']:>5}  {r['email']:<40} {r['plan']:<8} {r['billing_status'] or '-':<10} {used} short(s) ce mois-ci")
+            # escape control characters: an e-mail must not be able to drive the terminal
+            email = "".join(c if c.isprintable() else ascii(c)[1:-1] for c in r["email"])
+            print(f"{r['id']:>5}  {email:<40} {r['plan']:<8} {r['billing_status'] or '-':<10} {used} short(s) ce mois-ci")
         print(f"{len(rows)} compte(s)")
         return 0
     if cmd == "set-plan" and len(args) == 2:

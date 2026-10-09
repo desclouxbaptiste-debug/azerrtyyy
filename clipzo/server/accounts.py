@@ -182,7 +182,7 @@ def check_signup_rate(client: str) -> None:
 
 def create_user(email: str, password: str) -> User:
     email = normalize_email(email)
-    if len(email) > 254 or not EMAIL_RE.match(email):
+    if len(email) > 254 or not email.isprintable() or not EMAIL_RE.match(email):
         raise AccountError("Adresse e-mail invalide.")
     if not isinstance(password, str) or len(password) < MIN_PASSWORD:
         raise AccountError(f"Le mot de passe doit faire au moins {MIN_PASSWORD} caractères.")
@@ -218,11 +218,11 @@ def authenticate(email: str, password: str, client: str) -> User:
         _failures[key] = recent
         if len(recent) >= LOGIN_MAX_FAILURES:
             raise AccountError("Trop de tentatives : réessaie dans quelques minutes.", 429)
+        # Counted as a failure before checking: parallel guesses can't all slip in before the first is recorded
+        recent.append(now)
     row = one("SELECT * FROM users WHERE email = ?", (email,))
     ok = verify_password(password or "", row["password_hash"] if row else _DUMMY_HASH)
     if not row or not ok:
-        with _lock:
-            _failures.setdefault(key, []).append(now)
         raise AccountError("E-mail ou mot de passe incorrect.", 401)
     with _lock:
         _failures.pop(key, None)

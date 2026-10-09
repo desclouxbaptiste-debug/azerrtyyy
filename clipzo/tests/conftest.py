@@ -15,6 +15,7 @@ os.environ["CLIPZO_LLM"] = "off"
 os.environ["CLIPZO_MAX_JOBS_PER_CLIENT"] = "50"
 os.environ["CLIPZO_MAX_JOBS_PER_IP"] = "50"
 os.environ["CLIPZO_MAX_SIGNUPS_PER_IP_HOUR"] = "1000"
+os.environ["CLIPZO_ALLOWED_HOSTS"] = "testserver"  # the TestClient's host name
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 HAS_FFMPEG = shutil.which("ffmpeg") is not None and shutil.which("ffprobe") is not None

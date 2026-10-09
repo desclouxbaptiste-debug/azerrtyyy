@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ipaddress
 import json
 import logging
 import os
@@ -56,9 +57,63 @@ if config.CORS_ORIGINS:
 SESSION_COOKIE = "clipzo_session"
 
 
+MAX_SMALL_BODY = 1024 * 1024  # every POST except the video upload: JSON forms and the Stripe webhook
+
+
+def _host_allowed(host: str) -> bool:
+    """Names this server answers to. An IP address is always fine: a DNS-rebinding page (a site whose
+    name suddenly points to 127.0.0.1 to drive the server on the owner's computer) always uses a name."""
+    if not host:
+        return True
+    try:
+        name = (urlsplit("//" + host).hostname or "").rstrip(".").lower()
+    except ValueError:
+        return False
+    try:
+        ipaddress.ip_address(name)
+        return True
+    except ValueError:
+        pass
+    return "*" in config.ALLOWED_HOSTS or name in config.ALLOWED_HOSTS
+
+
+class BodyLimit:
+    """Cap the body of every POST except the video upload (it has its own limit). The webhook and the forms
+    are read before any signature or session is checked: without a cap, one request could fill the memory.
+    Counted as the bytes arrive, so a body sent without Content-Length (chunked, HTTP/2 via a proxy) is capped too."""
+
+    def __init__(self, app, limit: int):
+        self.app, self.limit = app, limit
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http" or scope["method"] != "POST" or scope["path"] == "/api/jobs/upload":
+            return await self.app(scope, receive, send)
+        length = dict(scope["headers"]).get(b"content-length")
+        if length is not None and (not length.isdigit() or int(length) > self.limit):
+            return await JSONResponse({"detail": "Requête trop volumineuse."}, status_code=413)(scope, receive, send)
+        received = 0
+
+        async def limited():
+            nonlocal received
+            message = await receive()
+            if message["type"] == "http.request":
+                received += len(message.get("body", b""))
+                if received > self.limit:
+                    raise HTTPException(413, "Requête trop volumineuse.")
+            return message
+
+        await self.app(scope, limited, send)
+
+
+app.add_middleware(BodyLimit, limit=MAX_SMALL_BODY)
+
+
 @app.middleware("http")
 async def same_origin_writes(request: Request, call_next):
-    """Refuse POSTs sent by another website (CSRF). The Stripe webhook is signed, it is exempt."""
+    """Refuse unknown host names, oversized bodies and POSTs sent by another website (CSRF).
+    The Stripe webhook is signed, it is exempt from the origin check."""
+    if not _host_allowed(request.headers.get("host", "")):
+        return JSONResponse({"detail": "Adresse du site non reconnue (voir CLIPZO_ALLOWED_HOSTS)."}, status_code=400)
     if request.method == "POST" and request.url.path != "/api/billing/webhook":
         origin = request.headers.get("origin")
         if origin and origin != "null":

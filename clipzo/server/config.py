@@ -6,6 +6,7 @@ import math
 import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent  # the clipzo/ folder (static site lives here)
 
@@ -58,6 +59,12 @@ CLAUDE_EFFORT = os.environ.get("CLIPZO_CLAUDE_EFFORT", "medium")
 
 # Comma-separated origins allowed to call the API from another domain (empty = same origin only).
 CORS_ORIGINS = [o.strip() for o in os.environ.get("CLIPZO_CORS_ORIGINS", "").split(",") if o.strip()]
+# Host names the site answers to, besides IP addresses: localhost, the public address, the CORS origins
+# and CLIPZO_ALLOWED_HOSTS (comma-separated, "*" = any). Other names are refused (DNS rebinding).
+ALLOWED_HOSTS = {"localhost", HOST.lower()} | {
+    (urlsplit(u).hostname or "").lower()
+    for u in [os.environ.get("CLIPZO_PUBLIC_URL", ""), *CORS_ORIGINS] if u
+} | {h.strip().lower() for h in os.environ.get("CLIPZO_ALLOWED_HOSTS", "").split(",") if h.strip()}
 
 # Accounts: sessions last 30 days. The cookie is marked Secure on HTTPS (or always with CLIPZO_COOKIE_SECURE=1).
 SESSION_DAYS = _env_int("CLIPZO_SESSION_DAYS", 30)

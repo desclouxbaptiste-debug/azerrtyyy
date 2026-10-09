@@ -10,7 +10,9 @@ from . import config
 if __name__ == "__main__":
     print(f"\n  Clipzo : ouvre http://{'localhost' if config.HOST in ('127.0.0.1', '0.0.0.0') else config.HOST}:{config.PORT}\n")
     try:
-        uvicorn.run("server.app:app", host=config.HOST, port=config.PORT, log_level="info")
+        # proxy_headers=False: a page on this computer could otherwise fake its address with X-Forwarded-For;
+        # behind a real proxy, CLIPZO_TRUST_PROXY=1 reads that header where it matters (server/app.py)
+        uvicorn.run("server.app:app", host=config.HOST, port=config.PORT, log_level="info", proxy_headers=False)
     finally:
         from .app import store
 

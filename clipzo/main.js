@@ -282,10 +282,14 @@
     $$(".billing-tip", billingBanner).forEach((t) => (t.hidden = t.dataset.tip !== tip));
     // The server says how its admin commands run (Docker, Windows…); the browser's OS as a fallback
     const admin = api.adminCommand || (/Windows/i.test(navigator.userAgent) ? "py" : "python3") + " -m server.admin";
-    // Only plain addresses go in the command: no quoting is safe in cmd, PowerShell and sh at once
-    const email = user && /^[\w.@+-]+$/.test(user.email) ? user.email : "ton@email";
+    // In the command: a plain address as is, one with characters double quotes keep inert in cmd,
+    // PowerShell and sh between quotes; anything else ($ ` ! % " \) stays a placeholder to replace.
+    let email = "ton@email";
+    if (user && /^[\w.@+-]+$/.test(user.email)) email = user.email;
+    else if (user && /^[\w.@+\-'&#*/=?^{|}~]+$/.test(user.email)) email = `"${user.email}"`;
     const cmd = `${admin} set-plan ${email} ${tip === "paid" ? "free" : "pro"}`;
     $$(".billing-cmd", billingBanner).forEach((c) => (c.textContent = cmd));
+    $$(".billing-cmd-note", billingBanner).forEach((n) => (n.hidden = email !== "ton@email"));
   }
 
   function refreshPlanUI() {
@@ -884,8 +888,10 @@
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (!data || data.ok !== true || !isLive()) return;
+        const billingChanged = (data.features || {}).billing !== api.features.billing;
         applyHealth(data);
         refreshPlanUI();
+        if (billingChanged && currentUser) loadMe(); // "manage my subscription" follows the Stripe keys
       })
       .catch(() => {})
       .finally(() => clearTimeout(timer));
@@ -930,6 +936,7 @@
     if (api.mode === "demo") checkHealth();
     else if (api.mode === "live") {
       loadMe();
+      refreshFeatures();
       if (!activeJob) resumeJob();
     }
   }
@@ -1760,10 +1767,18 @@
 
   cancelBtn.addEventListener("click", () => {
     const id = activeJob && activeJob.id;
+    const ready = clipsList.childElementCount;
     if (id) {
       fetch(`/api/jobs/${encodeURIComponent(id)}/cancel`, { method: "POST", keepalive: true })
         .catch(() => {})
         .then(() => loadMe()); // its reserved shorts are released
+    }
+    if (ready > 0) {
+      // Each short is charged when it is delivered: keep the ones already made on screen
+      finishJob(ready > 1
+        ? `Analyse arrêtée : les ${ready} shorts déjà prêts sont gardés et décomptés de ton quota, pas les autres.`
+        : "Analyse arrêtée : le short déjà prêt est gardé et décompté de ton quota, pas les autres.");
+      return;
     }
     stopJob();
     showForm();

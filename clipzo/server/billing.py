@@ -50,8 +50,8 @@ def checkout(user: accounts.User, plan: str, interval: str, base_url: str) -> di
     _require_configured()
     if plan not in PAID_PLANS or interval not in INTERVALS:
         raise BillingError(400, "Forfait inconnu.")
-    if user.stripe_subscription_id and user.billing_status in ACTIVE_STATUSES:
-        # One subscription per account: plan changes and cancellation happen in the portal.
+    if user.stripe_subscription_id and user.billing_status in ACTIVE_STATUSES + ("unpaid",):
+        # One subscription per account: plan changes, cancellation and unpaid invoices go through the portal.
         return {"url": portal(user, base_url)["url"], "portal": True}
 
     price_id = config.STRIPE_PRICE_IDS.get((plan, interval))
@@ -119,7 +119,12 @@ def handle_webhook(payload: bytes, signature: str | None) -> str:
     if kind == "checkout.session.completed":
         _on_checkout_completed(obj, created)
     elif kind in ("customer.subscription.created", "customer.subscription.updated", "customer.subscription.deleted"):
-        _apply_subscription(obj, created, deleted=kind.endswith(".deleted"))
+        deleted = kind.endswith(".deleted")
+        if not deleted and configured() and _get(obj, "id"):
+            # Events of the same second can arrive in any order: apply what the subscription is now,
+            # not the snapshot (a late "incomplete" would undo the "active" that followed it)
+            obj = _stripe_call(_client().v1.subscriptions.retrieve, _get(obj, "id"))
+        _apply_subscription(obj, created, deleted=deleted)
     else:
         accounts.mark_event(event_id)
         return "ignored"
@@ -170,10 +175,16 @@ def _apply_subscription(sub, created: float, deleted: bool = False, user_hint: i
         return
 
     status = "canceled" if deleted else _get(sub, "status")
-    plan = _get(meta, "plan")
+    plan = _plan_from_items(sub)  # the current price: a plan switched in the portal keeps the old metadata
     if plan not in PAID_PLANS:
-        plan = _plan_from_items(sub)
+        plan = _get(meta, "plan")
     keep_paid = (not deleted) and status in ACTIVE_STATUSES and plan in PAID_PLANS
+    sub_id = _get(sub, "id")
+    if (user.stripe_subscription_id and sub_id != user.stripe_subscription_id
+            and user.billing_status in ACTIVE_STATUSES and not keep_paid):
+        # Another (older or duplicate) subscription ended or lapsed: the recorded paid one stays
+        log.info("ignoring %s of %s: account %s is on %s", status, sub_id, user.id, user.stripe_subscription_id)
+        return
     period_end = _get(sub, "current_period_end")
     items = _get(_get(sub, "items", {}), "data", []) or []
     if period_end is None and items:
@@ -183,7 +194,7 @@ def _apply_subscription(sub, created: float, deleted: bool = False, user_hint: i
         plan=plan if keep_paid else "free",
         status=status,
         customer_id=customer,
-        subscription_id=None if deleted else _get(sub, "id"),
+        subscription_id=None if deleted else sub_id,
         period_end=float(period_end) if period_end else None,
         cancel_at_period_end=bool(_get(sub, "cancel_at_period_end", False)),
         event_time=created,
@@ -191,7 +202,7 @@ def _apply_subscription(sub, created: float, deleted: bool = False, user_hint: i
 
 
 def _plan_from_items(sub) -> str | None:
-    """Fallback when metadata is missing (e.g. a plan switched in the portal to a dashboard price)."""
+    """Plan of the subscription's current price (dashboard price id, or the amount of an on-the-fly price)."""
     items = _get(_get(sub, "items", {}), "data", []) or []
     if not items:
         return None

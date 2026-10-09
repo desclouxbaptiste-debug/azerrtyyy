@@ -199,6 +199,8 @@ def run(job: Job) -> None:
                 continue
             if result.layout == "face":
                 job.signals["faces"] = True
+            # Charged before it is published: the quota check never sees the short without its charge
+            _charge(job, 1)
             job.add_clip({
                 "index": i,
                 "start": round(p["start"], 2),
@@ -217,7 +219,6 @@ def run(job: Job) -> None:
                 "layout": result.layout,
                 "subtitles": result.has_subtitles,
             })
-            _charge(job, 1)  # each short counts as soon as it is delivered
         if not job.clips:
             raise media.MediaError("Aucun short n'a pu être découpé dans cette vidéo.")
         job.finish()

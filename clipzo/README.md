@@ -134,6 +134,7 @@ shorts réellement livrés : une analyse annulée ou en échec ne coûte rien.
 | `STRIPE_PRICE_*` | vide | Identifiants de prix Stripe (facultatif) |
 | `CLIPZO_PUBLIC_URL` | vide | Adresse publique du site, ex. `https://clipzo.fr` (liens de retour Stripe) |
 | `CLIPZO_TRUST_PROXY` | vide | `1` derrière un reverse proxy (adresse réelle des visiteurs) |
+| `CLIPZO_ALLOWED_HOSTS` | vide | Autres noms du site, séparés par des virgules (ex. `monpc`) : par sécurité, le serveur ne répond qu'aux adresses IP, à `localhost` et au domaine de `CLIPZO_PUBLIC_URL` |
 | `CLIPZO_COOKIE_SECURE` | vide | `1` pour n'envoyer le cookie de connexion qu'en HTTPS |
 
 ## Comptes et abonnements

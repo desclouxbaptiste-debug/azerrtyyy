@@ -65,6 +65,52 @@ def test_wrong_password_and_throttling(client):
     assert unknown.status_code == 401  # same answer as a wrong password
 
 
+def test_parallel_guesses_cannot_pass_the_login_limit(client):
+    import threading
+
+    signup(client, "nina@example.com")
+    results, start = [], threading.Barrier(30)
+
+    def guess():
+        start.wait()
+        try:
+            accounts.authenticate("nina@example.com", "mauvais-mdp", "198.51.100.7")
+            results.append(200)
+        except accounts.AccountError as exc:
+            results.append(exc.status)
+
+    threads = [threading.Thread(target=guess) for _ in range(30)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert results.count(401) == accounts.LOGIN_MAX_FAILURES and results.count(429) == 30 - accounts.LOGIN_MAX_FAILURES
+
+
+def test_emails_with_control_characters_are_refused(client):
+    client.cookies.clear()
+    for email in ("z\x1b[8m@evil.io", "a\u202eb@evil.io", "bell\x07@evil.io"):
+        r = client.post("/api/auth/signup", json={"email": email, "password": PASSWORD})
+        assert r.status_code == 400, email
+
+
+def test_admin_listing_escapes_control_characters(capsys):
+    from server import admin
+
+    accounts.execute("INSERT INTO users (email, password_hash, created_at) VALUES (?, ?, ?)",
+                     ("old\x1b[2Kuser@example.com", "x", time.time()))
+    assert admin.main(["users"]) == 0
+    out = capsys.readouterr().out
+    assert "\x1b" not in out and "old\\x1b[2Kuser@example.com" in out
+
+
+def test_unknown_host_names_are_refused(client):
+    assert client.get("/api/health", headers={"Host": "rebind.attacker.example:8000"}).status_code == 400
+    assert client.get("/api/health", headers={"Host": "127.0.0.1:8000"}).status_code == 200
+    assert client.get("/api/health", headers={"Host": "localhost:8000"}).status_code == 200
+    assert client.get("/api/health", headers={"Host": "[::1]:8000"}).status_code == 200
+
+
 def test_password_storage_is_salted_scrypt():
     h1, h2 = accounts.hash_password("secret-123"), accounts.hash_password("secret-123")
     assert h1 != h2 and h1.startswith("scrypt$")
@@ -173,10 +219,19 @@ def send_event(client, event, secret=WEBHOOK_SECRET):
                        headers={"Stripe-Signature": f"t={t},v1={sig}", "Content-Type": "application/json"})
 
 
-def subscription(sub_id, user_id, plan, status="active", customer="cus_1", period_end=1_800_000_000):
+def subscription(sub_id, user_id, plan, status="active", customer="cus_1", period_end=1_800_000_000, price_plan=None):
+    """A Stripe subscription; `price_plan` = the plan of its current price when it differs from the metadata."""
+    amount = config.PRICES_CENTS[(price_plan or plan, "month")]
     return {"id": sub_id, "object": "subscription", "customer": customer, "status": status,
             "metadata": {"user_id": str(user_id), "plan": plan}, "cancel_at_period_end": False,
-            "items": {"data": [{"current_period_end": period_end, "price": {"id": "price_x", "unit_amount": 1000}}]}}
+            "items": {"data": [{"current_period_end": period_end, "price": {"id": "price_x", "unit_amount": amount}}]}}
+
+
+def sub_event(client, stripe_mock, event_id, kind, sub, created):
+    """Subscription event; Stripe's current state of the subscription (what the server fetches) is `sub`."""
+    if not kind.endswith(".deleted"):
+        stripe_mock["subscriptions"][sub["id"]] = sub
+    return send_event(client, {"id": event_id, "type": kind, "created": created, "data": {"object": sub}})
 
 
 def test_billing_without_stripe_is_clearly_refused(client):
@@ -244,15 +299,78 @@ def test_past_due_keeps_access_unpaid_removes_it(client, stripe_mock):
     signup(client, "jade@example.com")
     user = accounts.get_user_by_email("jade@example.com")
     now = int(time.time())
-    send_event(client, {"id": "evt_a", "type": "customer.subscription.created", "created": now,
-                        "data": {"object": subscription("sub_j", user.id, "creator", customer="cus_j")}})
+    sub_event(client, stripe_mock, "evt_a", "customer.subscription.created",
+              subscription("sub_j", user.id, "creator", customer="cus_j"), now)
     assert accounts.get_user(user.id).plan == "creator"
-    send_event(client, {"id": "evt_b", "type": "customer.subscription.updated", "created": now + 1,
-                        "data": {"object": subscription("sub_j", user.id, "creator", status="past_due", customer="cus_j")}})
+    sub_event(client, stripe_mock, "evt_b", "customer.subscription.updated",
+              subscription("sub_j", user.id, "creator", status="past_due", customer="cus_j"), now + 1)
     assert accounts.get_user(user.id).plan == "creator"
-    send_event(client, {"id": "evt_c", "type": "customer.subscription.updated", "created": now + 2,
-                        "data": {"object": subscription("sub_j", user.id, "creator", status="unpaid", customer="cus_j")}})
+    sub_event(client, stripe_mock, "evt_c", "customer.subscription.updated",
+              subscription("sub_j", user.id, "creator", status="unpaid", customer="cus_j"), now + 2)
     assert accounts.get_user(user.id).plan == "free"
+    # an unpaid subscription is settled in the portal, not by opening a second one
+    client.cookies.set("clipzo_session", accounts.create_session(user.id))
+    r = client.post("/api/billing/checkout", json={"plan": "creator", "interval": "month"})
+    assert r.json().get("portal") is True
+
+
+def test_plan_switched_in_the_portal_follows_the_price(client, stripe_mock):
+    signup(client, "kim@example.com")
+    user = accounts.get_user_by_email("kim@example.com")
+    now = int(time.time())
+    sub_event(client, stripe_mock, "evt_k1", "customer.subscription.created",
+              subscription("sub_k", user.id, "pro", customer="cus_k"), now)
+    assert accounts.get_user(user.id).plan == "pro"
+    # Pro -> Créateur in the portal: the metadata still says "pro", the price is Créateur's
+    sub_event(client, stripe_mock, "evt_k2", "customer.subscription.updated",
+              subscription("sub_k", user.id, "pro", customer="cus_k", price_plan="creator"), now + 1)
+    assert accounts.get_user(user.id).plan == "creator"
+
+
+def test_same_second_events_in_any_order_keep_the_paid_plan(client, stripe_mock):
+    signup(client, "leo@example.com")
+    user = accounts.get_user_by_email("leo@example.com")
+    now = int(time.time())
+    active = subscription("sub_l", user.id, "pro", customer="cus_l")
+    incomplete = subscription("sub_l", user.id, "pro", status="incomplete", customer="cus_l")
+    sub_event(client, stripe_mock, "evt_l1", "customer.subscription.updated", active, now)
+    assert accounts.get_user(user.id).plan == "pro"
+    # "created" (incomplete) delivered after "updated" (active), same second: Stripe's current state wins
+    send_event(client, {"id": "evt_l2", "type": "customer.subscription.created", "created": now,
+                        "data": {"object": incomplete}})
+    assert accounts.get_user(user.id).plan == "pro" and accounts.get_user(user.id).billing_status == "active"
+
+
+def test_an_old_subscription_ending_does_not_downgrade_the_current_one(client, stripe_mock):
+    signup(client, "mia@example.com")
+    user = accounts.get_user_by_email("mia@example.com")
+    now = int(time.time())
+    sub_event(client, stripe_mock, "evt_m1", "customer.subscription.created",
+              subscription("sub_old", user.id, "pro", customer="cus_m"), now)
+    sub_event(client, stripe_mock, "evt_m2", "customer.subscription.created",
+              subscription("sub_new", user.id, "pro", customer="cus_m"), now + 1)
+    assert accounts.get_user(user.id).stripe_subscription_id == "sub_new"
+    sub_event(client, stripe_mock, "evt_m3", "customer.subscription.deleted",
+              subscription("sub_old", user.id, "pro", status="canceled", customer="cus_m"), now + 2)
+    after = accounts.get_user(user.id)
+    assert after.plan == "pro" and after.stripe_subscription_id == "sub_new"
+    # the current one ending does
+    sub_event(client, stripe_mock, "evt_m4", "customer.subscription.deleted",
+              subscription("sub_new", user.id, "pro", status="canceled", customer="cus_m"), now + 3)
+    assert accounts.get_user(user.id).plan == "free"
+
+
+def test_oversized_bodies_are_refused_before_being_read(client, stripe_mock):
+    big = b"x" * (1024 * 1024 + 1)
+    r = client.post("/api/billing/webhook", content=big, headers={"Stripe-Signature": "t=1,v1=0"})
+    assert r.status_code == 413
+    # chunked (no Content-Length, as through a proxy over HTTP/2): small ones pass, big ones are cut off
+    r = client.post("/api/auth/login", content=iter([b'{"email": "a@b.cd", ', b'"password": "motdepasse"}']),
+                    headers={"Content-Type": "application/json"})
+    assert r.status_code == 401
+    r = client.post("/api/billing/webhook", content=iter([b"x" * 600_000, b"x" * 600_000]),
+                    headers={"Stripe-Signature": "t=1,v1=0"})
+    assert r.status_code == 413
 
 
 def test_signups_are_limited_per_connection(client, monkeypatch):
