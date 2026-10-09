@@ -104,6 +104,14 @@ def test_admin_listing_escapes_control_characters(capsys):
     assert "\x1b" not in out and "old\\x1b[2Kuser@example.com" in out
 
 
+def test_accented_public_domain_is_accepted_in_its_ascii_form(client, monkeypatch):
+    # browsers and Stripe send an accented domain in its punycode form
+    assert config._ascii_host("Clipzô.FR.") == "xn--clipz-bua.fr"
+    assert config._ascii_host("clipzo.fr") == "clipzo.fr" and config._ascii_host("*") == "*"
+    monkeypatch.setattr(config, "ALLOWED_HOSTS", config.ALLOWED_HOSTS | {config._ascii_host("clipzô.fr")})
+    assert client.get("/api/health", headers={"Host": "xn--clipz-bua.fr"}).status_code == 200
+
+
 def test_unknown_host_names_are_refused(client):
     assert client.get("/api/health", headers={"Host": "rebind.attacker.example:8000"}).status_code == 400
     assert client.get("/api/health", headers={"Host": "127.0.0.1:8000"}).status_code == 200
@@ -190,7 +198,7 @@ WEBHOOK_SECRET = "whsec_test_secret"
 
 @pytest.fixture
 def stripe_mock(monkeypatch):
-    calls = {"checkout": [], "portal": [], "subscriptions": {}}
+    calls = {"checkout": [], "portal": [], "subscriptions": {}, "cancelled": []}
 
     def create_checkout(params):
         calls["checkout"].append(params)
@@ -203,7 +211,8 @@ def stripe_mock(monkeypatch):
     fake = SimpleNamespace(v1=SimpleNamespace(
         checkout=SimpleNamespace(sessions=SimpleNamespace(create=create_checkout)),
         billing_portal=SimpleNamespace(sessions=SimpleNamespace(create=create_portal)),
-        subscriptions=SimpleNamespace(retrieve=lambda sid: calls["subscriptions"][sid]),
+        subscriptions=SimpleNamespace(retrieve=lambda sid: calls["subscriptions"][sid],
+                                      cancel=lambda sid: calls["cancelled"].append(sid)),
     ))
     monkeypatch.setattr(config, "STRIPE_SECRET_KEY", "sk_test_123")
     monkeypatch.setattr(config, "STRIPE_WEBHOOK_SECRET", WEBHOOK_SECRET)
@@ -219,12 +228,13 @@ def send_event(client, event, secret=WEBHOOK_SECRET):
                        headers={"Stripe-Signature": f"t={t},v1={sig}", "Content-Type": "application/json"})
 
 
-def subscription(sub_id, user_id, plan, status="active", customer="cus_1", period_end=1_800_000_000, price_plan=None):
-    """A Stripe subscription; `price_plan` = the plan of its current price when it differs from the metadata."""
-    amount = config.PRICES_CENTS[(price_plan or plan, "month")]
+def subscription(sub_id, user_id, plan, status="active", customer="cus_1", period_end=1_800_000_000,
+                 price_id="price_x", amount=None):
+    """A Stripe subscription: `plan` in its metadata (set at checkout), its current price `price_id` / `amount`."""
+    amount = config.PRICES_CENTS[(plan, "month")] if amount is None else amount
     return {"id": sub_id, "object": "subscription", "customer": customer, "status": status,
             "metadata": {"user_id": str(user_id), "plan": plan}, "cancel_at_period_end": False,
-            "items": {"data": [{"current_period_end": period_end, "price": {"id": "price_x", "unit_amount": amount}}]}}
+            "items": {"data": [{"current_period_end": period_end, "price": {"id": price_id, "unit_amount": amount}}]}}
 
 
 def sub_event(client, stripe_mock, event_id, kind, sub, created):
@@ -308,23 +318,45 @@ def test_past_due_keeps_access_unpaid_removes_it(client, stripe_mock):
     sub_event(client, stripe_mock, "evt_c", "customer.subscription.updated",
               subscription("sub_j", user.id, "creator", status="unpaid", customer="cus_j"), now + 2)
     assert accounts.get_user(user.id).plan == "free"
-    # an unpaid subscription is settled in the portal, not by opening a second one
+    # Stripe no longer charges an unpaid subscription: subscribing again goes through Checkout...
     client.cookies.set("clipzo_session", accounts.create_session(user.id))
     r = client.post("/api/billing/checkout", json={"plan": "creator", "interval": "month"})
-    assert r.json().get("portal") is True
+    assert r.json() == {"url": "https://checkout.stripe.com/c/pay/test"}
+    # ...and once the new one is paid, the unpaid one is cancelled so it can't come back alongside it
+    sub_event(client, stripe_mock, "evt_d", "customer.subscription.created",
+              subscription("sub_j2", user.id, "creator", customer="cus_j"), now + 3)
+    assert accounts.get_user(user.id).plan == "creator" and stripe_mock["cancelled"] == ["sub_j"]
+    # its "deleted" event then changes nothing
+    sub_event(client, stripe_mock, "evt_e", "customer.subscription.deleted",
+              subscription("sub_j", user.id, "creator", status="canceled", customer="cus_j"), now + 4)
+    assert accounts.get_user(user.id).plan == "creator"
 
 
-def test_plan_switched_in_the_portal_follows_the_price(client, stripe_mock):
+def test_plan_switched_in_the_portal_follows_the_price(client, stripe_mock, monkeypatch):
+    # portal switches need the dashboard prices (README, "Portail client")
+    monkeypatch.setitem(config.STRIPE_PRICE_IDS, ("creator", "month"), "price_creator_m")
+    monkeypatch.setitem(config.STRIPE_PRICE_IDS, ("pro", "month"), "price_pro_m")
     signup(client, "kim@example.com")
     user = accounts.get_user_by_email("kim@example.com")
     now = int(time.time())
     sub_event(client, stripe_mock, "evt_k1", "customer.subscription.created",
-              subscription("sub_k", user.id, "pro", customer="cus_k"), now)
+              subscription("sub_k", user.id, "pro", customer="cus_k", price_id="price_pro_m"), now)
     assert accounts.get_user(user.id).plan == "pro"
     # Pro -> Créateur in the portal: the metadata still says "pro", the price is Créateur's
     sub_event(client, stripe_mock, "evt_k2", "customer.subscription.updated",
-              subscription("sub_k", user.id, "pro", customer="cus_k", price_plan="creator"), now + 1)
+              subscription("sub_k", user.id, "pro", customer="cus_k", price_id="price_creator_m"), now + 1)
     assert accounts.get_user(user.id).plan == "creator"
+
+
+def test_old_prices_keep_the_plan_that_was_bought(client, stripe_mock, monkeypatch):
+    # After a price rise, a Pro customer still pays the old 10 € (now the Créateur amount): still Pro
+    monkeypatch.setitem(config.PRICES_CENTS, ("creator", "month"), 1000)
+    monkeypatch.setitem(config.PRICES_CENTS, ("pro", "month"), 2000)
+    signup(client, "noe@example.com")
+    user = accounts.get_user_by_email("noe@example.com")
+    sub_event(client, stripe_mock, "evt_n1", "customer.subscription.updated",
+              subscription("sub_n", user.id, "pro", customer="cus_n", amount=1000), int(time.time()))
+    assert accounts.get_user(user.id).plan == "pro"
 
 
 def test_same_second_events_in_any_order_keep_the_paid_plan(client, stripe_mock):

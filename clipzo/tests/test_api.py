@@ -261,3 +261,26 @@ def test_transcription_crash_still_delivers_shorts(client, sample_video, monkeyp
     assert job["status"] == "done", job
     assert len(job["clips"]) == 1
     assert any("Transcription indisponible" in w for w in job["warnings"])
+
+
+@needs_ffmpeg
+def test_a_short_finished_after_cancel_is_neither_charged_nor_published(client, sample_video, monkeypatch):
+    from server import render
+
+    real_render = render.render_clip
+
+    def render_then_cancel(*args, **kwargs):
+        result = real_render(*args, **kwargs)
+        for job in list(app_module.store.jobs.values()):  # the cancel lands while the render ends
+            if job.status == "running":
+                job.cancel_requested = True
+        return result
+
+    monkeypatch.setattr(render, "render_clip", render_then_cancel)
+    user = as_user(client, "creator")
+    with sample_video.open("rb") as fh:
+        r = client.post("/api/jobs/upload", files={"file": ("late.mp4", fh, "video/mp4")},
+                        data={"duration": "60", "count": "1", "plan": "creator", "options": "{}"})
+    data = wait_for(client, r.json()["id"])
+    assert data["status"] == "error" and data["error"] == "Analyse annulée." and data["clips"] == []
+    assert accounts.used_this_month(user.id) == 0

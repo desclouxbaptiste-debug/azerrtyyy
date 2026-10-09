@@ -61,10 +61,19 @@ CLAUDE_EFFORT = os.environ.get("CLIPZO_CLAUDE_EFFORT", "medium")
 CORS_ORIGINS = [o.strip() for o in os.environ.get("CLIPZO_CORS_ORIGINS", "").split(",") if o.strip()]
 # Host names the site answers to, besides IP addresses: localhost, the public address, the CORS origins
 # and CLIPZO_ALLOWED_HOSTS (comma-separated, "*" = any). Other names are refused (DNS rebinding).
-ALLOWED_HOSTS = {"localhost", HOST.lower()} | {
-    (urlsplit(u).hostname or "").lower()
+def _ascii_host(name: str) -> str:
+    """'Clipzô.FR.' -> 'xn--clipz-bua.fr': browsers send accented domains in this form."""
+    name = name.strip().rstrip(".").lower()
+    try:
+        return name.encode("idna").decode("ascii")
+    except UnicodeError:
+        return name
+
+
+ALLOWED_HOSTS = {"localhost", _ascii_host(HOST)} | {
+    _ascii_host(urlsplit(u).hostname or "")
     for u in [os.environ.get("CLIPZO_PUBLIC_URL", ""), *CORS_ORIGINS] if u
-} | {h.strip().lower() for h in os.environ.get("CLIPZO_ALLOWED_HOSTS", "").split(",") if h.strip()}
+} | {_ascii_host(h) for h in os.environ.get("CLIPZO_ALLOWED_HOSTS", "").split(",") if h.strip()}
 
 # Accounts: sessions last 30 days. The cookie is marked Secure on HTTPS (or always with CLIPZO_COOKIE_SECURE=1).
 SESSION_DAYS = _env_int("CLIPZO_SESSION_DAYS", 30)

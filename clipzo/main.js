@@ -1499,7 +1499,8 @@
     if (status === 200 && data && typeof data === "object") {
       job.failures = 0;
       renderJob(job, data);
-      if (data.status === "error" && clipsList.childElementCount > 0) finishJob(text(data.error) || MSG_FAILED);
+      if (job.cancelling && data.status === "error") endCancelled();
+      else if (data.status === "error" && clipsList.childElementCount > 0) finishJob(text(data.error) || MSG_FAILED);
       else if (data.status === "error") failJob(text(data.error) || MSG_FAILED);
       else if (data.status === "done") finishJob();
       else job.timer = setTimeout(() => poll(job), POLL_MS);
@@ -1528,7 +1529,8 @@
 
     setSteps(queued ? -1 : idx, isDone);
     setBar(isDone ? 1 : data.progress, true);
-    setMessage(text(data.message) || (queued ? "En file d'attente…" : `${steps[idx].textContent}…`));
+    setMessage(job.cancelling ? "Arrêt de l'analyse…"
+      : text(data.message) || (queued ? "En file d'attente…" : `${steps[idx].textContent}…`));
 
     if (source) {
       const thumb = safeUrl(source.thumbnail);
@@ -1766,24 +1768,35 @@
   });
 
   cancelBtn.addEventListener("click", () => {
-    const id = activeJob && activeJob.id;
-    const ready = clipsList.childElementCount;
-    if (id) {
-      fetch(`/api/jobs/${encodeURIComponent(id)}/cancel`, { method: "POST", keepalive: true })
-        .catch(() => {})
-        .then(() => loadMe()); // its reserved shorts are released
+    const job = activeJob;
+    if (!job || !job.id) {
+      // Still uploading: no analysis exists on the server yet
+      stopJob();
+      showForm();
+      toast("Analyse annulée : rien n'a été décompté de ton quota.");
+      return;
     }
-    if (ready > 0) {
-      // Each short is charged when it is delivered: keep the ones already made on screen
-      finishJob(ready > 1
-        ? `Analyse arrêtée : les ${ready} shorts déjà prêts sont gardés et décomptés de ton quota, pas les autres.`
+    // The server stops at its next step; the polling then shows exactly what was delivered (and charged)
+    job.cancelling = true;
+    cancelBtn.hidden = true;
+    setMessage("Arrêt de l'analyse…");
+    fetch(`/api/jobs/${encodeURIComponent(job.id)}/cancel`, { method: "POST", keepalive: true }).catch(() => {});
+  });
+
+  // A cancelled analysis has ended on the server: keep the shorts it delivered, they were charged
+  function endCancelled() {
+    const n = clipsList.childElementCount;
+    if (n > 0) {
+      finishJob(n > 1
+        ? `Analyse arrêtée : les ${n} shorts déjà prêts sont gardés et décomptés de ton quota, pas les autres.`
         : "Analyse arrêtée : le short déjà prêt est gardé et décompté de ton quota, pas les autres.");
       return;
     }
     stopJob();
     showForm();
+    loadMe(); // its reserved shorts are free again
     toast("Analyse annulée : rien n'a été décompté de ton quota.");
-  });
+  }
 
   restartBtn.addEventListener("click", () => {
     stopJob();

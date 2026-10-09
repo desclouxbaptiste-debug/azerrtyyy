@@ -50,8 +50,9 @@ def checkout(user: accounts.User, plan: str, interval: str, base_url: str) -> di
     _require_configured()
     if plan not in PAID_PLANS or interval not in INTERVALS:
         raise BillingError(400, "Forfait inconnu.")
-    if user.stripe_subscription_id and user.billing_status in ACTIVE_STATUSES + ("unpaid",):
-        # One subscription per account: plan changes, cancellation and unpaid invoices go through the portal.
+    if user.stripe_subscription_id and user.billing_status in ACTIVE_STATUSES:
+        # One subscription per account: plan changes and cancellation happen in the portal.
+        # (An "unpaid" one can't be revived there: Stripe stopped charging it, so a new Checkout replaces it.)
         return {"url": portal(user, base_url)["url"], "portal": True}
 
     price_id = config.STRIPE_PRICE_IDS.get((plan, interval))
@@ -175,9 +176,11 @@ def _apply_subscription(sub, created: float, deleted: bool = False, user_hint: i
         return
 
     status = "canceled" if deleted else _get(sub, "status")
-    plan = _plan_from_items(sub)  # the current price: a plan switched in the portal keeps the old metadata
+    plan = _plan_from_items(sub)  # a STRIPE_PRICE_* price: follows a plan switched in the portal
     if plan not in PAID_PLANS:
-        plan = _get(meta, "plan")
+        plan = _get(meta, "plan")  # the plan bought at checkout
+    if plan not in PAID_PLANS:
+        plan = _plan_from_items(sub, by_amount=True)  # no metadata at all: guess from the amount
     keep_paid = (not deleted) and status in ACTIVE_STATUSES and plan in PAID_PLANS
     sub_id = _get(sub, "id")
     if (user.stripe_subscription_id and sub_id != user.stripe_subscription_id
@@ -185,11 +188,15 @@ def _apply_subscription(sub, created: float, deleted: bool = False, user_hint: i
         # Another (older or duplicate) subscription ended or lapsed: the recorded paid one stays
         log.info("ignoring %s of %s: account %s is on %s", status, sub_id, user.id, user.stripe_subscription_id)
         return
+    # A new paid subscription replacing an unpaid one: that one is cancelled below, so paying its old
+    # invoice later can't bring it back as a second subscription billed alongside
+    replaced = (user.stripe_subscription_id if keep_paid and user.billing_status == "unpaid"
+                and user.stripe_subscription_id != sub_id else None)
     period_end = _get(sub, "current_period_end")
     items = _get(_get(sub, "items", {}), "data", []) or []
     if period_end is None and items:
         period_end = _get(items[0], "current_period_end")  # newer API versions keep it on the item
-    accounts.update_billing(
+    applied = accounts.update_billing(
         user.id,
         plan=plan if keep_paid else "free",
         status=status,
@@ -199,10 +206,16 @@ def _apply_subscription(sub, created: float, deleted: bool = False, user_hint: i
         cancel_at_period_end=bool(_get(sub, "cancel_at_period_end", False)),
         event_time=created,
     )
+    if applied and replaced and configured():
+        try:
+            _client().v1.subscriptions.cancel(replaced)
+        except Exception as exc:  # noqa: BLE001 - best effort: its events are ignored anyway (guard above)
+            log.warning("could not cancel the unpaid subscription %s: %s", replaced, exc)
 
 
-def _plan_from_items(sub) -> str | None:
-    """Plan of the subscription's current price (dashboard price id, or the amount of an on-the-fly price)."""
+def _plan_from_items(sub, by_amount: bool = False) -> str | None:
+    """Plan of the subscription's current price: a STRIPE_PRICE_* id, or (by_amount) a PRICES_CENTS amount.
+    The amount is a last resort: after a price change, an old price can match another plan's new one."""
     items = _get(_get(sub, "items", {}), "data", []) or []
     if not items:
         return None
@@ -211,6 +224,8 @@ def _plan_from_items(sub) -> str | None:
     for (plan, _interval), pid in config.STRIPE_PRICE_IDS.items():
         if pid and pid == price_id:
             return plan
+    if not by_amount:
+        return None
     amount = _get(price, "unit_amount")
     for (plan, _interval), cents in config.PRICES_CENTS.items():
         if cents == amount:

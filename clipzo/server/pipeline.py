@@ -199,6 +199,7 @@ def run(job: Job) -> None:
                 continue
             if result.layout == "face":
                 job.signals["faces"] = True
+            job.check_cancel()  # rendered after a cancel: neither charged nor published
             # Charged before it is published: the quota check never sees the short without its charge
             _charge(job, 1)
             job.add_clip({
