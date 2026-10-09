@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="nl">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>IMMODÔME — Woningen met karakter</title>
+<title>IMMODÔME — Des biens de caractère</title>
 <meta name="description" content="Immodôme — vastgoedkantoor voor woningen met karakter, sinds 2014. Antwerpen, Berchem, Gent, Lier, Leuven, Mechelen en Schilde.">
 <meta name="theme-color" content="#f5f4ef">
 <style>
@@ -492,7 +492,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
 (function(){
   var d=document.documentElement;
 
-  /* 0 ─ Languages: NL (default) / FR / EN — choice remembered on this device. */
+  /* 0 ─ Languages: FR (default) / NL / EN — choice remembered on this device. */
   var T={
     nl:{forSale:'Te koop',forRent:'Te huur',offices:'Kantoren',valuation2:'Gratis<br>schatting',valuation:'Gratis schatting',contact:'Contact',
         tagline:'VASTGOED MET KARAKTER · SINDS 2014',listings:'Aanbod',sell:'Verkopen',about:'Over ons',menu:'Menu',close:'Sluiten',callShort:'Bel ons',
@@ -528,7 +528,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
     try{localStorage.setItem('immodome-lang',l)}catch(e){}
   }
   try{lang=localStorage.getItem('immodome-lang')||''}catch(e){lang=''}
-  if(!T[lang]){var nav=(navigator.language||'nl').slice(0,2);lang=T[nav]?nav:'nl'}
+  if(!T[lang])lang='fr';
   applyLang(lang);
   document.addEventListener('click',function(e){var b=e.target.closest('[data-lang]');if(b)applyLang(b.getAttribute('data-lang'))});
   window.__t=function(k){return T[lang][k]};
