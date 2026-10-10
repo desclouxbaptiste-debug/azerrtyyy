@@ -18,3 +18,7 @@ Les photos d'origine se trouvent dans le dossier « …_files » enregistré à 
 
 ## Changer une annonce
 Ouvrez `index.html` avec un éditeur de texte, cherchez le titre (Ctrl+F) et remplacez le texte, la commune ou le prix.
+
+## Téléphone et e-mail
+Comme sur le site actuel, ils s'affichent en images. Copiez `Tel.svg` et `Mail.svg` (dossier « …_files » du site enregistré)
+dans le dossier `assets/`, à côté de `fonts/` et `photos/`.

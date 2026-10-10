@@ -183,6 +183,15 @@ a:hover > .arr svg{transform:rotate(0)}
 html.mob .cap b{display:none}
 html.mob .cap{gap:5px;padding:calc(var(--r)*2) calc(var(--r)*.6) calc(var(--r)*.6)}
 
+/* Phone & e-mail kept as the agency's own images */
+.numimg img{display:block;height:30px;width:auto;max-width:270px;object-fit:contain;object-position:left center}
+.numimg .fb{display:none;align-items:center;gap:9px}
+.numimg.noimg img{display:none}
+.numimg.noimg .fb{display:flex}
+.dnum{display:flex;flex-direction:column;gap:10px}
+.dnum:empty{display:none}
+.dnum img{display:block;height:44px;width:auto;max-width:100%;object-fit:contain;object-position:left center}
+
 /* Drawer (menu panel) */
 .drawer{display:none}
 .hdr[data-open] .drawer{display:block}
@@ -398,15 +407,15 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
   <!-- Header -->
   <header class="hdr">
     <div class="util">
-      <span class="phone p1">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-        <span>Agence à Nohanent<br>Puy-de-Dôme</span>
+      <span class="phone p1 numimg">
+        <img src="assets/Tel.svg" alt="Téléphone de l’agence Immo Dôme" onerror="this.parentNode.classList.add('noimg')">
+        <span class="fb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Agence à Nohanent<br>Puy-de-Dôme</span></span>
       </span>
       <span class="rule" aria-hidden="true"></span>
-      <a class="phone p2" href="https://s19.swdrive.fr/apps/calendar/appointment/tYbK89Mn9cXq" target="_blank" rel="noopener noreferrer" aria-label="Prendre rendez-vous en ligne (nouvel onglet)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
-        <span>Rendez-vous :<br>en ligne, 24 h/24</span>
-      </a>
+      <span class="phone p2 numimg">
+        <img src="assets/Mail.svg" alt="Adresse e-mail de l’agence Immo Dôme" onerror="this.parentNode.classList.add('noimg')">
+        <span class="fb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg><span>Contact :<br>voir la page Contact</span></span>
+      </span>
       <nav class="unav" aria-label="Liens utiles">
         <a href="https://www.immodome.com/home.php?vue=vueBienListe">Vente</a>
         <a href="https://www.immodome.com/home.php?vue=vueBienListeLocation">Location</a>
@@ -456,6 +465,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
         <a class="di" style="--i:8" href="https://www.immodome.com/home.php?vue=vueMention">Mentions légales</a>
       </div>
       <div class="dphones">
+        <div class="dnum di" style="--i:9"><img src="assets/Tel.svg" alt="Téléphone de l’agence Immo Dôme" onerror="this.remove()"><img src="assets/Mail.svg" alt="Adresse e-mail de l’agence Immo Dôme" onerror="this.remove()"></div>
         <a class="di" style="--i:9" href="https://s19.swdrive.fr/apps/calendar/appointment/tYbK89Mn9cXq" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span><b>Prendre rendez-vous en ligne</b></span></a>
         <p class="doffices di" style="--i:10">Nohanent · Durtol · Sayat · Clermont-Ferrand et alentours</p>
       </div>
