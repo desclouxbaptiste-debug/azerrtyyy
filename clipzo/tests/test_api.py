@@ -175,9 +175,11 @@ def test_full_pipeline_with_upload(client, sample_video, monkeypatch):
     thumb = client.get(top["thumb_url"])
     assert thumb.status_code == 200 and thumb.content[:2] == b"\xff\xd8"
 
-    # The heavy intermediates are deleted, the shorts stay.
+    # The heavy intermediates are deleted, the shorts stay. The source is kept a while for re-editing.
     job_dir = config.JOBS_DIR / job["id"]
-    assert not list(job_dir.glob("upload.*")) and not (job_dir / "audio.s16le").exists()
+    assert not (job_dir / "audio.s16le").exists()
+    assert [p.name for p in job_dir.glob("upload.*")] == [app_module.store.get(job["id"]).source_file]
+    assert job["edit"]["available"] is True and (job_dir / "transcript.json").is_file()
 
 
 @needs_ffmpeg
