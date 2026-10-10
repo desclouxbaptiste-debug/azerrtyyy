@@ -367,6 +367,10 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
 /* Entrance flag (before main script) + responsive fit. */
 (function(){
   var d=document.documentElement;
+  /* Older Safari/Firefox: no "svh" unit — fall back to "vh" so sizes stay valid */
+  try{if(window.CSS&&CSS.supports&&!CSS.supports('height','1svh')){
+    var st=document.querySelector('style');st.textContent=st.textContent.replace(/(\d)svh/g,'$1vh');
+  }}catch(e){}
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
     d.classList.add('intro');
     window.__introSafety=setTimeout(function(){d.classList.remove('intro')},4000);
@@ -623,6 +627,10 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
       fade(c,120+ci*40,900);
       if(css){
         mv.onfinish=function(){css.currentTime=0;css.play()};
+      }else{
+        /* No getAnimations(): hold the CSS marquee off, then restart it from its first frame */
+        c.style.animation='none';
+        mv.onfinish=function(){c.style.animation=''};
       }
     });
 
