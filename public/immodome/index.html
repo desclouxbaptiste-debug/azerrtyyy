@@ -183,6 +183,12 @@ a:hover > .arr svg{transform:rotate(0)}
 html.mob .cap b{display:none}
 html.mob .cap{gap:5px;padding:calc(var(--r)*2) calc(var(--r)*.6) calc(var(--r)*.6)}
 
+/* Real logo image; text wordmark as fallback */
+.logo-img{display:block;width:200px;max-height:64px;height:auto;object-fit:contain;object-position:left center}
+.logo:not(.noimg) .wm,.logo:not(.noimg) .tg{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.logo.noimg .logo-img{display:none}
+html.mob .logo-img{width:150px;max-height:calc(var(--hh) - 16px)}
+
 /* Phone & e-mail kept as the agency's own images */
 .numimg img{display:block;height:30px;width:auto;max-width:270px;object-fit:contain;object-position:left center}
 .numimg .fb{display:none;align-items:center;gap:9px}
@@ -430,6 +436,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
 
     <div class="bar">
       <a class="logo" href="https://www.immodome.com/" aria-label="Immo Dôme, agence immobilière indépendante — accueil">
+        <img class="logo-img" src="assets/Logo_ImmoDome_2024.svg" alt="" onerror="this.parentNode.classList.add('noimg')">
         <span class="wm">IMMO DÔME</span>
         <span class="tg">AGENCE IMMOBILIÈRE INDÉPENDANTE</span>
       </a>

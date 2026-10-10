@@ -22,3 +22,6 @@ Ouvrez `index.html` avec un éditeur de texte, cherchez le titre (Ctrl+F) et rem
 ## Téléphone et e-mail
 Comme sur le site actuel, ils s'affichent en images. Copiez `Tel.svg` et `Mail.svg` (dossier « …_files » du site enregistré)
 dans le dossier `assets/`, à côté de `fonts/` et `photos/`.
+
+## Logo
+Copiez `Logo_ImmoDome_2024.svg` (même dossier « …_files ») dans `assets/`. Sans ce fichier, le nom « IMMO DÔME » s'affiche en texte.
