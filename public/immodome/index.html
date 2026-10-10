@@ -133,7 +133,7 @@ html.desk.ex1 .x1,html.desk.ex2 .x2,html.desk.ex3 .x3{display:block}
 .rule{position:absolute;left:313px;top:10px;bottom:10px;width:1px;background:var(--nav-rule)}
 .p2{position:absolute;left:338px;top:0;height:100%}
 .unav{margin-left:auto;display:flex;align-items:center;gap:26px;height:100%}
-.unav a{font-size:14px;line-height:15px;font-weight:500;color:var(--nav-fg)}
+.unav a{display:flex;align-items:center;min-height:34px;font-size:14px;line-height:15px;font-weight:500;color:var(--nav-fg)}
 .unav a:hover{color:var(--nav-muted)}
 .search{width:39px;height:39px;margin-left:28px;align-self:flex-start;background:var(--nav-search);border-radius:5px 0 0 5px;display:grid;place-items:center}
 .search:hover{background:#dddcd6}
@@ -145,7 +145,7 @@ html.desk.ex1 .x1,html.desk.ex2 .x2,html.desk.ex3 .x3{display:block}
 .tg{font-size:8.6px;line-height:1;font-weight:600;letter-spacing:.075em;color:var(--nav-muted);white-space:nowrap}
 
 .mainnav{margin-left:auto;display:flex;align-items:center;gap:30px;font-size:16px;font-weight:500;white-space:nowrap}
-.mainnav a{display:flex;align-items:center;gap:10px}
+.mainnav a{display:flex;align-items:center;gap:10px;min-height:44px}
 .mainnav a:hover{color:var(--nav-muted)}
 .sep{width:1px;height:30px;background:var(--nav-rule)}
 .arr{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:inline-grid;place-items:center;flex:none}
@@ -179,7 +179,7 @@ a:hover > .arr svg{transform:rotate(0)}
   background:linear-gradient(180deg,rgba(15,15,14,0),rgba(15,15,14,.72) 55%)}
 .cap i{align-self:flex-start;font-style:normal;font-size:clamp(9px,calc(var(--col)*.052),11px);font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--pink);color:var(--ink);padding:3px 7px;border-radius:999px}
 .cap b{font-size:clamp(11px,calc(var(--col)*.07),15px);line-height:1.2;font-weight:600}
-.cap span{display:flex;justify-content:space-between;gap:8px;font-size:clamp(10px,calc(var(--col)*.06),13px);font-weight:500;opacity:.92}
+.cap span{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 8px;font-size:clamp(10px,calc(var(--col)*.06),13px);font-weight:500;opacity:.92}
 .cap em{font-style:normal;font-weight:700;color:var(--pink);white-space:nowrap}
 
 .i-sculpt::before{background-position:42% 50%}
@@ -196,6 +196,11 @@ html.mob .cap{gap:5px;padding:calc(var(--r)*2) calc(var(--r)*.6) calc(var(--r)*.
 .logo.noimg .logo-img{display:none}
 html.mob .logo-img{height:calc(var(--hh) - 12px)}
 html.mob-l .logo-img{height:calc(var(--hh) - 8px)}
+
+/* Images flow in the strip so they never cover the links */
+.util .rule{position:static;flex:none;width:1px;height:20px;margin:0 22px}
+.util .p2{position:static;height:auto}
+.util .unav{margin-left:auto;padding-left:16px;min-width:0}
 
 /* Phone & e-mail kept as the agency's own images */
 .numimg img{display:block;height:30px;width:auto;max-width:270px;border-radius:6px}
@@ -300,6 +305,11 @@ html.mob-l .grid{grid-column:2;grid-row:1/3;height:100%;width:var(--lgw)}
 html.mob-l .c1{top:calc(var(--hh) + 6px)}
 html.mob-l .c2{top:calc(var(--hh) - var(--pitch)*.45)}
 html.mob-l .c3{top:calc(var(--hh) + 6px + var(--pitch)*.18)}
+@media (max-height:420px){
+  html.mob-l{--h1:min(5.6vw,9svh,56px);--fp:clamp(12px,min(1.7vw,3.3svh),15px);--btn:clamp(40px,10.5svh,50px);--row:clamp(6px,2svh,14px);--hh:50px}
+  html.mob-l .hero p{line-height:1.38}
+  html.mob-l .more{font-size:15px}
+}
 html.mob-l .drawer{left:auto;width:min(420px,100%)}
 
 /* ───────────────────────── Tablet ───────────────────────── */
@@ -399,12 +409,12 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
 <div class="stage">
 
   <!-- Decorative mosaic -->
-  <div class="grid" aria-hidden="true">
+  <div class="grid" aria-hidden="true" inert>
     <div class="col x3">
       <div class="cell ph i-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-accueil"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell yellow"></div>
     </div>
     <div class="col x2">
-      <div class="cell yellow"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell cream"></div><div class="cell red"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
+      <div class="cell yellow"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell cream"></div><div class="cell red"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
     </div>
     <div class="col x1">
       <div class="cell blue"></div><div class="cell ph i-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell red"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell cream"></div>
@@ -413,10 +423,10 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
       <div class="cell red"></div><div class="cell ph i-sculpt f-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell ph i-man f-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
     </div>
     <div class="col c2">
-      <div class="cell yellow"></div><div class="cell ph i-visit f-visit visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div><div class="cell ph i-accueil"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell red"></div>
+      <div class="cell yellow"></div><div class="cell ph i-visit f-visit visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div><div class="cell ph i-accueil"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell red"></div>
     </div>
     <div class="col c3">
-      <div class="cell blue"></div><div class="cell cream"></div><div class="cell ph i-sil f-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell yellow"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div>
+      <div class="cell blue"></div><div class="cell cream"></div><div class="cell ph i-sil f-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell yellow"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div>
     </div>
   </div>
 
