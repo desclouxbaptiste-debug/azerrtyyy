@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>IMMODÔME — Des biens de caractère</title>
-<meta name="description" content="Immodôme — vastgoedkantoor voor woningen met karakter, sinds 2014. Antwerpen, Berchem, Gent, Lier, Leuven, Mechelen en Schilde.">
+<title>Immo Dôme — Agence immobilière à Nohanent</title>
+<meta name="description" content="Immo Dôme, agence immobilière indépendante à Nohanent. Vente et location de maisons, appartements et terrains à Nohanent, Durtol, Sayat et alentours. Visites virtuelles disponibles.">
 <meta name="theme-color" content="#f5f4ef">
 <style>
 /* ───────────────────────── Fonts ───────────────────────── */
@@ -13,10 +13,10 @@
 
 /* ───────────────────────── Tokens ───────────────────────── */
 :root{
-  --img-sculpt:url(https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/fc524fc3-03c3-40a1-9954-22eab1322592.webp);
-  --img-man:url(https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/1d56967e-0ed5-40f8-812d-9360e5ec1780.webp);
-  --img-visit:url(https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/5f3f6135-26b9-4c48-92ad-105161327cbc.webp);
-  --img-sil:url(https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e7b68ae9-9240-4f52-a0a2-89082df4b8d0.webp);
+  --img-sculpt:url(assets/photos/volvic.jpg);
+  --img-man:url(assets/photos/clermont.jpg);
+  --img-visit:url(assets/photos/gerzat.jpg);
+  --img-sil:url(assets/photos/beauregard.jpg);
   --grain:url(https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/40b7fef3-410d-4ef3-bd67-0a2fc7ee5a1d.svg);
 
   --display:"Archivo","Arial Black",Impact,system-ui,sans-serif;
@@ -29,6 +29,7 @@
   --red:#ef5d44;
   --yellow:#fcdd71;
   --blue:#9fd5f7;
+  --pink:#f8b3dc;
 
   --nav-bg:#ffffff;
   --nav-bar:#ffffff;
@@ -132,8 +133,9 @@ html.desk.ex1 .x1,html.desk.ex2 .x2,html.desk.ex3 .x3{display:block}
 .unav{margin-left:auto;display:flex;align-items:center;gap:26px;height:100%}
 .unav a{font-size:14px;line-height:15px;font-weight:500;color:var(--nav-fg)}
 .unav a:hover{color:var(--nav-muted)}
-.search{width:39px;height:39px;margin-left:22px;align-self:flex-start;background:var(--nav-search);border-radius:5px 0 0 5px;display:grid;place-items:center}
+.search{width:39px;height:39px;margin-left:28px;align-self:flex-start;background:var(--nav-search);border-radius:5px 0 0 5px;display:grid;place-items:center}
 .search:hover{background:#dddcd6}
+.util .search{color:var(--nav-fg)}
 
 .bar{height:101px;display:flex;align-items:center;padding:0 19px 0 24px}
 .logo{display:flex;flex-direction:column;gap:6px;padding:4px 0}
@@ -164,14 +166,22 @@ a:hover > .arr svg{transform:rotate(0)}
 .circ.norot svg{transform:none}
 .cta:active .pill,.cta:active .circ{transform:scale(.97)}
 
-/* Language switch */
-.langs{display:flex;align-items:center;gap:2px;margin-left:26px;padding:3px;border-radius:8px;background:var(--nav-search)}
-.langs button{min-width:30px;height:26px;padding:0 6px;border-radius:6px;font-size:11.5px;font-weight:600;letter-spacing:.04em;color:var(--nav-muted)}
-.langs button[aria-pressed="true"]{background:var(--nav-bg);color:var(--nav-fg);box-shadow:0 1px 2px rgba(15,15,14,.12)}
-.dlangs{display:flex;gap:6px;margin-top:var(--m-u,14px);padding:4px;border-radius:14px;background:var(--nav-search)}
-.dlangs button{flex:1;min-height:44px;border-radius:10px;font-size:15px;font-weight:600;color:var(--nav-muted)}
-.dlangs button[aria-pressed="true"]{background:var(--nav-bg);color:var(--nav-fg);box-shadow:0 1px 3px rgba(15,15,14,.14)}
 .doffices{margin:6px 0 0;font-size:14px;line-height:1.5;color:var(--nav-muted)}
+.dact .search{display:grid;place-items:center}
+
+/* Listing tiles: photo + caption (new listings from the agency) */
+.ph{background:#2b2a27}
+.f-sculpt::before,.f-man::before,.f-visit::before,.f-sil::before{inset:0;width:auto;height:auto;background-size:cover;background-position:center}
+.f-visit{background:#2b2a27}
+.cap{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;flex-direction:column;gap:4px;padding:calc(var(--r)*2.2) calc(var(--r)*.75) calc(var(--r)*.7);color:#fff;
+  background:linear-gradient(180deg,rgba(15,15,14,0),rgba(15,15,14,.72) 55%)}
+.cap i{align-self:flex-start;font-style:normal;font-size:clamp(9px,calc(var(--col)*.052),11px);font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--pink);color:var(--ink);padding:3px 7px;border-radius:999px}
+.cap b{font-size:clamp(11px,calc(var(--col)*.07),15px);line-height:1.2;font-weight:600}
+.cap span{display:flex;justify-content:space-between;gap:8px;font-size:clamp(10px,calc(var(--col)*.06),13px);font-weight:500;opacity:.92}
+.cap em{font-style:normal;font-weight:700;color:var(--pink);white-space:nowrap}
+
+html.mob .cap b{display:none}
+html.mob .cap{gap:5px;padding:calc(var(--r)*2) calc(var(--r)*.6) calc(var(--r)*.6)}
 
 /* Drawer (menu panel) */
 .drawer{display:none}
@@ -277,7 +287,6 @@ html.tab .hdr{left:var(--tm);right:var(--tm)}
 html.tab .drawer{width:min(440px,100%)}
 html.tab .bar > .cta{margin-left:6px}
 @media (max-width:899px){html.tab .unav a{display:none}}
-@media (max-width:599px){html.tab .langs{display:none}}
 @media (max-width:719px){html.tab .rule,html.tab .p2{display:none}}
 
 /* Tablet portrait: header / hero / mosaic band */
@@ -367,104 +376,97 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
   <!-- Decorative mosaic -->
   <div class="grid" aria-hidden="true">
     <div class="col x3">
-      <div class="cell ph i-man"></div><div class="cell blue"></div><div class="cell dark"></div><div class="cell ph i-sculpt"></div><div class="cell yellow"></div>
+      <div class="cell ph i-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell dark"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell yellow"></div>
     </div>
     <div class="col x2">
-      <div class="cell yellow"></div><div class="cell ph i-sil"></div><div class="cell cream"></div><div class="cell red"></div><div class="cell ph i-visit"></div>
+      <div class="cell yellow"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell cream"></div><div class="cell red"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
     </div>
     <div class="col x1">
-      <div class="cell blue"></div><div class="cell ph i-man"></div><div class="cell red"></div><div class="cell ph i-sculpt"></div><div class="cell cream"></div>
+      <div class="cell blue"></div><div class="cell ph i-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell red"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell cream"></div>
     </div>
     <div class="col c1">
-      <div class="cell red"></div><div class="cell ph i-sculpt f-sculpt"></div><div class="cell ph i-man f-man"></div><div class="cell blue"></div><div class="cell ph i-visit"></div>
+      <div class="cell red"></div><div class="cell ph i-sculpt f-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell ph i-man f-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
     </div>
     <div class="col c2">
-      <div class="cell yellow"></div><div class="cell ph i-visit f-visit visit"></div><div class="cell dark"></div><div class="cell ph i-sil"></div><div class="cell red"></div>
+      <div class="cell yellow"></div><div class="cell ph i-visit f-visit visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div><div class="cell dark"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell red"></div>
     </div>
     <div class="col c3">
-      <div class="cell blue"></div><div class="cell cream"></div><div class="cell ph i-sil f-sil"></div><div class="cell yellow"></div><div class="cell ph i-sculpt"></div>
+      <div class="cell blue"></div><div class="cell cream"></div><div class="cell ph i-sil f-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell yellow"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div>
     </div>
   </div>
 
   <!-- Header -->
   <header class="hdr">
     <div class="util">
-      <a class="phone p1" href="tel:+32468290848" data-ia="callAnt">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.6 4.2 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
-        <span>Antwerpen · Gent : 0468<br>29 08 48</span>
-      </a>
+      <span class="phone p1">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <span>Agence à Nohanent<br>Puy-de-Dôme</span>
+      </span>
       <span class="rule" aria-hidden="true"></span>
-      <a class="phone p2" href="tel:+32469178340" data-ia="callSch">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.6 4.2 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
-        <span>Schilde : 0469<br>17 83 40</span>
+      <a class="phone p2" href="https://s19.swdrive.fr/apps/calendar/appointment/tYbK89Mn9cXq" target="_blank" rel="noopener noreferrer" aria-label="Prendre rendez-vous en ligne (nouvel onglet)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+        <span>Rendez-vous :<br>en ligne, 24 h/24</span>
       </a>
-      <nav class="unav" data-ia="navUseful">
-        <a href="#te-koop" data-i="forSale">Te koop</a>
-        <a href="#te-huur" data-i="forRent">Te huur</a>
-        <a href="#kantoren" data-i="offices">Kantoren</a>
-        <a href="#schatting" data-i="valuation2">Gratis<br>schatting</a>
-        <a href="#contact" data-i="contact">Contact</a>
+      <nav class="unav" aria-label="Liens utiles">
+        <a href="https://www.immodome.com/home.php?vue=vueBienListe">Vente</a>
+        <a href="https://www.immodome.com/home.php?vue=vueBienListeLocation">Location</a>
+        <a href="https://www.immodome.com/home.php?vue=vueBiensVendus">Vendu</a>
+        <a href="https://www.immodome.com/home.php?vue=vueHonoraire">Hono-<br>raires</a>
+        <a href="https://www.immodome.com/home.php?vue=vueContact">Contact</a>
       </nav>
-      <div class="langs" role="group" data-ia="lang">
-        <button type="button" data-lang="nl">NL</button><button type="button" data-lang="fr">FR</button><button type="button" data-lang="en">EN</button>
-      </div>
-      <button class="search" type="button" data-ia="search">
+      <a class="search" href="https://www.immodome.com/home.php?vue=vueBienListe" aria-label="Rechercher un bien">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4.4"/><path d="M8.8 8.8 12 12"/></svg>
-      </button>
+      </a>
     </div>
 
     <div class="bar">
-      <a class="logo" href="#top" data-ia="home">
-        <span class="wm">IMMODÔME</span>
-        <span class="tg" data-i="tagline">VASTGOED MET KARAKTER · SINDS 2014</span>
+      <a class="logo" href="https://www.immodome.com/" aria-label="Immo Dôme, agence immobilière indépendante — accueil">
+        <span class="wm">IMMO DÔME</span>
+        <span class="tg">AGENCE IMMOBILIÈRE INDÉPENDANTE</span>
       </a>
-      <nav class="mainnav" data-ia="navMain">
-        <a href="#aanbod"><span data-i="listings">Aanbod</span> <span class="arr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></span></a>
+      <nav class="mainnav" aria-label="Navigation principale">
+        <a href="https://www.immodome.com/home.php?vue=vueBienListe">Nos biens <span class="arr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></span></a>
         <span class="sep" aria-hidden="true"></span>
-        <a href="#verkopen" data-i="sell">Verkopen</a>
-        <a href="#over-ons" data-i="about">Over ons</a>
+        <a href="https://www.immodome.com/home.php?vue=vueBienListeLocation">Location</a>
+        <a href="https://www.immodome.com/home.php?vue=vueAgence">L’agence</a>
       </nav>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="drawer">
         <span class="burger" aria-hidden="true"><i></i><i></i></span>
-        <span class="ml" data-i="menu">Menu</span>
+        <span class="ml">Menu</span>
       </button>
-      <a class="cta" href="tel:+32468290848" data-ia="callUs">
-        <span class="pill" data-i="callShort">Bel ons</span>
-        <span class="circ norot"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.6 4.2 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+      <a class="cta" href="https://s19.swdrive.fr/apps/calendar/appointment/tYbK89Mn9cXq" target="_blank" rel="noopener noreferrer" aria-label="Prendre rendez-vous en ligne (nouvel onglet)">
+        <span class="pill">Rendez-vous</span>
+        <span class="circ norot"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
       </a>
     </div>
 
     <!-- Menu panel -->
     <div class="drawer" id="drawer">
-      <nav class="dnav" data-ia="menu">
-        <a class="di" style="--i:0" href="#aanbod"><span data-i="listings">Aanbod</span> <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></span></a>
-        <a class="di" style="--i:1" href="#verkopen" data-i="sell">Verkopen</a>
-        <a class="di" style="--i:2" href="#over-ons" data-i="about">Over ons</a>
+      <nav class="dnav" aria-label="Menu">
+        <a class="di" style="--i:0" href="https://www.immodome.com/home.php?vue=vueBienListe">À vendre <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></span></a>
+        <a class="di" style="--i:1" href="https://www.immodome.com/home.php?vue=vueBienListeLocation">À louer</a>
+        <a class="di" style="--i:2" href="https://www.immodome.com/home.php?vue=vueBiensVendus">Déjà vendus</a>
       </nav>
       <div class="dsub">
-        <a class="di" style="--i:3" href="#te-koop" data-i="forSale">Te koop</a>
-        <a class="di" style="--i:4" href="#te-huur" data-i="forRent">Te huur</a>
-        <a class="di" style="--i:5" href="#kantoren" data-i="offices">Kantoren</a>
-        <a class="di" style="--i:6" href="#schatting" data-i="valuation">Gratis schatting</a>
-        <a class="di" style="--i:7" href="#contact" data-i="contact">Contact</a>
+        <a class="di" style="--i:3" href="https://www.immodome.com/">Accueil</a>
+        <a class="di" style="--i:4" href="https://www.immodome.com/home.php?vue=vueAgence">L’agence</a>
+        <a class="di" style="--i:5" href="https://www.immodome.com/home.php?vue=vueHonoraire">Honoraires</a>
+        <a class="di" style="--i:6" href="https://www.immodome.com/home.php?vue=vueContact">Contact</a>
+        <a class="di" style="--i:7" href="https://www.immodome.com/home.php?vue=vueLiens">Liens</a>
+        <a class="di" style="--i:8" href="https://www.immodome.com/home.php?vue=vueMention">Mentions légales</a>
       </div>
       <div class="dphones">
-        <a class="di" style="--i:8" href="tel:+32468290848"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.6 4.2 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>Antwerpen · Gent : <b>0468 29 08 48</b></span></a>
-        <a class="di" style="--i:9" href="tel:+32469178340"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.6 4.2 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>Schilde : <b>0469 17 83 40</b></span></a>
-        <a class="di" style="--i:10" href="mailto:hello@immodome.be"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg><span><b>hello@immodome.be</b></span></a>
-        <p class="doffices di" style="--i:11"><span data-i="officesLabel">Kantoren</span> : Antwerpen · Berchem · Gent · Lier · Leuven · Mechelen · Schilde</p>
+        <a class="di" style="--i:9" href="https://s19.swdrive.fr/apps/calendar/appointment/tYbK89Mn9cXq" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span><b>Prendre rendez-vous en ligne</b></span></a>
+        <p class="doffices di" style="--i:10">Nohanent · Durtol · Sayat · Clermont-Ferrand et alentours</p>
       </div>
-      <div class="dlangs di" style="--i:12" role="group" data-ia="lang">
-        <button type="button" data-lang="nl">Nederlands</button><button type="button" data-lang="fr">Français</button><button type="button" data-lang="en">English</button>
-      </div>
-      <div class="dact di" style="--i:13">
-        <a class="cta" href="tel:+32468290848" data-ia="callUs">
-          <span class="pill" data-i="callShort">Bel ons</span>
-          <span class="circ norot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.6 4.2 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+      <div class="dact di" style="--i:11">
+        <a class="cta" href="https://s19.swdrive.fr/apps/calendar/appointment/tYbK89Mn9cXq" target="_blank" rel="noopener noreferrer" aria-label="Prendre rendez-vous en ligne (nouvel onglet)">
+          <span class="pill">Rendez-vous</span>
+          <span class="circ norot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
         </a>
-        <button class="search" type="button" data-ia="search">
+        <a class="search" href="https://www.immodome.com/home.php?vue=vueBienListe" aria-label="Rechercher un bien">
           <svg width="16" height="16" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4.4"/><path d="M8.8 8.8 12 12"/></svg>
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -472,18 +474,18 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
   <!-- Hero -->
   <main class="hero" id="top">
     <h1 class="masking">
-      <span class="l"><span class="ln" data-i="h1a">Woningen</span></span>
-      <span class="l"><span class="ln" data-i="h1b">met een</span></span>
-      <span class="l"><span class="ln" data-i="h1c">eigen</span></span>
-      <span class="l"><span class="ln" data-i="h1d">karakter</span></span>
+      <span class="l"><span class="ln">Habiter</span></span>
+      <span class="l"><span class="ln">au pied</span></span>
+      <span class="l"><span class="ln">des</span></span>
+      <span class="l"><span class="ln">volcans</span></span>
     </h1>
-    <p data-i="lead">Immodôme verkoopt en verhuurt woningen met een architecturale, historische of esthetische meerwaarde. Sinds 2014, met <b>zeven kantoren</b> van Antwerpen tot Leuven.</p>
+    <p>Agence immobilière indépendante à Nohanent : vente et location de <b>maisons, appartements et terrains</b> à Durtol, Sayat et alentours. Visites virtuelles disponibles.</p>
     <div class="acts">
-      <a class="cta" href="#aanbod">
-        <span class="pill" data-i="seeListings">Bekijk aanbod</span>
+      <a class="cta" href="https://www.immodome.com/home.php?vue=vueBienListe">
+        <span class="pill">Voir les biens</span>
         <span class="circ"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></span>
       </a>
-      <a class="more" href="#schatting"><span data-i="valuation">Gratis schatting</span> <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></span></a>
+      <a class="more" href="https://www.immodome.com/home.php?vue=vueBienListeLocation"><span>Locations</span> <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></span></a>
     </div>
   </main>
 </div>
@@ -491,47 +493,6 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
 <script>
 (function(){
   var d=document.documentElement;
-
-  /* 0 ─ Languages: FR (default) / NL / EN — choice remembered on this device. */
-  var T={
-    nl:{forSale:'Te koop',forRent:'Te huur',offices:'Kantoren',valuation2:'Gratis<br>schatting',valuation:'Gratis schatting',contact:'Contact',
-        tagline:'VASTGOED MET KARAKTER · SINDS 2014',listings:'Aanbod',sell:'Verkopen',about:'Over ons',menu:'Menu',close:'Sluiten',callShort:'Bel ons',
-        officesLabel:'Kantoren',seeListings:'Bekijk aanbod',h1a:'Woningen',h1b:'met een',h1c:'eigen',h1d:'karakter',
-        lead:'Immodôme verkoopt en verhuurt woningen met een architecturale, historische of esthetische meerwaarde. Sinds 2014, met <b>zeven kantoren</b> van Antwerpen tot Leuven.',
-        a_callAnt:'Bel Antwerpen en Gent: 0468 29 08 48',a_callSch:'Bel Schilde: 0469 17 83 40',a_navUseful:'Handige links',a_navMain:'Hoofdnavigatie',a_lang:'Taal',
-        a_search:'Zoek een woning',a_home:'Immodôme, vastgoed met karakter — startpagina',a_callUs:'Bel ons: 0468 29 08 48',a_menu:'Menu',
-        title:'IMMODÔME — Woningen met karakter'},
-    fr:{forSale:'À vendre',forRent:'À louer',offices:'Agences',valuation2:'Estimation<br>gratuite',valuation:'Estimation gratuite',contact:'Contact',
-        tagline:'IMMOBILIER DE CARACTÈRE · DEPUIS 2014',listings:'Nos biens',sell:'Vendre',about:'À propos',menu:'Menu',close:'Fermer',callShort:'Appelez',
-        officesLabel:'Agences',seeListings:'Voir les biens',h1a:'Des biens',h1b:'au',h1c:'caractère',h1d:'unique',
-        lead:'Immodôme vend et loue des biens à valeur architecturale, historique ou esthétique. Depuis 2014, avec <b>sept agences</b> d’Anvers à Louvain.',
-        a_callAnt:'Appeler Anvers et Gand : 0468 29 08 48',a_callSch:'Appeler Schilde : 0469 17 83 40',a_navUseful:'Liens utiles',a_navMain:'Navigation principale',a_lang:'Langue',
-        a_search:'Chercher un bien',a_home:'Immodôme, immobilier de caractère — accueil',a_callUs:'Nous appeler : 0468 29 08 48',a_menu:'Menu',
-        title:'IMMODÔME — Des biens de caractère'},
-    en:{forSale:'For sale',forRent:'For rent',offices:'Offices',valuation2:'Free<br>valuation',valuation:'Free valuation',contact:'Contact',
-        tagline:'REAL ESTATE WITH CHARACTER · SINCE 2014',listings:'Listings',sell:'Sell',about:'About us',menu:'Menu',close:'Close',callShort:'Call us',
-        officesLabel:'Offices',seeListings:'See listings',h1a:'Homes',h1b:'with real',h1c:'character',h1d:'since 2014',
-        lead:'Immodôme sells and lets homes with architectural, historical or aesthetic value. Since 2014, with <b>seven offices</b> from Antwerp to Leuven.',
-        a_callAnt:'Call Antwerp and Ghent: 0468 29 08 48',a_callSch:'Call Schilde: 0469 17 83 40',a_navUseful:'Useful links',a_navMain:'Main navigation',a_lang:'Language',
-        a_search:'Search for a home',a_home:'Immodôme, real estate with character — home',a_callUs:'Call us: 0468 29 08 48',a_menu:'Menu',
-        title:'IMMODÔME — Homes with character'}
-  };
-  var lang='nl';
-  function applyLang(l){
-    if(!T[l])l='nl';lang=l;var t=T[l];
-    d.lang=l;document.title=t.title;
-    [].forEach.call(document.querySelectorAll('[data-i]'),function(el){var k=el.getAttribute('data-i');if(t[k]!=null)el.innerHTML=t[k]});
-    [].forEach.call(document.querySelectorAll('[data-ia]'),function(el){var k='a_'+el.getAttribute('data-ia');if(t[k]!=null)el.setAttribute('aria-label',t[k])});
-    [].forEach.call(document.querySelectorAll('[data-lang]'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===l?'true':'false')});
-    var ml=document.querySelector('.menu-btn .ml');
-    if(ml)ml.textContent=document.querySelector('.hdr').hasAttribute('data-open')?t.close:t.menu;
-    try{localStorage.setItem('immodome-lang',l)}catch(e){}
-  }
-  try{lang=localStorage.getItem('immodome-lang')||''}catch(e){lang=''}
-  if(!T[lang])lang='fr';
-  applyLang(lang);
-  document.addEventListener('click',function(e){var b=e.target.closest('[data-lang]');if(b)applyLang(b.getAttribute('data-lang'))});
-  window.__t=function(k){return T[lang][k]};
 
   /* 1 ─ Seamless marquee: duplicate each column's 5 cells once. */
   var cols=[].slice.call(document.querySelectorAll('.col'));
@@ -546,7 +507,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
   function setOpen(open,focusFirst){
     if(open)hdr.setAttribute('data-open','');else hdr.removeAttribute('data-open');
     btn.setAttribute('aria-expanded',open?'true':'false');
-    label.textContent=window.__t(open?'close':'menu');
+    label.textContent=open?'Fermer':'Menu';
     if(open&&focusFirst){var f=drawer.querySelector('a,button');if(f)f.focus()}
   }
   btn.addEventListener('click',function(e){
