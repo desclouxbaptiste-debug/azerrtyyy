@@ -2142,8 +2142,8 @@
     { id: "anton", name: "Anton", css: '"Clipzo Anton", Impact, sans-serif', scale: 1.1 },
     { id: "bebas", name: "Bebas Neue", css: '"Clipzo Bebas", Impact, sans-serif', scale: 1.2, caps: true },
     { id: "poppins", name: "Poppins", css: '"Clipzo Poppins", sans-serif', weight: 700 },
-    { id: "bangers", name: "Bangers", css: '"Clipzo Bangers", fantasy', scale: 1.08 },
-    { id: "luckiest", name: "Luckiest Guy", css: '"Clipzo Luckiest", fantasy', caps: true },
+    { id: "bangers", name: "Bangers", css: '"Clipzo Bangers", fantasy', scale: 1.08, caps: true },
+    { id: "luckiest", name: "Luckiest Guy", css: '"Clipzo Luckiest", fantasy' },
     { id: "marker", name: "Marker", css: '"Clipzo Marker", cursive' },
   ];
   const SUB_SHAPES = [

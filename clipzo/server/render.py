@@ -8,10 +8,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-from . import config
+from . import config, styles
 from .media import FONT_NAME, MediaError, ProbeInfo, install_font, probe, run_ffmpeg
+from .styles import Style
 from .subtitles import build_ass
 from .transcribe import Transcript
+
+STREAMER_TOP = 0.34  # streamer layout: share of the height for the facecam, the game gets the rest
+LAYOUTS = ("auto", "streamer", "face", "full")
 
 ProgressFn = Callable[[float], None]
 
@@ -52,9 +56,50 @@ def output_size(info: ProbeInfo, plan: config.Plan, reframe: bool) -> tuple[int,
     return width, width * 16 // 9
 
 
-def build_filter(info: ProbeInfo, out_w: int, out_h: int, reframe: bool,
-                 face_x: float | None) -> tuple[str, str]:
-    """Return (filter_complex prefix ending in [base], layout name)."""
+def seam_y(out_h: int) -> int:
+    """y of the border between the facecam and the game in the streamer layout."""
+    return _even(out_h * STREAMER_TOP)
+
+
+def _streamer(info: ProbeInfo, out_w: int, out_h: int, facecam: tuple[float, float, float, float]) -> str:
+    """Facecam on top, the middle of the game below. Pixel values on the frame after the SAR fix."""
+    W = _even(info.width * info.sar) if info.sar != 1.0 else info.width
+    H = info.height
+    top_h = seam_y(out_h)
+    bottom_h = out_h - top_h
+    fx, fy, fw, fh = facecam
+    # webcam: the detected box, its height adapted to the panel's shape (face kept where it was)
+    cw = min(W, max(16, _even(fw * W)))
+    ch = min(H, max(16, _even(cw * top_h / out_w)))
+    cx = int(min(max(0, fx * W + (fw * W - cw) / 2), W - cw)) // 2 * 2
+    cy = int(min(max(0, fy * H + (fh * H - ch) * 0.45), H - ch)) // 2 * 2
+    # game: the centre of the frame with the panel's shape, kept clear of a webcam sitting in the middle
+    gy0, gy1 = 0, H
+    cam_x0, cam_x1, cam_y0, cam_y1 = fx * W, (fx + fw) * W, fy * H, (fy + fh) * H
+    gw_full = H * out_w / bottom_h
+    if cam_x0 < (W + gw_full) / 2 and cam_x1 > (W - gw_full) / 2:  # the webcam is in the game panel
+        if cam_y0 > H / 2:
+            gy1 = int(cam_y0)
+        else:
+            gy0 = int(cam_y1)
+    gh = max(16, _even(gy1 - gy0))
+    gw = min(W, max(16, _even(gh * out_w / bottom_h)))
+    gh = min(gh, max(16, _even(gw * bottom_h / out_w)))
+    gx = (W - gw) // 4 * 2
+    return (
+        f"[0:v]split=2[camsrc][gamesrc];"
+        f"[camsrc]crop={cw}:{ch}:{cx}:{cy},scale={out_w}:{top_h}:flags=lanczos,setsar=1[cam];"
+        f"[gamesrc]crop={gw}:{gh}:{gx}:{gy0},scale={out_w}:{bottom_h}:flags=lanczos,setsar=1[game];"
+        f"[cam][game]vstack=inputs=2,drawbox=x=0:y={top_h - 2}:w={out_w}:h=4:color=black@0.55:t=fill,"
+        f"setsar=1[base]"
+    )
+
+
+def build_filter(info: ProbeInfo, out_w: int, out_h: int, reframe: bool, face_x: float | None,
+                 facecam: tuple[float, float, float, float] | None = None, layout: str = "auto") -> tuple[str, str]:
+    """Return (filter_complex prefix ending in [base], layout name).
+
+    `layout` is the creator's choice: auto, streamer (facecam on top, game below), face, full (whole frame)."""
     if not reframe:
         return f"[0:v]scale={out_w}:{out_h}:flags=lanczos,setsar=1[base]", "original"
     if info.height / info.width >= 1.6:  # already vertical: fill the frame
@@ -62,8 +107,10 @@ def build_filter(info: ProbeInfo, out_w: int, out_h: int, reframe: bool,
             f"[0:v]scale={out_w}:{out_h}:force_original_aspect_ratio=increase:flags=lanczos,"
             f"crop={out_w}:{out_h},setsar=1[base]"
         ), "vertical"
+    if layout in ("auto", "streamer") and facecam is not None and info.width > info.height:
+        return _streamer(info, out_w, out_h, facecam), "streamer"
     scaled_w = _even(info.width * out_h / info.height)
-    if face_x is not None and scaled_w >= out_w:
+    if layout != "full" and face_x is not None and scaled_w >= out_w:
         x = int(min(max(face_x * scaled_w - out_w / 2, 0), scaled_w - out_w)) // 2 * 2
         return (
             f"[0:v]scale={scaled_w}:{out_h}:flags=lanczos,crop={out_w}:{out_h}:{x}:0,setsar=1[base]"
@@ -81,7 +128,9 @@ def build_filter(info: ProbeInfo, out_w: int, out_h: int, reframe: bool,
 
 def render_clip(src: Path, info: ProbeInfo, start: float, end: float, out_dir: Path, index: int,
                 plan: config.Plan, opts: RenderOptions, transcript: Transcript | None,
-                face_x: float | None, peak_time: float, progress: ProgressFn | None = None) -> RenderResult:
+                face_x: float | None, peak_time: float, progress: ProgressFn | None = None,
+                facecam: tuple[float, float, float, float] | None = None, layout: str = "auto",
+                style: Style | None = None) -> RenderResult:
     out_dir.mkdir(parents=True, exist_ok=True)
     start = max(0.0, start)
     end = min(info.duration, end)
@@ -90,7 +139,7 @@ def render_clip(src: Path, info: ProbeInfo, start: float, end: float, out_dir: P
         raise MediaError("Extrait vide.")
 
     out_w, out_h = output_size(info, plan, opts.reframe)
-    graph, layout = build_filter(info, out_w, out_h, opts.reframe, face_x)
+    graph, layout = build_filter(info, out_w, out_h, opts.reframe, face_x, facecam, layout)
     # Before any reframing: deinterlace (only frames flagged interlaced) and square the pixels.
     pre = "bwdif=mode=send_frame:deint=interlaced,"
     if info.sar != 1.0:
@@ -101,11 +150,14 @@ def render_clip(src: Path, info: ProbeInfo, start: float, end: float, out_dir: P
     has_subs = False
     has_font = install_font(out_dir)
     if opts.subtitles and transcript is not None:
-        ass = build_ass(transcript, start, end, out_w, out_h, animated=opts.animated_subtitles)
+        # the chosen subtitle font sits next to the watermark's, libass finds it by its family name
+        family = styles.install_font(out_dir, style) if style is not None else None
+        ass = build_ass(transcript, start, end, out_w, out_h, animated=opts.animated_subtitles, style=style,
+                        seam_y=seam_y(out_h) if layout == "streamer" else None, font_family=family)
         if ass:
             (out_dir / f"{index}.ass").write_text(ass, encoding="utf-8")
             # relative paths: ffmpeg runs inside out_dir, so no drive letters or backslashes to escape
-            chain.append(f"ass={index}.ass:fontsdir=." if has_font else f"ass={index}.ass")
+            chain.append(f"ass={index}.ass:fontsdir=." if has_font or family else f"ass={index}.ass")
             has_subs = True
     if opts.watermark:
         size = max(18, int(min(out_w, out_h) * 0.045))

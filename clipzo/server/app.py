@@ -21,6 +21,7 @@ from pydantic import BaseModel, Field
 from starlette.datastructures import UploadFile
 
 from . import accounts, billing, config, edits, jobs, media, notify, reframe, sources, transcribe, twitch
+from . import styles as sub_styles  # `styles` is also the name of the styles.css route
 
 logging.basicConfig(level=os.environ.get("CLIPZO_LOG_LEVEL", "INFO"), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 log = logging.getLogger("clipzo")
@@ -142,6 +143,14 @@ class Options(BaseModel):
     animsubs: bool = False
     layout: Literal["auto", "streamer", "face", "full"] = "auto"
     style: dict | None = None  # subtitle look, filtered by styles.parse_style
+
+
+def _options(options: Options) -> dict:
+    """Options as stored with the job: the subtitle style reduced to its known values."""
+    out = options.model_dump()
+    if out.get("style") is not None:
+        out["style"] = sub_styles.style_dict(out["style"])
+    return out
 
 
 class JobIn(BaseModel):
@@ -354,7 +363,7 @@ def create_job(body: JobIn, request: Request) -> dict:
     _check_plan(plan, body.count)
     job = _create(request, user, jobs.JobRequest(
         url=body.url.strip(), filename=None, duration=body.duration, count=body.count,
-        plan=plan.key, options=body.options.model_dump(), user_id=user.id, month=accounts.month_key(),
+        plan=plan.key, options=_options(body.options), user_id=user.id, month=accounts.month_key(),
     ))
     store.enqueue(job)
     return {"id": job.id, "status": job.status}
@@ -392,7 +401,7 @@ async def create_upload_job(request: Request) -> dict:
     filename = os.path.basename(upload.filename or "video.mp4")[:200]
     job = _create(request, user, jobs.JobRequest(
         url=None, filename=filename, duration=body.duration, count=body.count,
-        plan=plan.key, options=body.options.model_dump(), user_id=user.id, month=accounts.month_key(),
+        plan=plan.key, options=_options(body.options), user_id=user.id, month=accounts.month_key(),
     ))
     try:
         source = await run_in_threadpool(sources.save_upload, upload.file, filename, jobs.job_dir(job.id), plan)
@@ -449,7 +458,7 @@ def _import_settings(raw: dict, plan: config.Plan) -> dict:
     try:
         duration = int(raw.get("duration") or 90)
         count = int(raw.get("count") or 3)
-        options = Options(**(raw.get("options") or {})).model_dump()
+        options = _options(Options(**(raw.get("options") or {})))
     except (TypeError, ValueError) as exc:
         raise HTTPException(400, "Réglages du Studio invalides : vérifie-les puis réessaie.") from exc
     return {

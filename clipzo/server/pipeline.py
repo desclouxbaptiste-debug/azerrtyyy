@@ -10,7 +10,7 @@ from pathlib import Path
 
 import numpy as np
 
-from . import accounts, config, llm, media, reframe, render, sources, transcribe, virality
+from . import accounts, config, llm, media, reframe, render, sources, styles, transcribe, virality
 from .jobs import Job, JobCancelled, drop_inputs, job_dir
 from .sources import PLATFORM_NAMES, Source, SourceError
 
@@ -176,7 +176,8 @@ def run(job: Job) -> None:
         job.update(1.0)
 
         # 6. Render --------------------------------------------------------------------
-        job.render_info = {"opts": opts}
+        job.render_info = {"opts": opts, "layout": _layout(req.options, plan, job),
+                           "style": styles.style_dict(req.options.get("style")) if opts["subs"] else None}
         clip_dir = work / "clips"
         total = len(picks)
         job.set_step("render", f"Découpage du short 1/{total}…")
@@ -193,7 +194,7 @@ def run(job: Job) -> None:
                 log.warning("render of short %d failed for %s", i + 1, job.id)
                 job.warn(f"Le short n°{i + 1} n'a pas pu être découpé : il a été ignoré.")
                 continue
-            if result.layout == "face":
+            if result.layout in ("face", "streamer"):
                 job.signals["faces"] = True
             job.check_cancel()  # rendered after a cancel: neither charged nor published
             # Charged before it is published: the quota check never sees the short without its charge
@@ -283,16 +284,26 @@ def render_pick(job: Job, src: Path, info: media.ProbeInfo, transcript: transcri
         reframe=opts["reframe"], subtitles=opts["subs"] and transcript is not None,
         animated_subtitles=opts["animsubs"], watermark=not opts["nowm"],
     )
-    face_x = None
-    if opts["reframe"] and plan.face_tracking and not info.is_vertical:
+    layout = job.render_info.get("layout") or "auto"
+    style = job.render_info.get("style")
+    faces = reframe.FaceInfo()
+    if opts["reframe"] and plan.face_tracking and not info.is_vertical and layout != "full":
         if looking:
             looking()
-        try:
-            face_x = reframe.face_center(src, pick["start"], pick["end"] - pick["start"])
-        except Exception as exc:  # noqa: BLE001 - optional, fall back to the blurred layout
-            log.warning("face tracking failed: %s", exc)
+        faces = reframe.analyse_faces(src, pick["start"], pick["end"] - pick["start"])  # never raises
     return render.render_clip(src, info, pick["start"], pick["end"], out_dir, index, plan, render_opts,
-                              transcript, face_x, pick["peak"], progress)
+                              transcript, faces.face_x, pick["peak"], progress, facecam=faces.facecam,
+                              layout=layout, style=styles.parse_style(style) if style is not None else None)
+
+
+def _layout(options: dict, plan: config.Plan, job: Job) -> str:
+    """Layout chosen in the studio, if the plan includes it."""
+    layout = options.get("layout") if options.get("layout") in render.LAYOUTS else "auto"
+    if layout in ("streamer", "face") and not plan.face_tracking:
+        name = "Streamer" if layout == "streamer" else "Visage"
+        job.warn(f"La mise en page « {name} » est incluse à partir du forfait Créateur : mise en page automatique.")
+        return "auto"
+    return layout
 
 
 def _save_transcript(work: Path, transcript: transcribe.Transcript) -> None:

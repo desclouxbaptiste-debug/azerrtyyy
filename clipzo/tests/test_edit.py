@@ -163,3 +163,38 @@ def test_refund_allowance_is_shown_for_quota_plans(client):
     assert me["refunds"] == {"limit": config.REFUNDS_PER_MONTH, "left": config.REFUNDS_PER_MONTH}
     as_user(client, "pro")
     assert client.get("/api/me").json()["user"]["refunds"] is None
+
+
+@needs_ffmpeg
+def test_streamer_layout_and_subtitle_style_survive_a_retouche(client, tmp_path, monkeypatch):
+    from test_reframe import _video
+
+    src = _video(tmp_path / "stream.mp4",
+                 "[1:v]scale=320:-2,drawbox=x=0:y=0:w=iw:h=ih:color=white@0.85:t=4[cam];[0:v][cam]overlay=x=W-w-25:y=25",
+                 seconds=75)
+    monkeypatch.setattr(transcribe, "available", lambda: True)
+    monkeypatch.setattr(transcribe, "_get_model", lambda: FakeWhisper())
+    as_user(client, "creator")
+    style = {"font": "anton", "shape": "neon", "color": "cyan", "evil": "{\\\\pos(0,0)}"}
+    job = upload(client, src, "creator", options={"subs": True, "layout": "streamer", "style": style})
+    assert job["status"] == "done", job
+    clip = job["clips"][0]
+    assert clip["layout"] == "streamer" and clip["subtitles"] is True
+    real = app_module.store.get(job["id"])
+    assert real.render_info["layout"] == "streamer"
+    assert real.render_info["style"] == {"font": "anton", "shape": "neon", "color": "cyan", "position": "auto",
+                                         "size": "m", "caps": None}  # unknown keys dropped
+    r = client.post(f"/api/jobs/{job['id']}/clips/{clip['index']}/recut",
+                    json={"start": clip["start"], "end": clip["end"] - 5})
+    assert r.status_code == 202, r.text
+    _, clip = wait_ready(client, job["id"], clip["index"])
+    assert clip["layout"] == "streamer" and clip["subtitles"] is True and clip["version"] == 1
+
+
+@needs_ffmpeg
+def test_free_plan_asking_for_the_streamer_layout_gets_the_automatic_one(client, sample_video):
+    as_user(client, "free")
+    job = upload(client, sample_video, "free", options={"layout": "streamer"})
+    assert job["status"] == "done"
+    assert any("Streamer" in w and "Créateur" in w for w in job["warnings"])
+    assert job["clips"][0]["layout"] == "blur"
