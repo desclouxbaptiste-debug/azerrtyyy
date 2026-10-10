@@ -17,6 +17,7 @@
   --img-man:url(assets/photos/clermont.jpg);
   --img-visit:url(assets/photos/gerzat.jpg);
   --img-sil:url(assets/photos/beauregard.jpg);
+  --img-accueil:url(assets/photos/accueil.jpg);
   --grain:url(https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/40b7fef3-410d-4ef3-bd67-0a2fc7ee5a1d.svg);
 
   --display:"Archivo","Arial Black",Impact,system-ui,sans-serif;
@@ -93,6 +94,7 @@ html.desk.ex1 .x1,html.desk.ex2 .x2,html.desk.ex3 .x3{display:block}
 .i-man{--pic:var(--img-man)}
 .i-visit{--pic:var(--img-visit)}
 .i-sil{--pic:var(--img-sil)}
+.i-accueil{--pic:var(--img-accueil)}
 .ph{background:#d9d7d1}
 .ph::before{content:"";position:absolute;inset:0;background:var(--pic) center/cover no-repeat}
 
@@ -180,6 +182,11 @@ a:hover > .arr svg{transform:rotate(0)}
 .cap span{display:flex;justify-content:space-between;gap:8px;font-size:clamp(10px,calc(var(--col)*.06),13px);font-weight:500;opacity:.92}
 .cap em{font-style:normal;font-weight:700;color:var(--pink);white-space:nowrap}
 
+.i-sculpt::before{background-position:42% 50%}
+.i-man::before{background-position:62% 50%}
+.i-visit::before{background-position:56% 50%}
+.i-sil::before{background-position:48% 50%}
+.i-accueil::before{background-position:55% 50%}
 html.mob .cap b{display:none}
 html.mob .cap{gap:5px;padding:calc(var(--r)*2) calc(var(--r)*.6) calc(var(--r)*.6)}
 
@@ -394,7 +401,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
   <!-- Decorative mosaic -->
   <div class="grid" aria-hidden="true">
     <div class="col x3">
-      <div class="cell ph i-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell dark"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell yellow"></div>
+      <div class="cell ph i-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-accueil"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell yellow"></div>
     </div>
     <div class="col x2">
       <div class="cell yellow"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell cream"></div><div class="cell red"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
@@ -406,7 +413,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
       <div class="cell red"></div><div class="cell ph i-sculpt f-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell ph i-man f-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
     </div>
     <div class="col c2">
-      <div class="cell yellow"></div><div class="cell ph i-visit f-visit visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div><div class="cell dark"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell red"></div>
+      <div class="cell yellow"></div><div class="cell ph i-visit f-visit visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div><div class="cell ph i-accueil"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell red"></div>
     </div>
     <div class="col c3">
       <div class="cell blue"></div><div class="cell cream"></div><div class="cell ph i-sil f-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois</em></span></div></div><div class="cell yellow"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div>
@@ -439,7 +446,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
 
     <div class="bar">
       <a class="logo" href="https://www.immodome.com/" aria-label="Immo Dôme, agence immobilière indépendante — accueil">
-        <img class="logo-img" src="assets/logo.png" alt="" onerror="this.parentNode.classList.add('noimg')">
+        <img class="logo-img" src="assets/logo.svg" alt="" onerror="this.parentNode.classList.add('noimg')">
         <span class="wm">IMMO DÔME</span>
         <span class="tg">AGENCE IMMOBILIÈRE INDÉPENDANTE</span>
       </a>
