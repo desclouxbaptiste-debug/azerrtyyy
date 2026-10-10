@@ -65,7 +65,8 @@ Chaque seconde de la vidéo reçoit un score d'intérêt calculé à partir de p
 | Signal | Ce qui est mesuré | Poids |
 |---|---|---|
 | Moments les plus revus | La courbe « les plus revus » de YouTube, quand elle existe | 26 % |
-| Chat du live | Pics de messages et d'emotes (KEKW, POG, 😂…) dans le chat des rediffusions YouTube | 18 % |
+| Clips des viewers | Les passages d'une VOD Twitch que les viewers ont clippés, pondérés par leurs vues (clés Twitch, voir plus bas) | 24 % |
+| Chat du live | Pics de messages et d'emotes (KEKW, POG, 😂…) dans le chat des rediffusions YouTube et des VOD Twitch | 18 % |
 | Énergie du son | Volume par rapport aux 2 minutes autour : un passage plus intense que le reste | 14 % |
 | Pics sonores | Hausses brusques de volume : cris, rires, réactions | 12 % |
 | Paroles | Rires, mots forts (« incroyable », « jamais vu », « c'est fou »…), exclamations | 20 % |
@@ -92,9 +93,11 @@ forfait Pro, il écrit en plus le titre, l'accroche et les hashtags.
 
 Ensuite, pour chaque short :
 
-- recadrage en 9:16, centré sur le visage s'il y en a un (Créateur et Pro) ;
-- sinon la vidéo entière sur un fond flouté (gameplay, écran partagé) ;
-- sous-titres incrustés : classiques pour Créateur, animés mot par mot pour Pro ;
+- mise en page 9:16 au choix (« Auto » par défaut) : **Streamer** (la facecam en haut, le jeu en bas, quand
+  une petite webcam est détectée dans un coin de l'image), **Visage** (le cadre suit la personne qui parle),
+  **Entière** (toute l'image sur un fond flouté). Streamer et Visage : Créateur et Pro ;
+- sous-titres incrustés : classiques pour Créateur, animés mot par mot pour Pro, avec 8 polices, 5 formes
+  (contour, boîte, ombre, néon, bandeau), 6 couleurs, la position et la taille au choix ;
 - son normalisé à -14 LUFS, le niveau de TikTok et YouTube Shorts ;
 - filigrane pour le forfait Gratuit.
 
@@ -108,11 +111,48 @@ Ensuite, pour chaque short :
 | Qualité | 720p | 1080p | 1080p, 4K si la source l'est |
 | Filigrane | oui | non (option) | non (option) |
 | Sous-titres | non | oui | oui, animés |
-| Suivi du visage | non | oui | oui |
+| Suivi du visage, mode streamer | non | oui | oui |
+| Styles de sous-titres | non | oui | oui |
 | Titres et hashtags IA | non | non | oui |
+| Retouche et « autre moment » | oui | oui | oui |
+| Satisfait ou recrédité | 5 crédits / mois | 5 crédits / mois | (illimité) |
+| Import auto après chaque live Twitch | non | non | oui |
 
 Toutes ces limites sont appliquées par le serveur (`server/config.py`). Le quota mensuel ne compte que les
 shorts réellement livrés : une analyse annulée ou en échec ne coûte rien.
+
+## Retoucher un short, en changer, récupérer son crédit
+
+Sous chaque short terminé :
+
+- **Retoucher** : nouveau début et nouvelle fin, en cliquant sur les mots de la transcription ou en décalant
+  de quelques secondes (jusqu'à 30 s autour du short d'origine, 8 retouches par short). C'est gratuit.
+- **Autre moment** : remplace le short par le meilleur moment fort qui n'a pas été utilisé (3 par vidéo),
+  sans coûter de short en plus.
+- **Ne me plaît pas → récupérer mon crédit** (« satisfait ou recrédité ») : le short est supprimé et le
+  crédit rendu, 5 fois par mois au plus (Gratuit et Créateur, le mois où le short a été décompté).
+
+Pour ça, le serveur garde la vidéo d'origine 24 h après l'analyse (`CLIPZO_KEEP_SOURCE_HOURS`, `0` pour ne
+jamais la garder : plus de retouches), puis l'efface. Les shorts restent disponibles `CLIPZO_JOB_TTL_HOURS`.
+
+## Twitch
+
+- **Chat des VOD** : récupéré tout seul pour chaque lien `twitch.tv/videos/...`, sans aucune clé. Twitch ne
+  propose pas d'accès officiel à ce chat : s'il change sa façon de le servir, l'analyse continue sans ce signal
+  (`CLIPZO_TWITCH_CHAT=off` pour ne jamais le demander).
+- **Clips des viewers** et **import automatique après chaque live** (forfait Pro) : il faut une application
+  Twitch, gratuite. Sur https://dev.twitch.tv/console/apps → « Register Your Application » : un nom, l'URL
+  de redirection `http://localhost`, la catégorie « Website Integration », client « Confidential ». Copie
+  ensuite l'identifiant dans `TWITCH_CLIENT_ID` et un secret (« New Secret ») dans `TWITCH_CLIENT_SECRET`,
+  puis relance le serveur.
+- L'import automatique se règle dans **Mon compte** : le créateur indique sa chaîne et active l'import. Le
+  serveur regarde toutes les 10 minutes (`CLIPZO_TWITCH_POLL_MINUTES`) si un live vient de se terminer, puis
+  analyse la VOD avec les réglages du Studio enregistrés à ce moment-là. Les VOD déjà en ligne au moment de
+  l'activation ne sont pas importées.
+- **E-mail « tes shorts sont prêts »** : il faut un serveur d'envoi (SMTP), par exemple celui de Brevo, de
+  Mailjet ou de ta messagerie : `CLIPZO_SMTP_HOST`, `CLIPZO_SMTP_PORT` (587), `CLIPZO_SMTP_USER`,
+  `CLIPZO_SMTP_PASSWORD`, `CLIPZO_SMTP_FROM` (l'adresse d'expédition). Le lien de l'e-mail utilise
+  `CLIPZO_PUBLIC_URL` (sinon `http://localhost:8000`).
 
 ## Réglages (variables d'environnement)
 
@@ -136,6 +176,13 @@ shorts réellement livrés : une analyse annulée ou en échec ne coûte rien.
 | `CLIPZO_TRUST_PROXY` | vide | `1` derrière un reverse proxy (adresse réelle des visiteurs) |
 | `CLIPZO_ALLOWED_HOSTS` | vide | Autres noms du site, séparés par des virgules (ex. `monpc`) : par sécurité, le serveur ne répond qu'aux adresses IP, à `localhost` et au domaine de `CLIPZO_PUBLIC_URL` |
 | `CLIPZO_COOKIE_SECURE` | vide | `1` pour n'envoyer le cookie de connexion qu'en HTTPS |
+| `CLIPZO_KEEP_SOURCE_HOURS` | `24` | Durée pendant laquelle la vidéo d'origine est gardée pour retoucher les shorts (`0` = jamais) |
+| `CLIPZO_REFUNDS_PER_MONTH` | `5` | Crédits récupérables par mois (« satisfait ou recrédité ») |
+| `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | vide | Application Twitch : clips des viewers et import automatique (voir « Twitch ») |
+| `CLIPZO_TWITCH_POLL_MINUTES` | `10` | Fréquence à laquelle l'import automatique regarde les fins de live |
+| `CLIPZO_TWITCH_CHAT` | `on` | `off` pour ne pas récupérer le chat des VOD Twitch |
+| `CLIPZO_SMTP_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_FROM` | vide / `587` | Serveur d'envoi des e-mails « shorts prêts » |
+| `CLIPZO_SMTP_SECURITY` | `starttls` | `ssl` (port 465) ou `none` |
 
 ## Comptes et abonnements
 

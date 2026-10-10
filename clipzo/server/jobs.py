@@ -29,9 +29,11 @@ class JobRequest:
     duration: int
     count: int
     plan: str
-    options: dict[str, bool]
+    options: dict  # bools (reframe, subs...), plus "layout" and "style" for the look of the shorts
     user_id: int | None = None
     month: str | None = None  # quota month the delivered shorts are charged to
+    notify: bool = False  # e-mail the owner when the shorts are ready (automatic import after a live)
+    auto: dict | None = None  # automatic import: {"kind": "twitch", "vod_id": ..., "title": ...}
 
 
 @dataclass
@@ -49,7 +51,7 @@ class Job:
     source: dict | None = None
     signals: dict = field(default_factory=lambda: {
         "audio": False, "scenes": False, "heatmap": False, "chat": False,
-        "transcript": False, "llm": False, "faces": False})
+        "transcript": False, "llm": False, "faces": False, "clips": False})
     curve: list[float] | None = None
     clips: list[dict] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
@@ -57,6 +59,12 @@ class Job:
     cancel_requested: bool = False
     finished_at: float | None = None  # shorts are kept JOB_TTL_HOURS after this
     ip: str = ""
+    # Re-editing after the analysis: the source is kept until editable_until (config.KEEP_SOURCE_HOURS)
+    source_file: str | None = None  # file name inside the job folder
+    editable_until: float | None = None
+    alternatives: list[dict] = field(default_factory=list)  # other good moments, for "autre moment"
+    replaces: int = 0
+    render_info: dict = field(default_factory=dict)  # what the shorts were rendered with (options, layout, style)
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
     _last_save: float = 0.0
 
@@ -102,9 +110,36 @@ class Job:
         self.save(force=True)
 
     def add_clip(self, clip: dict) -> None:
+        clip.setdefault("version", 0)
+        clip.setdefault("status", "ready")
+        clip.setdefault("recuts", 0)
+        clip.setdefault("orig_start", clip.get("start", 0.0))
+        clip.setdefault("orig_end", clip.get("end", 0.0))
         with self._lock:
             self.clips.append(clip)
         self.save(force=True)
+
+    def clip(self, index: int) -> dict | None:
+        """The (not removed) short with this index."""
+        with self._lock:
+            return next((c for c in self.clips if c.get("index") == index and not c.get("removed")), None)
+
+    def update_clip(self, index: int, **changes) -> None:
+        with self._lock:
+            for c in self.clips:
+                if c.get("index") == index:
+                    c.update(changes)
+        self.save(force=True)
+
+    def source_path(self) -> Path | None:
+        return job_dir(self.id) / self.source_file if self.source_file else None
+
+    @property
+    def editable(self) -> bool:
+        """The shorts can still be re-cut: analysis finished and the source video still kept."""
+        path = self.source_path()
+        return (self.status == "done" and path is not None and self.editable_until is not None
+                and self.editable_until > time.time() and path.is_file())
 
     def finish(self) -> None:
         with self._lock:
@@ -142,9 +177,34 @@ class Job:
                 "source": dict(self.source) if self.source else None,
                 "signals": dict(self.signals),
                 "curve": list(self.curve) if self.curve else None,
-                "clips": [dict(c) for c in self.clips],
+                "clips": [self._public_clip(c) for c in self.clips if not c.get("removed")],
                 "warnings": list(self.warnings),
+                "edit": self._public_edit(),
             }
+
+    def _public_clip(self, c: dict) -> dict:
+        out = {k: v for k, v in c.items() if k not in ("orig_start", "orig_end", "peak", "removed")}
+        duration = float((self.source or {}).get("duration") or 0) or None
+        lo = max(0.0, float(c.get("orig_start", c.get("start", 0))) - config.EDIT_MARGIN_SECONDS)
+        hi = float(c.get("orig_end", c.get("end", 0))) + config.EDIT_MARGIN_SECONDS
+        out["edit_min"] = round(lo, 2)
+        out["edit_max"] = round(min(hi, duration) if duration else hi, 2)
+        out["recuts_left"] = max(0, config.MAX_RECUTS_PER_CLIP - int(c.get("recuts", 0)))
+        return out
+
+    def _public_edit(self) -> dict:
+        editable = self.editable
+        quota = config.PLANS[self.request.plan].monthly_quota if self.request.plan in config.PLANS else None
+        return {
+            "available": editable,
+            "until": self.editable_until if editable else None,
+            "min_seconds": config.MIN_EDIT_SECONDS,
+            "max_seconds": config.MAX_CLIP_SECONDS,
+            "replaces_left": max(0, config.MAX_REPLACES_PER_JOB - self.replaces) if self.alternatives else 0,
+            # "satisfait ou recrédité": shorts of a plan with a monthly quota, in the month they were charged to
+            "refundable": quota is not None and self.request.user_id is not None
+                          and self.request.month == _month_key(),
+        }
 
     def save(self, force: bool = False) -> None:
         now = time.time()
@@ -158,6 +218,8 @@ class Job:
                 "step_index": self.step_index, "step_progress": self.step_progress,
                 "message": self.message, "error": self.error, "source": self.source,
                 "signals": self.signals, "curve": self.curve, "clips": self.clips, "warnings": self.warnings,
+                "source_file": self.source_file, "editable_until": self.editable_until,
+                "alternatives": self.alternatives, "replaces": self.replaces, "render_info": self.render_info,
             }
         path = job_dir(self.id) / "job.json"
         tmp = path.with_suffix(".json.tmp")
@@ -175,7 +237,8 @@ class Job:
         except (OSError, json.JSONDecodeError, KeyError, TypeError):
             return None
         for key in ("created_at", "finished_at", "status", "step", "step_index", "step_progress", "message", "error",
-                    "source", "signals", "curve", "clips", "warnings"):
+                    "source", "signals", "curve", "clips", "warnings", "source_file", "editable_until",
+                    "alternatives", "replaces", "render_info"):
             if key in data:
                 setattr(job, key, data[key])
         return job
@@ -185,11 +248,21 @@ def job_dir(job_id: str) -> Path:
     return config.JOBS_DIR / job_id
 
 
-def drop_inputs(job_id: str) -> None:
-    """Delete the heavy working files of a job (source video, audio), keep its shorts."""
+def _month_key() -> str:
+    from .accounts import month_key  # late import: accounts opens the database
+
+    return month_key()
+
+
+def drop_inputs(job_id: str, keep: str | None = None) -> None:
+    """Delete the heavy working files of a job (source video, audio), keep its shorts (and `keep`, the
+    source kept for re-editing)."""
     d = job_dir(job_id)
-    for pattern in ("upload.*", "source.*", "audio.s16le", "clips/*.part.mp4", "clips/*.ass", "clips/clipzo-font.ttf"):
+    for pattern in ("upload.*", "source.*", "audio.s16le", "clips/*.part.mp4", "clips/*.ass", "clips/clipzo-font.ttf",
+                    "clips/clipzo-subs.ttf"):
         for f in d.glob(pattern):
+            if keep and f.name == keep:
+                continue
             try:
                 f.unlink(missing_ok=True)
             except OSError as exc:  # still open (Windows): retried by the next cleanup
@@ -214,6 +287,7 @@ class JobStore:
         self.order: list[str] = []  # queued job ids, oldest first
         self.lock = threading.Lock()
         self.executor: ThreadPoolExecutor | None = None
+        self.edit_executor: ThreadPoolExecutor | None = None  # re-cuts: never stuck behind a long analysis
         self._stop = threading.Event()
         self._cleaner: threading.Thread | None = None
 
@@ -222,6 +296,7 @@ class JobStore:
         config.JOBS_DIR.mkdir(parents=True, exist_ok=True)
         self._stop = threading.Event()
         self.executor = ThreadPoolExecutor(max_workers=config.WORKERS, thread_name_prefix="clipzo-job")
+        self.edit_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="clipzo-edit")
         self._restore()
         self._cleanup()
         self._cleaner = threading.Thread(target=self._cleanup_loop, daemon=True, name="clipzo-cleanup")
@@ -233,8 +308,9 @@ class JobStore:
             for j in self.jobs.values():
                 if j.status in ("queued", "running"):
                     j.cancel_requested = True  # pipelines stop at their next progress tick
-        if self.executor is not None:
-            self.executor.shutdown(wait=False, cancel_futures=True)
+        for ex in (self.executor, self.edit_executor):
+            if ex is not None:
+                ex.shutdown(wait=False, cancel_futures=True)
 
     def _restore(self) -> None:
         for path in config.JOBS_DIR.glob("*/job.json"):
@@ -247,6 +323,12 @@ class JobStore:
                 job.finished_at = time.time()
                 job.save(force=True)
                 drop_inputs(job.id)
+            if any(c.get("status") == "rendering" for c in job.clips):
+                for c in job.clips:  # a re-cut interrupted by the restart: the previous version is intact
+                    if c.get("status") == "rendering":
+                        c["status"] = "ready"
+                        c["recuts"] = max(0, int(c.get("recuts", 1)) - 1)
+                job.save(force=True)
             self.jobs[job.id] = job
 
     def _cleanup_loop(self) -> None:
@@ -264,8 +346,22 @@ class JobStore:
                        if (j.finished_at or j.created_at) < cutoff and j.status in ("done", "error")]
             for j in expired:
                 self.jobs.pop(j.id, None)
+            # sources kept for re-editing whose time is up (or already gone)
+            lapsed = [j for j in self.jobs.values() if j.source_file and not j.editable
+                      and not any(c.get("status") == "rendering" for c in j.clips)]
         for j in expired:
             shutil.rmtree(job_dir(j.id), ignore_errors=True)
+        for j in lapsed:
+            path = j.source_path()
+            try:
+                if path is not None:
+                    path.unlink(missing_ok=True)
+            except OSError as exc:  # still open (Windows): retried by the next cleanup
+                log.warning("could not delete %s: %s", path, exc)
+                continue
+            j.source_file = None
+            j.editable_until = None
+            j.save(force=True)
         known = set(self.jobs)
         for d in config.JOBS_DIR.glob("*"):  # orphans (e.g. failed uploads)
             try:
@@ -340,6 +436,10 @@ class JobStore:
 
         assert self.executor is not None, "JobStore.start() was not called"
         self.executor.submit(task)
+
+    def submit_edit(self, fn, *args) -> None:
+        assert self.edit_executor is not None, "JobStore.start() was not called"
+        self.edit_executor.submit(fn, *args)
 
     def cancel(self, job: Job) -> None:
         """Stop an analysis: a queued job never starts, a running one stops at its next progress tick."""

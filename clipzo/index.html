@@ -232,6 +232,17 @@
           </div>
 
           <div class="field">
+            <span class="field-label" id="layout-label">Mise en page</span>
+            <div class="seg seg-layout" role="radiogroup" aria-labelledby="layout-label">
+              <label><input type="radio" name="layout" value="auto" checked /><span>Auto</span></label>
+              <label><input type="radio" name="layout" value="streamer" /><span>Streamer <i class="fa-solid fa-lock lock" data-min="creator"></i></span></label>
+              <label><input type="radio" name="layout" value="face" /><span>Visage <i class="fa-solid fa-lock lock" data-min="creator"></i></span></label>
+              <label><input type="radio" name="layout" value="full" /><span>Entière</span></label>
+            </div>
+            <span class="field-hint layout-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="field">
             <span class="field-label">Options</span>
             <div class="opts">
               <label class="opt"><input type="checkbox" name="reframe" checked /><span>Recadrage 9:16 automatique</span></label>
@@ -239,6 +250,50 @@
               <label class="opt" data-min="creator"><input type="checkbox" name="nowm" /><span>Sans filigrane <em class="badge">Créateur</em></span></label>
               <label class="opt" data-min="pro"><input type="checkbox" name="hooks" /><span>Titres &amp; hashtags IA <em class="badge">Pro</em></span></label>
               <label class="opt" data-min="pro"><input type="checkbox" name="animsubs" /><span>Sous-titres animés mot par mot <em class="badge">Pro</em></span></label>
+            </div>
+          </div>
+
+          <div class="field style-field" hidden>
+            <span class="field-label">Style des sous-titres</span>
+            <div class="style-box">
+              <div class="style-preview" aria-hidden="true">
+                <div class="sp-cam"></div>
+                <p class="sp-text"><span class="sp-line">Attends, c'est <b>vraiment</b> ouf !</span></p>
+              </div>
+              <div class="style-controls">
+                <div class="style-row">
+                  <span class="style-name" id="st-font">Police</span>
+                  <div class="chips font-chips" role="radiogroup" aria-labelledby="st-font"></div>
+                </div>
+                <div class="style-row">
+                  <span class="style-name" id="st-shape">Forme</span>
+                  <div class="chips shape-chips" role="radiogroup" aria-labelledby="st-shape"></div>
+                </div>
+                <div class="style-row">
+                  <span class="style-name" id="st-color">Couleur</span>
+                  <div class="chips color-chips" role="radiogroup" aria-labelledby="st-color"></div>
+                </div>
+                <div class="style-row style-row-split">
+                  <div>
+                    <span class="style-name" id="st-pos">Position</span>
+                    <div class="seg seg-mini" role="radiogroup" aria-labelledby="st-pos">
+                      <label><input type="radio" name="spos" value="auto" checked /><span>Auto</span></label>
+                      <label><input type="radio" name="spos" value="haut" /><span>Haut</span></label>
+                      <label><input type="radio" name="spos" value="milieu" /><span>Milieu</span></label>
+                      <label><input type="radio" name="spos" value="bas" /><span>Bas</span></label>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="style-name" id="st-size">Taille</span>
+                    <div class="seg seg-mini seg-3" role="radiogroup" aria-labelledby="st-size">
+                      <label><input type="radio" name="ssize" value="s" /><span>S</span></label>
+                      <label><input type="radio" name="ssize" value="m" checked /><span>M</span></label>
+                      <label><input type="radio" name="ssize" value="l" /><span>L</span></label>
+                    </div>
+                  </div>
+                </div>
+                <label class="opt opt-caps"><input type="checkbox" name="scaps" /><span>Tout en majuscules</span></label>
+              </div>
             </div>
           </div>
 
@@ -294,6 +349,55 @@
             Shorts simulés : en mode démo, rien n'est téléchargé ni découpé. Titres, timecodes et scores sont des
             exemples générés à partir du lien.
           </p>
+        </div>
+
+        <div class="editor" hidden>
+          <div class="results-head">
+            <h3 class="editor-title" tabindex="-1">Retoucher le short</h3>
+            <button class="link-btn editor-close" type="button">Retour aux shorts</button>
+          </div>
+          <p class="editor-intro">
+            Choisis où le short commence et où il finit : clique sur un mot de la transcription, ou décale de
+            quelques secondes. La retouche est gratuite, elle ne compte pas dans ton quota.
+          </p>
+          <div class="editor-times">
+            <div class="editor-edge">
+              <span class="editor-edge-name">Début <output class="ed-start"></output></span>
+              <div class="nudges" role="group" aria-label="Décaler le début">
+                <button type="button" data-nudge="start:-5">−5 s</button>
+                <button type="button" data-nudge="start:-1">−1 s</button>
+                <button type="button" data-nudge="start:1">+1 s</button>
+                <button type="button" data-nudge="start:5">+5 s</button>
+              </div>
+            </div>
+            <div class="editor-edge">
+              <span class="editor-edge-name">Fin <output class="ed-end"></output></span>
+              <div class="nudges" role="group" aria-label="Décaler la fin">
+                <button type="button" data-nudge="end:-5">−5 s</button>
+                <button type="button" data-nudge="end:-1">−1 s</button>
+                <button type="button" data-nudge="end:1">+1 s</button>
+                <button type="button" data-nudge="end:5">+5 s</button>
+              </div>
+            </div>
+          </div>
+          <div class="editor-bar" aria-hidden="true"><span class="editor-sel"></span></div>
+          <p class="editor-len" aria-live="polite"></p>
+          <div class="editor-words-head" hidden>
+            <span id="ed-mode-label">Un clic sur un mot place</span>
+            <div class="seg seg-mini seg-2" role="radiogroup" aria-labelledby="ed-mode-label">
+              <label><input type="radio" name="edmode" value="start" checked /><span>le début</span></label>
+              <label><input type="radio" name="edmode" value="end" /><span>la fin</span></label>
+            </div>
+          </div>
+          <div class="editor-words" hidden></div>
+          <p class="editor-nowords field-hint" hidden>
+            Pas de transcription pour cette vidéo : utilise les boutons pour décaler le début et la fin.
+          </p>
+          <p class="form-error editor-error" role="alert" hidden></p>
+          <div class="editor-foot">
+            <button class="plan-btn editor-cancel" type="button">Annuler</button>
+            <button class="cta editor-apply" type="button">Appliquer la retouche</button>
+          </div>
         </div>
       </div>
     </section>
@@ -351,6 +455,8 @@
               <li><i class="fa-solid fa-check"></i>3 shorts par mois</li>
               <li><i class="fa-solid fa-check"></i>Durée au choix de 1 à 3 min</li>
               <li><i class="fa-solid fa-check"></i>Recadrage 9:16 automatique</li>
+              <li><i class="fa-solid fa-check"></i>Retouche gratuite de chaque short</li>
+              <li><i class="fa-solid fa-check"></i>Satisfait ou recrédité</li>
               <li><i class="fa-solid fa-check"></i>Vidéos jusqu'à 1 h, export 720p</li>
               <li class="off"><i class="fa-solid fa-xmark"></i>Filigrane Clipzo</li>
               <li class="off"><i class="fa-solid fa-xmark"></i>Pas de sous-titres</li>
@@ -365,7 +471,8 @@
             <ul class="feats">
               <li><i class="fa-solid fa-check"></i><strong>50 shorts par mois</strong></li>
               <li><i class="fa-solid fa-check"></i>Jusqu'à 8 shorts par vidéo</li>
-              <li><i class="fa-solid fa-check"></i>Sous-titres automatiques</li>
+              <li><i class="fa-solid fa-check"></i>Sous-titres : 8 polices, 5 styles</li>
+              <li><i class="fa-solid fa-check"></i>Mode streamer : facecam + jeu</li>
               <li><i class="fa-solid fa-check"></i>Sans filigrane</li>
               <li><i class="fa-solid fa-check"></i>Export 1080p</li>
               <li><i class="fa-solid fa-check"></i>Suivi du visage du streamer</li>
@@ -385,6 +492,7 @@
               <li><i class="fa-solid fa-check"></i>Sous-titres animés mot par mot</li>
               <li><i class="fa-solid fa-check"></i>Titres, accroches &amp; hashtags écrits par l'IA</li>
               <li><i class="fa-solid fa-check"></i>VOD Twitch longues (jusqu'à 10 h)</li>
+              <li><i class="fa-solid fa-check"></i>Import auto après chaque live Twitch</li>
               <li><i class="fa-solid fa-check"></i>Export 4K quand la source est en 4K</li>
             </ul>
             <button class="plan-btn plan-btn-pro" type="button" data-choose="pro">Passer Pro</button>
@@ -489,6 +597,27 @@
             <div class="meter" aria-hidden="true"><span class="meter-used"></span><span class="meter-reserved"></span></div>
             <p class="acct-sub" hidden></p>
             <p class="acct-renew" hidden></p>
+          </div>
+
+          <div class="acct-twitch">
+            <p class="acct-twitch-title"><i class="fa-brands fa-twitch" aria-hidden="true"></i>Import automatique Twitch
+              <em class="badge">Pro</em></p>
+            <p class="acct-twitch-desc">
+              Après chaque live, Clipzo récupère ta VOD et prépare tes shorts avec les réglages actuels du Studio.
+              Tu reçois un e-mail quand ils sont prêts.
+            </p>
+            <form class="twitch-form" novalidate>
+              <label class="field-label" for="twitch-login">Ta chaîne Twitch</label>
+              <div class="twitch-row">
+                <span class="twitch-prefix" aria-hidden="true">twitch.tv/</span>
+                <input class="text-input twitch-login" id="twitch-login" name="login" autocomplete="off" spellcheck="false"
+                  maxlength="25" placeholder="ta_chaine" />
+              </div>
+              <label class="opt twitch-toggle"><input type="checkbox" name="enabled" /><span>Importer mes VOD automatiquement</span></label>
+              <p class="field-hint twitch-status" aria-live="polite"></p>
+              <p class="form-error twitch-error" role="alert" hidden></p>
+              <button class="plan-btn twitch-save" type="submit">Enregistrer</button>
+            </form>
           </div>
 
           <div class="acct-actions">

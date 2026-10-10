@@ -200,3 +200,62 @@ def test_calm_tutorial_gets_no_fake_emotion():
     a = virality.analyse(n, mean, peak, None, Transcript("fr", segs), None, None, clip_seconds=60, count=3)
     for c in a.candidates:
         assert not any("Émotion" in r for r in c.reasons), c.reasons
+
+
+# ---- viewers' clips (Twitch) -----------------------------------------------------------------
+
+def viewer_clips(at, views=(4000, 8000, 400), length=30.0):
+    """Clips start a bit before the moment and end right after it."""
+    return [{"offset": at - 25 + 4 * k, "duration": length, "views": v, "title": "clip"} for k, v in enumerate(views)]
+
+
+def test_viewer_clips_pull_the_best_window():
+    hits = 0
+    for seed in range(10):
+        rng = np.random.default_rng(seed)
+        n = 1800
+        mean, peak = calm_audio(n, rng)
+        mean[300:310] += 12  # a competing loud moment elsewhere
+        peak[300:310] += 16
+        tr = neutral_transcript(n, rng) if seed % 2 else None
+        a = virality.analyse(n, mean, peak, None, tr, None, None, clip_seconds=60, count=3,
+                             platform="twitch", clips=viewer_clips(600))
+        assert "clips" in a.signals_used
+        best = a.candidates[0]
+        hits += best.start <= 600 <= best.end
+        if best.start <= 600 <= best.end:
+            assert best.reasons[0] == "3 clips des viewers sur ce passage (12\u00a0400\u00a0vues)", best.reasons
+    assert hits >= 9, hits
+
+
+def test_more_viewed_clips_weigh_more():
+    rng = np.random.default_rng(11)
+    n = 1800
+    mean, peak = calm_audio(n, rng)
+    clips = viewer_clips(500, views=(0, 0, 0)) + viewer_clips(1300, views=(20000, 15000, 9000))
+    a = virality.analyse(n, mean, peak, None, None, None, None, clip_seconds=60, count=2, clips=clips)
+    assert a.candidates[0].start <= 1300 <= a.candidates[0].end
+
+
+def test_no_clips_gives_exactly_the_previous_result():
+    rng = np.random.default_rng(12)
+    n = 1500
+    mean, peak = calm_audio(n, rng)
+    mean[700:712] += 15
+    peak[700:712] += 20
+    tr = make_transcript(n, hype_at=1000)
+    chat = [(float(t), "KEKW" if t % 9 == 0 else "salut") for t in range(0, n, 2)]
+    args = (n, mean, peak, None, tr, None, chat)
+    ref = virality.analyse(*args, clip_seconds=60, count=4, platform="twitch")
+    assert "clips" not in ref.signals_used
+    for clips in (None, [], [{"offset": n + 10, "duration": 30, "views": 99}], [{"offset": -100, "duration": 30}],
+                  [{"offset": "?"}, {"views": 3}, {"offset": float("nan"), "duration": 30}, "pas un dict"]):
+        got = virality.analyse(*args, clip_seconds=60, count=4, platform="twitch", clips=clips)
+        assert got == ref, clips  # clips outside the video or unreadable are ignored
+
+
+def test_clips_reason_wording():
+    assert virality._clips_reason([(10.0, 40.0, 1)]) == "1 clip des viewers sur ce passage (1\u00a0vue)"
+    assert virality._clips_reason([(10.0, 40.0, 0)]) == "1 clip des viewers sur ce passage (0\u00a0vue)"
+    assert (virality._clips_reason([(10.0, 40.0, 1_000_000), (20.0, 50.0, 234_567)])
+            == "2 clips des viewers sur ce passage (1\u00a0234\u00a0567\u00a0vues)")

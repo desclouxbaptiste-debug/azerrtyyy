@@ -20,12 +20,13 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.datastructures import UploadFile
 
-from . import accounts, billing, config, jobs, media, reframe, sources, transcribe
+from . import accounts, billing, config, edits, jobs, media, notify, reframe, sources, transcribe, twitch
 
 logging.basicConfig(level=os.environ.get("CLIPZO_LOG_LEVEL", "INFO"), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 log = logging.getLogger("clipzo")
 
 store = jobs.JobStore()
+importer: twitch.AutoImporter | None = None
 
 
 @asynccontextmanager
@@ -42,10 +43,17 @@ async def lifespan(_: FastAPI):
         log.info("Paiement Stripe non configuré : les forfaits payants ne peuvent pas être achetés (README, "
                  "« Brancher Stripe »). Pour tester un forfait : %s set-plan ton@email pro", config.ADMIN_COMMAND)
     store.start()
+    global importer
+    importer = twitch.AutoImporter(start_job=_start_twitch_import)
+    importer.start()
+    if not twitch.helix_configured():
+        log.info("Twitch : chat des VOD actif ; clips des viewers et import automatique désactivés "
+                 "(TWITCH_CLIENT_ID / TWITCH_CLIENT_SECRET, voir README)")
     log.info("Clipzo ready — data in %s, %d worker(s), Claude: %s, Whisper: %s",
              config.DATA_DIR, config.WORKERS, "on" if config.llm_configured() else "off",
              config.WHISPER_MODEL if transcribe.available() else "off")
     yield
+    importer.stop()
     store.stop()
 
 
@@ -132,6 +140,8 @@ class Options(BaseModel):
     nowm: bool = False
     hooks: bool = False
     animsubs: bool = False
+    layout: Literal["auto", "streamer", "face", "full"] = "auto"
+    style: dict | None = None  # subtitle look, filtered by styles.parse_style
 
 
 class JobIn(BaseModel):
@@ -140,6 +150,17 @@ class JobIn(BaseModel):
     count: int = Field(ge=1, le=12)
     plan: Literal["free", "creator", "pro"] | None = None  # ignored: the account's plan applies
     options: Options = Options()
+
+
+class TwitchIn(BaseModel):
+    login: str = Field(default="", max_length=200)
+    enabled: bool = False
+    settings: dict = Field(default_factory=dict)
+
+
+class RecutIn(BaseModel):
+    start: float = Field(ge=0, le=36_000)
+    end: float = Field(ge=0, le=36_000)
 
 
 class Credentials(BaseModel):
@@ -310,6 +331,8 @@ def health() -> dict:
             "accounts": True,
             "billing": billing.configured(),
             "ffmpeg": media.ffmpeg_available(),
+            "twitch_auto": twitch.helix_configured(),
+            "email": notify.smtp_configured(),
         },
         "limits": {"max_upload_mb": config.MAX_UPLOAD_MB},
         "plans": {k: p.public() for k, p in config.PLANS.items()},
@@ -416,9 +439,144 @@ def cancel_job(job_id: str, request: Request) -> dict:
     return {"id": job.id, "status": job.status}
 
 
+# ------------------------------------------------------------------- automatic Twitch import
+
+AUTO_IMPORT_PLAN = "pro"
+
+
+def _import_settings(raw: dict, plan: config.Plan) -> dict:
+    """The studio settings saved with the link, checked like a manual analysis (and clamped to the plan)."""
+    try:
+        duration = int(raw.get("duration") or 90)
+        count = int(raw.get("count") or 3)
+        options = Options(**(raw.get("options") or {})).model_dump()
+    except (TypeError, ValueError) as exc:
+        raise HTTPException(400, "Réglages du Studio invalides : vérifie-les puis réessaie.") from exc
+    return {
+        "duration": min(config.MAX_CLIP_SECONDS, max(config.MIN_CLIP_SECONDS, duration)),
+        "count": min(plan.max_clips, max(1, count)),
+        "options": options,
+    }
+
+
+def _public_link(link: dict | None) -> dict | None:
+    if not link:
+        return None
+    return {"login": link["login"], "enabled": bool(link["enabled"]), "last_vod_id": link.get("last_vod_id"),
+            "last_error": link.get("last_error"), "updated_at": link.get("updated_at")}
+
+
+def _start_twitch_import(user_id: int, settings: dict, vod: dict) -> None:
+    """Called by the importer when a creator's live has ended: analyse its VOD like a manual job."""
+    user = accounts.get_user(user_id)
+    if user is None:
+        raise RuntimeError("Compte introuvable.")
+    if user.plan != AUTO_IMPORT_PLAN:
+        raise RuntimeError("L'import automatique est réservé au forfait Pro.")
+    if not media.ffmpeg_available():
+        raise RuntimeError(media.FFMPEG_MISSING)
+    s = _import_settings(settings, user.plan_obj)
+    job = store.create(f"user:{user.id}", jobs.JobRequest(
+        url=vod["url"], filename=None, duration=s["duration"], count=s["count"], plan=user.plan,
+        options=s["options"], user_id=user.id, month=accounts.month_key(), notify=True,
+        auto={"kind": "twitch", "vod_id": vod["id"], "title": str(vod.get("title") or "")[:200]},
+    ), user, ip="twitch-auto")
+    store.enqueue(job)
+    log.info("automatic Twitch import of VOD %s for account %s: job %s", vod["id"], user.id, job.id)
+
+
+@app.get("/api/me/twitch")
+def get_twitch_link(request: Request) -> dict:
+    user = _current_user(request)
+    if user is None:
+        raise HTTPException(401, "Connecte-toi pour relier ta chaîne Twitch.")
+    return {"available": twitch.helix_configured(), "link": _public_link(twitch.get_link(user.id))}
+
+
+@app.post("/api/me/twitch")
+def save_twitch_link(body: TwitchIn, request: Request) -> dict:
+    user = _current_user(request)
+    if user is None:
+        raise HTTPException(401, "Connecte-toi pour relier ta chaîne Twitch.")
+    if user.plan != AUTO_IMPORT_PLAN:
+        raise HTTPException(403, "L'import automatique est réservé au forfait Pro.")
+    if not twitch.helix_configured():
+        raise HTTPException(503, "Import automatique indisponible : il manque les clés Twitch sur ce serveur (README).")
+    existing = twitch.get_link(user.id)
+    if not body.login.strip():
+        if body.enabled:
+            raise HTTPException(400, "Indique le nom de ta chaîne Twitch.")
+        twitch.delete_link(user.id)
+        return {"link": None}
+    login = twitch.normalize_login(body.login)
+    if not login:
+        raise HTTPException(400, "Ce nom de chaîne Twitch n'est pas valide : c'est ce qui suit twitch.tv/.")
+    tw_user = twitch.helix().get_user(login)
+    if tw_user is None:
+        raise HTTPException(404, "Chaîne Twitch introuvable : vérifie son nom (ou réessaie dans un instant).")
+    settings = _import_settings(body.settings, user.plan_obj)
+    same_channel = bool(existing) and existing["broadcaster_id"] == tw_user["id"]
+    last = existing.get("last_vod_id") if same_channel else None
+    if body.enabled and not (same_channel and existing["enabled"]):
+        # from now on: the VODs already online are not imported
+        last = twitch.current_latest_vod_id(tw_user["id"]) or last
+    twitch.save_link(user.id, tw_user["login"], tw_user["id"], body.enabled, settings, last)
+    return {"link": _public_link(twitch.get_link(user.id))}
+
+
+# ------------------------------------------------------------------------- re-editing
+
+def _owned_job(job_id: str, request: Request) -> tuple[jobs.Job, accounts.User]:
+    if not re.fullmatch(jobs.JOB_ID_RE, job_id):
+        raise HTTPException(404, "Analyse introuvable.")
+    job = store.get(job_id)
+    if job is None:
+        raise HTTPException(404, "Analyse introuvable ou expirée.")
+    user = _current_user(request)
+    if user is None:
+        raise HTTPException(401, "Connecte-toi pour modifier tes shorts.")
+    if job.request.user_id != user.id:
+        raise HTTPException(403, "Seul l'auteur de l'analyse peut modifier ses shorts.")
+    return job, user
+
+
+def _edit_call(fn, *args):
+    try:
+        return fn(*args)
+    except edits.EditError as exc:
+        raise HTTPException(exc.status, str(exc)) from exc
+
+
+@app.get("/api/jobs/{job_id}/clips/{index}/words")
+def clip_words(job_id: str, index: int, request: Request) -> dict:
+    job, _ = _owned_job(job_id, request)
+    return _edit_call(edits.words, job, index)
+
+
+@app.post("/api/jobs/{job_id}/clips/{index}/recut", status_code=202)
+def recut_clip(job_id: str, index: int, body: RecutIn, request: Request) -> dict:
+    job, _ = _owned_job(job_id, request)
+    _edit_call(edits.recut, job, index, body.start, body.end, store.submit_edit)
+    return job.public()
+
+
+@app.post("/api/jobs/{job_id}/clips/{index}/replace", status_code=202)
+def replace_clip(job_id: str, index: int, request: Request) -> dict:
+    job, _ = _owned_job(job_id, request)
+    _edit_call(edits.replace, job, index, store.submit_edit)
+    return job.public()
+
+
+@app.post("/api/jobs/{job_id}/clips/{index}/refund")
+def refund_clip(job_id: str, index: int, request: Request) -> dict:
+    job, user = _owned_job(job_id, request)
+    left = _edit_call(edits.refund, job, index, user)
+    return {"job": job.public(), "refunds_left": left, "user": _me(accounts.get_user(user.id) or user)}
+
+
 @app.get("/api/jobs/{job_id}/clips/{name}")
 def get_clip_file(job_id: str, name: str):
-    if not re.fullmatch(jobs.JOB_ID_RE, job_id) or not re.fullmatch(r"\d{1,2}\.(mp4|jpg)", name):
+    if not re.fullmatch(jobs.JOB_ID_RE, job_id) or not re.fullmatch(r"\d{1,2}(-v\d{1,3})?\.(mp4|jpg)", name):
         raise HTTPException(404, "Fichier introuvable.")
     if store.get(job_id) is None:
         raise HTTPException(404, "Fichier introuvable.")

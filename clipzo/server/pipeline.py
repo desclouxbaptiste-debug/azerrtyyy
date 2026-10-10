@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import math
+import time
 from pathlib import Path
 
 import numpy as np
@@ -109,6 +111,8 @@ def run(job: Job) -> None:
                 job.warn("Aucune parole détectée dans la vidéo.")
         if opts["subs"] and not (transcript and transcript.segments):
             opts["subs"] = opts["animsubs"] = False
+        if transcript is not None and transcript.segments:
+            _save_transcript(work, transcript)  # for re-editing the shorts later (subtitles, word-level trimming)
         job.update(1.0)
 
         pcm = None  # release the memory-mapped audio: Windows can't delete a file that is still mapped
@@ -125,17 +129,18 @@ def run(job: Job) -> None:
         # 5. Viral moments -------------------------------------------------------------
         job.set_step("score", "Calcul du score de viralité…")
         use_llm = config.llm_configured() and transcript is not None and bool(transcript.segments)
-        pool = min(req.count * 3, 30) if use_llm else req.count
+        # More candidates than shorts: Claude picks among them, and the rest are spares for "autre moment"
+        pool = min(req.count * 3, 30)
         analysis = virality.analyse(
             duration=info.duration, loud_mean=loud_mean, loud_peak=loud_peak, scenes=scenes,
             transcript=transcript, heatmap=source.heatmap, chat=source.chat,
-            clip_seconds=req.duration, count=pool, platform=source.platform,
+            clip_seconds=req.duration, count=pool, platform=source.platform, clips=source.clips,
         )
         job.curve = analysis.curve
         used = set(analysis.signals_used)
         job.signals.update({
             "audio": "energy" in used, "scenes": "visual" in used,
-            "heatmap": "heatmap" in used, "chat": "chat" in used,
+            "heatmap": "heatmap" in used, "chat": "chat" in used, "clips": "clips" in used,
         })
         job.update(0.5)
 
@@ -163,6 +168,7 @@ def run(job: Job) -> None:
             for p in picks:
                 p["hashtags"] = []
         picks.sort(key=lambda p: p["score"], reverse=True)
+        job.alternatives = _alternatives(analysis.candidates, picks, opts["hooks"])
         if len(picks) < req.count:
             job.warn(f"Cette vidéo n'a la place que pour {len(picks)} short{'s' if len(picks) > 1 else ''} "
                      f"distinct{'s' if len(picks) > 1 else ''} de cette durée (tu en demandais {req.count}). "
@@ -170,10 +176,7 @@ def run(job: Job) -> None:
         job.update(1.0)
 
         # 6. Render --------------------------------------------------------------------
-        render_opts = render.RenderOptions(
-            reframe=opts["reframe"], subtitles=opts["subs"],
-            animated_subtitles=opts["animsubs"], watermark=not opts["nowm"],
-        )
+        job.render_info = {"opts": opts}
         clip_dir = work / "clips"
         total = len(picks)
         job.set_step("render", f"Découpage du short 1/{total}…")
@@ -181,18 +184,11 @@ def run(job: Job) -> None:
             def prog(f: float, i: int = i) -> None:
                 job.update((i + f) / total, f"Découpage du short {i + 1}/{total}… {int(f * 100)} %")
 
-            face_x = None
-            if opts["reframe"] and plan.face_tracking and not info.is_vertical:
+            def looking(i: int = i) -> None:
                 job.update(i / total, f"Recherche du visage pour le short {i + 1}/{total}…")
-                try:
-                    face_x = reframe.face_center(source.path, p["start"], p["end"] - p["start"])
-                except Exception as exc:  # noqa: BLE001 - optional, fall back to the blurred layout
-                    log.warning("face tracking failed: %s", exc)
+
             try:
-                result = render.render_clip(
-                    source.path, info, p["start"], p["end"], clip_dir, i, plan, render_opts,
-                    transcript, face_x, p["peak"], prog,
-                )
+                result = render_pick(job, source.path, info, transcript, p, clip_dir, i, prog, looking)
             except media.MediaError:
                 log.warning("render of short %d failed for %s", i + 1, job.id)
                 job.warn(f"Le short n°{i + 1} n'a pas pu être découpé : il a été ignoré.")
@@ -219,6 +215,7 @@ def run(job: Job) -> None:
                 "height": result.height,
                 "layout": result.layout,
                 "subtitles": result.has_subtitles,
+                "peak": p["peak"],
             })
         if not job.clips:
             raise media.MediaError("Aucun short n'a pu être découpé dans cette vidéo.")
@@ -234,12 +231,102 @@ def run(job: Job) -> None:
             log.exception("job %s failed", job.id)
             job.fail("Erreur inattendue pendant le traitement. Réessaie, ou envoie directement le fichier vidéo.")
     finally:
-        # Keep the shorts, drop the heavy intermediate files.
+        # Keep the shorts, drop the heavy intermediate files. The source stays a while when the shorts
+        # can be re-edited (retouche, autre moment).
         pcm = None
         _remove(raw_audio)
+        keep = None
         if source is not None:
-            _remove(source.path)
-        drop_inputs(job.id)
+            if job.status == "done" and config.KEEP_SOURCE_HOURS > 0 and source.path.is_file():
+                keep = source.path.name
+                job.source_file = keep
+                job.editable_until = time.time() + config.KEEP_SOURCE_HOURS * 3600
+                job.save(force=True)
+            else:
+                _remove(source.path)
+        drop_inputs(job.id, keep=keep)
+        try:
+            _after_auto_import(job)
+        except Exception:  # noqa: BLE001 - an e-mail problem never touches the shorts
+            log.exception("after-import hook failed for %s", job.id)
+
+
+def _after_auto_import(job: Job) -> None:
+    """Automatic import after a live: e-mail the creator, remember a failure on the Twitch link."""
+    req = job.request
+    if req.auto and req.auto.get("kind") == "twitch" and job.status == "error" and req.user_id is not None:
+        from . import twitch
+
+        twitch.mark_vod(req.user_id, str(req.auto.get("vod_id") or ""), error=(job.error or "")[:300])
+    if not req.notify or req.user_id is None:
+        return
+    from . import notify
+
+    user = accounts.get_user(req.user_id)
+    if user is None or not notify.smtp_configured():
+        return
+    title = (job.source or {}).get("title") or (req.auto or {}).get("title") or "ta vidéo"
+    base = config.PUBLIC_URL or f"http://localhost:{config.PORT}"
+    url = f"{base}/?job={job.id}"
+    if job.status == "done":
+        notify.send_async(notify.shorts_ready, user.email, title, len(job.clips), url)
+    else:
+        notify.send_async(notify.job_failed, user.email, title, job.error or "Erreur inconnue.", url)
+
+
+def render_pick(job: Job, src: Path, info: media.ProbeInfo, transcript: transcribe.Transcript | None, pick: dict,
+                out_dir: Path, index: int, progress=None, looking=None) -> render.RenderResult:
+    """Render one short with the job's settings (used by the analysis and by re-edits)."""
+    plan = config.PLANS[job.request.plan]
+    opts = job.render_info.get("opts") or effective_options(plan, job.request.options)[0]
+    render_opts = render.RenderOptions(
+        reframe=opts["reframe"], subtitles=opts["subs"] and transcript is not None,
+        animated_subtitles=opts["animsubs"], watermark=not opts["nowm"],
+    )
+    face_x = None
+    if opts["reframe"] and plan.face_tracking and not info.is_vertical:
+        if looking:
+            looking()
+        try:
+            face_x = reframe.face_center(src, pick["start"], pick["end"] - pick["start"])
+        except Exception as exc:  # noqa: BLE001 - optional, fall back to the blurred layout
+            log.warning("face tracking failed: %s", exc)
+    return render.render_clip(src, info, pick["start"], pick["end"], out_dir, index, plan, render_opts,
+                              transcript, face_x, pick["peak"], progress)
+
+
+def _save_transcript(work: Path, transcript: transcribe.Transcript) -> None:
+    try:
+        (work / "transcript.json").write_text(json.dumps(transcript.to_dict(), ensure_ascii=False), encoding="utf-8")
+    except OSError as exc:
+        log.warning("could not save the transcript: %s", exc)
+
+
+def load_transcript(work: Path) -> transcribe.Transcript | None:
+    try:
+        return transcribe.Transcript.from_dict(json.loads((work / "transcript.json").read_text(encoding="utf-8")))
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def _overlap(a0: float, a1: float, b0: float, b1: float) -> float:
+    """Share of the shorter window covered by the other one."""
+    inter = min(a1, b1) - max(a0, b0)
+    return max(0.0, inter) / max(1e-6, min(a1 - a0, b1 - b0))
+
+
+def _alternatives(cands: list[virality.Candidate], picks: list[dict], ai_text: bool, limit: int = 12) -> list[dict]:
+    """Good moments that were not used, best first, none overlapping a delivered short much."""
+    out: list[dict] = []
+    for p in _picks_from_algorithm(sorted(cands, key=lambda c: c.score, reverse=True)):
+        if any(_overlap(p["start"], p["end"], q["start"], q["end"]) > 0.3 for q in picks + out):
+            continue
+        if not ai_text:
+            p["hashtags"] = []
+        out.append(p)
+        if len(out) >= limit:
+            break
+    return out
 
 
 def _remove(path: Path) -> None:

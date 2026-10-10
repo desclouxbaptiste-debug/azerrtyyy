@@ -48,6 +48,17 @@ class Transcript:
     def text_between(self, start: float, end: float) -> str:
         return " ".join(s.text for s in self.segments if s.end > start and s.start < end).strip()
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "Transcript":
+        """Inverse of to_dict (the transcript is saved with the job for re-editing the shorts)."""
+        segments = []
+        for s in data.get("segments") or []:
+            words = [Word(start=float(w[0]), end=float(w[1]), text=str(w[2])) for w in s.get("words") or []
+                     if isinstance(w, (list, tuple)) and len(w) == 3]
+            segments.append(Segment(start=float(s["start"]), end=float(s["end"]), text=str(s.get("text", "")),
+                                    words=words))
+        return cls(language=str(data.get("language") or "fr"), segments=segments)
+
     def to_dict(self) -> dict:
         return {
             "language": self.language,

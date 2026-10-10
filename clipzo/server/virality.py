@@ -2,7 +2,7 @@
 
 Every second of the video gets an interest score built from independent signals:
 
-  audience  - YouTube "most replayed" heatmap, live chat activity (when the platform has them)
+  audience  - YouTube "most replayed" heatmap, live chat activity, viewers' Twitch clips (when the platform has them)
   audio     - loudness relative to the surrounding 2 minutes, sudden loudness spikes (shouts, laughs)
   speech    - hype words / laughter / exclamations in the transcript, speaking rate
   image     - visual change (cuts, fast motion)
@@ -29,6 +29,7 @@ from .transcribe import Transcript
 
 WEIGHTS = {
     "heatmap": 0.26,
+    "clips": 0.24,  # viewers clipped it: an audience signal as strong as the heatmap
     "chat": 0.18,
     "energy": 0.14,
     "spike": 0.12,
@@ -40,6 +41,7 @@ WEIGHTS = {
 CURVE_POINTS = 240
 HOOK_SECONDS = 5
 CHAT_REACTION_DELAY = 6  # chat reacts a few seconds after what happened on screen
+DEFAULT_CLIP_SECONDS = 30.0  # length of a Twitch clip when the platform doesn't say
 
 _LAUGH = {"haha", "hahaha", "hahahaha", "mdr", "ptdr", "lol", "lmao", "xd", "rires", "rire", "laughs", "laughter", "laughing", "jpp"}
 # Only words that carry emotion. Everyday words ("quoi", "trop", "jamais", "what", "best"...) are left out:
@@ -234,6 +236,35 @@ def chat_feature(chat: list[tuple[float, str]], n: int) -> tuple[np.ndarray, np.
     return _squash(_robust_z(smoothed, min_scale=0.2)), smoothed
 
 
+ClipSpan = tuple[float, float, int]  # (start, end, views) of one viewer clip
+
+
+def clips_feature(clips: list[dict], n: int) -> tuple[np.ndarray, list[ClipSpan]] | None:
+    """Viewers' clips (0..1 per second) and the clips that fall inside the video.
+
+    A clip starts a bit before the moment and ends right after it: its whole span counts,
+    weighted by its views (1 + log1p(views): a clip seen 10 000 times weighs ~10 unseen ones)."""
+    out = np.zeros(n, dtype=np.float32)
+    spans: list[ClipSpan] = []
+    for c in clips or []:
+        try:
+            a = float(c["offset"])
+            length = float(c.get("duration") or DEFAULT_CLIP_SECONDS)
+            views = max(0, int(c.get("views") or 0))
+        except (KeyError, TypeError, ValueError, AttributeError):
+            continue
+        if not (math.isfinite(a) and math.isfinite(length)) or length <= 0:
+            continue
+        i0, i1 = max(0, int(a)), min(n, int(math.ceil(a + length)))
+        if i1 <= i0:
+            continue  # outside the video
+        out[i0:i1] += 1.0 + math.log1p(views)
+        spans.append((a, a + length, views))
+    if not spans:
+        return None
+    return _smooth(out / float(out.max()), 3.0), spans
+
+
 def visual_feature(scenes: np.ndarray) -> np.ndarray:
     peak3 = sliding_window_view(np.pad(scenes, 1, mode="edge"), 3).max(axis=1)
     return _smooth(_squash(_robust_z(peak3, min_scale=0.02)), 1.5)  # encoder noise is ~0.001
@@ -252,7 +283,9 @@ def analyse(
     clip_seconds: int,
     count: int,
     platform: str = "upload",
+    clips: list[dict] | None = None,
 ) -> Analysis:
+    """`clips`: viewers' clips of this video, [{"offset", "duration", "views"}] in seconds (Twitch)."""
     n = max(1, int(math.ceil(duration)))
     loud_mean = _fit(loud_mean, n) if len(loud_mean) else np.full(n, -90.0, dtype=np.float32)
     loud_peak = _fit(loud_peak, n) if len(loud_peak) else loud_mean.copy()
@@ -271,6 +304,10 @@ def analyse(
     heat = heatmap_feature(heatmap or [], n)
     if heat is not None:
         feats["heatmap"] = heat
+    clip_spans: list[ClipSpan] = []
+    clips_res = clips_feature(clips or [], n)
+    if clips_res is not None:
+        feats["clips"], clip_spans = clips_res
     chat_rate = None
     chat_res = chat_feature(chat or [], n)
     if chat_res is not None:
@@ -288,7 +325,7 @@ def analyse(
     for cand in candidates:
         _refine_bounds(cand, transcript, loud_mean, scenes, duration, clip_seconds)
     _remove_overlaps(candidates, duration, clip_seconds)
-    _score_and_explain(candidates, all_raw, interest, feats, chat_rate, hype_words, silent)
+    _score_and_explain(candidates, all_raw, interest, feats, chat_rate, hype_words, silent, clip_spans)
     for cand in candidates:
         _describe(cand, transcript, platform)
     candidates.sort(key=lambda c: c.raw, reverse=True)
@@ -429,7 +466,8 @@ def _remove_overlaps(cands: list[Candidate], duration: float, L: int) -> None:
 
 def _score_and_explain(cands: list[Candidate], all_raw: np.ndarray | None, interest: np.ndarray,
                        feats: dict[str, np.ndarray], chat_rate: np.ndarray | None,
-                       hype_words: dict[int, list[str]], silent: np.ndarray) -> None:
+                       hype_words: dict[int, list[str]], silent: np.ndarray,
+                       clip_spans: list[ClipSpan] | None = None) -> None:
     video_mean = {k: float(v.mean()) + 1e-6 for k, v in feats.items()}
     for c in cands:
         a, b = int(c.start), max(int(c.start) + 1, int(math.ceil(c.end)))
@@ -446,6 +484,10 @@ def _score_and_explain(cands: list[Candidate], all_raw: np.ndarray | None, inter
         reasons: list[tuple[float, str]] = []
         if "heatmap" in win and (win["heatmap"] > 0.55 or ratio["heatmap"] > 1.5):
             reasons.append((ratio["heatmap"] + 1, "Passage parmi les plus revus de la vidéo sur YouTube"))
+        if "clips" in win and (win["clips"] > 0.5 or ratio["clips"] > 1.5):
+            inside = [s for s in clip_spans or [] if _overlap(s, c.start, c.end) >= min(10.0, 0.5 * (s[1] - s[0]))]
+            if inside:
+                reasons.append((min(ratio["clips"], 5.0) + 1.0, _clips_reason(inside)))
         if "chat" in win and chat_rate is not None and ratio["chat"] > 1.3:
             boost = float(chat_rate[a:b].mean() / (chat_rate.mean() + 1e-6))
             if boost > 1.3:
@@ -455,7 +497,7 @@ def _score_and_explain(cands: list[Candidate], all_raw: np.ndarray | None, inter
             reasons.append((2.0, "Rires détectés : moment drôle"))
         other = [w for w in words if w != "rires"]
         if len(other) >= 2:
-            top = max(set(other), key=other.count)
+            top = max(other, key=other.count)  # ties: the earliest word (a set's order changes between runs)
             reasons.append((1.6, f"Émotion forte dans les paroles (« {top} »)"))
         if "spike" in win and ratio["spike"] > 1.25:
             reasons.append((ratio["spike"], "Réaction forte : pic sonore soudain"))
@@ -476,6 +518,18 @@ def _score_and_explain(cands: list[Candidate], all_raw: np.ndarray | None, inter
         fallback = ("Moment le plus intense repéré par l'analyse" if c.score >= 60
                     else "Peu de moments forts dans cette vidéo : meilleur passage restant")
         c.reasons = [r[1] for r in reasons[:4]] or [fallback]
+
+
+def _overlap(span: ClipSpan, start: float, end: float) -> float:
+    return max(0.0, min(span[1], end) - max(span[0], start))
+
+
+def _clips_reason(spans: list[ClipSpan]) -> str:
+    """« 3 clips des viewers sur ce passage (12 400 vues) »"""
+    count, views = len(spans), sum(s[2] for s in spans)
+    views_txt = f"{views:,}".replace(",", "\u00a0")  # French thousands separator, never split
+    return (f"{count} clip{'s' if count > 1 else ''} des viewers sur ce passage "
+            f"({views_txt}\u00a0vue{'s' if views > 1 else ''})")
 
 
 def _describe(c: Candidate, transcript: Transcript | None, platform: str) -> None:

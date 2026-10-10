@@ -209,6 +209,10 @@
   let demoPlan = store.get("clipzo.plan", "free");
   if (!PLANS[demoPlan]) demoPlan = "free";
   let currentUser = null; // live mode: the signed-in account (/api/me), null when logged out
+  let shownJob = null; // live analysis whose shorts are shown: { id, edit } (re-editing rights)
+  let editTimer = 0; // follows the re-edits of shownJob
+  let extrasReady = false; // layout & subtitle style controls built
+  let twitchLink = null; // automatic Twitch import of the account, null: not loaded yet
   let activeJob = null; // the server analysis being followed (live mode)
   let billingInterval = "month";
   let authMode = "login";
@@ -309,6 +313,7 @@
       if (locked) $("input", opt).checked = false;
     });
     $$(".lock[data-min]").forEach((l) => l.classList.toggle("is-hidden", hasPlan(l.dataset.min)));
+    refreshStudioExtras();
     const checkedCount = $('input[name="count"]:checked');
     if (checkedCount && +checkedCount.value > p.maxClips) $('input[name="count"][value="3"]').checked = true;
 
@@ -402,6 +407,7 @@
     const reserved = count(q.reserved) || 0;
     const limit = count(q.limit); // null: unlimited
     const left = count(q.remaining);
+    const r = raw.refunds && typeof raw.refunds === "object" ? raw.refunds : null;
     return {
       email: text(raw.email),
       plan,
@@ -419,11 +425,15 @@
         cancelAtEnd: b.cancel_at_period_end === true,
         canManage: b.can_manage === true,
       },
+      // "satisfait ou recrédité" credits left this month (null: unlimited plan)
+      refunds: r ? { left: count(r.left) || 0, limit: count(r.limit) || 0 } : null,
     };
   }
 
   function setUser(raw) {
+    const before = currentUser ? currentUser.email : null;
     currentUser = readUser(raw);
+    if (!currentUser || currentUser.email !== before) twitchLink = null; // another account: reload its settings
     refreshPlanUI();
   }
 
@@ -498,6 +508,7 @@
     acctRenew.textContent = renew;
     acctRenew.hidden = !renew;
     acctManage.hidden = !b.canManage;
+    renderTwitch(user);
   }
 
   // Signed out: login / sign-up form (with an optional reason). Signed in: the account summary
@@ -717,6 +728,98 @@
 
   refreshPlanUI();
 
+
+  /* ---------- Automatic import after each Twitch live (Pro) ---------- */
+  const twitchForm = $(".twitch-form");
+  const twitchLogin = $("#twitch-login");
+  const twitchToggle = $('.twitch-form input[name="enabled"]');
+  const twitchStatus = $(".twitch-status");
+  const twitchError = $(".twitch-error");
+  const twitchSave = $(".twitch-save");
+  let twitchLoading = null;
+
+  function readTwitchLink(raw) {
+    if (!raw || typeof raw !== "object") return { login: "", enabled: false, lastVod: "", lastError: "" };
+    return {
+      login: text(raw.login),
+      enabled: raw.enabled === true,
+      lastVod: text(raw.last_vod_id),
+      lastError: text(raw.last_error),
+    };
+  }
+
+  function renderTwitch(user) {
+    const pro = !!user && user.plan === "pro";
+    const serverOk = api.features.twitch_auto === true;
+    $$("input, button", twitchForm).forEach((n) => {
+      if (!n.classList.contains("is-loading")) n.disabled = !pro || !serverOk;
+    });
+    let status = "";
+    if (!serverOk) status = "Indisponible sur ce serveur : il lui manque les clés Twitch (README, « Twitch »).";
+    else if (!pro) status = "Disponible avec le forfait Pro : tes lives deviennent des shorts sans rien faire.";
+    else if (twitchLink && twitchLink.enabled) {
+      status = `Activé pour twitch.tv/${twitchLink.login}. `;
+      status += twitchLink.lastError
+        ? `Dernière tentative : ${twitchLink.lastError}`
+        : twitchLink.lastVod
+          ? "Ta dernière VOD a été prise en compte, Clipzo attend ton prochain live."
+          : "Clipzo attend la fin de ton prochain live.";
+    } else if (twitchLink && twitchLink.login) status = "Import désactivé.";
+    twitchStatus.textContent = status;
+    if (pro && serverOk && !twitchLink && !twitchLoading) loadTwitch();
+  }
+
+  function loadTwitch() {
+    twitchLoading = apiCall("GET", "/api/me/twitch")
+      .then(({ status, data }) => {
+        if (status !== 200 || !data) return;
+        twitchLink = readTwitchLink(data.link);
+        twitchLogin.value = twitchLink.login;
+        twitchToggle.checked = twitchLink.enabled;
+        if (openPanel === panels.account) renderTwitch(currentUser);
+      })
+      .catch(() => {})
+      .finally(() => {
+        twitchLoading = null;
+      });
+  }
+
+  twitchForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    twitchError.hidden = true;
+    // a pasted channel link works too
+    const login = twitchLogin.value.trim().replace(/^(https?:\/\/)?(www\.|m\.)?twitch\.tv\//i, "").split(/[/?#]/)[0];
+    if (twitchToggle.checked && !/^[A-Za-z0-9_]{3,25}$/.test(login)) {
+      twitchError.textContent = "Indique le nom de ta chaîne : ce qui suit twitch.tv/ dans son adresse.";
+      twitchError.hidden = false;
+      twitchLogin.focus();
+      return;
+    }
+    setBusy(twitchSave, "Enregistrement…");
+    const res = await apiCall("POST", "/api/me/twitch", {
+      login,
+      enabled: twitchToggle.checked,
+      settings: studioSettings(),
+    }).catch(() => null);
+    setIdle(twitchSave);
+    if (!res || res.status !== 200 || !res.data) {
+      if (res && res.status === 401) setUser(null);
+      twitchError.textContent = res ? apiError(res.status, res.data) : MSG_OFFLINE;
+      twitchError.hidden = false;
+      renderTwitch(currentUser);
+      return;
+    }
+    twitchLink = readTwitchLink(res.data.link);
+    twitchLogin.value = twitchLink.login;
+    twitchToggle.checked = twitchLink.enabled;
+    renderTwitch(currentUser);
+    toast(
+      twitchLink.enabled
+        ? "Import automatique activé : tes prochains lives seront découpés avec les réglages du Studio."
+        : "Import automatique désactivé."
+    );
+  });
+
   /* ---------------- Studio ---------------- */
   const PLATFORMS = [
     { id: "youtube", name: "YouTube", icon: "fa-brands fa-youtube", color: "#ff0033", re: /(?:^|\.)(?:youtube\.com|youtu\.be)$/i },
@@ -765,6 +868,17 @@
   const warningsEl = $(".warnings");
   const clipsList = $(".clips");
   const clipsEmpty = $(".clips-empty");
+  const editorEl = $(".editor");
+  const editorTitle = $(".editor-title");
+  const editorError = $(".editor-error");
+  const edStartOut = $(".ed-start");
+  const edEndOut = $(".ed-end");
+  const edSel = $(".editor-sel");
+  const edLen = $(".editor-len");
+  const edWords = $(".editor-words");
+  const edWordsHead = $(".editor-words-head");
+  const edNoWords = $(".editor-nowords");
+  const edApply = $(".editor-apply");
   const demoNote = $(".demo-note");
 
   const fmtDuration = (s) => {
@@ -1043,6 +1157,9 @@
     pauseMedia(clipsList);
     clipsList.textContent = "";
     liveCards.clear();
+    shownJob = null;
+    clearTimeout(editTimer);
+    editorEl.hidden = true;
     resultsTitle.textContent = "Tes shorts sont prêts";
     restartBtn.hidden = false;
     clearBlock(resultsSource);
@@ -1102,6 +1219,7 @@
     ["scenes", "Changements de plan"],
     ["heatmap", "Moments les plus revus YouTube"],
     ["chat", "Activité du chat"],
+    ["clips", "Clips des viewers"],
     ["transcript", "Transcription"],
     ["llm", "Analyse IA (Claude)"],
     ["faces", "Suivi du visage"],
@@ -1544,6 +1662,7 @@
     }
     if (curve) drawCurve(isDone ? resultsCurve : progressCurve, curve, clips, length, signals);
     renderWarnings(data.warnings);
+    shownJob = { id: job.id, edit: data.edit && typeof data.edit === "object" ? data.edit : null };
     renderLiveClips(clips);
 
     // While the cuts are rendered, finished shorts already show up under the progress
@@ -1592,7 +1711,9 @@
     warningsEl.hidden = items.length === 0;
   }
 
-  const clipKey = (c) => (Number.isInteger(c.index) ? `#${c.index}` : `${num(c.start)}-${num(c.end)}`);
+  // A re-edited short is a new version: a new card (new video, new edges)
+  const clipKey = (c) =>
+    (Number.isInteger(c.index) ? `#${c.index}` : `${num(c.start)}-${num(c.end)}`) + `v${num(c.version)}`;
 
   // Clips arrive one by one: add the new ones, keep the server's order, never rebuild a playing video
   function renderLiveClips(clips) {
@@ -1606,6 +1727,7 @@
         liveCards.set(key, card);
       }
       setRank(card, i + 1);
+      syncLiveClip(card, c);
       if (clipsList.children[i] !== card) clipsList.insertBefore(card, clipsList.children[i] || null);
     });
     while (clipsList.children.length > clips.length) {
@@ -1646,6 +1768,10 @@
       el("span", `clip-score${score >= 85 ? " hot" : ""}`, `🔥 ${score}%`),
       el("span", "clip-dur", fmtTime(length))
     );
+    const busy = el("div", "clip-busy");
+    busy.append(icon("fa-solid fa-circle-notch fa-spin"), el("span", "", "Modification en cours…"));
+    busy.hidden = true;
+    box.append(busy);
     li.append(box, el("p", "clip-title", title));
 
     const meta = el("p", "clip-meta");
@@ -1680,6 +1806,9 @@
       dl.append(icon("fa-solid fa-download"), " Télécharger");
       li.append(dl);
     }
+    const actions = el("div", "clip-actions");
+    actions.hidden = true;
+    li.append(actions);
     return li;
   }
 
@@ -1692,12 +1821,495 @@
     }
   }
 
+
+  /* ---------- Changing a short after the analysis (live): retouche, autre moment, recrédité ---------- */
+  const refundsLeft = () => (currentUser && currentUser.refunds ? currentUser.refunds.left : 0);
+
+  function syncLiveClip(card, c) {
+    card._clip = c;
+    const busy = c.status === "rendering";
+    card.classList.toggle("is-busy", busy);
+    $(".clip-busy", card).hidden = !busy;
+    const err = text(c.edit_error);
+    if (err && card.dataset.err !== err) toast(err);
+    card.dataset.err = err;
+    if (card.dataset.meh !== "1") renderClipActions(card, c);
+  }
+
+  function editState(c) {
+    const e = shownJob && shownJob.edit;
+    const ok = !!(isLive() && currentUser && e && c.status !== "rendering");
+    return {
+      recut: ok && e.available === true && num(c.recuts_left) > 0,
+      replace: ok && e.available === true && num(e.replaces_left) > 0,
+      refund: ok && e.refundable === true && refundsLeft() > 0,
+    };
+  }
+
+  function actionBtn(cls, iconCls, label, onClick) {
+    const b = el("button", `clip-act${cls ? ` ${cls}` : ""}`);
+    b.type = "button";
+    b.append(icon(iconCls), ` ${label}`);
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
+  function renderClipActions(card, c) {
+    const box = $(".clip-actions", card);
+    box.textContent = "";
+    const can = editState(c);
+    if (can.recut) box.append(actionBtn("", "fa-solid fa-scissors", "Retoucher", () => openEditor(card)));
+    if (can.replace) box.append(actionBtn("", "fa-solid fa-shuffle", "Autre moment", () => replaceClip(card)));
+    if (can.replace || can.refund) {
+      box.append(actionBtn("clip-act-meh", "fa-regular fa-thumbs-down", "Ne me plaît pas", () => showMeh(card)));
+    }
+    box.hidden = !box.childElementCount;
+  }
+
+  // "Ne me plaît pas": another moment instead (free), or the short deleted and its credit given back
+  function showMeh(card) {
+    const can = editState(card._clip);
+    const box = $(".clip-actions", card);
+    card.dataset.meh = "1";
+    box.textContent = "";
+    const wrap = el("div", "clip-meh");
+    wrap.append(el("p", "clip-meh-title", "Ce short ne te plaît pas ?"));
+    if (can.replace) {
+      wrap.append(actionBtn("", "fa-solid fa-shuffle", "Un autre moment à la place", () => {
+        closeMeh(card);
+        replaceClip(card);
+      }));
+    }
+    if (can.refund) {
+      const n = refundsLeft();
+      wrap.append(
+        actionBtn("clip-act-refund", "fa-solid fa-rotate-left", "Le supprimer et récupérer mon crédit", () => refundClip(card)),
+        el("p", "clip-meh-note", `Satisfait ou recrédité : encore ${n} crédit${n > 1 ? "s" : ""} à récupérer ce mois-ci.`)
+      );
+    }
+    wrap.append(actionBtn("clip-act-cancel", "fa-solid fa-xmark", "Annuler", () => closeMeh(card, true)));
+    box.append(wrap);
+    box.hidden = false;
+    $("button", wrap).focus();
+  }
+
+  function closeMeh(card, refocus) {
+    card.dataset.meh = "";
+    renderClipActions(card, card._clip);
+    if (refocus) {
+      const btn = $(".clip-act-meh", card) || $(".clip-act", card);
+      if (btn) btn.focus();
+    }
+  }
+
+  // The shown analysis as the server now sees it (after an edit, or while edits render)
+  function applyJobData(data) {
+    if (!data || typeof data !== "object" || !shownJob || data.id !== shownJob.id) return;
+    shownJob.edit = data.edit && typeof data.edit === "object" ? data.edit : null;
+    const clips = Array.isArray(data.clips) ? data.clips.filter((c) => c && typeof c === "object") : [];
+    renderLiveClips(clips);
+    const curve = Array.isArray(data.curve) && data.curve.length > 1 ? data.curve.map(clamp01) : null;
+    const source = data.source && typeof data.source === "object" ? data.source : null;
+    const signals = data.signals && typeof data.signals === "object" ? data.signals : {};
+    if (curve && !results.hidden) drawCurve(resultsCurve, curve, clips, source ? num(source.duration) : 0, signals);
+    if (!clips.length) resultsTitle.textContent = "Plus aucun short gardé pour cette vidéo";
+  }
+
+  // Edits render on the server: follow the analysis until every short is ready again
+
+  function followEdits() {
+    clearTimeout(editTimer);
+    const id = shownJob && shownJob.id;
+    if (!id) return;
+    let failures = 0;
+    const retry = () => {
+      if (++failures < 6) editTimer = setTimeout(tick, POLL_MS * 2);
+    };
+    const tick = () =>
+      apiCall("GET", `/api/jobs/${encodeURIComponent(id)}`)
+        .then(({ status, data }) => {
+          if (!shownJob || shownJob.id !== id) return;
+          if (status !== 200 || !data) {
+            if (status === 404) toast(MSG_EXPIRED);
+            else retry();
+            return;
+          }
+          failures = 0;
+          applyJobData(data);
+          const busy = (Array.isArray(data.clips) ? data.clips : []).some((c) => c && c.status === "rendering");
+          if (busy) editTimer = setTimeout(tick, POLL_MS);
+          else loadMe();
+        })
+        .catch(retry);
+    editTimer = setTimeout(tick, POLL_MS);
+  }
+
+  // An edit request for the shown analysis. Errors go to `errorBox` (or a toast); resolves null on failure
+  async function editCall(method, suffix, payload, errorBox) {
+    if (!shownJob) return null;
+    const res = await apiCall(method, `/api/jobs/${encodeURIComponent(shownJob.id)}${suffix}`, payload).catch(() => null);
+    if (res && res.status >= 200 && res.status < 300 && res.data) return res;
+    const message = res ? apiError(res.status, res.data) : MSG_OFFLINE;
+    if (res && res.status === 401) setUser(null);
+    if (errorBox) {
+      errorBox.textContent = message;
+      errorBox.hidden = false;
+    } else toast(message);
+    if (res && (res.status === 409 || res.status === 410)) followEdits(); // the shorts changed meanwhile
+    return null;
+  }
+
+  async function replaceClip(card) {
+    const res = await editCall("POST", `/clips/${card._clip.index}/replace`);
+    if (!res) return;
+    applyJobData(res.data);
+    toast("Clipzo prépare un autre moment fort à la place : quelques secondes…");
+    followEdits();
+  }
+
+  async function refundClip(card) {
+    const res = await editCall("POST", `/clips/${card._clip.index}/refund`);
+    if (!res) {
+      closeMeh(card, true);
+      return;
+    }
+    setUser(res.data.user);
+    applyJobData(res.data.job);
+    focusIn(resultsTitle);
+    const n = num(res.data.refunds_left);
+    toast(`Short supprimé : 1 crédit t'a été rendu${n > 0 ? ` (encore ${n} à récupérer ce mois-ci)` : ""}.`);
+  }
+
+  /* Retouche: new edges, picked word by word or nudged by a few seconds */
+  const ed = { card: null, index: -1, start: 0, end: 0, min: 0, max: 0, words: [], mode: "start" };
+  const edMinLen = () => num(shownJob && shownJob.edit && shownJob.edit.min_seconds) || 15;
+  const edMaxLen = () => num(shownJob && shownJob.edit && shownJob.edit.max_seconds) || 180;
+  const fmtPrecise = (t) => {
+    const m = Math.floor(t / 60);
+    return `${m}:${(t - m * 60).toFixed(1).padStart(4, "0").replace(".", ",")}`;
+  };
+  const clampTo = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+  function setEdMode(mode) {
+    ed.mode = mode === "end" ? "end" : "start";
+    $(`input[name="edmode"][value="${ed.mode}"]`).checked = true;
+  }
+  $$('input[name="edmode"]').forEach((input) => input.addEventListener("change", () => setEdMode(input.value)));
+
+  async function openEditor(card) {
+    const c = card._clip;
+    Object.assign(ed, {
+      card,
+      index: c.index,
+      start: num(c.start),
+      end: num(c.end),
+      min: num(c.edit_min),
+      max: num(c.edit_max) || num(c.end),
+      words: [],
+    });
+    editorTitle.textContent = `Retoucher « ${text(c.title) || "Moment fort"} »`;
+    editorError.hidden = true;
+    buildWords();
+    edNoWords.hidden = true;
+    setEdMode("start");
+    pauseMedia(clipsList);
+    results.hidden = true;
+    editorEl.hidden = false;
+    renderEditor();
+    focusIn(editorTitle);
+    const res = await editCall("GET", `/clips/${c.index}/words`, undefined, editorError);
+    if (!res || ed.card !== card || editorEl.hidden) return;
+    const d = res.data;
+    ed.min = num(d.min);
+    ed.max = num(d.max) || ed.max;
+    ed.words = (Array.isArray(d.words) ? d.words : [])
+      .filter((w) => Array.isArray(w) && w.length === 3)
+      .map((w) => ({ s: num(w[0]), e: num(w[1]), t: text(String(w[2])) }))
+      .filter((w) => w.t);
+    buildWords();
+    edNoWords.hidden = ed.words.length > 0;
+    renderEditor();
+  }
+
+  function buildWords() {
+    edWords.textContent = "";
+    const has = ed.words.length > 0;
+    edWords.hidden = !has;
+    edWordsHead.hidden = !has;
+    const frag = document.createDocumentFragment();
+    ed.words.forEach((w, i) => {
+      const b = el("button", "ed-word", w.t);
+      b.type = "button";
+      b.dataset.i = String(i);
+      b.title = fmtPrecise(w.s);
+      frag.append(b);
+    });
+    edWords.append(frag);
+  }
+
+  edWords.addEventListener("click", (e) => {
+    const b = e.target.closest(".ed-word");
+    const w = b && ed.words[+b.dataset.i];
+    if (!w) return;
+    if (ed.mode === "start") {
+      ed.start = clampTo(w.s, ed.min, ed.max);
+      setEdMode("end"); // the natural next click
+    } else {
+      ed.end = clampTo(w.e + 0.2, ed.min, ed.max); // let the last word ring out
+    }
+    renderEditor();
+  });
+
+  $$("[data-nudge]", editorEl).forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const [edge, step] = btn.dataset.nudge.split(":");
+      if (edge === "start") ed.start = clampTo(ed.start + +step, ed.min, ed.end - 1);
+      else ed.end = clampTo(ed.end + +step, ed.start + 1, ed.max);
+      renderEditor();
+    })
+  );
+
+  function renderEditor() {
+    const len = ed.end - ed.start;
+    edStartOut.textContent = fmtPrecise(ed.start);
+    edEndOut.textContent = fmtPrecise(ed.end);
+    const span = Math.max(1, ed.max - ed.min);
+    edSel.style.left = `${(clamp01((ed.start - ed.min) / span) * 100).toFixed(2)}%`;
+    edSel.style.width = `${(clamp01(len / span) * 100).toFixed(2)}%`;
+    let problem = "";
+    if (len < edMinLen()) problem = `Trop court : ${edMinLen()} s minimum.`;
+    else if (len > edMaxLen() + 0.01) problem = `Trop long : ${Math.round(edMaxLen() / 60)} min maximum.`;
+    edLen.textContent = problem || `Durée du short : ${fmtTime(len)}`;
+    edLen.classList.toggle("is-bad", !!problem);
+    const c = ed.card && ed.card._clip;
+    const same = !!c && Math.abs(ed.start - num(c.start)) < 0.05 && Math.abs(ed.end - num(c.end)) < 0.05;
+    if (!edApply.classList.contains("is-loading")) edApply.disabled = !!problem || same;
+    $$("[data-nudge]", editorEl).forEach((btn) => {
+      const [edge, step] = btn.dataset.nudge.split(":");
+      const v = (edge === "start" ? ed.start : ed.end) + +step;
+      btn.disabled = edge === "start" ? v < ed.min - 0.01 || v > ed.end - 1 : v > ed.max + 0.01 || v < ed.start + 1;
+    });
+    $$(".ed-word", edWords).forEach((b) => {
+      const w = ed.words[+b.dataset.i];
+      b.classList.toggle("in-sel", w.e > ed.start + 0.05 && w.s < ed.end - 0.05);
+    });
+  }
+
+  function closeEditor() {
+    const card = ed.card;
+    ed.card = null;
+    editorEl.hidden = true;
+    if (shownJob) results.hidden = false;
+    const back = card && card.isConnected && $(".clip-act", card);
+    if (back) back.focus();
+    else focusIn(resultsTitle);
+  }
+  $(".editor-close").addEventListener("click", closeEditor);
+  $(".editor-cancel").addEventListener("click", closeEditor);
+  editorEl.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    e.stopPropagation(); // closes the editor, not the whole studio
+    closeEditor();
+  });
+
+  edApply.addEventListener("click", async () => {
+    if (!ed.card) return;
+    editorError.hidden = true;
+    setBusy(edApply, "Envoi…");
+    const res = await editCall("POST", `/clips/${ed.index}/recut`, { start: +ed.start.toFixed(2), end: +ed.end.toFixed(2) }, editorError);
+    setIdle(edApply);
+    renderEditor();
+    if (!res) return;
+    closeEditor();
+    applyJobData(res.data);
+    toast("Retouche lancée : ton short sera prêt dans quelques secondes.");
+    followEdits();
+  });
+
   // One preview plays at a time
   clipsList.addEventListener(
     "play",
     (e) => $$("video", clipsList).forEach((v) => v !== e.target && v.pause()),
     true
   );
+
+
+  /* ---------- Look of the shorts: layout and subtitle style ---------- */
+  // Same keys as server/styles.py. The preview uses the fonts the server burns in (fonts/subs/).
+  const SUB_FONTS = [
+    { id: "classique", name: "Classique", css: '"DejaVu Sans", Verdana, sans-serif', weight: 700 },
+    { id: "montserrat", name: "Montserrat", css: '"Clipzo Montserrat", "Montserrat", sans-serif', weight: 800 },
+    { id: "anton", name: "Anton", css: '"Clipzo Anton", Impact, sans-serif', scale: 1.1 },
+    { id: "bebas", name: "Bebas Neue", css: '"Clipzo Bebas", Impact, sans-serif', scale: 1.2, caps: true },
+    { id: "poppins", name: "Poppins", css: '"Clipzo Poppins", sans-serif', weight: 700 },
+    { id: "bangers", name: "Bangers", css: '"Clipzo Bangers", fantasy', scale: 1.08 },
+    { id: "luckiest", name: "Luckiest Guy", css: '"Clipzo Luckiest", fantasy', caps: true },
+    { id: "marker", name: "Marker", css: '"Clipzo Marker", cursive' },
+  ];
+  const SUB_SHAPES = [
+    { id: "contour", name: "Contour" },
+    { id: "boite", name: "Boîte" },
+    { id: "ombre", name: "Ombre" },
+    { id: "neon", name: "Néon" },
+    { id: "bandeau", name: "Bandeau" },
+  ];
+  // dark: black text on the coloured "bandeau" box reads better
+  const SUB_COLORS = [
+    { id: "jaune", name: "Jaune", hex: "#FFE24A", dark: true },
+    { id: "vert", name: "Vert", hex: "#3DFF7A", dark: true },
+    { id: "rose", name: "Rose", hex: "#FF4FD8", dark: false },
+    { id: "cyan", name: "Cyan", hex: "#33E1FF", dark: true },
+    { id: "rouge", name: "Rouge", hex: "#FF3B5C", dark: false },
+    { id: "blanc", name: "Blanc", hex: "#FFFFFF", dark: true },
+  ];
+  const SUB_SIZES = { s: 0.85, m: 1, l: 1.2 };
+  const LAYOUT_HINTS = {
+    auto: "Clipzo choisit : facecam + jeu pour un stream, cadrage sur le visage, ou vidéo entière.",
+    streamer: "Ta facecam en haut, le jeu en bas : le format des clips Twitch qui cartonnent sur TikTok.",
+    face: "Le cadre suit le visage de la personne qui parle.",
+    full: "Toute l'image, sur un fond flouté : rien n'est coupé.",
+  };
+  const styleField = $(".style-field");
+  const stylePreview = $(".style-preview");
+  const layoutHint = $(".layout-hint");
+  const capsInput = $('input[name="scaps"]');
+
+  function makeChips(container, group, items, paint) {
+    items.forEach((it) => {
+      const label = el("label", "chip");
+      const input = el("input");
+      input.type = "radio";
+      input.name = group;
+      input.value = it.id;
+      const face = el("span");
+      paint(face, it);
+      label.append(input, face);
+      container.append(label);
+    });
+  }
+  makeChips($(".font-chips"), "sfont", SUB_FONTS, (face, f) => {
+    face.textContent = f.name;
+    face.style.fontFamily = f.css;
+    if (f.weight) face.style.fontWeight = String(f.weight);
+  });
+  makeChips($(".shape-chips"), "sshape", SUB_SHAPES, (face, s) => {
+    face.textContent = s.name;
+    face.dataset.shape = s.id;
+  });
+  makeChips($(".color-chips"), "scolor", SUB_COLORS, (face, c) => {
+    face.className = "swatch";
+    face.style.setProperty("--sw", c.hex);
+    face.title = c.name;
+    face.append(el("span", "sr-only", c.name));
+  });
+
+  const pickValue = (name, fallback) => {
+    const input = $(`input[name="${name}"]:checked`);
+    return input ? input.value : fallback;
+  };
+  const chosenLayout = () => pickValue("layout", "auto");
+  function chosenStyle() {
+    return {
+      font: pickValue("sfont", "classique"),
+      shape: pickValue("sshape", "contour"),
+      color: pickValue("scolor", "jaune"),
+      position: pickValue("spos", "auto"),
+      size: pickValue("ssize", "m"),
+      caps: capsInput.dataset.touched === "1" ? capsInput.checked : null, // null: capitals for word-by-word
+    };
+  }
+
+  // Last look chosen on this browser
+  (function restoreLook() {
+    const saved = store.get("clipzo.look", null) || {};
+    const check = (name, value) => {
+      const input = value && $(`input[name="${name}"][value="${String(value).replace(/[^\w-]/g, "")}"]`);
+      if (input) input.checked = true;
+      else if (!$(`input[name="${name}"]:checked`)) $(`input[name="${name}"]`).checked = true;
+    };
+    const s = saved.style || {};
+    check("sfont", s.font);
+    check("sshape", s.shape);
+    check("scolor", s.color);
+    check("spos", s.position);
+    check("ssize", s.size);
+    check("layout", saved.layout);
+    if (typeof s.caps === "boolean") {
+      capsInput.checked = s.caps;
+      capsInput.dataset.touched = "1";
+    }
+  })();
+
+  function updatePreview() {
+    const s = chosenStyle();
+    const font = SUB_FONTS.find((f) => f.id === s.font) || SUB_FONTS[0];
+    const color = SUB_COLORS.find((c) => c.id === s.color) || SUB_COLORS[0];
+    const animated = $('input[name="animsubs"]').checked;
+    const streamer = chosenLayout() === "streamer";
+    if (capsInput.dataset.touched !== "1") capsInput.checked = animated;
+    stylePreview.dataset.shape = s.shape;
+    stylePreview.dataset.pos = s.position === "auto" ? (streamer ? "seam" : "bas") : s.position;
+    stylePreview.classList.toggle("is-streamer", streamer);
+    stylePreview.classList.toggle("is-caps", capsInput.checked);
+    stylePreview.classList.toggle("is-animated", animated);
+    stylePreview.style.setProperty("--sp-font", font.css);
+    stylePreview.style.setProperty("--sp-weight", String(font.weight || 400));
+    stylePreview.style.setProperty("--sp-accent", color.hex);
+    stylePreview.style.setProperty("--sp-ink", color.dark ? "#111" : "#fff");
+    stylePreview.style.setProperty("--sp-scale", String((SUB_SIZES[s.size] || 1) * (font.scale || 1)));
+    store.set("clipzo.look", { layout: chosenLayout(), style: s });
+  }
+
+  // Called by refreshPlanUI: what the plan allows decides what is shown
+  function refreshStudioExtras() {
+    if (!extrasReady) return;
+    const layout = $('input[name="layout"]:checked');
+    if (layout && (layout.value === "streamer" || layout.value === "face") && !hasPlan("creator")) {
+      $('input[name="layout"][value="auto"]').checked = true;
+    }
+    layoutHint.textContent = LAYOUT_HINTS[chosenLayout()] || "";
+    const subsOn = ($('input[name="subs"]').checked || $('input[name="animsubs"]').checked) && hasPlan("creator");
+    styleField.hidden = !subsOn;
+    updatePreview();
+  }
+
+  $$('input[name="layout"]').forEach((input) =>
+    input.addEventListener("change", () => {
+      if ((input.value === "streamer" || input.value === "face") && !hasPlan("creator")) {
+        $('input[name="layout"][value="auto"]').checked = true;
+        toast(`Mise en page disponible avec le forfait ${PLANS.creator.name}`);
+      }
+      refreshStudioExtras();
+    })
+  );
+  capsInput.addEventListener("change", () => {
+    capsInput.dataset.touched = "1";
+    updatePreview();
+  });
+  $$('input[name="subs"], input[name="animsubs"]').forEach((i) => i.addEventListener("change", refreshStudioExtras));
+  $$('.style-field input[type="radio"]').forEach((i) => i.addEventListener("change", updatePreview));
+  extrasReady = true;
+  refreshStudioExtras();
+
+  // What the studio form asks for (also saved as the settings of the automatic Twitch import)
+  function studioOptions() {
+    const fd = new FormData(form);
+    const opts = {
+      reframe: fd.has("reframe"),
+      subs: fd.has("subs"),
+      nowm: fd.has("nowm"),
+      hooks: fd.has("hooks"),
+      animsubs: fd.has("animsubs"),
+      layout: chosenLayout(),
+    };
+    if (opts.subs || opts.animsubs) opts.style = chosenStyle();
+    return opts;
+  }
+
+  function studioSettings() {
+    const count = $('input[name="count"]:checked');
+    return { duration: +range.value, count: count ? +count.value : 3, options: studioOptions() };
+  }
 
   /* ---------- Submit ---------- */
   function submitStudio() {
@@ -1738,14 +2350,7 @@
     }
     errorEl.hidden = true;
 
-    const fd = new FormData(form);
-    const opts = {
-      reframe: fd.has("reframe"),
-      subs: fd.has("subs"),
-      nowm: fd.has("nowm"),
-      hooks: fd.has("hooks"),
-      animsubs: fd.has("animsubs"),
-    };
+    const opts = studioOptions();
     const duration = +range.value;
 
     if (api.mode === "live") {
@@ -1835,6 +2440,21 @@
       });
     check();
   }
+
+  // Link of the "shorts ready" e-mail: /?job=<id> opens that analysis in the studio
+  (function readJobLink() {
+    const params = new URLSearchParams(location.search);
+    const id = params.get("job");
+    if (id === null) return;
+    params.delete("job");
+    const qs = params.toString();
+    try {
+      history.replaceState(history.state, "", location.pathname + (qs ? `?${qs}` : "") + location.hash);
+    } catch {
+      /* the address keeps its query string */
+    }
+    if (/^[0-9a-f]{32}$/.test(id)) session.set(JOB_KEY, { id, ytId: null, count: 0 });
+  })();
 
   setSource("link");
   checkHealth().then(() => {

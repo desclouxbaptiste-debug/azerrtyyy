@@ -9,6 +9,8 @@ services:
       - CLIPZO_WORKERS=${CLIPZO_WORKERS:-1}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+      - TWITCH_CLIENT_ID=${TWITCH_CLIENT_ID:-}
+      - TWITCH_CLIENT_SECRET=${TWITCH_CLIENT_SECRET:-}
       - CLIPZO_ADMIN_CMD=docker compose exec clipzo python -m server.admin
     volumes:
       - clipzo-data:/data

@@ -45,6 +45,12 @@ CREATE TABLE IF NOT EXISTS stripe_events (
     id TEXT PRIMARY KEY,
     received_at REAL NOT NULL
 );
+CREATE TABLE IF NOT EXISTS refunds (
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    month TEXT NOT NULL,
+    count INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (user_id, month)
+);
 """
 
 EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s]+\.[^@\s]{2,}$")
@@ -306,6 +312,26 @@ def add_usage(user_id: int, shorts: int, month: str | None = None) -> None:
     )
 
 
+def refunds_used(user_id: int, month: str | None = None) -> int:
+    row = one("SELECT count FROM refunds WHERE user_id = ? AND month = ?", (user_id, month or month_key()))
+    return int(row["count"]) if row else 0
+
+
+def refund_short(user_id: int, month: str) -> int:
+    """Give back one short of `month` ("satisfait ou recrédité"). Returns the refunds left that month.
+
+    Raises AccountError(429) once the monthly allowance (config.REFUNDS_PER_MONTH) is used up."""
+    with _lock:
+        used = refunds_used(user_id, month)
+        if used >= config.REFUNDS_PER_MONTH:
+            raise AccountError(f"Tu as déjà récupéré tes {config.REFUNDS_PER_MONTH} crédits du mois : "
+                               "ce short reste décompté.", 429)
+        execute("INSERT INTO refunds (user_id, month, count) VALUES (?, ?, 1) "
+                "ON CONFLICT(user_id, month) DO UPDATE SET count = count + 1", (user_id, month))
+        execute("UPDATE usage SET used = MAX(0, used - 1) WHERE user_id = ? AND month = ?", (user_id, month))
+        return config.REFUNDS_PER_MONTH - used - 1
+
+
 def mark_event(event_id: str) -> bool:
     """Remember a Stripe event id. False if it was already processed (Stripe retries deliveries)."""
     try:
@@ -335,5 +361,10 @@ def public_user(user: User, reserved: int = 0) -> dict:
             "renews_at": user.current_period_end,
             "cancel_at_period_end": user.cancel_at_period_end,
             "can_manage": bool(user.stripe_customer_id) and bool(config.STRIPE_SECRET_KEY),
+        },
+        # "satisfait ou recrédité": shorts that can still be given back this month (unlimited plans: nothing to give back)
+        "refunds": None if limit is None else {
+            "limit": config.REFUNDS_PER_MONTH,
+            "left": max(0, config.REFUNDS_PER_MONTH - refunds_used(user.id)),
         },
     }

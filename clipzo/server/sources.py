@@ -6,6 +6,7 @@ import ipaddress
 import json
 import re
 import shutil
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
@@ -62,6 +63,7 @@ class Source:
     # Audience signals, when the platform exposes them
     heatmap: list[dict] | None = None  # YouTube "most replayed": [{start_time, end_time, value}]
     chat: list[tuple[float, str]] = field(default_factory=list)  # (seconds, message)
+    clips: list[dict] = field(default_factory=list)  # Twitch viewers' clips: {offset, duration, views, title}
 
 
 _HOST_RE = re.compile(r"^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$")
@@ -192,7 +194,29 @@ def download(url: str, job_dir: Path, plan: config.Plan, progress: ProgressFn) -
     )
     if platform == "youtube" and "live_chat" in (info.get("subtitles") or {}):
         source.chat = _youtube_chat_replay(url, job_dir, progress)
+    if platform == "twitch":
+        _twitch_audience(source, url, info, progress)
     return source
+
+
+def _twitch_audience(source: Source, url: str, info: dict, progress: ProgressFn) -> None:
+    """Best effort: the chat replay of a VOD (no keys needed) and the clips its viewers made (Twitch API keys)."""
+    from . import twitch
+
+    vod_id = twitch.vod_id_from_url(url)
+    if not vod_id:
+        return
+    length = source.probe.duration
+    if config.TWITCH_CHAT:
+        progress(1.0, "Récupération du chat du live…")
+        source.chat = twitch.fetch_chat(
+            vod_id, length, progress=lambda f: progress(1.0, f"Récupération du chat du live… {int(f * 100)} %"))
+    if twitch.helix_configured():
+        progress(1.0, "Récupération des clips des viewers…")
+        user = twitch.helix().get_user(str(info.get("uploader_id") or ""))
+        if user:
+            started = float(info.get("timestamp") or time.time() - length)
+            source.clips = twitch.helix().vod_clips(user["id"], vod_id, started, started + length + 3600)
 
 
 def save_upload(fileobj, filename: str, job_dir: Path, plan: config.Plan) -> Source:

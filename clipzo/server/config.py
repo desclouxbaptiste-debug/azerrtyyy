@@ -105,6 +105,31 @@ PRICES_CENTS = {
     ("pro", "month"): 1000, ("pro", "year"): 9600,
 }
 
+# Re-editing a short after the analysis (retouche, autre moment): the source video is kept this long
+# after the analysis (0 = never kept: no re-editing). Shorts themselves are kept JOB_TTL_HOURS.
+KEEP_SOURCE_HOURS = _env_float("CLIPZO_KEEP_SOURCE_HOURS", 24)
+EDIT_MARGIN_SECONDS = 30  # a retouche can move each edge this far from the original cut
+MIN_EDIT_SECONDS = 15
+MAX_RECUTS_PER_CLIP = 8
+MAX_REPLACES_PER_JOB = 3
+REFUNDS_PER_MONTH = _env_int("CLIPZO_REFUNDS_PER_MONTH", 5)  # "satisfait ou recrédité"
+
+# Twitch. The chat replay works without keys; viewers' clips and the automatic import after a live
+# need a (free) Twitch developer application: https://dev.twitch.tv/console/apps
+TWITCH_CLIENT_ID = os.environ.get("TWITCH_CLIENT_ID", "")
+TWITCH_CLIENT_SECRET = os.environ.get("TWITCH_CLIENT_SECRET", "")
+TWITCH_POLL_MINUTES = max(2.0, _env_float("CLIPZO_TWITCH_POLL_MINUTES", 10))
+TWITCH_CHAT = os.environ.get("CLIPZO_TWITCH_CHAT", "on") != "off"
+TWITCH_GQL_CLIENT_ID = os.environ.get("CLIPZO_TWITCH_GQL_CLIENT_ID", "kimne78kx3ncx6brgo4mv6wki5h1ko")
+
+# E-mail, to say the shorts of an automatic import are ready (empty host = no e-mail)
+SMTP_HOST = os.environ.get("CLIPZO_SMTP_HOST", "")
+SMTP_PORT = _env_int("CLIPZO_SMTP_PORT", 587)
+SMTP_USER = os.environ.get("CLIPZO_SMTP_USER", "")
+SMTP_PASSWORD = os.environ.get("CLIPZO_SMTP_PASSWORD", "")
+SMTP_FROM = os.environ.get("CLIPZO_SMTP_FROM", "")
+SMTP_SECURITY = os.environ.get("CLIPZO_SMTP_SECURITY", "starttls")  # starttls | ssl | none
+
 MIN_CLIP_SECONDS = 60
 MAX_CLIP_SECONDS = 180
 
