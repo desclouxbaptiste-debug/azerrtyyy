@@ -19,9 +19,6 @@ Les photos d'origine se trouvent dans le dossier « …_files » enregistré à 
 ## Changer une annonce
 Ouvrez `index.html` avec un éditeur de texte, cherchez le titre (Ctrl+F) et remplacez le texte, la commune ou le prix.
 
-## Téléphone et e-mail
-Comme sur le site actuel, ils s'affichent en images. Copiez `Tel.svg` et `Mail.svg` (dossier « …_files » du site enregistré)
-dans le dossier `assets/`, à côté de `fonts/` et `photos/`.
-
-## Logo
-Copiez `Logo_ImmoDome_2024.svg` (même dossier « …_files ») dans `assets/`. Sans ce fichier, le nom « IMMO DÔME » s'affiche en texte.
+## Logo, téléphone et e-mail
+Ils sont déjà inclus (`assets/logo.png`, `assets/tel.png`, `assets/mail.png`), repris tels quels du site actuel :
+06.61.57.82.50 et agence@immodome.com. Un clic sur le numéro appelle l'agence, un clic sur l'adresse ouvre un e-mail.
