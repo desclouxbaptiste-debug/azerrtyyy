@@ -187,6 +187,93 @@ a:hover > .arr svg{transform:rotate(0)}
 .i-visit::before{background-position:56% 50%}
 .i-sil::before{background-position:48% 50%}
 .i-accueil::before{background-position:55% 50%}
+/* Clickable listing tiles */
+.ph[data-bien]{pointer-events:auto;cursor:pointer}
+.ph[data-bien]::before{transition:transform .8s var(--expo)}
+.ph[data-bien]:hover::before{transform:scale(1.05)}
+.col:hover{animation-play-state:paused}
+.cap::after{content:"Voir le bien →";display:block;max-height:0;overflow:hidden;opacity:0;font-size:12px;font-weight:700;color:#fff;transition:max-height .4s var(--expo),opacity .3s,margin .4s var(--expo)}
+.ph[data-bien]:hover .cap::after{max-height:20px;opacity:1;margin-top:4px}
+@media (hover:none){.cap::after{display:none}}
+
+/* Menu: Nos nouveautés */
+.dnew{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:var(--m-u,14px);padding-top:var(--m-u,14px);border-top:1px solid var(--nav-line)}
+.dlabel{grid-column:1/-1;margin:0;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--nav-muted)}
+.dnew button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:56px;padding:10px 12px;border-radius:14px;background:var(--nav-search)}
+.dnew button:hover{background:#dddcd6}
+.dnew b{font-size:15px;font-weight:700}
+.dnew button span{font-size:12.5px;color:var(--nav-muted)}
+
+/* ── Fiche d'un bien ── */
+.fiche{position:absolute;inset:0;z-index:4;background:var(--paper)}
+.fiche[hidden]{display:none}
+.fiche.on{animation:ficheIn .45s var(--expo) both}
+.fiche.on .fiche-media{animation:mediaIn .9s var(--expo) both}
+.fiche.on .fiche-body > *{animation:navIn .7s var(--expo) both}
+.fiche.on .fiche-body > :nth-child(2){animation-delay:.05s}
+.fiche.on .fiche-body > :nth-child(3){animation-delay:.1s}
+.fiche.on .fiche-body > :nth-child(4){animation-delay:.14s}
+.fiche.on .fiche-body > :nth-child(5){animation-delay:.18s}
+.fiche.on .fiche-body > :nth-child(6){animation-delay:.22s}
+.fiche.on .fiche-body > :nth-child(7){animation-delay:.26s}
+@keyframes ficheIn{from{opacity:0}to{opacity:1}}
+@keyframes mediaIn{from{opacity:0;transform:translateY(28px) scale(.985)}to{opacity:1;transform:none}}
+.fiche-media{position:absolute;right:62px;top:162px;bottom:36px;width:calc(3*var(--col) + 2*var(--gap));border-radius:var(--r);overflow:hidden;background:#2b2a27 center/cover no-repeat;touch-action:pan-y}
+.fiche-nav{position:absolute;right:16px;bottom:16px;display:flex;align-items:center;gap:8px;padding:6px;border-radius:999px;background:rgba(15,15,14,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.fnav{width:48px;height:48px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center}
+.fnav:hover{background:var(--pink)}
+.fcount{min-width:52px;text-align:center;color:#fff;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.fiche-body{position:absolute;left:86px;top:calc(170px + (var(--H,800) - 800)*.3px);width:450px;display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.fiche-close{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 20px 0 16px;border-radius:999px;background:var(--nav-search);font-size:15px;font-weight:600}
+.fiche-close:hover{background:#dddcd6}
+.fiche-tags{display:flex;align-items:center;gap:12px;margin:6px 0 0;font-size:16px;font-weight:600}
+.fiche-tags i{font-style:normal;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--pink);padding:5px 10px;border-radius:999px}
+.fiche-titre{margin:0;font-family:var(--display);font-weight:900;font-size:58px;line-height:.95;letter-spacing:-.05em;text-transform:uppercase;-webkit-text-stroke:.8px currentColor;text-wrap:balance}
+.fiche-sous{margin:-4px 0 0;font-size:17px;line-height:1.45;color:#3d3c39}
+.fiche-prix{display:flex;align-items:baseline;gap:10px;margin:0;font-family:var(--display);font-weight:800;font-size:40px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.fiche-prix small{font-family:var(--sans);font-size:15px;font-weight:500;letter-spacing:0;color:#62615d}
+.fiche-facts{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.fiche-facts li{display:flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px rgba(15,15,14,.1);font-size:15px;font-weight:600}
+.fiche-facts li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pink)}
+.fiche-acts{display:flex;align-items:center;flex-wrap:wrap;gap:8px 0;margin-top:6px}
+.fiche-acts .cta{margin-left:0}
+html.fiche-open .col{animation-play-state:paused}
+.fiche-acts .more .arr svg,.fiche-acts .more:hover .arr svg{transform:none}
+
+/* Fiche — tablette paysage */
+html.tab-l .fiche-media{right:calc(var(--tm) + clamp(0px,2vw,22px));top:calc(var(--hh) + 18px);bottom:24px;width:var(--gw)}
+html.tab-l .fiche-body{left:calc(var(--tm) + clamp(12px,3.6vw,46px));top:calc(var(--hh) + 24px);width:calc(100vw - var(--gw) - 2*var(--tm) - clamp(12px,3.6vw,46px) - clamp(24px,4vw,56px));gap:12px}
+html.tab-l .fiche-titre{font-size:clamp(34px,4.6vw,56px)}
+html.tab-l .fiche-prix{font-size:clamp(28px,3vw,40px)}
+
+/* Fiche — téléphone et tablette portrait : défile verticalement */
+html.mob .fiche,html.tab-p .fiche{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+html.mob .fiche{padding:calc(var(--hh) + env(safe-area-inset-top) + 10px) var(--padx) calc(24px + env(safe-area-inset-bottom))}
+html.tab-p .fiche{padding:calc(var(--hh) + 20px) var(--tm) 32px}
+html.mob .fiche-media,html.tab-p .fiche-media{position:relative;inset:auto;width:100%;height:min(46svh,70vw)}
+html.tab-p .fiche-media{height:min(44svh,62vw)}
+html.mob .fiche-body,html.tab-p .fiche-body{position:static;width:auto;padding:18px var(--hp,8px) 0;gap:12px}
+html.mob .fiche-close{position:absolute;left:calc(var(--padx) + 10px);top:calc(var(--hh) + env(safe-area-inset-top) + 20px);z-index:2;background:#fff;box-shadow:0 4px 14px rgba(15,15,14,.18)}
+html.mob .fiche-titre{font-size:clamp(34px,10.5vw,52px);-webkit-text-stroke:.5px currentColor}
+html.mob .fiche-prix{font-size:clamp(28px,8vw,38px)}
+html.mob .fiche-nav{right:10px;bottom:10px}
+html.mob .fiche-acts .pill{height:var(--btn);border-radius:calc(var(--btn)*.36)}
+html.mob .fiche-acts .circ{width:var(--btn);height:var(--btn)}
+html.mob .fiche-acts .more{margin-left:18px}
+html.mob-l .fiche{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;overflow:hidden;padding-bottom:12px}
+html.mob-l .fiche[hidden]{display:none}
+html.mob-l .fiche-media{height:auto;grid-column:2;grid-row:1}
+html.mob-l .fiche-body{grid-column:1;grid-row:1;padding:4px 0 0 var(--hp);overflow-y:auto;gap:8px}
+html.mob-l .fiche-close{position:static;box-shadow:none;background:var(--nav-search)}
+html.mob-l .fiche-titre{font-size:clamp(26px,5vw,40px)}
+html.mob-l .fiche-prix{font-size:clamp(22px,4vw,32px)}
+html.mob-l .fiche-sous{display:none}
+html.mob-l .fiche-tags{margin:0}
+html.mob-l .fiche-facts li{min-height:32px;padding:0 12px;font-size:13px}
+html.mob-l .fiche-close{height:40px}
+
+@media (prefers-reduced-motion:reduce){.fiche.on,.fiche.on .fiche-media,.fiche.on .fiche-body > *{animation:none}}
+
 html.mob .cap b{display:none}
 html.mob .cap{gap:5px;padding:calc(var(--r)*2) calc(var(--r)*.6) calc(var(--r)*.6)}
 
@@ -413,24 +500,24 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
 <div class="stage">
 
   <!-- Decorative mosaic -->
-  <div class="grid" aria-hidden="true" inert>
+  <div class="grid" aria-hidden="true">
     <div class="col x3">
-      <div class="cell ph i-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-accueil"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell yellow"></div>
+      <div class="cell ph i-man" data-bien="clermont"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-accueil"></div><div class="cell ph i-sculpt" data-bien="volvic"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell yellow"></div>
     </div>
     <div class="col x2">
-      <div class="cell yellow"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell cream"></div><div class="cell red"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
+      <div class="cell yellow"></div><div class="cell ph i-sil" data-bien="beauregard"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell cream"></div><div class="cell red"></div><div class="cell ph i-visit" data-bien="gerzat"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
     </div>
     <div class="col x1">
-      <div class="cell blue"></div><div class="cell ph i-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell red"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell cream"></div>
+      <div class="cell blue"></div><div class="cell ph i-man" data-bien="clermont"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell red"></div><div class="cell ph i-sculpt" data-bien="volvic"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell cream"></div>
     </div>
     <div class="col c1">
-      <div class="cell red"></div><div class="cell ph i-sculpt f-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell ph i-man f-man"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
+      <div class="cell red"></div><div class="cell ph i-sculpt f-sculpt" data-bien="volvic"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div><div class="cell ph i-man f-man" data-bien="clermont"><div class="cap"><i>Location</i><b>F2 en duplex, 42 m², balcon</b><span>Clermont-Ferrand<em>650 €/mois cc</em></span></div></div><div class="cell blue"></div><div class="cell ph i-visit" data-bien="gerzat"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div>
     </div>
     <div class="col c2">
-      <div class="cell yellow"></div><div class="cell ph i-visit f-visit visit"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div><div class="cell ph i-accueil"></div><div class="cell ph i-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell red"></div>
+      <div class="cell yellow"></div><div class="cell ph i-visit f-visit visit" data-bien="gerzat"><div class="cap"><i>Vente</i><b>Maison 8 pièces, piscine</b><span>Gerzat<em>253 000 €</em></span></div></div><div class="cell ph i-accueil"></div><div class="cell ph i-sil" data-bien="beauregard"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell red"></div>
     </div>
     <div class="col c3">
-      <div class="cell blue"></div><div class="cell cream"></div><div class="cell ph i-sil f-sil"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell yellow"></div><div class="cell ph i-sculpt"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div>
+      <div class="cell blue"></div><div class="cell cream"></div><div class="cell ph i-sil f-sil" data-bien="beauregard"><div class="cap"><i>Location</i><b>Maison 7 pièces, 174 m²</b><span>Beauregard-l’Évêque<em>1 350 €/mois cc</em></span></div></div><div class="cell yellow"></div><div class="cell ph i-sculpt" data-bien="volvic"><div class="cap"><i>Vente</i><b>Villa récente, 138 m² hab.</b><span>Volvic<em>435 000 €</em></span></div></div>
     </div>
   </div>
 
@@ -495,6 +582,13 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
         <a class="di" style="--i:7" href="https://www.immodome.com/home.php?vue=vueLiens">Liens</a>
         <a class="di" style="--i:8" href="https://www.immodome.com/home.php?vue=vueMention">Mentions légales</a>
       </div>
+      <div class="dnew">
+        <p class="dlabel di" style="--i:9">Nos nouveautés</p>
+        <button class="di" style="--i:9" type="button" data-open-bien="volvic"><b>Villa récente</b><span>Volvic · 435 000 €</span></button>
+        <button class="di" style="--i:9" type="button" data-open-bien="clermont"><b>F2 en duplex</b><span>Clermont-Ferrand · 650 €/mois</span></button>
+        <button class="di" style="--i:9" type="button" data-open-bien="gerzat"><b>Maison 8 pièces</b><span>Gerzat · 253 000 €</span></button>
+        <button class="di" style="--i:9" type="button" data-open-bien="beauregard"><b>Maison 7 pièces</b><span>Beauregard-l’Évêque · 1 350 €/mois</span></button>
+      </div>
       <div class="dphones">
         <div class="dnum di" style="--i:9"><a href="tel:+33661578250" aria-label="Appeler l’agence : 06 61 57 82 50"><img src="assets/tel.png" alt="06.61.57.82.50" onerror="this.parentNode.remove()"></a><a href="mailto:agence@immodome.com" aria-label="Écrire à l’agence : agence@immodome.com"><img src="assets/mail.png" alt="agence@immodome.com" onerror="this.parentNode.remove()"></a></div>
         <a class="di" style="--i:9" href="https://s19.swdrive.fr/apps/calendar/appointment/tYbK89Mn9cXq" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span><b>Prendre rendez-vous en ligne</b></span></a>
@@ -529,6 +623,32 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
       <a class="more" href="https://www.immodome.com/home.php?vue=vueBienListeLocation"><span>Locations</span> <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></span></a>
     </div>
   </main>
+
+  <!-- Fiche d'un bien -->
+  <section class="fiche" id="fiche" role="dialog" aria-modal="true" aria-labelledby="fiche-titre" hidden>
+    <div class="fiche-media" id="fiche-media">
+      <div class="fiche-nav">
+        <button class="fnav" type="button" data-step="-1" aria-label="Bien précédent"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 5.5 4.5 12l6.5 6.5"/></svg></button>
+        <span class="fcount" id="fiche-count">1 / 4</span>
+        <button class="fnav" type="button" data-step="1" aria-label="Bien suivant"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5"/></svg></button>
+      </div>
+    </div>
+    <div class="fiche-body">
+      <button class="fiche-close" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 5.5 4.5 12l6.5 6.5"/></svg>Retour</button>
+      <p class="fiche-tags"><i id="fiche-type">Vente</i><span id="fiche-ville">Volvic</span></p>
+      <h2 class="fiche-titre" id="fiche-titre">Villa récente</h2>
+      <p class="fiche-sous" id="fiche-sous"></p>
+      <p class="fiche-prix"><span id="fiche-prix">435 000 €</span><small id="fiche-cc"></small></p>
+      <ul class="fiche-facts" id="fiche-facts"></ul>
+      <div class="fiche-acts">
+        <a class="cta" href="https://s19.swdrive.fr/apps/calendar/appointment/tYbK89Mn9cXq" target="_blank" rel="noopener noreferrer" aria-label="Prendre rendez-vous pour visiter (nouvel onglet)">
+          <span class="pill">Visiter</span>
+          <span class="circ norot"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+        </a>
+        <a class="more" href="tel:+33661578250" aria-label="Appeler l’agence : 06 61 57 82 50"><span>06 61 57 82 50</span> <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.6 4.2 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span></a>
+      </div>
+    </div>
+  </section>
 </div>
 
 <script>
@@ -556,7 +676,7 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
     setOpen(open,open&&e.detail===0); /* detail 0 = keyboard activation */
   });
   document.addEventListener('keydown',function(e){
-    if(e.key==='Escape'&&isOpen()){setOpen(false);btn.focus()}
+    if(e.key==='Escape'&&isOpen()){e.preventDefault();setOpen(false);btn.focus()}
   });
   document.addEventListener('click',function(e){
     if(isOpen()&&!hdr.contains(e.target))setOpen(false);
@@ -564,6 +684,73 @@ html.intro .hero h1 .ln{transform:translateY(110%)}
   drawer.addEventListener('click',function(e){
     if(e.target.closest('a'))setOpen(false);
   });
+
+  /* 2b ─ Fiche d'un bien (données reprises du site actuel). */
+  var BIENS=[
+    {id:'volvic',type:'Vente',ville:'Volvic',titre:'Villa récente',sous:'Villa récente de 138 m² habitables sur un terrain de 700 m².',prix:'435 000 €',cc:'',facts:['138 m² habitables','700 m² de terrain','Construction récente'],img:'--img-sculpt'},
+    {id:'clermont',type:'Location',ville:'Clermont-Ferrand',titre:'F2 en duplex',sous:'Appartement F2 en duplex de 42 m², avec balcon.',prix:'650 €/mois',cc:'charges comprises',facts:['2 pièces','42 m²','Duplex','Balcon'],img:'--img-man'},
+    {id:'gerzat',type:'Vente',ville:'Gerzat',titre:'Maison 8 pièces',sous:'Maison de 8 pièces, 168 m² habitables, avec terrain et piscine.',prix:'253 000 €',cc:'',facts:['8 pièces','168 m² habitables','Terrain','Piscine'],img:'--img-visit'},
+    {id:'beauregard',type:'Location',ville:'Beauregard-l’Évêque',titre:'Maison 7 pièces',sous:'Maison de 7 pièces, 174 m² habitables, avec terrain et garage.',prix:'1 350 €/mois',cc:'charges comprises',facts:['7 pièces','174 m² habitables','Terrain','Garage'],img:'--img-sil'}
+  ];
+  var fiche=document.getElementById('fiche'),fMedia=document.getElementById('fiche-media'),
+      fClose=fiche.querySelector('.fiche-close'),cur=-1,lastFocus=null;
+  function $(id){return document.getElementById(id)}
+  function fill(i){
+    var b=BIENS[i];cur=i;
+    $('fiche-type').textContent=b.type;$('fiche-ville').textContent=b.ville;
+    $('fiche-titre').textContent=b.titre;$('fiche-sous').textContent=b.sous;
+    $('fiche-prix').textContent=b.prix;$('fiche-cc').textContent=b.cc;
+    $('fiche-facts').innerHTML=b.facts.map(function(f){return '<li>'+f+'</li>'}).join('');
+    $('fiche-count').textContent=(i+1)+' / '+BIENS.length;
+    fMedia.style.backgroundImage='var('+b.img+')';
+    fMedia.setAttribute('role','img');fMedia.setAttribute('aria-label','Photo : '+b.titre+' à '+b.ville);
+    document.title=b.titre+' à '+b.ville+' — Immo Dôme';
+  }
+  function openBien(id){
+    var i=0;for(var k=0;k<BIENS.length;k++)if(BIENS[k].id===id)i=k;
+    if(fiche.hidden)lastFocus=document.activeElement;
+    fill(i);
+    fiche.hidden=false;fiche.classList.remove('on');void fiche.offsetWidth;fiche.classList.add('on');
+    fiche.scrollTop=0;d.classList.add('fiche-open');
+    if(location.hash!=='#'+BIENS[i].id){try{history.replaceState(null,'','#'+BIENS[i].id)}catch(e){}}
+    fClose.focus({preventScroll:true});
+  }
+  function closeBien(){
+    if(fiche.hidden)return;
+    fiche.hidden=true;fiche.classList.remove('on');d.classList.remove('fiche-open');
+    document.title='Immo Dôme — Agence immobilière à Nohanent';
+    try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+    if(lastFocus&&lastFocus.focus&&document.contains(lastFocus))lastFocus.focus({preventScroll:true});
+  }
+  function step(n){if(cur<0)return;var i=(cur+n+BIENS.length)%BIENS.length;fill(i);
+    try{history.replaceState(null,'','#'+BIENS[i].id)}catch(e){}}
+  document.querySelector('.grid').addEventListener('click',function(e){
+    var t=e.target.closest('[data-bien]');if(t)openBien(t.getAttribute('data-bien'));
+  });
+  drawer.addEventListener('click',function(e){
+    var t=e.target.closest('[data-open-bien]');if(!t)return;
+    setOpen(false);openBien(t.getAttribute('data-open-bien'));
+  });
+  fClose.addEventListener('click',closeBien);
+  fiche.addEventListener('click',function(e){var s=e.target.closest('[data-step]');if(s)step(+s.getAttribute('data-step'))});
+  document.addEventListener('keydown',function(e){
+    if(fiche.hidden||isOpen()||e.defaultPrevented)return;
+    if(e.key==='Escape')closeBien();
+    else if(e.key==='ArrowRight')step(1);
+    else if(e.key==='ArrowLeft')step(-1);
+    else if(e.key==='Tab'){ /* keep focus inside the sheet (header stays reachable) */
+      var f=[].slice.call(document.querySelectorAll('.hdr a,.hdr button,.fiche a,.fiche button')).filter(function(x){return x.offsetParent!==null});
+      if(!f.length)return;var first=f[0],last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+    }
+  });
+  var tx=null;
+  fMedia.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+  fMedia.addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;tx=null;if(Math.abs(dx)>50)step(dx<0?1:-1)});
+  window.addEventListener('hashchange',function(){var h=location.hash.slice(1);
+    if(BIENS.some(function(b){return b.id===h}))openBien(h);else closeBien()});
+  if(location.hash&&BIENS.some(function(b){return b.id===location.hash.slice(1)}))openBien(location.hash.slice(1));
 
   /* 3 ─ Load entrance (WAAPI). */
   var h1=document.querySelector('.hero h1');
