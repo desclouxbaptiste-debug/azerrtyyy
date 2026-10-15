@@ -1,0 +1,470 @@
+"""Job store: queue, progress tracking, persistence to disk and cleanup."""
+
+from __future__ import annotations
+
+import json
+import logging
+import os
+import shutil
+import threading
+import time
+import uuid
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+
+from . import config
+
+log = logging.getLogger("clipzo.jobs")
+
+STEPS = ["download", "audio", "transcribe", "scenes", "score", "render"]
+STEP_WEIGHTS = {"download": 0.18, "audio": 0.05, "transcribe": 0.35, "scenes": 0.12, "score": 0.08, "render": 0.22}
+JOB_ID_RE = r"^[0-9a-f]{32}$"
+
+
+@dataclass
+class JobRequest:
+    url: str | None
+    filename: str | None
+    duration: int
+    count: int
+    plan: str
+    options: dict  # bools (reframe, subs...), plus "layout" and "style" for the look of the shorts
+    user_id: int | None = None
+    month: str | None = None  # quota month the delivered shorts are charged to
+    notify: bool = False  # e-mail the owner when the shorts are ready (automatic import after a live)
+    auto: dict | None = None  # automatic import: {"kind": "twitch", "vod_id": ..., "title": ...}
+
+
+@dataclass
+class Job:
+    id: str
+    client: str
+    request: JobRequest
+    created_at: float = field(default_factory=time.time)
+    status: str = "queued"
+    step: str = "queued"
+    step_index: int = 0
+    step_progress: float = 0.0
+    message: str = "En file d'attente…"
+    error: str | None = None
+    source: dict | None = None
+    signals: dict = field(default_factory=lambda: {
+        "audio": False, "scenes": False, "heatmap": False, "chat": False,
+        "transcript": False, "llm": False, "faces": False, "clips": False})
+    curve: list[float] | None = None
+    clips: list[dict] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    upload_path: str | None = None  # set when the source was uploaded
+    cancel_requested: bool = False
+    finished_at: float | None = None  # shorts are kept JOB_TTL_HOURS after this
+    ip: str = ""
+    # Re-editing after the analysis: the source is kept until editable_until (config.KEEP_SOURCE_HOURS)
+    source_file: str | None = None  # file name inside the job folder
+    editable_until: float | None = None
+    alternatives: list[dict] = field(default_factory=list)  # other good moments, for "autre moment"
+    replaces: int = 0
+    render_info: dict = field(default_factory=dict)  # what the shorts were rendered with (options, layout, style)
+    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
+    _last_save: float = 0.0
+
+    # -- progress -------------------------------------------------------------
+    @property
+    def progress(self) -> float:
+        if self.status == "done":
+            return 1.0
+        if self.step not in STEPS:
+            return 0.0
+        idx = STEPS.index(self.step)
+        done = sum(STEP_WEIGHTS[s] for s in STEPS[:idx])
+        return round(min(0.99, done + STEP_WEIGHTS[self.step] * self.step_progress), 4)
+
+    def set_step(self, step: str, message: str) -> None:
+        self.check_cancel()
+        with self._lock:
+            self.status = "running"
+            self.step = step
+            self.step_index = STEPS.index(step)
+            self.step_progress = 0.0
+            self.message = message
+        self.save(force=True)
+
+    def check_cancel(self) -> None:
+        if self.cancel_requested:
+            raise JobCancelled()
+
+    def update(self, fraction: float | None = None, message: str | None = None) -> None:
+        self.check_cancel()  # progress callbacks are the natural place to stop a long step
+        with self._lock:
+            if fraction is not None:
+                # never backwards within a step (yt-dlp downloads video then audio, each from 0 %)
+                self.step_progress = max(self.step_progress, min(1.0, fraction))
+            if message is not None:
+                self.message = message
+        self.save()
+
+    def warn(self, message: str) -> None:
+        with self._lock:
+            if message not in self.warnings:
+                self.warnings.append(message)
+        self.save(force=True)
+
+    def add_clip(self, clip: dict) -> None:
+        clip.setdefault("version", 0)
+        clip.setdefault("status", "ready")
+        clip.setdefault("recuts", 0)
+        clip.setdefault("orig_start", clip.get("start", 0.0))
+        clip.setdefault("orig_end", clip.get("end", 0.0))
+        with self._lock:
+            self.clips.append(clip)
+        self.save(force=True)
+
+    def clip(self, index: int) -> dict | None:
+        """The (not removed) short with this index."""
+        with self._lock:
+            return next((c for c in self.clips if c.get("index") == index and not c.get("removed")), None)
+
+    def update_clip(self, index: int, **changes) -> None:
+        with self._lock:
+            for c in self.clips:
+                if c.get("index") == index:
+                    c.update(changes)
+        self.save(force=True)
+
+    def source_path(self) -> Path | None:
+        return job_dir(self.id) / self.source_file if self.source_file else None
+
+    @property
+    def editable(self) -> bool:
+        """The shorts can still be re-cut: analysis finished and the source video still kept."""
+        path = self.source_path()
+        return (self.status == "done" and path is not None and self.editable_until is not None
+                and self.editable_until > time.time() and path.is_file())
+
+    def finish(self) -> None:
+        with self._lock:
+            self.finished_at = time.time()
+            self.status = "done"
+            self.step = "done"
+            self.step_index = len(STEPS) - 1
+            self.step_progress = 1.0
+            self.message = f"{len(self.clips)} short{'s' if len(self.clips) > 1 else ''} prêt{'s' if len(self.clips) > 1 else ''} !"
+        self.save(force=True)
+
+    def fail(self, message: str) -> None:
+        with self._lock:
+            self.finished_at = time.time()
+            self.status = "error"
+            self.error = message
+            self.message = message
+        self.save(force=True)
+
+    # -- serialisation --------------------------------------------------------
+    def public(self, queue_position: int | None = None) -> dict:
+        with self._lock:
+            message = self.message
+            if self.status == "queued" and queue_position:
+                message = (f"En file d'attente : {queue_position} vidéo{'s' if queue_position > 1 else ''} "
+                           "avant la tienne…")
+            return {
+                "id": self.id,
+                "status": self.status,
+                "step": self.step,
+                "step_index": self.step_index,
+                "progress": self.progress,
+                "message": message,
+                "error": self.error,
+                "source": dict(self.source) if self.source else None,
+                "signals": dict(self.signals),
+                "curve": list(self.curve) if self.curve else None,
+                "clips": [self._public_clip(c) for c in self.clips if not c.get("removed")],
+                "warnings": list(self.warnings),
+                "edit": self._public_edit(),
+            }
+
+    def _public_clip(self, c: dict) -> dict:
+        out = {k: v for k, v in c.items() if k not in ("orig_start", "orig_end", "peak", "removed")}
+        duration = float((self.source or {}).get("duration") or 0) or None
+        lo = max(0.0, float(c.get("orig_start", c.get("start", 0))) - config.EDIT_MARGIN_SECONDS)
+        hi = float(c.get("orig_end", c.get("end", 0))) + config.EDIT_MARGIN_SECONDS
+        out["edit_min"] = round(lo, 2)
+        out["edit_max"] = round(min(hi, duration) if duration else hi, 2)
+        out["recuts_left"] = max(0, config.MAX_RECUTS_PER_CLIP - int(c.get("recuts", 0)))
+        return out
+
+    def _public_edit(self) -> dict:
+        editable = self.editable
+        quota = config.PLANS[self.request.plan].monthly_quota if self.request.plan in config.PLANS else None
+        return {
+            "available": editable,
+            "until": self.editable_until if editable else None,
+            "min_seconds": config.MIN_EDIT_SECONDS,
+            "max_seconds": config.MAX_CLIP_SECONDS,
+            "replaces_left": max(0, config.MAX_REPLACES_PER_JOB - self.replaces) if self.alternatives else 0,
+            # "satisfait ou recrédité": shorts of a plan with a monthly quota, in the month they were charged to
+            "refundable": quota is not None and self.request.user_id is not None
+                          and self.request.month == _month_key(),
+        }
+
+    def save(self, force: bool = False) -> None:
+        now = time.time()
+        if not force and now - self._last_save < 2.0:
+            return
+        self._last_save = now
+        with self._lock:
+            data = {
+                "id": self.id, "client": self.client, "request": asdict(self.request),
+                "created_at": self.created_at, "finished_at": self.finished_at, "status": self.status, "step": self.step,
+                "step_index": self.step_index, "step_progress": self.step_progress,
+                "message": self.message, "error": self.error, "source": self.source,
+                "signals": self.signals, "curve": self.curve, "clips": self.clips, "warnings": self.warnings,
+                "source_file": self.source_file, "editable_until": self.editable_until,
+                "alternatives": self.alternatives, "replaces": self.replaces, "render_info": self.render_info,
+            }
+        path = job_dir(self.id) / "job.json"
+        tmp = path.with_suffix(".json.tmp")
+        try:
+            tmp.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+            os.replace(tmp, path)
+        except OSError as exc:
+            log.warning("Could not save job %s: %s", self.id, exc)
+
+    @classmethod
+    def load(cls, path: Path) -> "Job | None":
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            job = cls(id=data["id"], client=data.get("client", ""), request=JobRequest(**data["request"]))
+        except (OSError, json.JSONDecodeError, KeyError, TypeError):
+            return None
+        for key in ("created_at", "finished_at", "status", "step", "step_index", "step_progress", "message", "error",
+                    "source", "signals", "curve", "clips", "warnings", "source_file", "editable_until",
+                    "alternatives", "replaces", "render_info"):
+            if key in data:
+                setattr(job, key, data[key])
+        return job
+
+
+def job_dir(job_id: str) -> Path:
+    return config.JOBS_DIR / job_id
+
+
+def _month_key() -> str:
+    from .accounts import month_key  # late import: accounts opens the database
+
+    return month_key()
+
+
+def drop_inputs(job_id: str, keep: str | None = None) -> None:
+    """Delete the heavy working files of a job (source video, audio), keep its shorts (and `keep`, the
+    source kept for re-editing)."""
+    d = job_dir(job_id)
+    for pattern in ("upload.*", "source.*", "audio.s16le", "clips/*.part.mp4", "clips/*.ass", "clips/clipzo-font.ttf",
+                    "clips/clipzo-subs.ttf"):
+        for f in d.glob(pattern):
+            if keep and f.name == keep:
+                continue
+            try:
+                f.unlink(missing_ok=True)
+            except OSError as exc:  # still open (Windows): retried by the next cleanup
+                log.warning("could not delete %s: %s", f, exc)
+
+
+class QueueFull(RuntimeError):
+    pass
+
+
+class QuotaExceeded(RuntimeError):
+    pass
+
+
+class JobCancelled(RuntimeError):
+    """Raised inside the pipeline when the user cancelled the analysis."""
+
+
+class JobStore:
+    def __init__(self) -> None:
+        self.jobs: dict[str, Job] = {}
+        self.order: list[str] = []  # queued job ids, oldest first
+        self.lock = threading.Lock()
+        self.executor: ThreadPoolExecutor | None = None
+        self.edit_executor: ThreadPoolExecutor | None = None  # re-cuts: never stuck behind a long analysis
+        self._stop = threading.Event()
+        self._cleaner: threading.Thread | None = None
+
+    # -- lifecycle --------------------------------------------------------------
+    def start(self) -> None:
+        config.JOBS_DIR.mkdir(parents=True, exist_ok=True)
+        self._stop = threading.Event()
+        self.executor = ThreadPoolExecutor(max_workers=config.WORKERS, thread_name_prefix="clipzo-job")
+        self.edit_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="clipzo-edit")
+        self._restore()
+        self._cleanup()
+        self._cleaner = threading.Thread(target=self._cleanup_loop, daemon=True, name="clipzo-cleanup")
+        self._cleaner.start()
+
+    def stop(self) -> None:
+        self._stop.set()
+        with self.lock:
+            for j in self.jobs.values():
+                if j.status in ("queued", "running"):
+                    j.cancel_requested = True  # pipelines stop at their next progress tick
+        for ex in (self.executor, self.edit_executor):
+            if ex is not None:
+                ex.shutdown(wait=False, cancel_futures=True)
+
+    def _restore(self) -> None:
+        for path in config.JOBS_DIR.glob("*/job.json"):
+            job = Job.load(path)
+            if job is None:
+                continue
+            if job.status in ("queued", "running"):
+                job.status = "error"
+                job.error = job.message = "Le serveur a redémarré pendant le traitement. Relance l'analyse."
+                job.finished_at = time.time()
+                job.save(force=True)
+                drop_inputs(job.id)
+            if any(c.get("status") == "rendering" for c in job.clips):
+                for c in job.clips:  # a re-cut interrupted by the restart: the previous version is intact
+                    if c.get("status") == "rendering":
+                        c["status"] = "ready"
+                        c["recuts"] = max(0, int(c.get("recuts", 1)) - 1)
+                job.save(force=True)
+            self.jobs[job.id] = job
+
+    def _cleanup_loop(self) -> None:
+        while not self._stop.wait(15 * 60):
+            self._cleanup()
+
+    def _cleanup(self) -> None:
+        cutoff = time.time() - config.JOB_TTL_HOURS * 3600
+        stale = time.time() - 6 * 3600
+        with self.lock:
+            for j in self.jobs.values():
+                if j.status == "queued" and j.created_at < stale and j.id not in self.order:
+                    j.status, j.error, j.message = "error", "Analyse interrompue.", "Analyse interrompue."
+            expired = [j for j in self.jobs.values()
+                       if (j.finished_at or j.created_at) < cutoff and j.status in ("done", "error")]
+            for j in expired:
+                self.jobs.pop(j.id, None)
+            # sources kept for re-editing whose time is up (or already gone)
+            lapsed = [j for j in self.jobs.values() if j.source_file and not j.editable
+                      and not any(c.get("status") == "rendering" for c in j.clips)]
+        for j in expired:
+            shutil.rmtree(job_dir(j.id), ignore_errors=True)
+        for j in lapsed:
+            path = j.source_path()
+            try:
+                if path is not None:
+                    path.unlink(missing_ok=True)
+            except OSError as exc:  # still open (Windows): retried by the next cleanup
+                log.warning("could not delete %s: %s", path, exc)
+                continue
+            j.source_file = None
+            j.editable_until = None
+            j.save(force=True)
+        known = set(self.jobs)
+        for d in config.JOBS_DIR.glob("*"):  # orphans (e.g. failed uploads)
+            try:
+                if d.is_dir() and d.name not in known and d.stat().st_mtime < cutoff:
+                    shutil.rmtree(d, ignore_errors=True)
+            except OSError:
+                pass
+
+    # -- submission ---------------------------------------------------------------
+    def _check_capacity_locked(self, client: str, user=None, count: int = 0, ip: str = "") -> None:
+        pending = [j for j in self.jobs.values() if j.status in ("queued", "running")]
+        if len(pending) >= config.MAX_QUEUED_JOBS:
+            raise QueueFull("Le serveur est très demandé : réessaie dans quelques minutes.")
+        mine = [j for j in pending if j.client == client]
+        if len(mine) >= config.MAX_ACTIVE_JOBS_PER_CLIENT:
+            raise QueueFull("Tu as déjà des vidéos en cours d'analyse : attends qu'elles soient finies.")
+        # Free accounts are free to create: also limit per connection so one person with many
+        # accounts can't fill the queue for everybody.
+        if ip and sum(1 for j in pending if j.ip == ip) >= config.MAX_ACTIVE_JOBS_PER_IP:
+            raise QueueFull("Trop d'analyses en cours depuis ta connexion : attends qu'elles soient finies.")
+        if user is not None and user.plan_obj.monthly_quota is not None:
+            from . import accounts
+
+            limit = user.plan_obj.monthly_quota
+            used = accounts.used_this_month(user.id) + self._reserved_locked(user.id)
+            if used + count > limit:
+                left = max(0, limit - used)
+                raise QuotaExceeded(
+                    f"Tu as utilisé tes {limit} shorts du mois avec le forfait {user.plan_obj.label} : "
+                    "passe à un forfait supérieur pour continuer." if left == 0 else
+                    f"Il te reste {left} short{'s' if left > 1 else ''} ce mois-ci : réduis le nombre "
+                    "ou passe à un forfait supérieur."
+                )
+
+    def _reserved_locked(self, user_id: int) -> int:
+        # shorts already delivered are charged as they arrive, only the rest is reserved
+        return sum(max(0, j.request.count - len(j.clips)) for j in self.jobs.values()
+                   if j.request.user_id == user_id and j.status in ("queued", "running"))
+
+    def reserved_for(self, user_id: int) -> int:
+        """Shorts requested by this user's analyses still in progress (not charged yet)."""
+        with self.lock:
+            return self._reserved_locked(user_id)
+
+    def check_capacity(self, client: str, user=None, count: int = 0, ip: str = "") -> None:
+        with self.lock:
+            self._check_capacity_locked(client, user, count, ip)
+
+    def create(self, client: str, request: JobRequest, user=None, ip: str = "") -> Job:
+        with self.lock:
+            self._check_capacity_locked(client, user, request.count, ip)
+            job = Job(id=uuid.uuid4().hex, client=client, request=request, ip=ip)
+            job_dir(job.id).mkdir(parents=True, exist_ok=True)
+            self.jobs[job.id] = job
+        job.save(force=True)
+        return job
+
+    def enqueue(self, job: Job) -> None:
+        from .pipeline import run  # late import: pipeline imports heavy modules
+
+        with self.lock:
+            self.order.append(job.id)
+
+        def task() -> None:
+            with self.lock:
+                if job.id in self.order:
+                    self.order.remove(job.id)
+            if job.cancel_requested:
+                drop_inputs(job.id)
+                return
+            run(job)
+
+        assert self.executor is not None, "JobStore.start() was not called"
+        self.executor.submit(task)
+
+    def submit_edit(self, fn, *args) -> None:
+        assert self.edit_executor is not None, "JobStore.start() was not called"
+        self.edit_executor.submit(fn, *args)
+
+    def cancel(self, job: Job) -> None:
+        """Stop an analysis: a queued job never starts, a running one stops at its next progress tick."""
+        job.cancel_requested = True
+        with self.lock:
+            queued = job.id in self.order
+            if queued:
+                self.order.remove(job.id)
+        if queued or job.status == "queued":
+            job.fail("Analyse annulée.")
+            drop_inputs(job.id)
+
+    def discard(self, job: Job) -> None:
+        with self.lock:
+            self.jobs.pop(job.id, None)
+        shutil.rmtree(job_dir(job.id), ignore_errors=True)
+
+    def get(self, job_id: str) -> Job | None:
+        with self.lock:
+            return self.jobs.get(job_id)
+
+    def queue_position(self, job_id: str) -> int | None:
+        with self.lock:
+            if job_id not in self.order:
+                return None
+            ahead = self.order.index(job_id)
+            running = sum(1 for j in self.jobs.values() if j.status == "running")
+            return ahead + running

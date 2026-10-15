@@ -1,0 +1,11 @@
+# Caddy gets and renews the HTTPS certificate for your domain automatically.
+{$CLIPZO_DOMAIN} {
+	encode zstd gzip
+
+	# Must match CLIPZO_MAX_UPLOAD_MB (4096 Mo by default)
+	request_body {
+		max_size 4100MB
+	}
+
+	reverse_proxy clipzo:8000
+}

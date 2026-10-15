@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Clipzo — Shorts IA</title>
+    <meta
+      name="description"
+      content="Clipzo — l'IA qui regarde tes vidéos YouTube, lives Twitch et TikTok, repère les moments forts et les découpe en shorts viraux de 1 à 3 minutes."
+    />
+    <link rel="icon" href="assets/logo.webp" type="image/webp" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true">
+      <video class="bg-video" autoplay muted loop playsinline>
+        <source
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+
+    <div class="page">
+      <!-- 1) Header -->
+      <header class="header">
+        <a class="logo" href="#" aria-label="Clipzo — accueil">
+          <img src="assets/logo.webp" alt="" width="52" height="52" />
+        </a>
+
+        <nav class="nav" aria-label="Navigation principale">
+          <a class="nav-link is-active" href="#" aria-current="page">Accueil</a>
+          <a class="nav-link" href="#studio" data-open="studio">Studio IA</a>
+          <a class="nav-link" href="#tarifs" data-open="pricing">Tarifs</a>
+          <a class="nav-link" href="#contact" data-open="contact">Contact</a>
+        </nav>
+
+        <button class="sign-in" type="button" data-open="account">Connexion</button>
+
+        <button
+          class="burger"
+          type="button"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </header>
+
+      <!-- 2) Hero -->
+      <main class="hero">
+        <div class="trust anim" style="--d: 0.05s">
+          <span class="trust-avatar a1"><span class="trust-inner"><i class="fa-brands fa-youtube"></i></span></span>
+          <span class="trust-avatar a2"><span class="trust-inner"><i class="fa-brands fa-twitch"></i></span></span>
+          <span class="trust-avatar a3"><span class="trust-inner"><i class="fa-brands fa-tiktok"></i></span></span>
+          <span class="trust-pill">YouTube, Twitch, TikTok et plus</span>
+        </div>
+
+        <h1 class="headline anim">
+          <span class="line l1">Tes Meilleurs Moments</span>
+          <span class="line l2">En Shorts Viraux</span>
+        </h1>
+
+        <p class="subhead anim" style="--d: 0.28s">
+          Colle un lien YouTube, Twitch, TikTok ou X : notre IA regarde la vidéo,
+          repère les passages qui peuvent percer et les découpe en shorts de 1 à 3 minutes.
+        </p>
+
+        <button class="cta anim" type="button" style="--d: 0.4s" data-open="studio">
+          Créer mes shorts
+        </button>
+      </main>
+
+      <!-- 3) Stats -->
+      <section class="stats" aria-label="Chiffres clés">
+        <div class="stat anim" style="--d: 0.5s">
+          <span class="stat-icon" aria-hidden="true">&lt;</span>
+          <span class="stat-value" data-target="7" data-suffix="" data-decimals="0">0</span>
+          <span class="stat-label">Signaux analysés chaque seconde</span>
+        </div>
+        <div class="stat anim" style="--d: 0.58s">
+          <span class="stat-icon" aria-hidden="true">%</span>
+          <span class="stat-value" data-target="3" data-suffix=" min" data-decimals="0">0 min</span>
+          <span class="stat-label">Shorts de 1 à 3 minutes</span>
+        </div>
+        <div class="stat anim" style="--d: 0.66s">
+          <span class="stat-icon" aria-hidden="true">*</span>
+          <span class="stat-value" data-target="12" data-suffix="" data-decimals="0">0</span>
+          <span class="stat-label">Shorts max par vidéo</span>
+        </div>
+        <div class="stat anim" style="--d: 0.74s">
+          <span class="stat-icon" aria-hidden="true">#</span>
+          <span class="stat-value" data-target="10" data-suffix=" h" data-decimals="0">0 h</span>
+          <span class="stat-label">De vidéo analysées d'un coup</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="menu-overlay" hidden></div>
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobile" hidden>
+      <a class="m-link is-active" href="#" style="--i: 0">Accueil</a>
+      <a class="m-link" href="#studio" data-open="studio" style="--i: 1">Studio IA</a>
+      <a class="m-link" href="#tarifs" data-open="pricing" style="--i: 2">Tarifs</a>
+      <a class="m-link" href="#contact" data-open="contact" style="--i: 3">Contact</a>
+      <button class="m-sign-in" type="button" data-open="account" style="--i: 4">Connexion</button>
+    </nav>
+
+    <!-- ============ Panels ============ -->
+    <div class="panel-overlay" hidden></div>
+
+    <!-- Studio -->
+    <section class="panel" id="panel-studio" role="dialog" aria-modal="true" aria-labelledby="studio-title" hidden>
+      <header class="panel-head">
+        <div>
+          <p class="panel-kicker">Studio IA</p>
+          <h2 class="panel-title" id="studio-title">Transforme une vidéo en shorts</h2>
+        </div>
+        <button class="panel-close" type="button" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+
+      <div class="panel-body">
+        <div class="plan-bar plan-bar-member">
+          <span>Forfait : <strong class="plan-name">Gratuit</strong></span>
+          <span class="quota"></span>
+          <button class="link-btn" type="button" data-open="pricing">Changer de forfait</button>
+        </div>
+        <div class="plan-bar plan-bar-guest" hidden>
+          <span class="guest-msg">
+            <i class="fa-solid fa-circle-user" aria-hidden="true"></i>Connecte-toi pour lancer une analyse
+          </span>
+          <span class="guest-actions">
+            <button class="link-btn" type="button" data-open="account" data-mode="login">Se connecter</button>
+            <button class="link-btn" type="button" data-open="account" data-mode="signup">Créer un compte</button>
+          </span>
+        </div>
+
+        <p class="demo-banner" hidden>
+          <i class="fa-solid fa-flask" aria-hidden="true"></i>
+          <span>
+            <strong>Mode démo :</strong> le serveur d'analyse n'est pas connecté, les shorts affichés sont simulés.
+            Lance le serveur (voir README) pour un vrai découpage.
+          </span>
+        </p>
+
+        <p class="demo-banner ffmpeg-banner" role="alert" hidden>
+          <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+          <span>
+            <strong>Serveur incomplet :</strong> ffmpeg n'est pas installé sur l'ordinateur qui fait tourner Clipzo,
+            aucune vidéo ne peut être découpée. Sous Windows, tape <code>winget install Gyan.FFmpeg</code> dans un
+            terminal, puis relance le serveur.
+          </span>
+        </p>
+
+        <form class="studio-form" novalidate>
+          <div class="field src-field">
+            <div class="field-label src-head">
+              <label class="src-label" for="studio-url">Lien de la vidéo</label>
+              <div class="src-toggle" role="radiogroup" aria-label="Source de la vidéo">
+                <label><input type="radio" name="source" value="link" checked /><span><i class="fa-solid fa-link" aria-hidden="true"></i>Lien</span></label>
+                <label><input type="radio" name="source" value="file" /><span><i class="fa-solid fa-file-video" aria-hidden="true"></i>Fichier</span></label>
+              </div>
+            </div>
+
+            <div class="src-link">
+              <span class="url-wrap">
+                <i class="fa-solid fa-link platform-icon" aria-hidden="true"></i>
+                <input
+                  class="url-input"
+                  id="studio-url"
+                  type="url"
+                  name="url"
+                  placeholder="https://www.youtube.com/watch?v=… · twitch.tv/videos/… · tiktok.com/@…"
+                  autocomplete="off"
+                  required
+                />
+              </span>
+              <span class="field-hint url-hint">YouTube, Twitch (VOD &amp; clips), TikTok, X, Kick, Instagram</span>
+              <span class="field-hint feature-hint" hidden>
+                Le serveur ne peut pas récupérer de liens pour l'instant : passe par « Fichier » pour importer ta vidéo.
+              </span>
+            </div>
+
+            <div class="src-file" hidden>
+              <input class="file-input" id="studio-file" type="file" name="file" accept="video/*" />
+              <label class="drop" for="studio-file">
+                <i class="fa-solid fa-cloud-arrow-up drop-icon" aria-hidden="true"></i>
+                <span class="drop-title">Glisse ta vidéo ici</span>
+                <span class="drop-sub">ou clique pour choisir un fichier</span>
+              </label>
+              <span class="field-hint">MP4, MOV, MKV, WebM… La vidéo est envoyée à ton serveur d'analyse Clipzo.</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" id="duration-label">
+              Durée de chaque short
+              <output class="duration-out">1 min 30</output>
+            </span>
+            <input class="range" type="range" name="duration" min="60" max="180" step="15" value="90"
+              aria-labelledby="duration-label" aria-valuetext="1 min 30" />
+            <span class="range-scale"><span>1 min</span><span>2 min</span><span>3 min</span></span>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Nombre de shorts</span>
+            <div class="seg" role="radiogroup" aria-label="Nombre de shorts">
+              <label><input type="radio" name="count" value="3" checked /><span>3</span></label>
+              <label><input type="radio" name="count" value="5" /><span>5</span></label>
+              <label><input type="radio" name="count" value="8" /><span>8 <i class="fa-solid fa-lock lock" data-min="creator"></i></span></label>
+              <label><input type="radio" name="count" value="12" /><span>12 <i class="fa-solid fa-lock lock" data-min="pro"></i></span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" id="layout-label">Mise en page</span>
+            <div class="seg seg-layout" role="radiogroup" aria-labelledby="layout-label">
+              <label><input type="radio" name="layout" value="auto" checked /><span>Auto</span></label>
+              <label><input type="radio" name="layout" value="streamer" /><span>Streamer <i class="fa-solid fa-lock lock" data-min="creator"></i></span></label>
+              <label><input type="radio" name="layout" value="face" /><span>Visage <i class="fa-solid fa-lock lock" data-min="creator"></i></span></label>
+              <label><input type="radio" name="layout" value="full" /><span>Entière</span></label>
+            </div>
+            <span class="field-hint layout-hint" aria-live="polite"></span>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Options</span>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" name="reframe" checked /><span>Recadrage 9:16 automatique</span></label>
+              <label class="opt" data-min="creator"><input type="checkbox" name="subs" /><span>Sous-titres automatiques <em class="badge">Créateur</em></span></label>
+              <label class="opt" data-min="creator"><input type="checkbox" name="nowm" /><span>Sans filigrane <em class="badge">Créateur</em></span></label>
+              <label class="opt" data-min="pro"><input type="checkbox" name="hooks" /><span>Titres &amp; hashtags IA <em class="badge">Pro</em></span></label>
+              <label class="opt" data-min="pro"><input type="checkbox" name="animsubs" /><span>Sous-titres animés mot par mot <em class="badge">Pro</em></span></label>
+            </div>
+          </div>
+
+          <div class="field style-field" hidden>
+            <span class="field-label">Style des sous-titres</span>
+            <div class="style-box">
+              <div class="style-preview" aria-hidden="true">
+                <div class="sp-cam"></div>
+                <p class="sp-text"><span class="sp-line">Attends, c'est <b>vraiment</b> ouf !</span></p>
+              </div>
+              <div class="style-controls">
+                <div class="style-row">
+                  <span class="style-name" id="st-font">Police</span>
+                  <div class="chips font-chips" role="radiogroup" aria-labelledby="st-font"></div>
+                </div>
+                <div class="style-row">
+                  <span class="style-name" id="st-shape">Forme</span>
+                  <div class="chips shape-chips" role="radiogroup" aria-labelledby="st-shape"></div>
+                </div>
+                <div class="style-row">
+                  <span class="style-name" id="st-color">Couleur</span>
+                  <div class="chips color-chips" role="radiogroup" aria-labelledby="st-color"></div>
+                </div>
+                <div class="style-row style-row-split">
+                  <div>
+                    <span class="style-name" id="st-pos">Position</span>
+                    <div class="seg seg-mini" role="radiogroup" aria-labelledby="st-pos">
+                      <label><input type="radio" name="spos" value="auto" checked /><span>Auto</span></label>
+                      <label><input type="radio" name="spos" value="haut" /><span>Haut</span></label>
+                      <label><input type="radio" name="spos" value="milieu" /><span>Milieu</span></label>
+                      <label><input type="radio" name="spos" value="bas" /><span>Bas</span></label>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="style-name" id="st-size">Taille</span>
+                    <div class="seg seg-mini seg-3" role="radiogroup" aria-labelledby="st-size">
+                      <label><input type="radio" name="ssize" value="s" /><span>S</span></label>
+                      <label><input type="radio" name="ssize" value="m" checked /><span>M</span></label>
+                      <label><input type="radio" name="ssize" value="l" /><span>L</span></label>
+                    </div>
+                  </div>
+                </div>
+                <label class="opt opt-caps"><input type="checkbox" name="scaps" /><span>Tout en majuscules</span></label>
+              </div>
+            </div>
+          </div>
+
+          <p class="form-error" role="alert" hidden></p>
+          <button class="cta cta-block" type="submit">Lancer l'analyse IA</button>
+        </form>
+
+        <div class="progress" tabindex="-1" hidden>
+          <div class="progress-thumb"></div>
+          <div class="progress-main">
+            <p class="progress-source" hidden></p>
+            <ol class="steps">
+              <li data-step="0">Récupération de la vidéo</li>
+              <li data-step="1">Analyse audio</li>
+              <li data-step="2">Transcription</li>
+              <li data-step="3">Détection des scènes</li>
+              <li data-step="4">Score de viralité</li>
+              <li data-step="5">Découpage &amp; recadrage</li>
+            </ol>
+            <div
+              class="bar"
+              role="progressbar"
+              aria-label="Avancement de l'analyse"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <span></span>
+            </div>
+            <div class="progress-line">
+              <p class="progress-msg" aria-live="polite"></p>
+              <button class="link-btn progress-cancel" type="button" hidden>Abandonner</button>
+            </div>
+          </div>
+          <div class="curve-slot progress-curve" hidden></div>
+        </div>
+
+        <div class="results" hidden>
+          <div class="results-head">
+            <h3 class="results-title" tabindex="-1">Tes shorts sont prêts</h3>
+            <button class="link-btn restart" type="button">Nouvelle vidéo</button>
+          </div>
+          <p class="results-source" hidden></p>
+          <div class="curve-slot results-curve" hidden></div>
+          <ul class="warnings" hidden></ul>
+          <ul class="clips"></ul>
+          <p class="clips-empty" hidden>
+            Aucun passage assez fort n'a été repéré dans cette vidéo. Essaie une autre durée de short ou une vidéo
+            plus longue.
+          </p>
+          <p class="demo-note" hidden>
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            Shorts simulés : en mode démo, rien n'est téléchargé ni découpé. Titres, timecodes et scores sont des
+            exemples générés à partir du lien.
+          </p>
+        </div>
+
+        <div class="editor" hidden>
+          <div class="results-head">
+            <h3 class="editor-title" tabindex="-1">Retoucher le short</h3>
+            <button class="link-btn editor-close" type="button">Retour aux shorts</button>
+          </div>
+          <p class="editor-intro">
+            Choisis où le short commence et où il finit : clique sur un mot de la transcription, ou décale de
+            quelques secondes. La retouche est gratuite, elle ne compte pas dans ton quota.
+          </p>
+          <div class="editor-times">
+            <div class="editor-edge">
+              <span class="editor-edge-name">Début <output class="ed-start"></output></span>
+              <div class="nudges" role="group" aria-label="Décaler le début">
+                <button type="button" data-nudge="start:-5">−5 s</button>
+                <button type="button" data-nudge="start:-1">−1 s</button>
+                <button type="button" data-nudge="start:1">+1 s</button>
+                <button type="button" data-nudge="start:5">+5 s</button>
+              </div>
+            </div>
+            <div class="editor-edge">
+              <span class="editor-edge-name">Fin <output class="ed-end"></output></span>
+              <div class="nudges" role="group" aria-label="Décaler la fin">
+                <button type="button" data-nudge="end:-5">−5 s</button>
+                <button type="button" data-nudge="end:-1">−1 s</button>
+                <button type="button" data-nudge="end:1">+1 s</button>
+                <button type="button" data-nudge="end:5">+5 s</button>
+              </div>
+            </div>
+          </div>
+          <div class="editor-bar" aria-hidden="true"><span class="editor-sel"></span></div>
+          <p class="editor-len" aria-live="polite"></p>
+          <div class="editor-words-head" hidden>
+            <span id="ed-mode-label">Un clic sur un mot place</span>
+            <div class="seg seg-mini seg-2" role="radiogroup" aria-labelledby="ed-mode-label">
+              <label><input type="radio" name="edmode" value="start" checked /><span>le début</span></label>
+              <label><input type="radio" name="edmode" value="end" /><span>la fin</span></label>
+            </div>
+          </div>
+          <div class="editor-words" hidden></div>
+          <p class="editor-nowords field-hint" hidden>
+            Pas de transcription pour cette vidéo : utilise les boutons pour décaler le début et la fin.
+          </p>
+          <p class="form-error editor-error" role="alert" hidden></p>
+          <div class="editor-foot">
+            <button class="plan-btn editor-cancel" type="button">Annuler</button>
+            <button class="cta editor-apply" type="button">Appliquer la retouche</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="panel panel-wide" id="panel-pricing" role="dialog" aria-modal="true" aria-labelledby="pricing-title" hidden>
+      <header class="panel-head">
+        <div>
+          <p class="panel-kicker">Tarifs</p>
+          <h2 class="panel-title" id="pricing-title">Choisis ton rythme de création</h2>
+        </div>
+        <button class="panel-close" type="button" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+
+      <div class="panel-body">
+        <div class="billing" role="radiogroup" aria-label="Facturation">
+          <button type="button" class="bill is-on" data-bill="month" role="radio" aria-checked="true">Mensuel</button>
+          <button type="button" class="bill" data-bill="year" role="radio" aria-checked="false">Annuel <em>-20%</em></button>
+        </div>
+
+        <p class="demo-banner billing-banner" tabindex="-1" hidden>
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <span>
+            <strong>Paiement pas encore activé :</strong> les forfaits payants ne peuvent pas encore être achetés
+            sur ce serveur.
+            <span class="billing-local" hidden>
+              <span class="billing-tip" data-tip="guest">
+                Pour tester un forfait sans payer,
+                <button class="link-btn" type="button" data-open="account" data-mode="signup">crée d'abord ton compte</button>,
+                puis tape <code class="billing-cmd"></code>
+                <span class="billing-cmd-note" hidden>(remplace ton@email par l'adresse de ton compte)</span> dans un autre terminal ouvert dans le dossier
+                <code>clipzo</code> (là où tu lances le serveur) et recharge la page.
+              </span>
+              <span class="billing-tip" data-tip="free">
+                Pour tester un forfait sans payer, tape <code class="billing-cmd"></code>
+                <span class="billing-cmd-note" hidden>(remplace ton@email par l'adresse de ton compte)</span> dans un autre terminal
+                ouvert dans le dossier <code>clipzo</code> (là où tu lances le serveur), puis recharge la page.
+              </span>
+              <span class="billing-tip" data-tip="paid">
+                Pour revenir au forfait Gratuit, tape <code class="billing-cmd"></code>
+                <span class="billing-cmd-note" hidden>(remplace ton@email par l'adresse de ton compte)</span> dans un autre terminal
+                ouvert dans le dossier <code>clipzo</code> (là où tu lances le serveur), puis recharge la page.
+              </span>
+              Pour encaisser de vrais paiements, branche Stripe (README, « Brancher Stripe »).
+            </span>
+          </span>
+        </p>
+
+        <div class="plans">
+          <article class="plan" data-plan="free">
+            <h3>Gratuit</h3>
+            <p class="plan-desc">Pour tester l'IA sur tes vidéos.</p>
+            <p class="price"><span class="amount" data-month="0" data-year="0">0</span><span class="cur">€</span><span class="per">/mois</span></p>
+            <ul class="feats">
+              <li><i class="fa-solid fa-check"></i>3 shorts par mois</li>
+              <li><i class="fa-solid fa-check"></i>Durée au choix de 1 à 3 min</li>
+              <li><i class="fa-solid fa-check"></i>Recadrage 9:16 automatique</li>
+              <li><i class="fa-solid fa-check"></i>Retouche gratuite de chaque short</li>
+              <li><i class="fa-solid fa-check"></i>Satisfait ou recrédité</li>
+              <li><i class="fa-solid fa-check"></i>Vidéos jusqu'à 1 h, export 720p</li>
+              <li class="off"><i class="fa-solid fa-xmark"></i>Filigrane Clipzo</li>
+              <li class="off"><i class="fa-solid fa-xmark"></i>Pas de sous-titres</li>
+            </ul>
+            <button class="plan-btn" type="button" data-choose="free">Commencer gratuitement</button>
+          </article>
+
+          <article class="plan" data-plan="creator">
+            <h3>Créateur</h3>
+            <p class="plan-desc">Pour publier chaque semaine.</p>
+            <p class="price"><span class="amount" data-month="5" data-year="4">5</span><span class="cur">€</span><span class="per">/mois</span></p>
+            <ul class="feats">
+              <li><i class="fa-solid fa-check"></i><strong>50 shorts par mois</strong></li>
+              <li><i class="fa-solid fa-check"></i>Jusqu'à 8 shorts par vidéo</li>
+              <li><i class="fa-solid fa-check"></i>Sous-titres : 8 polices, 5 styles</li>
+              <li><i class="fa-solid fa-check"></i>Mode streamer : facecam + jeu</li>
+              <li><i class="fa-solid fa-check"></i>Sans filigrane</li>
+              <li><i class="fa-solid fa-check"></i>Export 1080p</li>
+              <li><i class="fa-solid fa-check"></i>Suivi du visage du streamer</li>
+              <li><i class="fa-solid fa-check"></i>Vidéos jusqu'à 3 h</li>
+            </ul>
+            <button class="plan-btn" type="button" data-choose="creator">Choisir Créateur</button>
+          </article>
+
+          <article class="plan plan-pro" data-plan="pro">
+            <span class="ribbon">Le plus rentable</span>
+            <h3>Pro</h3>
+            <p class="plan-desc">Pour les streamers et les agences.</p>
+            <p class="price"><span class="amount" data-month="10" data-year="8">10</span><span class="cur">€</span><span class="per">/mois</span></p>
+            <ul class="feats">
+              <li><i class="fa-solid fa-check"></i><strong>Shorts illimités</strong></li>
+              <li><i class="fa-solid fa-check"></i>Jusqu'à 12 shorts par vidéo</li>
+              <li><i class="fa-solid fa-check"></i>Sous-titres animés mot par mot</li>
+              <li><i class="fa-solid fa-check"></i>Titres, accroches &amp; hashtags écrits par l'IA</li>
+              <li><i class="fa-solid fa-check"></i>VOD Twitch longues (jusqu'à 10 h)</li>
+              <li><i class="fa-solid fa-check"></i>Import auto après chaque live Twitch</li>
+              <li><i class="fa-solid fa-check"></i>Export 4K quand la source est en 4K</li>
+            </ul>
+            <button class="plan-btn plan-btn-pro" type="button" data-choose="pro">Passer Pro</button>
+          </article>
+        </div>
+        <p class="fine">Sans engagement · Résiliable en un clic · Paiement sécurisé</p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="panel" id="panel-contact" role="dialog" aria-modal="true" aria-labelledby="contact-title" hidden>
+      <header class="panel-head">
+        <div>
+          <p class="panel-kicker">Contact</p>
+          <h2 class="panel-title" id="contact-title">Une question ?</h2>
+        </div>
+        <button class="panel-close" type="button" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="panel-body">
+        <form class="contact-form">
+          <label class="field"><span class="field-label">Email</span><input class="text-input" type="email" name="email" required placeholder="toi@exemple.com" /></label>
+          <label class="field"><span class="field-label">Message</span><textarea class="text-input" name="msg" rows="4" required placeholder="Ta chaîne, ton besoin…"></textarea></label>
+          <button class="cta cta-block" type="submit">Envoyer</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Account (live mode: needs the Clipzo server) -->
+    <section class="panel panel-narrow" id="panel-account" role="dialog" aria-modal="true" aria-labelledby="account-title" hidden>
+      <header class="panel-head">
+        <div>
+          <p class="panel-kicker">Compte</p>
+          <h2 class="panel-title" id="account-title" tabindex="-1">Connecte-toi</h2>
+        </div>
+        <button class="panel-close" type="button" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+
+      <div class="panel-body">
+        <div class="auth">
+          <p class="auth-intro" hidden>
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+            <span class="auth-intro-text" id="auth-intro-text"></span>
+          </p>
+
+          <div class="auth-toggle" role="radiogroup" aria-label="Se connecter ou créer un compte">
+            <label><input type="radio" name="auth-mode" value="login" checked /><span>Se connecter</span></label>
+            <label><input type="radio" name="auth-mode" value="signup" /><span>Créer un compte</span></label>
+          </div>
+
+          <form class="auth-form" novalidate>
+            <div class="field">
+              <label class="field-label" for="auth-email">E-mail</label>
+              <input
+                class="text-input"
+                id="auth-email"
+                type="email"
+                name="email"
+                autocomplete="email"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="toi@exemple.com"
+                required
+                data-autofocus
+              />
+            </div>
+            <div class="field">
+              <label class="field-label" for="auth-password">Mot de passe</label>
+              <span class="pw-wrap">
+                <input
+                  class="text-input pw-input"
+                  id="auth-password"
+                  type="password"
+                  name="password"
+                  autocomplete="current-password"
+                  required
+                />
+                <button class="pw-toggle" type="button" aria-label="Afficher le mot de passe" aria-pressed="false" aria-controls="auth-password">
+                  <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                </button>
+              </span>
+              <span class="field-hint pw-hint" id="auth-pw-hint" hidden>8 caractères minimum.</span>
+            </div>
+            <p class="form-error auth-error" role="alert" hidden></p>
+            <button class="cta cta-block auth-submit" type="submit">Se connecter</button>
+            <p class="auth-note" hidden>
+              <i class="fa-solid fa-gift" aria-hidden="true"></i>Gratuit : 3 shorts par mois, sans carte bancaire.
+            </p>
+          </form>
+        </div>
+
+        <div class="acct" hidden>
+          <div class="acct-id">
+            <span class="acct-avatar" aria-hidden="true"></span>
+            <div class="acct-who">
+              <p class="acct-email"></p>
+              <p class="acct-plan-line">Forfait <strong class="acct-plan"></strong></p>
+            </div>
+          </div>
+
+          <div class="acct-usage">
+            <p class="acct-quota"></p>
+            <div class="meter" aria-hidden="true"><span class="meter-used"></span><span class="meter-reserved"></span></div>
+            <p class="acct-sub" hidden></p>
+            <p class="acct-renew" hidden></p>
+          </div>
+
+          <div class="acct-twitch">
+            <p class="acct-twitch-title"><i class="fa-brands fa-twitch" aria-hidden="true"></i>Import automatique Twitch
+              <em class="badge">Pro</em></p>
+            <p class="acct-twitch-desc">
+              Après chaque live, Clipzo récupère ta VOD et prépare tes shorts avec les réglages actuels du Studio.
+              Tu reçois un e-mail quand ils sont prêts.
+            </p>
+            <form class="twitch-form" novalidate>
+              <label class="field-label" for="twitch-login">Ta chaîne Twitch</label>
+              <div class="twitch-row">
+                <span class="twitch-prefix" aria-hidden="true">twitch.tv/</span>
+                <input class="text-input twitch-login" id="twitch-login" name="login" autocomplete="off" spellcheck="false"
+                  maxlength="25" placeholder="ta_chaine" />
+              </div>
+              <label class="opt twitch-toggle"><input type="checkbox" name="enabled" /><span>Importer mes VOD automatiquement</span></label>
+              <p class="field-hint twitch-status" aria-live="polite"></p>
+              <p class="form-error twitch-error" role="alert" hidden></p>
+              <button class="plan-btn twitch-save" type="submit">Enregistrer</button>
+            </form>
+          </div>
+
+          <div class="acct-actions">
+            <button class="cta cta-block acct-manage" type="button" hidden>Gérer mon abonnement</button>
+            <button class="plan-btn acct-plans" type="button" data-open="pricing">Voir les forfaits</button>
+            <button class="link-btn acct-logout" type="button">Se déconnecter</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
