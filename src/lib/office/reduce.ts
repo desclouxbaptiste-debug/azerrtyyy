@@ -163,6 +163,13 @@ export function buildOffice(
   function resolveSub(agentId: string, type: string | undefined, t: number): Agent {
     const known = aliases.get(agentId);
     if (known) return all[known];
+    // Journal de session : l'agentId d'un sous-agent est l'id de l'appel « Agent » qui l'a lancé.
+    const direct = pending.find((x) => !x.linked && x.key === `task:${agentId}`);
+    if (direct) {
+      direct.linked = true;
+      aliases.set(agentId, direct.key);
+      return all[direct.key];
+    }
     const p =
       pending.find((x) => !x.linked && type && x.type === type) ?? pending.find((x) => !x.linked);
     if (p) {

@@ -75,8 +75,14 @@ cours et tout son historique (paramètres et résultats).
 - Les hooks de `.claude/settings.json` lancent `.claude/hooks/office-log.mjs`,
   qui écrit chaque requête, appel d'outil et sous-agent dans
   `.claude/office/events.jsonl` (ignoré par git). La page lit ce journal via
-  `/api/office` et passe automatiquement en **direct**.
-- Sans activité, le bureau rejoue un scénario de **démo**.
+  `/api/office` et affiche tout en **direct**. Sans activité, le bureau est
+  vide et Max attend une requête.
+- **Version publiée sur claude.ai** : `npm run build:bureau-artifact` produit
+  `scripts/bureau-artifact/dist/bureau-de-claude.html`. Cette page lit les
+  vraies sessions Claude Code de la personne qui la regarde grâce à son
+  connecteur « Claude Code Remote » (outils `list_sessions` et `list_events`,
+  relus toutes les 4 secondes) : choix de la session dans la liste, puis
+  requêtes, outils et sous-agents en direct.
 - Le bouton **✏️ Aménager** ouvre l'atelier : fais glisser les zones, les meubles
   et le bureau du chef (ou utilise les flèches du clavier), renomme les zones et
   les robots, change les couleurs, masque des meubles. La mise en page est gardée

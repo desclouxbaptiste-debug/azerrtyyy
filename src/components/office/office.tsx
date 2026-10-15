@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { DEMO_OPTIONS, demoEvents } from "@/lib/office/demo";
 import {
   DECOR_META,
   DEFAULT_CONFIG,
@@ -23,8 +22,6 @@ import { AgentPanel, ChefPanel, JournalPanel } from "./panel";
 import { drawBackground, drawFrame, robotPose } from "./scene";
 import s from "./office.module.css";
 
-type Mode = "auto" | "live" | "demo";
-const POLL_MS = 1500;
 const TICK_MS = 250;
 const LOCAL_KEY = "bureau-claude:layout";
 
@@ -109,11 +106,31 @@ function Bubble({
   );
 }
 
-export function Office({ standalone = false, store }: { standalone?: boolean; store?: ConfigStore }) {
-  const [mode, setMode] = useState<Mode>(standalone ? "demo" : "auto");
-  const [live, setLive] = useState<{ events: OfficeEvent[]; ok: boolean }>({ events: [], ok: false });
+/** État de la source d'événements, affiché dans la pastille en haut à droite. */
+export type FeedStatus = { tone: "live" | "wait" | "error"; label: string };
+
+const TONE_COLOR: Record<FeedStatus["tone"], string> = { live: "#7ef0b0", wait: "#ffb070", error: "#ff7a7a" };
+
+/**
+ * Le bureau : scène, bulles, panneaux et atelier. Les événements viennent de
+ * l'extérieur (journal local des hooks, ou sessions lues via Claude Code Remote).
+ */
+export function Office({
+  events,
+  status,
+  toolbar,
+  notice,
+  store,
+}: {
+  events: OfficeEvent[];
+  status: FeedStatus;
+  /** Contrôles propres à la source (choix de session, vider le journal…). */
+  toolbar?: React.ReactNode;
+  /** Message sous la scène (connexion, aide…). */
+  notice?: React.ReactNode;
+  store?: ConfigStore;
+}) {
   const [now, setNow] = useState(0);
-  const [origin, setOrigin] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
 
   // Mise en page et mode « Aménager »
@@ -228,10 +245,7 @@ export function Office({ standalone = false, store }: { standalone?: boolean; st
 
   // Horloge de la scène
   useEffect(() => {
-    const start = window.setTimeout(() => {
-      setOrigin(Date.now());
-      setNow(Date.now());
-    }, 0);
+    const start = window.setTimeout(() => setNow(Date.now()), 0);
     const id = window.setInterval(() => setNow(Date.now()), TICK_MS);
     return () => {
       window.clearTimeout(start);
@@ -239,35 +253,10 @@ export function Office({ standalone = false, store }: { standalone?: boolean; st
     };
   }, []);
 
-  // Écoute du journal réel de Claude Code
-  useEffect(() => {
-    if (standalone) return;
-    let alive = true;
-    const poll = async () => {
-      try {
-        const res = await fetch("/api/office", { cache: "no-store" });
-        const data = (await res.json()) as { events: OfficeEvent[] };
-        if (alive) setLive({ events: data.events ?? [], ok: true });
-      } catch {
-        if (alive) setLive((l) => ({ ...l, ok: false }));
-      }
-    };
-    poll();
-    const id = window.setInterval(poll, POLL_MS);
-    return () => {
-      alive = false;
-      window.clearInterval(id);
-    };
-  }, [standalone]);
-
-  const usingLive = !standalone && (mode === "live" || (mode === "auto" && live.events.length > 0));
-
-  const office = useMemo(() => {
-    if (!now) return null;
-    return usingLive
-      ? buildOffice(live.events, now, LIVE_OPTIONS, geo)
-      : buildOffice(demoEvents(origin, now), now, DEMO_OPTIONS, geo);
-  }, [usingLive, live.events, now, origin, geo]);
+  const office = useMemo(
+    () => (now ? buildOffice(events, now, LIVE_OPTIONS, geo) : null),
+    [events, now, geo],
+  );
 
   useEffect(() => {
     officeRef.current = office;
@@ -380,12 +369,6 @@ export function Office({ standalone = false, store }: { standalone?: boolean; st
     return new Set([...best.values()].map((v) => v.key));
   }, [seated]);
 
-  const clearJournal = async () => {
-    if (!window.confirm("Vider le journal des agents ?")) return;
-    await fetch("/api/office", { method: "DELETE" }).catch(() => {});
-    setLive({ events: [], ok: true });
-  };
-
   const openEditor = () => {
     setSelected(null);
     setEditing(true);
@@ -423,9 +406,9 @@ export function Office({ standalone = false, store }: { standalone?: boolean; st
             </small>
           </h1>
           <div className={s.controls}>
-            <span className={s.pill} style={{ color: usingLive ? "#7ef0b0" : "#ffb070" }}>
-              <span className={s.dot} />
-              {usingLive ? "EN DIRECT" : "DÉMO"}
+            <span className={s.pill} style={{ color: TONE_COLOR[status.tone] }}>
+              <span className={`${s.dot} ${status.tone === "live" ? "" : s.dotStill}`} />
+              {status.label}
             </span>
             <div className={s.stats}>
               <span className={s.pill}>🤖 {office?.present.length ?? 0} au bureau</span>
@@ -436,23 +419,6 @@ export function Office({ standalone = false, store }: { standalone?: boolean; st
         </header>
 
         <div className={s.controls}>
-          {!standalone &&
-            (
-              [
-                ["auto", "Auto"],
-                ["live", "Direct"],
-                ["demo", "Démo"],
-              ] as const
-            ).map(([m, label]) => (
-              <button
-                key={m}
-                className={`${s.btn} ${mode === m ? s.btnOn : ""}`}
-                onClick={() => setMode(m)}
-                aria-pressed={mode === m}
-              >
-                {label}
-              </button>
-            ))}
           <button
             className={`${s.btn} ${editing ? s.btnOn : ""}`}
             onClick={() => (editing ? setEditing(false) : openEditor())}
@@ -463,11 +429,7 @@ export function Office({ standalone = false, store }: { standalone?: boolean; st
           <button className={s.btn} onClick={() => setSelected("journal")} disabled={editing}>
             📜 Journal
           </button>
-          {usingLive && (
-            <button className={s.btn} onClick={clearJournal}>
-              🧹 Vider
-            </button>
-          )}
+          {toolbar}
         </div>
 
         <button className={s.request} onClick={() => setSelected("chef")} disabled={editing}>
@@ -606,30 +568,13 @@ export function Office({ standalone = false, store }: { standalone?: boolean; st
               </div>
             )}
 
-            {mode === "live" && live.events.length === 0 && (
-              <div className={s.empty}>Aucune activité enregistrée pour l&apos;instant</div>
+            {events.length === 0 && !editing && (
+              <div className={s.empty}>Aucune activité pour l&apos;instant : le bureau se remplit dès que Claude travaille</div>
             )}
           </div>
         </div>
 
-        {!usingLive && !editing && (
-          <div className={s.help}>
-            {standalone ? (
-              <>
-                <b>Version démo.</b> Les robots rejouent un scénario de travail. Touche <b>✏️ Aménager</b> pour
-                déplacer les zones et les meubles, renommer les robots ou changer les couleurs, puis{" "}
-                <b>Enregistrer pour Claude</b> : Claude pourra installer ta mise en page dans le vrai bureau du projet.
-              </>
-            ) : (
-              <>
-                <b>Mode démo.</b> Le bureau rejoue un scénario en attendant de vraies tâches. Pour le brancher sur
-                Claude Code, lance <code>npm run dev</code> dans ce dépôt puis ouvre <code>/bureau</code> : les hooks
-                de <code>.claude/settings.json</code> écrivent chaque requête, outil et sous-agent dans{" "}
-                <code>.claude/office/events.jsonl</code>, et le bureau passe tout seul en <b>direct</b>.
-              </>
-            )}
-          </div>
-        )}
+        {!editing && notice && <div className={s.help}>{notice}</div>}
       </div>
 
       {editing && (

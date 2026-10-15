@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Page publiée du bureau, générée par scripts/bureau-artifact/build.mjs
+    "scripts/bureau-artifact/dist/**",
   ]),
 ]);
 
