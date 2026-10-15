@@ -1,8 +1,10 @@
 "use client";
 
-import { ZONE_BY_ID } from "@/lib/office/layout";
+import type { ZoneDef } from "@/lib/office/layout";
 import { currentTask } from "@/lib/office/reduce";
-import type { Agent, OfficeState, Task } from "@/lib/office/types";
+import type { Agent, OfficeState, Task, ZoneId } from "@/lib/office/types";
+
+type Zones = Record<ZoneId, ZoneDef>;
 import s from "./office.module.css";
 
 const hhmmss = (ts: number) =>
@@ -86,8 +88,20 @@ function Shell({
   );
 }
 
-export function AgentPanel({ agent, now, onClose }: { agent: Agent; now: number; onClose: () => void }) {
-  const zone = ZONE_BY_ID[agent.zone];
+export function AgentPanel({
+  agent,
+  now,
+  zones,
+  chefName,
+  onClose,
+}: {
+  agent: Agent;
+  now: number;
+  zones: Zones;
+  chefName: string;
+  onClose: () => void;
+}) {
+  const zone = zones[agent.zone];
   const cur = currentTask(agent);
   const history = [...agent.tasks].reverse();
   const done = agent.tasks.filter((t) => t.end !== undefined).length;
@@ -101,7 +115,7 @@ export function AgentPanel({ agent, now, onClose }: { agent: Agent; now: number;
     >
       {agent.mission && (
         <div className={s.card}>
-          <h3>MISSION CONFIÉE PAR MAX</h3>
+          <h3>MISSION CONFIÉE PAR {chefName.toUpperCase()}</h3>
           <p>
             <b>{agent.mission}</b>
           </p>
@@ -142,7 +156,17 @@ const CHEF_STATUS = {
   done: "✅ a répondu",
 };
 
-export function ChefPanel({ office, onClose, onPick }: { office: OfficeState; onClose: () => void; onPick: (key: string) => void }) {
+export function ChefPanel({
+  office,
+  zones,
+  onClose,
+  onPick,
+}: {
+  office: OfficeState;
+  zones: Zones;
+  onClose: () => void;
+  onPick: (key: string) => void;
+}) {
   const { chef, now } = office;
   const team = Object.values(office.all).filter((a) => a.tasks.length > 0);
   return (
@@ -165,7 +189,7 @@ export function ChefPanel({ office, onClose, onPick }: { office: OfficeState; on
         <div className={s.stats}>
           {team.map((a) => (
             <button key={a.key} className={s.btn} onClick={() => onPick(a.key)}>
-              <span style={{ color: ZONE_BY_ID[a.zone].accent }}>■</span> {a.name}
+              <span style={{ color: zones[a.zone].accent }}>■</span> {a.name}
               {a.busy ? " ⏳" : ""}
             </button>
           ))}

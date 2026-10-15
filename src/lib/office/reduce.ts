@@ -1,5 +1,5 @@
 import { describeTool, shortText, zoneForAgentType, zoneForTool } from "./describe";
-import { ZONES, ZONE_BY_ID } from "./layout";
+import { DEFAULT_GEOMETRY, type Geometry } from "./layout";
 import type { Agent, Chef, OfficeEvent, OfficeState, Task, ZoneId } from "./types";
 
 /** Durée de la marche porte ↔ bureau. */
@@ -26,7 +26,9 @@ export function buildOffice(
   events: OfficeEvent[],
   now: number,
   opts: ReduceOptions = LIVE_OPTIONS,
+  geo: Geometry = DEFAULT_GEOMETRY,
 ): OfficeState {
+  const ZONES = geo.zones;
   const all: Record<string, Agent> = {};
   const seats = Object.fromEntries(ZONES.map((z) => [z.id, [null, null, null]])) as Record<
     ZoneId,
@@ -40,7 +42,7 @@ export function buildOffice(
   let subCount = 0;
 
   const chef: Chef = {
-    name: "Max",
+    name: geo.config.chefName,
     status: "idle",
     prompts: [],
     tasks: [],
@@ -77,7 +79,7 @@ export function buildOffice(
     for (let i = 0; i < 3; i++) {
       if (!seatFree(zone, i, t)) continue;
       const key = `seat:${zone}:${i}`;
-      const z = ZONE_BY_ID[zone];
+      const z = geo.byId[zone];
       const a: Agent = (all[key] ??= {
         key,
         name: z.names[i],

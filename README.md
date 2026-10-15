@@ -77,3 +77,7 @@ cours et tout son historique (paramètres et résultats).
   `.claude/office/events.jsonl` (ignoré par git). La page lit ce journal via
   `/api/office` et passe automatiquement en **direct**.
 - Sans activité, le bureau rejoue un scénario de **démo**.
+- Le bouton **✏️ Aménager** ouvre l'atelier : fais glisser les zones, les meubles
+  et le bureau du chef (ou utilise les flèches du clavier), renomme les zones et
+  les robots, change les couleurs, masque des meubles. La mise en page est gardée
+  dans le navigateur ; « Copier le code » permet de la transmettre à Claude.
