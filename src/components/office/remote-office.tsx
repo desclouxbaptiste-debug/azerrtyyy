@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TRANSCRIPT_KINDS, parseEventPage, parseSessions, type SessionSummary } from "@/lib/office/ccr";
 import type { OfficeEvent } from "@/lib/office/types";
 import { Office, type ConfigStore, type FeedStatus } from "./office";
@@ -14,9 +14,12 @@ import s from "./office.module.css";
 
 export const CCR_SERVER = "Claude Code Remote";
 const POLL_MS = 4000;
+const SLOW_POLL_MS = 15_000;
 const HIDDEN_POLL_MS = 20_000;
-const MAX_BACKOFF_MS = 30_000;
+const EMPTY_LIST_REFRESH_MS = 30_000;
 const MAX_EVENTS = 4000;
+/** Pages remontées au chargement pour retrouver la demande et les appels « Agent » en cours. */
+const MAX_BACKFILL_PAGES = 8;
 const SESSION_KEY = "bureau-claude:session";
 
 type CallResult = { payload?: unknown };
@@ -29,9 +32,18 @@ type Host = { use(name: string): Promise<unknown> };
 type Problem = {
   code: string;
   message: string;
-  /** Le prochain essai se fera tout seul (erreur passagère). */
+  /** Un nouvel essai automatique est prévu (erreur passagère). */
   retrying: boolean;
   action?: "allow" | "manage" | "retry";
+};
+
+/** Ce qui a déjà été lu d'une session : survit aux nouveaux essais et aux allers-retours entre sessions. */
+type Feed = {
+  acc: OfficeEvent[];
+  seen: Set<string>;
+  cursor?: string;
+  backfilled: boolean;
+  lastSync: number;
 };
 
 const host = (): Host | undefined => {
@@ -39,29 +51,37 @@ const host = (): Host | undefined => {
   return typeof c?.use === "function" ? (c as Host) : undefined;
 };
 
-function toProblem(e: unknown): Problem {
-  const err = (e && typeof e === "object" ? e : {}) as { code?: string; message?: string; retryable?: boolean };
+const jitter = () => Math.round(Math.random() * 1000);
+
+function toProblem(e: unknown): Problem & { retryAfterMs: number } {
+  const err = (e && typeof e === "object" ? e : {}) as {
+    code?: string;
+    message?: string;
+    retryable?: boolean;
+    retryAfterMs?: number;
+  };
   const code = err.code ?? "upstream_error";
-  const retrying = err.retryable === true;
+  const retryAfterMs = typeof err.retryAfterMs === "number" ? err.retryAfterMs : 0;
+  const base = { code, retryAfterMs };
   switch (code) {
     case "approval_required":
     case "consent_required":
       return {
-        code,
+        ...base,
         retrying: false,
         action: "allow",
         message: "Le bureau a besoin de ton accord pour lire tes sessions Claude Code.",
       };
     case "not_in_manifest":
       return {
-        code,
+        ...base,
         retrying: false,
         action: "manage",
         message: "L'accès à tes sessions Claude Code est coupé pour cette page. Réactive-le dans ses autorisations.",
       };
     case "server_not_connected":
       return {
-        code,
+        ...base,
         retrying: false,
         action: "retry",
         message:
@@ -69,42 +89,53 @@ function toProblem(e: unknown): Problem {
       };
     case "needs_reauth":
       return {
-        code,
+        ...base,
         retrying: false,
         action: "retry",
         message: "La connexion à Claude Code Remote a expiré. Reconnecte-la dans claude.ai → Paramètres → Connecteurs.",
       };
     case "selection_required":
       return {
-        code,
+        ...base,
         retrying: false,
         action: "retry",
         message: "Plusieurs connecteurs Claude Code Remote existent : choisis lequel utiliser dans claude.ai.",
       };
     case "blocked_by_policy":
-      return { code, retrying: false, message: "Ton organisation bloque l'accès à Claude Code Remote depuis cette page." };
+      return {
+        ...base,
+        retrying: false,
+        message: "Ton organisation bloque l'accès à Claude Code Remote depuis cette page.",
+      };
     case "not_granted":
     case "capability_disabled":
     case "capability_removed":
-      return { code, retrying: false, message: "Cette vue ne peut pas lire tes sessions. Ouvre la page sur claude.ai." };
+      return {
+        ...base,
+        retrying: false,
+        message: "Cette vue ne peut pas lire tes sessions. Ouvre la page sur claude.ai.",
+      };
     case "tool_error":
       return {
-        code,
+        ...base,
         retrying: false,
         action: "retry",
         message: `Claude Code Remote a refusé la lecture${err.message ? ` : ${err.message}` : "."}`,
       };
     default:
-      return {
-        code,
-        retrying,
-        action: retrying ? undefined : "retry",
-        message: retrying
-          ? "Claude Code Remote ne répond pas pour le moment. Nouvel essai automatique…"
-          : "La lecture de la session a échoué.",
-      };
+      return err.retryable === true
+        ? { ...base, retrying: true, message: "Claude Code Remote ne répond pas pour le moment. Nouvel essai…" }
+        : { ...base, retrying: false, action: "retry", message: "La lecture de tes sessions a échoué." };
   }
 }
+
+/** Après l'essai automatique autorisé, une erreur passagère attend un geste de la personne. */
+const giveUp = (p: Problem): Problem => ({
+  ...p,
+  retrying: false,
+  action: p.action ?? "retry",
+  message: p.retrying ? "Claude Code Remote ne répond toujours pas." : p.message,
+});
 
 const BUCKET_LABEL: Record<string, string> = {
   working: "au travail",
@@ -141,16 +172,39 @@ function pickDefault(list: SessionSummary[]): string | null {
 const hhmmss = (ts: number) =>
   new Date(ts).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 
+/** Ajoute des événements sans doublon ; garde les MAX_EVENTS plus récents. */
+function addEvents(f: Feed, evs: OfficeEvent[], prepend = false) {
+  const fresh = evs.filter((e) => !f.seen.has(e.id));
+  if (!fresh.length) return 0;
+  fresh.forEach((e) => f.seen.add(e.id));
+  f.acc = prepend ? [...fresh, ...f.acc] : [...f.acc, ...fresh];
+  if (f.acc.length > MAX_EVENTS) {
+    f.acc = f.acc.slice(-MAX_EVENTS);
+    f.seen = new Set(f.acc.map((e) => e.id));
+  }
+  return fresh.length;
+}
+
+/** Faut-il remonter plus loin ? Oui tant que la demande ou l'appel « Agent » d'un sous-agent manque. */
+function needsOlder(acc: OfficeEvent[]) {
+  if (!acc.some((e) => e.type === "prompt")) return true;
+  const launched = new Set(acc.filter((e) => e.type === "tool_start" && !e.agentId).map((e) => e.toolUseId));
+  return acc.some((e) => e.agentId && !launched.has(e.agentId));
+}
+
 export function RemoteOffice({ store }: { store?: ConfigStore }) {
   /** `undefined` tant que la vue n'a pas répondu, `null` si elle ne peut pas appeler de connecteur. */
   const [mcp, setMcp] = useState<Mcp | null | undefined>(undefined);
   const [sessions, setSessions] = useState<SessionSummary[] | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [events, setEvents] = useState<OfficeEvent[]>([]);
-  const [problem, setProblem] = useState<Problem | null>(null);
+  const [listProblem, setListProblem] = useState<Problem | null>(null);
+  const [feedProblem, setFeedProblem] = useState<Problem | null>(null);
   const [lastSync, setLastSync] = useState(0);
-  const [attempt, setAttempt] = useState(0);
-  const [listing, setListing] = useState(0);
+  const [listRun, setListRun] = useState(0);
+  const [feedRun, setFeedRun] = useState(0);
+  const [manageHint, setManageHint] = useState(false);
+  const feeds = useRef(new Map<string, Feed>());
 
   // 1. Le connecteur est-il joignable depuis cette vue ?
   useEffect(() => {
@@ -166,44 +220,57 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
   }, []);
 
   // 2. Les sessions de la personne (le premier appel lui demande son accord)
+  const listRetried = useRef(false);
   useEffect(() => {
     if (!mcp) return;
     let alive = true;
+    let timer = 0;
     (async () => {
       try {
         const r = await mcp.callTool(CCR_SERVER, "list_sessions", { limit: 20 }, { cache: false });
         const list = parseSessions(r.payload).sort((a, b) => b.updatedAt - a.updatedAt);
         if (!alive) return;
+        listRetried.current = false;
         setSessions(list);
-        setProblem(null);
+        setListProblem(null);
         setSessionId((cur) => (cur && list.some((x) => x.id === cur) ? cur : pickDefault(list)));
+        // Personne au travail pour l'instant : on regarde de temps en temps si une session apparaît.
+        if (!list.length) timer = window.setTimeout(() => setListRun((n) => n + 1), EMPTY_LIST_REFRESH_MS);
       } catch (e) {
-        if (alive) setProblem(toProblem(e));
+        if (!alive) return;
+        const p = toProblem(e);
+        if (p.retrying && !listRetried.current) {
+          listRetried.current = true;
+          setListProblem(p);
+          timer = window.setTimeout(() => setListRun((n) => n + 1), Math.max(p.retryAfterMs, 1500) + jitter());
+        } else {
+          setListProblem(giveUp(p));
+        }
       }
     })();
     return () => {
       alive = false;
+      window.clearTimeout(timer);
     };
-  }, [mcp, attempt, listing]);
+  }, [mcp, listRun]);
 
   // 3. Le journal de la session choisie : historique récent, puis nouveautés toutes les 4 s
   useEffect(() => {
-    if (!mcp || !sessionId) return;
+    if (!mcp || !sessionId) {
+      const id = window.setTimeout(() => setEvents([]), 0);
+      return () => window.clearTimeout(id);
+    }
     let alive = true;
     let timer = 0;
-    let delay = POLL_MS;
-    let started = false;
-    let cursor: string | undefined;
-    let acc: OfficeEvent[] = [];
-    const seen = new Set<string>();
-
-    const add = (evs: OfficeEvent[], prepend = false) => {
-      const fresh = evs.filter((e) => !seen.has(e.id));
-      fresh.forEach((e) => seen.add(e.id));
-      if (!fresh.length) return;
-      acc = prepend ? [...fresh, ...acc] : [...acc, ...fresh];
-      if (acc.length > MAX_EVENTS) acc = acc.slice(-MAX_EVENTS);
-    };
+    let running = false;
+    let retried = false;
+    let slowUntil = 0;
+    let f = feeds.current.get(sessionId);
+    if (!f) {
+      f = { acc: [], seen: new Set(), backfilled: false, lastSync: 0 };
+      feeds.current.set(sessionId, f);
+    }
+    const feed = f;
 
     const page = async (input: Record<string, unknown>) => {
       const r = await mcp.callTool(
@@ -215,66 +282,138 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
       return parseEventPage(r.payload);
     };
 
+    const publish = (synced: boolean) => {
+      if (!alive) return;
+      setEvents(feed.acc);
+      if (synced) {
+        feed.lastSync = Date.now();
+        setLastSync(feed.lastSync);
+      }
+    };
+
+    /** Page la plus récente, puis remontée (non bloquante) jusqu'à la demande et aux appels « Agent ». */
     const backfill = async () => {
       const latest = await page({});
-      add(latest.events);
-      cursor = latest.lastId;
-      // Remonte un peu pour retrouver la dernière demande si elle n'est pas dans la page.
+      addEvents(feed, latest.events);
+      feed.cursor = latest.lastId;
+      feed.backfilled = true;
+      publish(false);
       let older = latest;
-      for (let n = 0; n < 3 && alive && older.hasMore && older.firstId && !acc.some((e) => e.type === "prompt"); n++) {
-        older = await page({ before_id: older.firstId });
-        add(older.events, true);
+      try {
+        for (let n = 0; n < MAX_BACKFILL_PAGES && alive && older.hasMore && older.firstId && needsOlder(feed.acc); n++) {
+          older = await page({ before_id: older.firstId });
+          addEvents(feed, older.events, true);
+        }
+      } catch {
+        // l'historique ancien est un bonus : la suite du direct n'en dépend pas
       }
     };
 
+    /** Nouveautés depuis le curseur. Renvoie true s'il en reste à lire tout de suite. */
     const forward = async () => {
       for (let n = 0; n < 5 && alive; n++) {
-        const next = await page(cursor ? { after_id: cursor } : {});
-        add(next.events);
-        if (next.lastId) cursor = next.lastId;
-        if (!next.hasMore || !next.lastId) break;
+        const hadCursor = !!feed.cursor;
+        const next = await page(hadCursor ? { after_id: feed.cursor } : {});
+        addEvents(feed, next.events);
+        if (next.lastId) feed.cursor = next.lastId;
+        if (!hadCursor && next.hasMore && next.firstId) {
+          // Le journal était vide et s'est rempli d'un coup : on récupère aussi ce qui précède.
+          let older = next;
+          for (let k = 0; k < MAX_BACKFILL_PAGES && alive && older.hasMore && older.firstId; k++) {
+            older = await page({ before_id: older.firstId });
+            if (!addEvents(feed, older.events, true)) break;
+          }
+          return false;
+        }
+        if (!feed.cursor || !next.hasMore) return false;
       }
+      return true;
     };
 
-    const tick = async () => {
+    const schedule = (ms: number) => {
+      window.clearTimeout(timer);
+      if (alive) timer = window.setTimeout(tick, ms);
+    };
+
+    async function tick() {
+      if (!alive || running) return;
+      running = true;
+      let wait = POLL_MS;
       try {
-        if (!started) {
-          setEvents([]);
-          await backfill();
-          started = true;
-        } else {
-          await forward();
-        }
+        let more = false;
+        if (!feed.backfilled) await backfill();
+        else more = await forward();
         if (!alive) return;
-        setEvents(acc);
-        setProblem(null);
-        setLastSync(Date.now());
-        delay = POLL_MS;
+        publish(!more);
+        setFeedProblem(null);
+        retried = false;
+        wait = more ? 0 : Date.now() < slowUntil ? SLOW_POLL_MS : POLL_MS;
       } catch (e) {
         if (!alive) return;
         const p = toProblem(e);
-        setProblem(p);
-        if (!p.retrying) return; // attend un geste : autoriser, réessayer…
-        const after = (e as { retryAfterMs?: number }).retryAfterMs ?? 0;
-        delay = Math.min(MAX_BACKOFF_MS, Math.max(after, delay * 2)) + Math.round(Math.random() * 1000);
+        if (p.code === "rate_limited") slowUntil = Date.now() + 120_000;
+        if (p.retrying && !retried) {
+          // Un seul essai automatique ; ensuite on attend un geste.
+          retried = true;
+          setFeedProblem(p);
+          wait = Math.max(p.retryAfterMs, POLL_MS * 2) + jitter();
+        } else {
+          setFeedProblem(giveUp(p));
+          timer = 0; // arrêt : seul un geste (Réessayer, Autoriser…) relance la lecture
+          return;
+        }
+      } finally {
+        running = false;
       }
-      if (alive) timer = window.setTimeout(tick, document.hidden ? Math.max(delay, HIDDEN_POLL_MS) : delay);
-    };
+      schedule(document.hidden ? Math.max(wait, HIDDEN_POLL_MS) : wait);
+    }
 
-    timer = window.setTimeout(tick, 0);
+    const onVisible = () => {
+      if (!document.hidden && timer) schedule(0);
+    };
+    document.addEventListener("visibilitychange", onVisible);
+
+    // Reprend là où on en était : historique déjà lu affiché tout de suite.
+    timer = window.setTimeout(() => {
+      setFeedProblem(null);
+      setEvents(feed.acc);
+      setLastSync(feed.lastSync);
+      tick();
+    }, 0);
+
     return () => {
       alive = false;
       window.clearTimeout(timer);
+      document.removeEventListener("visibilitychange", onVisible);
     };
-  }, [mcp, sessionId, attempt]);
+  }, [mcp, sessionId, feedRun]);
 
   const manage = async () => {
     const perms = (await host()?.use("permissions").catch(() => null)) as Permissions | null;
-    await perms?.manage().catch(() => {});
-    setAttempt((n) => n + 1);
+    let opened = false;
+    if (perms) {
+      try {
+        await perms.manage();
+        opened = true;
+      } catch {
+        opened = false;
+      }
+    }
+    setManageHint(!opened);
+    if (opened) {
+      refreshList();
+      setFeedRun((n) => n + 1);
+    }
   };
 
   const current = sessions?.find((x) => x.id === sessionId);
+  // Sans liste de sessions, c'est son erreur qui compte ; ensuite, celle du direct.
+  const problem = !sessions ? listProblem : (feedProblem ?? listProblem);
+  const refreshList = () => {
+    listRetried.current = false;
+    setListRun((n) => n + 1);
+  };
+  const retryProblem = () => (!sessions || problem === listProblem ? refreshList() : setFeedRun((n) => n + 1));
 
   const status: FeedStatus =
     mcp === undefined
@@ -285,13 +424,15 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
           ? { tone: "error", label: problem.action === "allow" || problem.action === "manage" ? "ACCÈS REQUIS" : "ERREUR" }
           : problem
             ? { tone: "wait", label: "RECONNEXION…" }
-            : !sessionId || !lastSync
-              ? { tone: "wait", label: "CHARGEMENT…" }
-              : { tone: "live", label: "EN DIRECT" };
+            : sessions && !sessions.length
+              ? { tone: "wait", label: "AUCUNE SESSION" }
+              : !sessionId || !lastSync
+                ? { tone: "wait", label: "CHARGEMENT…" }
+                : { tone: "live", label: "EN DIRECT" };
 
-  const toolbar =
-    sessions && sessions.length > 0 ? (
-      <>
+  const toolbar = mcp ? (
+    <>
+      {sessions && sessions.length > 0 && (
         <select
           id="session-picker"
           className={s.toolSelect}
@@ -309,11 +450,12 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
             </option>
           ))}
         </select>
-        <button className={s.btn} onClick={() => setListing((n) => n + 1)} title="Recharger la liste des sessions">
-          ↻ Sessions
-        </button>
-      </>
-    ) : null;
+      )}
+      <button className={s.btn} onClick={refreshList} title="Recharger la liste des sessions">
+        ↻ Sessions
+      </button>
+    </>
+  ) : null;
 
   let notice: React.ReactNode;
   if (mcp === null) {
@@ -328,7 +470,7 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
       <>
         <b>{problem.retrying ? "Connexion perdue." : "Le bureau ne peut pas lire tes sessions."}</b> {problem.message}{" "}
         {problem.action === "allow" && (
-          <button className={`${s.btn} ${s.btnOn}`} onClick={() => setAttempt((n) => n + 1)}>
+          <button className={`${s.btn} ${s.btnOn}`} onClick={retryProblem}>
             Autoriser l&apos;accès
           </button>
         )}
@@ -338,16 +480,24 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
           </button>
         )}
         {problem.action === "retry" && (
-          <button className={s.btn} onClick={() => setAttempt((n) => n + 1)}>
+          <button className={s.btn} onClick={retryProblem}>
             Réessayer
           </button>
+        )}
+        {problem.action === "manage" && manageHint && (
+          <span className={s.note}>
+            {" "}
+            Le panneau ne s&apos;est pas ouvert : utilise le menu Autorisations de cette page sur claude.ai et réactive
+            « Claude Code Remote ».
+          </span>
         )}
       </>
     );
   } else if (sessions && sessions.length === 0) {
     notice = (
       <>
-        <b>Aucune session Claude Code.</b> Lance une session sur claude.ai/code : ses robots apparaîtront ici.
+        <b>Aucune session Claude Code.</b> Lance une session sur claude.ai/code : la liste se met à jour toute seule et
+        ses robots apparaîtront ici.
       </>
     );
   } else if (current && lastSync) {

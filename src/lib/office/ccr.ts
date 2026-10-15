@@ -1,3 +1,4 @@
+import { isSystemPrompt } from "./describe";
 import type { OfficeEvent } from "./types";
 
 /**
@@ -124,7 +125,8 @@ export function parseEventPage(payload: unknown): EventPage {
     if (kind === "user") {
       if (body.isSynthetic === true || body.is_synthetic === true) return;
       if (typeof content === "string") {
-        if (!agentId && content.trim()) events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(content, MAX_STR) });
+        if (!agentId && content.trim() && !isSystemPrompt(content))
+          events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(content, MAX_STR) });
         return;
       }
       if (!Array.isArray(content)) return;
@@ -145,7 +147,8 @@ export function parseEventPage(payload: unknown): EventPage {
         }
       });
       const text = texts.join("\n").trim();
-      if (!agentId && text) events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(text, MAX_STR) });
+      if (!agentId && text && !isSystemPrompt(text))
+        events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(text, MAX_STR) });
       return;
     }
 

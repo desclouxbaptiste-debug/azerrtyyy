@@ -1,4 +1,4 @@
-import { describeTool, shortText, zoneForAgentType, zoneForTool } from "./describe";
+import { describeTool, isSystemPrompt, shortText, zoneForAgentType, zoneForTool } from "./describe";
 import { DEFAULT_GEOMETRY, type Geometry } from "./layout";
 import type { Agent, Chef, OfficeEvent, OfficeState, Task, ZoneId } from "./types";
 
@@ -13,8 +13,6 @@ export type ReduceOptions = {
 };
 
 export const LIVE_OPTIONS: ReduceOptions = { idleLeaveMs: 90_000, subagentLeaveMs: 20_000 };
-
-const isSystemPrompt = (text = "") => /^\s*<(task-notification|system-reminder)[\s>]/.test(text);
 
 const SUB_NAMES =["Nova", "Pixel", "Bolt", "Écho", "Atlas", "Iris", "Orbit", "Comète", "Néon", "Volt"];
 

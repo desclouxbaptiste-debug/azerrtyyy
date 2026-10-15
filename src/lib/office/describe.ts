@@ -99,3 +99,9 @@ export function describeTool(
 }
 
 export const shortText = clip;
+
+/**
+ * Les notifications système (GitHub, tâches de fond…) arrivent comme des messages
+ * « utilisateur » : ce ne sont pas des requêtes de la personne.
+ */
+export const isSystemPrompt = (text = "") => /^\s*<(task-notification|system-reminder)[\s>]/.test(text);
