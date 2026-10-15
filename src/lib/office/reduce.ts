@@ -14,7 +14,9 @@ export type ReduceOptions = {
 
 export const LIVE_OPTIONS: ReduceOptions = { idleLeaveMs: 90_000, subagentLeaveMs: 20_000 };
 
-const SUB_NAMES = ["Nova", "Pixel", "Bolt", "Écho", "Atlas", "Iris", "Orbit", "Comète", "Néon", "Volt"];
+const isSystemPrompt = (text = "") => /^\s*<(task-notification|system-reminder)[\s>]/.test(text);
+
+const SUB_NAMES =["Nova", "Pixel", "Bolt", "Écho", "Atlas", "Iris", "Orbit", "Comète", "Néon", "Volt"];
 
 /**
  * Rejoue tous les événements pour reconstruire le bureau à l'instant `now`.
@@ -176,6 +178,9 @@ export function buildOffice(
     const t = ev.ts;
     switch (ev.type) {
       case "prompt": {
+        // Les notifications système (GitHub, tâches de fond…) arrivent aussi
+        // par UserPromptSubmit : ce ne sont pas des requêtes de l'utilisateur.
+        if (isSystemPrompt(ev.text)) break;
         const text = ev.text?.trim() || "(requête vide)";
         chef.prompts.push({ ts: t, text });
         chef.currentPrompt = text;

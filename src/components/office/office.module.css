@@ -186,7 +186,8 @@
   letter-spacing: 0.06em;
   box-shadow: 0 0 0 1px #000;
   pointer-events: none;
-  z-index: 3;
+  /* sous les bulles : une bulle ne doit jamais perdre le nom de son robot */
+  z-index: 1;
 }
 
 .chefLabel {
