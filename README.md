@@ -62,3 +62,18 @@ Un bouton « Envoyer les rappels maintenant » est aussi disponible dans
 Déployez sur [Vercel](https://vercel.com/new) ou tout hébergeur Node.js compatible Next.js.
 Pensez à exécuter `prisma migrate deploy` contre votre base de données de production avant le
 premier déploiement.
+
+## Le Bureau de Claude (`/bureau`)
+
+Un bureau en pixel art pour regarder Claude et ses agents travailler :
+Max, le chef, reçoit tes requêtes au centre ; les robots des zones
+**Recherche**, **Code**, **Design**, **Action** et **Analyse** prennent les
+tâches. Clique sur un robot ou une bulle pour voir sa mission, sa tâche en
+cours et tout son historique (paramètres et résultats).
+
+- `npm run dev` puis ouvre <http://localhost:3000/bureau>.
+- Les hooks de `.claude/settings.json` lancent `.claude/hooks/office-log.mjs`,
+  qui écrit chaque requête, appel d'outil et sous-agent dans
+  `.claude/office/events.jsonl` (ignoré par git). La page lit ce journal via
+  `/api/office` et passe automatiquement en **direct**.
+- Sans activité, le bureau rejoue un scénario de **démo**.

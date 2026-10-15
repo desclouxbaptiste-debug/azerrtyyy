@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# journal du bureau des agents (hooks Claude Code)
+/.claude/office/
