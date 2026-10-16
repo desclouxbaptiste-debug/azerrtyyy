@@ -72,7 +72,7 @@ export const register: Register = on => {
   })
 
   on('prompt.submit', async ($, e, next) => {
-    if (!e.command && !e.isMeta && !isSystemText(e.text)) {
+    if (!e.command && !e.isMeta && e.origin?.kind !== 'task-notification' && !isSystemText(e.text)) {
       const t = await $.clock.now()
       await update($, work, w => startRequest(w, e.text, t))
     }
