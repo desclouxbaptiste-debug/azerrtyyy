@@ -120,6 +120,7 @@ export function Office({
   status,
   toolbar,
   notice,
+  emptyText = "Aucune activité pour l'instant : le bureau se remplit dès que Claude travaille",
   store,
 }: {
   events: OfficeEvent[];
@@ -128,6 +129,8 @@ export function Office({
   toolbar?: React.ReactNode;
   /** Message sous la scène (connexion, aide…). */
   notice?: React.ReactNode;
+  /** Texte affiché sur un bureau vide ; `null` le masque (chargement, erreur). */
+  emptyText?: string | null;
   store?: ConfigStore;
 }) {
   const [now, setNow] = useState(0);
@@ -568,13 +571,11 @@ export function Office({
               </div>
             )}
 
-            {events.length === 0 && !editing && (
-              <div className={s.empty}>Aucune activité pour l&apos;instant : le bureau se remplit dès que Claude travaille</div>
-            )}
+            {events.length === 0 && !editing && emptyText && <div className={s.empty}>{emptyText}</div>}
           </div>
         </div>
 
-        {!editing && notice && <div className={s.help}>{notice}</div>}
+        {notice && (!editing || status.tone === "error") && <div className={s.help}>{notice}</div>}
       </div>
 
       {editing && (

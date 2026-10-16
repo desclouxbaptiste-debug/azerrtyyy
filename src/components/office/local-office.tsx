@@ -14,6 +14,8 @@ export function LocalOffice() {
   const [reachable, setReachable] = useState<boolean | null>(null);
   /** Incrémenté à chaque « Vider » : une réponse partie avant est ignorée. */
   const generation = useRef(0);
+  /** Change à chaque « Vider » : le bureau repart de zéro (panneaux fermés). */
+  const [clears, setClears] = useState(0);
 
   useEffect(() => {
     let alive = true;
@@ -44,6 +46,7 @@ export function LocalOffice() {
     if (!window.confirm("Vider le journal des agents ?")) return;
     generation.current++;
     setEvents([]);
+    setClears((n) => n + 1);
     await fetch("/api/office", { method: "DELETE" }).catch(() => {});
     generation.current++;
   };
@@ -57,8 +60,10 @@ export function LocalOffice() {
 
   return (
     <Office
+      key={clears}
       events={events}
       status={status}
+      emptyText={reachable === false ? null : undefined}
       toolbar={
         events.length > 0 && (
           <button className={s.btn} onClick={clear}>
@@ -67,12 +72,19 @@ export function LocalOffice() {
         )
       }
       notice={
-        events.length === 0 && (
+        reachable === false ? (
+          <>
+            <b>Le journal ne répond pas.</b> La page n&apos;arrive pas à lire <code>/api/office</code> : vérifie que le
+            serveur Next tourne (<code>npm run dev</code>).
+          </>
+        ) : (
+          events.length === 0 && (
           <>
             <b>Le bureau attend Claude.</b> Les hooks de <code>.claude/settings.json</code> écrivent chaque requête,
             outil et sous-agent dans <code>.claude/office/events.jsonl</code>. Lance Claude Code dans ce dépôt : les
             robots arrivent dès sa première action.
           </>
+          )
         )
       }
     />

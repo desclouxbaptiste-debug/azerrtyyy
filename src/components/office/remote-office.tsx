@@ -179,7 +179,10 @@ function addEvents(f: Feed, evs: OfficeEvent[], prepend = false) {
   fresh.forEach((e) => f.seen.add(e.id));
   f.acc = prepend ? [...fresh, ...f.acc] : [...f.acc, ...fresh];
   if (f.acc.length > MAX_EVENTS) {
-    f.acc = f.acc.slice(-MAX_EVENTS);
+    const kept = f.acc.slice(-MAX_EVENTS);
+    // La dernière demande reste toujours connue, même dans une longue session.
+    const lastPrompt = f.acc.findLast((e) => e.type === "prompt");
+    f.acc = lastPrompt && !kept.includes(lastPrompt) ? [lastPrompt, ...kept] : kept;
     f.seen = new Set(f.acc.map((e) => e.id));
   }
   return fresh.length;
@@ -510,5 +513,16 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
     );
   }
 
-  return <Office events={events} status={status} toolbar={toolbar} notice={notice} store={store} />;
+  return (
+    <Office
+      // Un bureau neuf par session : un panneau ouvert ne passe pas d'une session à l'autre.
+      key={sessionId ?? "aucune"}
+      events={events}
+      status={status}
+      toolbar={toolbar}
+      notice={notice}
+      emptyText={status.tone === "live" ? undefined : null}
+      store={store}
+    />
+  );
 }

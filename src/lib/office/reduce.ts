@@ -12,6 +12,9 @@ export type ReduceOptions = {
   subagentLeaveMs: number;
 };
 
+/** Délai sans activité après lequel une mission dont on n'a pas vu la fin est considérée finie. */
+const STALE_MISSION_MS = 60_000;
+
 export const LIVE_OPTIONS: ReduceOptions = { idleLeaveMs: 90_000, subagentLeaveMs: 20_000 };
 
 const SUB_NAMES =["Nova", "Pixel", "Bolt", "Écho", "Atlas", "Iris", "Orbit", "Comète", "Néon", "Volt"];
@@ -161,21 +164,27 @@ export function buildOffice(
   function resolveSub(agentId: string, type: string | undefined, t: number): Agent {
     const known = aliases.get(agentId);
     if (known) return all[known];
-    // Journal de session : l'agentId d'un sous-agent est l'id de l'appel « Agent » qui l'a lancé.
-    const direct = pending.find((x) => !x.linked && x.key === `task:${agentId}`);
+    // Journal de session : l'agentId d'un sous-agent est l'id exact de l'appel « Agent » qui l'a lancé.
+    const direct = pending.find((x) => x.key === `task:${agentId}`);
     if (direct) {
       direct.linked = true;
       aliases.set(agentId, direct.key);
       return all[direct.key];
     }
-    const p =
-      pending.find((x) => !x.linked && type && x.type === type) ?? pending.find((x) => !x.linked);
+    // Rapprochement approximatif réservé aux identifiants des hooks : un id d'appel d'outil
+    // dont le lancement est hors de l'historique chargé obtient son propre robot.
+    const fromTranscript = agentId.startsWith("toolu_");
+    const p = fromTranscript
+      ? undefined
+      : (pending.find((x) => !x.linked && type && x.type === type) ?? pending.find((x) => !x.linked));
     if (p) {
       p.linked = true;
       aliases.set(agentId, p.key);
       return all[p.key];
     }
     const a = createSubagent(`sub:${agentId}`, type, t);
+    // Sans lancement connu, rien n'annoncera la fin : la mission se ferme après une période calme.
+    a.autoClose = true;
     aliases.set(agentId, a.key);
     return a;
   }
@@ -239,6 +248,16 @@ export function buildOffice(
       }
       case "tool_end": {
         const task = ev.toolUseId ? byToolUse.get(ev.toolUseId) : undefined;
+        if (!task && ev.toolUseId && !ev.agentId) {
+          // Fin d'un appel « Agent » lancé avant l'historique chargé : on clôt son robot.
+          const key = aliases.get(ev.toolUseId);
+          const sub = key ? all[key] : undefined;
+          if (sub) {
+            sub.finalMessage ??= ev.output;
+            finishMission(sub, t, ev.ok !== false);
+          }
+          break;
+        }
         if (!task || task.end !== undefined) break;
         task.end = t;
         task.ok = ev.ok !== false;
@@ -252,10 +271,16 @@ export function buildOffice(
           const sub = all[`task:${task.id}`];
           const linked = pending.find((p) => p.key === sub?.key)?.linked;
           if (sub) {
-            sub.finalMessage ??= ev.output;
-            // Lancé en arrière-plan : on attend le SubagentStop pour clore la mission.
             const background = ev.input?.run_in_background === true || task.input?.run_in_background === true;
-            if (!(linked && background)) finishMission(sub, t, task.ok);
+            if (background) {
+              // Lancé en arrière-plan : ce résultat n'est que l'accusé de lancement. La mission se
+              // termine au SubagentStop (hooks) ou, à défaut, après une période sans activité.
+              sub.autoClose = true;
+              if (!linked) sub.lastActive = t;
+            } else {
+              sub.finalMessage ??= ev.output;
+              finishMission(sub, t, task.ok);
+            }
           }
         }
         break;
@@ -282,6 +307,13 @@ export function buildOffice(
     }
   }
 
+  // Missions sans fin annoncée : closes après une période sans aucune tâche en cours.
+  for (const a of Object.values(all)) {
+    if (!a.autoClose || !a.missionRunning) continue;
+    const working = a.tasks.some((x) => x.end === undefined && x.tool !== "Mission");
+    if (!working && now - a.lastActive > STALE_MISSION_MS) finishMission(a, a.lastActive);
+  }
+
   // Présence à l'instant `now`.
   const present: Agent[] = [];
   for (const zone of ZONES) {
@@ -299,9 +331,14 @@ export function buildOffice(
   chef.reportsDone = sinceLast.filter((x) => x.end !== undefined).length;
   const running = chef.reportsTotal - chef.reportsDone;
   const chefBusy = chef.tasks.some((x) => x.end === undefined && x.start >= lastPromptTs);
+  // Une demande envoyée pendant un tour est datée de sa réception : c'est l'activité après
+  // la dernière fin de tour qui dit si Claude travaille encore.
+  const workedAfterStop = tasks.some((x) => x.start > stoppedAt);
+  const lastActivity = tasks.reduce((m, x) => Math.max(m, x.end ?? x.start), -Infinity);
   if (running > 0) chef.status = "waiting";
-  else if (chef.prompts.length === 0) chef.status = "idle";
-  else if (stoppedAt >= lastPromptTs && !chefBusy) chef.status = "done";
+  else if (chef.prompts.length === 0)
+    chef.status = workedAfterStop && now - lastActivity < STALE_MISSION_MS * 2 ? "thinking" : "idle";
+  else if (stoppedAt >= lastPromptTs && !workedAfterStop && !chefBusy) chef.status = "done";
   else chef.status = "thinking";
 
   return { chef, present, all, tasks, now };
