@@ -163,7 +163,19 @@ function saveChoice(id: string) {
   }
 }
 
+/** Session demandée par le lien (`…#session_…`, posé par l'extension « bureau-agents »). */
+function linkedSession(): string | null {
+  try {
+    const hash = window.location.hash.replace(/^#/, "");
+    return /^session_[A-Za-z0-9]+$/.test(hash) ? hash : null;
+  } catch {
+    return null;
+  }
+}
+
 function pickDefault(list: SessionSummary[]): string | null {
+  const linked = linkedSession();
+  if (linked && list.some((x) => x.id === linked)) return linked;
   const saved = readSaved();
   if (saved && list.some((x) => x.id === saved)) return saved;
   return (list.find((x) => x.bucket === "working" || x.bucket === "running") ?? list[0])?.id ?? null;
