@@ -83,6 +83,9 @@ cours et tout son historique (paramètres et résultats).
   connecteur « Claude Code Remote » (outils `list_sessions` et `list_events`,
   relus toutes les 4 secondes) : choix de la session dans la liste, puis
   requêtes, outils et sous-agents en direct.
+- La case **TA DEMANDE** de la version publiée envoie un message à la session
+  regardée (outil `send_message` du même connecteur) : Claude le reçoit dans
+  cette session et le bureau montre aussitôt les robots qui s'y mettent.
 - Le bouton **✏️ Aménager** ouvre l'atelier : fais glisser les zones, les meubles
   et le bureau du chef (ou utilise les flèches du clavier), renomme les zones et
   les robots, change les couleurs, masque des meubles. La mise en page est gardée

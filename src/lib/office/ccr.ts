@@ -1,4 +1,4 @@
-import { isSystemPrompt } from "./describe";
+import { isSystemPrompt, relayedText } from "./describe";
 import type { OfficeEvent } from "./types";
 
 /**
@@ -125,8 +125,9 @@ export function parseEventPage(payload: unknown): EventPage {
     if (kind === "user") {
       if (body.isSynthetic === true || body.is_synthetic === true) return;
       if (typeof content === "string") {
-        if (!agentId && content.trim() && !isSystemPrompt(content))
-          events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(content, MAX_STR) });
+        const said = relayedText(content);
+        if (!agentId && said.trim() && !isSystemPrompt(said))
+          events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(said, MAX_STR) });
         return;
       }
       if (!Array.isArray(content)) return;
@@ -146,7 +147,7 @@ export function parseEventPage(payload: unknown): EventPage {
           texts.push(b.text);
         }
       });
-      const text = texts.join("\n").trim();
+      const text = relayedText(texts.join("\n").trim());
       if (!agentId && text && !isSystemPrompt(text))
         events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(text, MAX_STR) });
       return;

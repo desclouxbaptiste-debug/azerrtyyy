@@ -105,3 +105,13 @@ export const shortText = clip;
  * « utilisateur » : ce ne sont pas des requêtes de la personne.
  */
 export const isSystemPrompt = (text = "") => /^\s*<(task-notification|system-reminder)[\s>]/.test(text);
+
+/**
+ * Message relayé par une autre session ou par la case « Ta demande » du bureau
+ * (`send_message`) : Claude Code l'enveloppe dans `<cross-session-message …>`.
+ * On garde le texte de la demande.
+ */
+export function relayedText(text: string): string {
+  const m = /^\s*<cross-session-message\b[^>]*>\n?([\s\S]*?)\n?<\/cross-session-message>\s*$/.exec(text);
+  return m ? m[1].trim() : text;
+}
