@@ -168,6 +168,103 @@
   white-space: nowrap;
 }
 
+/* ---- Case « Ta demande » --------------------------------------------- */
+
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--plum);
+  box-shadow: 0 0 0 2px var(--line);
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.composerLabel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.composerLabel > b {
+  color: var(--mint);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.composerLabel span b {
+  color: var(--paper);
+  overflow-wrap: anywhere;
+}
+
+.composerRow {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+/* Deux classes : passe devant les règles génériques `.textarea`, écrites plus bas. */
+.textarea.composerText {
+  flex: 1;
+  font-family: inherit;
+  font-size: 16px; /* 16px : pas de zoom automatique sur iPhone */
+  line-height: 1.35;
+  min-height: 48px;
+  max-height: 40dvh;
+}
+
+.textarea.composerText[readonly] {
+  opacity: 0.6;
+}
+
+.composerSend {
+  flex: none;
+  min-width: 96px;
+  font-size: 13px;
+}
+
+.composerStatus {
+  margin: 0;
+  min-height: 1em;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.composerStatus:empty {
+  display: none;
+}
+
+.composerOk {
+  color: var(--mint);
+}
+
+.composerErr {
+  color: #ff9a9a;
+}
+
+.composerErr .btn {
+  margin-left: 4px;
+}
+
+.composerLink {
+  color: var(--amber);
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .composerRow {
+    flex-direction: column;
+  }
+
+  .composerSend {
+    min-height: 40px;
+  }
+}
+
 /* ---- Scène ---------------------------------------------------------- */
 
 .frame {
@@ -181,6 +278,11 @@
     0 0 0 3px #2a2233,
     0 20px 60px rgb(0 0 0 / 0.6);
   background: #2e2420;
+}
+
+/* La case « Ta demande » prend ~110 px au-dessus : la scène tient toujours dans l'écran. */
+.shell:has(> .composer) .frame {
+  width: min(100%, calc((100dvh - 322px) * 1.2));
 }
 
 .stage {

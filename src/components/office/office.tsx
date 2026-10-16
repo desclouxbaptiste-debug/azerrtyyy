@@ -120,6 +120,7 @@ export function Office({
   status,
   toolbar,
   notice,
+  composer,
   emptyText = "Aucune activité pour l'instant : le bureau se remplit dès que Claude travaille",
   store,
 }: {
@@ -129,6 +130,8 @@ export function Office({
   toolbar?: React.ReactNode;
   /** Message sous la scène (connexion, aide…). */
   notice?: React.ReactNode;
+  /** Case pour écrire une demande à Claude, sous la barre REQUÊTE. */
+  composer?: React.ReactNode;
   /** Texte affiché sur un bureau vide ; `null` le masque (chargement, erreur). */
   emptyText?: string | null;
   store?: ConfigStore;
@@ -439,6 +442,8 @@ export function Office({
           <b>REQUÊTE ▸</b>
           <span>{chef?.currentPrompt ?? "En attente de ta prochaine demande…"}</span>
         </button>
+
+        {composer && !editing && composer}
 
         <div className={s.frame}>
           <div className={`${s.stage} ${editing ? s.stageEditing : ""}`} ref={stageRef}>

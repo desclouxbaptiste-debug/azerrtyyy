@@ -1,4 +1,4 @@
-import { isSystemPrompt } from "./describe";
+import { isSystemPrompt, relayedText } from "./describe";
 import type { OfficeEvent } from "./types";
 
 /**
@@ -123,9 +123,12 @@ export function parseEventPage(payload: unknown): EventPage {
     }
 
     if (kind === "user") {
-      if (body.isSynthetic === true || body.is_synthetic === true) return;
+      // Un message relayé (case « Ta demande », autre session) arrive marqué synthétique : c'est quand même une demande.
+      const relayed = agentId ? undefined : relayedText(textOf(content) ?? "");
+      if (relayed) events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(relayed, MAX_STR) });
+      else if (body.isSynthetic === true || body.is_synthetic === true) return;
       if (typeof content === "string") {
-        if (!agentId && content.trim() && !isSystemPrompt(content))
+        if (!relayed && !agentId && content.trim() && !isSystemPrompt(content))
           events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(content, MAX_STR) });
         return;
       }
@@ -147,7 +150,7 @@ export function parseEventPage(payload: unknown): EventPage {
         }
       });
       const text = texts.join("\n").trim();
-      if (!agentId && text && !isSystemPrompt(text))
+      if (!relayed && !agentId && text && !isSystemPrompt(text))
         events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(text, MAX_STR) });
       return;
     }

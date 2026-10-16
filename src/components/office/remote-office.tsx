@@ -3,13 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import { TRANSCRIPT_KINDS, parseEventPage, parseSessions, type SessionSummary } from "@/lib/office/ccr";
 import type { OfficeEvent } from "@/lib/office/types";
+import { Composer, MAX_REQUEST_BYTES, requestBytes, type SendState } from "./composer";
 import { Office, type ConfigStore, type FeedStatus } from "./office";
 import s from "./office.module.css";
 
 /**
  * Bureau alimenté par les vraies sessions Claude Code de la personne qui
  * regarde, lues avec son connecteur « Claude Code Remote » (page publiée
- * sur claude.ai, capacité `mcp`).
+ * sur claude.ai, capacité `mcp`). La case « Ta demande » envoie un message
+ * à la session regardée (`send_message`).
  */
 
 export const CCR_SERVER = "Claude Code Remote";
@@ -23,6 +25,7 @@ const MAX_EVENTS = 4000;
 /** Pages remontées au chargement pour retrouver la demande et les appels « Agent » en cours. */
 const MAX_BACKFILL_PAGES = 8;
 const SESSION_KEY = "bureau-claude:session";
+const DRAFT_KEY = "bureau-claude:draft";
 
 type CallResult = { payload?: unknown };
 type Mcp = {
@@ -109,7 +112,7 @@ function toProblem(e: unknown): Problem & { retryAfterMs: number } {
         retrying: false,
         action: "settings",
         message:
-          "Les outils du connecteur « Claude Code Remote » sont bloqués pour les pages. Dans les réglages des connecteurs, ouvre « Claude Code Remote » et autorise list_sessions et list_events, puis réessaie. Si l'option n'est pas proposée, c'est un administrateur de ton organisation qui l'a bloquée.",
+          "Les outils du connecteur « Claude Code Remote » sont bloqués pour les pages. Dans les réglages des connecteurs, ouvre « Claude Code Remote » et autorise list_sessions, list_events et send_message, puis réessaie. Si l'option n'est pas proposée, c'est un administrateur de ton organisation qui l'a bloquée.",
       };
     case "not_granted":
     case "capability_disabled":
@@ -140,6 +143,59 @@ const giveUp = (p: Problem): Problem => ({
   action: p.action ?? "retry",
   message: p.retrying ? "Claude Code Remote ne répond toujours pas." : p.message,
 });
+
+/**
+ * Échec d'un envoi. Un envoi n'est jamais relancé tout seul : sans réponse
+ * claire, la demande est peut-être partie, et la renvoyer la doublerait.
+ */
+function sendFailure(e: unknown): Extract<SendState, { kind: "error" }> {
+  const err = (e && typeof e === "object" ? e : {}) as { code?: string; message?: string };
+  switch (err.code) {
+    case "approval_required":
+    case "consent_required":
+      return {
+        kind: "error",
+        message: "claude.ai doit te demander l'accord pour envoyer. Appuie de nouveau sur « Envoyer » et accepte.",
+      };
+    case "blocked_by_policy":
+      return {
+        kind: "error",
+        message: "L'envoi est bloqué pour les pages : ouvre « Claude Code Remote » dans les réglages des connecteurs et autorise send_message.",
+        link: { href: CONNECTOR_SETTINGS, label: "Ouvrir les réglages des connecteurs" },
+      };
+    case "not_in_manifest":
+      return { kind: "error", message: "L'envoi de demandes est coupé pour cette page.", manage: true };
+    case "needs_reauth":
+      return {
+        kind: "error",
+        message: "La connexion à Claude Code Remote a expiré. Reconnecte-la dans claude.ai → Paramètres → Connecteurs.",
+      };
+    case "server_not_connected":
+      return { kind: "error", message: "Le connecteur « Claude Code Remote » n'est pas disponible depuis cette page." };
+    case "selection_required":
+      return {
+        kind: "error",
+        message: "Plusieurs connecteurs Claude Code Remote existent : choisis lequel utiliser dans claude.ai.",
+      };
+    case "not_granted":
+    case "capability_disabled":
+    case "capability_removed":
+      return { kind: "error", message: "Cette vue ne peut pas envoyer de demande. Ouvre la page sur claude.ai." };
+    case "tool_error":
+      return {
+        kind: "error",
+        message: `La session n'a pas accepté la demande${err.message ? ` : ${err.message.slice(0, 200)}` : "."}`,
+      };
+    case "bad_request":
+      return { kind: "error", message: "La demande n'a pas pu partir (format refusé)." };
+    default:
+      return {
+        kind: "error",
+        message:
+          "Pas de réponse claire de Claude Code Remote : ta demande est peut-être partie. Regarde le bureau quelques secondes avant de la renvoyer.",
+      };
+  }
+}
 
 const BUCKET_LABEL: Record<string, string> = {
   working: "au travail",
@@ -174,6 +230,23 @@ function linkedSession(): string | null {
     return /^session_[A-Za-z0-9]+$/.test(hash) ? hash : null;
   } catch {
     return null;
+  }
+}
+
+function readDraft(): string {
+  try {
+    return window.localStorage.getItem(DRAFT_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function saveDraft(text: string) {
+  try {
+    if (text) window.localStorage.setItem(DRAFT_KEY, text);
+    else window.localStorage.removeItem(DRAFT_KEY);
+  } catch {
+    // brouillon gardé pour cette visite seulement
   }
 }
 
@@ -223,6 +296,17 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
   const [listRun, setListRun] = useState(0);
   const [feedRun, setFeedRun] = useState(0);
   const [manageHint, setManageHint] = useState(false);
+  const [draft, setDraft] = useState(readDraft);
+  const [send, setSend] = useState<SendState>({ kind: "idle" });
+  /**
+   * Un bureau neuf quand une session en remplace une autre (un panneau ouvert ne
+   * passe pas de l'une à l'autre) ; pas au premier choix automatique, pour ne pas
+   * recréer la case « Ta demande » pendant que la personne écrit.
+   */
+  const [shown, setShown] = useState<{ id: string | null; key: number }>({ id: null, key: 0 });
+  if (shown.id !== sessionId) setShown({ id: sessionId, key: shown.id ? shown.key + 1 : shown.key });
+  /** Un envoi à la fois, même si deux gestes arrivent avant le prochain rendu. */
+  const sendingRef = useRef(false);
   const feeds = useRef(new Map<string, Feed>());
 
   // 1. Le connecteur est-il joignable depuis cette vue ?
@@ -434,6 +518,60 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
   };
   const retryProblem = () => (!sessions || problem === listProblem ? refreshList() : setFeedRun((n) => n + 1));
 
+  const editDraft = (text: string) => {
+    setDraft(text);
+    saveDraft(text);
+    setSend((st) => (st.kind === "sending" ? st : { kind: "idle" }));
+  };
+
+  const sendRequest = async () => {
+    const text = draft.trim();
+    if (!mcp || !current || !text || sendingRef.current || requestBytes(text) > MAX_REQUEST_BYTES) return;
+    sendingRef.current = true;
+    const to = current.title;
+    setSend({ kind: "sending" });
+    try {
+      await mcp.callTool(CCR_SERVER, "send_message", { session_id: current.id, message: text }, { cache: false });
+      editDraft("");
+      setSend({ kind: "sent", at: Date.now(), to });
+    } catch (e) {
+      setSend(sendFailure(e));
+    } finally {
+      sendingRef.current = false;
+    }
+    // Relit tout de suite la session et son statut : la demande y apparaît dès que Claude la prend.
+    refreshList();
+    setFeedRun((n) => n + 1);
+  };
+
+  const sendBlocked =
+    mcp === undefined
+      ? "Connexion à claude.ai…"
+      : mcp === null
+        ? "Ouvre cette page sur claude.ai pour écrire à Claude."
+        : !sessions
+          ? listProblem
+            ? "Le bureau doit d'abord pouvoir lire tes sessions (voir le message sous la scène)."
+            : "Chargement de tes sessions…"
+          : !sessions.length
+            ? "Aucune session à qui écrire : lance une session sur claude.ai/code."
+            : !current
+              ? "Choisis une session dans la liste."
+              : undefined;
+
+  const composer = (
+    <Composer
+      value={draft}
+      onChange={editDraft}
+      onSend={sendRequest}
+      state={send}
+      target={current?.title}
+      waiting={current?.bucket === "blocked"}
+      disabledReason={sendBlocked}
+      onManage={manage}
+    />
+  );
+
   const status: FeedStatus =
     mcp === undefined
       ? { tone: "wait", label: "CONNEXION…" }
@@ -538,12 +676,12 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
 
   return (
     <Office
-      // Un bureau neuf par session : un panneau ouvert ne passe pas d'une session à l'autre.
-      key={sessionId ?? "aucune"}
+      key={shown.key}
       events={events}
       status={status}
       toolbar={toolbar}
       notice={notice}
+      composer={composer}
       emptyText={status.tone === "live" ? undefined : null}
       store={store}
     />
