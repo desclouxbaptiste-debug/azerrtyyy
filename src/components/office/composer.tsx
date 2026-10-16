@@ -1,10 +1,13 @@
 "use client";
 
-import { useId } from "react";
+import { useEffect, useId, useRef } from "react";
 import s from "./office.module.css";
 
-/** Limite d'un message vers une session (64 Kio côté Claude Code Remote, en octets). */
-export const MAX_REQUEST_CHARS = 10_000;
+/** Taille maximale d'une demande, sous la limite de 64 Kio d'un message vers une session. */
+export const MAX_REQUEST_BYTES = 60_000;
+
+/** Taille d'un texte une fois envoyé (UTF-8). */
+export const requestBytes = (text: string) => new TextEncoder().encode(text).length;
 
 export type SendState =
   | { kind: "idle" }
@@ -13,6 +16,7 @@ export type SendState =
   | { kind: "error"; message: string; link?: { href: string; label: string }; manage?: boolean };
 
 const hhmm = (ts: number) => new Date(ts).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+const ko = (bytes: number) => `${Math.ceil(bytes / 1000)} Ko`;
 
 /** Sur un écran tactile, Entrée passe à la ligne ; ailleurs elle envoie (Maj+Entrée pour une ligne). */
 const enterSends = () => {
@@ -50,16 +54,30 @@ export function Composer({
   onManage?(): void;
 }) {
   const id = useId();
+  const formRef = useRef<HTMLFormElement>(null);
+  const textRef = useRef<HTMLTextAreaElement>(null);
   const sending = state.kind === "sending";
   const empty = !value.trim();
   const blocked = !!disabledReason;
+  const bytes = requestBytes(value);
+  const tooLong = bytes > MAX_REQUEST_BYTES;
+
+  // Le bouton se désactive pendant l'envoi : on rend ensuite la main à la case, pour enchaîner.
+  const wasSending = useRef(false);
+  useEffect(() => {
+    const active = document.activeElement;
+    if (wasSending.current && !sending && (!active || active === document.body || formRef.current?.contains(active)))
+      textRef.current?.focus();
+    wasSending.current = sending;
+  }, [sending]);
 
   const submit = () => {
-    if (!sending && !empty && !blocked) onSend();
+    if (!sending && !empty && !blocked && !tooLong) onSend();
   };
 
   return (
     <form
+      ref={formRef}
       className={s.composer}
       onSubmit={(e) => {
         e.preventDefault();
@@ -82,26 +100,34 @@ export function Composer({
       </label>
       <div className={s.composerRow}>
         <textarea
+          ref={textRef}
           id={`${id}-text`}
           className={`${s.textarea} ${s.composerText}`}
           rows={2}
-          maxLength={MAX_REQUEST_CHARS}
           value={value}
           placeholder={
             blocked ? disabledReason : "Écris ce que Claude doit faire… puis « Envoyer » : les robots se mettent au travail."
           }
-          disabled={sending}
-          aria-describedby={`${id}-status`}
+          // Lecture seule pendant l'envoi (et non désactivée) : la case garde le focus.
+          readOnly={sending}
+          aria-disabled={sending || undefined}
+          aria-invalid={tooLong || undefined}
+          aria-describedby={`${id}-status ${id}-size`}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key !== "Enter" || e.nativeEvent.isComposing) return;
+            // Safari valide une saisie composée (accents, japonais…) avec un Entrée marqué 229.
+            if (e.key !== "Enter" || e.nativeEvent.isComposing || e.keyCode === 229) return;
             if (e.ctrlKey || e.metaKey || (!e.shiftKey && enterSends())) {
               e.preventDefault();
               submit();
             }
           }}
         />
-        <button type="submit" className={`${s.btn} ${s.btnOn} ${s.composerSend}`} disabled={sending || empty || blocked}>
+        <button
+          type="submit"
+          className={`${s.btn} ${s.btnOn} ${s.composerSend}`}
+          disabled={sending || empty || blocked || tooLong}
+        >
           {sending ? "Envoi…" : "Envoyer ▸"}
         </button>
       </div>
@@ -109,7 +135,8 @@ export function Composer({
         {state.kind === "sending" && "Envoi à Claude…"}
         {state.kind === "sent" && (
           <span className={s.composerOk}>
-            ✓ Envoyée à {hhmm(state.at)} à « {state.to} ». Elle s&apos;affichera dans REQUÊTE dès que Claude la prend.
+            ✓ Envoyée à {hhmm(state.at)} à « {state.to} ». Claude la reçoit dans cette session : regarde les robots
+            s&apos;y mettre.
           </span>
         )}
         {state.kind === "error" && (
@@ -128,13 +155,18 @@ export function Composer({
           </span>
         )}
         {state.kind === "idle" && blocked && value.trim() && disabledReason}
-        {state.kind === "idle" && value.length > MAX_REQUEST_CHARS * 0.9 && (
-          <span>
-            {" "}
-            {value.length} / {MAX_REQUEST_CHARS} caractères
+        {state.kind === "idle" && tooLong && (
+          <span className={s.composerErr}>
+            Demande trop longue ({ko(bytes)} pour {ko(MAX_REQUEST_BYTES)} au plus) : raccourcis-la pour l&apos;envoyer.
           </span>
         )}
       </p>
+      {/* Hors de la zone annoncée : la taille change à chaque frappe. */}
+      {!tooLong && bytes > MAX_REQUEST_BYTES * 0.9 && (
+        <p id={`${id}-size`} className={s.composerStatus}>
+          {ko(bytes)} / {ko(MAX_REQUEST_BYTES)}
+        </p>
+      )}
     </form>
   );
 }

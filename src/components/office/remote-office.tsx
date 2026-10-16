@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { TRANSCRIPT_KINDS, parseEventPage, parseSessions, type SessionSummary } from "@/lib/office/ccr";
 import type { OfficeEvent } from "@/lib/office/types";
-import { Composer, type SendState } from "./composer";
+import { Composer, MAX_REQUEST_BYTES, requestBytes, type SendState } from "./composer";
 import { Office, type ConfigStore, type FeedStatus } from "./office";
 import s from "./office.module.css";
 
@@ -298,6 +298,13 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
   const [manageHint, setManageHint] = useState(false);
   const [draft, setDraft] = useState(readDraft);
   const [send, setSend] = useState<SendState>({ kind: "idle" });
+  /**
+   * Un bureau neuf quand une session en remplace une autre (un panneau ouvert ne
+   * passe pas de l'une à l'autre) ; pas au premier choix automatique, pour ne pas
+   * recréer la case « Ta demande » pendant que la personne écrit.
+   */
+  const [shown, setShown] = useState<{ id: string | null; key: number }>({ id: null, key: 0 });
+  if (shown.id !== sessionId) setShown({ id: sessionId, key: shown.id ? shown.key + 1 : shown.key });
   /** Un envoi à la fois, même si deux gestes arrivent avant le prochain rendu. */
   const sendingRef = useRef(false);
   const feeds = useRef(new Map<string, Feed>());
@@ -519,7 +526,7 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
 
   const sendRequest = async () => {
     const text = draft.trim();
-    if (!mcp || !current || !text || sendingRef.current) return;
+    if (!mcp || !current || !text || sendingRef.current || requestBytes(text) > MAX_REQUEST_BYTES) return;
     sendingRef.current = true;
     const to = current.title;
     setSend({ kind: "sending" });
@@ -669,8 +676,7 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
 
   return (
     <Office
-      // Un bureau neuf par session : un panneau ouvert ne passe pas d'une session à l'autre.
-      key={sessionId ?? "aucune"}
+      key={shown.key}
       events={events}
       status={status}
       toolbar={toolbar}

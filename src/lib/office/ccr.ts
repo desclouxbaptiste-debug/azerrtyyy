@@ -123,11 +123,13 @@ export function parseEventPage(payload: unknown): EventPage {
     }
 
     if (kind === "user") {
-      if (body.isSynthetic === true || body.is_synthetic === true) return;
+      // Un message relayé (case « Ta demande », autre session) arrive marqué synthétique : c'est quand même une demande.
+      const relayed = agentId ? undefined : relayedText(textOf(content) ?? "");
+      if (relayed) events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(relayed, MAX_STR) });
+      else if (body.isSynthetic === true || body.is_synthetic === true) return;
       if (typeof content === "string") {
-        const said = relayedText(content);
-        if (!agentId && said.trim() && !isSystemPrompt(said))
-          events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(said, MAX_STR) });
+        if (!relayed && !agentId && content.trim() && !isSystemPrompt(content))
+          events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(content, MAX_STR) });
         return;
       }
       if (!Array.isArray(content)) return;
@@ -147,8 +149,8 @@ export function parseEventPage(payload: unknown): EventPage {
           texts.push(b.text);
         }
       });
-      const text = relayedText(texts.join("\n").trim());
-      if (!agentId && text && !isSystemPrompt(text))
+      const text = texts.join("\n").trim();
+      if (!relayed && !agentId && text && !isSystemPrompt(text))
         events.push({ id: `${uid}:prompt`, ts, type: "prompt", text: clip(text, MAX_STR) });
       return;
     }

@@ -206,7 +206,8 @@
   align-items: stretch;
 }
 
-.composerText {
+/* Deux classes : passe devant les règles génériques `.textarea`, écrites plus bas. */
+.textarea.composerText {
   flex: 1;
   font-family: inherit;
   font-size: 16px; /* 16px : pas de zoom automatique sur iPhone */
@@ -215,7 +216,7 @@
   max-height: 40dvh;
 }
 
-.composerText:disabled {
+.textarea.composerText[readonly] {
   opacity: 0.6;
 }
 

@@ -106,12 +106,16 @@ export const shortText = clip;
  */
 export const isSystemPrompt = (text = "") => /^\s*<(task-notification|system-reminder)[\s>]/.test(text);
 
+/** Enveloppe d'un message relayé (attributs entre guillemets, `>` compris). */
+const RELAY = /(?:^|\n)<cross-session-message\b(?:"[^"]*"|[^>"])*>\n?([\s\S]*?)\n?<\/cross-session-message>/g;
+
 /**
  * Message relayé par une autre session ou par la case « Ta demande » du bureau
- * (`send_message`) : Claude Code l'enveloppe dans `<cross-session-message …>`.
- * On garde le texte de la demande.
+ * (`send_message`) : Claude Code l'enveloppe dans `<cross-session-message …>`,
+ * parfois précédé d'une phrase d'introduction et suivi d'une mise en garde.
+ * Renvoie le texte de la (ou des) demande(s), ou `undefined` si ce n'en est pas une.
  */
-export function relayedText(text: string): string {
-  const m = /^\s*<cross-session-message\b[^>]*>\n?([\s\S]*?)\n?<\/cross-session-message>\s*$/.exec(text);
-  return m ? m[1].trim() : text;
+export function relayedText(text: string): string | undefined {
+  const parts = [...text.matchAll(RELAY)].map((m) => (m[1] ?? "").trim()).filter(Boolean);
+  return parts.length ? parts.join("\n\n") : undefined;
 }
