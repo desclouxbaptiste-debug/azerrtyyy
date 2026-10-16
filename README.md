@@ -75,5 +75,40 @@ cours et tout son historique (paramètres et résultats).
 - Les hooks de `.claude/settings.json` lancent `.claude/hooks/office-log.mjs`,
   qui écrit chaque requête, appel d'outil et sous-agent dans
   `.claude/office/events.jsonl` (ignoré par git). La page lit ce journal via
-  `/api/office` et passe automatiquement en **direct**.
-- Sans activité, le bureau rejoue un scénario de **démo**.
+  `/api/office` et affiche tout en **direct**. Sans activité, le bureau est
+  vide et Max attend une requête.
+- **Version publiée sur claude.ai** : `npm run build:bureau-artifact` produit
+  `scripts/bureau-artifact/dist/bureau-de-claude.html`. Cette page lit les
+  vraies sessions Claude Code de la personne qui la regarde grâce à son
+  connecteur « Claude Code Remote » (outils `list_sessions` et `list_events`,
+  relus toutes les 4 secondes) : choix de la session dans la liste, puis
+  requêtes, outils et sous-agents en direct.
+- Le bouton **✏️ Aménager** ouvre l'atelier : fais glisser les zones, les meubles
+  et le bureau du chef (ou utilise les flèches du clavier), renomme les zones et
+  les robots, change les couleurs, masque des meubles. La mise en page est gardée
+  dans le navigateur ; « Copier le code » permet de la transmettre à Claude.
+
+## Extension Claude Code « bureau-agents »
+
+À chaque demande, sur n'importe quel projet, une petite fenêtre montre en direct
+la demande en cours, les agents de Claude (sous-agents et équipes comprises) et
+leurs tâches, avec un lien « 🏢 Ouvrir le bureau virtuel » qui ouvre le bureau
+sur la session en cours. La commande `/bureau` rouvre la fenêtre.
+
+Installation, à l'invite d'une session Claude Code dans un terminal :
+
+```
+/plugin install bureau-agents --marketplace desclouxbaptiste-debug/azerrtyyy
+```
+
+Depuis un terminal :
+
+```
+claude plugin install bureau-agents --marketplace desclouxbaptiste-debug/azerrtyyy
+```
+
+Dans l'application de bureau : + à côté de la zone de saisie, puis Plugins,
+Ajouter une marketplace avec `desclouxbaptiste-debug/azerrtyyy`, puis Ajouter le
+plugin. Les sessions ouvertes sur ce dépôt l'activent toutes seules
+(`.claude/settings.json`). Code : `plugins/bureau-agents/`.
+

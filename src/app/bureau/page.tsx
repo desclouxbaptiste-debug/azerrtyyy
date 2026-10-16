@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Pixelify_Sans } from "next/font/google";
-import { Office } from "@/components/office/office";
+import { LocalOffice } from "@/components/office/local-office";
 
 const pixel = Pixelify_Sans({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function BureauPage() {
   return (
     <div className={pixel.className}>
-      <Office />
+      <LocalOffice />
     </div>
   );
 }

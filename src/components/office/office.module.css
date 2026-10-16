@@ -14,7 +14,9 @@
     radial-gradient(circle at 50% 0%, #2a1f35 0%, transparent 60%),
     #0d0b10;
   color: var(--paper);
-  padding: 16px;
+  padding-block: 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 
 .shell {
@@ -34,12 +36,14 @@
 }
 
 .title {
+  text-transform: uppercase;
   font-size: clamp(16px, 2.4vw, 24px);
   letter-spacing: 0.04em;
   line-height: 1.1;
 }
 
 .title small {
+  text-transform: none;
   display: block;
   font-size: 11px;
   color: var(--muted);
@@ -112,6 +116,20 @@
   background: #ffc08a;
 }
 
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btnDanger {
+  background: #c8483f;
+  color: var(--paper);
+}
+
+.btnDanger:hover {
+  background: #d85a50;
+}
+
 .stats {
   display: flex;
   flex-wrap: wrap;
@@ -132,6 +150,11 @@
   box-shadow: 0 0 0 2px var(--line);
   padding: 8px 10px;
   cursor: pointer;
+}
+
+.request:disabled {
+  cursor: default;
+  opacity: 0.6;
 }
 
 .request b {
@@ -186,7 +209,8 @@
   letter-spacing: 0.06em;
   box-shadow: 0 0 0 1px #000;
   pointer-events: none;
-  z-index: 3;
+  /* sous les bulles : une bulle ne doit jamais perdre le nom de son robot */
+  z-index: 1;
 }
 
 .chefLabel {
@@ -318,6 +342,9 @@
     -20px 0 60px rgb(0 0 0 / 0.6);
   display: flex;
   flex-direction: column;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   animation: slide 220ms steps(5);
 }
 
@@ -491,4 +518,265 @@
 
 .help b {
   color: var(--paper);
+}
+
+/* ---- Mode « Aménager » ------------------------------------------------ */
+
+.stageEditing .bubble {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.editLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+}
+
+.handle {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: 1px dashed rgb(255 255 255 / 0.35);
+  outline-offset: -1px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.handle:hover {
+  outline: 2px dashed rgb(255 176 112 / 0.9);
+  background: rgb(255 176 112 / 0.08);
+}
+
+.handle:active {
+  cursor: grabbing;
+}
+
+.handleDecor {
+  outline-color: rgb(126 240 176 / 0.45);
+}
+
+.handleOn,
+.handleOn:hover {
+  outline: 2px solid var(--amber);
+  background: rgb(255 176 112 / 0.14);
+  z-index: 2;
+}
+
+.handleTag {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  font-size: clamp(9px, 1.3cqw, 12px);
+  line-height: 1;
+  padding: 0.3em 0.45em;
+  background: var(--amber);
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.atelier {
+  width: min(400px, 100vw);
+}
+
+@media (min-width: 1100px) {
+  .isEditing .shell {
+    margin-right: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .atelier {
+    height: 48dvh;
+  }
+
+  .isEditing {
+    padding-bottom: 50dvh;
+  }
+
+  .isEditing .request,
+  .isEditing .stats {
+    display: none;
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card .form h3 {
+  margin-bottom: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.section .field {
+  color: var(--muted);
+}
+
+.input,
+.textarea {
+  font: inherit;
+  font-size: 14px;
+  width: 100%;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 0;
+  background: #0f0c13;
+  color: var(--paper);
+  box-shadow: 0 0 0 2px var(--line);
+}
+
+.card .input {
+  background: #fffaf0;
+  color: var(--ink);
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+.input:focus-visible,
+.textarea:focus-visible,
+.color:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.textarea {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.color {
+  width: 100%;
+  height: 34px;
+  padding: 2px;
+  border: 0;
+  background: #0f0c13;
+  box-shadow: 0 0 0 2px var(--line);
+  cursor: pointer;
+}
+
+.card .color {
+  box-shadow: 0 0 0 2px var(--ink);
+  background: #fffaf0;
+}
+
+.row2,
+.row3 {
+  display: grid;
+  gap: 8px;
+}
+
+.row2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.row3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.swatch2 {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 3px;
+  vertical-align: -1px;
+  box-shadow: 0 0 0 1px #000;
+}
+
+.checklist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  background: var(--plum-2);
+  box-shadow: 0 0 0 2px var(--line);
+  font-size: 13px;
+}
+
+.checkRow label {
+  flex: 1;
+  cursor: pointer;
+}
+
+.checkRow input {
+  accent-color: var(--amber);
+  width: 16px;
+  height: 16px;
+}
+
+.checkOn {
+  box-shadow: 0 0 0 2px var(--amber);
+}
+
+.linkBtn {
+  font: inherit;
+  font-size: 12px;
+  color: var(--amber);
+  background: none;
+  border: 0;
+  padding: 2px 4px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.note {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.card .note {
+  color: #5a5060;
+}
+
+.dotStill {
+  animation: none;
+}
+
+.toolSelect {
+  font: inherit;
+  font-size: 12px;
+  color: var(--paper);
+  background: var(--plum-2);
+  border: 0;
+  padding: 6px 8px;
+  min-height: 32px;
+  max-width: min(100%, 360px);
+  box-shadow: 0 0 0 2px var(--line);
+}
+
+.toolSelect:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
 }

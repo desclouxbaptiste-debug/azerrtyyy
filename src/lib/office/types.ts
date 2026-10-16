@@ -62,6 +62,8 @@ export type Agent = {
   leaveAt?: number;
   busy: boolean;
   missionRunning: boolean;
+  /** Mission dont la fin ne sera peut-être jamais annoncée (arrière-plan, lancement hors historique). */
+  autoClose?: boolean;
 };
 
 export type ChefStatus = "idle" | "thinking" | "waiting" | "done";

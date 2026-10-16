@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Page publiée du bureau, générée par scripts/bureau-artifact/build.mjs
+    "scripts/bureau-artifact/dist/**",
+    // Extensions Claude Code : elles ont leurs propres types (claude-code)
+    "plugins/**",
   ]),
 ]);
 
