@@ -87,3 +87,28 @@ cours et tout son historique (paramètres et résultats).
   et le bureau du chef (ou utilise les flèches du clavier), renomme les zones et
   les robots, change les couleurs, masque des meubles. La mise en page est gardée
   dans le navigateur ; « Copier le code » permet de la transmettre à Claude.
+
+## Extension Claude Code « bureau-agents »
+
+À chaque demande, sur n'importe quel projet, une petite fenêtre montre en direct
+la demande en cours, les agents de Claude (sous-agents et équipes comprises) et
+leurs tâches, avec un lien « 🏢 Ouvrir le bureau virtuel » qui ouvre le bureau
+sur la session en cours. La commande `/bureau` rouvre la fenêtre.
+
+Installation, à l'invite d'une session Claude Code dans un terminal :
+
+```
+/plugin install bureau-agents --marketplace desclouxbaptiste-debug/azerrtyyy
+```
+
+Depuis un terminal :
+
+```
+claude plugin install bureau-agents --marketplace desclouxbaptiste-debug/azerrtyyy
+```
+
+Dans l'application de bureau : + à côté de la zone de saisie, puis Plugins,
+Ajouter une marketplace avec `desclouxbaptiste-debug/azerrtyyy`, puis Ajouter le
+plugin. Les sessions ouvertes sur ce dépôt l'activent toutes seules
+(`.claude/settings.json`). Code : `plugins/bureau-agents/`.
+

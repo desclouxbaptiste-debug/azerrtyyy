@@ -1,0 +1,14 @@
+{
+  "name": "azerrtyyy",
+  "owner": {
+    "name": "desclouxbaptiste-debug"
+  },
+  "description": "Extensions Claude Code de desclouxbaptiste-debug : le Bureau de Claude.",
+  "plugins": [
+    {
+      "name": "bureau-agents",
+      "source": "./plugins/bureau-agents",
+      "description": "Fenêtre des agents de Claude en direct, avec un lien vers le bureau virtuel."
+    }
+  ]
+}
