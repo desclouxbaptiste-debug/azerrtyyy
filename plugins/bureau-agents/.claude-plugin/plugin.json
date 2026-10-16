@@ -1,6 +1,6 @@
 {
   "name": "bureau-agents",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Petite fenêtre qui montre en direct la demande en cours, les agents de Claude et leurs tâches, avec un lien vers le bureau virtuel.",
   "types": "./types/index.d.ts",
   "author": {
