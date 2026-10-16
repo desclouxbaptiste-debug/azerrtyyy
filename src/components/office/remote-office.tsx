@@ -13,6 +13,8 @@ import s from "./office.module.css";
  */
 
 export const CCR_SERVER = "Claude Code Remote";
+/** Où la personne autorise les outils d'un connecteur pour les pages. */
+const CONNECTOR_SETTINGS = "https://claude.ai/customize/connectors";
 const POLL_MS = 4000;
 const SLOW_POLL_MS = 15_000;
 const HIDDEN_POLL_MS = 20_000;
@@ -34,7 +36,7 @@ type Problem = {
   message: string;
   /** Un nouvel essai automatique est prévu (erreur passagère). */
   retrying: boolean;
-  action?: "allow" | "manage" | "retry";
+  action?: "allow" | "manage" | "retry" | "settings";
 };
 
 /** Ce qui a déjà été lu d'une session : survit aux nouveaux essais et aux allers-retours entre sessions. */
@@ -105,7 +107,9 @@ function toProblem(e: unknown): Problem & { retryAfterMs: number } {
       return {
         ...base,
         retrying: false,
-        message: "Ton organisation bloque l'accès à Claude Code Remote depuis cette page.",
+        action: "settings",
+        message:
+          "Les outils du connecteur « Claude Code Remote » sont bloqués pour les pages. Dans les réglages des connecteurs, ouvre « Claude Code Remote » et autorise list_sessions et list_events, puis réessaie. Si l'option n'est pas proposée, c'est un administrateur de ton organisation qui l'a bloquée.",
       };
     case "not_granted":
     case "capability_disabled":
@@ -436,7 +440,7 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
       : mcp === null
         ? { tone: "error", label: "HORS CLAUDE.AI" }
         : problem && !problem.retrying
-          ? { tone: "error", label: problem.action === "allow" || problem.action === "manage" ? "ACCÈS REQUIS" : "ERREUR" }
+          ? { tone: "error", label: problem.action === "allow" || problem.action === "manage" || problem.action === "settings" ? "ACCÈS REQUIS" : "ERREUR" }
           : problem
             ? { tone: "wait", label: "RECONNEXION…" }
             : sessions && !sessions.length
@@ -494,7 +498,14 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
             Gérer les autorisations
           </button>
         )}
-        {problem.action === "retry" && (
+        {problem.action === "settings" && (
+          <>
+            <a className={`${s.btn} ${s.btnOn}`} href={CONNECTOR_SETTINGS} target="_blank" rel="noreferrer">
+              Ouvrir les réglages des connecteurs
+            </a>{" "}
+          </>
+        )}
+        {(problem.action === "retry" || problem.action === "settings") && (
           <button className={s.btn} onClick={retryProblem}>
             Réessayer
           </button>
