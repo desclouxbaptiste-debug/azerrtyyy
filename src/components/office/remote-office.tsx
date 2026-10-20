@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { TRANSCRIPT_KINDS, parseEventPage, parseSessions, type SessionSummary } from "@/lib/office/ccr";
+import { TRANSCRIPT_KINDS, parseEventPage, parseSessionPage, type SessionSummary } from "@/lib/office/ccr";
 import type { OfficeEvent } from "@/lib/office/types";
 import { Composer, MAX_REQUEST_BYTES, requestBytes, type SendState } from "./composer";
 import { Office, type ConfigStore, type FeedStatus } from "./office";
@@ -15,13 +15,14 @@ import s from "./office.module.css";
  */
 
 export const CCR_SERVER = "Claude Code Remote";
-/** Où la personne autorise les outils d'un connecteur pour les pages. */
-const CONNECTOR_SETTINGS = "https://claude.ai/customize/connectors";
 const POLL_MS = 4000;
 const SLOW_POLL_MS = 15_000;
 const HIDDEN_POLL_MS = 20_000;
 const EMPTY_LIST_REFRESH_MS = 30_000;
 const MAX_EVENTS = 4000;
+/** Toutes les sessions de la personne, par pages de 50 (jusqu'à 200, les plus récentes). */
+const SESSIONS_PER_PAGE = 50;
+const MAX_SESSION_PAGES = 4;
 /** Pages remontées au chargement pour retrouver la demande et les appels « Agent » en cours. */
 const MAX_BACKFILL_PAGES = 8;
 const SESSION_KEY = "bureau-claude:session";
@@ -39,7 +40,7 @@ type Problem = {
   message: string;
   /** Un nouvel essai automatique est prévu (erreur passagère). */
   retrying: boolean;
-  action?: "allow" | "manage" | "retry" | "settings";
+  action?: "allow" | "manage" | "retry" | "blocked";
 };
 
 /** Ce qui a déjà été lu d'une session : survit aux nouveaux essais et aux allers-retours entre sessions. */
@@ -110,9 +111,9 @@ function toProblem(e: unknown): Problem & { retryAfterMs: number } {
       return {
         ...base,
         retrying: false,
-        action: "settings",
+        action: "blocked",
         message:
-          "Les outils du connecteur « Claude Code Remote » sont bloqués pour les pages. Dans les réglages des connecteurs, ouvre « Claude Code Remote » et autorise list_sessions, list_events et send_message, puis réessaie. Si l'option n'est pas proposée, c'est un administrateur de ton organisation qui l'a bloquée.",
+          "claude.ai ne laisse pas cette page utiliser « Claude Code Remote » sur ton compte. Ce n'est pas un réglage de connecteur : il n'y a rien à activer dans la liste des connecteurs. Tes agents restent visibles en direct dans la fenêtre « Bureau de Claude » de chaque session Claude Code (commande /bureau).",
       };
     case "not_granted":
     case "capability_disabled":
@@ -160,8 +161,8 @@ function sendFailure(e: unknown): Extract<SendState, { kind: "error" }> {
     case "blocked_by_policy":
       return {
         kind: "error",
-        message: "L'envoi est bloqué pour les pages : ouvre « Claude Code Remote » dans les réglages des connecteurs et autorise send_message.",
-        link: { href: CONNECTOR_SETTINGS, label: "Ouvrir les réglages des connecteurs" },
+        message:
+          "claude.ai ne laisse pas cette page envoyer de message à tes sessions sur ton compte : écris ta demande directement dans la session.",
       };
     case "not_in_manifest":
       return { kind: "error", message: "L'envoi de demandes est coupé pour cette page.", manage: true };
@@ -196,6 +197,9 @@ function sendFailure(e: unknown): Extract<SendState, { kind: "error" }> {
       };
   }
 }
+
+/** Sessions où Claude travaille ou attend la personne : en tête de la liste. */
+const ACTIVE_BUCKETS = new Set(["working", "running", "blocked"]);
 
 const BUCKET_LABEL: Record<string, string> = {
   working: "au travail",
@@ -330,8 +334,32 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
     let timer = 0;
     (async () => {
       try {
-        const r = await mcp.callTool(CCR_SERVER, "list_sessions", { limit: 20 }, { cache: false });
-        const list = parseSessions(r.payload).sort((a, b) => b.updatedAt - a.updatedAt);
+        const first = parseSessionPage(
+          (await mcp.callTool(CCR_SERVER, "list_sessions", { limit: SESSIONS_PER_PAGE }, { cache: false })).payload,
+        );
+        const found = [...first.sessions];
+        let page = first;
+        try {
+          for (let n = 1; n < MAX_SESSION_PAGES && alive && page.hasMore && page.lastId; n++) {
+            page = parseSessionPage(
+              (
+                await mcp.callTool(
+                  CCR_SERVER,
+                  "list_sessions",
+                  { limit: SESSIONS_PER_PAGE, after_id: page.lastId },
+                  { cache: false },
+                )
+              ).payload,
+            );
+            found.push(...page.sessions);
+          }
+        } catch {
+          // les plus anciennes sont un bonus : on garde ce qui est déjà lu
+        }
+        const seen = new Set<string>();
+        const list = found
+          .filter((x) => !seen.has(x.id) && !!seen.add(x.id))
+          .sort((a, b) => b.updatedAt - a.updatedAt);
         if (!alive) return;
         listRetried.current = false;
         setSessions(list);
@@ -578,7 +606,10 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
       : mcp === null
         ? { tone: "error", label: "HORS CLAUDE.AI" }
         : problem && !problem.retrying
-          ? { tone: "error", label: problem.action === "allow" || problem.action === "manage" || problem.action === "settings" ? "ACCÈS REQUIS" : "ERREUR" }
+          ? {
+              tone: "error",
+              label: problem.action === "blocked" ? "BLOQUÉ" : problem.action === "allow" || problem.action === "manage" ? "ACCÈS REQUIS" : "ERREUR",
+            }
           : problem
             ? { tone: "wait", label: "RECONNEXION…" }
             : sessions && !sessions.length
@@ -600,12 +631,21 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
             setSessionId(e.target.value);
           }}
         >
-          {sessions.map((x) => (
-            <option key={x.id} value={x.id}>
-              {x.title}
-              {BUCKET_LABEL[x.bucket] ? ` — ${BUCKET_LABEL[x.bucket]}` : ""}
-            </option>
-          ))}
+          {[
+            { label: "En cours", list: sessions.filter((x) => ACTIVE_BUCKETS.has(x.bucket)) },
+            { label: "Autres sessions", list: sessions.filter((x) => !ACTIVE_BUCKETS.has(x.bucket)) },
+          ]
+            .filter((g) => g.list.length)
+            .map((g) => (
+              <optgroup key={g.label} label={`${g.label} (${g.list.length})`}>
+                {g.list.map((x) => (
+                  <option key={x.id} value={x.id}>
+                    {x.title}
+                    {BUCKET_LABEL[x.bucket] ? ` — ${BUCKET_LABEL[x.bucket]}` : ""}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
         </select>
       )}
       <button className={s.btn} onClick={refreshList} title="Recharger la liste des sessions">
@@ -631,24 +671,17 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
             Autoriser l&apos;accès
           </button>
         )}
-        {problem.action === "manage" && (
+        {(problem.action === "manage" || problem.action === "blocked") && (
           <button className={s.btn} onClick={manage}>
             Gérer les autorisations
           </button>
-        )}
-        {problem.action === "settings" && (
-          <>
-            <a className={`${s.btn} ${s.btnOn}`} href={CONNECTOR_SETTINGS} target="_blank" rel="noreferrer">
-              Ouvrir les réglages des connecteurs
-            </a>{" "}
-          </>
-        )}
-        {(problem.action === "retry" || problem.action === "settings") && (
+        )}{" "}
+        {(problem.action === "retry" || problem.action === "blocked") && (
           <button className={s.btn} onClick={retryProblem}>
             Réessayer
           </button>
         )}
-        {problem.action === "manage" && manageHint && (
+        {(problem.action === "manage" || problem.action === "blocked") && manageHint && (
           <span className={s.note}>
             {" "}
             Le panneau ne s&apos;est pas ouvert : utilise le menu Autorisations de cette page sur claude.ai et réactive

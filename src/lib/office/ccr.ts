@@ -77,6 +77,14 @@ function textOf(content: unknown): string | undefined {
 
 const clip = (s: string | undefined, n: number) => (s && s.length > n ? `${s.slice(0, n)}…` : s);
 
+export type SessionPage = { sessions: SessionSummary[]; hasMore: boolean; lastId?: string };
+
+/** Une page de `list_sessions` ; `lastId` se passe en `after_id` pour la suivante (plus anciennes). */
+export function parseSessionPage(payload: unknown): SessionPage {
+  const p = unwrapPayload(payload);
+  return { sessions: parseSessions(payload), hasMore: p?.has_more === true, lastId: str(p?.last_id) };
+}
+
 export function parseSessions(payload: unknown): SessionSummary[] {
   const p = unwrapPayload(payload);
   const data = Array.isArray(p?.data) ? p.data : [];

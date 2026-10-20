@@ -1,7 +1,9 @@
 import { atom, read, update } from 'claude-code'
-import type { Register } from 'claude-code'
+import type { EngineInterface, Register } from 'claude-code'
 
-import type { Step, Work } from '../types'
+import type { OfficeEvent, Step, View, Work } from '../types'
+import { addEvent, eventId, isAgentCall, linkId, outputText, toolInput } from './events'
+import { renderOfficeCells, renderOfficeSvg } from './office.gen'
 import {
   EMPTY,
   OFFICE_URL,
@@ -24,6 +26,9 @@ const TITLE = 'Bureau de Claude'
 const work = atom({ plugin: 'bureau-agents', key: 'work' } as const, EMPTY)
 const link = atom({ plugin: 'bureau-agents', key: 'link' } as const, OFFICE_URL)
 const paneShown = atom({ plugin: 'bureau-agents', key: 'paneShown' } as const, false)
+const events = atom({ plugin: 'bureau-agents', key: 'events' } as const, [] as OfficeEvent[])
+const spawned = atom({ plugin: 'bureau-agents', key: 'spawned' } as const, {} as { [agentId: string]: string })
+const view = atom({ plugin: 'bureau-agents', key: 'view' } as const, null as View | null)
 
 const STATUS: Record<Work['status'], { mark: string; label: string; color: string }> = {
   idle: { mark: '☕', label: 'En attente de ta demande', color: 'inactive' },
@@ -34,11 +39,37 @@ const STATUS: Record<Work['status'], { mark: string; label: string; color: strin
 
 const mark = (s: Step['status']) => (s === 'running' ? '⏳' : s === 'done' ? '✓' : '✗')
 
+/** La fenêtre se redessine au plus une fois par seconde, à partir d'une copie de l'état. */
+const FLUSH_MS = 1000
+/** Après la fin, l'horloge tourne encore un peu : les robots rangent et quittent le bureau. */
+const AFTER_END_MS = 120_000
+let flushPending = false
+
+async function flush($: EngineInterface) {
+  flushPending = false
+  const [w, list, t] = await Promise.all([read($, work), read($, events), $.clock.now()])
+  await update($, view, () => ({ work: w, events: list, at: t }))
+}
+
+function schedule($: EngineInterface) {
+  if (flushPending) return
+  flushPending = true
+  $.clock.after(FLUSH_MS, () => void flush($))
+}
+
+async function record($: EngineInterface, ev: OfficeEvent) {
+  await update($, events, list => addEvent(list, ev))
+  schedule($)
+}
+
+/** Le dernier dessin, gardé tant que rien n'a changé (la fenêtre peut se redessiner sans nouvel état). */
+let drawn: { key: string; scene: { svg: string; alt: string } | { cells: string; columns: number; rows: number; alt: string } } | undefined
+
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
       name: 'bureau',
-      description: 'Ouvre la fenêtre des agents de Claude et le lien vers le bureau virtuel',
+      description: 'Ouvre la fenêtre du bureau de Claude : ses agents au travail, en direct',
     })
     // Dans une session claude.ai, le lien ouvre le bureau directement sur cette session.
     const remote = await $.env.get('CLAUDE_CODE_REMOTE_SESSION_ID')
@@ -46,15 +77,17 @@ export const register: Register = on => {
       const id = remote.replace(/^cse_/, '')
       await update($, link, () => `${OFFICE_URL}#session_${id}`)
     }
+    await flush($)
     const opened = await $.ui.open({ id: PANE, title: TITLE })
     await update($, paneShown, () => opened.isPlaced)
-    // L'horloge de la fenêtre n'avance que pendant le travail.
+    // L'horloge de la fenêtre avance pendant le travail, et un peu après.
     $.clock.every(5000, () => {
       void (async () => {
         const w = await read($, work)
-        if (w.status !== 'working') return
         const t = await $.clock.now()
+        if (w.status !== 'working' && !(w.endedAt && t - w.endedAt < AFTER_END_MS)) return
         await update($, work, cur => ({ ...cur, now: t }))
+        await flush($)
       })()
     })
     return next(e)
@@ -75,6 +108,7 @@ export const register: Register = on => {
     if (!e.command && !e.isMeta && e.origin?.kind !== 'task-notification' && !isSystemText(e.text)) {
       const t = await $.clock.now()
       await update($, work, w => startRequest(w, e.text, t))
+      await record($, { id: eventId('prompt', t), ts: t, type: 'prompt', text: outputText(e.text) ?? '' })
     }
     return next(e)
   }).catch(($, e, next) => next(e))
@@ -83,6 +117,7 @@ export const register: Register = on => {
     if (!e.agentId) {
       const t = await $.clock.now()
       await update($, work, w => markWorking(w, t))
+      schedule($)
     }
     return next(e)
   }).catch(($, e, next) => next(e))
@@ -90,11 +125,30 @@ export const register: Register = on => {
   on('tool.call', async ($, e, next) => {
     const input = e as unknown as Record<string, unknown>
     const t0 = await $.clock.now()
+    const agentId = linkId(await read($, spawned), e.agentId)
     await update($, work, w => startStep(w, { id: e.tool_use_id, tool: e.tool, input, agentId: e.agentId }, t0))
+    await record($, {
+      id: eventId('start', t0),
+      ts: t0,
+      type: 'tool_start',
+      tool: e.tool,
+      toolUseId: e.tool_use_id,
+      input: toolInput(e),
+      agentId,
+    })
     const ran = await next(e)
     const ok = ran.deny === undefined && ran.isError !== true
     const t1 = await $.clock.now()
     await update($, work, w => endStep(w, e.tool_use_id, ok, t1))
+    await record($, {
+      id: eventId('end', t1),
+      ts: t1,
+      type: 'tool_end',
+      toolUseId: e.tool_use_id,
+      ok,
+      output: outputText(ran.deny ?? ran.text),
+      agentId,
+    })
     return ran
   }).catch(($, e, next) => next(e))
 
@@ -106,6 +160,22 @@ export const register: Register = on => {
       await update($, work, w =>
         linkAgent(w, { toolUseId: e.tool_use_id, agentId, description: e.description, type: e.subagentType }, t),
       )
+      // Un appel Agent lance un seul sous-agent : son robot porte l'id de l'appel. Les agents
+      // d'un workflow partagent l'appel Workflow : chacun garde son id, donc son propre robot.
+      const own = isAgentCall(await read($, events), e.tool_use_id)
+      if (own)
+        await update($, spawned, m => {
+          const links = { ...m, [agentId]: e.tool_use_id }
+          const keys = Object.keys(links)
+          return keys.length > 200 ? Object.fromEntries(keys.slice(-100).map(k => [k, links[k]!])) : links
+        })
+      await record($, {
+        id: eventId('sub', t),
+        ts: t,
+        type: 'subagent_start',
+        agentId: own ? e.tool_use_id : agentId,
+        agentType: e.subagentType,
+      })
     }
     return ran
   }).catch(($, e, next) => next(e))
@@ -114,13 +184,43 @@ export const register: Register = on => {
     const ran = await next(e)
     const t = await $.clock.now()
     await update($, work, w => endTurn(w, { agentId: e.agentId, isAborted: e.isAborted }, t))
+    if (e.agentId)
+      await record($, {
+        id: eventId('subend', t),
+        ts: t,
+        type: 'subagent_end',
+        agentId: linkId(await read($, spawned), e.agentId),
+        text: outputText(e.answer),
+      })
+    else await record($, { id: eventId('stop', t), ts: t, type: 'stop' })
     return ran
   }).catch(($, e, next) => next(e))
 
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
-    const { Box, Text, Link } = $.ui.resolve(e)
-    const w = await read($, work)
+    const v = (await read($, view)) ?? { work: EMPTY, events: [], at: 0 }
+    const w = v.work
+    const now = v.at || w.now
     const href = await read($, link)
+
+    // Le bureau en pixel art : SVG sur les écrans, cellules « ▀ » dans le terminal.
+    let scene
+    if (e.surface === 'terminal') {
+      const { Raster } = $.ui.resolve(e)
+      const bodyRows = e.props.scroll?.bodyRows ?? 30
+      const columns = Math.max(24, Math.min(e.props.bodyColumns ?? 60, Math.floor(bodyRows * 0.6 * 2 * (384 / 320))))
+      const key = `t:${now}:${v.events.length}:${columns}`
+      if (drawn?.key !== key) drawn = { key, scene: renderOfficeCells(v.events, now, columns) }
+      const r = drawn.scene as ReturnType<typeof renderOfficeCells>
+      scene = <Raster key="office" columns={r.columns} rows={r.rows} cells={r.cells} />
+    } else {
+      const { Svg } = $.ui.resolve(e)
+      const key = `s:${now}:${v.events.length}`
+      if (drawn?.key !== key) drawn = { key, scene: renderOfficeSvg(v.events, now) }
+      const r = drawn.scene as { svg: string; alt: string }
+      scene = <Svg source={r.svg} alt={r.alt} />
+    }
+
+    const { Box, Text, Link } = $.ui.resolve(e)
     const st = STATUS[w.status]
     const running = w.steps.filter(s => s.status === 'running' && !isAgentTool(s.tool) && !s.by)
     const missions = [...w.missions].sort((a, b) => Number(b.status === 'running') - Number(a.status === 'running'))
@@ -130,6 +230,7 @@ export const register: Register = on => {
 
     return (
       <Box flexDirection="column">
+        {scene}
         <Text>
           <Text color={st.color} bold>
             {st.mark} {st.label}

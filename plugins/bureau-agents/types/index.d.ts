@@ -48,12 +48,42 @@ export type Work = {
   now: number
 }
 
+export type Json = string | number | boolean | null | Json[] | { [key: string]: Json }
+
+/** Un événement du bureau, au format du bureau web (`src/lib/office/types.ts`). */
+export type OfficeEvent = {
+  id: string
+  ts: number
+  type: 'prompt' | 'tool_start' | 'tool_end' | 'subagent_start' | 'subagent_end' | 'stop'
+  /** Présent quand l'action vient d'un sous-agent : l'id de l'appel Agent qui l'a lancé, sinon le sien. */
+  agentId?: string
+  agentType?: string
+  toolUseId?: string
+  tool?: string
+  input?: { [key: string]: Json }
+  output?: string
+  ok?: boolean
+  text?: string
+}
+
+/** Ce que la fenêtre dessine : une copie prise au plus une fois par seconde. */
+export type View = {
+  work: Work
+  events: OfficeEvent[]
+  /** Heure de la copie : le bureau est dessiné à cet instant. */
+  at: number
+}
+
 declare module 'claude-code' {
   interface PluginState {
     'bureau-agents': {
       work: Work
       link: string
       paneShown: boolean
+      events: OfficeEvent[]
+      /** Sous-agent → appel Agent qui l'a lancé. */
+      spawned: { [agentId: string]: string }
+      view: View | null
     }
   }
 }
