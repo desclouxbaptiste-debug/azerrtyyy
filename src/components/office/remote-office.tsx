@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { TRANSCRIPT_KINDS, parseEventPage, parseSessions, type SessionSummary } from "@/lib/office/ccr";
+import { TRANSCRIPT_KINDS, parseEventPage, parseSessionPage, type SessionSummary } from "@/lib/office/ccr";
 import type { OfficeEvent } from "@/lib/office/types";
 import { Composer, MAX_REQUEST_BYTES, requestBytes, type SendState } from "./composer";
 import { Office, type ConfigStore, type FeedStatus } from "./office";
@@ -22,6 +22,9 @@ const SLOW_POLL_MS = 15_000;
 const HIDDEN_POLL_MS = 20_000;
 const EMPTY_LIST_REFRESH_MS = 30_000;
 const MAX_EVENTS = 4000;
+/** Toutes les sessions de la personne, par pages de 50 (jusqu'à 200, les plus récentes). */
+const SESSIONS_PER_PAGE = 50;
+const MAX_SESSION_PAGES = 4;
 /** Pages remontées au chargement pour retrouver la demande et les appels « Agent » en cours. */
 const MAX_BACKFILL_PAGES = 8;
 const SESSION_KEY = "bureau-claude:session";
@@ -197,6 +200,9 @@ function sendFailure(e: unknown): Extract<SendState, { kind: "error" }> {
   }
 }
 
+/** Sessions où Claude travaille ou attend la personne : en tête de la liste. */
+const ACTIVE_BUCKETS = new Set(["working", "running", "blocked"]);
+
 const BUCKET_LABEL: Record<string, string> = {
   working: "au travail",
   running: "au travail",
@@ -330,8 +336,32 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
     let timer = 0;
     (async () => {
       try {
-        const r = await mcp.callTool(CCR_SERVER, "list_sessions", { limit: 20 }, { cache: false });
-        const list = parseSessions(r.payload).sort((a, b) => b.updatedAt - a.updatedAt);
+        const first = parseSessionPage(
+          (await mcp.callTool(CCR_SERVER, "list_sessions", { limit: SESSIONS_PER_PAGE }, { cache: false })).payload,
+        );
+        const found = [...first.sessions];
+        let page = first;
+        try {
+          for (let n = 1; n < MAX_SESSION_PAGES && alive && page.hasMore && page.lastId; n++) {
+            page = parseSessionPage(
+              (
+                await mcp.callTool(
+                  CCR_SERVER,
+                  "list_sessions",
+                  { limit: SESSIONS_PER_PAGE, after_id: page.lastId },
+                  { cache: false },
+                )
+              ).payload,
+            );
+            found.push(...page.sessions);
+          }
+        } catch {
+          // les plus anciennes sont un bonus : on garde ce qui est déjà lu
+        }
+        const seen = new Set<string>();
+        const list = found
+          .filter((x) => !seen.has(x.id) && !!seen.add(x.id))
+          .sort((a, b) => b.updatedAt - a.updatedAt);
         if (!alive) return;
         listRetried.current = false;
         setSessions(list);
@@ -600,12 +630,21 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
             setSessionId(e.target.value);
           }}
         >
-          {sessions.map((x) => (
-            <option key={x.id} value={x.id}>
-              {x.title}
-              {BUCKET_LABEL[x.bucket] ? ` — ${BUCKET_LABEL[x.bucket]}` : ""}
-            </option>
-          ))}
+          {[
+            { label: "En cours", list: sessions.filter((x) => ACTIVE_BUCKETS.has(x.bucket)) },
+            { label: "Autres sessions", list: sessions.filter((x) => !ACTIVE_BUCKETS.has(x.bucket)) },
+          ]
+            .filter((g) => g.list.length)
+            .map((g) => (
+              <optgroup key={g.label} label={`${g.label} (${g.list.length})`}>
+                {g.list.map((x) => (
+                  <option key={x.id} value={x.id}>
+                    {x.title}
+                    {BUCKET_LABEL[x.bucket] ? ` — ${BUCKET_LABEL[x.bucket]}` : ""}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
         </select>
       )}
       <button className={s.btn} onClick={refreshList} title="Recharger la liste des sessions">

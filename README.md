@@ -115,3 +115,22 @@ Ajouter une marketplace avec `desclouxbaptiste-debug/azerrtyyy`, puis Ajouter le
 plugin. Les sessions ouvertes sur ce dépôt l'activent toutes seules
 (`.claude/settings.json`). Code : `plugins/bureau-agents/`.
 
+
+### Dans toutes les sessions Claude Code sur claude.ai (cloud)
+
+Chaque session cloud démarre dans un conteneur neuf : pour que la fenêtre et le
+lien vers le bureau soient là dans **toutes** les sessions, quel que soit le
+dépôt, colle cette ligne dans le « Setup script » de l'environnement (menu de
+l'environnement dans la barre de titre d'une session, puis Edit) :
+
+```
+rm -rf /tmp/bureau-src && git clone -q --depth 1 https://github.com/desclouxbaptiste-debug/azerrtyyy /tmp/bureau-src && bash /tmp/bureau-src/scripts/bureau-setup.sh || echo "bureau-agents non installé"
+```
+
+`scripts/bureau-setup.sh` copie l'extension dans `~/.claude/bureau-agents` et
+l'ajoute à `CLAUDE_CODE_PLUGIN_DIRS` (bloc `env` de `~/.claude/settings.json`).
+Chaque nouvelle session prend la dernière version de `main` ; le script ne fait
+jamais échouer la préparation d'une session.
+
+Le bureau publié liste toutes les sessions du compte (jusqu'aux 200 plus
+récentes), celles au travail en tête.
