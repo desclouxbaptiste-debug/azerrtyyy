@@ -93,10 +93,19 @@ cours et tout son historique (paramètres et résultats).
 
 ## Extension Claude Code « bureau-agents »
 
-À chaque demande, sur n'importe quel projet, une petite fenêtre montre en direct
-la demande en cours, les agents de Claude (sous-agents et équipes comprises) et
-leurs tâches, avec un lien « 🏢 Ouvrir le bureau virtuel » qui ouvre le bureau
-sur la session en cours. La commande `/bureau` rouvre la fenêtre.
+À chaque demande, sur n'importe quel projet, la fenêtre « Bureau de Claude »
+montre le bureau en pixel art, en direct : Max au bureau du chef, les robots
+dans leurs zones avec leurs bulles, les sous-agents (et les agents d'une équipe)
+qui arrivent par la porte. Dessous : la demande en cours, les missions et les
+dernières actions, et un lien « 🏢 Ouvrir le bureau virtuel ». La commande
+`/bureau` rouvre la fenêtre.
+
+La fenêtre n'a besoin d'aucun connecteur : l'extension suit la session de
+l'intérieur. Le dessin est celui du bureau web (`buildOffice`, `drawBackground`,
+`drawFrame`), rendu sans navigateur en SVG (application de bureau, appli mobile)
+ou en cellules « ▀ » dans le terminal ; `npm run build:plugin-office` le
+reconstruit dans `plugins/bureau-agents/hooks/office.gen.js` après un changement
+de `src/` ou de `scripts/plugin-office/`.
 
 Installation, à l'invite d'une session Claude Code dans un terminal :
 

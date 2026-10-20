@@ -15,8 +15,6 @@ import s from "./office.module.css";
  */
 
 export const CCR_SERVER = "Claude Code Remote";
-/** Où la personne autorise les outils d'un connecteur pour les pages. */
-const CONNECTOR_SETTINGS = "https://claude.ai/customize/connectors";
 const POLL_MS = 4000;
 const SLOW_POLL_MS = 15_000;
 const HIDDEN_POLL_MS = 20_000;
@@ -42,7 +40,7 @@ type Problem = {
   message: string;
   /** Un nouvel essai automatique est prévu (erreur passagère). */
   retrying: boolean;
-  action?: "allow" | "manage" | "retry" | "settings";
+  action?: "allow" | "manage" | "retry" | "blocked";
 };
 
 /** Ce qui a déjà été lu d'une session : survit aux nouveaux essais et aux allers-retours entre sessions. */
@@ -113,9 +111,9 @@ function toProblem(e: unknown): Problem & { retryAfterMs: number } {
       return {
         ...base,
         retrying: false,
-        action: "settings",
+        action: "blocked",
         message:
-          "Les outils du connecteur « Claude Code Remote » sont bloqués pour les pages. Dans les réglages des connecteurs, ouvre « Claude Code Remote » et autorise list_sessions, list_events et send_message, puis réessaie. Si l'option n'est pas proposée, c'est un administrateur de ton organisation qui l'a bloquée.",
+          "claude.ai ne laisse pas cette page utiliser « Claude Code Remote » sur ton compte. Ce n'est pas un réglage de connecteur : il n'y a rien à activer dans la liste des connecteurs. Tes agents restent visibles en direct dans la fenêtre « Bureau de Claude » de chaque session Claude Code (commande /bureau).",
       };
     case "not_granted":
     case "capability_disabled":
@@ -163,8 +161,8 @@ function sendFailure(e: unknown): Extract<SendState, { kind: "error" }> {
     case "blocked_by_policy":
       return {
         kind: "error",
-        message: "L'envoi est bloqué pour les pages : ouvre « Claude Code Remote » dans les réglages des connecteurs et autorise send_message.",
-        link: { href: CONNECTOR_SETTINGS, label: "Ouvrir les réglages des connecteurs" },
+        message:
+          "claude.ai ne laisse pas cette page envoyer de message à tes sessions sur ton compte : écris ta demande directement dans la session.",
       };
     case "not_in_manifest":
       return { kind: "error", message: "L'envoi de demandes est coupé pour cette page.", manage: true };
@@ -608,7 +606,10 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
       : mcp === null
         ? { tone: "error", label: "HORS CLAUDE.AI" }
         : problem && !problem.retrying
-          ? { tone: "error", label: problem.action === "allow" || problem.action === "manage" || problem.action === "settings" ? "ACCÈS REQUIS" : "ERREUR" }
+          ? {
+              tone: "error",
+              label: problem.action === "blocked" ? "BLOQUÉ" : problem.action === "allow" || problem.action === "manage" ? "ACCÈS REQUIS" : "ERREUR",
+            }
           : problem
             ? { tone: "wait", label: "RECONNEXION…" }
             : sessions && !sessions.length
@@ -670,24 +671,17 @@ export function RemoteOffice({ store }: { store?: ConfigStore }) {
             Autoriser l&apos;accès
           </button>
         )}
-        {problem.action === "manage" && (
+        {(problem.action === "manage" || problem.action === "blocked") && (
           <button className={s.btn} onClick={manage}>
             Gérer les autorisations
           </button>
-        )}
-        {problem.action === "settings" && (
-          <>
-            <a className={`${s.btn} ${s.btnOn}`} href={CONNECTOR_SETTINGS} target="_blank" rel="noreferrer">
-              Ouvrir les réglages des connecteurs
-            </a>{" "}
-          </>
-        )}
-        {(problem.action === "retry" || problem.action === "settings") && (
+        )}{" "}
+        {(problem.action === "retry" || problem.action === "blocked") && (
           <button className={s.btn} onClick={retryProblem}>
             Réessayer
           </button>
         )}
-        {problem.action === "manage" && manageHint && (
+        {(problem.action === "manage" || problem.action === "blocked") && manageHint && (
           <span className={s.note}>
             {" "}
             Le panneau ne s&apos;est pas ouvert : utilise le menu Autorisations de cette page sur claude.ai et réactive

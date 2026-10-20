@@ -10,7 +10,8 @@
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "db:studio": "prisma studio",
-    "build:bureau-artifact": "node scripts/bureau-artifact/build.mjs"
+    "build:bureau-artifact": "node scripts/bureau-artifact/build.mjs",
+    "build:plugin-office": "node scripts/plugin-office/build.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
