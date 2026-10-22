@@ -1,25 +1,57 @@
-"""French voice-over with Kokoro (ff_siwis) + word timings for subtitles.
+"""French voice-over + word timings for subtitles.
 
-Input  <folder>/script.json : {"speed": 1.1, "target": 57, "segments": [{"id": "hook", "text": "..."}, ...]}
+Input  <folder>/script.json : {"engine": "kokoro"|"piper", "speed": 1.1, "target": 57, "segments": [{"id": "hook", "text": "..."}, ...]}
        "{Milgram|Milgrame}" in a text = shown as Milgram in subtitles, pronounced "Milgrame" by the voice.
-Output <folder>/voice.wav (24 kHz mono) and <folder>/timings.json
+       "post": {"semitones": -1.5, "warmth": 3} deepens/warms the voice with ffmpeg (duration unchanged).
+Output <folder>/voice.wav (mono) and <folder>/timings.json
 Usage: tts/bin/python tts.py <folder> <models_dir>
-Needs: pip install kokoro-onnx soundfile ; models kokoro-v1.0.onnx + voices-v1.0.bin
-(github.com/thewh1teagle/kokoro-onnx releases, Apache-2.0; voice trained on SIWIS, CC-BY 4.0).
+Engines (pip install kokoro-onnx sherpa-onnx soundfile):
+  kokoro: kokoro-v1.0.onnx + voices-v1.0.bin (github.com/thewh1teagle/kokoro-onnx releases, Apache-2.0),
+          French voice ff_siwis (female, SIWIS dataset CC-BY 4.0).
+  piper:  sherpa-onnx "vits-piper-<voice>" folders (github.com/k2-fsa/sherpa-onnx releases, tag tts-models),
+          e.g. fr_FR-tom-medium (male, AGPL-3.0), fr_FR-upmc-medium sid 1 "pierre" (male, CC BY-SA 4.0).
 """
 import json
 import re
 import sys
 
+import os
+import subprocess
+import tempfile
+
 import numpy as np
 import soundfile as sf
-from kokoro_onnx import Kokoro
 
 folder, models = sys.argv[1], sys.argv[2]
 cfg = json.load(open(f"{folder}/script.json"))
-kokoro = Kokoro(f"{models}/kokoro.onnx", f"{models}/voices.bin")
-SR = 24000
-LEAD, GAP_SENT, GAP_SEG = 0.25, 0.16, 0.32
+ENGINE = cfg.get("engine", "kokoro")
+LEAD = cfg.get("lead", 0.25)
+GAP_SENT, GAP_SEG, GAP_SUSPENSE = cfg.get("gap_sentence", 0.16), cfg.get("gap_segment", 0.32), cfg.get("gap_suspense", 0.5)
+
+if ENGINE == "kokoro":
+    from kokoro_onnx import Kokoro
+    kokoro = Kokoro(f"{models}/kokoro.onnx", f"{models}/voices.bin")
+    SR = 24000
+
+    def synth(text, speed):
+        audio, _ = kokoro.create(text, voice=cfg.get("voice", "ff_siwis"), speed=speed, lang="fr-fr")
+        return audio
+else:
+    import sherpa_onnx
+    d = f"{models}/vits-piper-{cfg['voice']}"
+    _tts = {}
+
+    def synth(text, speed):
+        # length_scale > 1 = slower; speed is mapped onto it so "target" keeps working
+        ls = round(1.0 / speed, 3)
+        if ls not in _tts:
+            _tts[ls] = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(
+                vits=sherpa_onnx.OfflineTtsVitsModelConfig(model=f"{d}/{cfg['voice']}.onnx", tokens=f"{d}/tokens.txt", data_dir=f"{d}/espeak-ng-data",
+                                                           length_scale=ls, noise_scale=cfg.get("noise", 0.6), noise_scale_w=cfg.get("noise_w", 0.75)),
+                num_threads=4)))
+        a = _tts[ls].generate(text, sid=cfg.get("sid", 0), speed=1.0)
+        return np.array(a.samples, dtype=np.float32)
+    SR = json.load(open(f"{d}/{cfg['voice']}.onnx.json"))["audio"]["sample_rate"]
 
 
 def sentences(text):
@@ -72,13 +104,17 @@ def word_weights(toks):
     return w
 
 
+def gap_after(sentence):
+    return GAP_SUSPENSE if sentence.rstrip().endswith(("...", "…")) else GAP_SENT
+
+
 def synth_all(speed):
     clips = []
     for seg in cfg["segments"]:
         for s in sentences(seg["text"]):
-            audio, _ = kokoro.create(spoken(s).replace("…", "."), voice=cfg.get("voice", "ff_siwis"), speed=speed, lang="fr-fr")
+            audio = synth(spoken(s).replace("…", "...").replace("...", "."), speed)
             clips.append((seg["id"], s, trim(audio)))
-    total = LEAD + sum(len(c[2]) / SR for c in clips) + GAP_SENT * len(clips) + GAP_SEG * len(cfg["segments"])
+    total = LEAD + sum(len(c[2]) / SR + gap_after(c[1]) for c in clips) + GAP_SEG * len(cfg["segments"])
     return clips, total
 
 
@@ -109,11 +145,21 @@ for seg_id, text, audio in clips:
         cur += (a + p) * unit
     segs[-1]["sentences"].append({"text": shown(text), "spoken": spoken(text), "start": round(t, 3), "end": round(t + dur, 3), "words": wl})
     out.append(audio)
-    out.append(np.zeros(int(GAP_SENT * SR)))
-    t += dur + GAP_SENT
+    gap = gap_after(text)
+    out.append(np.zeros(int(gap * SR)))
+    t += dur + gap
     segs[-1]["end"] = round(t, 3)
 
 voice = np.concatenate(out)
 sf.write(f"{folder}/voice.wav", voice / np.max(np.abs(voice)) * 0.9, SR, subtype="PCM_16")
+post = cfg.get("post")
+if post:
+    # deeper + warmer narrator: pitch down by resampling (tempo restored, so timings stay valid), low-shelf boost, gentle compression
+    r = 2 ** (post.get("semitones", 0) / 12)
+    chain = f"asetrate={SR * r:.0f},aresample={SR},atempo={1 / r:.5f},lowshelf=g={post.get('warmth', 0)}:f=180,acompressor=threshold=0.12:ratio=2.5:attack=8:release=120,volume=1.0"
+    tmp = tempfile.mktemp(suffix=".wav")
+    os.replace(f"{folder}/voice.wav", tmp)
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-af", chain, f"{folder}/voice.wav"], check=True)
+    os.remove(tmp)
 json.dump({"duration": round(len(voice) / SR, 3), "speed": speed, "segments": segs}, open(f"{folder}/timings.json", "w"), ensure_ascii=False, indent=1)
 print(f"voice.wav {len(voice) / SR:.2f}s, {sum(len(s['sentences']) for s in segs)} sentences")

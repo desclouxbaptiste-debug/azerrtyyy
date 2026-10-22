@@ -21,7 +21,7 @@ function buildCaptions(timings, { maxChars = 16, maxWords = 3 } = {}) {
 }
 
 // White bold words with a thick dark outline; the word being spoken turns accent colour and pops.
-function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = "#FFD23F", keyColor = null } = {}) {
+function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = "#FFD23F", keyColor = null, maxW = 940 } = {}) {
   const c = cards.find(c => t >= c.start - 0.05 && t < c.until);
   if (!c) return;
   const appear = easeOutBack(prog(t, c.start - 0.05, c.start + 0.12), 2.2);
@@ -31,7 +31,7 @@ function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = 
   const space = size * 0.42; // the thick outline eats into the gap
   const widths = words.map(w => ctx.measureText(w.text).width);
   const total = widths.reduce((a, b) => a + b, 0) + space * (words.length - 1);
-  const fit = Math.min(1, 940 / total);
+  const fit = Math.min(1, maxW / total);
   let x = W / 2 - total / 2;
   const s = (0.85 + 0.15 * appear) * fit;
   ctx.translate(W / 2, y); ctx.scale(s, s); ctx.translate(-W / 2, -y);
