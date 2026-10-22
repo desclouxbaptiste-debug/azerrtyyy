@@ -1,6 +1,6 @@
 // Renders a video folder (scene.html + core.js) frame by frame into an MP4.
 // Usage: NODE_PATH=$(npm root -g) node videos/lib/render.mjs videos/<folder> [--stills 1.5,4,8] [--workers 2]
-// The videos/ directory is served over a local HTTP server so scenes can use ES modules (three.js) and fetch().
+// The videos/ directory is served over a local HTTP server so scenes can fetch() their timings and voice files.
 import { createRequire } from "node:module";
 import { spawn, execFileSync } from "node:child_process";
 import { writeFileSync, mkdirSync, rmSync } from "node:fs";

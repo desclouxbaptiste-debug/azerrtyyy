@@ -395,7 +395,36 @@ def style_ukulele(n, cfg):
     return mixL, mixR
 
 
-STYLES = {"lofi": style_lofi, "trap": style_trap, "synthwave": style_synthwave, "cinematic": style_cinematic, "ukulele": style_ukulele}
+def style_suspense(n, cfg):
+    """Documentary tension bed: ticking clock, soft pulse bass, minor pad, sparse piano."""
+    beat = 60 / cfg.get("bpm", 96)
+    t = np.arange(n) / SR
+    chords = [[45, 57, 60, 64], [41, 57, 60, 65], [43, 55, 59, 62], [40, 56, 59, 64]]  # Am F G E
+    bar = 4 * beat
+    pad, bass, tick, pn = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n)
+    tk = np.sin(2 * np.pi * 2400 * t_axis(0.025)) * np.exp(-t_axis(0.025) * 260) + hp(rng.normal(0, 1, int(0.025 * SR)), 3000) * np.exp(-t_axis(0.025) * 400) * 0.4
+    tock = np.sin(2 * np.pi * 1700 * t_axis(0.03)) * np.exp(-t_axis(0.03) * 220)
+    motif = [69, 72, 76, 74, 72, 71, 69, 68]
+    for b in range(int(n / SR / bar) + 1):
+        t0 = b * bar
+        ch = chords[b % 4]
+        add(pad, supersaw(ch[1:], bar + 0.5, (0.996, 1.004)) * env_adsr(int((bar + 0.5) * SR), 0.6, 10, 1, 0.6), t0, 1)
+        for e in range(8):
+            add(bass, np.sin(2 * np.pi * midi(ch[0] - 12) * t_axis(beat / 2)) * np.exp(-t_axis(beat / 2) * 7), t0 + e * beat / 2, 1 if e % 2 == 0 else 0.55)
+        for q in range(4):
+            add(tick, tk if q % 2 == 0 else tock, t0 + q * beat, 1)
+        if b % 2 == 0:
+            for i in range(2):
+                add(pn, piano(midi(motif[(b + i * 3) % 8]), 2.5), t0 + i * 2 * beat, 0.6)
+    pad = lp(pad, 1100)
+    pn = reverb(pn, 3.0, 0.45, seed=6)
+    swell = np.clip(t / 2, 0, 1)
+    mixL = (pad * 0.3 + bass * 0.35) * swell + tick * 0.18 + pn * 0.3
+    mixR = (pad * 0.3 + bass * 0.35) * swell + np.roll(tick, int(0.004 * SR)) * 0.18 + np.roll(pn, int(0.012 * SR)) * 0.3
+    return mixL, mixR
+
+
+STYLES = {"suspense": style_suspense, "lofi": style_lofi, "trap": style_trap, "synthwave": style_synthwave, "cinematic": style_cinematic, "ukulele": style_ukulele}
 
 
 # ---------------------------------------------------------------- sound effects
