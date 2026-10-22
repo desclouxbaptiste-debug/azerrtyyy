@@ -424,3 +424,48 @@ function quoteCard(cx, cy, w, lines, p, { author = "", size = 64, color = "#F4EF
   if (author) txt(author, w / 2 - 40, h / 2 - 44, 30, "MontX", "rgba(255,255,255,.6)", { align: "right" });
   ctx.restore();
 }
+
+// 3x5 index card with a pen-sketched map drawn progressively (p 0..1), handwritten labels
+function indexCardMap(cx, cy, s, p, t, { from = "ICI", to = "Labo du Pr Steiner", alley = 0 } = {}) {
+  ctx.save(); ctx.translate(cx, cy); ctx.scale(s, s); ctx.rotate(-0.05);
+  ctx.shadowColor = "rgba(0,0,0,.5)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 16;
+  ctx.fillStyle = "#FBF8EE"; ctx.fillRect(-420, -260, 840, 520); ctx.shadowColor = "transparent";
+  ctx.strokeStyle = "rgba(70,120,200,.35)"; ctx.lineWidth = 3;
+  for (let y = -170; y < 260; y += 56) { ctx.beginPath(); ctx.moveTo(-420, y); ctx.lineTo(420, y); ctx.stroke(); }
+  ctx.strokeStyle = "rgba(220,80,80,.5)"; ctx.beginPath(); ctx.moveTo(-420, -205); ctx.lineTo(420, -205); ctx.stroke();
+  const ink = "#1E2A6E";
+  const seg = (k, f) => { const q = clamp(p * 6 - k); if (q > 0) f(q); };
+  ctx.strokeStyle = ink; ctx.lineWidth = 6; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  seg(0, q => { ctx.strokeRect(-360, -150, 190 * q, 150); });                       // building A
+  seg(1, q => { ctx.strokeRect(170, 40, 190, 150 * q); });                          // building B
+  seg(2, q => { ctx.beginPath(); ctx.moveTo(-60, -160); ctx.lineTo(-60, -160 + 180 * q); ctx.moveTo(40, -160); ctx.lineTo(40, -160 + 180 * q); ctx.stroke(); }); // alley walls
+  seg(3, q => { drawPath([[-170, -75], [-10, -75], [-10, 115], [170, 115]], q, { color: "#D8342C", width: 7, dash: [16, 12] }); });
+  seg(4, q => { ctx.font = "44px Caveat"; ctx.fillStyle = ink; ctx.globalAlpha = q; ctx.fillText(from, -330, -185); ctx.fillText(to, 120, 238); ctx.globalAlpha = 1; });
+  seg(5, q => { ctx.beginPath(); ctx.moveTo(150, 100); ctx.lineTo(170, 115); ctx.lineTo(150, 130); ctx.stroke(); });
+  if (alley > 0) {
+    ctx.save(); ctx.translate(-10, -10); const a = easeOutBack(clamp(alley), 2.5); ctx.scale(a, a);
+    ctx.strokeStyle = "#D8342C"; ctx.lineWidth = 7; ctx.beginPath(); ctx.ellipse(0, 0, 90, 70, 0.2, 0, 6.29); ctx.stroke();
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+function microphone(x, y, s, t, { live = true } = {}) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s / 100, s / 100);
+  limb(0, 40, 0, 150, 10, "#2A2D38"); ctx.fillStyle = "#2A2D38"; ctx.beginPath(); ctx.ellipse(0, 152, 60, 12, 0, 0, 6.29); ctx.fill();
+  ctx.fillStyle = "#3A3E4D"; ctx.beginPath(); ctx.roundRect(-34, -70, 68, 120, 34); ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,.25)"; ctx.lineWidth = 3;
+  for (let k = -50; k < 40; k += 14) { ctx.beginPath(); ctx.moveTo(-28, k); ctx.lineTo(28, k); ctx.stroke(); }
+  if (live) { ctx.fillStyle = Math.sin(t * 6) > 0 ? "#FF4D4D" : "#7A2020"; ctx.beginPath(); ctx.arc(60, -60, 12, 0, 6.29); ctx.fill(); txt("REC", 112, -58, 26, "MontX", "#FF4D4D"); }
+  ctx.restore();
+}
+
+// small score card held up (the "victim" secretly grading), value 0..5
+function scoreCard(x, y, s, value, p) {
+  if (p <= 0) return;
+  ctx.save(); ctx.translate(x, y); const q = easeOutBack(clamp(p), 2.2); ctx.scale(q * s / 100, q * s / 100); ctx.rotate(0.08);
+  ctx.fillStyle = "#FBF8EE"; ctx.shadowColor = "rgba(0,0,0,.4)"; ctx.shadowBlur = 20; ctx.beginPath(); ctx.roundRect(-60, -80, 120, 160, 12); ctx.fill(); ctx.shadowColor = "transparent";
+  txt(String(value), 0, 10, 110, "MontX", value >= 3 ? "#1F9D55" : "#D8342C");
+  txt("/5", 38, 58, 26, "MontX", "#555");
+  ctx.restore();
+}
