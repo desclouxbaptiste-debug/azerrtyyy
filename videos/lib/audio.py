@@ -498,6 +498,14 @@ def fx(kind, dur=None):
     if kind == "paper":
         t = t_axis(0.4)
         return bp_sweep(rng.normal(0, 1, len(t)), 2500, 800, 0.8) * np.sin(np.pi * t / t[-1]) ** 1.5 * 0.35
+    if kind == "cough":
+        t = t_axis(0.9)
+        burst = lambda d, a: np.where(t >= d, np.exp(-(t - d) * 16) * (1 - np.exp(-(t - d) * 300)), 0) * a
+        env = burst(0.0, 1.0) + burst(0.38, 0.8)
+        return bp(rng.normal(0, 1, len(t)), 250, 2200) * env * 0.5 + np.sin(2 * np.pi * 140 * t) * env * 0.15
+    if kind == "scratch":
+        t = t_axis(0.35)
+        return bp_sweep(rng.normal(0, 1, len(t)), 3000, 400, 3) * np.exp(-t * 6) * 0.8
     if kind == "kaching":
         t = t_axis(1.0)
         return (bell(2093, 1.0) + np.where(t > 0.08, np.roll(bell(2637, 1.0), int(0.08 * SR)), 0)) * 0.12 + hp(rng.normal(0, 1, len(t)), 5000) * np.exp(-t * 30) * 0.2

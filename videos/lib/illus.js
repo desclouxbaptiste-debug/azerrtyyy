@@ -211,6 +211,7 @@ function streetLamp(x, groundY, t, { h = 620, glow = 1 } = {}) {
   ctx.fillRect(x - 9, groundY - h, 90, 14);
   ctx.fillStyle = "#14161F"; ctx.beginPath(); ctx.moveTo(x + 50, groundY - h + 10); ctx.lineTo(x + 110, groundY - h + 10); ctx.lineTo(x + 96, groundY - h + 46); ctx.lineTo(x + 64, groundY - h + 46); ctx.closePath(); ctx.fill();
   const lx = x + 80, ly = groundY - h + 48;
+  if (glow <= 0) return; // lamp switched off (daytime)
   ctx.save(); ctx.globalCompositeOperation = "lighter";
   const cone = ctx.createLinearGradient(0, ly, 0, groundY);
   cone.addColorStop(0, `rgba(255,196,110,${0.32 * glow})`); cone.addColorStop(1, `rgba(255,196,110,${0.05 * glow})`);
@@ -249,15 +250,15 @@ function doorway(x, groundY, s = 1) {
 }
 
 // warm office interior used for the questionnaire / instruction scenes
-function office(t, { clockMin = 0 } = {}) {
+function office(t, { clockMin = 0, day = false } = {}) {
   const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#3A2B26"); g.addColorStop(1, "#22191A");
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
   ctx.fillStyle = "#2C201C"; ctx.fillRect(0, 1060, W, 26); // wainscot rail
   ctx.fillStyle = "#1E1614"; ctx.fillRect(0, 1086, W, H);
   // window with night outside
   ctx.save(); ctx.beginPath(); ctx.roundRect(640, 330, 320, 440, 12); ctx.clip();
-  const sg = ctx.createLinearGradient(0, 330, 0, 770); sg.addColorStop(0, "#0E1330"); sg.addColorStop(1, "#2C1F45"); ctx.fillStyle = sg; ctx.fillRect(640, 330, 320, 440);
-  moon(860, 420, 34); skyline(0, 790, "#15122B", "#FFC97A", 0);
+  const sg = ctx.createLinearGradient(0, 330, 0, 770); sg.addColorStop(0, day ? "#7FB2E5" : "#0E1330"); sg.addColorStop(1, day ? "#E9DCC4" : "#2C1F45"); ctx.fillStyle = sg; ctx.fillRect(640, 330, 320, 440);
+  if (day) skyline(0, 790, "#8C93AD", "#C9D3E6", 0); else { moon(860, 420, 34); skyline(0, 790, "#15122B", "#FFC97A", 0); }
   ctx.restore();
   ctx.strokeStyle = "#5A4334"; ctx.lineWidth = 18; ctx.strokeRect(640, 330, 320, 440); ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(800, 330); ctx.lineTo(800, 770); ctx.moveTo(640, 550); ctx.lineTo(960, 550); ctx.stroke();
   // wall clock
@@ -468,4 +469,20 @@ function scoreCard(x, y, s, value, p) {
   txt(String(value), 0, 10, 110, "MontX", value >= 3 ? "#1F9D55" : "#D8342C");
   txt("/5", 38, 58, 26, "MontX", "#555");
   ctx.restore();
+}
+
+// cold, clear winter morning (the real sessions ran in daytime)
+function daySky(t, { top = "#6FA6DC", mid = "#B9D6EE", bottom = "#EFE0C6" } = {}) {
+  const g = ctx.createLinearGradient(0, 0, 0, 1100); g.addColorStop(0, top); g.addColorStop(0.6, mid); g.addColorStop(1, bottom);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  const sx = 840, sy = 300;
+  const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, 420); sg.addColorStop(0, "rgba(255,246,220,.9)"); sg.addColorStop(0.15, "rgba(255,240,200,.55)"); sg.addColorStop(1, "rgba(255,240,200,0)");
+  ctx.fillStyle = sg; ctx.fillRect(sx - 420, sy - 420, 840, 840);
+  ctx.fillStyle = "#FFF8E6"; ctx.beginPath(); ctx.arc(sx, sy, 58, 0, 6.29); ctx.fill();
+  const r = rng(31);
+  for (let i = 0; i < 5; i++) {
+    const cx = ((r() * 1400 + t * (10 + i * 4)) % 1500) - 200, cy = 180 + r() * 380, s = 0.6 + r() * 0.8;
+    ctx.fillStyle = "rgba(255,255,255,.8)";
+    for (const [dx, dy, rr] of [[0, 0, 60], [55, 10, 48], [-55, 12, 44], [25, -30, 46]]) { ctx.beginPath(); ctx.arc(cx + dx * s, cy + dy * s, rr * s, 0, 6.29); ctx.fill(); }
+  }
 }

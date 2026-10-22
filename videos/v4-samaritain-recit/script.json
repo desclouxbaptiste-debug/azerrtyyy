@@ -1,0 +1,82 @@
+{
+ "engine": "piper",
+ "voice": "fr_FR-tom-medium",
+ "speed": 1.0,
+ "post": {
+  "semitones": -1.5,
+  "warmth": 3
+ },
+ "lead": 0.4,
+ "gap_sentence": 0.26,
+ "gap_segment": 0.42,
+ "gap_suspense": 0.6,
+ "segments": [
+  {
+   "id": "cold",
+   "text": "Un homme est affalé sous un porche. La tête baissée. Les yeux fermés. Et des futurs pasteurs vont passer devant lui... l'un après l'autre."
+  },
+  {
+   "id": "rewind",
+   "text": "Revenons en arrière. {Princeton|Prinnsetone}, début des années soixante-dix. 67 étudiants en théologie remplissent des questionnaires sur leur foi."
+  },
+  {
+   "id": "mission",
+   "text": "Puis 47 d'entre eux sont convoqués, un par un. Mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté."
+  },
+  {
+   "id": "topics",
+   "text": "La moitié doit parler des métiers où un séminariste serait le plus utile. L'autre moitié... du Bon Samaritain, l'homme qui s'arrête pour soigner un inconnu."
+  },
+  {
+   "id": "map",
+   "text": "On leur dessine le chemin sur une fiche. Puis vient la phrase qui change tout."
+  },
+  {
+   "id": "hurry",
+   "text": "À certains, le chercheur dit : vous avez quelques minutes. À d'autres : on vous attend tout de suite. Et aux derniers : vous êtes en retard !"
+  },
+  {
+   "id": "alley",
+   "text": "Alors tu sors. Dans la ruelle, l'homme est là. Soudain, il tousse deux fois. Puis il se met à gémir."
+  },
+  {
+   "id": "reply",
+   "text": "Si tu t'arrêtes, il murmure : non, ça va. J'ai un problème respiratoire. Le docteur m'a donné des cachets."
+  },
+  {
+   "id": "judge",
+   "text": "Ce que tu ignores : c'est un complice des chercheurs. Et c'est lui qui va te noter, de zéro à cinq."
+  },
+  {
+   "id": "result",
+   "text": "Résultat. Avec du temps, 63 % ont aidé, d'une façon ou d'une autre. Attendus tout de suite, 45 %. En retard... seulement 10 %."
+  },
+  {
+   "id": "stepover",
+   "text": "Et plusieurs fois, un étudiant qui allait parler du Bon Samaritain a littéralement enjambé la victime."
+  },
+  {
+   "id": "faith",
+   "text": "Leur foi ? Elle ne prédisait pas qui allait aider."
+  },
+  {
+   "id": "why",
+   "text": "Des monstres ? Non, disent les chercheurs. Certains, pressés, n'ont pas réalisé qu'il avait besoin d'aide. D'autres étaient tiraillés : aider l'inconnu, ou ne pas faire attendre le chercheur."
+  },
+  {
+   "id": "quote",
+   "text": "Les chercheurs reprennent une idée : quand nos vies s'accélèrent, la morale devient un luxe."
+  },
+  {
+   "id": "you",
+   "text": "Et toi, en courant vers ton métro... combien de personnes tu ne vois pas ?"
+  },
+  {
+   "id": "cta",
+   "text": "Écris-moi en commentaire : en retard, tu te serais arrêté ?"
+  }
+ ],
+ "target": 106,
+ "noise": 0.5,
+ "noise_w": 0.7
+}

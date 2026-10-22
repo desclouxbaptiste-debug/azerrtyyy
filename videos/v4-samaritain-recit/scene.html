@@ -1,0 +1,474 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "MontX"; src: url("../fonts/Montserrat-800.ttf"); }
+  @font-face { font-family: "MontS"; src: url("../fonts/Montserrat-600.ttf"); }
+  @font-face { font-family: "Caveat"; src: url("../fonts/Caveat-700.ttf"); }
+  @font-face { font-family: "Playfair"; src: url("../fonts/Playfair-500i.ttf"); }
+  html, body { margin: 0; background: #000; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="../lib/core.js"></script>
+<script src="../lib/icons.js"></script>
+<script src="../lib/illus.js"></script>
+<script src="../lib/narration.js"></script>
+<script>
+// « Le Bon Samaritain » version récit (Darley & Batson, 1973) — narrateur masculin, ~105 s.
+// Chaque plan est une fonction du temps, calée sur la voix off (timings.json écrit par lib/tts.py).
+const FPS = 30;
+const COL = { red: "#FF4D4D", cyan: "#4DD6FF", orange: "#FFB13D", green: "#3DDC84", gold: "#FFC93C", ink: "#151824", cream: "#F4EFE6" };
+const GROUND = 1180;
+const grains = makeGrain(4, 17);
+let T, SEG, CARDS, ORDER, DURATION;
+
+const CHAPTERS = { cold: "PROLOGUE", rewind: "L'EXPÉRIENCE", mission: "L'EXPÉRIENCE", topics: "L'EXPÉRIENCE", map: "L'EXPÉRIENCE", hurry: "L'EXPÉRIENCE",
+  alley: "LA RUELLE", reply: "LA RUELLE", judge: "LA RUELLE", result: "LE VERDICT", stepover: "LE VERDICT", faith: "LE VERDICT",
+  why: "POURQUOI ?", quote: "POURQUOI ?", you: "ET TOI ?", cta: "ET TOI ?" };
+
+// ---------------------------------------------------------------- helpers
+const pop = (t, t0, d = 0.35, k = 2) => easeOutBack(prog(t, t0, t0 + d), k);
+const fade = (t, t0, d = 0.3) => easeOutCubic(prog(t, t0, t0 + d));
+function camera(z, cx, cy, fn) { ctx.save(); ctx.translate(W / 2, H / 2); ctx.scale(z, z); ctx.translate(-cx, -cy); fn(); ctx.restore(); }
+function wt(id, word, fb = 0) { return wordTime(SEG[id], word, fb); }
+
+// winter morning street (the sessions really took place in daytime)
+function street(t, camX = 0, { doorX = 560 } = {}) {
+  daySky(t);
+  skyline(camX, 760, "#7F87A3", "#C9D3E6", 0.25);
+  brickWall(-400, 560, W + 800, GROUND - 560, camX, { color: "#8A4A3C", mortar: "#5E3329" });
+  const sun = ctx.createLinearGradient(1080, 560, 300, GROUND); sun.addColorStop(0, "rgba(255,226,170,.28)"); sun.addColorStop(1, "rgba(40,30,60,.25)");
+  ctx.fillStyle = sun; ctx.fillRect(-400, 560, W + 800, GROUND - 560);
+  ctx.fillStyle = "rgba(20,14,20,.25)"; ctx.fillRect(-400, 560, W + 800, 26);
+  doorway(doorX - camX, GROUND, 1.05);
+  streetLamp(150 - camX * 1.0, GROUND, t, { glow: 0 });
+  sidewalk(GROUND, camX);
+  ctx.fillStyle = "rgba(170,190,220,.10)"; ctx.fillRect(0, GROUND, W, H - GROUND);
+}
+function victimAt(x, t, o = {}) {
+  character(x, GROUND - 6, 0.98, "victim", Object.assign({ pose: "slumped", face: { eyes: "closed", brows: "worried", mouth: "grimace", blink: false }, t }, o));
+}
+function coughFx(x, y, t, t0) {
+  const p = prog(t, t0, t0 + 0.9); if (p <= 0 || p >= 1) return;
+  ctx.save(); ctx.strokeStyle = `rgba(255,255,255,${0.85 * (1 - p)})`; ctx.lineWidth = 7; ctx.lineCap = "round";
+  for (let k = 0; k < 3; k++) { const r = 30 + k * 26 + p * 50; ctx.beginPath(); ctx.arc(x, y, r, -0.9, 0.3); ctx.stroke(); }
+  ctx.restore();
+}
+function label(str, x, y, size, color, bg, p, o = {}) {
+  if (p <= 0) return;
+  ctx.save(); ctx.translate(x, y); ctx.rotate(o.rot || 0); const q = easeOutBack(clamp(p), 2); ctx.scale(q, q);
+  ctx.font = `${size}px MontX`; ctx.letterSpacing = (o.spacing || 2) + "px";
+  const w = ctx.measureText(str).width + size * 1.2, h = size * 1.7;
+  ctx.fillStyle = bg; ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = 24; ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, o.r ?? h / 2); ctx.fill();
+  ctx.shadowColor = "transparent"; ctx.fillStyle = color; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(str, 0, size * 0.05);
+  ctx.restore();
+}
+function stamp(str, x, y, size, color, p, rot = -0.12) {
+  if (p <= 0) return;
+  const q = 1 + 1.5 * (1 - easeOutCubic(clamp(p * 1.4)));
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(q, q); ctx.globalAlpha = clamp(p * 3);
+  ctx.font = `${size}px MontX`; ctx.letterSpacing = "4px";
+  const w = ctx.measureText(str).width + size, h = size * 1.5;
+  ctx.strokeStyle = color; ctx.lineWidth = size * 0.1; ctx.strokeRect(-w / 2, -h / 2, w, h);
+  ctx.fillStyle = color; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(str, 0, size * 0.06);
+  ctx.restore();
+}
+function headline(str, y, size, color, t, t0, o = {}) {
+  const p = easeOutExpo(prog(t, t0, t0 + 0.5)); if (p <= 0) return;
+  ctx.save(); ctx.beginPath(); ctx.rect(0, y - size * 0.8, W, size * 1.6); ctx.clip();
+  txt(str, W / 2, y + (1 - p) * size * 1.3, size, "MontX", color, { spacing: o.spacing ?? 2, glow: o.glow, blur: 40 });
+  ctx.restore();
+}
+function spotlightBg(t, color = "#141A2E") {
+  ctx.fillStyle = "#0A0D18"; ctx.fillRect(0, 0, W, H);
+  const g = ctx.createRadialGradient(W / 2, 700, 0, W / 2, 700, 1000); g.addColorStop(0, color); g.addColorStop(1, "#0A0D18");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = "rgba(255,255,255,.035)";
+  for (let y = 0; y < H; y += 64) for (let x = (y / 64 % 2) * 32; x < W; x += 64) { ctx.beginPath(); ctx.arc(x + Math.sin(t * 0.3) * 6, y, 2, 0, 6.29); ctx.fill(); }
+}
+
+// ---------------------------------------------------------------- shots
+const SHOT = {
+  cold(s, t) {
+    const lt = t - s.start, z = 1.28 + lt * 0.02;
+    camera(z, 540, 960, () => {
+      street(t, 0);
+      victimAt(520, t);
+      // students passing one after another (ghosted, as a premonition)
+      const tp = wt("cold", "futurs", 4.5);
+      for (let k = 0; k < 3; k++) {
+        const u = prog(t, tp + k * 1.1, tp + k * 1.1 + 2.6); if (u <= 0 || u >= 1) continue;
+        ctx.save(); ctx.globalAlpha = 0.55 * Math.sin(u * Math.PI);
+        character(lerp(-150, 1250, u), GROUND + 80, 1.05, "student", { pose: "hurry", phase: u * 22, face: { brows: "focused" }, props: { book: true }, t });
+        ctx.restore();
+      }
+    });
+    const tt = s.start + 0.6;
+    if (t > tt) { headline("LE BON SAMARITAIN", 420, 84, "#fff", t, tt, { glow: "rgba(255,200,120,.6)" }); headline("UNE EXPÉRIENCE RÉELLE", 520, 40, COL.gold, t, tt + 0.25, { spacing: 6 }); }
+  },
+  rewind(s, t) {
+    const lt = t - s.start;
+    // rewind tape effect at the start
+    const rw = 1 - prog(lt, 0, 0.9);
+    spotlightBg(t, "#1E1A33");
+    skyline(-lt * 40, 820, "#2A2450", "#FFC97A", 1);
+    ctx.fillStyle = "rgba(10,13,24,.6)"; ctx.fillRect(0, 820, W, H);
+    headline("PRINCETON", 400, 132, "#fff", t, s.start + 0.35, { spacing: 6 });
+    headline("DÉBUT DES ANNÉES 70", 520, 52, COL.gold, t, wt("rewind", "début", 1.5) - 0.2, { spacing: 4 });
+    const t67 = wt("rewind", "67", 3.5);
+    for (let i = 0; i < 67; i++) {
+      const p = pop(t, t67 - 0.2 + i * 0.012, 0.3); if (p <= 0) continue;
+      const cx = 95 + (i % 12) * 81, cy = 700 + Math.floor(i / 12) * 82;
+      ctx.save(); ctx.translate(cx, cy); ctx.scale(p, p); iconPerson(0, 0, 50, i % 9 === 4 ? COL.cyan : COL.gold, { collar: true }); ctx.restore();
+    }
+    const c = pop(t, t67 + 0.2);
+    if (c > 0) label("67 ÉTUDIANTS EN THÉOLOGIE", W / 2, 1230, 40, COL.ink, COL.gold, c);
+    const tq = wt("rewind", "questionnaires", 5.5);
+    const q = fade(t, tq - 0.3, 0.4);
+    if (q > 0) {
+      ctx.save(); ctx.globalAlpha = q; ctx.fillStyle = "rgba(10,13,24,.75)"; ctx.fillRect(0, 0, W, H); ctx.restore();
+      questionnaire(540, 830, 1.05 * (0.9 + 0.1 * q), prog(t, tq, tq + 2.4), { title: "VOTRE FOI" });
+      handwrite(["Pourquoi croyez-vous ?"], 330, 610, 46, "#1E2A6E", t, tq + 0.2, 30);
+    }
+    if (rw > 0) { // VHS rewind overlay
+      ctx.save(); ctx.globalAlpha = rw;
+      for (let y = 0; y < H; y += 6) { ctx.fillStyle = `rgba(255,255,255,${0.04 + 0.04 * Math.random()})`; ctx.fillRect(0, y, W, 2); }
+      ctx.fillStyle = "rgba(0,0,0,.4)"; ctx.fillRect(0, 0, W, H);
+      txt("◀◀ RETOUR EN ARRIÈRE", W / 2, 940, 64, "MontX", "#fff", { spacing: 4 });
+      ctx.restore();
+    }
+  },
+  mission(s, t) {
+    const lt = t - s.start, tm = wt("mission", "Mission", 2), tb = wt("mission", "bâtiment", 4.5);
+    if (t < tm + 0.2) {
+      office(t, { clockMin: 40 + lt * 6, day: true }); desk(330, 1150);
+      character(300, 1420, 1.15, "researcher", { pose: "talk", phase: t * 4, face: { mouth: Math.sin(t * 12) > 0 ? "o" : "neutral" }, props: { clipboard: true }, t });
+      const u = prog(t, s.start, s.start + 1.5);
+      character(lerp(1200, 790, easeOutCubic(u)), 1420, 1.15, "student", { pose: u < 1 ? "walk" : "stand", phase: t * 9, flip: true, face: { look: [-1, 0] }, t });
+      label("47 CONVOQUÉS, UN PAR UN", W / 2, 420, 40, "#fff", "rgba(14,19,34,.85)", fade(t, s.start + 0.3));
+    } else {
+      spotlightBg(t);
+      const p1 = pop(t, tm - 0.1), p2 = pop(t, tb - 0.5);
+      ctx.save(); ctx.translate(290, 760); ctx.scale(p1, p1);
+      paper(0, 0, 360, 460, { rot: -0.04 });
+      handwrite(["Mon discours", "", "1. ...", "2. ...", "3. ..."], -140, -150, 50, "#1E2A6E", t, tm + 0.1, 26);
+      ctx.restore();
+      if (p2 > 0) {
+        drawPath([[480, 760], [640, 760]], prog(t, tb - 0.5, tb), { color: COL.gold, width: 12, dash: [24, 14], offset: -t * 60 });
+        ctx.save(); ctx.translate(800, 800); ctx.scale(p2, p2);
+        iconBuilding(0, 0, 230, "#D3CADB", { label: "BÂTIMENT D'À CÔTÉ" });
+        microphone(0, -330, 110, t);
+        ctx.restore();
+        label("ENREGISTREMENT", 800, 1120, 36, COL.ink, COL.red, pop(t, tb + 0.2));
+      }
+    }
+  },
+  topics(s, t) {
+    spotlightBg(t, "#1C1830");
+    const th = wt("topics", "moitié", 0.3), tl = wt("topics", "L'autre", 2.6), tb = wt("topics", "Bon", 4);
+    // twenty students splitting into two groups
+    for (let i = 0; i < 20; i++) {
+      const side = i % 2, k = Math.floor(i / 2);
+      const split = easeInOut(prog(t, th, th + 0.8));
+      const x = lerp(240 + (i % 10) * 66, (side ? 640 : 140) + (k % 5) * 66, split), y = lerp(500 + Math.floor(i / 10) * 90, 480 + Math.floor(k / 5) * 92, split);
+      iconPerson(x, y, 56, side ? COL.gold : "#9AA7B8", { collar: true });
+    }
+    const a = pop(t, th + 0.6);
+    if (a > 0) { ctx.save(); ctx.translate(270, 880); ctx.scale(a, a); paper(0, 0, 400, 300, { rot: 0.03 }); handwrite(["Les métiers", "après le séminaire"], -170, -40, 54, "#2B2B33", t, th + 0.7, 30); ctx.restore(); }
+    const b = pop(t, tl);
+    if (b > 0) { ctx.save(); ctx.translate(800, 880); ctx.scale(b, b); ctx.fillStyle = "#7A2E22"; ctx.beginPath(); ctx.roundRect(-190, -150, 380, 300, 18); ctx.fill(); ctx.strokeStyle = COL.gold; ctx.lineWidth = 6; ctx.strokeRect(-170, -130, 340, 260); txt("LE BON", 0, -40, 60, "Playfair", COL.gold); txt("SAMARITAIN", 0, 30, 54, "Playfair", COL.gold); ctx.restore(); }
+    // the parable as a little golden storybook vignette
+    const v = fade(t, tb + 0.5, 0.5);
+    if (v > 0) {
+      ctx.save(); ctx.globalAlpha = v;
+      ctx.fillStyle = "rgba(255,201,60,.10)"; ctx.strokeStyle = COL.gold; ctx.lineWidth = 4; ctx.beginPath(); ctx.roundRect(100, 1060, 880, 290, 30); ctx.fill(); ctx.stroke();
+      ctx.save(); ctx.beginPath(); ctx.roundRect(100, 1060, 880, 290, 30); ctx.clip();
+      character(330, 1330, 0.72, "victim", { pose: "slumped", face: { eyes: "closed", brows: "worried", mouth: "grimace" }, t, shadow: false });
+      character(560, 1330, 0.72, "passerby", { pose: "kneel", flip: true, face: { brows: "worried", look: [-1, 0.5] }, t, shadow: false });
+      ctx.restore(); ctx.restore();
+      txt("Il s'arrête… et le soigne.", 790, 1200, 46, "Caveat", COL.gold, { alpha: v });
+    }
+  },
+  map(s, t) {
+    const tp = wt("map", "phrase", 2.4);
+    if (t < tp - 0.3) {
+      spotlightBg(t, "#1E1A2A");
+      indexCardMap(540, 780, 1.12, prog(t, s.start, tp - 0.6), t, { from: "Vous êtes ici", to: "Labo du Pr Steiner" });
+      // pen
+      const pp = prog(t, s.start, tp - 0.6), x = 540 + Math.sin(pp * 12) * 250, y = 760 + Math.cos(pp * 9) * 150;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(0.6); ctx.fillStyle = "#1E2A6E"; ctx.fillRect(-8, -150, 16, 140); ctx.fillStyle = "#C0C4CC"; ctx.beginPath(); ctx.moveTo(-8, -10); ctx.lineTo(8, -10); ctx.lineTo(0, 12); ctx.fill(); ctx.restore();
+      label("UN PLAN SUR UNE FICHE", W / 2, 400, 40, "#fff", "rgba(14,19,34,.85)", fade(t, s.start + 0.3));
+    } else {
+      ctx.fillStyle = "#07080F"; ctx.fillRect(0, 0, W, H);
+      const z = 1 + (t - tp) * 0.05;
+      ctx.save(); ctx.translate(W / 2, 820); ctx.scale(z, z);
+      iconClock(0, -120, 300, (t - tp) * 160 + 50, { ring: COL.red, glow: COL.red });
+      ctx.restore();
+      headline("LA PHRASE", 1080, 92, "#fff", t, tp - 0.2);
+      headline("QUI CHANGE TOUT", 1190, 92, COL.red, t, tp + 0.1, { glow: "rgba(255,77,77,.5)" });
+    }
+  },
+  hurry(s, t) {
+    spotlightBg(t, "#1A1726");
+    const rows = [
+      { w: "minutes", text: "« Vous avez quelques minutes. »", col: COL.cyan, speed: 0.4, face: { mouth: "smile" }, y: 520 },
+      { w: "attend", text: "« On vous attend tout de suite. »", col: COL.orange, speed: 3, face: { brows: "up", mouth: "neutral" }, y: 820 },
+      { w: "retard", text: "« Vous êtes en retard ! »", col: COL.red, speed: 14, face: { eyes: "wide", brows: "worried", mouth: "o" }, y: 1120 },
+    ];
+    rows.forEach((r, i) => {
+      const t0 = wt("hurry", r.w, i * 2.2) - 0.6, p = pop(t, t0); if (p <= 0) return;
+      const shake = i === 2 ? Math.sin(t * 60) * 10 * Math.exp(-(t - t0 - 0.4) * 2.5) : 0;
+      ctx.save(); ctx.translate(540 + shake, r.y); ctx.scale(p, p);
+      ctx.fillStyle = "rgba(255,255,255,.06)"; ctx.strokeStyle = r.col; ctx.lineWidth = 5; ctx.beginPath(); ctx.roundRect(-490, -130, 980, 260, 36); ctx.fill(); ctx.stroke();
+      ctx.save(); ctx.beginPath(); ctx.roundRect(-490, -130, 260, 260, [36, 0, 0, 36]); ctx.clip();
+      ctx.fillStyle = r.col + "33"; ctx.fillRect(-490, -130, 260, 260);
+      character(-360, 300, 0.9, "student", { pose: i === 2 ? "watch" : "stand", face: Object.assign({ look: [1, 0] }, r.face), props: { watch: i === 2, watchGlow: i === 2 }, t, shadow: false });
+      ctx.restore();
+      iconClock(380, -70, 110, (t - t0) * r.speed * 60 + 40, { ring: r.col });
+      ctx.font = "60px Caveat"; ctx.fillStyle = r.col; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      wrap(r.text, 60, "Caveat", 520).forEach((l, k, arr) => ctx.fillText(l.slice(0, Math.max(0, Math.floor((t - t0 - 0.2) * 40) - k * 22)), -200, 10 + (k - (arr.length - 1) / 2) * 66));
+      ctx.restore();
+    });
+  },
+  alley(s, t) {
+    const lt = t - s.start, ts = wt("alley", "ruelle", 1.6), tc = wt("alley", "tousse", 3.2), tg = wt("alley", "gémir", 4.8);
+    // the camera follows "you" from the door to the alley
+    const u = easeInOut(prog(t, s.start, ts + 0.8));
+    const camX = lerp(-700, 0, u);
+    camera(1.3 + 0.05 * prog(lt, 1, 6), 520, 960, () => {
+      street(t, camX, { doorX: 560 });
+      victimAt(520 - camX, t);
+      const sx = lerp(-200, 330, easeOutCubic(prog(t, s.start, ts + 1.0)));
+      const walking = t < ts + 1.0;
+      character(sx - camX * 0 + 0, GROUND + 80, 1.08, "student", { pose: walking ? "hurry" : "stand", phase: t * 10, face: { brows: t > tc ? "worried" : "focused", look: t > tc ? [1, 0.6] : [1, 0], eyes: t > tc ? "wide" : "open" }, props: { book: true }, t });
+    });
+    coughFx(600, 960, t, tc - 0.05); coughFx(600, 960, t, tc + 0.35);
+    const a = fade(t, tc - 0.05, 0.2) * (1 - prog(t, tc + 1.2, tc + 1.5));
+    if (a > 0) txt("*kof… kof…*", 800, 860, 64, "Caveat", "#fff", { alpha: a });
+    const g = fade(t, tg - 0.05, 0.2);
+    if (g > 0) { coughFx(600, 960, t, tg - 0.05); txt("*mmmh…*", 800, 860, 64, "Caveat", "#fff", { alpha: g * (1 - prog(t, tg + 1.3, tg + 1.6)) }); }
+    label("TOI", 330, 700, 40, COL.ink, COL.gold, fade(t, s.start + 0.4) * (1 - prog(t, tc - 0.4, tc)));
+  },
+  reply(s, t) {
+    const tm = wt("reply", "murmure", 1.4), l1 = wt("reply", "non", 1.8), l2 = wt("reply", "J'ai", 3), l3 = wt("reply", "docteur", 5);
+    camera(1.38, 600, 980, () => {
+      street(t, 0);
+      victimAt(520, t, { override: t > tm ? { headTilt: 0.18 } : {}, face: { eyes: t > tm ? "half" : "closed", brows: "worried", mouth: t > tm && Math.sin(t * 9) > 0 ? "o" : "grimace", blink: false } });
+      character(800, GROUND + 70, 1.05, "student", { pose: "stand", flip: true, face: { brows: "worried", look: [-1, 0.7], mouth: "neutral" }, props: { book: true }, t });
+    });
+    const lines = [[l1, "« Non, ça va… »"], [l2, "« J'ai un problème respiratoire. »"], [l3, "« Le docteur m'a donné des cachets. »"]];
+    const p = pop(t, l1 - 0.3);
+    if (p > 0) {
+      ctx.save(); ctx.translate(540, 470); ctx.scale(p, p);
+      ctx.fillStyle = COL.cream; ctx.shadowColor = "rgba(0,0,0,.5)"; ctx.shadowBlur = 30; ctx.beginPath(); ctx.roundRect(-460, -150, 920, 300, 40); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(-160, 140); ctx.lineTo(-220, 230); ctx.lineTo(-90, 145); ctx.fill(); ctx.shadowColor = "transparent";
+      lines.forEach(([t0, str], k) => { if (t > t0 - 0.2) { ctx.font = "56px Caveat"; ctx.fillStyle = "#2B2B33"; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(str.slice(0, Math.floor((t - t0 + 0.2) * 34)), -420, -85 + k * 85); } });
+      ctx.restore();
+    }
+    const pill = pop(t, l3 + 0.6);
+    if (pill > 0) { ctx.save(); ctx.translate(900, 300); ctx.scale(pill, pill); ctx.rotate(0.2); ctx.fillStyle = "#E8F1FF"; ctx.beginPath(); ctx.roundRect(-40, -70, 80, 130, 14); ctx.fill(); ctx.fillStyle = "#4D7BD6"; ctx.fillRect(-40, -20, 80, 40); ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.roundRect(-46, -92, 92, 30, 8); ctx.fill(); ctx.restore(); }
+  },
+  judge(s, t) {
+    const ta = wt("judge", "complice", 1.4), tn = wt("judge", "noter", 3), tz = wt("judge", "zéro", 3.6);
+    if (t < tn - 0.4) {
+      camera(1.55, 540, 980, () => {
+        street(t, 0);
+        victimAt(520, t, { override: { headTilt: 0.05 }, face: { eyes: t > ta ? "open" : "half", brows: "up", mouth: t > ta ? "smile" : "neutral", look: [1, -0.3], blink: false } });
+      });
+      ctx.fillStyle = "rgba(10,14,30,.35)"; ctx.fillRect(0, 0, W, H);
+      stamp("UN COMPLICE", 540, 520, 88, COL.red, prog(t, ta - 0.1, ta + 0.4));
+      scoreCard(820, 820, 150, 3, pop(t, ta + 0.5));
+    } else {
+      spotlightBg(t, "#151C30");
+      headline("IL NOTE CHAQUE PASSAGE", 420, 56, "#fff", t, tn - 0.3);
+      helpScale(540, 900, 1.0, prog(t, tn - 0.4, tn + 1.6), ["Ne remarque rien", "Remarque, passe", "Prévient quelqu'un", "S'arrête, demande", "L'emmène à l'abri", "Refuse de le quitter"], -1);
+    }
+  },
+  result(s, t) {
+    spotlightBg(t, "#16142A");
+    headline("ONT AIDÉ L'HOMME", 380, 72, "#fff", t, s.start + 0.1);
+    txt("aider = s'arrêter… ou prévenir quelqu'un en arrivant", W / 2, 470, 34, "Caveat", COL.gold, { alpha: fade(t, wt("result", "façon", 2.5) - 0.3) });
+    const rows = [
+      { w: "63", pct: 0.63, col: COL.cyan, label: "AVEC DU TEMPS", speed: 0.4 },
+      { w: "45", pct: 0.45, col: COL.orange, label: "ATTENDUS", speed: 3 },
+      { w: "10", pct: 0.10, col: COL.red, label: "EN RETARD", speed: 14 },
+    ];
+    rows.forEach((r, i) => {
+      const tw = wt("result", r.w, 1 + i * 2) - 0.5, p = prog(t, tw, tw + 1.0); if (p <= 0) return;
+      const y = 640 + i * 290;
+      const shake = i === 2 ? Math.sin(t * 70) * 10 * Math.exp(-(t - tw - 0.8) * 3) * (t > tw + 0.8 ? 1 : 0) : 0;
+      ctx.save(); ctx.translate(shake, 0);
+      iconClock(120, y - 30, 120, (t - tw) * r.speed * 60 + 40, { ring: r.col });
+      peopleRow(240, y - 40, 92, r.pct, p, r.col, { n: 10, gap: 1.05 });
+      txt(r.label, 240, y + 70, 34, "MontX", r.col, { align: "left", spacing: 2, alpha: clamp(p * 3) });
+      const v = Math.round(r.pct * 100 * easeOutExpo(clamp(p * 1.2)));
+      txt(`${v} %`, 1000, y + 70, 64, "MontX", "#fff", { align: "right", alpha: clamp(p * 3) });
+      ctx.restore();
+    });
+  },
+  stepover(s, t) {
+    const lt = t - s.start, dur = s.next - s.start, te = wt("stepover", "enjambé", 3.8), tb = wt("stepover", "Bon", 1.6);
+    camera(1.32, 540, 960, () => {
+      street(t, 0);
+      ctx.fillStyle = "rgba(255,40,40,.08)"; ctx.fillRect(-200, 0, W + 400, H);
+      victimAt(560, t);
+      // slow motion: the student's x is eased so the step-over lands on "enjambé"
+      const x = te > s.start ? (t < te ? lerp(-100, 520, prog(t, s.start, te)) : lerp(520, 1250, prog(t, te, s.next + 0.5))) : lerp(-100, 1250, lt / dur);
+      const k = prog(x, 380, 700);
+      const over = k > 0 && k < 1;
+      character(x, GROUND - 6 - (over ? Math.sin(k * Math.PI) * 30 : 0), 1.02, "student", { pose: over ? "stepover" : "hurry", k, phase: x / 22, face: { brows: "focused", look: [1, 0] }, props: { book: true }, t });
+    });
+    if (t > tb - 0.2) label("SON DISCOURS : LE BON SAMARITAIN", W / 2, 560, 34, COL.ink, COL.gold, prog(t, tb - 0.2, tb + 0.1), { r: 18 });
+    label("◀ RALENTI", 870, 330, 34, "#fff", COL.red, fade(t, s.start + 0.1), { r: 16 });
+    stamp("LITTÉRALEMENT", 540, 470, 64, COL.red, prog(t, te - 0.25, te + 0.2), -0.08);
+  },
+  faith(s, t) {
+    spotlightBg(t, "#151A2A");
+    const p = prog(t, s.start, s.start + 1.2);
+    ctx.save(); ctx.translate(140, 1060);
+    ctx.strokeStyle = "rgba(255,255,255,.6)"; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(0, -560); ctx.lineTo(0, 0); ctx.lineTo(820, 0); ctx.stroke();
+    txt("AIDE", -10, -590, 34, "MontX", "#fff", { align: "left" }); txt("FOI →", 820, 50, 34, "MontX", "#fff", { align: "right" });
+    const r = rng(9);
+    for (let i = 0; i < 40; i++) { const q = clamp(p * 40 - i); if (q <= 0) continue; const x = 40 + r() * 760, y = -40 - r() * 480; ctx.fillStyle = `rgba(255,201,60,${0.85 * q})`; ctx.beginPath(); ctx.arc(x, y, 12 * q, 0, 6.29); ctx.fill(); }
+    const l = prog(t, s.start + 0.8, s.start + 1.4);
+    ctx.strokeStyle = COL.cyan; ctx.lineWidth = 8; ctx.setLineDash([20, 14]); ctx.beginPath(); ctx.moveTo(20, -270); ctx.lineTo(20 + 780 * l, -275); ctx.stroke(); ctx.setLineDash([]);
+    ctx.restore();
+    stamp("NE PRÉDIT PAS QUI AIDE", 540, 420, 52, COL.red, prog(t, wt("faith", "aider", 1.8) - 0.2, wt("faith", "aider", 1.8) + 0.2), -0.06);
+  },
+  why(s, t) {
+    const tn = wt("why", "Non", 0.8), tc = wt("why", "réalisé", 3.2), tt = wt("why", "tiraillés", 5.6);
+    spotlightBg(t, "#171A2C");
+    if (t < tc - 0.4) {
+      const m = fade(t, s.start, 0.3);
+      ctx.save(); ctx.globalAlpha = m;
+      character(540, 1100, 1.25, "student", { pose: "stand", face: { brows: "angry", mouth: "grimace" }, t });
+      ctx.fillStyle = "#B3261E"; ctx.beginPath(); ctx.moveTo(480, 560); ctx.lineTo(500, 470); ctx.lineTo(530, 560); ctx.fill(); ctx.beginPath(); ctx.moveTo(570, 560); ctx.lineTo(600, 470); ctx.lineTo(620, 560); ctx.fill();
+      ctx.restore();
+      if (t > tn - 0.1) iconCross(540, 800, 340, prog(t, tn - 0.1, tn + 0.5));
+      headline("DES MONSTRES ?", 400, 84, "#fff", t, s.start + 0.05);
+    } else if (t < tt - 0.3) {
+      // explanation 1: did not register the need
+      character(300, 1120, 1.05, "student", { pose: "hurry", phase: t * 10, face: { brows: "focused", look: [1, 0] }, props: { book: true }, t });
+      ctx.save(); ctx.fillStyle = "rgba(5,7,14,.7)"; ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.moveTo(420, 760); ctx.lineTo(1080, 560); ctx.lineTo(1080, 900); ctx.lineTo(420, 820); ctx.closePath(); ctx.fill("evenodd"); ctx.restore();
+      character(760, 1180, 0.8, "victim", { pose: "slumped", face: { eyes: "closed", brows: "worried", mouth: "grimace" }, t });
+      ctx.save(); ctx.translate(760, 700); const q = pop(t, tc - 0.4); ctx.scale(q, q);
+      iconBubble(0, 0, 420, 120, "Besoin d'aide ?", { p: 1, size: 46 }); ctx.strokeStyle = COL.red; ctx.lineWidth = 12; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(-200, 50); ctx.lineTo(200, -50); ctx.stroke(); ctx.restore();
+      label("PAS RÉALISÉ", W / 2, 420, 50, "#fff", COL.red, pop(t, tc - 0.2));
+    } else {
+      tugOfWar(540, 860, 1.05, t, Math.sin((t - tt) * 2) * 0.6, "AIDER L'INCONNU", "LE CHERCHEUR");
+      label("TIRAILLÉS", W / 2, 420, 54, COL.ink, COL.gold, pop(t, tt - 0.2));
+      iconClock(880, 620, 120, t * 400, { ring: COL.red });
+    }
+  },
+  quote(s, t) {
+    spotlightBg(t, "#1D1726");
+    ctx.save(); ctx.globalAlpha = 0.25; iconClock(540, 760, 700, t * 900, { ring: "#5A4A7A", face: "#2A2340", hand: "#8C7BB0" }); ctx.restore();
+    quoteCard(540, 820, 960, ["Quand nos vies", "s'accélèrent, la morale", "devient un luxe."], prog(t, wt("quote", "quand", 1.6) - 0.3, wt("quote", "quand", 1.6) + 0.2), { author: "idée reprise par Darley & Batson", size: 66 });
+  },
+  you(s, t) {
+    const lt = t - s.start;
+    // metro platform at rush hour
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#1D2A33"); g.addColorStop(1, "#0D1419"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "#E9E2CF"; ctx.fillRect(0, 480, W, 700);
+    ctx.fillStyle = "#D8CFB8"; for (let x = 0; x < W; x += 90) for (let y = 480; y < 1180; y += 45) ctx.fillRect(x + ((y / 45) % 2) * 45, y, 86, 41);
+    ctx.fillStyle = "#2C6E49"; ctx.fillRect(0, 560, W, 70); txt("M  ·  DIRECTION LA DÉFENSE", 540, 596, 38, "MontX", "#fff", { spacing: 2 });
+    ctx.fillStyle = "#3A3F45"; ctx.fillRect(0, GROUND, W, H - GROUND); ctx.fillStyle = COL.gold; ctx.fillRect(0, GROUND, W, 16);
+    txt("8 h 47", 900, 760, 72, "MontX", COL.red);
+    character(540, GROUND - 6, 0.9, "victim", { pose: "slumped", face: { eyes: "closed", brows: "worried", mouth: "neutral" }, t });
+    for (let k = 0; k < 5; k++) {
+      const x = ((lt * 480 + k * 300) % 1700) - 300;
+      character(x, GROUND + 60 + (k % 2) * 40, 0.95, k % 2 ? "passerby" : "student", { pose: "hurry", phase: x / 22, face: { look: [1, 0.4], brows: "focused" }, props: { paper: k % 2 === 0 }, t });
+    }
+    const c = fade(t, wt("you", "combien", 2.2) - 0.2);
+    if (c > 0) { ctx.save(); ctx.strokeStyle = COL.gold; ctx.lineWidth = 8; ctx.setLineDash([22, 14]); ctx.lineDashOffset = -t * 40; ctx.globalAlpha = c; ctx.beginPath(); ctx.ellipse(560, 1070, 210, 170, 0, 0, 6.29); ctx.stroke(); ctx.restore(); }
+  },
+  cta(s, t) {
+    const lt = t - s.start;
+    camera(1.3, 540, 960, () => { street(t, 0); victimAt(520, t); });
+    ctx.fillStyle = "rgba(8,10,20,.55)"; ctx.fillRect(0, 0, W, H);
+    const opts = [{ label: "JE M'ARRÊTE", col: COL.green, y: 560 }, { label: "JE CONTINUE", col: COL.red, y: 790 }];
+    opts.forEach((o, i) => {
+      const p = pop(t, s.start + 0.1 + i * 0.2); if (p <= 0) return;
+      const hl = Math.floor(lt * 2.2) % 2 === i;
+      ctx.save(); ctx.translate(540, o.y); ctx.scale(p * (hl ? 1.05 : 1), p * (hl ? 1.05 : 1));
+      ctx.fillStyle = hl ? o.col : "rgba(255,255,255,.1)"; ctx.strokeStyle = o.col; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.roundRect(-420, -90, 840, 180, 90); ctx.fill(); ctx.stroke();
+      txt(o.label, 0, 5, 76, "MontX", hl ? COL.ink : o.col);
+      ctx.restore();
+    });
+    txt("Source : Darley & Batson (1973), Journal of Personality and Social Psychology", 540, 1240, 25, "MontS", "rgba(255,255,255,.6)");
+  },
+};
+
+// ---------------------------------------------------------------- chrome + master
+function chrome(t, id) {
+  ctx.save();
+  ctx.font = "30px MontX"; ctx.letterSpacing = "3px";
+  const lab = CHAPTERS[id] || "";
+  const w = ctx.measureText(lab).width + 60;
+  ctx.fillStyle = "rgba(10,12,22,.65)"; ctx.beginPath(); ctx.roundRect(60, 186, w, 56, 28); ctx.fill();
+  ctx.fillStyle = COL.red; ctx.beginPath(); ctx.arc(88, 214, 8, 0, 6.29); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.textBaseline = "middle"; ctx.fillText(lab, 106, 216);
+  ctx.restore();
+  ctx.fillStyle = "rgba(255,255,255,.15)"; ctx.fillRect(60, 264, 960, 6);
+  ctx.fillStyle = COL.gold; ctx.fillRect(60, 264, 960 * clamp(t / DURATION), 6);
+}
+
+function drawShot(i, t) { const s = SEG[ORDER[i]]; SHOT[s.id](s, Math.min(t, s.next)); }
+
+window.render = function (t) {
+  const frame = Math.round(t * FPS);
+  let i = ORDER.findIndex(id => t < SEG[id].next);
+  if (i < 0) i = ORDER.length - 1;
+  const s = SEG[ORDER[i]];
+  const tr = prog(t, s.start - 0.15, s.start + 0.3);
+  if (i > 0 && tr < 1) {
+    // cinematic cross-zoom: old shot pushes in and fades, new shot settles from a slight zoom
+    const k = easeInOut(tr);
+    ctx.save(); ctx.translate(W / 2, H / 2); ctx.scale(1 + 0.12 * k, 1 + 0.12 * k); ctx.translate(-W / 2, -H / 2); drawShot(i - 1, t); ctx.restore();
+    ctx.save(); ctx.globalAlpha = k; ctx.translate(W / 2, H / 2); ctx.scale(1.1 - 0.1 * k, 1.1 - 0.1 * k); ctx.translate(-W / 2, -H / 2); drawShot(i, t); ctx.restore();
+    lightLeak(W * 0.8, H * 0.3, Math.sin(k * Math.PI) * 0.6);
+  } else drawShot(i, t);
+  vignette(0.5, 0.35);
+  chrome(t, s.id);
+  drawCaptions(CARDS, t, { y: 1420, size: 74, maxW: 880, keyColor: w => (/^(63|45|10|67|47|COMPLICE|RETARD|LITTÉRALEMENT|ENJAMBÉ|BON|SAMARITAIN|LUXE)/.test(w) ? COL.gold : null) });
+  grain(grains, frame, 0.05);
+  const e = prog(t, DURATION - 0.4, DURATION);
+  if (e > 0) { ctx.fillStyle = `rgba(0,0,0,${e})`; ctx.fillRect(0, 0, W, H); }
+};
+
+window.ready = (async () => {
+  await Promise.all(["MontX", "MontS", "Caveat", "Playfair"].map(f => document.fonts.load(`100px ${f}`)));
+  T = await (await fetch("timings.json")).json();
+  SEG = segmentIndex(T);
+  ORDER = T.segments.map(s => s.id);
+  CARDS = buildCaptions(T);
+  DURATION = Math.ceil((T.duration + 1.4) * 10) / 10;
+  SEG[ORDER[ORDER.length - 1]].next = DURATION;
+  // sound design
+  T.segments.forEach((s, i) => { if (i) sfx(s.start - 0.15, "whoosh", { gain: 0.35, dur: 0.4 }); });
+  sfx(SEG.rewind.start, "rewind", { dur: 0.9, gain: 0.5 });
+  sfx(wt("rewind", "67", 3.5) - 0.2, "rise", { dur: 1.0, gain: 0.5 });
+  sfx(wt("map", "phrase", 2.4) - 0.3, "boom", { gain: 0.5 });
+  ["minutes", "attend", "retard"].forEach((w, i) => sfx(wt("hurry", w, i * 2.2) - 0.6, i === 2 ? "impact_small" : "pop", { gain: 0.7 }));
+  sfx(wt("alley", "tousse", 3.2) - 0.05, "cough", { gain: 0.5 });
+  sfx(wt("reply", "non", 1.8) - 0.3, "pop", { gain: 0.6 });
+  sfx(wt("judge", "acteur", 1.4) - 0.1, "impact", { gain: 0.5 });
+  sfx(wt("judge", "zéro", 3.6) - 0.4, "rise", { dur: 1.2, gain: 0.5 });
+  sfx(SEG.result.start + 0.1, "boom", { gain: 0.45 });
+  ["63", "45", "10"].forEach((w, i) => sfx(wt("result", w, 1 + i * 2) - 0.5, i === 2 ? "impact" : "ding", { gain: i === 2 ? 0.55 : 0.7 }));
+  sfx(SEG.stepover.start + 0.05, "rewind", { dur: 0.5, gain: 0.35 });
+  sfx(wt("stepover", "enjambé", 3.8) - 0.25, "impact_small", { gain: 0.6 });
+  sfx(wt("faith", "aider", 1.8) - 0.2, "stab", { gain: 0.4 });
+  sfx(wt("why", "Non", 0.8) - 0.1, "scratch", { gain: 0.5 });
+  sfx(wt("why", "tiraillés", 5.6) - 0.2, "pop_hi", { gain: 0.6 });
+  sfx(SEG.cta.start + 0.1, "pop"); sfx(SEG.cta.start + 0.3, "pop");
+  window.TIMELINE = { FPS, DURATION, MUSIC: { style: "suspense", bpm: 90 }, VOICE: { path: "voice.wav", bed: 0.17, duck: 0.65 } };
+  return true;
+})();
+</script>
+</body>
+</html>

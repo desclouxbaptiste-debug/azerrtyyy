@@ -27,7 +27,7 @@ function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = 
   const appear = easeOutBack(prog(t, c.start - 0.05, c.start + 0.12), 2.2);
   ctx.save();
   ctx.font = `${size}px ${font}`;
-  const words = c.words.map(w => ({ ...w, text: w.w.toUpperCase().replace(/[,.;:]$/, "") }));
+  const words = c.words.map(w => ({ ...w, text: w.w.toUpperCase().replace(/[,.;:…]+$/, "") }));
   const space = size * 0.42; // the thick outline eats into the gap
   const widths = words.map(w => ctx.measureText(w.text).width);
   const total = widths.reduce((a, b) => a + b, 0) + space * (words.length - 1);
