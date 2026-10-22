@@ -1,19 +1,18 @@
 {
- "engine": "piper",
- "voice": "fr_FR-tom-medium",
- "speed": 1.13,
+ "engine": "supertonic",
+ "speed": 1.15,
  "post": {
   "semitones": 0,
-  "warmth": 1.5,
-  "presence": 3.5,
-  "threshold": 0.08,
-  "ratio": 3,
-  "makeup": 1.5
+  "warmth": 1,
+  "presence": 2,
+  "threshold": 0.12,
+  "ratio": 2.2,
+  "makeup": 1.2
  },
  "lead": 0.3,
- "gap_sentence": 0.12,
- "gap_segment": 0.22,
- "gap_suspense": 0.38,
+ "gap_sentence": 0.1,
+ "gap_segment": 0.2,
+ "gap_suspense": 0.32,
  "segments": [
   {
    "id": "cold",
@@ -21,15 +20,15 @@
   },
   {
    "id": "rewind",
-   "text": "Retour en arrière ! {Princeton|Prinnsetone}, début des années soixante-dix. Au départ, 67 étudiants en théologie remplissent des questionnaires sur leur foi."
+   "text": "Retour en arrière ! Princeton, il y a plus de cinquante ans. Au départ, {67|soixante-sept} étudiants en théologie remplissent des questionnaires sur leur foi."
   },
   {
    "id": "mission",
-   "text": "Puis 47 d'entre eux sont convoqués, un par un. Leur mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté !"
+   "text": "Puis {47|quarante-sept} d'entre eux sont convoqués, un par un. Leur mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté !"
   },
   {
    "id": "topics",
-   "text": "La moitié doit parler des métiers où un séminariste serait le plus utile. Et l'autre moitié ? Du Bon Samaritain ! L'homme qui s'arrête pour soigner un inconnu."
+   "text": "La moitié doit parler des métiers où un séminariste serait le plus utile. Et l'autre moitié ? De la parabole du Bon Samaritain : l'homme qui s'arrête pour soigner un inconnu."
   },
   {
    "id": "map",
@@ -45,7 +44,7 @@
   },
   {
    "id": "reply",
-   "text": "Si tu t'arrêtes, il murmure : non, ça va. J'ai un problème respiratoire. Le docteur m'a donné des cachets."
+   "text": "Si tu t'arrêtes, il murmure : non, ça va. J'ai un problème respiratoire. Le médecin m'a donné des cachets."
   },
   {
    "id": "judge",
@@ -53,7 +52,7 @@
   },
   {
    "id": "result",
-   "text": "Le résultat ? Avec du temps, 63 % ont aidé, d'une façon ou d'une autre. Attendus tout de suite, 45 %. Et ceux en retard ? Seulement 10 % !"
+   "text": "Le résultat ? Avec du temps, {63 %|soixante-trois pour cent} ont aidé, d'une façon ou d'une autre. Attendus tout de suite, {45 %|quarante-cinq pour cent}. Et ceux en retard ? Seulement {10 %|dix pour cent} !"
   },
   {
    "id": "stepover",
@@ -73,17 +72,17 @@
   },
   {
    "id": "you",
-   "text": "Et toi, quand tu cours vers ton métro... combien de personnes tu ne vois pas ?"
+   "text": "Et toi, quand tu cours vers ton métro, combien de personnes tu ne vois pas ?"
   },
   {
    "id": "cta",
-   "text": "Alors, sois honnête : en retard, tu te serais arrêté ? Dis-le en commentaire !"
+   "text": "Alors, sois honnête : en retard, tu te serais arrêté ? Réponds en commentaire !"
   }
  ],
- "noise": 0.45,
- "noise_w": 0.6,
- "emphasis": {
-  "!": 1.5,
-  "?": 0.8
- }
+ "emphasis": {},
+ "lang": "fr",
+ "steps": 10,
+ "chunk": "segment",
+ "sid": 5,
+ "best_of": 4
 }

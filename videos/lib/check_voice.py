@@ -3,6 +3,7 @@ Usage: tts/bin/python check_voice.py <folder> <whisper_model_dir>
 Model: sherpa-onnx-whisper-small (github.com/k2-fsa/sherpa-onnx releases, asr-models).
 """
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -14,9 +15,15 @@ from num2words import num2words
 import soundfile as sf
 
 folder, m = sys.argv[1], sys.argv[2]
-rec = sherpa_onnx.OfflineRecognizer.from_whisper(
-    encoder=f"{m}/small-encoder.int8.onnx", decoder=f"{m}/small-decoder.int8.onnx", tokens=f"{m}/small-tokens.txt",
-    language="fr", task="transcribe", num_threads=4)
+# Parakeet TDT v3 (more accurate on French) when its folder sits next to the Whisper one, else Whisper small
+pk = os.path.join(os.path.dirname(os.path.abspath(m)), "sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8")
+if os.path.isdir(pk):
+    rec = sherpa_onnx.OfflineRecognizer.from_transducer(encoder=f"{pk}/encoder.int8.onnx", decoder=f"{pk}/decoder.int8.onnx",
+                                                        joiner=f"{pk}/joiner.int8.onnx", tokens=f"{pk}/tokens.txt", model_type="nemo_transducer", num_threads=4)
+else:
+    rec = sherpa_onnx.OfflineRecognizer.from_whisper(
+        encoder=f"{m}/small-encoder.int8.onnx", decoder=f"{m}/small-decoder.int8.onnx", tokens=f"{m}/small-tokens.txt",
+        language="fr", task="transcribe", num_threads=4)
 audio, sr = sf.read(f"{folder}/voice.wav", dtype="float32")
 tim = json.load(open(f"{folder}/timings.json"))
 

@@ -118,7 +118,7 @@ const SHOT = {
     skyline(-lt * 40, 820, "#2A2450", "#FFC97A", 1);
     ctx.fillStyle = "rgba(10,13,24,.6)"; ctx.fillRect(0, 820, W, H);
     headline("PRINCETON", 400, 132, "#fff", t, s.start + 0.35, { spacing: 6 });
-    headline("DÉBUT DES ANNÉES 70", 520, 52, COL.gold, t, wt("rewind", "début", 1.5) - 0.2, { spacing: 4 });
+    headline("DÉBUT DES ANNÉES 70", 520, 52, COL.gold, t, wt("rewind", "cinquante", 1.5) - 0.2, { spacing: 4 });
     const t67 = wt("rewind", "67", 3.5);
     for (let i = 0; i < 67; i++) {
       const p = pop(t, t67 - 0.2 + i * 0.012, 0.3); if (p <= 0) continue;
@@ -162,7 +162,7 @@ const SHOT = {
         drawPath([[480, 760], [640, 760]], prog(t, tb - 0.5, tb), { color: COL.gold, width: 12, dash: [24, 14], offset: -t * 60 });
         ctx.save(); ctx.translate(800, 800); ctx.scale(p2, p2);
         iconBuilding(0, 0, 230, "#D3CADB", { label: "BÂTIMENT D'À CÔTÉ" });
-        microphone(0, -330, 110, t);
+        microphone(0, -440, 110, t);
         ctx.restore();
         label("ENREGISTREMENT", 800, 1120, 36, COL.ink, COL.red, pop(t, tb + 0.2));
       }
@@ -255,13 +255,13 @@ const SHOT = {
     label("TOI", 330, 700, 40, COL.ink, COL.gold, fade(t, s.start + 0.4) * (1 - prog(t, tc - 0.4, tc)));
   },
   reply(s, t) {
-    const tm = wt("reply", "murmure", 1.4), l1 = wt("reply", "non", 1.8), l2 = wt("reply", "J'ai", 3), l3 = wt("reply", "docteur", 5);
+    const tm = wt("reply", "murmure", 1.4), l1 = wt("reply", "non", 1.8), l2 = wt("reply", "J'ai", 3), l3 = wt("reply", "médecin", 5);
     camera(1.38, 600, 980, () => {
       street(t, 0);
       victimAt(520, t, { override: t > tm ? { headTilt: 0.18 } : {}, face: { eyes: t > tm ? "half" : "closed", brows: "worried", mouth: t > tm && Math.sin(t * 9) > 0 ? "o" : "grimace", blink: false } });
       character(800, GROUND + 70, 1.05, "student", { pose: "stand", flip: true, face: { brows: "worried", look: [-1, 0.7], mouth: "neutral" }, props: { book: true }, t });
     });
-    const lines = [[l1, "« Non, ça va… »"], [l2, "« J'ai un problème respiratoire. »"], [l3, "« Le docteur m'a donné des cachets. »"]];
+    const lines = [[l1, "« Non, ça va… »"], [l2, "« J'ai un problème respiratoire. »"], [l3, "« Le médecin m'a donné des cachets. »"]];
     const p = pop(t, l1 - 0.3);
     if (p > 0) {
       ctx.save(); ctx.translate(540, 470); ctx.scale(p, p);
