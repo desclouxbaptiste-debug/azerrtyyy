@@ -497,18 +497,50 @@ def main(cue_path, out_path):
     if music.get("sfx_reverb"):
         fl = reverb(fl, 2.0, music["sfx_reverb"], seed=8)
         fr = reverb(fr, 2.0, music["sfx_reverb"], seed=9)
+    voice = cues.get("voice")
+    if voice:
+        v = load_voice(voice["path"], n)
+        # duck music + effects while the narrator speaks
+        env = lp(np.abs(v), 6, 1)
+        env = np.clip(env / (np.max(env) * 0.25 + 1e-9), 0, 1)
+        duck = 1 - voice.get("duck", 0.55) * env
+        L, R, fl, fr = L * duck, R * duck, fl * (0.5 + 0.5 * duck), fr * (0.5 + 0.5 * duck)
+        L, R = L + fl, R + fr
+        peak = max(np.max(np.abs(L)), np.max(np.abs(R)), 1e-9)
+        bed = voice.get("bed", 0.3) / peak
+        vg = voice.get("gain", 1.0) / max(np.max(np.abs(v)), 1e-9)
+        mix = np.stack([L * bed + v * vg, R * bed + v * vg], axis=1)
+        mix = np.tanh(mix / np.max(np.abs(mix)) * 1.1) / np.tanh(1.1) * 0.95
+        write(out_path, mix)
+        return
     L, R = L + fl, R + fr
     edge = int(0.04 * SR)
     for ch in (L, R):
         ch[:edge] *= np.linspace(0, 1, edge)
         ch[-edge:] *= np.linspace(1, 0, edge)
     mix = np.stack([L, R], axis=1)
-    mix = np.tanh(mix / np.max(np.abs(mix)) * 1.5) * 0.93
+    write(out_path, np.tanh(mix / np.max(np.abs(mix)) * 1.5) * 0.93)
+
+
+def load_voice(path, n):
+    """Mono narration WAV resampled to SR, cleaned with a gentle high-pass, padded/cut to n samples."""
+    with wave.open(path) as w:
+        sr, ch, sw = w.getframerate(), w.getnchannels(), w.getsampwidth()
+        raw = np.frombuffer(w.readframes(w.getnframes()), dtype={2: np.int16, 4: np.int32}[sw]).astype(float)
+    x = raw.reshape(-1, ch).mean(1)
+    x = np.interp(np.arange(int(len(x) * SR / sr)) * sr / SR, np.arange(len(x)), x)
+    x = hp(x, 90)
+    out = np.zeros(n)
+    out[: min(n, len(x))] = x[:n]
+    return out
+
+
+def write(out_path, mix):
     with wave.open(out_path, "wb") as w:
         w.setnchannels(2)
         w.setsampwidth(2)
         w.setframerate(SR)
-        w.writeframes((mix * 32767).astype(np.int16).tobytes())
+        w.writeframes((np.clip(mix, -1, 1) * 32767).astype(np.int16).tobytes())
 
 
 if __name__ == "__main__":
