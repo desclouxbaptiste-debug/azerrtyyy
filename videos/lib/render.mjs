@@ -29,7 +29,7 @@ const server = http.createServer(async (req, res) => {
 await new Promise(r => server.on("listening", r));
 const url = `http://127.0.0.1:${server.address().port}/${name}/scene.html`;
 
-const browser = await chromium.launch({ args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+const browser = await chromium.launch();
 async function openPage() {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
   page.on("pageerror", e => { console.error("scene error:", e.message); process.exit(1); });
