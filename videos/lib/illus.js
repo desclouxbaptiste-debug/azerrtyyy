@@ -21,24 +21,59 @@ function chain(x, y, a1, l1, a2, l2, w1, w2, c1, c2) {
   return { kx, ky, ex, ey };
 }
 
-// pose = { hip:[l,r] thigh angles, knee:[l,r], sh:[l,r] shoulder angles, el:[l,r] elbow bends, lean, headTilt, pelvisY, sit }
+// Rig convention: every angle is measured from straight down, POSITIVE = towards where the character faces.
+// hip / sh = thigh / upper-arm angle; knee / el = bend of the lower segment relative to the upper one
+// (knees bend backwards: negative; elbows bend forwards: positive). Index 0 = near limb, 1 = far limb.
+// Feet are planted automatically (lowest foot or knee touches the ground) unless the pose fixes pelvisY.
+const THIGH = 84, SHIN = 80, UPPER_ARM = 64, FOREARM = 60;
+const GAIT = { walk: 0.42, hurry: 0.6, run: 0.78 };
+
+// pixels travelled per radian of gait phase at scale 1 (stance foot moves L*A*cos φ backwards; mean over stance)
+function strideK(kind) { return (THIGH + SHIN) * (GAIT[kind] || 0.42) * 2 / Math.PI; }
+// gait phase from the distance a character has travelled, so the planted foot never slides
+function gaitPhase(dist, kind, scale = 1) { return Math.abs(dist) / (strideK(kind) * scale); }
+
+// knee flexion over one gait cycle for a leg whose hip follows sin(φ): the leg swings forward while φ ∈ (-π/2, π/2)
+// (hip angle rising) and supports the body the rest of the time. The bend is 0 exactly at lift-off and heel strike,
+// so the two legs hand over the body's weight at the same instant, and peaks early in the swing.
+function swingU(phase) { return ((((phase + Math.PI / 2) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI)) / Math.PI; }
+function swingBend(phase) { const u = swingU(phase); return u < 1 ? Math.sin(Math.PI * Math.pow(u, 0.7)) : 0; }
+
 function poseFor(kind, phase = 0, k = 1) {
   const s = Math.sin(phase), c = Math.cos(phase);
+  // legs follow a near-triangle wave: constant sweep speed while the foot is on the ground, so it does not skate
+  const tri = (2 / Math.PI) * Math.asin(s), legS = 0.85 * tri + 0.15 * s;
   switch (kind) {
-    case "walk": return { hip: [0.42 * s, -0.42 * s], knee: [-Math.max(0, -Math.sin(phase + 0.5)) * 0.9, -Math.max(0, Math.sin(phase + 0.5)) * 0.9], sh: [-0.45 * s, 0.45 * s], el: [-0.35, -0.35], lean: 0.04, headTilt: 0, bob: -Math.abs(c) * 5 };
-    case "run": return { hip: [0.8 * s, -0.8 * s], knee: [-Math.max(0, -Math.sin(phase + 0.4)) * 1.6 - 0.2, -Math.max(0, Math.sin(phase + 0.4)) * 1.6 - 0.2], sh: [-0.9 * s, 0.9 * s], el: [-1.4, -1.4], lean: 0.22, headTilt: 0.05, bob: -Math.abs(c) * 12 };
-    case "hurry": return { hip: [0.6 * s, -0.6 * s], knee: [-Math.max(0, -Math.sin(phase + 0.5)) * 1.2, -Math.max(0, Math.sin(phase + 0.5)) * 1.2], sh: [-0.7 * s, 0.7 * s], el: [-1.0, -1.0], lean: 0.14, headTilt: 0.08, bob: -Math.abs(c) * 8 };
-    case "slumped": return { sit: true, hip: [-1.45, -1.35], knee: [2.4, 2.3], sh: [-0.55, -0.4], el: [0.3, 0.2], lean: 0.42, headTilt: 0.55, pelvisY: -30 };
-    case "sit": return { sit: true, hip: [-1.5, -1.5], knee: [1.5, 1.5], sh: [-0.3, -0.2], el: [-1.2, -1.1], lean: 0.02, headTilt: 0, pelvisY: -112 };
-    case "kneel": return { hip: [-0.9, 0.2], knee: [1.75, 1.2], sh: [-1.25, -0.6], el: [-0.2, -0.5], lean: 0.32, headTilt: 0.2, pelvisY: -95 };
-    case "watch": return { hip: [0.05, -0.05], knee: [0, 0], sh: [-0.1, -1.55], el: [0, -2.3], lean: 0, headTilt: 0.32, bob: 0 };
-    case "point": return { hip: [0.05, -0.05], knee: [0, 0], sh: [-0.1, -1.7], el: [0, -0.1], lean: 0, headTilt: 0, bob: 0 };
-    case "talk": return { hip: [0.05, -0.05], knee: [0, 0], sh: [-0.15, -0.9 - 0.25 * Math.sin(phase * 1.3)], el: [-0.2, -1.1], lean: 0, headTilt: -0.04, bob: 0 };
-    case "stepover": { // high stride over an obstacle, k = 0..1 through the step
-      const lift = Math.sin(k * Math.PI);
-      return { hip: [-1.25 * lift + 0.3 * (1 - lift), 0.45], knee: [1.2 * lift, -0.3], sh: [0.5, -0.6], el: [-0.6, -0.6], lean: 0.1, headTilt: 0.1, bob: -lift * 30 };
+    case "walk": case "hurry": {
+      const A = GAIT[kind], B = kind === "hurry" ? 1.1 : 0.85, C = kind === "hurry" ? 0.7 : 0.5;
+      // the knee folds while the leg swings forward (hip angle rising), stays straight while the foot is on the ground
+      return { hip: [A * legS, -A * legS], knee: [-B * swingBend(phase), -B * swingBend(phase + Math.PI)],
+        sh: [-C * s, C * s], el: [0.3 + 0.35 * Math.max(0, -s), 0.3 + 0.35 * Math.max(0, s)], lean: kind === "hurry" ? 0.12 : 0.03, headTilt: kind === "hurry" ? 0.06 : 0, lift: 0,
+        stance: swingU(phase) < 1 ? 1 : 0 };
     }
-    default: return { hip: [0.06, -0.06], knee: [0, 0], sh: [0.06, -0.06], el: [-0.15, -0.15], lean: 0, headTilt: 0, bob: 0 };
+    case "run": {
+      const A = GAIT.run;
+      return { hip: [A * legS, -A * legS], knee: [-0.2 - 1.7 * swingBend(phase), -0.2 - 1.7 * swingBend(phase + Math.PI)],
+        sh: [-0.85 * s, 0.85 * s], el: [1.55, 1.55], lean: 0.2, headTilt: 0.04, lift: 16 * Math.abs(s),
+        stance: swingU(phase) < 1 ? 1 : 0 };
+    }
+    case "slumped": // sitting on the ground against a wall, knees up, torso and head slumped forward
+      return { sit: true, pelvisY: -30, hip: [2.15, 2.0], knee: [-1.95, -1.75], sh: [0.75, 0.6], el: [0.55, 0.5], lean: 0.32, headTilt: 0.6 };
+    case "sit": // on a chair 112 px high
+      return { sit: true, pelvisY: -112, hip: [1.57, 1.5], knee: [-1.57, -1.5], sh: [0.35, 0.3], el: [0.9, 0.85], lean: 0.02, headTilt: 0 };
+    case "kneel": // one knee on the ground, leaning over someone
+      return { hip: [1.35, -0.25], knee: [-1.35, -1.35], sh: [1.15, 0.9], el: [0.35, 0.45], lean: 0.32, headTilt: 0.25 };
+    case "watch": // checks the wristwatch on the near arm
+      return { hip: [0.04, -0.04], knee: [0, 0], sh: [0.55, 0.05], el: [2.0, 0.15], lean: 0.02, headTilt: 0.3 };
+    case "point":
+      return { hip: [0.04, -0.04], knee: [0, 0], sh: [1.6, 0.05], el: [0.05, 0.15], lean: 0, headTilt: 0 };
+    case "talk":
+      return { hip: [0.04, -0.04], knee: [0, 0], sh: [0.75 + 0.25 * Math.sin(phase * 1.3), 0.05], el: [0.9, 0.2], lean: 0, headTilt: -0.04 };
+    case "stepover": { // high stride over an obstacle, k = 0..1 through the step
+      const lift = Math.sin(clamp(k) * Math.PI);
+      return { hip: [0.15 + 1.25 * lift, -0.35 * (1 - lift) - 0.1], knee: [-1.5 * lift, -0.15], sh: [-0.5 + 0.2 * lift, 0.6], el: [0.6, 0.6], lean: 0.12, headTilt: 0.12 };
+    }
+    default: return { hip: [0.04, -0.04], knee: [0, 0], sh: [0.06, -0.04], el: [0.15, 0.15], lean: 0, headTilt: 0 };
   }
 }
 
@@ -103,15 +138,24 @@ function character(x, y, scale, look, o = {}) {
   const t = o.t || 0;
   ctx.save(); ctx.translate(x, y); ctx.scale(o.flip ? -scale : scale, scale);
   if (o.shadow !== false) { ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.beginPath(); ctx.ellipse(0, 4, P.sit ? 120 : 70, 12, 0, 0, 6.29); ctx.fill(); }
-  const pelvisY = (P.pelvisY ?? -160) + (P.bob || 0);
+  // plant: the supporting leg (gaits) or the lowest foot / knee (other poses) touches the ground
+  const low = i => Math.max(Math.cos(P.hip[i]) * THIGH, Math.cos(P.hip[i]) * THIGH + Math.cos(P.hip[i] + P.knee[i]) * SHIN) + 12;
+  const support = P.stance !== undefined ? low(P.stance) : Math.max(low(0), low(1));
+  if (P.stance !== undefined) {
+    // the swinging leg folds its knee a bit more rather than scraping through the floor
+    const sw = 1 - P.stance;
+    P.knee = P.knee.slice();
+    for (let k = 0; k < 30 && low(sw) > support - 6; k++) P.knee[sw] -= 0.05;
+  }
+  const pelvisY = (P.pelvisY ?? -support) - (P.lift || 0) + (P.bob || 0);
   const lean = P.lean || 0;
   const neck = { x: Math.sin(lean) * 130, y: pelvisY - Math.cos(lean) * 130 };
   const shoulder = { x: neck.x * 0.92, y: neck.y + 14 };
   // far leg & arm (darker)
   const legW = 30, armW = 22;
-  chain(-4, pelvisY, P.hip[1], 84, P.knee[1], 80, legW, legW - 4, shade(L.pants, -18));
+  chain(-4, pelvisY, P.hip[1], THIGH, P.knee[1], SHIN, legW, legW - 4, shade(L.pants, -18));
   footAt(-4, pelvisY, P.hip[1], P.knee[1], shade(L.shoes, -10), P.sit);
-  const farArm = chain(shoulder.x - 4, shoulder.y, P.sh[1], 64, P.el[1], 60, armW, armW - 3, L.jacketDark);
+  const farArm = chain(shoulder.x - 4, shoulder.y, P.sh[1], UPPER_ARM, P.el[1], FOREARM, armW, armW - 3, L.jacketDark);
   ctx.fillStyle = shade(L.skin, -16); ctx.beginPath(); ctx.arc(farArm.ex, farArm.ey, 11, 0, 6.29); ctx.fill();
   // torso
   ctx.save(); ctx.translate(0, pelvisY); ctx.rotate(lean);
@@ -122,14 +166,14 @@ function character(x, y, scale, look, o = {}) {
   ctx.fillStyle = L.jacketDark; ctx.fillRect(-38, -4, 76, 18);
   ctx.restore();
   // near leg
-  chain(4, pelvisY, P.hip[0], 84, P.knee[0], 80, legW, legW - 4, L.pants);
+  chain(4, pelvisY, P.hip[0], THIGH, P.knee[0], SHIN, legW, legW - 4, L.pants);
   footAt(4, pelvisY, P.hip[0], P.knee[0], L.shoes, P.sit);
   // head
   ctx.save(); ctx.translate(neck.x + 4, neck.y - 40); ctx.rotate(P.headTilt || 0);
   drawHead(L, o.face || {}, t);
   ctx.restore();
   // near arm + props in hand
-  const arm = chain(shoulder.x + 4, shoulder.y, P.sh[0], 64, P.el[0], 60, armW, armW - 3, shade(L.jacket, 8));
+  const arm = chain(shoulder.x + 4, shoulder.y, P.sh[0], UPPER_ARM, P.el[0], FOREARM, armW, armW - 3, shade(L.jacket, 8));
   if (o.props?.book) { ctx.save(); ctx.translate(arm.ex + 6, arm.ey - 4); ctx.rotate(-0.15); ctx.fillStyle = "#7A2E22"; ctx.beginPath(); ctx.roundRect(-30, -40, 56, 74, 6); ctx.fill(); ctx.fillStyle = "#F1E6CF"; ctx.fillRect(22, -36, 6, 66); ctx.fillStyle = "#E0B44A"; ctx.fillRect(-20, -22, 34, 5); ctx.restore(); }
   if (o.props?.paper) { ctx.save(); ctx.translate(arm.ex + 8, arm.ey - 10); ctx.rotate(-0.3); ctx.fillStyle = "#F7F2E6"; ctx.fillRect(-26, -36, 52, 66); ctx.fillStyle = "rgba(0,0,0,.25)"; for (let k = 0; k < 5; k++) ctx.fillRect(-18, -26 + k * 11, 36 - (k % 2) * 10, 3); ctx.restore(); }
   if (o.props?.clipboard) { ctx.save(); ctx.translate(arm.ex + 10, arm.ey - 16); ctx.rotate(-0.2); ctx.fillStyle = "#8B6A48"; ctx.beginPath(); ctx.roundRect(-30, -42, 60, 82, 6); ctx.fill(); ctx.fillStyle = "#F7F2E6"; ctx.fillRect(-24, -32, 48, 66); ctx.fillStyle = "#777"; ctx.fillRect(-10, -46, 20, 10); ctx.restore(); }
@@ -138,9 +182,13 @@ function character(x, y, scale, look, o = {}) {
   ctx.restore();
 }
 function footAt(x, y, a1, a2, color, sit) {
-  const kx = x + Math.sin(a1) * 84, ky = y + Math.cos(a1) * 84;
-  const ex = kx + Math.sin(a1 + a2) * 80, ey = ky + Math.cos(a1 + a2) * 80;
-  ctx.fillStyle = color; ctx.beginPath(); ctx.ellipse(ex + 14, ey + 4, 26, 12, sit ? 0 : 0, 0, 6.29); ctx.fill();
+  const kx = x + Math.sin(a1) * THIGH, ky = y + Math.cos(a1) * THIGH;
+  const ex = kx + Math.sin(a1 + a2) * SHIN, ey = ky + Math.cos(a1 + a2) * SHIN;
+  // the foot stays roughly perpendicular to the shin but never points its toes backwards
+  const rot = clamp(a1 + a2, -0.9, 0.9);
+  ctx.save(); ctx.translate(ex, ey); ctx.rotate(rot);
+  ctx.fillStyle = color; ctx.beginPath(); ctx.ellipse(13, 4, 27, 12, 0, 0, 6.29); ctx.fill();
+  ctx.restore();
 }
 
 // ---------------------------------------------------------------- environments

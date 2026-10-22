@@ -1,1952 +1,2005 @@
 {
- "duration": 109.701,
- "speed": 1.132666324391392,
+ "duration": 102.007,
+ "speed": 1.13,
  "segments": [
   {
    "id": "cold",
-   "start": 0.4,
+   "start": 0.3,
    "sentences": [
     {
      "text": "Un homme est affalé sous un porche.",
      "spoken": "Un homme est affalé sous un porche.",
-     "start": 0.4,
-     "end": 2.271,
+     "start": 0.3,
+     "end": 2.166,
      "words": [
       {
        "w": "Un",
-       "s": 0.4,
-       "e": 0.57
+       "s": 0.3,
+       "e": 0.47
       },
       {
        "w": "homme",
-       "s": 0.57,
-       "e": 0.886
+       "s": 0.47,
+       "e": 0.785
       },
       {
        "w": "est",
-       "s": 0.886,
-       "e": 1.105
+       "s": 0.785,
+       "e": 1.003
       },
       {
        "w": "affalé",
-       "s": 1.105,
-       "e": 1.469
+       "s": 1.003,
+       "e": 1.366
       },
       {
        "w": "sous",
-       "s": 1.469,
-       "e": 1.737
+       "s": 1.366,
+       "e": 1.633
       },
       {
        "w": "un",
-       "s": 1.737,
-       "e": 1.907
+       "s": 1.633,
+       "e": 1.802
       },
       {
        "w": "porche.",
-       "s": 1.907,
-       "e": 2.271
+       "s": 1.802,
+       "e": 2.166
       }
      ]
     },
     {
      "text": "La tête baissée.",
      "spoken": "La tête baissée.",
-     "start": 2.531,
-     "end": 3.509,
+     "start": 2.286,
+     "end": 3.294,
      "words": [
       {
        "w": "La",
-       "s": 2.531,
-       "e": 2.727
+       "s": 2.286,
+       "e": 2.487
       },
       {
        "w": "tête",
-       "s": 2.727,
-       "e": 3.034
+       "s": 2.487,
+       "e": 2.804
       },
       {
        "w": "baissée.",
-       "s": 3.034,
-       "e": 3.509
+       "s": 2.804,
+       "e": 3.294
       }
      ]
     },
     {
      "text": "Les yeux fermés.",
      "spoken": "Les yeux fermés.",
-     "start": 3.769,
-     "end": 4.645,
+     "start": 3.414,
+     "end": 4.224,
      "words": [
       {
        "w": "Les",
-       "s": 3.769,
-       "e": 3.994
+       "s": 3.414,
+       "e": 3.622
       },
       {
        "w": "yeux",
-       "s": 3.994,
-       "e": 4.27
+       "s": 3.622,
+       "e": 3.877
       },
       {
        "w": "fermés.",
-       "s": 4.27,
-       "e": 4.645
+       "s": 3.877,
+       "e": 4.224
       }
      ]
     },
     {
-     "text": "Et des futurs pasteurs vont passer devant lui...",
-     "spoken": "Et des futurs pasteurs vont passer devant lui...",
-     "start": 4.905,
-     "end": 7.182,
+     "text": "Et des futurs pasteurs vont passer devant lui, l'un après l'autre !",
+     "spoken": "Et des futurs pasteurs vont passer devant lui, l'un après l'autre !",
+     "start": 4.344,
+     "end": 7.483,
      "words": [
       {
        "w": "Et",
-       "s": 4.905,
-       "e": 5.064
+       "s": 4.344,
+       "e": 4.496
       },
       {
        "w": "des",
-       "s": 5.064,
-       "e": 5.269
+       "s": 4.496,
+       "e": 4.691
       },
       {
        "w": "futurs",
-       "s": 5.269,
-       "e": 5.611
+       "s": 4.691,
+       "e": 5.015
       },
       {
        "w": "pasteurs",
-       "s": 5.611,
-       "e": 6.044
+       "s": 5.015,
+       "e": 5.426
       },
       {
        "w": "vont",
-       "s": 6.044,
-       "e": 6.294
+       "s": 5.426,
+       "e": 5.665
       },
       {
        "w": "passer",
-       "s": 6.294,
-       "e": 6.636
+       "s": 5.665,
+       "e": 5.989
       },
       {
        "w": "devant",
-       "s": 6.636,
-       "e": 6.977
+       "s": 5.989,
+       "e": 6.314
       },
       {
-       "w": "lui...",
-       "s": 6.977,
-       "e": 7.182
-      }
-     ]
-    },
-    {
-     "text": "l'un après l'autre.",
-     "spoken": "l'un après l'autre.",
-     "start": 7.782,
-     "end": 8.834,
-     "words": [
+       "w": "lui,",
+       "s": 6.314,
+       "e": 6.509
+      },
       {
        "w": "l'un",
-       "s": 7.782,
-       "e": 8.038
+       "s": 6.682,
+       "e": 6.877
       },
       {
        "w": "après",
-       "s": 8.038,
-       "e": 8.408
+       "s": 6.877,
+       "e": 7.158
       },
       {
-       "w": "l'autre.",
-       "s": 8.408,
-       "e": 8.834
+       "w": "l'autre!",
+       "s": 7.158,
+       "e": 7.483
       }
      ]
     }
    ],
-   "end": 9.094
+   "end": 7.603
   },
   {
    "id": "rewind",
-   "start": 9.514,
+   "start": 7.823,
    "sentences": [
     {
-     "text": "Revenons en arrière.",
-     "spoken": "Revenons en arrière.",
-     "start": 9.514,
-     "end": 10.998,
+     "text": "Retour en arrière !",
+     "spoken": "Retour en arrière !",
+     "start": 7.823,
+     "end": 9.298,
      "words": [
       {
-       "w": "Revenons",
-       "s": 9.514,
-       "e": 10.169
+       "w": "Retour",
+       "s": 7.823,
+       "e": 8.39
       },
       {
        "w": "en",
-       "s": 10.169,
-       "e": 10.411
+       "s": 8.39,
+       "e": 8.655
       },
       {
-       "w": "arrière.",
-       "s": 10.411,
-       "e": 10.998
+       "w": "arrière!",
+       "s": 8.655,
+       "e": 9.298
       }
      ]
     },
     {
      "text": "Princeton, début des années soixante-dix.",
      "spoken": "Prinnsetone, début des années soixante-dix.",
-     "start": 11.258,
-     "end": 13.481,
+     "start": 9.418,
+     "end": 11.705,
      "words": [
       {
        "w": "Princeton,",
-       "s": 11.258,
-       "e": 11.843
+       "s": 9.418,
+       "e": 10.02
       },
       {
        "w": "début",
-       "s": 12.03,
-       "e": 12.334
+       "s": 10.213,
+       "e": 10.525
       },
       {
        "w": "des",
-       "s": 12.334,
-       "e": 12.545
+       "s": 10.525,
+       "e": 10.742
       },
       {
        "w": "années",
-       "s": 12.545,
-       "e": 12.896
+       "s": 10.742,
+       "e": 11.103
       },
       {
        "w": "soixante-dix.",
-       "s": 12.896,
-       "e": 13.481
+       "s": 11.103,
+       "e": 11.705
       }
      ]
     },
     {
-     "text": "67 étudiants en théologie remplissent des questionnaires sur leur foi.",
-     "spoken": "67 étudiants en théologie remplissent des questionnaires sur leur foi.",
-     "start": 13.741,
-     "end": 17.291,
+     "text": "Au départ, 67 étudiants en théologie remplissent des questionnaires sur leur foi.",
+     "spoken": "Au départ, 67 étudiants en théologie remplissent des questionnaires sur leur foi.",
+     "start": 11.825,
+     "end": 15.897,
      "words": [
       {
+       "w": "Au",
+       "s": 11.825,
+       "e": 11.976
+      },
+      {
+       "w": "départ,",
+       "s": 11.976,
+       "e": 12.301
+      },
+      {
        "w": "67",
-       "s": 13.741,
-       "e": 14.078
+       "s": 12.475,
+       "e": 12.799
       },
       {
        "w": "étudiants",
-       "s": 14.078,
-       "e": 14.55
+       "s": 12.799,
+       "e": 13.254
       },
       {
        "w": "en",
-       "s": 14.55,
-       "e": 14.707
+       "s": 13.254,
+       "e": 13.406
       },
       {
        "w": "théologie",
-       "s": 14.707,
-       "e": 15.179
+       "s": 13.406,
+       "e": 13.861
       },
       {
        "w": "remplissent",
-       "s": 15.179,
-       "e": 15.741
+       "s": 13.861,
+       "e": 14.403
       },
       {
        "w": "des",
-       "s": 15.741,
-       "e": 15.943
+       "s": 14.403,
+       "e": 14.598
       },
       {
        "w": "questionnaires",
-       "s": 15.943,
-       "e": 16.64
+       "s": 14.598,
+       "e": 15.269
       },
       {
        "w": "sur",
-       "s": 16.64,
-       "e": 16.842
+       "s": 15.269,
+       "e": 15.464
       },
       {
        "w": "leur",
-       "s": 16.842,
-       "e": 17.089
+       "s": 15.464,
+       "e": 15.702
       },
       {
        "w": "foi.",
-       "s": 17.089,
-       "e": 17.291
+       "s": 15.702,
+       "e": 15.897
       }
      ]
     }
    ],
-   "end": 17.551
+   "end": 16.017
   },
   {
    "id": "mission",
-   "start": 17.971,
+   "start": 16.237,
    "sentences": [
     {
      "text": "Puis 47 d'entre eux sont convoqués, un par un.",
      "spoken": "Puis 47 d'entre eux sont convoqués, un par un.",
-     "start": 17.971,
-     "end": 20.556,
+     "start": 16.237,
+     "end": 18.753,
      "words": [
       {
        "w": "Puis",
-       "s": 17.971,
-       "e": 18.223
+       "s": 16.237,
+       "e": 16.482
       },
       {
        "w": "47",
-       "s": 18.223,
-       "e": 18.566
+       "s": 16.482,
+       "e": 16.816
       },
       {
        "w": "d'entre",
-       "s": 18.566,
-       "e": 18.909
+       "s": 16.816,
+       "e": 17.15
       },
       {
        "w": "eux",
-       "s": 18.909,
-       "e": 19.115
+       "s": 17.15,
+       "e": 17.35
       },
       {
        "w": "sont",
-       "s": 19.115,
-       "e": 19.367
+       "s": 17.35,
+       "e": 17.595
       },
       {
        "w": "convoqués,",
-       "s": 19.367,
-       "e": 19.847
+       "s": 17.595,
+       "e": 18.063
       },
       {
        "w": "un",
-       "s": 20.03,
-       "e": 20.19
+       "s": 18.241,
+       "e": 18.397
       },
       {
        "w": "par",
-       "s": 20.19,
-       "e": 20.396
+       "s": 18.397,
+       "e": 18.597
       },
       {
        "w": "un.",
-       "s": 20.396,
-       "e": 20.556
+       "s": 18.597,
+       "e": 18.753
       }
      ]
     },
     {
-     "text": "Mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté.",
-     "spoken": "Mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté.",
-     "start": 20.816,
-     "end": 24.68,
+     "text": "Leur mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté !",
+     "spoken": "Leur mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté !",
+     "start": 18.873,
+     "end": 22.791,
      "words": [
       {
-       "w": "Mission:",
-       "s": 20.816,
-       "e": 21.189
+       "w": "Leur",
+       "s": 18.873,
+       "e": 19.103
+      },
+      {
+       "w": "mission:",
+       "s": 19.103,
+       "e": 19.46
       },
       {
        "w": "préparer",
-       "s": 21.365,
-       "e": 21.782
+       "s": 19.627,
+       "e": 20.025
       },
       {
        "w": "un",
-       "s": 21.782,
-       "e": 21.936
+       "s": 20.025,
+       "e": 20.172
       },
       {
        "w": "petit",
-       "s": 21.936,
-       "e": 22.221
+       "s": 20.172,
+       "e": 20.444
       },
       {
        "w": "discours,",
-       "s": 22.221,
-       "e": 22.638
+       "s": 20.444,
+       "e": 20.842
       },
       {
        "w": "à",
-       "s": 22.814,
-       "e": 22.924
+       "s": 21.01,
+       "e": 21.115
       },
       {
        "w": "enregistrer",
-       "s": 22.924,
-       "e": 23.472
+       "s": 21.115,
+       "e": 21.638
       },
       {
        "w": "dans",
-       "s": 23.472,
-       "e": 23.714
+       "s": 21.638,
+       "e": 21.869
       },
       {
        "w": "le",
-       "s": 23.714,
-       "e": 23.868
+       "s": 21.869,
+       "e": 22.016
       },
       {
        "w": "bâtiment",
-       "s": 23.868,
-       "e": 24.285
+       "s": 22.016,
+       "e": 22.414
       },
       {
        "w": "d'à",
-       "s": 24.285,
-       "e": 24.438
+       "s": 22.414,
+       "e": 22.56
       },
       {
-       "w": "côté.",
-       "s": 24.438,
-       "e": 24.68
+       "w": "côté!",
+       "s": 22.56,
+       "e": 22.791
       }
      ]
     }
    ],
-   "end": 24.94
+   "end": 22.911
   },
   {
    "id": "topics",
-   "start": 25.36,
+   "start": 23.131,
    "sentences": [
     {
      "text": "La moitié doit parler des métiers où un séminariste serait le plus utile.",
      "spoken": "La moitié doit parler des métiers où un séminariste serait le plus utile.",
-     "start": 25.36,
-     "end": 28.873,
+     "start": 23.131,
+     "end": 26.587,
      "words": [
       {
        "w": "La",
-       "s": 25.36,
-       "e": 25.514
+       "s": 23.131,
+       "e": 23.283
       },
       {
        "w": "moitié",
-       "s": 25.514,
-       "e": 25.846
+       "s": 23.283,
+       "e": 23.609
       },
       {
        "w": "doit",
-       "s": 25.846,
-       "e": 26.089
+       "s": 23.609,
+       "e": 23.848
       },
       {
        "w": "parler",
-       "s": 26.089,
-       "e": 26.42
+       "s": 23.848,
+       "e": 24.174
       },
       {
        "w": "des",
-       "s": 26.42,
-       "e": 26.619
+       "s": 24.174,
+       "e": 24.37
       },
       {
        "w": "métiers",
-       "s": 26.619,
-       "e": 26.995
+       "s": 24.37,
+       "e": 24.74
       },
       {
        "w": "où",
-       "s": 26.995,
-       "e": 27.149
+       "s": 24.74,
+       "e": 24.892
       },
       {
        "w": "un",
-       "s": 27.149,
-       "e": 27.304
+       "s": 24.892,
+       "e": 25.044
       },
       {
        "w": "séminariste",
-       "s": 27.304,
-       "e": 27.856
+       "s": 25.044,
+       "e": 25.587
       },
       {
        "w": "serait",
-       "s": 27.856,
-       "e": 28.188
+       "s": 25.587,
+       "e": 25.914
       },
       {
        "w": "le",
-       "s": 28.188,
-       "e": 28.342
+       "s": 25.914,
+       "e": 26.066
       },
       {
        "w": "plus",
-       "s": 28.342,
-       "e": 28.585
+       "s": 26.066,
+       "e": 26.305
       },
       {
        "w": "utile.",
-       "s": 28.585,
-       "e": 28.873
+       "s": 26.305,
+       "e": 26.587
       }
      ]
     },
     {
-     "text": "L'autre moitié...",
-     "spoken": "L'autre moitié...",
-     "start": 29.133,
-     "end": 30.03,
+     "text": "Et l'autre moitié ?",
+     "spoken": "Et l'autre moitié ?",
+     "start": 26.707,
+     "end": 27.59,
      "words": [
       {
-       "w": "L'autre",
-       "s": 29.133,
-       "e": 29.581
+       "w": "Et",
+       "s": 26.707,
+       "e": 26.874
       },
       {
-       "w": "moitié...",
-       "s": 29.581,
-       "e": 30.03
+       "w": "l'autre",
+       "s": 26.874,
+       "e": 27.232
+      },
+      {
+       "w": "moitié?",
+       "s": 27.232,
+       "e": 27.59
       }
      ]
     },
     {
-     "text": "du Bon Samaritain, l'homme qui s'arrête pour soigner un inconnu.",
-     "spoken": "du Bon Samaritain, l'homme qui s'arrête pour soigner un inconnu.",
-     "start": 30.63,
-     "end": 33.727,
+     "text": "Du Bon Samaritain !",
+     "spoken": "Du Bon Samaritain !",
+     "start": 27.71,
+     "end": 28.691,
      "words": [
       {
-       "w": "du",
-       "s": 30.63,
-       "e": 30.785
+       "w": "Du",
+       "s": 27.71,
+       "e": 27.886
       },
       {
        "w": "Bon",
-       "s": 30.785,
-       "e": 30.984
+       "s": 27.886,
+       "e": 28.113
       },
       {
-       "w": "Samaritain,",
-       "s": 30.984,
-       "e": 31.493
-      },
+       "w": "Samaritain!",
+       "s": 28.113,
+       "e": 28.691
+      }
+     ]
+    },
+    {
+     "text": "L'homme qui s'arrête pour soigner un inconnu.",
+     "spoken": "L'homme qui s'arrête pour soigner un inconnu.",
+     "start": 28.811,
+     "end": 31.12,
+     "words": [
       {
-       "w": "l'homme",
-       "s": 31.67,
-       "e": 32.001
+       "w": "L'homme",
+       "s": 28.811,
+       "e": 29.184
       },
       {
        "w": "qui",
-       "s": 32.001,
-       "e": 32.2
+       "s": 29.184,
+       "e": 29.407
       },
       {
        "w": "s'arrête",
-       "s": 32.2,
-       "e": 32.577
+       "s": 29.407,
+       "e": 29.829
       },
       {
        "w": "pour",
-       "s": 32.577,
-       "e": 32.82
+       "s": 29.829,
+       "e": 30.102
       },
       {
        "w": "soigner",
-       "s": 32.82,
-       "e": 33.196
+       "s": 30.102,
+       "e": 30.524
       },
       {
        "w": "un",
-       "s": 33.196,
-       "e": 33.351
+       "s": 30.524,
+       "e": 30.698
       },
       {
        "w": "inconnu.",
-       "s": 33.351,
-       "e": 33.727
+       "s": 30.698,
+       "e": 31.12
       }
      ]
     }
    ],
-   "end": 33.987
+   "end": 31.24
   },
   {
    "id": "map",
-   "start": 34.407,
+   "start": 31.46,
    "sentences": [
     {
      "text": "On leur dessine le chemin sur une fiche.",
      "spoken": "On leur dessine le chemin sur une fiche.",
-     "start": 34.407,
-     "end": 36.559,
+     "start": 31.46,
+     "end": 33.608,
      "words": [
       {
        "w": "On",
-       "s": 34.407,
-       "e": 34.578
+       "s": 31.46,
+       "e": 31.631
       },
       {
        "w": "leur",
-       "s": 34.578,
-       "e": 34.847
+       "s": 31.631,
+       "e": 31.899
       },
       {
        "w": "dessine",
-       "s": 34.847,
-       "e": 35.263
+       "s": 31.899,
+       "e": 32.314
       },
       {
        "w": "le",
-       "s": 35.263,
-       "e": 35.434
+       "s": 32.314,
+       "e": 32.485
       },
       {
        "w": "chemin",
-       "s": 35.434,
-       "e": 35.801
+       "s": 32.485,
+       "e": 32.851
       },
       {
        "w": "sur",
-       "s": 35.801,
-       "e": 36.021
+       "s": 32.851,
+       "e": 33.071
       },
       {
        "w": "une",
-       "s": 36.021,
-       "e": 36.241
+       "s": 33.071,
+       "e": 33.29
       },
       {
        "w": "fiche.",
-       "s": 36.241,
-       "e": 36.559
+       "s": 33.29,
+       "e": 33.608
       }
      ]
     },
     {
-     "text": "Puis vient la phrase qui change tout.",
-     "spoken": "Puis vient la phrase qui change tout.",
-     "start": 36.819,
-     "end": 38.361,
+     "text": "Et là, la phrase qui change tout !",
+     "spoken": "Et là, la phrase qui change tout !",
+     "start": 33.728,
+     "end": 35.583,
      "words": [
       {
-       "w": "Puis",
-       "s": 36.819,
-       "e": 37.028
+       "w": "Et",
+       "s": 33.728,
+       "e": 33.892
       },
       {
-       "w": "vient",
-       "s": 37.028,
-       "e": 37.276
+       "w": "là,",
+       "s": 33.892,
+       "e": 34.057
       },
       {
        "w": "la",
-       "s": 37.276,
-       "e": 37.409
+       "s": 34.245,
+       "e": 34.409
       },
       {
        "w": "phrase",
-       "s": 37.409,
-       "e": 37.695
+       "s": 34.409,
+       "e": 34.761
       },
       {
        "w": "qui",
-       "s": 37.695,
-       "e": 37.866
+       "s": 34.761,
+       "e": 34.973
       },
       {
        "w": "change",
-       "s": 37.866,
-       "e": 38.152
+       "s": 34.973,
+       "e": 35.325
       },
       {
-       "w": "tout.",
-       "s": 38.152,
-       "e": 38.361
+       "w": "tout!",
+       "s": 35.325,
+       "e": 35.583
       }
      ]
     }
    ],
-   "end": 38.621
+   "end": 35.703
   },
   {
    "id": "hurry",
-   "start": 39.041,
+   "start": 35.923,
    "sentences": [
     {
      "text": "À certains, le chercheur dit : vous avez quelques minutes.",
      "spoken": "À certains, le chercheur dit : vous avez quelques minutes.",
-     "start": 39.041,
-     "end": 41.73,
+     "start": 35.923,
+     "end": 38.849,
      "words": [
       {
        "w": "À",
-       "s": 39.041,
-       "e": 39.141
+       "s": 35.923,
+       "e": 36.032
       },
       {
        "w": "certains,",
-       "s": 39.141,
-       "e": 39.519
+       "s": 36.032,
+       "e": 36.444
       },
       {
        "w": "le",
-       "s": 39.678,
-       "e": 39.818
+       "s": 36.617,
+       "e": 36.769
       },
       {
        "w": "chercheur",
-       "s": 39.818,
-       "e": 40.236
+       "s": 36.769,
+       "e": 37.224
       },
       {
        "w": "dit:",
-       "s": 40.236,
-       "e": 40.415
+       "s": 37.224,
+       "e": 37.419
       },
       {
        "w": "vous",
-       "s": 40.575,
-       "e": 40.794
+       "s": 37.592,
+       "e": 37.831
       },
       {
        "w": "avez",
-       "s": 40.794,
-       "e": 41.013
+       "s": 37.831,
+       "e": 38.069
       },
       {
        "w": "quelques",
-       "s": 41.013,
-       "e": 41.391
+       "s": 38.069,
+       "e": 38.481
       },
       {
        "w": "minutes.",
-       "s": 41.391,
-       "e": 41.73
+       "s": 38.481,
+       "e": 38.849
       }
      ]
     },
     {
      "text": "À d'autres : on vous attend tout de suite.",
      "spoken": "À d'autres : on vous attend tout de suite.",
-     "start": 41.99,
-     "end": 43.888,
+     "start": 38.969,
+     "end": 40.879,
      "words": [
       {
        "w": "À",
-       "s": 41.99,
-       "e": 42.091
+       "s": 38.969,
+       "e": 39.071
       },
       {
        "w": "d'autres:",
-       "s": 42.091,
-       "e": 42.434
+       "s": 39.071,
+       "e": 39.416
       },
       {
        "w": "on",
-       "s": 42.596,
-       "e": 42.737
+       "s": 39.579,
+       "e": 39.721
       },
       {
        "w": "vous",
-       "s": 42.737,
-       "e": 42.959
+       "s": 39.721,
+       "e": 39.945
       },
       {
        "w": "attend",
-       "s": 42.959,
-       "e": 43.262
+       "s": 39.945,
+       "e": 40.249
       },
       {
        "w": "tout",
-       "s": 43.262,
-       "e": 43.484
+       "s": 40.249,
+       "e": 40.473
       },
       {
        "w": "de",
-       "s": 43.484,
-       "e": 43.625
+       "s": 40.473,
+       "e": 40.615
       },
       {
        "w": "suite.",
-       "s": 43.625,
-       "e": 43.888
+       "s": 40.615,
+       "e": 40.879
       }
      ]
     },
     {
      "text": "Et aux derniers : vous êtes en retard !",
      "spoken": "Et aux derniers : vous êtes en retard !",
-     "start": 44.148,
-     "end": 46.154,
+     "start": 40.999,
+     "end": 42.949,
      "words": [
       {
        "w": "Et",
-       "s": 44.148,
-       "e": 44.309
+       "s": 40.999,
+       "e": 41.156
       },
       {
        "w": "aux",
-       "s": 44.309,
-       "e": 44.517
+       "s": 41.156,
+       "e": 41.358
       },
       {
        "w": "derniers:",
-       "s": 44.517,
-       "e": 44.955
+       "s": 41.358,
+       "e": 41.784
       },
       {
        "w": "vous",
-       "s": 45.139,
-       "e": 45.393
+       "s": 41.963,
+       "e": 42.21
       },
       {
        "w": "êtes",
-       "s": 45.393,
-       "e": 45.647
+       "s": 42.21,
+       "e": 42.456
       },
       {
        "w": "en",
-       "s": 45.647,
-       "e": 45.808
+       "s": 42.456,
+       "e": 42.613
       },
       {
        "w": "retard!",
-       "s": 45.808,
-       "e": 46.154
+       "s": 42.613,
+       "e": 42.949
       }
      ]
     }
    ],
-   "end": 46.414
+   "end": 43.069
   },
   {
    "id": "alley",
-   "start": 46.834,
+   "start": 43.289,
    "sentences": [
     {
      "text": "Alors tu sors.",
      "spoken": "Alors tu sors.",
-     "start": 46.834,
-     "end": 47.883,
+     "start": 43.289,
+     "end": 44.349,
      "words": [
       {
        "w": "Alors",
-       "s": 46.834,
-       "e": 47.274
+       "s": 43.289,
+       "e": 43.734
       },
       {
        "w": "tu",
-       "s": 47.274,
-       "e": 47.511
+       "s": 43.734,
+       "e": 43.973
       },
       {
        "w": "sors.",
-       "s": 47.511,
-       "e": 47.883
+       "s": 43.973,
+       "e": 44.349
       }
      ]
     },
     {
      "text": "Dans la ruelle, l'homme est là.",
      "spoken": "Dans la ruelle, l'homme est là.",
-     "start": 48.143,
-     "end": 49.434,
+     "start": 44.469,
+     "end": 45.779,
      "words": [
       {
        "w": "Dans",
-       "s": 48.143,
-       "e": 48.341
+       "s": 44.469,
+       "e": 44.669
       },
       {
        "w": "la",
-       "s": 48.341,
-       "e": 48.466
+       "s": 44.669,
+       "e": 44.796
       },
       {
        "w": "ruelle,",
-       "s": 48.466,
-       "e": 48.735
+       "s": 44.796,
+       "e": 45.069
       },
       {
        "w": "l'homme",
-       "s": 48.878,
-       "e": 49.147
+       "s": 45.215,
+       "e": 45.488
       },
       {
        "w": "est",
-       "s": 49.147,
-       "e": 49.309
+       "s": 45.488,
+       "e": 45.652
       },
       {
        "w": "là.",
-       "s": 49.309,
-       "e": 49.434
+       "s": 45.652,
+       "e": 45.779
       }
      ]
     },
     {
-     "text": "Soudain, il tousse deux fois.",
-     "spoken": "Soudain, il tousse deux fois.",
-     "start": 49.694,
-     "end": 51.06,
+     "text": "L'homme tousse deux fois.",
+     "spoken": "L'homme tousse deux fois.",
+     "start": 45.899,
+     "end": 47.042,
      "words": [
       {
-       "w": "Soudain,",
-       "s": 49.694,
-       "e": 50.031
-      },
-      {
-       "w": "il",
-       "s": 50.189,
-       "e": 50.328
+       "w": "L'homme",
+       "s": 45.899,
+       "e": 46.229
       },
       {
        "w": "tousse",
-       "s": 50.328,
-       "e": 50.624
+       "s": 46.229,
+       "e": 46.558
       },
       {
        "w": "deux",
-       "s": 50.624,
-       "e": 50.842
+       "s": 46.558,
+       "e": 46.8
       },
       {
        "w": "fois.",
-       "s": 50.842,
-       "e": 51.06
+       "s": 46.8,
+       "e": 47.042
       }
      ]
     },
     {
-     "text": "Puis il se met à gémir.",
-     "spoken": "Puis il se met à gémir.",
-     "start": 51.32,
-     "end": 52.988,
+     "text": "Puis il se met à gémir !",
+     "spoken": "Puis il se met à gémir !",
+     "start": 47.162,
+     "end": 48.774,
      "words": [
       {
        "w": "Puis",
-       "s": 51.32,
-       "e": 51.673
+       "s": 47.162,
+       "e": 47.503
       },
       {
        "w": "il",
-       "s": 51.673,
-       "e": 51.897
+       "s": 47.503,
+       "e": 47.72
       },
       {
        "w": "se",
-       "s": 51.897,
-       "e": 52.122
+       "s": 47.72,
+       "e": 47.937
       },
       {
        "w": "met",
-       "s": 52.122,
-       "e": 52.41
+       "s": 47.937,
+       "e": 48.216
       },
       {
        "w": "à",
-       "s": 52.41,
-       "e": 52.571
+       "s": 48.216,
+       "e": 48.371
       },
       {
-       "w": "gémir.",
-       "s": 52.571,
-       "e": 52.988
+       "w": "gémir!",
+       "s": 48.371,
+       "e": 48.774
       }
      ]
     }
    ],
-   "end": 53.248
+   "end": 48.894
   },
   {
    "id": "reply",
-   "start": 53.668,
+   "start": 49.114,
    "sentences": [
     {
      "text": "Si tu t'arrêtes, il murmure : non, ça va.",
      "spoken": "Si tu t'arrêtes, il murmure : non, ça va.",
-     "start": 53.668,
-     "end": 56.102,
+     "start": 49.114,
+     "end": 51.569,
      "words": [
       {
        "w": "Si",
-       "s": 53.668,
-       "e": 53.831
+       "s": 49.114,
+       "e": 49.279
       },
       {
        "w": "tu",
-       "s": 53.831,
-       "e": 53.995
+       "s": 49.279,
+       "e": 49.445
       },
       {
        "w": "t'arrêtes,",
-       "s": 53.995,
-       "e": 54.44
+       "s": 49.445,
+       "e": 49.893
       },
       {
        "w": "il",
-       "s": 54.627,
-       "e": 54.791
+       "s": 50.082,
+       "e": 50.247
       },
       {
        "w": "murmure:",
-       "s": 54.791,
-       "e": 55.189
+       "s": 50.247,
+       "e": 50.648
       },
       {
        "w": "non,",
-       "s": 55.376,
-       "e": 55.587
+       "s": 50.837,
+       "e": 51.05
       },
       {
        "w": "ça",
-       "s": 55.774,
-       "e": 55.938
+       "s": 51.239,
+       "e": 51.404
       },
       {
        "w": "va.",
-       "s": 55.938,
-       "e": 56.102
+       "s": 51.404,
+       "e": 51.569
       }
      ]
     },
     {
      "text": "J'ai un problème respiratoire.",
      "spoken": "J'ai un problème respiratoire.",
-     "start": 56.362,
-     "end": 58.122,
+     "start": 51.689,
+     "end": 53.553,
      "words": [
       {
        "w": "J'ai",
-       "s": 56.362,
-       "e": 56.617
+       "s": 51.689,
+       "e": 51.96
       },
       {
        "w": "un",
-       "s": 56.617,
-       "e": 56.816
+       "s": 51.96,
+       "e": 52.17
       },
       {
        "w": "problème",
-       "s": 56.816,
-       "e": 57.355
+       "s": 52.17,
+       "e": 52.741
       },
       {
        "w": "respiratoire.",
-       "s": 57.355,
-       "e": 58.122
+       "s": 52.741,
+       "e": 53.553
       }
      ]
     },
     {
      "text": "Le docteur m'a donné des cachets.",
      "spoken": "Le docteur m'a donné des cachets.",
-     "start": 58.382,
-     "end": 60.077,
+     "start": 53.673,
+     "end": 55.348,
      "words": [
       {
        "w": "Le",
-       "s": 58.382,
-       "e": 58.552
+       "s": 53.673,
+       "e": 53.84
       },
       {
        "w": "docteur",
-       "s": 58.552,
-       "e": 58.963
+       "s": 53.84,
+       "e": 54.247
       },
       {
        "w": "m'a",
-       "s": 58.963,
-       "e": 59.133
+       "s": 54.247,
+       "e": 54.415
       },
       {
        "w": "donné",
-       "s": 59.133,
-       "e": 59.448
+       "s": 54.415,
+       "e": 54.726
       },
       {
        "w": "des",
-       "s": 59.448,
-       "e": 59.666
+       "s": 54.726,
+       "e": 54.941
       },
       {
        "w": "cachets.",
-       "s": 59.666,
-       "e": 60.077
+       "s": 54.941,
+       "e": 55.348
       }
      ]
     }
    ],
-   "end": 60.337
+   "end": 55.468
   },
   {
    "id": "judge",
-   "start": 60.757,
+   "start": 55.688,
    "sentences": [
     {
-     "text": "Ce que tu ignores : c'est un complice des chercheurs.",
-     "spoken": "Ce que tu ignores : c'est un complice des chercheurs.",
-     "start": 60.757,
-     "end": 63.703,
+     "text": "Mais attention : c'est un complice des chercheurs !",
+     "spoken": "Mais attention : c'est un complice des chercheurs !",
+     "start": 55.688,
+     "end": 58.238,
      "words": [
       {
-       "w": "Ce",
-       "s": 60.757,
-       "e": 60.934
+       "w": "Mais",
+       "s": 55.688,
+       "e": 55.945
       },
       {
-       "w": "que",
-       "s": 60.934,
-       "e": 61.16
-      },
-      {
-       "w": "tu",
-       "s": 61.16,
-       "e": 61.336
-      },
-      {
-       "w": "ignores:",
-       "s": 61.336,
-       "e": 61.764
+       "w": "attention:",
+       "s": 55.945,
+       "e": 56.437
       },
       {
        "w": "c'est",
-       "s": 61.966,
-       "e": 62.243
+       "s": 56.624,
+       "e": 56.881
       },
       {
        "w": "un",
-       "s": 62.243,
-       "e": 62.419
+       "s": 56.881,
+       "e": 57.045
       },
       {
        "w": "complice",
-       "s": 62.419,
-       "e": 62.897
+       "s": 57.045,
+       "e": 57.489
       },
       {
        "w": "des",
-       "s": 62.897,
-       "e": 63.124
+       "s": 57.489,
+       "e": 57.7
       },
       {
-       "w": "chercheurs.",
-       "s": 63.124,
-       "e": 63.703
+       "w": "chercheurs!",
+       "s": 57.7,
+       "e": 58.238
       }
      ]
     },
     {
      "text": "Et c'est lui qui va te noter, de zéro à cinq.",
      "spoken": "Et c'est lui qui va te noter, de zéro à cinq.",
-     "start": 63.963,
-     "end": 66.318,
+     "start": 58.358,
+     "end": 60.743,
      "words": [
       {
        "w": "Et",
-       "s": 63.963,
-       "e": 64.12
+       "s": 58.358,
+       "e": 58.517
       },
       {
        "w": "c'est",
-       "s": 64.12,
-       "e": 64.367
+       "s": 58.517,
+       "e": 58.767
       },
       {
        "w": "lui",
-       "s": 64.367,
-       "e": 64.569
+       "s": 58.767,
+       "e": 58.971
       },
       {
        "w": "qui",
-       "s": 64.569,
-       "e": 64.771
+       "s": 58.971,
+       "e": 59.175
       },
       {
        "w": "va",
-       "s": 64.771,
-       "e": 64.928
+       "s": 59.175,
+       "e": 59.334
       },
       {
        "w": "te",
-       "s": 64.928,
-       "e": 65.085
+       "s": 59.334,
+       "e": 59.494
       },
       {
        "w": "noter,",
-       "s": 65.085,
-       "e": 65.376
+       "s": 59.494,
+       "e": 59.789
       },
       {
        "w": "de",
-       "s": 65.556,
-       "e": 65.713
+       "s": 59.971,
+       "e": 60.13
       },
       {
        "w": "zéro",
-       "s": 65.713,
-       "e": 65.959
+       "s": 60.13,
+       "e": 60.379
       },
       {
        "w": "à",
-       "s": 65.959,
-       "e": 66.071
+       "s": 60.379,
+       "e": 60.493
       },
       {
        "w": "cinq.",
-       "s": 66.071,
-       "e": 66.318
+       "s": 60.493,
+       "e": 60.743
       }
      ]
     }
    ],
-   "end": 66.578
+   "end": 60.863
   },
   {
    "id": "result",
-   "start": 66.998,
+   "start": 61.083,
    "sentences": [
     {
-     "text": "Résultat.",
-     "spoken": "Résultat.",
-     "start": 66.998,
-     "end": 67.672,
+     "text": "Le résultat ?",
+     "spoken": "Le résultat ?",
+     "start": 61.083,
+     "end": 61.844,
      "words": [
       {
-       "w": "Résultat.",
-       "s": 66.998,
-       "e": 67.672
+       "w": "Le",
+       "s": 61.083,
+       "e": 61.288
+      },
+      {
+       "w": "résultat?",
+       "s": 61.288,
+       "e": 61.844
       }
      ]
     },
     {
      "text": "Avec du temps, 63 % ont aidé, d'une façon ou d'une autre.",
      "spoken": "Avec du temps, 63 % ont aidé, d'une façon ou d'une autre.",
-     "start": 67.932,
-     "end": 71.547,
+     "start": 61.964,
+     "end": 65.654,
      "words": [
       {
        "w": "Avec",
-       "s": 67.932,
-       "e": 68.212
+       "s": 61.964,
+       "e": 62.248
       },
       {
        "w": "du",
-       "s": 68.212,
-       "e": 68.39
+       "s": 62.248,
+       "e": 62.429
       },
       {
        "w": "temps,",
-       "s": 68.39,
-       "e": 68.721
+       "s": 62.429,
+       "e": 62.764
       },
       {
-       "w": "63",
-       "s": 68.925,
-       "e": 69.307
-      },
-      {
-       "w": "%",
-       "s": 69.307,
-       "e": 69.434
+       "w": "63 %",
+       "s": 62.971,
+       "e": 63.512
       },
       {
        "w": "ont",
-       "s": 69.434,
-       "e": 69.663
+       "s": 63.512,
+       "e": 63.745
       },
       {
        "w": "aidé,",
-       "s": 69.663,
-       "e": 69.943
+       "s": 63.745,
+       "e": 64.029
       },
       {
        "w": "d'une",
-       "s": 70.147,
-       "e": 70.427
+       "s": 64.235,
+       "e": 64.519
       },
       {
        "w": "façon",
-       "s": 70.427,
-       "e": 70.758
+       "s": 64.519,
+       "e": 64.854
       },
       {
        "w": "ou",
-       "s": 70.758,
-       "e": 70.936
+       "s": 64.854,
+       "e": 65.035
       },
       {
        "w": "d'une",
-       "s": 70.936,
-       "e": 71.216
+       "s": 65.035,
+       "e": 65.319
       },
       {
        "w": "autre.",
-       "s": 71.216,
-       "e": 71.547
+       "s": 65.319,
+       "e": 65.654
       }
      ]
     },
     {
      "text": "Attendus tout de suite, 45 %.",
      "spoken": "Attendus tout de suite, 45 %.",
-     "start": 71.807,
-     "end": 73.956,
+     "start": 65.774,
+     "end": 67.896,
      "words": [
       {
        "w": "Attendus",
-       "s": 71.807,
-       "e": 72.331
+       "s": 65.774,
+       "e": 66.284
       },
       {
        "w": "tout",
-       "s": 72.331,
-       "e": 72.634
+       "s": 66.284,
+       "e": 66.58
       },
       {
        "w": "de",
-       "s": 72.634,
-       "e": 72.827
+       "s": 66.58,
+       "e": 66.768
       },
       {
        "w": "suite,",
-       "s": 72.827,
-       "e": 73.185
+       "s": 66.768,
+       "e": 67.117
       },
       {
-       "w": "45",
-       "s": 73.405,
-       "e": 73.818
-      },
-      {
-       "w": "%.",
-       "s": 73.818,
-       "e": 73.956
+       "w": "45 %.",
+       "s": 67.332,
+       "e": 67.896
       }
      ]
     },
     {
-     "text": "En retard...",
-     "spoken": "En retard...",
-     "start": 74.216,
-     "end": 74.986,
-     "words": [
-      {
-       "w": "En",
-       "s": 74.216,
-       "e": 74.461
-      },
-      {
-       "w": "retard...",
-       "s": 74.461,
-       "e": 74.986
-      }
-     ]
-    },
-    {
-     "text": "seulement 10 %.",
-     "spoken": "seulement 10 %.",
-     "start": 75.586,
-     "end": 76.686,
-     "words": [
-      {
-       "w": "seulement",
-       "s": 75.586,
-       "e": 76.149
-      },
-      {
-       "w": "10",
-       "s": 76.149,
-       "e": 76.552
-      },
-      {
-       "w": "%.",
-       "s": 76.552,
-       "e": 76.686
-      }
-     ]
-    }
-   ],
-   "end": 76.946
-  },
-  {
-   "id": "stepover",
-   "start": 77.366,
-   "sentences": [
-    {
-     "text": "Et plusieurs fois, un étudiant qui allait parler du Bon Samaritain a littéralement enjambé la victime.",
-     "spoken": "Et plusieurs fois, un étudiant qui allait parler du Bon Samaritain a littéralement enjambé la victime.",
-     "start": 77.366,
-     "end": 82.323,
+     "text": "Et ceux en retard ?",
+     "spoken": "Et ceux en retard ?",
+     "start": 68.016,
+     "end": 69.148,
      "words": [
       {
        "w": "Et",
-       "s": 77.366,
-       "e": 77.519
+       "s": 68.016,
+       "e": 68.214
       },
       {
-       "w": "plusieurs",
-       "s": 77.519,
-       "e": 77.98
+       "w": "ceux",
+       "s": 68.214,
+       "e": 68.525
       },
       {
-       "w": "fois,",
-       "s": 77.98,
-       "e": 78.221
+       "w": "en",
+       "s": 68.525,
+       "e": 68.723
       },
       {
-       "w": "un",
-       "s": 78.397,
-       "e": 78.55
+       "w": "retard?",
+       "s": 68.723,
+       "e": 69.148
+      }
+     ]
+    },
+    {
+     "text": "Seulement 10 % !",
+     "spoken": "Seulement 10 % !",
+     "start": 69.268,
+     "end": 70.337,
+     "words": [
+      {
+       "w": "Seulement",
+       "s": 69.268,
+       "e": 69.802
       },
       {
-       "w": "étudiant",
-       "s": 78.55,
-       "e": 78.967
-      },
-      {
-       "w": "qui",
-       "s": 78.967,
-       "e": 79.164
-      },
-      {
-       "w": "allait",
-       "s": 79.164,
-       "e": 79.493
-      },
-      {
-       "w": "parler",
-       "s": 79.493,
-       "e": 79.822
-      },
-      {
-       "w": "du",
-       "s": 79.822,
-       "e": 79.976
-      },
-      {
-       "w": "Bon",
-       "s": 79.976,
-       "e": 80.173
-      },
-      {
-       "w": "Samaritain",
-       "s": 80.173,
-       "e": 80.678
-      },
-      {
-       "w": "a",
-       "s": 80.678,
-       "e": 80.787
-      },
-      {
-       "w": "littéralement",
-       "s": 80.787,
-       "e": 81.424
-      },
-      {
-       "w": "enjambé",
-       "s": 81.424,
-       "e": 81.796
-      },
-      {
-       "w": "la",
-       "s": 81.796,
-       "e": 81.95
-      },
-      {
-       "w": "victime.",
-       "s": 81.95,
-       "e": 82.323
+       "w": "10 %!",
+       "s": 69.802,
+       "e": 70.337
       }
      ]
     }
    ],
-   "end": 82.583
+   "end": 70.457
+  },
+  {
+   "id": "stepover",
+   "start": 70.677,
+   "sentences": [
+    {
+     "text": "Pire encore : plusieurs fois, un étudiant qui allait parler du Bon Samaritain a littéralement enjambé la victime !",
+     "spoken": "Pire encore : plusieurs fois, un étudiant qui allait parler du Bon Samaritain a littéralement enjambé la victime !",
+     "start": 70.677,
+     "end": 76.383,
+     "words": [
+      {
+       "w": "Pire",
+       "s": 70.677,
+       "e": 70.925
+      },
+      {
+       "w": "encore:",
+       "s": 70.925,
+       "e": 71.263
+      },
+      {
+       "w": "plusieurs",
+       "s": 71.444,
+       "e": 71.917
+      },
+      {
+       "w": "fois,",
+       "s": 71.917,
+       "e": 72.165
+      },
+      {
+       "w": "un",
+       "s": 72.346,
+       "e": 72.504
+      },
+      {
+       "w": "étudiant",
+       "s": 72.504,
+       "e": 72.932
+      },
+      {
+       "w": "qui",
+       "s": 72.932,
+       "e": 73.135
+      },
+      {
+       "w": "allait",
+       "s": 73.135,
+       "e": 73.474
+      },
+      {
+       "w": "parler",
+       "s": 73.474,
+       "e": 73.812
+      },
+      {
+       "w": "du",
+       "s": 73.812,
+       "e": 73.97
+      },
+      {
+       "w": "Bon",
+       "s": 73.97,
+       "e": 74.173
+      },
+      {
+       "w": "Samaritain",
+       "s": 74.173,
+       "e": 74.692
+      },
+      {
+       "w": "a",
+       "s": 74.692,
+       "e": 74.804
+      },
+      {
+       "w": "littéralement",
+       "s": 74.804,
+       "e": 75.459
+      },
+      {
+       "w": "enjambé",
+       "s": 75.459,
+       "e": 75.842
+      },
+      {
+       "w": "la",
+       "s": 75.842,
+       "e": 76.0
+      },
+      {
+       "w": "victime!",
+       "s": 76.0,
+       "e": 76.383
+      }
+     ]
+    }
+   ],
+   "end": 76.503
   },
   {
    "id": "faith",
-   "start": 83.003,
+   "start": 76.723,
    "sentences": [
     {
-     "text": "Leur foi ?",
-     "spoken": "Leur foi ?",
-     "start": 83.003,
-     "end": 83.572,
+     "text": "Et leur foi ?",
+     "spoken": "Et leur foi ?",
+     "start": 76.723,
+     "end": 77.411,
      "words": [
       {
-       "w": "Leur",
-       "s": 83.003,
-       "e": 83.316
+       "w": "Et",
+       "s": 76.723,
+       "e": 76.902
+      },
+      {
+       "w": "leur",
+       "s": 76.902,
+       "e": 77.182
       },
       {
        "w": "foi?",
-       "s": 83.316,
-       "e": 83.572
+       "s": 77.182,
+       "e": 77.411
       }
      ]
     },
     {
      "text": "Elle ne prédisait pas qui allait aider.",
      "spoken": "Elle ne prédisait pas qui allait aider.",
-     "start": 83.832,
-     "end": 85.778,
+     "start": 77.531,
+     "end": 79.46,
      "words": [
       {
        "w": "Elle",
-       "s": 83.832,
-       "e": 84.084
+       "s": 77.531,
+       "e": 77.781
       },
       {
        "w": "ne",
-       "s": 84.084,
-       "e": 84.244
+       "s": 77.781,
+       "e": 77.94
       },
       {
        "w": "prédisait",
-       "s": 84.244,
-       "e": 84.725
+       "s": 77.94,
+       "e": 78.416
       },
       {
        "w": "pas",
-       "s": 84.725,
-       "e": 84.931
+       "s": 78.416,
+       "e": 78.62
       },
       {
        "w": "qui",
-       "s": 84.931,
-       "e": 85.137
+       "s": 78.62,
+       "e": 78.825
       },
       {
        "w": "allait",
-       "s": 85.137,
-       "e": 85.48
+       "s": 78.825,
+       "e": 79.165
       },
       {
        "w": "aider.",
-       "s": 85.48,
-       "e": 85.778
+       "s": 79.165,
+       "e": 79.46
       }
      ]
     }
    ],
-   "end": 86.038
+   "end": 79.58
   },
   {
    "id": "why",
-   "start": 86.458,
+   "start": 79.8,
    "sentences": [
     {
      "text": "Des monstres ?",
      "spoken": "Des monstres ?",
-     "start": 86.458,
-     "end": 87.164,
+     "start": 79.8,
+     "end": 80.509,
      "words": [
       {
        "w": "Des",
-       "s": 86.458,
-       "e": 86.685
+       "s": 79.8,
+       "e": 80.028
       },
       {
        "w": "monstres?",
-       "s": 86.685,
-       "e": 87.164
+       "s": 80.028,
+       "e": 80.509
       }
      ]
     },
     {
-     "text": "Non, disent les chercheurs.",
-     "spoken": "Non, disent les chercheurs.",
-     "start": 87.424,
-     "end": 88.639,
+     "text": "Pas selon les chercheurs !",
+     "spoken": "Pas selon les chercheurs !",
+     "start": 80.629,
+     "end": 81.924,
      "words": [
       {
-       "w": "Non,",
-       "s": 87.424,
-       "e": 87.595
+       "w": "Pas",
+       "s": 80.629,
+       "e": 80.845
       },
       {
-       "w": "disent",
-       "s": 87.747,
-       "e": 88.032
+       "w": "selon",
+       "s": 80.845,
+       "e": 81.157
       },
       {
        "w": "les",
-       "s": 88.032,
-       "e": 88.202
+       "s": 81.157,
+       "e": 81.373
       },
       {
-       "w": "chercheurs.",
-       "s": 88.202,
-       "e": 88.639
+       "w": "chercheurs!",
+       "s": 81.373,
+       "e": 81.924
       }
      ]
     },
     {
      "text": "Certains, pressés, n'ont pas réalisé qu'il avait besoin d'aide.",
      "spoken": "Certains, pressés, n'ont pas réalisé qu'il avait besoin d'aide.",
-     "start": 88.899,
-     "end": 92.095,
+     "start": 82.044,
+     "end": 85.04,
      "words": [
       {
        "w": "Certains,",
-       "s": 88.899,
-       "e": 89.33
+       "s": 82.044,
+       "e": 82.448
       },
       {
        "w": "pressés,",
-       "s": 89.511,
-       "e": 89.896
+       "s": 82.618,
+       "e": 82.979
       },
       {
        "w": "n'ont",
-       "s": 90.078,
-       "e": 90.327
+       "s": 83.149,
+       "e": 83.383
       },
       {
        "w": "pas",
-       "s": 90.327,
-       "e": 90.531
+       "s": 83.383,
+       "e": 83.574
       },
       {
        "w": "réalisé",
-       "s": 90.531,
-       "e": 90.916
+       "s": 83.574,
+       "e": 83.935
       },
       {
        "w": "qu'il",
-       "s": 90.916,
-       "e": 91.166
+       "s": 83.935,
+       "e": 84.169
       },
       {
        "w": "avait",
-       "s": 91.166,
-       "e": 91.46
+       "s": 84.169,
+       "e": 84.445
       },
       {
        "w": "besoin",
-       "s": 91.46,
-       "e": 91.8
+       "s": 84.445,
+       "e": 84.764
       },
       {
        "w": "d'aide.",
-       "s": 91.8,
-       "e": 92.095
+       "s": 84.764,
+       "e": 85.04
       }
      ]
     },
     {
      "text": "D'autres étaient tiraillés : aider l'inconnu, ou ne pas faire attendre le chercheur.",
      "spoken": "D'autres étaient tiraillés : aider l'inconnu, ou ne pas faire attendre le chercheur.",
-     "start": 92.355,
-     "end": 96.227,
+     "start": 85.16,
+     "end": 88.979,
      "words": [
       {
        "w": "D'autres",
-       "s": 92.355,
-       "e": 92.709
+       "s": 85.16,
+       "e": 85.509
       },
       {
        "w": "étaient",
-       "s": 92.709,
-       "e": 93.063
+       "s": 85.509,
+       "e": 85.858
       },
       {
        "w": "tiraillés:",
-       "s": 93.063,
-       "e": 93.5
+       "s": 85.858,
+       "e": 86.289
       },
       {
        "w": "aider",
-       "s": 93.667,
-       "e": 93.937
+       "s": 86.454,
+       "e": 86.721
       },
       {
        "w": "l'inconnu,",
-       "s": 93.937,
-       "e": 94.333
+       "s": 86.721,
+       "e": 87.111
       },
       {
        "w": "ou",
-       "s": 94.499,
-       "e": 94.645
+       "s": 87.275,
+       "e": 87.419
       },
       {
        "w": "ne",
-       "s": 94.645,
-       "e": 94.791
+       "s": 87.419,
+       "e": 87.562
       },
       {
        "w": "pas",
-       "s": 94.791,
-       "e": 94.978
+       "s": 87.562,
+       "e": 87.747
       },
       {
        "w": "faire",
-       "s": 94.978,
-       "e": 95.249
+       "s": 87.747,
+       "e": 88.014
       },
       {
        "w": "attendre",
-       "s": 95.249,
-       "e": 95.644
+       "s": 88.014,
+       "e": 88.404
       },
       {
        "w": "le",
-       "s": 95.644,
-       "e": 95.79
+       "s": 88.404,
+       "e": 88.548
       },
       {
        "w": "chercheur.",
-       "s": 95.79,
-       "e": 96.227
+       "s": 88.548,
+       "e": 88.979
       }
      ]
     }
    ],
-   "end": 96.487
+   "end": 89.099
   },
   {
    "id": "quote",
-   "start": 96.907,
+   "start": 89.319,
    "sentences": [
     {
-     "text": "Les chercheurs reprennent une idée : quand nos vies s'accélèrent, la morale devient un luxe.",
-     "spoken": "Les chercheurs reprennent une idée : quand nos vies s'accélèrent, la morale devient un luxe.",
-     "start": 96.907,
-     "end": 101.198,
+     "text": "Et une phrase résume tout : quand nos vies vont plus vite, la morale devient un luxe !",
+     "spoken": "Et une phrase résume tout : quand nos vies vont plus vite, la morale devient un luxe !",
+     "start": 89.319,
+     "end": 93.285,
      "words": [
       {
-       "w": "Les",
-       "s": 96.907,
-       "e": 97.095
-      },
-      {
-       "w": "chercheurs",
-       "s": 97.095,
-       "e": 97.574
-      },
-      {
-       "w": "reprennent",
-       "s": 97.574,
-       "e": 98.053
+       "w": "Et",
+       "s": 89.319,
+       "e": 89.46
       },
       {
        "w": "une",
-       "s": 98.053,
-       "e": 98.24
+       "s": 89.46,
+       "e": 89.643
       },
       {
-       "w": "idée:",
-       "s": 98.24,
-       "e": 98.469
+       "w": "phrase",
+       "s": 89.643,
+       "e": 89.946
+      },
+      {
+       "w": "résume",
+       "s": 89.946,
+       "e": 90.25
+      },
+      {
+       "w": "tout:",
+       "s": 90.25,
+       "e": 90.472
       },
       {
        "w": "quand",
-       "s": 98.636,
-       "e": 98.907
+       "s": 90.634,
+       "e": 90.897
       },
       {
        "w": "nos",
-       "s": 98.907,
-       "e": 99.094
+       "s": 90.897,
+       "e": 91.079
       },
       {
        "w": "vies",
-       "s": 99.094,
-       "e": 99.323
+       "s": 91.079,
+       "e": 91.302
       },
       {
-       "w": "s'accélèrent,",
-       "s": 99.323,
-       "e": 99.844
+       "w": "vont",
+       "s": 91.302,
+       "e": 91.525
+      },
+      {
+       "w": "plus",
+       "s": 91.525,
+       "e": 91.747
+      },
+      {
+       "w": "vite,",
+       "s": 91.747,
+       "e": 91.97
       },
       {
        "w": "la",
-       "s": 100.011,
-       "e": 100.156
+       "s": 92.132,
+       "e": 92.273
       },
       {
        "w": "morale",
-       "s": 100.156,
-       "e": 100.469
+       "s": 92.273,
+       "e": 92.577
       },
       {
        "w": "devient",
-       "s": 100.469,
-       "e": 100.823
+       "s": 92.577,
+       "e": 92.921
       },
       {
        "w": "un",
-       "s": 100.823,
-       "e": 100.969
+       "s": 92.921,
+       "e": 93.062
       },
       {
-       "w": "luxe.",
-       "s": 100.969,
-       "e": 101.198
+       "w": "luxe!",
+       "s": 93.062,
+       "e": 93.285
       }
      ]
     }
    ],
-   "end": 101.458
+   "end": 93.405
   },
   {
    "id": "you",
-   "start": 101.878,
+   "start": 93.625,
    "sentences": [
     {
-     "text": "Et toi, en courant vers ton métro...",
-     "spoken": "Et toi, en courant vers ton métro...",
-     "start": 101.878,
-     "end": 103.662,
+     "text": "Et toi, quand tu cours vers ton métro...",
+     "spoken": "Et toi, quand tu cours vers ton métro...",
+     "start": 93.625,
+     "end": 95.407,
      "words": [
       {
        "w": "Et",
-       "s": 101.878,
-       "e": 102.032
+       "s": 93.625,
+       "e": 93.764
       },
       {
        "w": "toi,",
-       "s": 102.032,
-       "e": 102.23
+       "s": 93.764,
+       "e": 93.942
       },
       {
-       "w": "en",
-       "s": 102.406,
-       "e": 102.56
+       "w": "quand",
+       "s": 94.1,
+       "e": 94.357
       },
       {
-       "w": "courant",
-       "s": 102.56,
-       "e": 102.935
+       "w": "tu",
+       "s": 94.357,
+       "e": 94.496
+      },
+      {
+       "w": "cours",
+       "s": 94.496,
+       "e": 94.753
       },
       {
        "w": "vers",
-       "s": 102.935,
-       "e": 103.177
+       "s": 94.753,
+       "e": 94.971
       },
       {
        "w": "ton",
-       "s": 103.177,
-       "e": 103.375
+       "s": 94.971,
+       "e": 95.149
       },
       {
        "w": "métro...",
-       "s": 103.375,
-       "e": 103.662
+       "s": 95.149,
+       "e": 95.407
       }
      ]
     },
     {
      "text": "combien de personnes tu ne vois pas ?",
      "spoken": "combien de personnes tu ne vois pas ?",
-     "start": 104.262,
-     "end": 105.7,
+     "start": 95.787,
+     "end": 97.194,
      "words": [
       {
        "w": "combien",
-       "s": 104.262,
-       "e": 104.571
+       "s": 95.787,
+       "e": 96.09
       },
       {
        "w": "de",
-       "s": 104.571,
-       "e": 104.699
+       "s": 96.09,
+       "e": 96.214
       },
       {
        "w": "personnes",
-       "s": 104.699,
-       "e": 105.081
+       "s": 96.214,
+       "e": 96.589
       },
       {
        "w": "tu",
-       "s": 105.081,
-       "e": 105.209
+       "s": 96.589,
+       "e": 96.713
       },
       {
        "w": "ne",
-       "s": 105.209,
-       "e": 105.336
+       "s": 96.713,
+       "e": 96.838
       },
       {
        "w": "vois",
-       "s": 105.336,
-       "e": 105.536
+       "s": 96.838,
+       "e": 97.034
       },
       {
        "w": "pas?",
-       "s": 105.536,
-       "e": 105.7
+       "s": 97.034,
+       "e": 97.194
       }
      ]
     }
    ],
-   "end": 105.96
+   "end": 97.314
   },
   {
    "id": "cta",
-   "start": 106.38,
+   "start": 97.534,
    "sentences": [
     {
-     "text": "Écris-moi en commentaire : en retard, tu te serais arrêté ?",
-     "spoken": "Écris-moi en commentaire : en retard, tu te serais arrêté ?",
-     "start": 106.38,
-     "end": 109.441,
+     "text": "Alors, sois honnête : en retard, tu te serais arrêté ?",
+     "spoken": "Alors, sois honnête : en retard, tu te serais arrêté ?",
+     "start": 97.534,
+     "end": 100.514,
      "words": [
       {
-       "w": "Écris-moi",
-       "s": 106.38,
-       "e": 106.818
+       "w": "Alors,",
+       "s": 97.534,
+       "e": 97.83
+      },
+      {
+       "w": "sois",
+       "s": 98.012,
+       "e": 98.262
+      },
+      {
+       "w": "honnête:",
+       "s": 98.262,
+       "e": 98.649
       },
       {
        "w": "en",
-       "s": 106.818,
-       "e": 106.979
-      },
-      {
-       "w": "commentaire:",
-       "s": 106.979,
-       "e": 107.554
-      },
-      {
-       "w": "en",
-       "s": 107.738,
-       "e": 107.899
+       "s": 98.831,
+       "e": 98.99
       },
       {
        "w": "retard,",
-       "s": 107.899,
-       "e": 108.244
+       "s": 98.99,
+       "e": 99.331
       },
       {
        "w": "tu",
-       "s": 108.428,
-       "e": 108.589
+       "s": 99.513,
+       "e": 99.672
       },
       {
        "w": "te",
-       "s": 108.589,
-       "e": 108.75
+       "s": 99.672,
+       "e": 99.832
       },
       {
        "w": "serais",
-       "s": 108.75,
-       "e": 109.096
+       "s": 99.832,
+       "e": 100.173
       },
       {
        "w": "arrêté?",
-       "s": 109.096,
-       "e": 109.441
+       "s": 100.173,
+       "e": 100.514
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire !",
+     "spoken": "Dis-le en commentaire !",
+     "start": 100.634,
+     "end": 101.887,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 100.634,
+       "e": 100.996
+      },
+      {
+       "w": "en",
+       "s": 100.996,
+       "e": 101.191
+      },
+      {
+       "w": "commentaire!",
+       "s": 101.191,
+       "e": 101.887
       }
      ]
     }
    ],
-   "end": 109.701
+   "end": 102.007
   }
  ]
 }

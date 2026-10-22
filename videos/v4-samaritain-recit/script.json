@@ -1,35 +1,39 @@
 {
  "engine": "piper",
  "voice": "fr_FR-tom-medium",
- "speed": 1.0,
+ "speed": 1.13,
  "post": {
-  "semitones": -1.5,
-  "warmth": 3
+  "semitones": 0,
+  "warmth": 1.5,
+  "presence": 3.5,
+  "threshold": 0.08,
+  "ratio": 3,
+  "makeup": 1.5
  },
- "lead": 0.4,
- "gap_sentence": 0.26,
- "gap_segment": 0.42,
- "gap_suspense": 0.6,
+ "lead": 0.3,
+ "gap_sentence": 0.12,
+ "gap_segment": 0.22,
+ "gap_suspense": 0.38,
  "segments": [
   {
    "id": "cold",
-   "text": "Un homme est affalé sous un porche. La tête baissée. Les yeux fermés. Et des futurs pasteurs vont passer devant lui... l'un après l'autre."
+   "text": "Un homme est affalé sous un porche. La tête baissée. Les yeux fermés. Et des futurs pasteurs vont passer devant lui, l'un après l'autre !"
   },
   {
    "id": "rewind",
-   "text": "Revenons en arrière. {Princeton|Prinnsetone}, début des années soixante-dix. 67 étudiants en théologie remplissent des questionnaires sur leur foi."
+   "text": "Retour en arrière ! {Princeton|Prinnsetone}, début des années soixante-dix. Au départ, 67 étudiants en théologie remplissent des questionnaires sur leur foi."
   },
   {
    "id": "mission",
-   "text": "Puis 47 d'entre eux sont convoqués, un par un. Mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté."
+   "text": "Puis 47 d'entre eux sont convoqués, un par un. Leur mission : préparer un petit discours, à enregistrer dans le bâtiment d'à côté !"
   },
   {
    "id": "topics",
-   "text": "La moitié doit parler des métiers où un séminariste serait le plus utile. L'autre moitié... du Bon Samaritain, l'homme qui s'arrête pour soigner un inconnu."
+   "text": "La moitié doit parler des métiers où un séminariste serait le plus utile. Et l'autre moitié ? Du Bon Samaritain ! L'homme qui s'arrête pour soigner un inconnu."
   },
   {
    "id": "map",
-   "text": "On leur dessine le chemin sur une fiche. Puis vient la phrase qui change tout."
+   "text": "On leur dessine le chemin sur une fiche. Et là, la phrase qui change tout !"
   },
   {
    "id": "hurry",
@@ -37,7 +41,7 @@
   },
   {
    "id": "alley",
-   "text": "Alors tu sors. Dans la ruelle, l'homme est là. Soudain, il tousse deux fois. Puis il se met à gémir."
+   "text": "Alors tu sors. Dans la ruelle, l'homme est là. L'homme tousse deux fois. Puis il se met à gémir !"
   },
   {
    "id": "reply",
@@ -45,38 +49,41 @@
   },
   {
    "id": "judge",
-   "text": "Ce que tu ignores : c'est un complice des chercheurs. Et c'est lui qui va te noter, de zéro à cinq."
+   "text": "Mais attention : c'est un complice des chercheurs ! Et c'est lui qui va te noter, de zéro à cinq."
   },
   {
    "id": "result",
-   "text": "Résultat. Avec du temps, 63 % ont aidé, d'une façon ou d'une autre. Attendus tout de suite, 45 %. En retard... seulement 10 %."
+   "text": "Le résultat ? Avec du temps, 63 % ont aidé, d'une façon ou d'une autre. Attendus tout de suite, 45 %. Et ceux en retard ? Seulement 10 % !"
   },
   {
    "id": "stepover",
-   "text": "Et plusieurs fois, un étudiant qui allait parler du Bon Samaritain a littéralement enjambé la victime."
+   "text": "Pire encore : plusieurs fois, un étudiant qui allait parler du Bon Samaritain a littéralement enjambé la victime !"
   },
   {
    "id": "faith",
-   "text": "Leur foi ? Elle ne prédisait pas qui allait aider."
+   "text": "Et leur foi ? Elle ne prédisait pas qui allait aider."
   },
   {
    "id": "why",
-   "text": "Des monstres ? Non, disent les chercheurs. Certains, pressés, n'ont pas réalisé qu'il avait besoin d'aide. D'autres étaient tiraillés : aider l'inconnu, ou ne pas faire attendre le chercheur."
+   "text": "Des monstres ? Pas selon les chercheurs ! Certains, pressés, n'ont pas réalisé qu'il avait besoin d'aide. D'autres étaient tiraillés : aider l'inconnu, ou ne pas faire attendre le chercheur."
   },
   {
    "id": "quote",
-   "text": "Les chercheurs reprennent une idée : quand nos vies s'accélèrent, la morale devient un luxe."
+   "text": "Et une phrase résume tout : quand nos vies vont plus vite, la morale devient un luxe !"
   },
   {
    "id": "you",
-   "text": "Et toi, en courant vers ton métro... combien de personnes tu ne vois pas ?"
+   "text": "Et toi, quand tu cours vers ton métro... combien de personnes tu ne vois pas ?"
   },
   {
    "id": "cta",
-   "text": "Écris-moi en commentaire : en retard, tu te serais arrêté ?"
+   "text": "Alors, sois honnête : en retard, tu te serais arrêté ? Dis-le en commentaire !"
   }
  ],
- "target": 106,
- "noise": 0.5,
- "noise_w": 0.7
+ "noise": 0.45,
+ "noise_w": 0.6,
+ "emphasis": {
+  "!": 1.5,
+  "?": 0.8
+ }
 }

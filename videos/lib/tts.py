@@ -2,7 +2,8 @@
 
 Input  <folder>/script.json : {"engine": "kokoro"|"piper", "speed": 1.1, "target": 57, "segments": [{"id": "hook", "text": "..."}, ...]}
        "{Milgram|Milgrame}" in a text = shown as Milgram in subtitles, pronounced "Milgrame" by the voice.
-       "post": {"semitones": -1.5, "warmth": 3} deepens/warms the voice with ffmpeg (duration unchanged).
+       "post": {"semitones": -1.5, "warmth": 3, "presence": 3} reshapes the whole voice with ffmpeg (duration unchanged).
+       "emphasis": {"!": 1.5, "?": 0.8} raises the pitch of exclamations / questions (semitones) for a livelier read.
 Output <folder>/voice.wav (mono) and <folder>/timings.json
 Usage: tts/bin/python tts.py <folder> <models_dir>
 Engines (pip install kokoro-onnx sherpa-onnx soundfile):
@@ -72,6 +73,8 @@ def tokens(sentence):
             out.append((m.group(1), m.group(2)))
         elif out and MARK.fullmatch(out[-1][0] or "") is None and re.fullmatch(r"[,.;:!?…]+", part):
             out[-1] = (out[-1][0] + part, out[-1][1] + part)
+        elif out and re.fullmatch(r"%[,.;:!?…]*", part):  # "63 %" stays one subtitle word
+            out[-1] = (out[-1][0] + "\u202f" + part, out[-1][1] + " " + part)
         else:
             out.append((part, part))
     return out
@@ -104,6 +107,25 @@ def word_weights(toks):
     return w
 
 
+def pitch_shift(audio, semis):
+    """Pitch shift keeping the duration (resample + tempo correction), via ffmpeg."""
+    if not semis:
+        return audio
+    r = 2 ** (semis / 12)
+    with tempfile.TemporaryDirectory() as d:
+        sf.write(f"{d}/in.wav", audio, SR)
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", f"{d}/in.wav", "-af",
+                        f"asetrate={SR * r:.0f},aresample={SR},atempo={1 / r:.5f}", f"{d}/out.wav"], check=True)
+        out, _ = sf.read(f"{d}/out.wav", dtype="float32")
+    return out
+
+
+def emphasis(sentence):
+    e = cfg.get("emphasis") or {}
+    end = sentence.rstrip()[-1:]
+    return e.get(end, 0)
+
+
 def gap_after(sentence):
     return GAP_SUSPENSE if sentence.rstrip().endswith(("...", "…")) else GAP_SENT
 
@@ -113,7 +135,7 @@ def synth_all(speed):
     for seg in cfg["segments"]:
         for s in sentences(seg["text"]):
             audio = synth(spoken(s).replace("…", "...").replace("...", "."), speed)
-            clips.append((seg["id"], s, trim(audio)))
+            clips.append((seg["id"], s, pitch_shift(trim(audio), emphasis(s))))
     total = LEAD + sum(len(c[2]) / SR + gap_after(c[1]) for c in clips) + GAP_SEG * len(cfg["segments"])
     return clips, total
 
@@ -156,7 +178,9 @@ post = cfg.get("post")
 if post:
     # deeper + warmer narrator: pitch down by resampling (tempo restored, so timings stay valid), low-shelf boost, gentle compression
     r = 2 ** (post.get("semitones", 0) / 12)
-    chain = f"asetrate={SR * r:.0f},aresample={SR},atempo={1 / r:.5f},lowshelf=g={post.get('warmth', 0)}:f=180,acompressor=threshold=0.12:ratio=2.5:attack=8:release=120,volume=1.0"
+    chain = (f"asetrate={SR * r:.0f},aresample={SR},atempo={1 / r:.5f},lowshelf=g={post.get('warmth', 0)}:f=180,"
+             f"equalizer=f=3200:t=q:w=1.2:g={post.get('presence', 0)},"
+             f"acompressor=threshold={post.get('threshold', 0.12)}:ratio={post.get('ratio', 2.5)}:attack=6:release=100:makeup={post.get('makeup', 1)}")
     tmp = tempfile.mktemp(suffix=".wav")
     os.replace(f"{folder}/voice.wav", tmp)
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-af", chain, f"{folder}/voice.wav"], check=True)

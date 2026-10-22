@@ -93,7 +93,7 @@ function spotlightBg(t, color = "#141A2E") {
 // ---------------------------------------------------------------- shots
 const SHOT = {
   cold(s, t) {
-    const lt = t - s.start, z = 1.28 + lt * 0.02;
+    const lt = t - s.start, z = 1.28 + lt * 0.035;
     camera(z, 540, 960, () => {
       street(t, 0);
       victimAt(520, t);
@@ -102,7 +102,8 @@ const SHOT = {
       for (let k = 0; k < 3; k++) {
         const u = prog(t, tp + k * 1.1, tp + k * 1.1 + 2.6); if (u <= 0 || u >= 1) continue;
         ctx.save(); ctx.globalAlpha = 0.55 * Math.sin(u * Math.PI);
-        character(lerp(-150, 1250, u), GROUND + 80, 1.05, "student", { pose: "hurry", phase: u * 22, face: { brows: "focused" }, props: { book: true }, t });
+        const gx = lerp(-150, 1250, u);
+        character(gx, GROUND + 80, 1.05, "student", { pose: "hurry", phase: gaitPhase(gx + 150, "hurry", 1.05), face: { brows: "focused" }, props: { book: true }, t });
         ctx.restore();
       }
     });
@@ -147,7 +148,8 @@ const SHOT = {
       office(t, { clockMin: 40 + lt * 6, day: true }); desk(330, 1150);
       character(300, 1420, 1.15, "researcher", { pose: "talk", phase: t * 4, face: { mouth: Math.sin(t * 12) > 0 ? "o" : "neutral" }, props: { clipboard: true }, t });
       const u = prog(t, s.start, s.start + 1.5);
-      character(lerp(1200, 790, easeOutCubic(u)), 1420, 1.15, "student", { pose: u < 1 ? "walk" : "stand", phase: t * 9, flip: true, face: { look: [-1, 0] }, t });
+      const mx = lerp(1200, 790, easeOutCubic(u));
+      character(mx, 1420, 1.15, "student", { pose: u < 0.97 ? "walk" : "stand", phase: gaitPhase(1200 - mx, "walk", 1.15), flip: true, face: { look: [-1, 0] }, t });
       label("47 CONVOQUÉS, UN PAR UN", W / 2, 420, 40, "#fff", "rgba(14,19,34,.85)", fade(t, s.start + 0.3));
     } else {
       spotlightBg(t);
@@ -237,13 +239,13 @@ const SHOT = {
     const lt = t - s.start, ts = wt("alley", "ruelle", 1.6), tc = wt("alley", "tousse", 3.2), tg = wt("alley", "gémir", 4.8);
     // the camera follows "you" from the door to the alley
     const u = easeInOut(prog(t, s.start, ts + 0.8));
-    const camX = lerp(-700, 0, u);
+    const camX = lerp(-260, 0, u);
     camera(1.3 + 0.05 * prog(lt, 1, 6), 520, 960, () => {
       street(t, camX, { doorX: 560 });
       victimAt(520 - camX, t);
-      const sx = lerp(-200, 330, easeOutCubic(prog(t, s.start, ts + 1.0)));
+      const sx = lerp(40, 330, easeOutCubic(prog(t, s.start, ts + 1.0)));
       const walking = t < ts + 1.0;
-      character(sx - camX * 0 + 0, GROUND + 80, 1.08, "student", { pose: walking ? "hurry" : "stand", phase: t * 10, face: { brows: t > tc ? "worried" : "focused", look: t > tc ? [1, 0.6] : [1, 0], eyes: t > tc ? "wide" : "open" }, props: { book: true }, t });
+      character(sx, GROUND + 80, 1.08, "student", { pose: walking ? "hurry" : "stand", phase: gaitPhase(sx - 40, "hurry", 1.08), face: { brows: t > tc ? "worried" : "focused", look: t > tc ? [1, 0.6] : [1, 0], eyes: t > tc ? "wide" : "open" }, props: { book: true }, t });
     });
     coughFx(600, 960, t, tc - 0.05); coughFx(600, 960, t, tc + 0.35);
     const a = fade(t, tc - 0.05, 0.2) * (1 - prog(t, tc + 1.2, tc + 1.5));
@@ -319,7 +321,7 @@ const SHOT = {
       const x = te > s.start ? (t < te ? lerp(-100, 520, prog(t, s.start, te)) : lerp(520, 1250, prog(t, te, s.next + 0.5))) : lerp(-100, 1250, lt / dur);
       const k = prog(x, 380, 700);
       const over = k > 0 && k < 1;
-      character(x, GROUND - 6 - (over ? Math.sin(k * Math.PI) * 30 : 0), 1.02, "student", { pose: over ? "stepover" : "hurry", k, phase: x / 22, face: { brows: "focused", look: [1, 0] }, props: { book: true }, t });
+      character(x, GROUND - 6, 1.02, "student", { pose: over ? "stepover" : "hurry", k, phase: gaitPhase(x + 100, "hurry", 1.02), face: { brows: "focused", look: [1, 0] }, props: { book: true }, t });
     });
     if (t > tb - 0.2) label("SON DISCOURS : LE BON SAMARITAIN", W / 2, 560, 34, COL.ink, COL.gold, prog(t, tb - 0.2, tb + 0.1), { r: 18 });
     label("◀ RALENTI", 870, 330, 34, "#fff", COL.red, fade(t, s.start + 0.1), { r: 16 });
@@ -351,7 +353,8 @@ const SHOT = {
       headline("DES MONSTRES ?", 400, 84, "#fff", t, s.start + 0.05);
     } else if (t < tt - 0.3) {
       // explanation 1: did not register the need
-      character(300, 1120, 1.05, "student", { pose: "hurry", phase: t * 10, face: { brows: "focused", look: [1, 0] }, props: { book: true }, t });
+      const wx = lerp(120, 360, prog(t, s.start, tt));
+      character(wx, 1120, 1.05, "student", { pose: "hurry", phase: gaitPhase(wx - 120, "hurry", 1.05), face: { brows: "focused", look: [1, 0] }, props: { book: true }, t });
       ctx.save(); ctx.fillStyle = "rgba(5,7,14,.7)"; ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.moveTo(420, 760); ctx.lineTo(1080, 560); ctx.lineTo(1080, 900); ctx.lineTo(420, 820); ctx.closePath(); ctx.fill("evenodd"); ctx.restore();
       character(760, 1180, 0.8, "victim", { pose: "slumped", face: { eyes: "closed", brows: "worried", mouth: "grimace" }, t });
       ctx.save(); ctx.translate(760, 700); const q = pop(t, tc - 0.4); ctx.scale(q, q);
@@ -366,7 +369,7 @@ const SHOT = {
   quote(s, t) {
     spotlightBg(t, "#1D1726");
     ctx.save(); ctx.globalAlpha = 0.25; iconClock(540, 760, 700, t * 900, { ring: "#5A4A7A", face: "#2A2340", hand: "#8C7BB0" }); ctx.restore();
-    quoteCard(540, 820, 960, ["Quand nos vies", "s'accélèrent, la morale", "devient un luxe."], prog(t, wt("quote", "quand", 1.6) - 0.3, wt("quote", "quand", 1.6) + 0.2), { author: "idée reprise par Darley & Batson", size: 66 });
+    quoteCard(540, 820, 960, ["Quand nos vies vont", "plus vite, la morale", "devient un luxe."], prog(t, wt("quote", "quand", 2.2) - 0.3, wt("quote", "quand", 2.2) + 0.2), { author: "idée reprise par Darley & Batson", size: 66 });
   },
   you(s, t) {
     const lt = t - s.start;
@@ -379,8 +382,8 @@ const SHOT = {
     txt("8 h 47", 900, 760, 72, "MontX", COL.red);
     character(540, GROUND - 6, 0.9, "victim", { pose: "slumped", face: { eyes: "closed", brows: "worried", mouth: "neutral" }, t });
     for (let k = 0; k < 5; k++) {
-      const x = ((lt * 480 + k * 300) % 1700) - 300;
-      character(x, GROUND + 60 + (k % 2) * 40, 0.95, k % 2 ? "passerby" : "student", { pose: "hurry", phase: x / 22, face: { look: [1, 0.4], brows: "focused" }, props: { paper: k % 2 === 0 }, t });
+      const dist = lt * 480 + k * 300, x = (dist % 1700) - 300;
+      character(x, GROUND + 60 + (k % 2) * 40, 0.95, k % 2 ? "passerby" : "student", { pose: "hurry", phase: gaitPhase(dist, "hurry", 0.95), face: { look: [1, 0.4], brows: "focused" }, props: { paper: k % 2 === 0 }, t });
     }
     const c = fade(t, wt("you", "combien", 2.2) - 0.2);
     if (c > 0) { ctx.save(); ctx.strokeStyle = COL.gold; ctx.lineWidth = 8; ctx.setLineDash([22, 14]); ctx.lineDashOffset = -t * 40; ctx.globalAlpha = c; ctx.beginPath(); ctx.ellipse(560, 1070, 210, 170, 0, 0, 6.29); ctx.stroke(); ctx.restore(); }
@@ -419,23 +422,39 @@ function chrome(t, id) {
 
 function drawShot(i, t) { const s = SEG[ORDER[i]]; SHOT[s.id](s, Math.min(t, s.next)); }
 
+const PUNCH = []; // times of keyword hits: the whole picture bumps in and shakes a little
+function punchAt(t) {
+  let z = 0, sh = 0;
+  for (const p of PUNCH) if (t >= p.t && t < p.t + 0.5) { const k = Math.exp(-(t - p.t) * 9); z = Math.max(z, p.z * k); sh = Math.max(sh, p.sh * k); }
+  return { z, sh };
+}
+
 window.render = function (t) {
   const frame = Math.round(t * FPS);
   let i = ORDER.findIndex(id => t < SEG[id].next);
   if (i < 0) i = ORDER.length - 1;
   const s = SEG[ORDER[i]];
-  const tr = prog(t, s.start - 0.15, s.start + 0.3);
+  const { z, sh } = punchAt(t);
+  ctx.save();
+  ctx.translate(W / 2 + Math.sin(t * 87) * sh, H / 2 + Math.cos(t * 71) * sh); ctx.scale(1 + z, 1 + z); ctx.translate(-W / 2, -H / 2);
+  const tr = prog(t, s.start - 0.14, s.start + 0.14);
   if (i > 0 && tr < 1) {
-    // cinematic cross-zoom: old shot pushes in and fades, new shot settles from a slight zoom
-    const k = easeInOut(tr);
-    ctx.save(); ctx.translate(W / 2, H / 2); ctx.scale(1 + 0.12 * k, 1 + 0.12 * k); ctx.translate(-W / 2, -H / 2); drawShot(i - 1, t); ctx.restore();
-    ctx.save(); ctx.globalAlpha = k; ctx.translate(W / 2, H / 2); ctx.scale(1.1 - 0.1 * k, 1.1 - 0.1 * k); ctx.translate(-W / 2, -H / 2); drawShot(i, t); ctx.restore();
-    lightLeak(W * 0.8, H * 0.3, Math.sin(k * Math.PI) * 0.6);
+    // whip pan: the old shot flies out to the left, the new one slams in from the right, with motion streaks
+    const k = easeInOutExpo(tr), dir = i % 2 ? 1 : -1;
+    ctx.save(); ctx.translate(-k * W * dir, 0); drawShot(i - 1, t); ctx.restore();
+    ctx.save(); ctx.translate((1 - k) * W * dir, 0); drawShot(i, t); ctx.restore();
+    const blur = Math.sin(k * Math.PI);
+    ctx.save(); ctx.globalAlpha = 0.5 * blur; ctx.fillStyle = "#fff";
+    const r = rng(i * 7);
+    for (let n = 0; n < 26; n++) { const yy = r() * H, len = 300 + r() * 700; ctx.fillRect((r() * W) - len / 2, yy, len, 3 + r() * 6); }
+    ctx.restore();
+    ctx.fillStyle = `rgba(255,255,255,${0.35 * blur})`; ctx.fillRect(0, 0, W, H);
   } else drawShot(i, t);
-  vignette(0.5, 0.35);
+  ctx.restore();
+  vignette(0.45, 0.38);
   chrome(t, s.id);
-  drawCaptions(CARDS, t, { y: 1420, size: 74, maxW: 880, keyColor: w => (/^(63|45|10|67|47|COMPLICE|RETARD|LITTÉRALEMENT|ENJAMBÉ|BON|SAMARITAIN|LUXE)/.test(w) ? COL.gold : null) });
-  grain(grains, frame, 0.05);
+  drawCaptions(CARDS, t, { y: 1420, size: 76, maxW: 900, style: "box", keyColor: w => (/^(63|45|10|67|47|COMPLICE|RETARD|LITTÉRALEMENT|ENJAMBÉ|BON|SAMARITAIN|LUXE)/.test(w) ? COL.gold : null) });
+  grain(grains, frame, 0.04);
   const e = prog(t, DURATION - 0.4, DURATION);
   if (e > 0) { ctx.fillStyle = `rgba(0,0,0,${e})`; ctx.fillRect(0, 0, W, H); }
 };
@@ -449,7 +468,7 @@ window.ready = (async () => {
   DURATION = Math.ceil((T.duration + 1.4) * 10) / 10;
   SEG[ORDER[ORDER.length - 1]].next = DURATION;
   // sound design
-  T.segments.forEach((s, i) => { if (i) sfx(s.start - 0.15, "whoosh", { gain: 0.35, dur: 0.4 }); });
+  T.segments.forEach((s, i) => { if (i) sfx(s.start - 0.16, "whoosh", { gain: 0.6, dur: 0.32 }); });
   sfx(SEG.rewind.start, "rewind", { dur: 0.9, gain: 0.5 });
   sfx(wt("rewind", "67", 3.5) - 0.2, "rise", { dur: 1.0, gain: 0.5 });
   sfx(wt("map", "phrase", 2.4) - 0.3, "boom", { gain: 0.5 });
@@ -466,7 +485,11 @@ window.ready = (async () => {
   sfx(wt("why", "Non", 0.8) - 0.1, "scratch", { gain: 0.5 });
   sfx(wt("why", "tiraillés", 5.6) - 0.2, "pop_hi", { gain: 0.6 });
   sfx(SEG.cta.start + 0.1, "pop"); sfx(SEG.cta.start + 0.3, "pop");
-  window.TIMELINE = { FPS, DURATION, MUSIC: { style: "suspense", bpm: 90 }, VOICE: { path: "voice.wav", bed: 0.17, duck: 0.65 } };
+  const hits = [["cold", "pasteurs", 0.05], ["rewind", "67", 0.06], ["mission", "47", 0.05], ["topics", "Samaritain", 0.06], ["map", "phrase", 0.06],
+    ["hurry", "retard", 0.08], ["alley", "tousse", 0.05], ["judge", "complice", 0.09], ["result", "63", 0.06], ["result", "45", 0.06], ["result", "10", 0.1],
+    ["stepover", "littéralement", 0.1], ["faith", "aider", 0.05], ["why", "monstres", 0.07], ["quote", "luxe", 0.07], ["cta", "arrêté", 0.06]];
+  for (const [id, w, zz] of hits) { const tw = wt(id, w, 1); PUNCH.push({ t: tw, z: zz, sh: zz * 120 }); sfx(tw, "hit", { gain: 0.35 + zz * 3 }); }
+  window.TIMELINE = { FPS, DURATION, MUSIC: { style: "drive", bpm: 120, drop: SEG.rewind.start - 0.05 }, VOICE: { path: "voice.wav", bed: 0.24, duck: 0.55 } };
   return true;
 })();
 </script>

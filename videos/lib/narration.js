@@ -21,14 +21,15 @@ function buildCaptions(timings, { maxChars = 16, maxWords = 3 } = {}) {
 }
 
 // White bold words with a thick dark outline; the word being spoken turns accent colour and pops.
-function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = "#FFD23F", keyColor = null, maxW = 940 } = {}) {
+// style "box": the spoken word sits on an accent-coloured box (punchier, TikTok-like)
+function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = "#FFD23F", keyColor = null, maxW = 940, style = "plain" } = {}) {
   const c = cards.find(c => t >= c.start - 0.05 && t < c.until);
   if (!c) return;
   const appear = easeOutBack(prog(t, c.start - 0.05, c.start + 0.12), 2.2);
   ctx.save();
   ctx.font = `${size}px ${font}`;
   const words = c.words.map(w => ({ ...w, text: w.w.toUpperCase().replace(/[,.;:…]+$/, "") }));
-  const space = size * 0.42; // the thick outline eats into the gap
+  const space = size * (style === "box" ? 0.62 : 0.42); // outline / highlight box need room between words
   const widths = words.map(w => ctx.measureText(w.text).width);
   const total = widths.reduce((a, b) => a + b, 0) + space * (words.length - 1);
   const fit = Math.min(1, maxW / total);
@@ -39,8 +40,15 @@ function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = 
   words.forEach((w, i) => {
     const active = t >= w.s - 0.03 && (i === words.length - 1 || t < words[i + 1].s - 0.03);
     const key = keyColor && keyColor(w.text);
-    const pop = active ? 1 + 0.06 * (1 - easeOutCubic(prog(t, w.s - 0.03, w.s + 0.15))) : 1;
+    const pop = active ? 1 + (style === "box" ? 0.08 : 0.06) * (1 - easeOutCubic(prog(t, w.s - 0.03, w.s + 0.18))) : 1;
     ctx.save(); ctx.translate(x + widths[i] / 2, y); ctx.scale(pop, pop);
+    if (style === "box" && active) {
+      const bw = widths[i] + size * 0.4, bh = size * 1.2;
+      ctx.save(); ctx.rotate(-0.03); ctx.fillStyle = accent; ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = 20; ctx.shadowOffsetY = 6;
+      ctx.beginPath(); ctx.roundRect(-bw / 2, -bh / 2, bw, bh, size * 0.22); ctx.fill(); ctx.restore();
+      ctx.font = `${size}px ${font}`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = "#0B0C12"; ctx.fillText(w.text, 0, size * 0.04);
+      ctx.restore(); x += widths[i] + space; return;
+    }
     ctx.font = `${size}px ${font}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.lineJoin = "round"; ctx.lineWidth = size * 0.2; ctx.strokeStyle = "#090b12";
     ctx.shadowColor = "rgba(0,0,0,.5)"; ctx.shadowBlur = 18; ctx.shadowOffsetY = 6;

@@ -424,7 +424,56 @@ def style_suspense(n, cfg):
     return mixL, mixR
 
 
-STYLES = {"suspense": style_suspense, "lofi": style_lofi, "trap": style_trap, "synthwave": style_synthwave, "cinematic": style_cinematic, "ukulele": style_ukulele}
+def style_drive(n, cfg):
+    """Upbeat explainer bed: four-on-the-floor kick, claps, plucky sidechained bass, offbeat stabs, 16th arp."""
+    beat = 60 / cfg.get("bpm", 120)
+    bar = 4 * beat
+    drop = cfg.get("drop", 0)
+    prog = [(45, [57, 60, 64]), (41, [57, 60, 65]), (48, [55, 60, 64]), (43, [55, 59, 62])]  # Am F C G
+    drums, bass, stab, arp = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n)
+    k, c, h, ho = kick(170, 52, 11, 0.35, 0.32), clap(), hat(cut=8000), hat(True, 7000)
+    hits = []
+    for b in range(int(n / SR / bar) + 1):
+        t0 = b * bar
+        root, ch = prog[b % 4]
+        for e in range(8):
+            note = root - 12 if e % 2 == 0 else root
+            add(bass, saw(midi(note), t_axis(beat / 2)) * np.exp(-t_axis(beat / 2) * 9), t0 + e * beat / 2, 1)
+        for off in (0.5, 1.5, 2.75, 3.5):
+            add(stab, supersaw(ch + [ch[0] + 12], beat * 0.4) * np.exp(-t_axis(beat * 0.4) * 9), t0 + off * beat, 1)
+        for e in range(16):
+            nt = (ch + [ch[0] + 12])[[0, 1, 2, 3, 2, 1, 3, 2][e % 8]] + 12
+            add(arp, square(midi(nt), t_axis(0.12)) * np.exp(-t_axis(0.12) * 22), t0 + e * beat / 4, 0.8 if e % 4 == 0 else 0.5)
+        for q in range(4):
+            tq = t0 + q * beat
+            if tq < drop:
+                if q % 2 == 0:
+                    add(drums, k, tq, 0.5)
+                continue
+            add(drums, k, tq, 1.0); hits.append(tq)
+            if q % 2 == 1:
+                add(drums, c, tq, 0.75)
+            add(drums, ho, tq + beat / 2, 0.22)
+            for e in range(4):
+                add(drums, h, tq + e * beat / 4, 0.16 if e % 2 else 0.1)
+        if b % 4 == 3 and t0 + bar > drop:  # snare-roll fill into the next phrase
+            for e in range(8):
+                add(drums, c, t0 + 3 * beat + e * beat / 8, 0.15 + e * 0.06)
+    side = _sidechain(n, hits, 0.75, 9, beat)
+    t = np.arange(n) / SR
+    pre = np.clip((t - drop + 0.05) / 0.05, 0, 1)  # 0 before the drop, 1 after
+    bass = lp(bass, 900) * side
+    stab = lp(stab, 3500) * side
+    arp = lp(arp, 3200)
+    arp = arp + np.roll(arp, int(beat * 0.75 * SR)) * 0.35
+    intro = lp(bass + stab, 600)
+    music = (bass * 0.5 + stab * 0.22) * pre + intro * 0.5 * (1 - pre)
+    mixL = drums * 0.9 + music + arp * 0.07 * (0.4 + 0.6 * pre)
+    mixR = drums * 0.9 + music + np.roll(arp, int(0.015 * SR)) * 0.07 * (0.4 + 0.6 * pre)
+    return mixL, mixR
+
+
+STYLES = {"drive": style_drive, "suspense": style_suspense, "lofi": style_lofi, "trap": style_trap, "synthwave": style_synthwave, "cinematic": style_cinematic, "ukulele": style_ukulele}
 
 
 # ---------------------------------------------------------------- sound effects
