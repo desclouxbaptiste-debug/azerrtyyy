@@ -1,0 +1,1238 @@
+{
+ "duration": 58.876,
+ "speed": 1.1886963594994313,
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.25,
+   "sentences": [
+    {
+     "text": "Des futurs pasteurs ont enjambé un homme à terre.",
+     "spoken": "Des futurs pasteurs ont enjambé un homme à terre.",
+     "start": 0.25,
+     "end": 2.57,
+     "words": [
+      {
+       "w": "Des",
+       "s": 0.25,
+       "e": 0.445
+      },
+      {
+       "w": "futurs",
+       "s": 0.445,
+       "e": 0.77
+      },
+      {
+       "w": "pasteurs",
+       "s": 0.77,
+       "e": 1.182
+      },
+      {
+       "w": "ont",
+       "s": 1.182,
+       "e": 1.378
+      },
+      {
+       "w": "enjambé",
+       "s": 1.378,
+       "e": 1.746
+      },
+      {
+       "w": "un",
+       "s": 1.746,
+       "e": 1.898
+      },
+      {
+       "w": "homme",
+       "s": 1.898,
+       "e": 2.18
+      },
+      {
+       "w": "à",
+       "s": 2.18,
+       "e": 2.288
+      },
+      {
+       "w": "terre.",
+       "s": 2.288,
+       "e": 2.57
+      }
+     ]
+    },
+    {
+     "text": "Pour aller faire un discours…",
+     "spoken": "Pour aller faire un discours…",
+     "start": 2.73,
+     "end": 3.867,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 2.73,
+       "e": 2.929
+      },
+      {
+       "w": "aller",
+       "s": 2.929,
+       "e": 3.163
+      },
+      {
+       "w": "faire",
+       "s": 3.163,
+       "e": 3.398
+      },
+      {
+       "w": "un",
+       "s": 3.398,
+       "e": 3.524
+      },
+      {
+       "w": "discours…",
+       "s": 3.524,
+       "e": 3.867
+      }
+     ]
+    },
+    {
+     "text": "sur l'entraide.",
+     "spoken": "sur l'entraide.",
+     "start": 4.027,
+     "end": 4.941,
+     "words": [
+      {
+       "w": "sur",
+       "s": 4.027,
+       "e": 4.301
+      },
+      {
+       "w": "l'entraide.",
+       "s": 4.301,
+       "e": 4.941
+      }
+     ]
+    }
+   ],
+   "end": 5.101
+  },
+  {
+   "id": "context",
+   "start": 5.421,
+   "sentences": [
+    {
+     "text": "Princeton, début des années 70.",
+     "spoken": "Prinnstonne, début des années 70.",
+     "start": 5.421,
+     "end": 7.387,
+     "words": [
+      {
+       "w": "Princeton,",
+       "s": 5.421,
+       "e": 5.999
+      },
+      {
+       "w": "début",
+       "s": 6.184,
+       "e": 6.485
+      },
+      {
+       "w": "des",
+       "s": 6.485,
+       "e": 6.693
+      },
+      {
+       "w": "années",
+       "s": 6.693,
+       "e": 7.04
+      },
+      {
+       "w": "70.",
+       "s": 7.04,
+       "e": 7.387
+      }
+     ]
+    },
+    {
+     "text": "Deux psychologues testent 40 étudiants en théologie.",
+     "spoken": "Deux psychologues testent 40 étudiants en théologie.",
+     "start": 7.547,
+     "end": 9.915,
+     "words": [
+      {
+       "w": "Deux",
+       "s": 7.547,
+       "e": 7.765
+      },
+      {
+       "w": "psychologues",
+       "s": 7.765,
+       "e": 8.303
+      },
+      {
+       "w": "testent",
+       "s": 8.303,
+       "e": 8.641
+      },
+      {
+       "w": "40",
+       "s": 8.641,
+       "e": 8.94
+      },
+      {
+       "w": "étudiants",
+       "s": 8.94,
+       "e": 9.358
+      },
+      {
+       "w": "en",
+       "s": 9.358,
+       "e": 9.497
+      },
+      {
+       "w": "théologie.",
+       "s": 9.497,
+       "e": 9.915
+      }
+     ]
+    }
+   ],
+   "end": 10.075
+  },
+  {
+   "id": "setup",
+   "start": 10.395,
+   "sentences": [
+    {
+     "text": "Mission : aller faire un discours dans un autre bâtiment.",
+     "spoken": "Mission : aller faire un discours dans un autre bâtiment.",
+     "start": 10.395,
+     "end": 12.916,
+     "words": [
+      {
+       "w": "Mission:",
+       "s": 10.395,
+       "e": 10.733
+      },
+      {
+       "w": "aller",
+       "s": 10.891,
+       "e": 11.149
+      },
+      {
+       "w": "faire",
+       "s": 11.149,
+       "e": 11.408
+      },
+      {
+       "w": "un",
+       "s": 11.408,
+       "e": 11.546
+      },
+      {
+       "w": "discours",
+       "s": 11.546,
+       "e": 11.924
+      },
+      {
+       "w": "dans",
+       "s": 11.924,
+       "e": 12.142
+      },
+      {
+       "w": "un",
+       "s": 12.142,
+       "e": 12.281
+      },
+      {
+       "w": "autre",
+       "s": 12.281,
+       "e": 12.539
+      },
+      {
+       "w": "bâtiment.",
+       "s": 12.539,
+       "e": 12.916
+      }
+     ]
+    },
+    {
+     "text": "Certains doivent parler du Bon Samaritain, celui qui aide un inconnu blessé.",
+     "spoken": "Certains doivent parler du Bon Samaritain, celui qui aide un inconnu blessé.",
+     "start": 13.076,
+     "end": 16.505,
+     "words": [
+      {
+       "w": "Certains",
+       "s": 13.076,
+       "e": 13.459
+      },
+      {
+       "w": "doivent",
+       "s": 13.459,
+       "e": 13.802
+      },
+      {
+       "w": "parler",
+       "s": 13.802,
+       "e": 14.105
+      },
+      {
+       "w": "du",
+       "s": 14.105,
+       "e": 14.246
+      },
+      {
+       "w": "Bon",
+       "s": 14.246,
+       "e": 14.427
+      },
+      {
+       "w": "Samaritain,",
+       "s": 14.427,
+       "e": 14.891
+      },
+      {
+       "w": "celui",
+       "s": 15.053,
+       "e": 15.315
+      },
+      {
+       "w": "qui",
+       "s": 15.315,
+       "e": 15.496
+      },
+      {
+       "w": "aide",
+       "s": 15.496,
+       "e": 15.718
+      },
+      {
+       "w": "un",
+       "s": 15.718,
+       "e": 15.859
+      },
+      {
+       "w": "inconnu",
+       "s": 15.859,
+       "e": 16.202
+      },
+      {
+       "w": "blessé.",
+       "s": 16.202,
+       "e": 16.505
+      }
+     ]
+    }
+   ],
+   "end": 16.665
+  },
+  {
+   "id": "hurry",
+   "start": 16.985,
+   "sentences": [
+    {
+     "text": "Avant le départ, on leur dit qu'ils ont le temps.",
+     "spoken": "Avant le départ, on leur dit qu'ils ont le temps.",
+     "start": 16.985,
+     "end": 18.992,
+     "words": [
+      {
+       "w": "Avant",
+       "s": 16.985,
+       "e": 17.218
+      },
+      {
+       "w": "le",
+       "s": 17.218,
+       "e": 17.343
+      },
+      {
+       "w": "départ,",
+       "s": 17.343,
+       "e": 17.612
+      },
+      {
+       "w": "on",
+       "s": 17.756,
+       "e": 17.881
+      },
+      {
+       "w": "leur",
+       "s": 17.881,
+       "e": 18.078
+      },
+      {
+       "w": "dit",
+       "s": 18.078,
+       "e": 18.24
+      },
+      {
+       "w": "qu'ils",
+       "s": 18.24,
+       "e": 18.473
+      },
+      {
+       "w": "ont",
+       "s": 18.473,
+       "e": 18.634
+      },
+      {
+       "w": "le",
+       "s": 18.634,
+       "e": 18.759
+      },
+      {
+       "w": "temps.",
+       "s": 18.759,
+       "e": 18.992
+      }
+     ]
+    },
+    {
+     "text": "Ou qu'on les attend tout de suite.",
+     "spoken": "Ou qu'on les attend tout de suite.",
+     "start": 19.152,
+     "end": 20.589,
+     "words": [
+      {
+       "w": "Ou",
+       "s": 19.152,
+       "e": 19.29
+      },
+      {
+       "w": "qu'on",
+       "s": 19.29,
+       "e": 19.507
+      },
+      {
+       "w": "les",
+       "s": 19.507,
+       "e": 19.684
+      },
+      {
+       "w": "attend",
+       "s": 19.684,
+       "e": 19.979
+      },
+      {
+       "w": "tout",
+       "s": 19.979,
+       "e": 20.196
+      },
+      {
+       "w": "de",
+       "s": 20.196,
+       "e": 20.334
+      },
+      {
+       "w": "suite.",
+       "s": 20.334,
+       "e": 20.589
+      }
+     ]
+    },
+    {
+     "text": "Ou qu'ils sont en retard.",
+     "spoken": "Ou qu'ils sont en retard.",
+     "start": 20.749,
+     "end": 21.842,
+     "words": [
+      {
+       "w": "Ou",
+       "s": 20.749,
+       "e": 20.894
+      },
+      {
+       "w": "qu'ils",
+       "s": 20.894,
+       "e": 21.162
+      },
+      {
+       "w": "sont",
+       "s": 21.162,
+       "e": 21.388
+      },
+      {
+       "w": "en",
+       "s": 21.388,
+       "e": 21.533
+      },
+      {
+       "w": "retard.",
+       "s": 21.533,
+       "e": 21.842
+      }
+     ]
+    }
+   ],
+   "end": 22.002
+  },
+  {
+   "id": "victim",
+   "start": 22.322,
+   "sentences": [
+    {
+     "text": "Sur le chemin, un homme est assis par terre, affalé contre une porte.",
+     "spoken": "Sur le chemin, un homme est assis par terre, affalé contre une porte.",
+     "start": 22.322,
+     "end": 25.591,
+     "words": [
+      {
+       "w": "Sur",
+       "s": 22.322,
+       "e": 22.502
+      },
+      {
+       "w": "le",
+       "s": 22.502,
+       "e": 22.643
+      },
+      {
+       "w": "chemin,",
+       "s": 22.643,
+       "e": 22.943
+      },
+      {
+       "w": "un",
+       "s": 23.104,
+       "e": 23.244
+      },
+      {
+       "w": "homme",
+       "s": 23.244,
+       "e": 23.505
+      },
+      {
+       "w": "est",
+       "s": 23.505,
+       "e": 23.686
+      },
+      {
+       "w": "assis",
+       "s": 23.686,
+       "e": 23.946
+      },
+      {
+       "w": "par",
+       "s": 23.946,
+       "e": 24.127
+      },
+      {
+       "w": "terre,",
+       "s": 24.127,
+       "e": 24.388
+      },
+      {
+       "w": "affalé",
+       "s": 24.548,
+       "e": 24.849
+      },
+      {
+       "w": "contre",
+       "s": 24.849,
+       "e": 25.15
+      },
+      {
+       "w": "une",
+       "s": 25.15,
+       "e": 25.33
+      },
+      {
+       "w": "porte.",
+       "s": 25.33,
+       "e": 25.591
+      }
+     ]
+    },
+    {
+     "text": "Il tousse.",
+     "spoken": "Il tousse.",
+     "start": 25.751,
+     "end": 26.449,
+     "words": [
+      {
+       "w": "Il",
+       "s": 25.751,
+       "e": 25.973
+      },
+      {
+       "w": "tousse.",
+       "s": 25.973,
+       "e": 26.449
+      }
+     ]
+    },
+    {
+     "text": "Il gémit.",
+     "spoken": "Il gémit.",
+     "start": 26.609,
+     "end": 27.235,
+     "words": [
+      {
+       "w": "Il",
+       "s": 26.609,
+       "e": 26.828
+      },
+      {
+       "w": "gémit.",
+       "s": 26.828,
+       "e": 27.235
+      }
+     ]
+    }
+   ],
+   "end": 27.395
+  },
+  {
+   "id": "result",
+   "start": 27.715,
+   "sentences": [
+    {
+     "text": "Avec du temps, 63 % aident l'homme.",
+     "spoken": "Avec du temps, 63 % aident l'homme.",
+     "start": 27.715,
+     "end": 29.941,
+     "words": [
+      {
+       "w": "Avec",
+       "s": 27.715,
+       "e": 27.99
+      },
+      {
+       "w": "du",
+       "s": 27.99,
+       "e": 28.165
+      },
+      {
+       "w": "temps,",
+       "s": 28.165,
+       "e": 28.49
+      },
+      {
+       "w": "63",
+       "s": 28.69,
+       "e": 29.066
+      },
+      {
+       "w": "%",
+       "s": 29.066,
+       "e": 29.191
+      },
+      {
+       "w": "aident",
+       "s": 29.191,
+       "e": 29.566
+      },
+      {
+       "w": "l'homme.",
+       "s": 29.566,
+       "e": 29.941
+      }
+     ]
+    },
+    {
+     "text": "Attendus tout de suite, 45 %.",
+     "spoken": "Attendus tout de suite, 45 %.",
+     "start": 30.101,
+     "end": 32.157,
+     "words": [
+      {
+       "w": "Attendus",
+       "s": 30.101,
+       "e": 30.602
+      },
+      {
+       "w": "tout",
+       "s": 30.602,
+       "e": 30.892
+      },
+      {
+       "w": "de",
+       "s": 30.892,
+       "e": 31.076
+      },
+      {
+       "w": "suite,",
+       "s": 31.076,
+       "e": 31.419
+      },
+      {
+       "w": "45",
+       "s": 31.63,
+       "e": 32.025
+      },
+      {
+       "w": "%.",
+       "s": 32.025,
+       "e": 32.157
+      }
+     ]
+    },
+    {
+     "text": "Et en retard, seulement 10 %.",
+     "spoken": "Et en retard, seulement 10 %.",
+     "start": 32.317,
+     "end": 33.879,
+     "words": [
+      {
+       "w": "Et",
+       "s": 32.317,
+       "e": 32.457
+      },
+      {
+       "w": "en",
+       "s": 32.457,
+       "e": 32.597
+      },
+      {
+       "w": "retard,",
+       "s": 32.597,
+       "e": 32.898
+      },
+      {
+       "w": "seulement",
+       "s": 33.058,
+       "e": 33.479
+      },
+      {
+       "w": "10",
+       "s": 33.479,
+       "e": 33.779
+      },
+      {
+       "w": "%.",
+       "s": 33.779,
+       "e": 33.879
+      }
+     ]
+    }
+   ],
+   "end": 34.039
+  },
+  {
+   "id": "irony",
+   "start": 34.359,
+   "sentences": [
+    {
+     "text": "Et certains ont même enjambé l'homme, pour aller parler du Bon Samaritain.",
+     "spoken": "Et certains ont même enjambé l'homme, pour aller parler du Bon Samaritain.",
+     "start": 34.359,
+     "end": 37.74,
+     "words": [
+      {
+       "w": "Et",
+       "s": 34.359,
+       "e": 34.503
+      },
+      {
+       "w": "certains",
+       "s": 34.503,
+       "e": 34.895
+      },
+      {
+       "w": "ont",
+       "s": 34.895,
+       "e": 35.081
+      },
+      {
+       "w": "même",
+       "s": 35.081,
+       "e": 35.307
+      },
+      {
+       "w": "enjambé",
+       "s": 35.307,
+       "e": 35.658
+      },
+      {
+       "w": "l'homme,",
+       "s": 35.658,
+       "e": 35.967
+      },
+      {
+       "w": "pour",
+       "s": 36.132,
+       "e": 36.359
+      },
+      {
+       "w": "aller",
+       "s": 36.359,
+       "e": 36.627
+      },
+      {
+       "w": "parler",
+       "s": 36.627,
+       "e": 36.936
+      },
+      {
+       "w": "du",
+       "s": 36.936,
+       "e": 37.08
+      },
+      {
+       "w": "Bon",
+       "s": 37.08,
+       "e": 37.266
+      },
+      {
+       "w": "Samaritain.",
+       "s": 37.266,
+       "e": 37.74
+      }
+     ]
+    }
+   ],
+   "end": 37.9
+  },
+  {
+   "id": "why",
+   "start": 38.22,
+   "sentences": [
+    {
+     "text": "Pourquoi ?",
+     "spoken": "Pourquoi ?",
+     "start": 38.22,
+     "end": 38.842,
+     "words": [
+      {
+       "w": "Pourquoi?",
+       "s": 38.22,
+       "e": 38.842
+      }
+     ]
+    },
+    {
+     "text": "Quand tu es pressé, tu ne vois plus que ton objectif.",
+     "spoken": "Quand tu es pressé, tu ne vois plus que ton objectif.",
+     "start": 39.002,
+     "end": 41.319,
+     "words": [
+      {
+       "w": "Quand",
+       "s": 39.002,
+       "e": 39.247
+      },
+      {
+       "w": "tu",
+       "s": 39.247,
+       "e": 39.379
+      },
+      {
+       "w": "es",
+       "s": 39.379,
+       "e": 39.511
+      },
+      {
+       "w": "pressé,",
+       "s": 39.511,
+       "e": 39.793
+      },
+      {
+       "w": "tu",
+       "s": 39.944,
+       "e": 40.076
+      },
+      {
+       "w": "ne",
+       "s": 40.076,
+       "e": 40.208
+      },
+      {
+       "w": "vois",
+       "s": 40.208,
+       "e": 40.415
+      },
+      {
+       "w": "plus",
+       "s": 40.415,
+       "e": 40.622
+      },
+      {
+       "w": "que",
+       "s": 40.622,
+       "e": 40.791
+      },
+      {
+       "w": "ton",
+       "s": 40.791,
+       "e": 40.961
+      },
+      {
+       "w": "objectif.",
+       "s": 40.961,
+       "e": 41.319
+      }
+     ]
+    },
+    {
+     "text": "Certains ne réalisent même pas qu'il a besoin d'aide.",
+     "spoken": "Certains ne réalisent même pas qu'il a besoin d'aide.",
+     "start": 41.479,
+     "end": 43.698,
+     "words": [
+      {
+       "w": "Certains",
+       "s": 41.479,
+       "e": 41.859
+      },
+      {
+       "w": "ne",
+       "s": 41.859,
+       "e": 41.999
+      },
+      {
+       "w": "réalisent",
+       "s": 41.999,
+       "e": 42.419
+      },
+      {
+       "w": "même",
+       "s": 42.419,
+       "e": 42.638
+      },
+      {
+       "w": "pas",
+       "s": 42.638,
+       "e": 42.818
+      },
+      {
+       "w": "qu'il",
+       "s": 42.818,
+       "e": 43.038
+      },
+      {
+       "w": "a",
+       "s": 43.038,
+       "e": 43.138
+      },
+      {
+       "w": "besoin",
+       "s": 43.138,
+       "e": 43.438
+      },
+      {
+       "w": "d'aide.",
+       "s": 43.438,
+       "e": 43.698
+      }
+     ]
+    },
+    {
+     "text": "D'autres le voient, mais ne veulent pas faire attendre le chercheur.",
+     "spoken": "D'autres le voient, mais ne veulent pas faire attendre le chercheur.",
+     "start": 43.858,
+     "end": 46.346,
+     "words": [
+      {
+       "w": "D'autres",
+       "s": 43.858,
+       "e": 44.138
+      },
+      {
+       "w": "le",
+       "s": 44.138,
+       "e": 44.254
+      },
+      {
+       "w": "voient,",
+       "s": 44.254,
+       "e": 44.501
+      },
+      {
+       "w": "mais",
+       "s": 44.633,
+       "e": 44.814
+      },
+      {
+       "w": "ne",
+       "s": 44.814,
+       "e": 44.929
+      },
+      {
+       "w": "veulent",
+       "s": 44.929,
+       "e": 45.209
+      },
+      {
+       "w": "pas",
+       "s": 45.209,
+       "e": 45.358
+      },
+      {
+       "w": "faire",
+       "s": 45.358,
+       "e": 45.572
+      },
+      {
+       "w": "attendre",
+       "s": 45.572,
+       "e": 45.885
+      },
+      {
+       "w": "le",
+       "s": 45.885,
+       "e": 46.0
+      },
+      {
+       "w": "chercheur.",
+       "s": 46.0,
+       "e": 46.346
+      }
+     ]
+    }
+   ],
+   "end": 46.506
+  },
+  {
+   "id": "example",
+   "start": 46.826,
+   "sentences": [
+    {
+     "text": "Toi aussi, en courant vers ton métro, combien de personnes tu ne vois plus ?",
+     "spoken": "Toi aussi, en courant vers ton métro, combien de personnes tu ne vois plus ?",
+     "start": 46.826,
+     "end": 50.147,
+     "words": [
+      {
+       "w": "Toi",
+       "s": 46.826,
+       "e": 46.996
+      },
+      {
+       "w": "aussi,",
+       "s": 46.996,
+       "e": 47.242
+      },
+      {
+       "w": "en",
+       "s": 47.392,
+       "e": 47.525
+      },
+      {
+       "w": "courant",
+       "s": 47.525,
+       "e": 47.845
+      },
+      {
+       "w": "vers",
+       "s": 47.845,
+       "e": 48.053
+      },
+      {
+       "w": "ton",
+       "s": 48.053,
+       "e": 48.223
+      },
+      {
+       "w": "métro,",
+       "s": 48.223,
+       "e": 48.468
+      },
+      {
+       "w": "combien",
+       "s": 48.619,
+       "e": 48.94
+      },
+      {
+       "w": "de",
+       "s": 48.94,
+       "e": 49.072
+      },
+      {
+       "w": "personnes",
+       "s": 49.072,
+       "e": 49.468
+      },
+      {
+       "w": "tu",
+       "s": 49.468,
+       "e": 49.6
+      },
+      {
+       "w": "ne",
+       "s": 49.6,
+       "e": 49.732
+      },
+      {
+       "w": "vois",
+       "s": 49.732,
+       "e": 49.94
+      },
+      {
+       "w": "plus?",
+       "s": 49.94,
+       "e": 50.147
+      }
+     ]
+    }
+   ],
+   "end": 50.307
+  },
+  {
+   "id": "takeaway",
+   "start": 50.627,
+   "sentences": [
+    {
+     "text": "Ils n'étaient que 40, mais la leçon reste : ta gentillesse dépend souvent de ton agenda.",
+     "spoken": "Ils n'étaient que 40, mais la leçon reste : ta gentillesse dépend souvent de ton agenda.",
+     "start": 50.627,
+     "end": 55.132,
+     "words": [
+      {
+       "w": "Ils",
+       "s": 50.627,
+       "e": 50.823
+      },
+      {
+       "w": "n'étaient",
+       "s": 50.823,
+       "e": 51.237
+      },
+      {
+       "w": "que",
+       "s": 51.237,
+       "e": 51.432
+      },
+      {
+       "w": "40,",
+       "s": 51.432,
+       "e": 51.759
+      },
+      {
+       "w": "mais",
+       "s": 51.933,
+       "e": 52.172
+      },
+      {
+       "w": "la",
+       "s": 52.172,
+       "e": 52.325
+      },
+      {
+       "w": "leçon",
+       "s": 52.325,
+       "e": 52.608
+      },
+      {
+       "w": "reste:",
+       "s": 52.608,
+       "e": 52.891
+      },
+      {
+       "w": "ta",
+       "s": 53.065,
+       "e": 53.217
+      },
+      {
+       "w": "gentillesse",
+       "s": 53.217,
+       "e": 53.761
+      },
+      {
+       "w": "dépend",
+       "s": 53.761,
+       "e": 54.088
+      },
+      {
+       "w": "souvent",
+       "s": 54.088,
+       "e": 54.458
+      },
+      {
+       "w": "de",
+       "s": 54.458,
+       "e": 54.61
+      },
+      {
+       "w": "ton",
+       "s": 54.61,
+       "e": 54.806
+      },
+      {
+       "w": "agenda.",
+       "s": 54.806,
+       "e": 55.132
+      }
+     ]
+    }
+   ],
+   "end": 55.292
+  },
+  {
+   "id": "cta",
+   "start": 55.612,
+   "sentences": [
+    {
+     "text": "Et toi, en retard, tu te serais arrêté ?",
+     "spoken": "Et toi, en retard, tu te serais arrêté ?",
+     "start": 55.612,
+     "end": 57.519,
+     "words": [
+      {
+       "w": "Et",
+       "s": 55.612,
+       "e": 55.748
+      },
+      {
+       "w": "toi,",
+       "s": 55.748,
+       "e": 55.924
+      },
+      {
+       "w": "en",
+       "s": 56.079,
+       "e": 56.215
+      },
+      {
+       "w": "retard,",
+       "s": 56.215,
+       "e": 56.507
+      },
+      {
+       "w": "tu",
+       "s": 56.663,
+       "e": 56.799
+      },
+      {
+       "w": "te",
+       "s": 56.799,
+       "e": 56.935
+      },
+      {
+       "w": "serais",
+       "s": 56.935,
+       "e": 57.227
+      },
+      {
+       "w": "arrêté?",
+       "s": 57.227,
+       "e": 57.519
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 57.679,
+     "end": 58.716,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 57.679,
+       "e": 57.979
+      },
+      {
+       "w": "en",
+       "s": 57.979,
+       "e": 58.14
+      },
+      {
+       "w": "commentaire.",
+       "s": 58.14,
+       "e": 58.716
+      }
+     ]
+    }
+   ],
+   "end": 58.876
+  }
+ ]
+}

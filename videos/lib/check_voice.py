@@ -33,6 +33,8 @@ scores = []
 for seg in tim["segments"]:
     for st in seg["sentences"]:
         a = audio[int(st["start"] * sr): int(st["end"] * sr)]
+        pad = np.zeros(int(0.5 * sr), dtype=np.float32)  # Whisper drops the last word of clips that end abruptly
+        a = np.concatenate([pad, a, pad])
         s = rec.create_stream()
         s.accept_waveform(sr, np.ascontiguousarray(a))
         rec.decode_stream(s)

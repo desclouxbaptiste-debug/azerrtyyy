@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "MontX"; src: url("../fonts/Montserrat-800.ttf"); }
+  @font-face { font-family: "MontS"; src: url("../fonts/Montserrat-600.ttf"); }
+  html, body { margin: 0; background: #000; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="../lib/core.js"></script>
+<script src="../lib/icons.js"></script>
+<script src="../lib/narration.js"></script>
+<script>
+// « Le Bon Samaritain » (Darley & Batson, 1973) — vidéo narrée 60 s, motion design 2D.
+// Les visuels de chaque segment sont calés sur la voix off (timings.json écrit par lib/tts.py).
+const FPS = 30;
+const COL = { bg: "#0E1322", student: "#FFC93C", victim: "#8EA2B8", staff: "#F4EFE6", red: "#FF4D4D", cyan: "#4DD6FF", orange: "#FFB13D", green: "#3DDC84", ink: "#151824", dim: "rgba(255,255,255,.45)" };
+const grains = makeGrain(4, 11);
+let T, SEG, CARDS, ORDER, DURATION;
+
+// ---------------------------------------------------------------- shared pieces
+function background(t) {
+  ctx.fillStyle = COL.bg; ctx.fillRect(0, 0, W, H);
+  const blobs = [["rgba(77,214,255,.10)", 0.2, 0.25], ["rgba(255,201,60,.08)", 0.85, 0.55], ["rgba(255,77,77,.07)", 0.3, 0.85]];
+  blobs.forEach(([c, x, y], i) => {
+    const cx = W * (x + 0.06 * Math.sin(t * 0.3 + i * 2)), cy = H * (y + 0.04 * Math.cos(t * 0.25 + i));
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 700); g.addColorStop(0, c); g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  });
+  ctx.fillStyle = "rgba(255,255,255,.05)";
+  const off = (t * 12) % 60;
+  for (let y = -60; y < H + 60; y += 60) for (let x = 0; x < W + 60; x += 60) { ctx.beginPath(); ctx.arc(x - off, y + off * 0.5, 2.2, 0, 6.29); ctx.fill(); }
+}
+
+function chrome(t) {
+  // top label + progress (kept below the TikTok top bar)
+  ctx.save();
+  ctx.font = "30px MontX"; ctx.letterSpacing = "3px";
+  const label = "EXPÉRIENCE RÉELLE · PRINCETON";
+  const w = ctx.measureText(label).width + 56;
+  ctx.fillStyle = "rgba(255,255,255,.08)"; ctx.beginPath(); ctx.roundRect(60, 186, w, 54, 27); ctx.fill();
+  ctx.fillStyle = COL.red; ctx.beginPath(); ctx.arc(86, 213, 8 + Math.sin(t * 5) * 1.5, 0, 6.29); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.textBaseline = "middle"; ctx.fillText(label, 104, 215);
+  ctx.restore();
+  ctx.fillStyle = "rgba(255,255,255,.12)"; ctx.fillRect(60, 262, 960, 6);
+  ctx.fillStyle = COL.student; ctx.fillRect(60, 262, 960 * clamp(t / DURATION), 6);
+}
+
+function pop(t, t0, d = 0.35) { return easeOutBack(prog(t, t0, t0 + d), 2); }
+function fadeIn(t, t0, d = 0.3) { return easeOutCubic(prog(t, t0, t0 + d)); }
+
+function bigTitle(str, x, y, size, color, t, t0, o = {}) {
+  const p = easeOutExpo(prog(t, t0, t0 + 0.5)); if (p <= 0) return;
+  ctx.save(); ctx.beginPath(); ctx.rect(0, y - size * 0.75, W, size * 1.5); ctx.clip();
+  txt(str, x, y + (1 - p) * size * 1.2, size, "MontX", color, { spacing: o.spacing || 0, glow: o.glow, blur: 40, align: o.align || "center" });
+  ctx.restore();
+}
+
+function doorway(x, y, s, t) {
+  // dark door in a wall with a warm lamp above
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  ctx.fillStyle = "#2A3044"; ctx.beginPath(); ctx.roundRect(-150, -330, 300, 330, 10); ctx.fill();
+  ctx.fillStyle = "#070910"; ctx.beginPath(); ctx.roundRect(-85, -250, 170, 250, [80, 80, 0, 0]); ctx.fill();
+  const g = ctx.createRadialGradient(0, -290, 0, 0, -290, 220); g.addColorStop(0, "rgba(255,190,110,.55)"); g.addColorStop(1, "rgba(255,190,110,0)");
+  ctx.fillStyle = g; ctx.fillRect(-220, -500, 440, 500);
+  ctx.fillStyle = "#FFE2B0"; ctx.beginPath(); ctx.arc(0, -292, 10, 0, 6.29); ctx.fill();
+  ctx.restore();
+}
+function ground(y) { ctx.fillStyle = "rgba(255,255,255,.08)"; ctx.fillRect(0, y, W, 4); }
+
+function coughWaves(x, y, t, t0) {
+  const p = prog(t, t0, t0 + 0.8); if (p <= 0 || p >= 1) return;
+  ctx.save(); ctx.strokeStyle = `rgba(255,255,255,${0.8 * (1 - p)})`; ctx.lineWidth = 6; ctx.lineCap = "round";
+  for (let k = 0; k < 3; k++) { const r = 30 + k * 26 + p * 40; ctx.beginPath(); ctx.arc(x, y, r, -0.9, 0.2); ctx.stroke(); }
+  ctx.restore();
+}
+
+// pastor crossing the street and stepping over the man; u = 0..1 across the screen
+function crossing(t, u, { groundY, victimX, size = 300, slow = false } = {}) {
+  const x = lerp(-160, 1240, u);
+  const d = (x - victimX) / (size * 0.75);
+  const jump = Math.abs(d) < 1 ? Math.cos(d * Math.PI / 2) * size * 0.5 : 0;
+  const y = groundY - 0.74 * size - jump;
+  iconPerson(x, y, size, COL.student, { pose: Math.abs(d) < 1 ? "run" : "walk", phase: x / (slow ? 30 : 24), collar: true });
+  ctx.save(); ctx.translate(x - size * 0.28, y + size * 0.02); ctx.rotate(-0.25); iconBook(0, 0, size * 0.32, {}); ctx.restore();
+  return { x, y };
+}
+const slumpedY = (gY, size) => gY - 0.62 * size;
+
+// ---------------------------------------------------------------- segments
+const DRAW = {
+  hook(s, t) {
+    const gY = 1180, vx = 620, vs = 300;
+    doorway(vx + 20, gY, 1.75, t); ground(gY);
+    iconPerson(vx, slumpedY(gY, vs), vs, COL.victim, { pose: "slumped" });
+    const tj = wordTime(s, "enjamb");
+    const u = t < tj ? lerp(0.0, 0.52, easeOutCubic(prog(t, s.start, tj + 0.2))) : lerp(0.52, 1.08, easeIn(prog(t, tj + 0.2, tj + 1.5)));
+    crossing(t, u, { groundY: gY, victimX: vx });
+    const tb = wordTime(s, "l'entraide");
+    if (t > tb - 0.1) {
+      iconBubble(540, 470, 640, 160, "« L'ENTRAIDE »", { p: prog(t, tb - 0.1, tb + 0.25), size: 66 });
+      const q = pop(t, tb + 0.45);
+      if (q > 0) txt("?!", 900, 340, 190 * q, "MontX", COL.red, { glow: "rgba(255,77,77,.7)", blur: 50 });
+    }
+  },
+  context(s, t) {
+    bigTitle("PRINCETON", 540, 430, 160, "#fff", t, s.start + 0.05, { spacing: 4 });
+    bigTitle("DÉBUT DES ANNÉES 70", 540, 570, 64, COL.student, t, s.start + 0.3, { spacing: 2, glow: "rgba(255,201,60,.4)" });
+    const t40 = wordTime(s, "40");
+    for (let i = 0; i < 40; i++) {
+      const p = pop(t, t40 - 0.25 + i * 0.022, 0.3); if (p <= 0) continue;
+      const cx = 148 + (i % 8) * 112, cy = 735 + Math.floor(i / 8) * 108;
+      ctx.save(); ctx.translate(cx, cy); ctx.scale(p, p); iconPerson(0, 0, 64, i % 7 === 3 ? COL.cyan : COL.student, { collar: true }); ctx.restore();
+    }
+  },
+  setup(s, t) {
+    const A = [250, 560], B = [830, 960];
+    const pa = pop(t, s.start + 0.05), pb = pop(t, s.start + 0.3);
+    if (pa > 0) iconBuilding(A[0], A[1], 260 * pa, "#DDD3C3", { label: "PRÉPARATION" });
+    if (pb > 0) iconBuilding(B[0], B[1], 260 * pb, "#D3CADB", { label: "DISCOURS" });
+    const pts = [[A[0] + 110, A[1] + 185], [560, 760], [600, 900], [B[0] - 170, B[1] + 110]];
+    const pp = easeInOut(prog(t, s.start + 0.5, s.start + 2.4));
+    drawPath(pts, pp, { color: "rgba(255,255,255,.45)", width: 10, offset: -t * 40 });
+    if (pp > 0.02 && pp < 0.999) { const [x, y] = pointOnPath(pts, pp); iconPerson(x, y - 110, 150, COL.student, { pose: "walk", phase: t * 8, collar: true }); }
+    const tb = wordTime(s, "bon");
+    const b = pop(t, tb - 0.15);
+    if (b > 0) {
+      ctx.save(); ctx.translate(310, 1060); ctx.scale(b, b);
+      ctx.fillStyle = "rgba(20,26,44,.92)"; ctx.strokeStyle = COL.student; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.roundRect(-250, -170, 500, 330, 30); ctx.fill(); ctx.stroke();
+      iconBook(-130, -10, 140, { open: 1 });
+      iconPerson(60, 30, 110, COL.green, { pose: "point" });
+      iconPerson(170, 62, 100, COL.victim, { pose: "slumped" });
+      txt("LE BON SAMARITAIN", 0, -125, 40, "MontX", COL.student, { spacing: 1 });
+      ctx.restore();
+    }
+  },
+  hurry(s, t) {
+    bigTitle("ON LEUR DIT :", 540, 400, 70, "rgba(255,255,255,.9)", t, s.start + 0.05, { spacing: 3 });
+    const rows = [
+      { w: "temps", label: "TU AS LE TEMPS", col: COL.cyan, speed: 0.4, y: 590 },
+      { w: "attend", label: "ON T'ATTEND", col: COL.orange, speed: 3, y: 840 },
+      { w: "retard", label: "TU ES EN RETARD !", col: COL.red, speed: 14, y: 1090 },
+    ];
+    rows.forEach((r, i) => {
+      const t0 = wordTime(s, r.w, i * 1.4) - 0.4, p = pop(t, t0); if (p <= 0) return;
+      const shake = i === 2 ? Math.sin(t * 60) * 8 * Math.exp(-(t - t0 - 0.3) * 2) : 0;
+      ctx.save(); ctx.translate(540 + shake, r.y); ctx.scale(p, p);
+      ctx.fillStyle = "rgba(255,255,255,.07)"; ctx.strokeStyle = r.col; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.roundRect(-470, -105, 940, 210, 40); ctx.fill(); ctx.stroke();
+      iconClock(-345, 8, 160, (t - t0) * r.speed * 60 + 50, { ring: r.col, glow: i === 2 ? r.col : null });
+      txt(r.label, 95, 4, r.label.length > 14 ? 58 : 66, "MontX", r.col);
+      ctx.restore();
+    });
+  },
+  victim(s, t) {
+    const lt = t - s.start, z = 1 + lt * 0.04;
+    ctx.save(); ctx.translate(540, 950); ctx.scale(z, z); ctx.translate(-540, -950);
+    const gY = 1200, vs = 380, vx = 520, vy = slumpedY(gY, vs);
+    doorway(540, gY, 2.1, t); ground(gY);
+    iconPerson(vx, vy, vs, COL.victim, { pose: "slumped" });
+    const hx = vx + 0.04 * vs, hy = vy - 0.38 * vs;
+    [["tousse", -70], ["gémit", 10]].forEach(([w, dy]) => {
+      const tw = wordTime(s, w, 2);
+      coughWaves(hx + 40, hy, t, tw - 0.05);
+      const a = fadeIn(t, tw - 0.05, 0.2) * (1 - prog(t, tw + 1.0, tw + 1.3));
+      if (a > 0) txt(`*${w}*`, 820, hy + dy - 80, 58, "MontS", "#fff", { alpha: a });
+    });
+    ctx.restore();
+    const tag = pop(t, s.start + 0.5);
+    if (tag > 0) {
+      ctx.save(); ctx.translate(250, 420); ctx.scale(tag, tag); ctx.rotate(-0.06);
+      ctx.fillStyle = COL.student; ctx.beginPath(); ctx.roundRect(-170, -48, 340, 96, 22); ctx.fill();
+      txt("UN ACTEUR", 0, 4, 52, "MontX", COL.ink); ctx.restore();
+    }
+  },
+  result(s, t) {
+    const rows = [
+      { w: "63", pct: 63, col: COL.cyan, label: "AVEC DU TEMPS", speed: 0.4 },
+      { w: "45", pct: 45, col: COL.orange, label: "ATTENDUS", speed: 3 },
+      { w: "10", pct: 10, col: COL.red, label: "EN RETARD", speed: 14 },
+    ];
+    bigTitle("ONT AIDÉ L'HOMME", 540, 400, 74, "#fff", t, s.start + 0.05, { spacing: 2 });
+    rows.forEach((c, i) => {
+      const tw = wordTime(s, c.w, i * 1.6) - 0.3, p = pop(t, tw - 0.15); if (p <= 0) return;
+      const y = 610 + i * 250, x0 = 300, len = 560;
+      const shake = i === 2 ? Math.sin(t * 70) * 9 * Math.exp(-(t - tw) * 3) : 0;
+      ctx.save(); ctx.translate(shake, 0); ctx.globalAlpha = clamp(p);
+      iconClock(150, y + 10, 150, (t - tw) * c.speed * 60 + 50, { ring: c.col });
+      ctx.lineWidth = 56; ctx.lineCap = "round"; ctx.strokeStyle = "rgba(255,255,255,.1)";
+      ctx.beginPath(); ctx.moveTo(x0, y + 10); ctx.lineTo(x0 + len, y + 10); ctx.stroke();
+      const fp = prog(t, tw, tw + 0.7), v = fp > 0.97 ? c.pct : c.pct * easeOutExpo(fp);
+      ctx.strokeStyle = c.col; ctx.shadowColor = c.col; ctx.shadowBlur = 30;
+      ctx.beginPath(); ctx.moveTo(x0, y + 10); ctx.lineTo(x0 + len * v / 100 + 0.1, y + 10); ctx.stroke(); ctx.shadowBlur = 0;
+      txt(`${Math.round(v)} %`, x0 + len, y - 70, 90, "MontX", "#fff", { align: "right" });
+      txt(c.label, x0, y + 78, 38, "MontX", c.col, { align: "left", spacing: 2 });
+      ctx.restore();
+    });
+  },
+  irony(s, t) {
+    const lt = t - s.start, gY = 1180, vx = 600, vs = 300;
+    ctx.fillStyle = "rgba(255,77,77,.06)"; ctx.fillRect(0, 0, W, H);
+    doorway(vx + 20, gY, 1.75, t); ground(gY);
+    iconPerson(vx, slumpedY(gY, vs), vs, COL.victim, { pose: "slumped" });
+    const dur = s.next - s.start, u = lerp(0.12, 0.92, prog(lt, 0.1, dur - 0.1));
+    const { x } = crossing(t, u, { groundY: gY, victimX: vx, slow: true });
+    const tb = wordTime(s, "bon");
+    if (t > tb - 0.3) iconBubble(clamp(x, 330, 750), 520, 600, 140, "« BON SAMARITAIN »", { p: prog(t, tb - 0.3, tb), size: 54, bg: COL.student });
+    ctx.save(); ctx.fillStyle = COL.red; ctx.beginPath(); ctx.roundRect(700, 300, 320, 70, 35); ctx.fill(); ctx.restore();
+    txt("⏵ RALENTI", 860, 337, 38, "MontX", "#fff");
+  },
+  why(s, t) {
+    const lt = t - s.start, dur = s.next - s.start;
+    const tObj = wordTime(s, "objectif", 2), tNot = wordTime(s, "réalisent", 3.4), tSee = wordTime(s, "voient", 5.6);
+    const tunnel = easeInOut(prog(t, s.start + 0.5, tObj + 0.3)) * (1 - 0.75 * easeInOut(prog(t, tNot - 0.5, tNot)));
+    iconBuilding(860, 520, 220, "#D3CADB", { label: "OBJECTIF" });
+    const vx = 250, vy = slumpedY(1190, 230);
+    iconPerson(vx, vy, 230, COL.victim, { pose: "slumped" });
+    const px = lerp(130, 470, prog(lt, 0, dur)), py = 650;
+    if (tunnel > 0.01) {
+      ctx.save();
+      ctx.fillStyle = `rgba(5,7,14,${0.85 * tunnel})`;
+      ctx.beginPath(); ctx.rect(0, 0, W, H);
+      ctx.moveTo(px + 40, py - 110); ctx.lineTo(1010, 340); ctx.lineTo(1010, 700); ctx.lineTo(px + 40, py + 60); ctx.closePath();
+      ctx.fill("evenodd"); ctx.restore();
+    }
+    iconPerson(px, py, 200, COL.student, { pose: "walk", phase: t * 7, collar: true });
+    const a = pop(t, tNot - 0.2);
+    if (a > 0) { // he sees the man, but does not register that he needs help
+      ctx.save(); ctx.translate(vx + 20, 880); ctx.scale(a, a);
+      ctx.fillStyle = "rgba(20,26,44,.95)"; ctx.strokeStyle = COL.red; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.roundRect(-175, -55, 350, 110, 24); ctx.fill(); ctx.stroke();
+      txt("BESOIN D'AIDE ?", 0, 4, 40, "MontX", "rgba(255,255,255,.85)");
+      ctx.strokeStyle = COL.red; ctx.lineWidth = 10; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(-175, 55); ctx.lineTo(175, -55); ctx.stroke();
+      ctx.restore();
+    }
+    const b = pop(t, tSee - 0.2);
+    if (b > 0) {
+      ctx.save(); ctx.translate(800, 1080); ctx.scale(b, b);
+      iconPerson(0, 0, 170, COL.staff, { pose: "stand" });
+      iconClock(130, -150, 110, t * 300, { ring: COL.red });
+      ctx.restore();
+      iconBubble(780, 850, 340, 100, "Il m'attend…", { p: prog(t, tSee + 0.3, tSee + 0.6), size: 40, tail: "left" });
+    }
+  },
+  example(s, t) {
+    const lt = t - s.start, gY = 1180;
+    const m = pop(t, s.start + 0.05);
+    if (m > 0) {
+      ctx.save(); ctx.translate(210, 450); ctx.scale(m, m);
+      ctx.fillStyle = "#F4EFE6"; ctx.beginPath(); ctx.arc(0, 0, 85, 0, 6.29); ctx.fill();
+      txt("M", 0, 7, 112, "MontX", COL.ink); ctx.restore();
+      txt("8 h 47", 350, 455, 84, "MontX", COL.red, { align: "left", alpha: clamp(m) });
+    }
+    ground(gY);
+    iconPerson(560, slumpedY(gY, 240), 240, COL.victim, { pose: "slumped" });
+    for (let k = 0; k < 6; k++) {
+      const x = ((lt * 560 + k * 270) % 1620) - 260, lane = k % 2 ? 40 : 0, sz = 230;
+      iconPerson(x, gY - 0.74 * sz - 10 + lane, sz, k % 3 === 0 ? COL.student : "#E8E2D6", { pose: "run", phase: x / 26 });
+      ctx.strokeStyle = "rgba(255,255,255,.25)"; ctx.lineWidth = 6; ctx.lineCap = "round";
+      for (let j = 0; j < 3; j++) { ctx.beginPath(); ctx.moveTo(x - 110 - j * 6, gY - 290 + j * 44 + lane); ctx.lineTo(x - 190 - j * 16, gY - 290 + j * 44 + lane); ctx.stroke(); }
+    }
+  },
+  takeaway(s, t) {
+    const t40 = wordTime(s, "40");
+    const a = pop(t, t40 - 0.3);
+    if (a > 0) {
+      ctx.save(); ctx.translate(540, 450); ctx.scale(a, a);
+      ctx.fillStyle = "rgba(255,177,61,.12)"; ctx.strokeStyle = COL.orange; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.roundRect(-430, -75, 860, 150, 34); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = COL.orange; ctx.beginPath(); ctx.moveTo(-370, 40); ctx.lineTo(-325, -40); ctx.lineTo(-280, 40); ctx.closePath(); ctx.fill();
+      txt("!", -325, 16, 50, "MontX", COL.ink);
+      txt("PETIT ÉCHANTILLON : 40", 60, 4, 50, "MontX", COL.orange);
+      ctx.restore();
+    }
+    const tg = wordTime(s, "gentillesse", 2), ta = wordTime(s, "agenda", 3.4);
+    const h = pop(t, tg - 0.2), c = pop(t, ta - 0.3);
+    if (h > 0) heart(540 - 230 * clamp(c), 880, 230 * h * (1 - 0.25 * clamp(c)));
+    if (c > 0) { txt("=", 540 - 30, 880, 120 * clamp(c), "MontX", "#fff"); calendar(600, 890, 360 * c, t, ta); }
+  },
+  cta(s, t) {
+    const lt = t - s.start, ta = s.start + 0.1;
+    const opts = [{ label: "JE M'ARRÊTE", col: COL.green, y: 560 }, { label: "JE CONTINUE", col: COL.red, y: 790 }];
+    opts.forEach((o, i) => {
+      const p = pop(t, ta + i * 0.2); if (p <= 0) return;
+      const hl = Math.floor(lt * 2.2) % 2 === i;
+      ctx.save(); ctx.translate(540, o.y); ctx.scale(p * (hl ? 1.05 : 1), p * (hl ? 1.05 : 1));
+      ctx.fillStyle = hl ? o.col : "rgba(255,255,255,.08)"; ctx.strokeStyle = o.col; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.roundRect(-420, -90, 840, 180, 90); ctx.fill(); ctx.stroke();
+      txt(o.label, 0, 5, 76, "MontX", hl ? COL.ink : o.col);
+      ctx.restore();
+    });
+    const c = pop(t, wordTime(s, "commentaire", 2.4) - 0.3);
+    if (c > 0) {
+      iconBubble(540, 1020, 340, 140, "", { p: c, bg: "#F4EFE6" });
+      for (let k = 0; k < 3; k++) { ctx.fillStyle = COL.ink; ctx.beginPath(); ctx.arc(470 + k * 70, 1023 - 14 * Math.max(0, Math.sin(t * 8 - k)), 17 * clamp(c), 0, 6.29); ctx.fill(); }
+    }
+    txt("Source : Darley & Batson (1973), Journal of Personality and Social Psychology", 540, 1205, 25, "MontS", "rgba(255,255,255,.55)");
+  },
+};
+
+function eye(open) {
+  ctx.save();
+  ctx.fillStyle = "#F4EFE6"; ctx.beginPath(); ctx.moveTo(-90, 0); ctx.quadraticCurveTo(0, -80, 90, 0); ctx.quadraticCurveTo(0, 80, -90, 0); ctx.fill();
+  ctx.fillStyle = COL.ink; ctx.beginPath(); ctx.arc(0, 0, 30, 0, 6.29); ctx.fill();
+  if (!open) { ctx.strokeStyle = COL.red; ctx.lineWidth = 16; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(-90, -70); ctx.lineTo(90, 70); ctx.stroke(); }
+  ctx.restore();
+}
+function heart(x, y, s) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s / 100, s / 100);
+  ctx.fillStyle = COL.red; ctx.shadowColor = COL.red; ctx.shadowBlur = 40;
+  ctx.beginPath(); ctx.moveTo(0, 35); ctx.bezierCurveTo(-60, -5, -55, -60, 0, -30); ctx.bezierCurveTo(55, -60, 60, -5, 0, 35); ctx.fill();
+  ctx.restore();
+}
+function calendar(x, y, s, t, t0) {
+  ctx.save(); ctx.translate(x + 120 * (s / 300), y); ctx.scale(s / 300, s / 300);
+  ctx.fillStyle = "#F4EFE6"; ctx.beginPath(); ctx.roundRect(-150, -130, 300, 280, 24); ctx.fill();
+  ctx.fillStyle = COL.red; ctx.beginPath(); ctx.roundRect(-150, -130, 300, 70, [24, 24, 0, 0]); ctx.fill();
+  txt("AGENDA", 0, -94, 36, "MontX", "#fff", { spacing: 3 });
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 5; c++) {
+    const k = r * 5 + c, filled = prog(t, t0 + k * 0.04, t0 + k * 0.04 + 0.1);
+    ctx.fillStyle = filled > 0.5 ? (k % 3 ? COL.orange : COL.red) : "rgba(0,0,0,.12)";
+    ctx.beginPath(); ctx.roundRect(-128 + c * 52, -40 + r * 46, 40, 34, 6); ctx.fill();
+  }
+  ctx.restore();
+}
+
+// ---------------------------------------------------------------- master
+function drawSegment(i, t) { const s = SEG[ORDER[i]]; DRAW[s.id](s, Math.min(t, s.next)); }
+
+window.render = function (t) {
+  const frame = Math.round(t * FPS);
+  background(t);
+  let i = ORDER.findIndex(id => t < SEG[id].next);
+  if (i < 0) i = ORDER.length - 1;
+  const s = SEG[ORDER[i]];
+  const tr = prog(t, s.start - 0.12, s.start + 0.22);
+  if (i > 0 && tr < 1) {
+    // whip transition: previous segment exits left, the new one arrives from the right
+    const k = easeInOutExpo(tr);
+    ctx.save(); ctx.translate(-k * W * 1.1, 0); ctx.globalAlpha = 1 - k * 0.6; drawSegment(i - 1, t); ctx.restore();
+    ctx.save(); ctx.translate((1 - k) * W * 1.1, 0); drawSegment(i, t); ctx.restore();
+  } else drawSegment(i, t);
+  vignette(0.55, 0.32);
+  chrome(t);
+  drawCaptions(CARDS, t, { y: 1330, size: 78, keyColor: w => (/^(63|45|10|40|ENJAMBÉ|RETARD|PRESSÉ)/.test(w) ? COL.student : null) });
+  grain(grains, frame, 0.05);
+  // fade to black on the last frames so the loop restarts cleanly
+  const e = prog(t, DURATION - 0.35, DURATION);
+  if (e > 0) { ctx.fillStyle = `rgba(0,0,0,${e})`; ctx.fillRect(0, 0, W, H); }
+};
+
+window.ready = (async () => {
+  await Promise.all(["MontX", "MontS"].map(f => document.fonts.load(`100px ${f}`)));
+  T = await (await fetch("timings.json")).json();
+  SEG = segmentIndex(T);
+  ORDER = T.segments.map(s => s.id);
+  CARDS = buildCaptions(T);
+  DURATION = Math.min(60, Math.ceil((T.duration + 1.2) * 10) / 10);
+  SEG[ORDER[ORDER.length - 1]].next = DURATION;
+  // sound cues
+  T.segments.forEach((s, i) => { if (i) sfx(s.start - 0.15, "whoosh", { gain: 0.5, dur: 0.35 }); });
+  const S = SEG;
+  sfx(wordTime(S.hook, "enjamb") + 0.2, "impact_small", { gain: 0.7 });
+  sfx(wordTime(S.hook, "l'entraide") + 0.45, "pop_hi");
+  sfx(wordTime(S.context, "40") - 0.2, "rise", { dur: 1.0, gain: 0.8 });
+  ["temps", "attend", "retard"].forEach((w, i) => sfx(wordTime(S.hurry, w, i * 1.4) - 0.4, i === 2 ? "impact_small" : "pop", { gain: 0.8 }));
+  ["63", "45", "10"].forEach((w, i) => sfx(wordTime(S.result, w, i * 1.6) - 0.45, i === 2 ? "impact" : "ding", { gain: i === 2 ? 0.6 : 0.8 }));
+  sfx(S.irony.start + 0.1, "rewind", { dur: 0.5, gain: 0.4 });
+  sfx(wordTime(S.why, "réalisent", 3.4) - 0.2, "pop"); sfx(wordTime(S.why, "voient", 5.6) - 0.2, "pop");
+  sfx(S.example.start + 0.05, "pop_hi");
+  sfx(wordTime(S.takeaway, "agenda", 3.4) - 0.3, "pop_hi");
+  sfx(S.cta.start + 0.1, "pop"); sfx(S.cta.start + 0.3, "pop");
+  window.TIMELINE = { FPS, DURATION, MUSIC: { style: "suspense", bpm: 96 }, VOICE: { path: "voice.wav", bed: 0.22, duck: 0.6 } };
+  return true;
+})();
+</script>
+</body>
+</html>

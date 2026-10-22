@@ -1,0 +1,51 @@
+{
+ "voice": "ff_siwis",
+ "speed": 1.12,
+ "target": 58.6,
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Des futurs pasteurs ont enjambé un homme à terre. Pour aller faire un discours… sur l'entraide."
+  },
+  {
+   "id": "context",
+   "text": "{Princeton|Prinnstonne}, début des années 70. Deux psychologues testent 40 étudiants en théologie."
+  },
+  {
+   "id": "setup",
+   "text": "Mission : aller faire un discours dans un autre bâtiment. Certains doivent parler du Bon Samaritain, celui qui aide un inconnu blessé."
+  },
+  {
+   "id": "hurry",
+   "text": "Avant le départ, on leur dit qu'ils ont le temps. Ou qu'on les attend tout de suite. Ou qu'ils sont en retard."
+  },
+  {
+   "id": "victim",
+   "text": "Sur le chemin, un homme est assis par terre, affalé contre une porte. Il tousse. Il gémit."
+  },
+  {
+   "id": "result",
+   "text": "Avec du temps, 63 % aident l'homme. Attendus tout de suite, 45 %. Et en retard, seulement 10 %."
+  },
+  {
+   "id": "irony",
+   "text": "Et certains ont même enjambé l'homme, pour aller parler du Bon Samaritain."
+  },
+  {
+   "id": "why",
+   "text": "Pourquoi ? Quand tu es pressé, tu ne vois plus que ton objectif. Certains ne réalisent même pas qu'il a besoin d'aide. D'autres le voient, mais ne veulent pas faire attendre le chercheur."
+  },
+  {
+   "id": "example",
+   "text": "Toi aussi, en courant vers ton métro, combien de personnes tu ne vois plus ?"
+  },
+  {
+   "id": "takeaway",
+   "text": "Ils n'étaient que 40, mais la leçon reste : ta gentillesse dépend souvent de ton agenda."
+  },
+  {
+   "id": "cta",
+   "text": "Et toi, en retard, tu te serais arrêté ? Dis-le en commentaire."
+  }
+ ]
+}

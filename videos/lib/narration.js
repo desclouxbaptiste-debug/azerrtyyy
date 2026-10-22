@@ -28,7 +28,7 @@ function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = 
   ctx.save();
   ctx.font = `${size}px ${font}`;
   const words = c.words.map(w => ({ ...w, text: w.w.toUpperCase().replace(/[,.;:]$/, "") }));
-  const space = size * 0.28;
+  const space = size * 0.42; // the thick outline eats into the gap
   const widths = words.map(w => ctx.measureText(w.text).width);
   const total = widths.reduce((a, b) => a + b, 0) + space * (words.length - 1);
   const fit = Math.min(1, 940 / total);
@@ -39,7 +39,7 @@ function drawCaptions(cards, t, { y = 1300, size = 80, font = "MontX", accent = 
   words.forEach((w, i) => {
     const active = t >= w.s - 0.03 && (i === words.length - 1 || t < words[i + 1].s - 0.03);
     const key = keyColor && keyColor(w.text);
-    const pop = active ? 1 + 0.1 * (1 - easeOutCubic(prog(t, w.s - 0.03, w.s + 0.15))) : 1;
+    const pop = active ? 1 + 0.06 * (1 - easeOutCubic(prog(t, w.s - 0.03, w.s + 0.15))) : 1;
     ctx.save(); ctx.translate(x + widths[i] / 2, y); ctx.scale(pop, pop);
     ctx.font = `${size}px ${font}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.lineJoin = "round"; ctx.lineWidth = size * 0.2; ctx.strokeStyle = "#090b12";
