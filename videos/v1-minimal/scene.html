@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "I8"; src: url("../fonts/Inter-800.ttf"); }
+  @font-face { font-family: "I5"; src: url("../fonts/Inter-500.ttf"); }
+  html, body { margin: 0; background: #000; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="../lib/core.js"></script>
+<script>
+// STYLE 1 — minimal suisse : fond papier, typo Inter, grille, révélations masquées, wipe rouge.
+const BG = "#F3F1EC", INK = "#111111", RED = "#FF3B1F", GREY = "#8E8A82";
+const BEAT = 60 / 88, DURATION = 30, FPS = 30;
+const HOOK_END = 6 * BEAT, RULE = 10 * BEAT, OUTRO = HOOK_END + 3 * RULE;
+window.TIMELINE = { FPS, DURATION, MUSIC: { style: "lofi", bpm: 88, drop: 0 } };
+const L = 80; // left margin
+const grains = makeGrain(4, 3);
+
+const RULES = [
+  { n: "01", title: ["La règle", "des 2 minutes."], body: "Si une tâche prend moins de 2 minutes, fais-la tout de suite.", visual: timer },
+  { n: "02", title: ["25 minutes.", "Pas plus."], body: "25 min de concentration, puis 5 min de pause. C'est la méthode Pomodoro.", visual: pomodoro },
+  { n: "03", title: ["Commence", "par le pire."], body: "La tâche la plus dure en premier. Le reste paraîtra facile.", visual: tasks },
+];
+RULES.forEach((r, i) => { r.start = HOOK_END + i * RULE; });
+
+// line that slides up from behind a mask
+function reveal(str, x, y, size, font, color, t0, t, o = {}) {
+  const p = easeOutExpo(prog(t, t0, t0 + 0.7)); if (p <= 0) return;
+  const exit = o.exit !== undefined ? easeInExpo(prog(t, o.exit, o.exit + 0.4)) : 0;
+  ctx.save();
+  ctx.beginPath(); ctx.rect(0, y - size * 0.8, W, size * 1.5); ctx.clip();
+  txt(str, x, y + (1 - p) * size * 1.3 - exit * size * 1.3, size, font, color, { align: o.align || "left", spacing: o.spacing || 0 });
+  ctx.restore();
+}
+function para(str, x, y, size, color, t0, t, maxW = 860) {
+  wrap(str, size, "I5", maxW).forEach((l, i) => reveal(l, x, y + i * size * 1.35, size, "I5", color, t0 + i * 0.08, t));
+}
+
+function frameUI(t, idx) {
+  ctx.strokeStyle = "rgba(17,17,17,0.08)"; ctx.lineWidth = 2;
+  for (const x of [L, W - L]) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (const y of [250, 1700]) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  txt("PRODUCTIVITÉ", L, 215, 26, "I8", INK, { align: "left", spacing: 6 });
+  txt(idx ? `${String(idx).padStart(2, "0")} / 03` : "— / 03", W - L, 215, 26, "I5", GREY, { align: "right", spacing: 4 });
+  // small progress ticks
+  for (let k = 0; k < 3; k++) {
+    ctx.fillStyle = k < idx ? RED : "rgba(17,17,17,0.15)";
+    ctx.fillRect(L + k * 70, 1735, 56, 6);
+  }
+  txt(`${t.toFixed(1).padStart(4, "0")}s`, W - L, 1740, 24, "I5", GREY, { align: "right" });
+}
+
+// ---------- visuals ----------
+function timer(lt, t, r) {
+  const cx = 540, cy = 1390, R = 170;
+  const a = easeOutExpo(prog(lt, 2.2, 2.9)); if (a <= 0) return;
+  const run = prog(lt, 2.8, 5.2), left = 120 * (1 - run);
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.lineWidth = 22; ctx.lineCap = "round";
+  ctx.strokeStyle = "rgba(17,17,17,0.08)"; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.29); ctx.stroke();
+  ctx.strokeStyle = RED; ctx.beginPath(); ctx.arc(cx, cy, R, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * (1 - run) * a); ctx.stroke();
+  const done = prog(lt, 5.2, 5.6);
+  if (done <= 0) {
+    const m = Math.floor(left / 60), s = Math.floor(left % 60);
+    txt(`${m}:${String(s).padStart(2, "0")}`, cx, cy + 4, 96, "I8", INK);
+  } else {
+    ctx.strokeStyle = RED; ctx.lineWidth = 20; ctx.beginPath();
+    const p = easeOutExpo(done);
+    ctx.moveTo(cx - 70, cy); ctx.lineTo(cx - 70 + 50 * clamp(p * 2), cy + 50 * clamp(p * 2));
+    if (p > 0.5) ctx.lineTo(cx - 20 + 100 * (p - 0.5) * 2, cy + 50 - 110 * (p - 0.5) * 2);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function pomodoro(lt) {
+  const y = 1380, x0 = L, total = W - 2 * L, unit = total / (4 * 30 + 3 * 2);
+  for (let k = 0; k < 4; k++) {
+    const p1 = easeOutExpo(prog(lt, 2.4 + k * 0.45, 2.85 + k * 0.45));
+    const p2 = easeOutExpo(prog(lt, 2.7 + k * 0.45, 3.1 + k * 0.45));
+    const bx = x0 + k * 32 * unit;
+    if (p1 > 0) { ctx.fillStyle = RED; ctx.fillRect(bx, y - 60, 25 * unit * p1, 120); }
+    if (p2 > 0) { ctx.fillStyle = "rgba(17,17,17,0.18)"; ctx.fillRect(bx + 25 * unit, y - 60, 5 * unit * p2, 120); }
+  }
+  reveal("25 min", x0, y - 115, 34, "I8", RED, 2.5, lt);
+  reveal("5", x0 + 25 * unit, y - 115, 34, "I8", GREY, 2.8, lt);
+  reveal("× 4, puis une vraie pause.", x0, y + 120, 38, "I5", INK, 4.4, lt);
+}
+
+function tasks(lt) {
+  const items = ["Répondre aux mails", "Ranger le bureau", "Finir le dossier difficile", "Appeler le garage"];
+  const hard = 2, rowH = 108, y0 = 1210;
+  const move = easeInOutExpo(prog(lt, 3.0, 3.7));
+  items.forEach((label, i) => {
+    const a = easeOutExpo(prog(lt, 2.2 + i * 0.1, 2.8 + i * 0.1)); if (a <= 0) return;
+    const from = i, to = i === hard ? 0 : i < hard ? i + 1 : i;
+    const y = y0 + lerp(from, to, move) * rowH;
+    const checkAt = i === hard ? 4.0 : 4.6 + (to - 1) * 0.15;
+    const c = easeOutExpo(prog(lt, checkAt, checkAt + 0.3));
+    ctx.save(); ctx.globalAlpha = a; ctx.translate((1 - a) * 60, 0);
+    ctx.strokeStyle = i === hard ? RED : INK; ctx.lineWidth = 4;
+    ctx.strokeRect(L, y - 28, 56, 56);
+    if (c > 0) { ctx.fillStyle = i === hard ? RED : INK; ctx.fillRect(L + 28 - 28 * c, y - 28 * c, 56 * c, 56 * c); }
+    txt(label, L + 90, y, 46, i === hard ? "I8" : "I5", i === hard ? RED : c > 0.5 ? GREY : INK, { align: "left" });
+    if (c > 0) { ctx.fillStyle = i === hard ? RED : GREY; ctx.fillRect(L + 90, y - 2, measure(label, 46, i === hard ? "I8" : "I5") * c, 4); }
+    ctx.restore();
+  });
+}
+
+// ---------- sections ----------
+function drawHook(t) {
+  reveal("Tu", L, 560, 190, "I8", INK, 0.1, t, { exit: HOOK_END - 0.5 });
+  reveal("procrastines", L, 760, 150, "I8", INK, 0.3, t, { exit: HOOK_END - 0.45 });
+  reveal("encore ?", L, 940, 150, "I8", RED, 0.55, t, { exit: HOOK_END - 0.4 });
+  const pl = easeOutExpo(prog(t, 1.6, 2.4)) * (1 - easeInExpo(prog(t, HOOK_END - 0.4, HOOK_END)));
+  ctx.fillStyle = RED; ctx.fillRect(L, 1080, 920 * pl, 8);
+  reveal("3 règles simples. 30 secondes.", L, 1170, 48, "I5", GREY, 1.9, t, { exit: HOOK_END - 0.35 });
+  // red dot breathing on the beat
+  const d = easeOutBack(prog(t, 0.9, 1.3)) * (1 - prog(t, HOOK_END - 0.4, HOOK_END - 0.1));
+  if (d > 0) { const b = 1 + 0.12 * Math.pow(Math.max(0, Math.cos(Math.PI * ((t / BEAT) % 1))), 6); ctx.fillStyle = RED; ctx.beginPath(); ctx.arc(900, 560, 40 * d * b, 0, 6.29); ctx.fill(); }
+}
+
+function drawRule(r, t) {
+  const lt = t - r.start, ex = r.start + RULE - 0.45;
+  reveal(r.n, L - 10, 470, 260, "I8", RED, r.start + 0.15, t, { exit: ex });
+  r.title.forEach((l, i) => reveal(l, L, 720 + i * 130, 118, "I8", INK, r.start + 0.35 + i * 0.12, t, { exit: ex + i * 0.04 }));
+  para(r.body, L, 1000, 46, GREY, r.start + 0.9, t);
+  const fade = 1 - easeInExpo(prog(t, ex, ex + 0.35));
+  ctx.save(); ctx.globalAlpha = fade; r.visual(lt, t, r); ctx.restore();
+}
+
+function drawOutro(t) {
+  const lt = t - OUTRO;
+  reveal("Enregistre", L, 640, 150, "I8", INK, OUTRO + 0.2, t);
+  reveal("cette vidéo.", L, 810, 150, "I8", INK, OUTRO + 0.35, t);
+  reveal("Tu en auras besoin demain matin.", L, 960, 48, "I5", GREY, OUTRO + 0.8, t);
+  // bookmark icon: outline draws, then fills red with a bounce
+  const p = prog(lt, 1.3, 2.0), f = easeOutBack(prog(lt, 2.0, 2.4), 3);
+  const cx = 540, cy = 1300, w = 220, h = 300;
+  ctx.save(); ctx.translate(cx, cy); ctx.scale(0.9 + 0.1 * f, 0.9 + 0.1 * f);
+  const path = new Path2D(`M ${-w / 2} ${-h / 2} L ${w / 2} ${-h / 2} L ${w / 2} ${h / 2} L 0 ${h / 2 - 80} L ${-w / 2} ${h / 2} Z`);
+  ctx.lineWidth = 14; ctx.lineJoin = "round"; ctx.strokeStyle = INK;
+  ctx.setLineDash([1400 * p, 1400]); ctx.stroke(path); ctx.setLineDash([]);
+  if (f > 0) { ctx.globalAlpha = clamp(f); ctx.fillStyle = RED; ctx.fill(path); ctx.strokeStyle = RED; ctx.stroke(path); }
+  ctx.restore();
+  reveal("Et suis-moi pour la suite →", L, 1580, 44, "I8", RED, OUTRO + 2.6, t);
+}
+
+// ---------- sound cues ----------
+sfx(0.1, "pop"); sfx(0.3, "pop"); sfx(0.55, "pop_hi"); sfx(1.6, "swish");
+RULES.forEach(r => {
+  sfx(r.start - 0.35, "swish", { gain: 1.4 }); sfx(r.start + 0.15, "pop_hi");
+  sfx(r.start + 0.35, "pop"); sfx(r.start + 0.47, "pop");
+});
+for (let k = 0; k < 12; k++) sfx(RULES[0].start + 2.8 + k * 0.2, "tick", { gain: 0.6 });
+sfx(RULES[0].start + 5.2, "ding");
+for (let k = 0; k < 4; k++) { sfx(RULES[1].start + 2.4 + k * 0.45, "click"); }
+sfx(RULES[2].start + 3.0, "swish"); sfx(RULES[2].start + 4.0, "ding");
+for (let k = 0; k < 3; k++) sfx(RULES[2].start + 4.6 + k * 0.15, "click");
+sfx(OUTRO - 0.35, "swish", { gain: 1.4 }); sfx(OUTRO + 3.3, "chime"); sfx(OUTRO + 2.0, "pop_hi");
+
+// ---------- master ----------
+window.render = function (t) {
+  const frame = Math.round(t * FPS);
+  ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
+  const idx = t < HOOK_END ? 0 : t < OUTRO ? 1 + Math.floor((t - HOOK_END) / RULE) : 3;
+  frameUI(t, idx);
+  if (t < HOOK_END) drawHook(t);
+  else if (t < OUTRO) drawRule(RULES[idx - 1], t);
+  else drawOutro(t);
+  // red panel wipe on each cut: rises from the bottom, then leaves through the top
+  for (const c of [HOOK_END, ...RULES.slice(1).map(r => r.start), OUTRO]) {
+    const p = prog(t, c - 0.35, c + 0.35); if (p <= 0 || p >= 1) continue;
+    const top = p < 0.5 ? H * (1 - easeInOutExpo(p * 2)) : 0;
+    const bot = p < 0.5 ? H : H * (1 - easeInOutExpo((p - 0.5) * 2));
+    ctx.fillStyle = RED; ctx.fillRect(0, top, W, bot - top);
+  }
+  // fade to background at the very end so the loop restarts clean
+  const e = prog(t, DURATION - 0.4, DURATION);
+  if (e > 0) { ctx.fillStyle = `rgba(243,241,236,${easeIn(e)})`; ctx.fillRect(0, 0, W, H); }
+  grain(grains, frame, 0.05, "multiply");
+};
+loadFonts(["I8", "I5"]);
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "AB"; src: url("../fonts/ArchivoBlack.ttf"); }
+  @font-face { font-family: "I8"; src: url("../fonts/Inter-800.ttf"); }
+  html, body { margin: 0; background: #000; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="../lib/core.js"></script>
+<script>
+// STYLE 2 — typographie cinétique : un mot par temps, noir/blanc inversé, rouge pour l'emphase.
+const BPM = 110, BEAT = 60 / BPM, DURATION = 30, FPS = 30;
+const RED = "#FF1F2E";
+const SCRIPT = [
+  ["PERSONNE", 2], ["NE VIENDRA", 2], ["TE SAUVER.", 2, "red"],
+  ["PAS TES AMIS.", 2, "invert"], ["PAS TA FAMILLE.", 2, "invert"], ["PAS LA CHANCE.", 2, "invert"],
+  ["CHAQUE MATIN", 2, "slam"], ["OÙ TU REPOUSSES", 2], ["À DEMAIN,", 2, "red"], ["QUELQU'UN D'AUTRE", 2], ["AVANCE.", 2, "slam"],
+  ["LE CONFORT", 2], ["EST UN", 1], ["PIÈGE.", 3, "redslam"],
+  ["LA DISCIPLINE", 2], ["C'EST", 1], ["LA LIBERTÉ.", 3, "invert"],
+  ["TU N'AS PAS BESOIN", 2], ["DE MOTIVATION.", 2, "strike"], ["TU AS BESOIN", 2], ["DE COMMENCER.", 2, "red"],
+  ["AUJOURD'HUI.", 2, "slam"], ["PAS LUNDI.", 1, "invert"], ["PAS DEMAIN.", 1, "invert"], ["MAINTENANT.", 4, "final"],
+];
+let acc = 0;
+const CHUNKS = SCRIPT.map(([text, beats, fx], i) => { const c = { text, fx: fx || "", start: acc * BEAT, end: (acc + beats) * BEAT, i }; acc += beats; return c; });
+const END = acc * BEAT, DROP = 12 * BEAT;
+window.TIMELINE = { FPS, DURATION, MUSIC: { style: "trap", bpm: BPM, drop: DROP } };
+const grains = makeGrain(6, 5);
+
+// split long chunks over two lines, each line fitted to the width
+function linesOf(text) {
+  const words = text.split(" ");
+  if (words.length === 1) return [text];
+  if (words.length <= 3) {
+    // one word per line (bigger type); short words get a smaller size in drawChunk
+    const out = [];
+    for (const w of words) {
+      const prev = out[out.length - 1];
+      if (prev !== undefined && w.length <= 3 && prev.length <= 3) out[out.length - 1] = prev + " " + w;
+      else out.push(w);
+    }
+    return out;
+  }
+  let best = [text], score = 1e9;
+  for (let k = 1; k < words.length; k++) {
+    const a = words.slice(0, k).join(" "), b = words.slice(k).join(" ");
+    const s = Math.abs(a.length - b.length); if (s < score) { score = s; best = [a, b]; }
+  }
+  return best;
+}
+
+function drawChunk(c, t, ghost = false) {
+  const lt = t - c.start, mode = c.i % 4;
+  const lines = linesOf(c.text);
+  let sizes = lines.map(l => fitSize(l, "AB", 940, 330));
+  const big = Math.max(...sizes.filter((s, k) => lines[k].length > 5), 0);
+  if (big) sizes = sizes.map((s, k) => (lines[k].length <= 5 ? Math.min(s, big * 0.6) : s));
+  const total = sizes.reduce((a, s) => a + s * 1.02, 0);
+  let y = H / 2 - total / 2 - 40;
+  const invert = c.fx === "invert", red = c.fx.includes("red");
+  const color = ghost ? null : invert ? "#000" : red ? RED : "#fff";
+  const zoom = 1 + lt * 0.05;
+  lines.forEach((l, li) => {
+    const s = sizes[li], ly = y + s * 0.51; y += s * 1.02;
+    const d = li * 0.06, p = prog(lt, d, d + 0.22);
+    ctx.save(); ctx.translate(W / 2, ly);
+    if (ghost) {
+      ctx.scale(1.9, 1.9); txt(l, 0, 0, s, "AB", null, { stroke: "rgba(255,255,255,0.07)", strokeW: 2 }); ctx.restore(); return;
+    }
+    let sc = zoom, dx = 0;
+    if (c.fx.includes("slam") || c.fx === "final") sc *= lerp(1.7, 1, easeOutExpo(p));
+    else if (mode === 0) sc *= lerp(1.25, 1, easeOutExpo(p));
+    else if (mode === 1) dx = (1 - easeOutExpo(p)) * -900 * (li % 2 ? -1 : 1);
+    else if (mode === 3) sc *= lerp(0.4, 1, easeOutBack(p, 2.5));
+    ctx.scale(sc, sc);
+    if (mode === 2 && !c.fx) {
+      // letters drop in one at a time
+      ctx.font = `${s}px AB`; const full = ctx.measureText(l).width; let x = -full / 2;
+      for (let k = 0; k < l.length; k++) {
+        const ch = l[k], cw = ctx.measureText(ch).width, pk = easeOutBack(prog(lt, d + k * 0.025, d + k * 0.025 + 0.2), 2);
+        if (pk > 0) txt(ch, x + cw / 2, -(1 - pk) * 160, s, "AB", color, { alpha: clamp(pk * 2) });
+        x += cw;
+      }
+    } else {
+      if (mode === 1 && p < 1) for (let g = 1; g <= 3; g++) txt(l, dx + g * 70 * (1 - p) * (li % 2 ? 1 : -1) * -1, 0, s, "AB", color, { alpha: 0.18 / g });
+      txt(l, dx, 0, s, "AB", color, red ? { glow: "rgba(255,30,46,.7)", blur: 50 } : {});
+    }
+    if (c.fx === "strike") {
+      const sp = easeOutExpo(prog(lt, BEAT * 0.9, BEAT * 1.2));
+      const w = measure(l, s, "AB");
+      ctx.fillStyle = RED; ctx.fillRect(-w / 2 - 20, -s * 0.06, (w + 40) * sp, s * 0.14);
+    }
+    ctx.restore();
+  });
+}
+
+function finalChunk(c, t) {
+  const lt = t - c.start;
+  // red backdrop pulses on each beat
+  const b = Math.pow(Math.max(0, 1 - ((lt / BEAT) % 1) * 2.5), 2);
+  ctx.fillStyle = `rgba(255,31,46,${0.25 + 0.75 * b})`; ctx.fillRect(0, 0, W, H);
+  const s = fitSize(c.text, "AB", 980, 200);
+  ctx.save(); ctx.translate(W / 2, H / 2 - 40); const sc = lerp(2.2, 1, easeOutExpo(prog(lt, 0, 0.25))) * (1 + 0.04 * b); ctx.scale(sc, sc);
+  txt(c.text, 0, 0, s, "AB", "#fff", { rgb: 10 * b + 2 });
+  ctx.restore();
+}
+
+function endCard(t) {
+  const lt = t - END;
+  ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
+  ["ENVOIE ÇA", "À QUELQU'UN", "QUI DOIT", "L'ENTENDRE."].forEach((l, i) => {
+    const p = easeOutExpo(prog(lt, 0.1 + i * 0.12, 0.5 + i * 0.12)); if (p <= 0) return;
+    txt(l, W / 2, 700 + i * 130 + (1 - p) * 40, 110, "AB", i === 3 ? RED : "#fff", { alpha: p });
+  });
+  const p = prog(lt, 1.0, 1.4);
+  if (p > 0) txt("↗  partage", W / 2, 1300, 46, "I8", "rgba(255,255,255,.6)", { alpha: p, spacing: 8 });
+}
+
+// ---------- sound cues ----------
+CHUNKS.forEach(c => {
+  if (c.fx === "final") { sfx(c.start, "impact"); sfx(c.start, "boom", { gain: 0.8 }); }
+  else if (c.fx.includes("slam")) sfx(c.start, "impact");
+  else sfx(c.start, "hit", { gain: c.start < DROP ? 0.7 : 0.5 });
+  if (c.i % 4 === 1 && !c.fx) sfx(c.start - 0.12, "whoosh", { gain: 0.5, dur: 0.3 });
+  if (c.fx === "strike") sfx(c.start + BEAT * 0.9, "swish", { gain: 1.5 });
+});
+for (let b = 0; b < 12; b += 2) sfx(b * BEAT, "heartbeat", { gain: 0.7 });
+sfx(DROP - 4 * BEAT, "riser", { dur: 4 * BEAT, gain: 0.8 });
+sfx(END, "whoosh"); sfx(END + 0.1, "pop_hi");
+
+// ---------- master ----------
+window.render = function (t) {
+  const frame = Math.round(t * FPS);
+  const c = CHUNKS.find(c => t >= c.start && t < c.end);
+  let shake = 0;
+  for (const k of CHUNKS) if (t >= k.start && (k.fx.includes("slam") || k.fx === "final")) shake = Math.max(shake, 22 * Math.exp(-(t - k.start) * 10));
+  ctx.save(); ctx.translate(Math.sin(t * 93) * shake, Math.cos(t * 71) * shake);
+  ctx.fillStyle = c && c.fx === "invert" ? "#fff" : "#000"; ctx.fillRect(-60, -60, W + 120, H + 120);
+  if (!c) endCard(t);
+  else if (c.fx === "final") finalChunk(c, t);
+  else {
+    if (c.i > 0 && CHUNKS[c.i - 1].fx !== "invert" && c.fx !== "invert") drawChunk(CHUNKS[c.i - 1], t, true);
+    drawChunk(c, t);
+  }
+  ctx.restore();
+  // white flash on slams
+  for (const k of CHUNKS) if (k.fx.includes("slam") && t >= k.start && t < k.start + 0.1) { ctx.fillStyle = `rgba(255,255,255,${0.8 * (1 - (t - k.start) / 0.1)})`; ctx.fillRect(0, 0, W, H); }
+  // beat counter bar at the bottom of the safe zone
+  const p = Math.min(1, t / END);
+  ctx.fillStyle = "rgba(128,128,128,0.25)"; ctx.fillRect(140, 1560, 800, 6);
+  ctx.fillStyle = RED; ctx.fillRect(140, 1560, 800 * p, 6);
+  vignette(0.55, 0.35);
+  grain(grains, frame, 0.12, "overlay");
+  const e = prog(t, DURATION - 0.25, DURATION);
+  if (e > 0) { ctx.fillStyle = `rgba(0,0,0,${e})`; ctx.fillRect(0, 0, W, H); }
+};
+loadFonts(["AB", "I8"]);
+</script>
+</body>
+</html>
