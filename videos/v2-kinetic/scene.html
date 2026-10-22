@@ -13,16 +13,17 @@
 <script src="../lib/core.js"></script>
 <script>
 // STYLE 2 — typographie cinétique : un mot par temps, noir/blanc inversé, rouge pour l'emphase.
+// Sujet : combien de temps pour créer une habitude (Lally et al., UCL, European Journal of Social Psychology, 2010).
 const BPM = 110, BEAT = 60 / BPM, DURATION = 30, FPS = 30;
 const RED = "#FF1F2E";
 const SCRIPT = [
-  ["PERSONNE", 2], ["NE VIENDRA", 2], ["TE SAUVER.", 2, "red"],
-  ["PAS TES AMIS.", 2, "invert"], ["PAS TA FAMILLE.", 2, "invert"], ["PAS LA CHANCE.", 2, "invert"],
-  ["CHAQUE MATIN", 2, "slam"], ["OÙ TU REPOUSSES", 2], ["À DEMAIN,", 2, "red"], ["QUELQU'UN D'AUTRE", 2], ["AVANCE.", 2, "slam"],
-  ["LE CONFORT", 2], ["EST UN", 1], ["PIÈGE.", 3, "redslam"],
-  ["LA DISCIPLINE", 2], ["C'EST", 1], ["LA LIBERTÉ.", 3, "invert"],
-  ["TU N'AS PAS BESOIN", 2], ["DE MOTIVATION.", 2, "strike"], ["TU AS BESOIN", 2], ["DE COMMENCER.", 2, "red"],
-  ["AUJOURD'HUI.", 2, "slam"], ["PAS LUNDI.", 1, "invert"], ["PAS DEMAIN.", 1, "invert"], ["MAINTENANT.", 4, "final"],
+  ["ON DIT", 1], ["21 JOURS", 2, "red"], ["POUR UNE HABITUDE.", 3],
+  ["21 JOURS\u00A0?", 2, "strike"], ["FAUX.", 2, "redslam"], ["UNE ÉTUDE DE LONDRES", 2, "invert"],
+  ["A SUIVI", 2, "slam"], ["96 PERSONNES.", 2], ["RÉSULTAT\u00A0:", 2], ["66 JOURS", 2, "redslam"], ["EN MOYENNE.", 2],
+  ["PARFOIS 18.", 2, "invert"], ["PARFOIS 254.", 2, "invert"],
+  ["BONNE NOUVELLE\u00A0:", 2], ["RATER UN JOUR", 2], ["NE CASSE", 1], ["RIEN.", 3, "red"],
+  ["LE SECRET\u00A0?", 2], ["MÊME HEURE.", 2, "invert"], ["MÊME ENDROIT.", 2, "invert"], ["CHAQUE JOUR.", 2, "slam"],
+  ["TON CERVEAU", 2], ["FAIT LE RESTE.", 2, "red"], ["TIENS BON.", 4, "final"],
 ];
 let acc = 0;
 const CHUNKS = SCRIPT.map(([text, beats, fx], i) => { const c = { text, fx: fx || "", start: acc * BEAT, end: (acc + beats) * BEAT, i }; acc += beats; return c; });
@@ -56,8 +57,8 @@ function drawChunk(c, t, ghost = false) {
   const lt = t - c.start, mode = c.i % 4;
   const lines = linesOf(c.text);
   let sizes = lines.map(l => fitSize(l, "AB", 940, 330));
-  const big = Math.max(...sizes.filter((s, k) => lines[k].length > 5), 0);
-  if (big) sizes = sizes.map((s, k) => (lines[k].length <= 5 ? Math.min(s, big * 0.6) : s));
+  const big = Math.max(...sizes.filter((s, k) => lines[k].length > 5 || /\d/.test(lines[k])), 0);
+  if (big) sizes = sizes.map((s, k) => (lines[k].length <= 5 && !/\d/.test(lines[k]) ? Math.min(s, big * 0.6) : s));
   const total = sizes.reduce((a, s) => a + s * 1.02, 0);
   let y = H / 2 - total / 2 - 40;
   const invert = c.fx === "invert", red = c.fx.includes("red");
@@ -111,12 +112,12 @@ function finalChunk(c, t) {
 function endCard(t) {
   const lt = t - END;
   ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
-  ["ENVOIE ÇA", "À QUELQU'UN", "QUI DOIT", "L'ENTENDRE."].forEach((l, i) => {
+  ["ENREGISTRE", "ÇA POUR", "TON", "JOUR 1."].forEach((l, i) => {
     const p = easeOutExpo(prog(lt, 0.1 + i * 0.12, 0.5 + i * 0.12)); if (p <= 0) return;
     txt(l, W / 2, 700 + i * 130 + (1 - p) * 40, 110, "AB", i === 3 ? RED : "#fff", { alpha: p });
   });
   const p = prog(lt, 1.0, 1.4);
-  if (p > 0) txt("↗  partage", W / 2, 1300, 46, "I8", "rgba(255,255,255,.6)", { alpha: p, spacing: 8 });
+  if (p > 0) txt("Source : Lally et al., UCL, 2010", W / 2, 1300, 40, "I8", "rgba(255,255,255,.55)", { alpha: p, spacing: 2 });
 }
 
 // ---------- sound cues ----------
