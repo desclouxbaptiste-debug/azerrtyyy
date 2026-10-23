@@ -1,0 +1,66 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.1,
+ "target": 57.5,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.3,
+ "gap_segment": 0.22,
+ "post": {
+  "semitones": 0,
+  "warmth": 1.5,
+  "presence": 1.5,
+  "threshold": 0.15,
+  "ratio": 2,
+  "makeup": 1.1
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Tu enverrais {450|quatre cent cinquante} volts à un inconnu... juste parce qu'un homme en blouse te le demande ?"
+  },
+  {
+   "id": "setup",
+   "text": "{1961|Mille neuf cent soixante et un}, université {Yale|Yèle}. Stanley {Milgram|Milgrame} recrute des hommes ordinaires pour une étude sur la mémoire."
+  },
+  {
+   "id": "roles",
+   "text": "Un tirage au sort, truqué, te désigne professeur. L'élève, un complice, est attaché dans la pièce voisine."
+  },
+  {
+   "id": "machine",
+   "text": "Devant toi, un générateur : de {15|quinze} à {450|quatre cent cinquante} volts. À chaque erreur, tu montes d'un cran."
+  },
+  {
+   "id": "fake",
+   "text": "Les chocs sont faux. Mais toi, tu ne le sais pas."
+  },
+  {
+   "id": "protest",
+   "text": "À {300|trois cents} volts, l'élève tape contre le mur. Puis... plus rien."
+  },
+  {
+   "id": "prod",
+   "text": "Tu hésites ? Le chercheur répond calmement : l'expérience exige que vous continuiez."
+  },
+  {
+   "id": "predict",
+   "text": "Interrogés, des psychiatres prédisaient qu'à peine une personne sur mille irait jusqu'au bout."
+  },
+  {
+   "id": "result",
+   "text": "Résultat : {26|vingt-six} hommes sur {40|quarante} vont jusqu'à {450|quatre cent cinquante} volts. {65 %|Soixante-cinq pour cent}."
+  },
+  {
+   "id": "nuance",
+   "text": "Mais selon les variantes, l'obéissance change énormément. Quand les ordres arrivent par téléphone, elle chute fortement."
+  },
+  {
+   "id": "cta",
+   "text": "Et toi, à quel moment tu aurais dit non ? Réponds en commentaire !"
+  }
+ ]
+}

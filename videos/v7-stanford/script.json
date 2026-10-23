@@ -1,0 +1,66 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.1,
+ "target": 57.5,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.3,
+ "gap_segment": 0.22,
+ "post": {
+  "semitones": 0,
+  "warmth": 1.5,
+  "presence": 1.5,
+  "threshold": 0.15,
+  "ratio": 2,
+  "makeup": 1.1
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "La plus célèbre expérience sur la cruauté humaine... était peut-être une mise en scène."
+  },
+  {
+   "id": "setup",
+   "text": "Été {1971|mille neuf cent soixante et onze}, université Stanford. Philip Zimbardo transforme un sous-sol en fausse prison."
+  },
+  {
+   "id": "recruit",
+   "text": "Une petite annonce, quinze dollars par jour. Des étudiants sont tirés au sort : gardiens, ou prisonniers."
+  },
+  {
+   "id": "arrest",
+   "text": "Les prisonniers sont arrêtés chez eux par la vraie police. Un numéro, une blouse, une chaîne à la cheville."
+  },
+  {
+   "id": "guards",
+   "text": "Les gardiens, eux, reçoivent un uniforme, une matraque, et des lunettes miroir."
+  },
+  {
+   "id": "revolt",
+   "text": "Dès le deuxième jour, les prisonniers se révoltent. Les gardiens répliquent : extincteurs, pompes, et nuits sans sommeil."
+  },
+  {
+   "id": "stop",
+   "text": "Prévue pour deux semaines, l'expérience est arrêtée au bout de six jours."
+  },
+  {
+   "id": "claim",
+   "text": "Conclusion de Zimbardo : la situation suffit à créer des bourreaux."
+  },
+  {
+   "id": "twist",
+   "text": "Sauf que des enregistrements montrent que les gardiens étaient encouragés à être durs. Et un prisonnier a raconté avoir simulé sa crise."
+  },
+  {
+   "id": "today",
+   "text": "Aujourd'hui, beaucoup de chercheurs y voient plus une mise en scène qu'une vraie expérience."
+  },
+  {
+   "id": "cta",
+   "text": "Alors, le pouvoir corrompt... ou on nous a raconté une belle histoire ? Dis-le en commentaire !"
+  }
+ ]
+}

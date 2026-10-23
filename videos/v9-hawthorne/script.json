@@ -1,0 +1,58 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.1,
+ "target": 57.5,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.3,
+ "gap_segment": 0.22,
+ "post": {
+  "semitones": 0,
+  "warmth": 1.5,
+  "presence": 1.5,
+  "threshold": 0.15,
+  "ratio": 2,
+  "makeup": 1.1
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Et si tu travaillais mieux... juste parce que quelqu'un te regarde ?"
+  },
+  {
+   "id": "setup",
+   "text": "Années vingt, près de Chicago. Dans l'usine {Hawthorne|Hosorne}, des milliers d'ouvriers fabriquent du matériel téléphonique."
+  },
+  {
+   "id": "light",
+   "text": "Les chercheurs testent l'éclairage. Plus de lumière ? La production monte."
+  },
+  {
+   "id": "weird",
+   "text": "Mais dans le groupe témoin, sans aucun changement... elle monte aussi. Et quand on baisse la lumière ? Elle tient, jusqu'à ce qu'on n'y voie presque plus."
+  },
+  {
+   "id": "relay",
+   "text": "Puis six ouvrières sont installées dans une salle à part. Pauses, horaires, collations : on change tout. Et leur production grimpe."
+  },
+  {
+   "id": "name",
+   "text": "Dans les années cinquante, on donne un nom à ce phénomène : l'effet {Hawthorne|Hosorne}. On change quand on se sait observé."
+  },
+  {
+   "id": "twist",
+   "text": "Mais en {2011|deux mille onze}, deux économistes retrouvent les données d'éclairage. Verdict : l'effet est bien plus faible que la légende."
+  },
+  {
+   "id": "lesson",
+   "text": "Il reste une vraie leçon : mesurer quelqu'un qui sait qu'il est mesuré... ce n'est pas si simple."
+  },
+  {
+   "id": "cta",
+   "text": "Et toi, tu bosses mieux quand le chef passe ? Dis-le en commentaire !"
+  }
+ ]
+}

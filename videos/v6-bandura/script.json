@@ -1,0 +1,62 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.1,
+ "target": 57.5,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.3,
+ "gap_segment": 0.22,
+ "post": {
+  "semitones": 0,
+  "warmth": 1.5,
+  "presence": 1.5,
+  "threshold": 0.15,
+  "ratio": 2,
+  "makeup": 1.1
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Un adulte frappe une poupée. Des enfants le regardent. Quelques minutes plus tard... devine ce qu'ils font."
+  },
+  {
+   "id": "setup",
+   "text": "Début des années soixante, à Stanford. Le psychologue Albert {Bandura|Bandoura} réunit {72|soixante-douze} enfants de trois à six ans."
+  },
+  {
+   "id": "groups",
+   "text": "Un tiers voit un adulte frapper Bobo, une grande poupée gonflable, en criant. Un tiers voit un adulte calme. Le dernier tiers ne voit personne."
+  },
+  {
+   "id": "tease",
+   "text": "Ensuite, on leur montre de beaux jouets... réservés à d'autres enfants. Juste de quoi les agacer."
+  },
+  {
+   "id": "room",
+   "text": "Puis chaque enfant joue seul avec Bobo, pendant vingt minutes. Derrière un miroir sans tain, on observe."
+  },
+  {
+   "id": "result",
+   "text": "Ceux qui ont vu l'adulte violent le reproduisent. Les mêmes coups. Parfois, les mêmes mots."
+  },
+  {
+   "id": "boys",
+   "text": "Et les garçons copient surtout les coups."
+  },
+  {
+   "id": "lesson",
+   "text": "Pour {Bandura|Bandoura}, c'est la preuve qu'on apprend aussi en regardant. Sans récompense, sans punition."
+  },
+  {
+   "id": "nuance",
+   "text": "Limite : Bobo est un jouet fait pour être frappé, et l'effet n'a été mesuré qu'à court terme."
+  },
+  {
+   "id": "cta",
+   "text": "Alors, qu'est-ce que les enfants autour de toi regardent chaque jour ? Dis-le en commentaire !"
+  }
+ ]
+}

@@ -7,6 +7,16 @@ const LOOKS = {
   victim: { skin: "#D9B08C", hair: "#6B6259", hairStyle: "beanie", beanie: "#5B4A3A", jacket: "#6E5A43", jacketDark: "#5A4836", shirt: "#8C8172", pants: "#3E3F45", shoes: "#2A221C", beard: "#7A6E62" },
   researcher: { skin: "#EAC4A2", hair: "#9A9A9A", hairStyle: "bald", jacket: "#F4F4F0", jacketDark: "#DADAD4", shirt: "#7FA7D9", tie: "#B5523B", pants: "#3A3F52", shoes: "#1A1A1A", glasses: true },
   passerby: { skin: "#C98E62", hair: "#1E1A18", hairStyle: "short", jacket: "#7A8CA8", jacketDark: "#66778F", shirt: "#E5E1D8", pants: "#2E3240", shoes: "#151515" },
+  man1950: { skin: "#EBC7A3", hair: "#2E241C", hairStyle: "side", jacket: "#5B6C8A", jacketDark: "#4A5975", shirt: "#F1EFE8", tie: "#8E3B32", pants: "#3A3F4E", shoes: "#1A1A1A" },
+  man1950b: { skin: "#D9A981", hair: "#5A3A22", hairStyle: "short", jacket: "#7C6A55", jacketDark: "#685846", shirt: "#EDE6D6", tie: "#2F4A6B", pants: "#3D3A36", shoes: "#1A1A1A" },
+  woman: { skin: "#F0C6A2", hair: "#6B3A22", hairStyle: "bun", jacket: "#C0587E", jacketDark: "#A44A6B", shirt: "#F6EDE4", pants: "#3B3446", shoes: "#2A1F2A", lips: true },
+  worker: { skin: "#E9C19C", hair: "#2C1F18", hairStyle: "bun", jacket: "#5E7C6B", jacketDark: "#4E6859", shirt: "#E8E2D4", pants: "#4A4A52", shoes: "#24201C", lips: true },
+  boy: { skin: "#F2C9A0", hair: "#B5793E", hairStyle: "short", jacket: "#E2533F", jacketDark: "#C24533", shirt: "#FFFFFF", pants: "#3667A6", shoes: "#2A2A2A", headScale: 1.35 },
+  girl: { skin: "#E6B48C", hair: "#3B2618", hairStyle: "pigtails", jacket: "#F2B33D", jacketDark: "#D69A2C", shirt: "#FFFFFF", pants: "#6E4FA8", shoes: "#2A2A2A", headScale: 1.35, lips: true },
+  guard: { skin: "#E3B994", hair: "#3B2A1E", hairStyle: "short", jacket: "#B79E6E", jacketDark: "#9C855A", shirt: "#C9B184", pants: "#A88F60", shoes: "#2B2116", sunglasses: true },
+  prisoner: { skin: "#E8BE98", hair: "#4A3526", hairStyle: "cap", cap: "#8A7E70", jacket: "#E4DCC8", jacketDark: "#CFC6B0", shirt: "#E4DCC8", pants: "#E4DCC8", shoes: "#9A8F80", chestText: "819" },
+  experimenter: { skin: "#EAC4A2", hair: "#2B2B2B", hairStyle: "short", jacket: "#9EA3A8", jacketDark: "#868B90", shirt: "#F2F2F2", tie: "#2B2B2B", pants: "#3C3F44", shoes: "#1A1A1A" },
+  learner: { skin: "#E4B48E", hair: "#7A7068", hairStyle: "bald", jacket: "#6F6A5E", jacketDark: "#5D594F", shirt: "#EDE8DC", pants: "#454540", shoes: "#1E1E1E", glasses: true },
 };
 
 function limb(x1, y1, x2, y2, w, color) {
@@ -84,6 +94,8 @@ function drawHead(L, face, t) {
   ctx.fillStyle = L.skin; ctx.fillRect(-11, 28, 22, 26);
   // hair back
   if (L.hairStyle === "side" || L.hairStyle === "short") { ctx.fillStyle = L.hair; ctx.beginPath(); ctx.arc(-6, -6, r + 4, Math.PI * 0.75, Math.PI * 2.05); ctx.fill(); }
+  if (L.hairStyle === "bun") { ctx.fillStyle = L.hair; ctx.beginPath(); ctx.arc(-4, -4, r + 5, Math.PI * 0.6, Math.PI * 2.1); ctx.fill(); ctx.beginPath(); ctx.arc(-34, -34, 22, 0, 6.29); ctx.fill(); }
+  if (L.hairStyle === "pigtails") { ctx.fillStyle = L.hair; ctx.beginPath(); ctx.arc(-4, -4, r + 5, Math.PI * 0.7, Math.PI * 2.1); ctx.fill(); ctx.beginPath(); ctx.ellipse(-40, 18, 14, 26, 0.4, 0, 6.29); ctx.fill(); }
   // head
   ctx.fillStyle = L.skin; ctx.beginPath(); ctx.ellipse(0, 0, r, r * 1.05, 0, 0, 6.29); ctx.fill();
   // ear
@@ -95,6 +107,8 @@ function drawHead(L, face, t) {
   if (L.hairStyle === "side") { ctx.beginPath(); ctx.moveTo(-r, -6); ctx.quadraticCurveTo(-r + 6, -r - 18, 10, -r - 6); ctx.quadraticCurveTo(r + 4, -r, r - 2, -18); ctx.quadraticCurveTo(14, -30, -8, -22); ctx.quadraticCurveTo(-24, -10, -r, -6); ctx.fill(); }
   else if (L.hairStyle === "short") { ctx.beginPath(); ctx.moveTo(-r, -2); ctx.quadraticCurveTo(-r, -r - 12, 6, -r - 6); ctx.quadraticCurveTo(r, -r + 4, r - 4, -22); ctx.lineTo(-r + 8, -16); ctx.fill(); }
   else if (L.hairStyle === "bald") { ctx.beginPath(); ctx.ellipse(-24, 4, 18, 26, 0.2, 0, 6.29); ctx.fill(); }
+  else if (L.hairStyle === "bun" || L.hairStyle === "pigtails") { ctx.beginPath(); ctx.moveTo(-r, 0); ctx.quadraticCurveTo(-r, -r - 14, 8, -r - 8); ctx.quadraticCurveTo(r + 2, -r + 2, r - 2, -14); ctx.quadraticCurveTo(10, -26, -14, -16); ctx.closePath(); ctx.fill(); }
+  else if (L.hairStyle === "cap") { ctx.fillStyle = L.cap; ctx.beginPath(); ctx.moveTo(-r - 2, -2); ctx.quadraticCurveTo(-r, -r - 16, 6, -r - 10); ctx.quadraticCurveTo(r + 2, -r - 2, r, -10); ctx.closePath(); ctx.fill(); }
   else if (L.hairStyle === "beanie") {
     ctx.fillStyle = L.hair; ctx.beginPath(); ctx.ellipse(-20, 12, 22, 26, 0.3, 0, 6.29); ctx.fill();
     ctx.fillStyle = L.beanie; ctx.beginPath(); ctx.moveTo(-r - 4, -4); ctx.quadraticCurveTo(-r, -r - 24, 6, -r - 16); ctx.quadraticCurveTo(r + 2, -r - 6, r + 2, -8); ctx.closePath(); ctx.fill();
@@ -122,6 +136,8 @@ function drawHead(L, face, t) {
   else if (m === "o") { ctx.fillStyle = "#5A2E2A"; ctx.ellipse(28, 26, 6, 8, 0, 0, 6.29); ctx.fill(); }
   else if (m === "grimace") { ctx.moveTo(16, 28); ctx.quadraticCurveTo(24, 22, 30, 28); ctx.quadraticCurveTo(36, 32, 40, 26); ctx.stroke(); }
   else { ctx.moveTo(18, 26); ctx.lineTo(36, 25); ctx.stroke(); }
+  if (L.sunglasses) { ctx.fillStyle = "#1B1E24"; ctx.beginPath(); ctx.roundRect(ex - 14, ey - 11, 30, 20, 6); ctx.fill(); ctx.fillStyle = "rgba(160,200,255,.55)"; ctx.fillRect(ex - 8, ey - 7, 10, 4); limb(ex - 14, ey - 4, -12, ey - 6, 4, "#1B1E24"); }
+  if (L.lips) { ctx.fillStyle = "rgba(190,70,80,.0)"; }
   if (L.glasses) { ctx.strokeStyle = "#222"; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(ex + 1, ey, 15, 0, 6.29); ctx.stroke(); limb(ex - 14, ey - 2, -10, ey - 6, 3, "#222"); }
 }
 
@@ -164,12 +180,14 @@ function character(x, y, scale, look, o = {}) {
   if (L.collar) { ctx.fillStyle = "#111"; ctx.fillRect(4, -142, 30, 14); ctx.fillStyle = "#fff"; ctx.fillRect(22, -142, 10, 13); }
   if (L.tie) { ctx.fillStyle = L.tie; ctx.beginPath(); ctx.moveTo(26, -132); ctx.lineTo(34, -132); ctx.lineTo(32, -84); ctx.lineTo(27, -78); ctx.closePath(); ctx.fill(); }
   ctx.fillStyle = L.jacketDark; ctx.fillRect(-38, -4, 76, 18);
+  if (L.chestText) { ctx.fillStyle = "#2B2B33"; ctx.font = "34px MontX"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(L.chestText, 2, -80); }
+  if (L.sunglasses && L.jacket === LOOKS.guard.jacket) { ctx.fillStyle = "#6B5A3A"; ctx.fillRect(-38, -14, 76, 10); }
   ctx.restore();
   // near leg
   chain(4, pelvisY, P.hip[0], THIGH, P.knee[0], SHIN, legW, legW - 4, L.pants);
   footAt(4, pelvisY, P.hip[0], P.knee[0], L.shoes, P.sit);
   // head
-  ctx.save(); ctx.translate(neck.x + 4, neck.y - 40); ctx.rotate(P.headTilt || 0);
+  ctx.save(); ctx.translate(neck.x + 4, neck.y - 40 - ((L.headScale || 1) - 1) * 30); ctx.rotate(P.headTilt || 0); if (L.headScale) ctx.scale(L.headScale, L.headScale);
   drawHead(L, o.face || {}, t);
   ctx.restore();
   // near arm + props in hand
@@ -177,6 +195,8 @@ function character(x, y, scale, look, o = {}) {
   if (o.props?.book) { ctx.save(); ctx.translate(arm.ex + 6, arm.ey - 4); ctx.rotate(-0.15); ctx.fillStyle = "#7A2E22"; ctx.beginPath(); ctx.roundRect(-30, -40, 56, 74, 6); ctx.fill(); ctx.fillStyle = "#F1E6CF"; ctx.fillRect(22, -36, 6, 66); ctx.fillStyle = "#E0B44A"; ctx.fillRect(-20, -22, 34, 5); ctx.restore(); }
   if (o.props?.paper) { ctx.save(); ctx.translate(arm.ex + 8, arm.ey - 10); ctx.rotate(-0.3); ctx.fillStyle = "#F7F2E6"; ctx.fillRect(-26, -36, 52, 66); ctx.fillStyle = "rgba(0,0,0,.25)"; for (let k = 0; k < 5; k++) ctx.fillRect(-18, -26 + k * 11, 36 - (k % 2) * 10, 3); ctx.restore(); }
   if (o.props?.clipboard) { ctx.save(); ctx.translate(arm.ex + 10, arm.ey - 16); ctx.rotate(-0.2); ctx.fillStyle = "#8B6A48"; ctx.beginPath(); ctx.roundRect(-30, -42, 60, 82, 6); ctx.fill(); ctx.fillStyle = "#F7F2E6"; ctx.fillRect(-24, -32, 48, 66); ctx.fillStyle = "#777"; ctx.fillRect(-10, -46, 20, 10); ctx.restore(); }
+  if (o.props?.mallet) { ctx.save(); ctx.translate(arm.ex, arm.ey); ctx.rotate(Math.atan2(arm.ey - arm.ky, arm.ex - arm.kx) - Math.PI / 2); ctx.fillStyle = "#8A6A44"; ctx.fillRect(-6, -10, 12, 110); ctx.fillStyle = "#C0392B"; ctx.beginPath(); ctx.roundRect(-38, 90, 76, 46, 10); ctx.fill(); ctx.restore(); }
+  if (o.props?.baton) { ctx.save(); ctx.translate(arm.ex, arm.ey); ctx.rotate(Math.atan2(arm.ey - arm.ky, arm.ex - arm.kx) - Math.PI / 2 + 0.5); ctx.fillStyle = "#1E1E24"; ctx.beginPath(); ctx.roundRect(-8, -20, 16, 130, 8); ctx.fill(); ctx.restore(); }
   if (o.props?.watch) { ctx.fillStyle = o.props.watchGlow ? "#FF4D4D" : "#DDD"; ctx.beginPath(); ctx.arc(arm.kx + (arm.ex - arm.kx) * 0.8, arm.ky + (arm.ey - arm.ky) * 0.8, 8, 0, 6.29); ctx.fill(); }
   ctx.fillStyle = L.skin; ctx.beginPath(); ctx.arc(arm.ex, arm.ey, 12, 0, 6.29); ctx.fill();
   ctx.restore();
