@@ -1,0 +1,2138 @@
+{
+ "duration": 112.589,
+ "speed": 1.07,
+ "reveals": [
+  24.105,
+  60.449,
+  69.448
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "Est-ce que tu ferais du mal à quelqu'un...",
+     "spoken": "Est-ce que tu ferais du mal à quelqu'un...",
+     "start": 0.45,
+     "end": 2.21,
+     "words": [
+      {
+       "w": "Est-ce",
+       "s": 0.45,
+       "e": 0.69
+      },
+      {
+       "w": "que",
+       "s": 0.69,
+       "e": 0.85
+      },
+      {
+       "w": "tu",
+       "s": 0.85,
+       "e": 1.01
+      },
+      {
+       "w": "ferais",
+       "s": 1.01,
+       "e": 1.33
+      },
+      {
+       "w": "du",
+       "s": 1.33,
+       "e": 1.49
+      },
+      {
+       "w": "mal",
+       "s": 1.49,
+       "e": 1.65
+      },
+      {
+       "w": "à",
+       "s": 1.65,
+       "e": 1.81
+      },
+      {
+       "w": "quelqu'un...",
+       "s": 1.81,
+       "e": 2.21
+      }
+     ]
+    },
+    {
+     "text": "juste parce qu'un adulte sérieux te le demande ?",
+     "spoken": "juste parce qu'un adulte sérieux te le demande ?",
+     "start": 2.21,
+     "end": 4.63,
+     "words": [
+      {
+       "w": "juste",
+       "s": 2.21,
+       "e": 2.53
+      },
+      {
+       "w": "parce",
+       "s": 2.53,
+       "e": 2.77
+      },
+      {
+       "w": "qu'un",
+       "s": 2.77,
+       "e": 3.01
+      },
+      {
+       "w": "adulte",
+       "s": 3.01,
+       "e": 3.49
+      },
+      {
+       "w": "sérieux",
+       "s": 3.49,
+       "e": 3.89
+      },
+      {
+       "w": "te",
+       "s": 3.89,
+       "e": 4.05
+      },
+      {
+       "w": "le",
+       "s": 4.05,
+       "e": 4.13
+      },
+      {
+       "w": "demande?",
+       "s": 4.13,
+       "e": 4.63
+      }
+     ]
+    }
+   ],
+   "end": 4.977
+  },
+  {
+   "id": "setup",
+   "start": 4.977,
+   "sentences": [
+    {
+     "text": "En 1961, un savant, Stanley Milgram, veut savoir une chose.",
+     "spoken": "En mille neuf cent soixante et un, un savant, Stanley Milgrame, veut savoir une chose.",
+     "start": 4.977,
+     "end": 10.337,
+     "words": [
+      {
+       "w": "En",
+       "s": 4.977,
+       "e": 5.137
+      },
+      {
+       "w": "1961,",
+       "s": 5.137,
+       "e": 7.137
+      },
+      {
+       "w": "un",
+       "s": 7.137,
+       "e": 7.297
+      },
+      {
+       "w": "savant,",
+       "s": 7.297,
+       "e": 7.777
+      },
+      {
+       "w": "Stanley",
+       "s": 7.777,
+       "e": 8.374
+      },
+      {
+       "w": "Milgram,",
+       "s": 8.374,
+       "e": 9.057
+      },
+      {
+       "w": "veut",
+       "s": 9.057,
+       "e": 9.297
+      },
+      {
+       "w": "savoir",
+       "s": 9.297,
+       "e": 9.697
+      },
+      {
+       "w": "une",
+       "s": 9.697,
+       "e": 9.857
+      },
+      {
+       "w": "chose.",
+       "s": 9.857,
+       "e": 10.337
+      }
+     ]
+    },
+    {
+     "text": "Jusqu'où est-ce qu'on obéit à un chef ?",
+     "spoken": "Jusqu'où est-ce qu'on obéit à un chef ?",
+     "start": 10.337,
+     "end": 12.497,
+     "words": [
+      {
+       "w": "Jusqu'où",
+       "s": 10.337,
+       "e": 10.897
+      },
+      {
+       "w": "est-ce",
+       "s": 10.897,
+       "e": 11.057
+      },
+      {
+       "w": "qu'on",
+       "s": 11.057,
+       "e": 11.297
+      },
+      {
+       "w": "obéit",
+       "s": 11.297,
+       "e": 11.697
+      },
+      {
+       "w": "à",
+       "s": 11.697,
+       "e": 11.777
+      },
+      {
+       "w": "un",
+       "s": 11.777,
+       "e": 11.937
+      },
+      {
+       "w": "chef?",
+       "s": 11.937,
+       "e": 12.497
+      }
+     ]
+    },
+    {
+     "text": "Il fait croire aux gens que c'est un jeu de mémoire.",
+     "spoken": "Il fait croire aux gens que c'est un jeu de mémoire.",
+     "start": 12.497,
+     "end": 15.137,
+     "words": [
+      {
+       "w": "Il",
+       "s": 12.497,
+       "e": 12.737
+      },
+      {
+       "w": "fait",
+       "s": 12.737,
+       "e": 12.977
+      },
+      {
+       "w": "croire",
+       "s": 12.977,
+       "e": 13.297
+      },
+      {
+       "w": "aux",
+       "s": 13.297,
+       "e": 13.457
+      },
+      {
+       "w": "gens",
+       "s": 13.457,
+       "e": 13.697
+      },
+      {
+       "w": "que",
+       "s": 13.697,
+       "e": 13.857
+      },
+      {
+       "w": "c'est",
+       "s": 13.857,
+       "e": 14.097
+      },
+      {
+       "w": "un",
+       "s": 14.097,
+       "e": 14.177
+      },
+      {
+       "w": "jeu",
+       "s": 14.177,
+       "e": 14.417
+      },
+      {
+       "w": "de",
+       "s": 14.417,
+       "e": 14.497
+      },
+      {
+       "w": "mémoire.",
+       "s": 14.497,
+       "e": 15.137
+      }
+     ]
+    },
+    {
+     "text": "Tu te présentes.",
+     "spoken": "Tu te présentes.",
+     "start": 15.137,
+     "end": 16.117,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 15.137,
+       "e": 15.377
+      },
+      {
+       "w": "te",
+       "s": 15.377,
+       "e": 15.617
+      },
+      {
+       "w": "présentes.",
+       "s": 15.617,
+       "e": 16.117
+      }
+     ]
+    }
+   ],
+   "end": 16.495
+  },
+  {
+   "id": "roles",
+   "start": 16.495,
+   "sentences": [
+    {
+     "text": "Il y a un autre joueur.",
+     "spoken": "Il y a un autre joueur.",
+     "start": 16.495,
+     "end": 17.775,
+     "words": [
+      {
+       "w": "Il",
+       "s": 16.495,
+       "e": 16.655
+      },
+      {
+       "w": "y",
+       "s": 16.655,
+       "e": 16.815
+      },
+      {
+       "w": "a",
+       "s": 16.815,
+       "e": 16.895
+      },
+      {
+       "w": "un",
+       "s": 16.895,
+       "e": 17.055
+      },
+      {
+       "w": "autre",
+       "s": 17.055,
+       "e": 17.295
+      },
+      {
+       "w": "joueur.",
+       "s": 17.295,
+       "e": 17.775
+      }
+     ]
+    },
+    {
+     "text": "Tirage au sort : toi, tu poses les questions.",
+     "spoken": "Tirage au sort : toi, tu poses les questions.",
+     "start": 17.775,
+     "end": 20.495,
+     "words": [
+      {
+       "w": "Tirage",
+       "s": 17.775,
+       "e": 18.335
+      },
+      {
+       "w": "au",
+       "s": 18.335,
+       "e": 18.495
+      },
+      {
+       "w": "sort:",
+       "s": 18.495,
+       "e": 19.055
+      },
+      {
+       "w": "toi,",
+       "s": 19.055,
+       "e": 19.375
+      },
+      {
+       "w": "tu",
+       "s": 19.375,
+       "e": 19.535
+      },
+      {
+       "w": "poses",
+       "s": 19.535,
+       "e": 19.935
+      },
+      {
+       "w": "les",
+       "s": 19.935,
+       "e": 20.095
+      },
+      {
+       "w": "questions.",
+       "s": 20.095,
+       "e": 20.495
+      }
+     ]
+    },
+    {
+     "text": "Lui, il répond.",
+     "spoken": "Lui, il répond.",
+     "start": 20.495,
+     "end": 21.855,
+     "words": [
+      {
+       "w": "Lui,",
+       "s": 20.495,
+       "e": 21.055
+      },
+      {
+       "w": "il",
+       "s": 21.055,
+       "e": 21.215
+      },
+      {
+       "w": "répond.",
+       "s": 21.215,
+       "e": 21.855
+      }
+     ]
+    },
+    {
+     "text": "Mais le tirage est truqué...",
+     "spoken": "Mais le tirage est truqué...",
+     "start": 21.855,
+     "end": 23.455,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 21.855,
+       "e": 22.015
+      },
+      {
+       "w": "le",
+       "s": 22.015,
+       "e": 22.095
+      },
+      {
+       "w": "tirage",
+       "s": 22.095,
+       "e": 22.575
+      },
+      {
+       "w": "est",
+       "s": 22.575,
+       "e": 22.735
+      },
+      {
+       "w": "truqué...",
+       "s": 22.735,
+       "e": 23.455
+      }
+     ]
+    },
+    {
+     "text": "l'autre joueur est un acteur.",
+     "spoken": "l'autre joueur est un acteur.",
+     "start": 24.105,
+     "end": 25.725,
+     "words": [
+      {
+       "w": "l'autre",
+       "s": 24.105,
+       "e": 24.505
+      },
+      {
+       "w": "joueur",
+       "s": 24.505,
+       "e": 24.905
+      },
+      {
+       "w": "est",
+       "s": 24.905,
+       "e": 25.065
+      },
+      {
+       "w": "un",
+       "s": 25.065,
+       "e": 25.225
+      },
+      {
+       "w": "acteur.",
+       "s": 25.225,
+       "e": 25.725
+      }
+     ]
+    }
+   ],
+   "end": 26.205
+  },
+  {
+   "id": "strap",
+   "start": 26.205,
+   "sentences": [
+    {
+     "text": "On l'attache sur une chaise, avec un fil électrique au poignet.",
+     "spoken": "On l'attache sur une chaise, avec un fil électrique au poignet.",
+     "start": 26.205,
+     "end": 29.965,
+     "words": [
+      {
+       "w": "On",
+       "s": 26.205,
+       "e": 26.365
+      },
+      {
+       "w": "l'attache",
+       "s": 26.365,
+       "e": 26.845
+      },
+      {
+       "w": "sur",
+       "s": 26.845,
+       "e": 27.005
+      },
+      {
+       "w": "une",
+       "s": 27.005,
+       "e": 27.165
+      },
+      {
+       "w": "chaise,",
+       "s": 27.165,
+       "e": 27.725
+      },
+      {
+       "w": "avec",
+       "s": 27.725,
+       "e": 27.965
+      },
+      {
+       "w": "un",
+       "s": 27.965,
+       "e": 28.125
+      },
+      {
+       "w": "fil",
+       "s": 28.125,
+       "e": 28.525
+      },
+      {
+       "w": "électrique",
+       "s": 28.525,
+       "e": 29.085
+      },
+      {
+       "w": "au",
+       "s": 29.085,
+       "e": 29.245
+      },
+      {
+       "w": "poignet.",
+       "s": 29.245,
+       "e": 29.965
+      }
+     ]
+    },
+    {
+     "text": "Et pour que tu y croies, on te donne un vrai petit choc : quarante-cinq volts.",
+     "spoken": "Et pour que tu y croies, on te donne un vrai petit choc : quarante-cinq volts.",
+     "start": 29.965,
+     "end": 34.045,
+     "words": [
+      {
+       "w": "Et",
+       "s": 29.965,
+       "e": 30.205
+      },
+      {
+       "w": "pour",
+       "s": 30.205,
+       "e": 30.365
+      },
+      {
+       "w": "que",
+       "s": 30.365,
+       "e": 30.525
+      },
+      {
+       "w": "tu",
+       "s": 30.525,
+       "e": 30.765
+      },
+      {
+       "w": "y",
+       "s": 30.765,
+       "e": 30.845
+      },
+      {
+       "w": "croies,",
+       "s": 30.845,
+       "e": 31.325
+      },
+      {
+       "w": "on",
+       "s": 31.325,
+       "e": 31.405
+      },
+      {
+       "w": "te",
+       "s": 31.405,
+       "e": 31.485
+      },
+      {
+       "w": "donne",
+       "s": 31.485,
+       "e": 31.725
+      },
+      {
+       "w": "un",
+       "s": 31.725,
+       "e": 31.805
+      },
+      {
+       "w": "vrai",
+       "s": 31.805,
+       "e": 32.045
+      },
+      {
+       "w": "petit",
+       "s": 32.045,
+       "e": 32.365
+      },
+      {
+       "w": "choc:",
+       "s": 32.365,
+       "e": 33.005
+      },
+      {
+       "w": "quarante-cinq",
+       "s": 33.005,
+       "e": 33.565
+      },
+      {
+       "w": "volts.",
+       "s": 33.565,
+       "e": 34.045
+      }
+     ]
+    },
+    {
+     "text": "Ça pique.",
+     "spoken": "Ça pique.",
+     "start": 34.045,
+     "end": 34.785,
+     "words": [
+      {
+       "w": "Ça",
+       "s": 34.045,
+       "e": 34.285
+      },
+      {
+       "w": "pique.",
+       "s": 34.285,
+       "e": 34.785
+      }
+     ]
+    }
+   ],
+   "end": 35.116
+  },
+  {
+   "id": "machine",
+   "start": 35.116,
+   "sentences": [
+    {
+     "text": "Puis tu vas dans la pièce d'à côté.",
+     "spoken": "Puis tu vas dans la pièce d'à côté.",
+     "start": 35.116,
+     "end": 36.796,
+     "words": [
+      {
+       "w": "Puis",
+       "s": 35.116,
+       "e": 35.356
+      },
+      {
+       "w": "tu",
+       "s": 35.356,
+       "e": 35.436
+      },
+      {
+       "w": "vas",
+       "s": 35.436,
+       "e": 35.596
+      },
+      {
+       "w": "dans",
+       "s": 35.596,
+       "e": 35.756
+      },
+      {
+       "w": "la",
+       "s": 35.756,
+       "e": 35.836
+      },
+      {
+       "w": "pièce",
+       "s": 35.836,
+       "e": 36.076
+      },
+      {
+       "w": "d'à",
+       "s": 36.076,
+       "e": 36.316
+      },
+      {
+       "w": "côté.",
+       "s": 36.316,
+       "e": 36.796
+      }
+     ]
+    },
+    {
+     "text": "Devant toi, une machine avec trente boutons.",
+     "spoken": "Devant toi, une machine avec trente boutons.",
+     "start": 36.796,
+     "end": 39.756,
+     "words": [
+      {
+       "w": "Devant",
+       "s": 36.796,
+       "e": 37.196
+      },
+      {
+       "w": "toi,",
+       "s": 37.196,
+       "e": 37.676
+      },
+      {
+       "w": "une",
+       "s": 37.676,
+       "e": 37.916
+      },
+      {
+       "w": "machine",
+       "s": 37.916,
+       "e": 38.396
+      },
+      {
+       "w": "avec",
+       "s": 38.396,
+       "e": 38.636
+      },
+      {
+       "w": "trente",
+       "s": 38.636,
+       "e": 39.036
+      },
+      {
+       "w": "boutons.",
+       "s": 39.036,
+       "e": 39.756
+      }
+     ]
+    },
+    {
+     "text": "Le premier fait un tout petit choc.",
+     "spoken": "Le premier fait un tout petit choc.",
+     "start": 39.756,
+     "end": 41.596,
+     "words": [
+      {
+       "w": "Le",
+       "s": 39.756,
+       "e": 39.916
+      },
+      {
+       "w": "premier",
+       "s": 39.916,
+       "e": 40.316
+      },
+      {
+       "w": "fait",
+       "s": 40.316,
+       "e": 40.556
+      },
+      {
+       "w": "un",
+       "s": 40.556,
+       "e": 40.716
+      },
+      {
+       "w": "tout",
+       "s": 40.716,
+       "e": 40.956
+      },
+      {
+       "w": "petit",
+       "s": 40.956,
+       "e": 41.196
+      },
+      {
+       "w": "choc.",
+       "s": 41.196,
+       "e": 41.596
+      }
+     ]
+    },
+    {
+     "text": "Le dernier, un choc énorme : 450 volts.",
+     "spoken": "Le dernier, un choc énorme : quatre cent cinquante volts.",
+     "start": 41.596,
+     "end": 45.296,
+     "words": [
+      {
+       "w": "Le",
+       "s": 41.596,
+       "e": 41.756
+      },
+      {
+       "w": "dernier,",
+       "s": 41.756,
+       "e": 42.396
+      },
+      {
+       "w": "un",
+       "s": 42.396,
+       "e": 42.636
+      },
+      {
+       "w": "choc",
+       "s": 42.636,
+       "e": 42.956
+      },
+      {
+       "w": "énorme:",
+       "s": 42.956,
+       "e": 43.756
+      },
+      {
+       "w": "450",
+       "s": 43.756,
+       "e": 44.796
+      },
+      {
+       "w": "volts.",
+       "s": 44.796,
+       "e": 45.296
+      }
+     ]
+    }
+   ],
+   "end": 45.628
+  },
+  {
+   "id": "rule",
+   "start": 45.628,
+   "sentences": [
+    {
+     "text": "La règle est simple : tu poses une question.",
+     "spoken": "La règle est simple : tu poses une question.",
+     "start": 45.628,
+     "end": 48.348,
+     "words": [
+      {
+       "w": "La",
+       "s": 45.628,
+       "e": 45.788
+      },
+      {
+       "w": "règle",
+       "s": 45.788,
+       "e": 46.188
+      },
+      {
+       "w": "est",
+       "s": 46.188,
+       "e": 46.348
+      },
+      {
+       "w": "simple:",
+       "s": 46.348,
+       "e": 46.988
+      },
+      {
+       "w": "tu",
+       "s": 46.988,
+       "e": 47.228
+      },
+      {
+       "w": "poses",
+       "s": 47.228,
+       "e": 47.628
+      },
+      {
+       "w": "une",
+       "s": 47.628,
+       "e": 47.788
+      },
+      {
+       "w": "question.",
+       "s": 47.788,
+       "e": 48.348
+      }
+     ]
+    },
+    {
+     "text": "S'il se trompe...",
+     "spoken": "S'il se trompe...",
+     "start": 48.348,
+     "end": 49.308,
+     "words": [
+      {
+       "w": "S'il",
+       "s": 48.348,
+       "e": 48.668
+      },
+      {
+       "w": "se",
+       "s": 48.668,
+       "e": 48.828
+      },
+      {
+       "w": "trompe...",
+       "s": 48.828,
+       "e": 49.308
+      }
+     ]
+    },
+    {
+     "text": "tu appuies sur le bouton suivant.",
+     "spoken": "tu appuies sur le bouton suivant.",
+     "start": 49.308,
+     "end": 51.228,
+     "words": [
+      {
+       "w": "tu",
+       "s": 49.308,
+       "e": 49.468
+      },
+      {
+       "w": "appuies",
+       "s": 49.468,
+       "e": 49.948
+      },
+      {
+       "w": "sur",
+       "s": 49.948,
+       "e": 50.028
+      },
+      {
+       "w": "le",
+       "s": 50.028,
+       "e": 50.188
+      },
+      {
+       "w": "bouton",
+       "s": 50.188,
+       "e": 50.588
+      },
+      {
+       "w": "suivant.",
+       "s": 50.588,
+       "e": 51.228
+      }
+     ]
+    },
+    {
+     "text": "Et le choc devient plus fort.",
+     "spoken": "Et le choc devient plus fort.",
+     "start": 51.228,
+     "end": 52.731,
+     "words": [
+      {
+       "w": "Et",
+       "s": 51.228,
+       "e": 51.388
+      },
+      {
+       "w": "le",
+       "s": 51.388,
+       "e": 51.548
+      },
+      {
+       "w": "choc",
+       "s": 51.548,
+       "e": 51.868
+      },
+      {
+       "w": "devient",
+       "s": 51.868,
+       "e": 52.188
+      },
+      {
+       "w": "plus",
+       "s": 52.188,
+       "e": 52.348
+      },
+      {
+       "w": "fort.",
+       "s": 52.348,
+       "e": 52.731
+      }
+     ]
+    }
+   ],
+   "end": 53.031
+  },
+  {
+   "id": "fake",
+   "start": 53.031,
+   "sentences": [
+    {
+     "text": "Ce que tu ne sais pas...",
+     "spoken": "Ce que tu ne sais pas...",
+     "start": 53.031,
+     "end": 53.911,
+     "words": [
+      {
+       "w": "Ce",
+       "s": 53.031,
+       "e": 53.191
+      },
+      {
+       "w": "que",
+       "s": 53.191,
+       "e": 53.351
+      },
+      {
+       "w": "tu",
+       "s": 53.351,
+       "e": 53.511
+      },
+      {
+       "w": "ne",
+       "s": 53.511,
+       "e": 53.591
+      },
+      {
+       "w": "sais",
+       "s": 53.591,
+       "e": 53.751
+      },
+      {
+       "w": "pas...",
+       "s": 53.751,
+       "e": 53.911
+      }
+     ]
+    },
+    {
+     "text": "les chocs sont faux.",
+     "spoken": "les chocs sont faux.",
+     "start": 53.911,
+     "end": 54.951,
+     "words": [
+      {
+       "w": "les",
+       "s": 53.911,
+       "e": 54.071
+      },
+      {
+       "w": "chocs",
+       "s": 54.071,
+       "e": 54.391
+      },
+      {
+       "w": "sont",
+       "s": 54.391,
+       "e": 54.551
+      },
+      {
+       "w": "faux.",
+       "s": 54.551,
+       "e": 54.951
+      }
+     ]
+    },
+    {
+     "text": "Personne n'a mal.",
+     "spoken": "Personne n'a mal.",
+     "start": 54.951,
+     "end": 55.979,
+     "words": [
+      {
+       "w": "Personne",
+       "s": 54.951,
+       "e": 55.191
+      },
+      {
+       "w": "n'a",
+       "s": 55.191,
+       "e": 55.511
+      },
+      {
+       "w": "mal.",
+       "s": 55.511,
+       "e": 55.979
+      }
+     ]
+    }
+   ],
+   "end": 56.279
+  },
+  {
+   "id": "protest",
+   "start": 56.279,
+   "sentences": [
+    {
+     "text": "Mais l'acteur fait semblant.",
+     "spoken": "Mais l'acteur fait semblant.",
+     "start": 56.279,
+     "end": 57.639,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 56.279,
+       "e": 56.359
+      },
+      {
+       "w": "l'acteur",
+       "s": 56.359,
+       "e": 56.759
+      },
+      {
+       "w": "fait",
+       "s": 56.759,
+       "e": 57.079
+      },
+      {
+       "w": "semblant.",
+       "s": 57.079,
+       "e": 57.639
+      }
+     ]
+    },
+    {
+     "text": "Il crie, il tape contre le mur.",
+     "spoken": "Il crie, il tape contre le mur.",
+     "start": 57.639,
+     "end": 59.559,
+     "words": [
+      {
+       "w": "Il",
+       "s": 57.639,
+       "e": 57.799
+      },
+      {
+       "w": "crie,",
+       "s": 57.799,
+       "e": 58.279
+      },
+      {
+       "w": "il",
+       "s": 58.279,
+       "e": 58.519
+      },
+      {
+       "w": "tape",
+       "s": 58.519,
+       "e": 58.919
+      },
+      {
+       "w": "contre",
+       "s": 58.919,
+       "e": 59.079
+      },
+      {
+       "w": "le",
+       "s": 59.079,
+       "e": 59.159
+      },
+      {
+       "w": "mur.",
+       "s": 59.159,
+       "e": 59.559
+      }
+     ]
+    },
+    {
+     "text": "Puis...",
+     "spoken": "Puis...",
+     "start": 59.559,
+     "end": 59.799,
+     "words": [
+      {
+       "w": "Puis...",
+       "s": 59.559,
+       "e": 59.799
+      }
+     ]
+    },
+    {
+     "text": "plus rien.",
+     "spoken": "plus rien.",
+     "start": 60.449,
+     "end": 61.066,
+     "words": [
+      {
+       "w": "plus",
+       "s": 60.449,
+       "e": 60.689
+      },
+      {
+       "w": "rien.",
+       "s": 60.689,
+       "e": 61.066
+      }
+     ]
+    }
+   ],
+   "end": 61.366
+  },
+  {
+   "id": "prod",
+   "start": 61.366,
+   "sentences": [
+    {
+     "text": "Tu as peur.",
+     "spoken": "Tu as peur.",
+     "start": 62.466,
+     "end": 63.266,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 62.466,
+       "e": 62.706
+      },
+      {
+       "w": "as",
+       "s": 62.706,
+       "e": 62.786
+      },
+      {
+       "w": "peur.",
+       "s": 62.786,
+       "e": 63.266
+      }
+     ]
+    },
+    {
+     "text": "Tu veux arrêter.",
+     "spoken": "Tu veux arrêter.",
+     "start": 63.266,
+     "end": 64.226,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 63.266,
+       "e": 63.506
+      },
+      {
+       "w": "veux",
+       "s": 63.506,
+       "e": 63.746
+      },
+      {
+       "w": "arrêter.",
+       "s": 63.746,
+       "e": 64.226
+      }
+     ]
+    },
+    {
+     "text": "Mais le savant reste très calme.",
+     "spoken": "Mais le savant reste très calme.",
+     "start": 64.226,
+     "end": 66.066,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 64.226,
+       "e": 64.386
+      },
+      {
+       "w": "le",
+       "s": 64.386,
+       "e": 64.546
+      },
+      {
+       "w": "savant",
+       "s": 64.546,
+       "e": 65.026
+      },
+      {
+       "w": "reste",
+       "s": 65.026,
+       "e": 65.426
+      },
+      {
+       "w": "très",
+       "s": 65.426,
+       "e": 65.586
+      },
+      {
+       "w": "calme.",
+       "s": 65.586,
+       "e": 66.066
+      }
+     ]
+    },
+    {
+     "text": "L'expérience exige que vous continuiez.",
+     "spoken": "L'expérience exige que vous continuiez.",
+     "start": 66.066,
+     "end": 68.246,
+     "words": [
+      {
+       "w": "L'expérience",
+       "s": 66.066,
+       "e": 66.866
+      },
+      {
+       "w": "exige",
+       "s": 66.866,
+       "e": 67.426
+      },
+      {
+       "w": "que",
+       "s": 67.426,
+       "e": 67.586
+      },
+      {
+       "w": "vous",
+       "s": 67.586,
+       "e": 67.746
+      },
+      {
+       "w": "continuiez.",
+       "s": 67.746,
+       "e": 68.246
+      }
+     ]
+    }
+   ],
+   "end": 68.798
+  },
+  {
+   "id": "result",
+   "start": 68.798,
+   "sentences": [
+    {
+     "text": "Et devine quoi ?",
+     "spoken": "Et devine quoi ?",
+     "start": 69.448,
+     "end": 70.408,
+     "words": [
+      {
+       "w": "Et",
+       "s": 69.448,
+       "e": 69.608
+      },
+      {
+       "w": "devine",
+       "s": 69.608,
+       "e": 70.088
+      },
+      {
+       "w": "quoi?",
+       "s": 70.088,
+       "e": 70.408
+      }
+     ]
+    },
+    {
+     "text": "26 personnes sur 40 appuient jusqu'au dernier bouton.",
+     "spoken": "Vingt-six personnes sur quarante appuient jusqu'au dernier bouton.",
+     "start": 70.408,
+     "end": 74.328,
+     "words": [
+      {
+       "w": "26",
+       "s": 70.408,
+       "e": 71.288
+      },
+      {
+       "w": "personnes",
+       "s": 71.288,
+       "e": 71.688
+      },
+      {
+       "w": "sur",
+       "s": 71.688,
+       "e": 71.928
+      },
+      {
+       "w": "40",
+       "s": 71.928,
+       "e": 72.408
+      },
+      {
+       "w": "appuient",
+       "s": 72.408,
+       "e": 72.968
+      },
+      {
+       "w": "jusqu'au",
+       "s": 72.968,
+       "e": 73.368
+      },
+      {
+       "w": "dernier",
+       "s": 73.368,
+       "e": 73.688
+      },
+      {
+       "w": "bouton.",
+       "s": 73.688,
+       "e": 74.328
+      }
+     ]
+    },
+    {
+     "text": "Presque deux sur trois.",
+     "spoken": "Presque deux sur trois.",
+     "start": 74.328,
+     "end": 75.688,
+     "words": [
+      {
+       "w": "Presque",
+       "s": 74.328,
+       "e": 74.728
+      },
+      {
+       "w": "deux",
+       "s": 74.728,
+       "e": 75.048
+      },
+      {
+       "w": "sur",
+       "s": 75.048,
+       "e": 75.208
+      },
+      {
+       "w": "trois.",
+       "s": 75.208,
+       "e": 75.688
+      }
+     ]
+    },
+    {
+     "text": "Et personne ne s'arrête avant trois cents volts.",
+     "spoken": "Et personne ne s'arrête avant trois cents volts.",
+     "start": 75.688,
+     "end": 78.163,
+     "words": [
+      {
+       "w": "Et",
+       "s": 75.688,
+       "e": 75.928
+      },
+      {
+       "w": "personne",
+       "s": 75.928,
+       "e": 76.248
+      },
+      {
+       "w": "ne",
+       "s": 76.248,
+       "e": 76.408
+      },
+      {
+       "w": "s'arrête",
+       "s": 76.408,
+       "e": 76.888
+      },
+      {
+       "w": "avant",
+       "s": 76.888,
+       "e": 77.208
+      },
+      {
+       "w": "trois",
+       "s": 77.208,
+       "e": 77.258
+      },
+      {
+       "w": "cents",
+       "s": 77.228,
+       "e": 77.688
+      },
+      {
+       "w": "volts.",
+       "s": 77.688,
+       "e": 78.163
+      }
+     ]
+    }
+   ],
+   "end": 78.463
+  },
+  {
+   "id": "why",
+   "start": 78.463,
+   "sentences": [
+    {
+     "text": "Pourquoi ?",
+     "spoken": "Pourquoi ?",
+     "start": 78.463,
+     "end": 79.103,
+     "words": [
+      {
+       "w": "Pourquoi?",
+       "s": 78.463,
+       "e": 79.103
+      }
+     ]
+    },
+    {
+     "text": "D'abord, ça monte petit à petit : chaque bouton, c'est juste un peu plus.",
+     "spoken": "D'abord, ça monte petit à petit : chaque bouton, c'est juste un peu plus.",
+     "start": 79.103,
+     "end": 83.263,
+     "words": [
+      {
+       "w": "D'abord,",
+       "s": 79.103,
+       "e": 79.583
+      },
+      {
+       "w": "ça",
+       "s": 79.583,
+       "e": 79.743
+      },
+      {
+       "w": "monte",
+       "s": 79.743,
+       "e": 80.143
+      },
+      {
+       "w": "petit",
+       "s": 80.143,
+       "e": 80.383
+      },
+      {
+       "w": "à",
+       "s": 80.383,
+       "e": 80.543
+      },
+      {
+       "w": "petit:",
+       "s": 80.543,
+       "e": 81.023
+      },
+      {
+       "w": "chaque",
+       "s": 81.023,
+       "e": 81.423
+      },
+      {
+       "w": "bouton,",
+       "s": 81.423,
+       "e": 81.903
+      },
+      {
+       "w": "c'est",
+       "s": 81.903,
+       "e": 82.143
+      },
+      {
+       "w": "juste",
+       "s": 82.143,
+       "e": 82.383
+      },
+      {
+       "w": "un",
+       "s": 82.383,
+       "e": 82.543
+      },
+      {
+       "w": "peu",
+       "s": 82.543,
+       "e": 82.783
+      },
+      {
+       "w": "plus.",
+       "s": 82.783,
+       "e": 83.263
+      }
+     ]
+    },
+    {
+     "text": "Dire non d'un coup, c'est difficile.",
+     "spoken": "Dire non d'un coup, c'est difficile.",
+     "start": 83.263,
+     "end": 85.423,
+     "words": [
+      {
+       "w": "Dire",
+       "s": 83.263,
+       "e": 83.583
+      },
+      {
+       "w": "non",
+       "s": 83.583,
+       "e": 83.903
+      },
+      {
+       "w": "d'un",
+       "s": 83.903,
+       "e": 84.063
+      },
+      {
+       "w": "coup,",
+       "s": 84.063,
+       "e": 84.463
+      },
+      {
+       "w": "c'est",
+       "s": 84.463,
+       "e": 84.783
+      },
+      {
+       "w": "difficile.",
+       "s": 84.783,
+       "e": 85.423
+      }
+     ]
+    },
+    {
+     "text": "Ensuite, dans ta tête, tu te dis : ce n'est pas moi qui décide...",
+     "spoken": "Ensuite, dans ta tête, tu te dis : ce n'est pas moi qui décide...",
+     "start": 85.423,
+     "end": 89.663,
+     "words": [
+      {
+       "w": "Ensuite,",
+       "s": 85.423,
+       "e": 86.143
+      },
+      {
+       "w": "dans",
+       "s": 86.143,
+       "e": 86.383
+      },
+      {
+       "w": "ta",
+       "s": 86.383,
+       "e": 86.543
+      },
+      {
+       "w": "tête,",
+       "s": 86.543,
+       "e": 86.943
+      },
+      {
+       "w": "tu",
+       "s": 86.943,
+       "e": 87.103
+      },
+      {
+       "w": "te",
+       "s": 87.103,
+       "e": 87.263
+      },
+      {
+       "w": "dis:",
+       "s": 87.263,
+       "e": 87.743
+      },
+      {
+       "w": "ce",
+       "s": 87.743,
+       "e": 87.903
+      },
+      {
+       "w": "n'est",
+       "s": 87.903,
+       "e": 88.143
+      },
+      {
+       "w": "pas",
+       "s": 88.143,
+       "e": 88.303
+      },
+      {
+       "w": "moi",
+       "s": 88.303,
+       "e": 88.543
+      },
+      {
+       "w": "qui",
+       "s": 88.543,
+       "e": 88.783
+      },
+      {
+       "w": "décide...",
+       "s": 88.783,
+       "e": 89.663
+      }
+     ]
+    },
+    {
+     "text": "c'est le savant.",
+     "spoken": "c'est le savant.",
+     "start": 89.663,
+     "end": 90.543,
+     "words": [
+      {
+       "w": "c'est",
+       "s": 89.663,
+       "e": 89.903
+      },
+      {
+       "w": "le",
+       "s": 89.903,
+       "e": 90.063
+      },
+      {
+       "w": "savant.",
+       "s": 90.063,
+       "e": 90.543
+      }
+     ]
+    },
+    {
+     "text": "Alors ce n'est pas ma faute.",
+     "spoken": "Alors ce n'est pas ma faute.",
+     "start": 90.543,
+     "end": 91.946,
+     "words": [
+      {
+       "w": "Alors",
+       "s": 90.543,
+       "e": 90.863
+      },
+      {
+       "w": "ce",
+       "s": 90.863,
+       "e": 91.023
+      },
+      {
+       "w": "n'est",
+       "s": 91.023,
+       "e": 91.183
+      },
+      {
+       "w": "pas",
+       "s": 91.183,
+       "e": 91.343
+      },
+      {
+       "w": "ma",
+       "s": 91.343,
+       "e": 91.503
+      },
+      {
+       "w": "faute.",
+       "s": 91.503,
+       "e": 91.946
+      }
+     ]
+    }
+   ],
+   "end": 92.246
+  },
+  {
+   "id": "nuance",
+   "start": 92.246,
+   "sentences": [
+    {
+     "text": "Mais quand le savant donne les ordres par téléphone...",
+     "spoken": "Mais quand le savant donne les ordres par téléphone...",
+     "start": 92.246,
+     "end": 95.126,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 92.246,
+       "e": 92.406
+      },
+      {
+       "w": "quand",
+       "s": 92.406,
+       "e": 92.566
+      },
+      {
+       "w": "le",
+       "s": 92.566,
+       "e": 92.726
+      },
+      {
+       "w": "savant",
+       "s": 92.726,
+       "e": 93.206
+      },
+      {
+       "w": "donne",
+       "s": 93.206,
+       "e": 93.526
+      },
+      {
+       "w": "les",
+       "s": 93.526,
+       "e": 93.686
+      },
+      {
+       "w": "ordres",
+       "s": 93.686,
+       "e": 94.086
+      },
+      {
+       "w": "par",
+       "s": 94.086,
+       "e": 94.246
+      },
+      {
+       "w": "téléphone...",
+       "s": 94.246,
+       "e": 95.126
+      }
+     ]
+    },
+    {
+     "text": "beaucoup moins de gens obéissent.",
+     "spoken": "beaucoup moins de gens obéissent.",
+     "start": 95.126,
+     "end": 96.746,
+     "words": [
+      {
+       "w": "beaucoup",
+       "s": 95.126,
+       "e": 95.526
+      },
+      {
+       "w": "moins",
+       "s": 95.526,
+       "e": 95.766
+      },
+      {
+       "w": "de",
+       "s": 95.766,
+       "e": 95.926
+      },
+      {
+       "w": "gens",
+       "s": 95.926,
+       "e": 96.246
+      },
+      {
+       "w": "obéissent.",
+       "s": 96.246,
+       "e": 96.746
+      }
+     ]
+    }
+   ],
+   "end": 97.278
+  },
+  {
+   "id": "now",
+   "start": 97.278,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 97.278,
+     "end": 98.238,
+     "words": [
+      {
+       "w": "Et",
+       "s": 97.278,
+       "e": 97.518
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 97.518,
+       "e": 98.238
+      }
+     ]
+    },
+    {
+     "text": "Quand un chef dit : « fais-le, c'est la règle »...",
+     "spoken": "Quand un chef dit : « fais-le, c'est la règle »...",
+     "start": 98.238,
+     "end": 101.278,
+     "words": [
+      {
+       "w": "Quand",
+       "s": 98.238,
+       "e": 98.478
+      },
+      {
+       "w": "un",
+       "s": 98.478,
+       "e": 98.638
+      },
+      {
+       "w": "chef",
+       "s": 98.638,
+       "e": 98.878
+      },
+      {
+       "w": "dit:",
+       "s": 98.878,
+       "e": 99.298
+      },
+      {
+       "w": "«",
+       "s": 99.298,
+       "e": 99.438
+      },
+      {
+       "w": "fais-le,",
+       "s": 99.438,
+       "e": 100.158
+      },
+      {
+       "w": "c'est",
+       "s": 100.158,
+       "e": 100.478
+      },
+      {
+       "w": "la",
+       "s": 100.478,
+       "e": 100.638
+      },
+      {
+       "w": "règle",
+       "s": 100.638,
+       "e": 101.171
+      },
+      {
+       "w": "»...",
+       "s": 101.171,
+       "e": 101.278
+      }
+     ]
+    },
+    {
+     "text": "beaucoup obéissent sans réfléchir.",
+     "spoken": "beaucoup obéissent sans réfléchir.",
+     "start": 101.278,
+     "end": 103.438,
+     "words": [
+      {
+       "w": "beaucoup",
+       "s": 101.278,
+       "e": 101.678
+      },
+      {
+       "w": "obéissent",
+       "s": 101.678,
+       "e": 102.318
+      },
+      {
+       "w": "sans",
+       "s": 102.318,
+       "e": 102.558
+      },
+      {
+       "w": "réfléchir.",
+       "s": 102.558,
+       "e": 103.438
+      }
+     ]
+    },
+    {
+     "text": "Une blouse, un titre, une voix sûre d'elle...",
+     "spoken": "Une blouse, un titre, une voix sûre d'elle...",
+     "start": 103.438,
+     "end": 106.238,
+     "words": [
+      {
+       "w": "Une",
+       "s": 103.438,
+       "e": 103.678
+      },
+      {
+       "w": "blouse,",
+       "s": 103.678,
+       "e": 104.398
+      },
+      {
+       "w": "un",
+       "s": 104.398,
+       "e": 104.558
+      },
+      {
+       "w": "titre,",
+       "s": 104.558,
+       "e": 104.958
+      },
+      {
+       "w": "une",
+       "s": 104.958,
+       "e": 105.118
+      },
+      {
+       "w": "voix",
+       "s": 105.118,
+       "e": 105.438
+      },
+      {
+       "w": "sûre",
+       "s": 105.438,
+       "e": 105.758
+      },
+      {
+       "w": "d'elle...",
+       "s": 105.758,
+       "e": 106.238
+      }
+     ]
+    },
+    {
+     "text": "et on oublie de se demander : est-ce que c'est bien ?",
+     "spoken": "et on oublie de se demander : est-ce que c'est bien ?",
+     "start": 106.238,
+     "end": 109.067,
+     "words": [
+      {
+       "w": "et",
+       "s": 106.238,
+       "e": 106.398
+      },
+      {
+       "w": "on",
+       "s": 106.398,
+       "e": 106.558
+      },
+      {
+       "w": "oublie",
+       "s": 106.558,
+       "e": 106.958
+      },
+      {
+       "w": "de",
+       "s": 106.958,
+       "e": 107.118
+      },
+      {
+       "w": "se",
+       "s": 107.118,
+       "e": 107.278
+      },
+      {
+       "w": "demander:",
+       "s": 107.278,
+       "e": 108.078
+      },
+      {
+       "w": "est-ce",
+       "s": 108.078,
+       "e": 108.318
+      },
+      {
+       "w": "que",
+       "s": 108.318,
+       "e": 108.478
+      },
+      {
+       "w": "c'est",
+       "s": 108.478,
+       "e": 108.718
+      },
+      {
+       "w": "bien?",
+       "s": 108.718,
+       "e": 109.067
+      }
+     ]
+    }
+   ],
+   "end": 109.367
+  },
+  {
+   "id": "cta",
+   "start": 109.367,
+   "sentences": [
+    {
+     "text": "Et toi...",
+     "spoken": "Et toi...",
+     "start": 109.367,
+     "end": 109.767,
+     "words": [
+      {
+       "w": "Et",
+       "s": 109.367,
+       "e": 109.527
+      },
+      {
+       "w": "toi...",
+       "s": 109.527,
+       "e": 109.767
+      }
+     ]
+    },
+    {
+     "text": "à quel bouton tu t'arrêtes ?",
+     "spoken": "à quel bouton tu t'arrêtes ?",
+     "start": 109.767,
+     "end": 111.127,
+     "words": [
+      {
+       "w": "à",
+       "s": 109.767,
+       "e": 109.927
+      },
+      {
+       "w": "quel",
+       "s": 109.927,
+       "e": 110.167
+      },
+      {
+       "w": "bouton",
+       "s": 110.167,
+       "e": 110.407
+      },
+      {
+       "w": "tu",
+       "s": 110.407,
+       "e": 110.567
+      },
+      {
+       "w": "t'arrêtes?",
+       "s": 110.567,
+       "e": 111.127
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 111.127,
+     "end": 112.107,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 111.127,
+       "e": 111.527
+      },
+      {
+       "w": "en",
+       "s": 111.527,
+       "e": 111.607
+      },
+      {
+       "w": "commentaire.",
+       "s": 111.607,
+       "e": 112.107
+      }
+     ]
+    }
+   ],
+   "end": 112.589
+  }
+ ]
+}

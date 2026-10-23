@@ -1,0 +1,71 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.07,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Un adulte tape une poupée... devant un enfant. Que va faire l'enfant ?"
+  },
+  {
+   "id": "setup",
+   "text": "En {1961|mille neuf cent soixante et un}, un savant, Albert {Bandura|Bandoura}, veut savoir une chose. Est-ce que les enfants copient ce qu'ils voient ? Il invite {72|soixante-douze} enfants de trois à six ans."
+  },
+  {
+   "id": "room",
+   "text": "Chaque enfant dessine dans un coin. Dans l'autre coin, il y a un adulte. Et Bobo : une grosse poupée gonflable, plus grande que l'enfant."
+  },
+  {
+   "id": "model",
+   "text": "Pour certains enfants, l'adulte se met à taper Bobo pendant dix minutes : avec les poings, avec un marteau, en criant des gros mots."
+  },
+  {
+   "id": "groups",
+   "text": "D'autres enfants voient un adulte calme. Et d'autres ne voient personne."
+  },
+  {
+   "id": "tease",
+   "text": "Ensuite, on montre à chaque enfant de super jouets... puis on les lui retire. Il est un peu fâché."
+  },
+  {
+   "id": "test",
+   "text": "Puis l'enfant reste seul vingt minutes, avec Bobo et un marteau. Derrière un miroir magique... on regarde ce qu'il fait."
+  },
+  {
+   "id": "result",
+   "text": "<r>Et devine quoi ? Les enfants qui ont vu l'adulte taper... tapent Bobo à leur tour. Les mêmes gestes. Parfois... les mêmes mots."
+  },
+  {
+   "id": "boys",
+   "text": "Les garçons, surtout, copient les coups."
+  },
+  {
+   "id": "lesson",
+   "text": "Pourquoi ? Parce que notre cerveau apprend en regardant. L'enfant observe, il retient... puis il refait pareil. Surtout si l'adulte lui ressemble, ou a l'air fort. Pas besoin de bonbon, ni de punition : regarder suffit pour apprendre."
+  },
+  {
+   "id": "nuance",
+   "text": "Attention : Bobo est fait pour être tapé. Et on a regardé seulement sur le moment, pas des années après."
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Les enfants regardent des écrans : des influenceurs, des défis... et ils les copient dans la cour de récré. Mais ça marche aussi pour le bien. Un enfant qui voit un adulte aider... aide plus souvent."
+  },
+  {
+   "id": "cta",
+   "text": "Et toi... qu'est-ce que les enfants autour de toi regardent ? Dis-le en commentaire."
+  }
+ ],
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ }
+}

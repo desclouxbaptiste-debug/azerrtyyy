@@ -1,0 +1,67 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.07,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Et si tu travaillais mieux... juste parce que quelqu'un te regarde ?"
+  },
+  {
+   "id": "setup",
+   "text": "Dans les années vingt, près de Chicago, une grande usine fabrique des téléphones. Des milliers d'ouvriers y travaillent. Des savants veulent savoir une chose. Qu'est-ce qui aide les ouvriers à mieux travailler ?"
+  },
+  {
+   "id": "light",
+   "text": "D'abord, ils mettent plus de lumière. Et les ouvriers travaillent plus vite. Logique."
+  },
+  {
+   "id": "control",
+   "text": "Mais dans l'autre atelier, où on ne change rien... <r>ils travaillent plus vite aussi !"
+  },
+  {
+   "id": "dim",
+   "text": "Alors on baisse la lumière. Et ils travaillent toujours aussi bien... jusqu'à ce qu'on n'y voie presque plus rien !"
+  },
+  {
+   "id": "relay",
+   "text": "Puis six ouvrières vont dans une petite salle, avec quelqu'un qui les regarde et prend des notes. On change les pauses, les horaires, on donne des goûters... et elles travaillent de mieux en mieux."
+  },
+  {
+   "id": "back",
+   "text": "Même quand on remet tout comme avant... elles travaillent toujours mieux."
+  },
+  {
+   "id": "name",
+   "text": "Dans les années cinquante, on donne un nom à ça. <r>L'effet {Hawthorne|Hosorne}. On change... quand on sait qu'on nous regarde."
+  },
+  {
+   "id": "twist",
+   "text": "<r>Mais en {2011|deux mille onze}, deux savants revérifient les chiffres. Résultat : l'effet est beaucoup plus petit... que l'histoire qu'on raconte."
+  },
+  {
+   "id": "lesson",
+   "text": "Pourquoi on change quand on nous regarde ? Parce qu'on veut donner une bonne image : on se tient droit, on fait plus d'efforts. Et ces ouvrières étaient contentes qu'enfin, quelqu'un s'intéresse à elles."
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Des caméras partout, des patrons qui surveillent l'ordinateur, des montres qui comptent nos pas, des likes... on est regardés tout le temps. Une étude a même montré qu'une simple affiche avec des yeux, au-dessus d'une boîte à café... <r>fait payer presque trois fois plus."
+  },
+  {
+   "id": "cta",
+   "text": "Et toi... tu bosses mieux quand le chef passe ? Dis-le en commentaire."
+  }
+ ],
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ }
+}

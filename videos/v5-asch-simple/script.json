@@ -1,0 +1,67 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.07,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Trois traits. Une réponse facile... et pourtant, tu pourrais te tromper."
+  },
+  {
+   "id": "setup",
+   "text": "En {1951|mille neuf cent cinquante et un}, un savant, Solomon {Asch|Ache}, veut savoir une chose. Est-ce qu'on dit comme les autres, même quand les autres ont tort ? Tu t'assois avec sept autres personnes."
+  },
+  {
+   "id": "task",
+   "text": "On montre une ligne. Puis trois autres. Le jeu : trouver la ligne de la même taille. Chacun répond à voix haute, à tour de rôle. Toi, tu passes avant-dernier."
+  },
+  {
+   "id": "easy",
+   "text": "Au début, c'est facile. Tout le monde trouve la bonne."
+  },
+  {
+   "id": "twist",
+   "text": "Puis, à ce tour-là, les sept disent tous... <r>la même mauvaise réponse."
+  },
+  {
+   "id": "secret",
+   "text": "Ce que tu ne sais pas... ils sont tous d'accord pour te piéger. Ce sont des complices."
+  },
+  {
+   "id": "result",
+   "text": "<r>Et devine quoi ? Une fois sur trois, les gens disent comme le groupe. Et trois personnes sur quatre se trompent au moins une fois. Pourtant, seuls, presque personne ne se trompe."
+  },
+  {
+   "id": "why",
+   "text": "Pourquoi ? Deux raisons. D'abord, le doute : s'ils sont sept à voir autre chose, c'est peut-être toi qui vois mal. Ensuite, la peur : tu sais que c'est la ligne A... mais tu ne veux pas être tout seul contre tous. Dans le cerveau, être différent du groupe, ça déclenche comme une petite alarme."
+  },
+  {
+   "id": "ally",
+   "text": "Mais si un seul autre joueur dit la bonne réponse... <r>presque tout le monde ose enfin dire la vérité."
+  },
+  {
+   "id": "nuance",
+   "text": "Et une personne sur quatre n'a jamais suivi le groupe."
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Les likes te disent quoi aimer. Les étoiles te disent quoi acheter. Et dans un groupe de copains, personne n'ose dire non. Mais souviens-toi... une seule voix différente, et les autres osent aussi."
+  },
+  {
+   "id": "cta",
+   "text": "Et toi... tu aurais suivi le groupe ? Dis-le en commentaire."
+  }
+ ],
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ }
+}

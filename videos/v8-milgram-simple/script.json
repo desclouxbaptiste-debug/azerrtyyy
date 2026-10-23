@@ -1,0 +1,75 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.07,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Est-ce que tu ferais du mal à quelqu'un... juste parce qu'un adulte sérieux te le demande ?"
+  },
+  {
+   "id": "setup",
+   "text": "En {1961|mille neuf cent soixante et un}, un savant, Stanley {Milgram|Milgrame}, veut savoir une chose. Jusqu'où est-ce qu'on obéit à un chef ? Il fait croire aux gens que c'est un jeu de mémoire. Tu te présentes."
+  },
+  {
+   "id": "roles",
+   "text": "Il y a un autre joueur. Tirage au sort : toi, tu poses les questions. Lui, il répond. Mais le tirage est truqué... <r>l'autre joueur est un acteur."
+  },
+  {
+   "id": "strap",
+   "text": "On l'attache sur une chaise, avec un fil électrique au poignet. Et pour que tu y croies, on te donne un vrai petit choc : quarante-cinq volts. Ça pique."
+  },
+  {
+   "id": "machine",
+   "text": "Puis tu vas dans la pièce d'à côté. Devant toi, une machine avec trente boutons. Le premier fait un tout petit choc. Le dernier, un choc énorme : {450|quatre cent cinquante} volts."
+  },
+  {
+   "id": "rule",
+   "text": "La règle est simple : tu poses une question. S'il se trompe... tu appuies sur le bouton suivant. Et le choc devient plus fort."
+  },
+  {
+   "id": "fake",
+   "text": "Ce que tu ne sais pas... les chocs sont faux. Personne n'a mal."
+  },
+  {
+   "id": "protest",
+   "text": "Mais l'acteur fait semblant. Il crie, il tape contre le mur. Puis... <r>plus rien."
+  },
+  {
+   "id": "prod",
+   "text": "<l>Tu as peur. Tu veux arrêter. Mais le savant reste très calme. L'expérience exige que vous continuiez."
+  },
+  {
+   "id": "result",
+   "text": "<r>Et devine quoi ? {26|Vingt-six} personnes sur {40|quarante} appuient jusqu'au dernier bouton. Presque deux sur trois. Et personne ne s'arrête avant trois cents volts."
+  },
+  {
+   "id": "why",
+   "text": "Pourquoi ? D'abord, ça monte petit à petit : chaque bouton, c'est juste un peu plus. Dire non d'un coup, c'est difficile. Ensuite, dans ta tête, tu te dis : ce n'est pas moi qui décide... c'est le savant. Alors ce n'est pas ma faute."
+  },
+  {
+   "id": "nuance",
+   "text": "Mais quand le savant donne les ordres par téléphone... beaucoup moins de gens obéissent."
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Quand un chef dit : « fais-le, c'est la règle »... beaucoup obéissent sans réfléchir. Une blouse, un titre, une voix sûre d'elle... et on oublie de se demander : est-ce que c'est bien ?"
+  },
+  {
+   "id": "cta",
+   "text": "Et toi... à quel bouton tu t'arrêtes ? Dis-le en commentaire."
+  }
+ ],
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ }
+}

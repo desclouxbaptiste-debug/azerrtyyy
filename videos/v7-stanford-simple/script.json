@@ -1,0 +1,75 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.07,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "segments": [
+  {
+   "id": "hook",
+   "text": "La plus célèbre expérience sur la méchanceté... <r>était peut-être du théâtre."
+  },
+  {
+   "id": "setup",
+   "text": "En {1971|mille neuf cent soixante et onze}, un savant, Philip Zimbardo, veut savoir une chose. Est-ce qu'un gentil peut devenir méchant, juste à cause de son rôle ? Il transforme une cave de l'université en fausse prison."
+  },
+  {
+   "id": "recruit",
+   "text": "Il cherche des étudiants avec une petite annonce : quinze dollars par jour. Vingt-quatre sont choisis. Pile ou face : gardien... ou prisonnier."
+  },
+  {
+   "id": "arrest",
+   "text": "Un dimanche matin, la vraie police vient chercher les prisonniers chez eux. Menottes, et yeux bandés."
+  },
+  {
+   "id": "cell",
+   "text": "En prison : une robe, un numéro à la place du prénom, une chaîne au pied."
+  },
+  {
+   "id": "guards",
+   "text": "Les gardiens, eux, reçoivent un uniforme, un bâton, et des lunettes de soleil miroir... pour qu'on ne voie pas leurs yeux."
+  },
+  {
+   "id": "revolt",
+   "text": "Dès le deuxième jour, les prisonniers se révoltent. Les gardiens deviennent durs : ils les aspergent, leur font faire des pompes, les empêchent de dormir."
+  },
+  {
+   "id": "stop",
+   "text": "Ça devait durer deux semaines. Mais on arrête tout... <r>au bout de six jours."
+  },
+  {
+   "id": "claim",
+   "text": "Zimbardo en conclut une chose. Mettez des gens gentils dans un mauvais rôle... et ils deviennent méchants."
+  },
+  {
+   "id": "twist",
+   "text": "<r>Sauf que... des enregistrements montrent qu'on poussait les gardiens à être durs. Et un prisonnier a raconté qu'il faisait semblant."
+  },
+  {
+   "id": "today",
+   "text": "Aujourd'hui, beaucoup de savants pensent que c'était... plus du théâtre qu'une vraie expérience."
+  },
+  {
+   "id": "inside",
+   "text": "Alors, qu'est-ce qu'on en retient ? Deux choses vraies. Un : quand on porte un uniforme, des lunettes, un numéro... on se sent moins soi-même, moins responsable. Deux : quand un chef pousse à être dur, certains obéissent... et en sont même fiers."
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Derrière un pseudo, sur internet, certains écrivent des choses qu'ils ne diraient jamais en face. Et dans un groupe, si le chef ferme les yeux... tout devient permis."
+  },
+  {
+   "id": "cta",
+   "text": "Le pouvoir rend méchant... ou c'est une belle histoire ? Dis-le en commentaire."
+  }
+ ],
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ }
+}

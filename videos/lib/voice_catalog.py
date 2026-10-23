@@ -1,5 +1,5 @@
-"""Voice catalogue: every French voice this toolkit can produce reads the same line, then a few styles of the house
-voice (Supertonic sid 9, as used in the videos). Writes one WAV per entry and catalog.json (number, name, description).
+"""Voice catalogue: every French voice this toolkit can produce reads the same line (voices that do not read it
+correctly are left out). Writes one WAV per entry and catalog.json (number, name, description, pitch).
 Usage: tts/bin/python voice_catalog.py <out_dir> <models_dir>
 """
 import json
@@ -43,6 +43,14 @@ def piper(voice, sid=0):
     tts = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(
         vits=sherpa_onnx.OfflineTtsVitsModelConfig(model=f"{d}/{voice}.onnx", tokens=f"{d}/tokens.txt", data_dir=f"{d}/espeak-ng-data"), num_threads=4)))
     a = tts.generate(LINE, sid=sid, speed=1.0)
+    return np.array(a.samples, dtype=np.float32), a.sample_rate
+
+
+def coqui():
+    d = f"{models}/vits-coqui-fr-css10"
+    tts = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(
+        vits=sherpa_onnx.OfflineTtsVitsModelConfig(model=f"{d}/model.onnx", tokens=f"{d}/tokens.txt"), num_threads=4)))
+    a = tts.generate(LINE, sid=0, speed=1.0)
     return np.array(a.samples, dtype=np.float32), a.sample_rate
 
 
@@ -105,6 +113,7 @@ def whisperize(x, sr, keep=0.22, seed=3):
 
 
 entries = []
+seen = [0]  # every voice keeps its number, even when one is left out, so earlier references stay valid
 
 
 def median_f0(a, sr):
@@ -124,9 +133,15 @@ def median_f0(a, sr):
 
 
 def add(name, desc, audio_sr):
+    seen[0] += 1
     a, sr = audio_sr
+    heard, _ = align.transcribe(models, a, sr)
+    score = SequenceMatcher(None, align.norm_words(LINE), align.norm_words(heard), autojunk=False).ratio()
+    if score < 0.8:  # this voice wanders off the text (wrong accent, swallowed words): leave it out
+        print("dropped", name, round(score, 2), heard, flush=True)
+        return
     a = a / (np.max(np.abs(a)) + 1e-9) * 0.9
-    k = len(entries) + 1
+    k = seen[0]
     sf.write(f"{out}/{k:02d}.wav", a, sr, subtype="PCM_16")
     f0 = median_f0(a, sr)
     if not desc:
@@ -143,15 +158,7 @@ add("Piper · Jessica (femme)", "", piper("fr_FR-upmc-medium", 0))
 add("Piper · Pierre (homme)", "", piper("fr_FR-upmc-medium", 1))
 add("Piper · Miro (homme)", "", piper("fr_FR-miro-high"))
 add("Piper · Gilles (homme)", "", piper("fr_FR-gilles-low"))
+add("Piper · Siwis (femme)", "", piper("fr_FR-siwis-medium"))
+add("Coqui · CSS10 (homme)", "", coqui())
 
-# styles of the house voice (the one in the videos)
-base = best_supertonic(9, 1.071)
-add("Voix des vidéos", "Homme 5 + traitement narrateur (grave, chaud)", house(*base))
-add("Voix des vidéos · chuchotée", "pour les questions intimes", house(whisperize(base[0], base[1]) * 0.85, base[1]))
-add("Voix des vidéos · plus grave", "deux tons et demi plus bas", house(*base, semis=-2.5))
-add("Voix des vidéos · plus claire", "un ton et demi plus haut", house(*base, semis=0.5))
-add("Voix des vidéos · lente et posée", "documentaire, suspense", house(*best_supertonic(9, 0.9)))
-add("Voix des vidéos · énergique", "rythme rapide, plus de présence", house(*best_supertonic(9, 1.28), extra="equalizer=f=3500:t=q:w=1.0:g=3"))
-add("Voix des vidéos · radio", "effet poste de radio / téléphone", house(*base, extra="highpass=f=350,lowpass=f=3400,acrusher=bits=10:mix=0.25"))
-add("Voix des vidéos · grande salle", "écho de cathédrale", house(*base, extra="aecho=0.8:0.7:60|140|260:0.35|0.25|0.18"))
 json.dump({"line": LINE, "entries": entries}, open(f"{out}/catalog.json", "w"), ensure_ascii=False, indent=1)
