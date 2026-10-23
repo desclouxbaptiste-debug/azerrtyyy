@@ -1,0 +1,86 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.0,
+ "target": 58.0,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Trois lignes. Une réponse évidente. Et pourtant... <r>trois personnes sur quatre vont se tromper, au moins une fois.",
+   "emph": [
+    "quatre",
+    "tromper"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "Années cinquante. Le psychologue Solomon {Asch|Ache} propose un simple test de vision. Autour de la table, sept participants... <r>tous complices.",
+   "emph": [
+    "complices"
+   ]
+  },
+  {
+   "id": "task",
+   "text": "Une ligne. Puis trois autres. Laquelle a la même longueur ? Seul, presque personne ne se trompe.",
+   "emph": [
+    "seul"
+   ]
+  },
+  {
+   "id": "twist",
+   "text": "Mais à certains tours, les complices donnent tous la même mauvaise réponse. <w>Et toi... <w>tu réponds en avant-dernier.",
+   "emph": [
+    "mauvaise"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "<r>Résultat : environ un tiers des réponses suivent le groupe. Et {75 %|soixante-quinze pour cent} des participants cèdent... au moins une fois.",
+   "emph": [
+    "tiers",
+    "75"
+   ]
+  },
+  {
+   "id": "why",
+   "text": "Pourquoi ? La peur d'être rejeté. <w>Et ce doute... <w>et si c'était moi qui voyais mal ?",
+   "emph": [
+    "peur"
+   ]
+  },
+  {
+   "id": "ally",
+   "text": "Mais il suffit d'un seul allié qui dit la vérité... <r>et la pression s'effondre.",
+   "emph": [
+    "seul",
+    "effondre"
+   ]
+  },
+  {
+   "id": "nuance",
+   "text": "Un quart des participants n'a jamais cédé. On n'est pas des moutons... <s>mais le groupe pèse lourd.",
+   "emph": [
+    "jamais",
+    "lourd"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Et toi... <w>tu aurais tenu bon ? Dis-le en commentaire."
+  }
+ ]
+}

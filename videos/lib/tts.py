@@ -17,6 +17,10 @@ Engines (pip install kokoro-onnx sherpa-onnx soundfile):
 "chunk": "segment" synthesises each segment in one go (much better prosody with Supertonic, which drifts on very
 short sentences); word timings then come from forced alignment with Parakeet (lib/align.py) when its model is in
 <models_dir>, otherwise from snapping punctuation to the pauses in the audio.
+Moods (chunk "segment" + Parakeet only): a sentence starting with <w> is whispered, <s> is read slower, <r> is a
+reveal (silence before it, slower read, listed in timings.json "reveals" for the flash + impact), <p> only adds the
+silence, <l> a long one. The segment is still synthesised in one go; the sentences are cut apart afterwards and reshaped.
+"emph": ["trois", ...] on a segment lifts those words (prefix match on the subtitle word) a few dB in the final mix.
 """
 import json
 import re
@@ -78,6 +82,20 @@ else:
 
 def sentences(text):
     return [s.strip() for s in re.split(r"(?<=[.!?…])\s+", text.strip()) if s.strip()]
+
+
+# per-sentence mood tags are stripped from the text up front; seg["moods"] keeps them in sentence order
+MOOD = cfg.get("moods", {})
+TEMPO = {"w": MOOD.get("whisper_tempo", 0.94), "s": MOOD.get("slow_tempo", 0.86), "r": MOOD.get("reveal_tempo", 0.9)}
+PAUSE = {"r": MOOD.get("reveal_pause", 0.65), "p": MOOD.get("pause", 0.45), "l": MOOD.get("long_pause", 1.1), "w": MOOD.get("whisper_pause", 0.15)}
+for _seg in cfg["segments"]:
+    _moods, _clean = [], []
+    for _s in sentences(_seg["text"]):
+        _m = re.match(r"^<([wsrpl]+)>\s*", _s)
+        _moods.append(_m.group(1) if _m else "")
+        _clean.append(_s[_m.end():] if _m else _s)
+    _seg["text"], _seg["moods"] = " ".join(_clean), _moods
+HAS_MOODS = any(m for s in cfg["segments"] for m in s["moods"])
 
 
 MARK = re.compile(r"\{([^|}]*)\|([^}]*)\}")
@@ -217,6 +235,79 @@ def align_segment(seg_text, audio):
     return out
 
 
+def whisperize(x, keep=0.22, seed=3):
+    """Whispered version of a voiced clip: per STFT frame the spectral envelope (liftered cepstrum) is kept and
+    re-excited with noise, lows are thinned and the 3-6 kHz breath band lifted; `keep` mixes some voice back in."""
+    n, hop = 1024, 256
+    win = np.hanning(n)
+    pad = np.concatenate([np.zeros(n), x, np.zeros(n)])
+    out, norm = np.zeros(len(pad)), np.zeros(len(pad))
+    rng = np.random.default_rng(seed)
+    f = np.fft.rfftfreq(n, 1 / SR)
+    tilt = np.clip((f - 120) / 500, 0.15, 1) * (1 + 0.6 * np.exp(-((f - 4200) / 1800) ** 2))
+    lift = int(1.2e-3 * SR)
+    for i in range(0, len(pad) - n, hop):
+        mag = np.abs(np.fft.rfft(pad[i:i + n] * win)) + 1e-7
+        cep = np.fft.irfft(np.log(mag))
+        cep[lift:-lift] = 0
+        e = np.exp(np.fft.rfft(cep).real) * tilt
+        e *= np.sqrt(np.sum(mag ** 2) / (np.sum(e ** 2) + 1e-12))
+        out[i:i + n] += np.fft.irfft(e * np.exp(1j * rng.uniform(0, 2 * np.pi, len(e))), n) * win
+        norm[i:i + n] += win ** 2
+    w = (out / np.maximum(norm, 1e-6))[n:n + len(x)]
+    return w * (1 - keep) + x * keep
+
+
+def stretch(x, tempo):
+    """Slower / faster read at the same pitch (rubberband)."""
+    if abs(tempo - 1) < 1e-3:
+        return x
+    with tempfile.TemporaryDirectory() as d:
+        sf.write(f"{d}/in.wav", x, SR)
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", f"{d}/in.wav", "-af", f"rubberband=tempo={tempo:.4f}", f"{d}/out.wav"], check=True)
+        y, _ = sf.read(f"{d}/out.wav", dtype="float32")
+    return y
+
+
+def quietest(audio, a, b):
+    """Time (s) of the quietest 10 ms in [a, b] (a sentence boundary)."""
+    hop = int(0.01 * SR)
+    i0, i1 = int(a * SR), int(b * SR)
+    if i1 - i0 < 2 * hop:
+        return (a + b) / 2
+    rms = [np.sqrt(np.mean(audio[i:i + hop] ** 2)) for i in range(i0, i1 - hop, hop)]
+    return (i0 + int(np.argmin(rms)) * hop + hop // 2) / SR
+
+
+def apply_moods(audio, per_sent, moods):
+    """Cut a segment clip into its sentences and reshape each one by mood.
+    per_sent: [(sentence, [(word, s, e)])] relative to the clip. Returns (audio, per_sent, reveal offsets)."""
+    dur = len(audio) / SR
+    cuts = [0.0]
+    for (_, wa), (_, wb) in zip(per_sent, per_sent[1:]):
+        last, nxt = wa[-1][1], wb[0][1]
+        cuts.append(quietest(audio, min(last + 0.15, nxt - 0.02), nxt - 0.01) if nxt - last > 0.2 else max(0.0, nxt - 0.02))
+    cuts.append(dur)
+    pieces, out_sents, reveals, t = [], [], [], 0.0
+    for k, ((st, words), mood) in enumerate(zip(per_sent, moods)):
+        a, b = cuts[k], cuts[k + 1]
+        piece = audio[int(a * SR):int(b * SR)]
+        pause = max([PAUSE.get(c, 0) for c in mood] or [0]) if k or mood else 0
+        if pause:
+            pieces.append(np.zeros(int(pause * SR)))
+            t += pause
+        tempo = min([TEMPO.get(c, 1.0) for c in mood] or [1.0])
+        if "w" in mood:
+            piece = whisperize(piece) * MOOD.get("whisper_gain", 0.85)
+        piece = stretch(piece, tempo)
+        if "r" in mood:
+            reveals.append(round(t + max(0.0, words[0][1] - a) / tempo, 3))
+        out_sents.append((st, [(w, t + (s - a) / tempo, t + (e - a) / tempo) for w, s, e in words]))
+        pieces.append(piece)
+        t += len(piece) / SR
+    return np.concatenate(pieces), out_sents, reveals
+
+
 def synth_segments(speed):
     """One clip per segment. With "best_of": N (and the Parakeet model available), each segment is generated N times
     and the take whose transcription is closest to the script is kept (Supertonic varies from run to run)."""
@@ -248,18 +339,15 @@ def synth_segments(speed):
     return clips, total
 
 
-speed = cfg.get("speed", 1.1)
-if cfg.get("chunk") == "segment":
-    clips, total = synth_segments(speed)
-    if cfg.get("target"):
-        speed = float(np.clip(speed * total / cfg["target"], 0.85, 1.35))
-        clips, total = synth_segments(speed)
-    print(f"speed {speed:.3f} -> {total:.2f}s")
+def build_segments(clips, verbose):
+    """Align each segment clip, apply the sentence moods and lay everything on one timeline.
+    Returns (audio pieces, segments, reveals, total, seconds of silence that do not scale with speed)."""
     use_asr = os.path.isdir(f"{models}/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8")
     if use_asr:
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         import align as asr_align
-    out, t, segs = [np.zeros(int(LEAD * SR))], LEAD, []
+    moods_of = {s["id"]: s["moods"] for s in cfg["segments"]}
+    out, t, segs, reveals, fixed = [np.zeros(int(LEAD * SR))], LEAD, [], [], LEAD
     for seg_id, text, audio in clips:
         seg = {"id": seg_id, "start": round(t, 3), "sentences": []}
         if use_asr:
@@ -267,7 +355,12 @@ if cfg.get("chunk") == "segment":
             toks = [(si, w) for si, st in enumerate(sents) for w in tokens(st)]
             words, heard = asr_align.align(models, audio, SR, [w for _, w in toks])
             per_sent = [(st, [w for (si, _), w in zip(toks, words) if si == k]) for k, st in enumerate(sents)]
-            print(f"  [{seg_id}] heard: {heard}")
+            if verbose:
+                print(f"  [{seg_id}] heard: {heard}")
+            if any(moods_of[seg_id]):
+                audio, per_sent, rv = apply_moods(audio, per_sent, moods_of[seg_id])
+                reveals += [round(t + r, 3) for r in rv]
+                fixed += sum(max([PAUSE.get(c, 0) for c in m] or [0]) for k, m in enumerate(moods_of[seg_id]) if k or m)
         else:
             per_sent = align_segment(text, audio)
         for st, words in per_sent:
@@ -276,8 +369,25 @@ if cfg.get("chunk") == "segment":
         out.append(audio)
         out.append(np.zeros(int(GAP_SEG * SR)))
         t += len(audio) / SR + GAP_SEG
+        fixed += GAP_SEG
         seg["end"] = round(t, 3)
         segs.append(seg)
+    return out, segs, reveals, t, fixed
+
+
+speed = cfg.get("speed", 1.1)
+reveals = []
+if cfg.get("chunk") == "segment":
+    clips, total = synth_segments(speed)
+    if cfg.get("target"):
+        if HAS_MOODS:  # pauses and slowed sentences only exist after alignment: measure the real length first
+            _, _, _, total, fixed = build_segments(clips, False)
+            speed = float(np.clip(speed * (total - fixed) / max(1.0, cfg["target"] - fixed), 0.85, 1.35))
+        else:
+            speed = float(np.clip(speed * total / cfg["target"], 0.85, 1.35))
+        clips, total = synth_segments(speed)
+    out, segs, reveals, total, _ = build_segments(clips, True)
+    print(f"speed {speed:.3f} -> {total:.2f}s")
     clips = None
 else:
     clips, total = synth_all(speed)
@@ -325,5 +435,20 @@ if post:
     os.replace(f"{folder}/voice.wav", tmp)
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-af", chain, f"{folder}/voice.wav"], check=True)
     os.remove(tmp)
-json.dump({"duration": round(len(voice) / SR, 3), "speed": speed, "segments": segs}, open(f"{folder}/timings.json", "w"), ensure_ascii=False, indent=1)
+emph = {s["id"]: [e.lower() for e in s.get("emph", [])] for s in cfg["segments"]}
+if any(emph.values()):
+    # lift the stressed words after the compressor so the lift survives (+4 dB, 25 ms ramps)
+    v, vsr = sf.read(f"{folder}/voice.wav", dtype="float32")
+    g = np.ones(len(v))
+    for seg in segs:
+        for st in seg["sentences"]:
+            for w in st["words"]:
+                x = re.sub(r"[,.;:!?…«»\"]", "", w["w"].lower())
+                if any(x.startswith(e) or re.sub(r"^\w{1,3}['’]", "", x).startswith(e) for e in emph[seg["id"]]):
+                    g[int(w["s"] * vsr):int(w["e"] * vsr)] = MOOD.get("emph_gain", 1.6)
+    k = int(0.025 * vsr)
+    g = np.convolve(g, np.ones(k) / k, mode="same")
+    v = v * g
+    sf.write(f"{folder}/voice.wav", v / np.max(np.abs(v)) * 0.9, vsr, subtype="PCM_16")
+json.dump({"duration": round(len(voice) / SR, 3), "speed": speed, "reveals": reveals, "segments": segs}, open(f"{folder}/timings.json", "w"), ensure_ascii=False, indent=1)
 print(f"voice.wav {len(voice) / SR:.2f}s, {sum(len(s['sentences']) for s in segs)} sentences")

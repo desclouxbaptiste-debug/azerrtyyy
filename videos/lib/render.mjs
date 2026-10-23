@@ -2,8 +2,8 @@
 // Usage: NODE_PATH=$(npm root -g) node videos/lib/render.mjs videos/<folder> [--stills 1.5,4,8] [--workers 2]
 // The videos/ directory is served over a local HTTP server so scenes can fetch() their timings and voice files.
 import { createRequire } from "node:module";
-import { spawn, execFileSync } from "node:child_process";
-import { writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { spawn, spawnSync, execFileSync } from "node:child_process";
+import { writeFileSync, mkdirSync, rmSync, renameSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import http from "node:http";
 import { basename, dirname, extname, join, resolve, sep } from "node:path";
@@ -57,6 +57,14 @@ const cues = { duration: tl.DURATION, music: tl.MUSIC, events: await page.evalua
 if (tl.VOICE) cues.voice = { ...tl.VOICE, path: join(dir, tl.VOICE.path) };
 writeFileSync(join(out, "sfx.json"), JSON.stringify(cues, null, 1));
 execFileSync("python3", [join(lib, "audio.py"), join(out, "sfx.json"), join(out, "audio.wav")], { stdio: "inherit" });
+if (tl.LOUDNESS) {
+  // two-pass EBU R128 normalisation to the platforms' level (TikTok / Shorts play back around -14 LUFS)
+  const wav = join(out, "audio.wav"), tmp = join(out, "audio_ln.wav"), ln = `loudnorm=I=${tl.LOUDNESS}:TP=-1:LRA=11`;
+  const probe = spawnSync("ffmpeg", ["-hide_banner", "-i", wav, "-af", `${ln}:print_format=json`, "-f", "null", "-"], { encoding: "utf8" }).stderr;
+  const m = JSON.parse(probe.slice(probe.lastIndexOf("{")));
+  execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", wav, "-af", `${ln}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`, "-ar", "44100", tmp]);
+  renameSync(tmp, wav);
+}
 
 // each worker renders a contiguous range of frames into its own video-only segment
 const total = Math.round(tl.DURATION * tl.FPS);

@@ -1,0 +1,98 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.0,
+ "target": 58.0,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "<w>Tu enverrais {450|quatre cent cinquante} volts à un inconnu... <w>juste parce qu'un homme en blouse te le demande ?",
+   "emph": [
+    "450"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "{1961|Mille neuf cent soixante et un}, université {Yale|Yèle}. Stanley {Milgram|Milgrame} recrute des hommes ordinaires... pour une étude sur la mémoire.",
+   "emph": [
+    "ordinaires"
+   ]
+  },
+  {
+   "id": "roles",
+   "text": "Un tirage au sort, truqué, te désigne professeur. L'élève, un complice, est attaché dans la pièce voisine.",
+   "emph": [
+    "truqué",
+    "complice"
+   ]
+  },
+  {
+   "id": "machine",
+   "text": "Devant toi, un générateur : de {15|quinze} à {450|quatre cent cinquante} volts. À chaque erreur... tu montes d'un cran.",
+   "emph": [
+    "450"
+   ]
+  },
+  {
+   "id": "fake",
+   "text": "Les chocs sont faux. <w>Mais toi... <w>tu ne le sais pas.",
+   "emph": [
+    "faux"
+   ]
+  },
+  {
+   "id": "protest",
+   "text": "À {300|trois cents} volts, l'élève tape contre le mur. Puis... <r>plus rien.",
+   "emph": [
+    "rien"
+   ]
+  },
+  {
+   "id": "prod",
+   "text": "<lw>Tu hésites ? Le chercheur répond, calmement. <s>L'expérience exige que vous continuiez.",
+   "emph": [
+    "exige"
+   ]
+  },
+  {
+   "id": "predict",
+   "text": "Interrogés, des psychiatres prédisaient qu'à peine une personne sur mille irait jusqu'au bout.",
+   "emph": [
+    "mille"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "<r>Résultat : {26|vingt-six} hommes sur {40|quarante} vont jusqu'à {450|quatre cent cinquante} volts. <s>{65 %|Soixante-cinq pour cent}.",
+   "emph": [
+    "26",
+    "65"
+   ]
+  },
+  {
+   "id": "nuance",
+   "text": "Mais selon les variantes, tout change. Quand les ordres arrivent par téléphone... l'obéissance chute.",
+   "emph": [
+    "téléphone"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Et toi... <w>à quel moment tu aurais dit non ? Dis-le en commentaire."
+  }
+ ]
+}

@@ -1,0 +1,90 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.0,
+ "target": 58.0,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Un adulte frappe une poupée. Des enfants le regardent. Quelques minutes plus tard... <w>devine ce qu'ils font.",
+   "emph": [
+    "frappe"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "Années soixante, à Stanford. Albert {Bandura|Bandoura} réunit {72|soixante-douze} enfants, de trois à six ans.",
+   "emph": [
+    "72"
+   ]
+  },
+  {
+   "id": "groups",
+   "text": "Un tiers voit un adulte frapper Bobo, une poupée gonflable, en criant. Un tiers voit un adulte calme. Le dernier tiers... ne voit personne.",
+   "emph": [
+    "frapper"
+   ]
+  },
+  {
+   "id": "tease",
+   "text": "Ensuite, on leur montre de beaux jouets... réservés à d'autres. <s>Juste de quoi les agacer.",
+   "emph": [
+    "agacer"
+   ]
+  },
+  {
+   "id": "room",
+   "text": "Puis chaque enfant reste seul avec Bobo, vingt minutes. <w>Derrière un miroir sans tain... <w>on observe.",
+   "emph": [
+    "seul"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "<r>Ceux qui ont vu l'adulte violent le reproduisent. Les mêmes coups. <s>Parfois... <s>les mêmes mots.",
+   "emph": [
+    "reproduisent",
+    "mots"
+   ]
+  },
+  {
+   "id": "boys",
+   "text": "Et les garçons copient surtout les coups.",
+   "emph": [
+    "coups"
+   ]
+  },
+  {
+   "id": "lesson",
+   "text": "Pour {Bandura|Bandoura}, c'est la preuve : on apprend en regardant. Sans récompense. Sans punition.",
+   "emph": [
+    "regardant"
+   ]
+  },
+  {
+   "id": "nuance",
+   "text": "Limite : Bobo est fait pour être frappé, et l'effet n'a été mesuré qu'à court terme.",
+   "emph": [
+    "court"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Et toi... <w>que regardent les enfants autour de toi, chaque jour ? Dis-le en commentaire."
+  }
+ ]
+}

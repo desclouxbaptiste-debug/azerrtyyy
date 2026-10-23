@@ -1,0 +1,98 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.0,
+ "target": 58.0,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "La plus célèbre expérience sur la cruauté humaine... <r>était peut-être une mise en scène.",
+   "emph": [
+    "mise"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "Été {1971|mille neuf cent soixante et onze}. Zimbardo transforme le sous-sol de Stanford... en fausse prison.",
+   "emph": [
+    "prison"
+   ]
+  },
+  {
+   "id": "recruit",
+   "text": "Une annonce : quinze dollars par jour. Des étudiants sont tirés au sort : gardiens... <s>ou prisonniers.",
+   "emph": [
+    "sort"
+   ]
+  },
+  {
+   "id": "arrest",
+   "text": "Les prisonniers sont arrêtés chez eux, par la vraie police. Un numéro, une blouse, une chaîne à la cheville.",
+   "emph": [
+    "vraie"
+   ]
+  },
+  {
+   "id": "guards",
+   "text": "Les gardiens, eux, reçoivent un uniforme, une matraque, et des lunettes miroir.",
+   "emph": [
+    "matraque"
+   ]
+  },
+  {
+   "id": "revolt",
+   "text": "Dès le deuxième jour, les prisonniers se révoltent. Les gardiens répliquent : extincteurs, pompes, et nuits sans sommeil.",
+   "emph": [
+    "révoltent",
+    "sommeil"
+   ]
+  },
+  {
+   "id": "stop",
+   "text": "Prévue pour deux semaines, l'expérience s'arrête... <r>au bout de six jours.",
+   "emph": [
+    "six"
+   ]
+  },
+  {
+   "id": "claim",
+   "text": "Conclusion de Zimbardo : <s>la situation suffit à créer des bourreaux.",
+   "emph": [
+    "bourreaux"
+   ]
+  },
+  {
+   "id": "twist",
+   "text": "<r>Sauf que... des enregistrements montrent des gardiens encouragés à être durs. Et un prisonnier dira avoir simulé sa crise.",
+   "emph": [
+    "encouragés",
+    "simulé"
+   ]
+  },
+  {
+   "id": "today",
+   "text": "Aujourd'hui, beaucoup de chercheurs y voient... <s>une mise en scène, plus qu'une expérience.",
+   "emph": [
+    "mise"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Le pouvoir corrompt ? <w>Ou on nous a raconté une belle histoire ? Dis-le en commentaire."
+  }
+ ]
+}

@@ -121,6 +121,7 @@ function renderStory(t, opts) {
 
 // opts: { fonts, music: {style,...}, bed, duck, hits: [[segId, word, zoom]], sfx: () => void, keyRegex, maxDuration }
 function startStory(opts) {
+  if (window.DARK_OPTS) opts = { ...opts, ...window.DARK_OPTS };
   window.ready = (async () => {
     await Promise.all((opts.fonts || ["MontX", "MontS", "Caveat", "Playfair"]).map(f => document.fonts.load(`100px ${f}`)));
     T = await (await fetch("timings.json")).json();
@@ -129,11 +130,16 @@ function startStory(opts) {
     CARDS = buildCaptions(T);
     DURATION = Math.min(opts.maxDuration || 600, Math.ceil((T.duration + 1.2) * 10) / 10);
     SEG[ORDER[ORDER.length - 1]].next = DURATION;
-    T.segments.forEach((s, i) => { if (i) sfx(s.start - 0.16, "whoosh", { gain: 0.5, dur: 0.32 }); });
-    for (const [id, w, zz] of opts.hits || []) { const tw = wt(id, w, 1); PUNCH.push({ t: tw, z: zz, sh: zz * 110 }); sfx(tw, "hit", { gain: 0.3 + zz * 3 }); }
+    if (opts.dark) darkSetup(opts);
+    else T.segments.forEach((s, i) => { if (i) sfx(s.start - 0.16, "whoosh", { gain: 0.5, dur: 0.32 }); });
+    for (const [id, w, zz] of opts.hits || []) {
+      const tw = wt(id, w, 1);
+      PUNCH.push({ t: tw, z: zz, sh: zz * (opts.dark ? 40 : 110) });
+      if (!opts.dark) sfx(tw, "hit", { gain: 0.3 + zz * 3 });
+    }
     if (opts.sfx) opts.sfx();
-    window.TIMELINE = { FPS, DURATION, MUSIC: opts.music, VOICE: { path: "voice.wav", bed: opts.bed ?? 0.22, duck: opts.duck ?? 0.55 } };
+    window.TIMELINE = { FPS, DURATION, MUSIC: typeof opts.music === "function" ? opts.music() : opts.music, LOUDNESS: opts.loudness, VOICE: { path: "voice.wav", bed: opts.bed ?? 0.22, duck: opts.duck ?? 0.55 } };
     return true;
   })();
-  window.render = t => renderStory(t, opts);
+  window.render = t => (opts.dark ? renderDark : renderStory)(t, opts);
 }

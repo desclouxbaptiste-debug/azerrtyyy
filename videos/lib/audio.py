@@ -473,7 +473,66 @@ def style_drive(n, cfg):
     return mixL, mixR
 
 
-STYLES = {"drive": style_drive, "suspense": style_suspense, "lofi": style_lofi, "trap": style_trap, "synthwave": style_synthwave, "cinematic": style_cinematic, "ukulele": style_ukulele}
+def style_dark(n, cfg):
+    """Dark documentary bed: breathing low drone, slow minor pad, eerie high tone and sparse low piano.
+    Options: "heart": [[t0, t1, bpm0, bpm1], ...] heartbeat windows, "musicbox": true (detuned lullaby),
+    "crackle": true (electrical hum and sparks), "tick": true (clock), "root": midi note of the key."""
+    t = np.arange(n) / SR
+    root = cfg.get("root", 38)
+    breath = 0.5 + 0.5 * np.sin(2 * np.pi * t / 11)
+    saws = sum(saw(midi(root - 12 + iv) * d, t + k * 0.13) for k, (iv, d) in enumerate((i, d) for i in (0, 7) for d in (0.997, 1.003))) / 4
+    drone = lp(saws, 170) * (1 - breath) + lp(saws, 520) * breath + np.sin(2 * np.pi * midi(root - 24) * t) * 0.55
+    pad, pn = np.zeros(n), np.zeros(n)
+    chords = [(0, 3, 7), (-4, 0, 3), (-5, -2, 2), (0, 3, 7)]
+    bar = 8.0
+    for b in range(int(n / SR / bar) + 1):
+        ch = chords[b % 4]
+        add(pad, supersaw([root + 12 + c for c in ch], bar + 3, (0.996, 1.004)) * env_adsr(int((bar + 3) * SR), 2.5, 10, 1, 2.5), b * bar, 1)
+        for i, iv in enumerate((0, 3, -2, 7)[: 2 if b % 2 else 1]):
+            add(pn, piano(midi(root + 12 + ch[0] + iv), 4.0), b * bar + 1.5 + i * 3.0, 0.7)
+    pad = lp(pad, 750)
+    pn = reverb(pn, 4.0, 0.55, seed=11)
+    eerie = np.sin(2 * np.pi * midi(root + 43) * t + 0.004 * np.sin(2 * np.pi * 5 * t) * 200) * (0.5 - 0.5 * np.cos(2 * np.pi * t / 13)) ** 2
+    L = drone * 0.5 + pad * 0.3 + pn * 0.32 + eerie * 0.045
+    R = np.roll(drone, int(0.007 * SR)) * 0.5 + np.roll(pad, int(0.013 * SR)) * 0.3 + np.roll(pn, int(0.011 * SR)) * 0.32 + eerie * 0.045
+    extra = np.zeros(n)
+    for t0, t1, b0, b1 in cfg.get("heart", []):
+        beat = t0
+        while beat < t1:
+            add(extra, fx("heartbeat"), beat, 0.75)
+            bpm = b0 + (b1 - b0) * (beat - t0) / max(t1 - t0, 1e-3)
+            beat += 60 / bpm
+    if cfg.get("musicbox"):
+        mel = [12, 15, 19, 24, 22, 19, 15, 17, 19, 15, 12, 10, 12]
+        mb, step, start = np.zeros(n), 0.42, 0.8
+        r = np.random.default_rng(5)
+        while start < n / SR:
+            for i, m in enumerate(mel):
+                tt = t_axis(1.6)
+                f = midi(root + 36 + m) * 2 ** (r.uniform(-25, 25) / 1200) * (1 + 0.012 * np.sin(2 * np.pi * 0.7 * (start + i * step)))
+                note = (np.sin(2 * np.pi * f * tt) + 0.35 * np.sin(2 * np.pi * f * 3.9 * tt) * np.exp(-tt * 9)) * np.exp(-tt * 3.2)
+                add(mb, note, start + i * step, 0.6 + 0.4 * r.uniform())
+            start += len(mel) * step + 2.5
+        mb = reverb(mb, 2.5, 0.45, seed=12)
+        L, R = L + mb * 0.16, R + np.roll(mb, int(0.009 * SR)) * 0.16
+    if cfg.get("crackle"):
+        hum = sum(np.sin(2 * np.pi * 50 * h * t) / h for h in (1, 2, 3, 5)) * (0.6 + 0.4 * np.sin(2 * np.pi * t / 7))
+        sparks = np.zeros(n)
+        r = np.random.default_rng(9)
+        for at in np.cumsum(r.exponential(0.32, int(n / SR / 0.32) + 10)):
+            if at >= n / SR:
+                break
+            k = t_axis(r.uniform(0.004, 0.03))
+            add(sparks, hp(r.normal(0, 1, len(k)), 2500) * np.exp(-k * 120), at, r.uniform(0.1, 1) ** 2)
+        extra += hum * 0.05 + sparks * 0.16
+    if cfg.get("tick"):
+        for k in range(int(n / SR)):
+            add(extra, fx("tick" if k % 2 == 0 else "click"), k + 0.5, 0.55)
+    swell = np.clip(t / 1.5, 0, 1)
+    return (L + extra) * swell, (R + extra) * swell
+
+
+STYLES = {"dark": style_dark, "drive": style_drive, "suspense": style_suspense, "lofi": style_lofi, "trap": style_trap, "synthwave": style_synthwave, "cinematic": style_cinematic, "ukulele": style_ukulele}
 
 
 # ---------------------------------------------------------------- sound effects
@@ -526,6 +585,14 @@ def fx(kind, dur=None):
         t = t_axis(0.7)
         thump = lambda d: np.where(t >= d, np.sin(2 * np.pi * 55 * (t - d)) * np.exp(-(t - d) * 18), 0)
         return lp(thump(0) + thump(0.22) * 0.75, 200) * 1.2
+    if kind == "impact_deep":
+        t = t_axis(3.0)
+        thud = np.sin(sweep_phase(28 + 62 * np.exp(-t * 7))) * np.exp(-t * 1.6)
+        body = lp(rng.normal(0, 1, len(t)), 180) * np.exp(-t * 5) * 0.9
+        return reverb(np.tanh((thud + body) * 1.4), 3.0, 0.35, seed=13) * 0.9
+    if kind == "dark_whoosh":
+        t = t_axis(dur or 0.7)
+        return lp(bp_sweep(rng.normal(0, 1, len(t)), 150, 1400, 1.5), 1600) * np.sin(np.pi * t / t[-1]) ** 2 * 0.7
     if kind == "rumble":
         t = t_axis(dur or 4.0)
         return lp(rng.normal(0, 1, len(t)), 140) * env_adsr(len(t), 1.0, 10, 1, 1.0) * 1.4
@@ -571,7 +638,18 @@ def main(cue_path, out_path):
     L, R = L * mg, R * mg
     fl, fr = np.zeros(n), np.zeros(n)
     cache = {}
+    # "silence" cues: music and effects drop out completely (a real pause after a shock line)
+    hush = np.ones(n)
     for e in cues["events"]:
+        if e["type"] == "silence":
+            a, b = int(e["t"] * SR), int((e["t"] + e.get("dur", 1.0)) * SR)
+            hush[max(0, a):max(0, b)] = 0
+    k = int(0.06 * SR)
+    hush = np.convolve(hush, np.ones(k) / k, mode="same")
+    L, R = L * hush, R * hush
+    for e in cues["events"]:
+        if e["type"] == "silence":
+            continue
         key = (e["type"], e.get("dur"))
         s = cache.get(key)
         if s is None:
@@ -580,6 +658,7 @@ def main(cue_path, out_path):
         pan = e.get("pan", 0.0)
         add(fl, s, e["t"], g * (1 - max(0, pan)))
         add(fr, s, e["t"], g * (1 + min(0, pan)))
+    fl, fr = fl * hush, fr * hush
     if music.get("sfx_reverb"):
         fl = reverb(fl, 2.0, music["sfx_reverb"], seed=8)
         fr = reverb(fr, 2.0, music["sfx_reverb"], seed=9)

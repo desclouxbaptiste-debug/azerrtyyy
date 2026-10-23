@@ -1,0 +1,83 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.0,
+ "target": 58.0,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "<w>Et si tu travaillais mieux... <w>juste parce que quelqu'un te regarde ?",
+   "emph": [
+    "regarde"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "Années vingt, près de Chicago. À l'usine {Hawthorne|Hosorne}, des milliers d'ouvriers fabriquent du matériel téléphonique.",
+   "emph": [
+    "milliers"
+   ]
+  },
+  {
+   "id": "light",
+   "text": "Les chercheurs testent l'éclairage. Plus de lumière ? La production monte.",
+   "emph": [
+    "monte"
+   ]
+  },
+  {
+   "id": "weird",
+   "text": "Mais dans le groupe témoin, où rien ne change... <r>elle monte aussi. Et quand on baisse la lumière ? <s>Elle tient... jusqu'à ce qu'on n'y voie presque plus.",
+   "emph": [
+    "aussi",
+    "presque"
+   ]
+  },
+  {
+   "id": "relay",
+   "text": "Puis six ouvrières sont isolées dans une salle. Pauses, horaires, collations : on change tout. Et leur production grimpe.",
+   "emph": [
+    "grimpe"
+   ]
+  },
+  {
+   "id": "name",
+   "text": "Dans les années cinquante, le phénomène reçoit un nom. <r>L'effet {Hawthorne|Hosorne}. <s>On change... quand on se sait observé.",
+   "emph": [
+    "observé"
+   ]
+  },
+  {
+   "id": "twist",
+   "text": "<r>Mais en {2011|deux mille onze}, deux économistes retrouvent les données d'éclairage. Verdict : l'effet est bien plus faible... que la légende.",
+   "emph": [
+    "faible"
+   ]
+  },
+  {
+   "id": "lesson",
+   "text": "Reste une vraie leçon : mesurer quelqu'un qui se sait mesuré... ce n'est pas si simple.",
+   "emph": [
+    "simple"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Et toi... <w>tu bosses mieux quand le chef passe ? Dis-le en commentaire."
+  }
+ ]
+}

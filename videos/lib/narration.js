@@ -71,6 +71,9 @@ function segmentIndex(timings) {
 // time at which a given word (first match, case-insensitive, accents kept) is spoken inside a segment
 function wordTime(seg, needle, fallback = 0) {
   const n = needle.toLowerCase();
-  for (const s of seg.sentences) for (const w of s.words) if (w.w.toLowerCase().replace(/[,.;:!?…«»"]/g, "").startsWith(n)) return w.s;
+  for (const s of seg.sentences) for (const w of s.words) {
+    const x = w.w.toLowerCase().replace(/[,.;:!?…«»"]/g, "");
+    if (x.startsWith(n) || x.replace(/^[a-zàâçéèêëîïôûùüÿœ]{1,3}['’]/, "").startsWith(n)) return w.s; // "s'effondre" matches "effondre"
+  }
   return seg.start + fallback;
 }
