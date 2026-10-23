@@ -98,6 +98,23 @@
    ]
   },
   {
+   "id": "inside",
+   "text": "Alors, que retenir ? Deux mécanismes, bien réels. La désindividuation : un uniforme, des lunettes, un numéro... et on se sent moins responsable. Et le poids du chef : quand une autorité encourage la dureté, certains suivent... <s>et en sont même fiers.",
+   "emph": [
+    "désindividuation",
+    "chef",
+    "fiers"
+   ]
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Derrière un pseudo, on écrit ce qu'on ne dirait jamais en face. Et dans un groupe, un chef qui ferme les yeux... <w>suffit à tout permettre.",
+   "emph": [
+    "pseudo",
+    "yeux"
+   ]
+  },
+  {
    "id": "cta",
    "text": "<w>Le pouvoir corrompt... <w>ou on nous a raconté une belle histoire ? Dis-le en commentaire."
   }

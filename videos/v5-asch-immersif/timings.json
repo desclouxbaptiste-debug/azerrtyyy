@@ -1,10 +1,10 @@
 {
- "duration": 64.773,
+ "duration": 93.809,
  "speed": 1.071,
  "reveals": [
   28.874,
   34.278,
-  55.307
+  71.189
  ],
  "segments": [
   {
@@ -783,398 +783,833 @@
    "start": 45.394,
    "sentences": [
     {
-     "text": "Pourquoi ?",
-     "spoken": "Pourquoi ?",
+     "text": "Que se passe-t-il en toi ?",
+     "spoken": "Que se passe-t-il en toi ?",
      "start": 45.394,
-     "end": 46.114,
+     "end": 46.994,
      "words": [
       {
-       "w": "Pourquoi?",
+       "w": "Que",
        "s": 45.394,
-       "e": 46.114
-      }
-     ]
-    },
-    {
-     "text": "Certains finissent par douter de leurs yeux.",
-     "spoken": "Certains finissent par douter de leurs yeux.",
-     "start": 46.114,
-     "end": 48.274,
-     "words": [
+       "e": 45.634
+      },
       {
-       "w": "Certains",
-       "s": 46.114,
+       "w": "se",
+       "s": 45.634,
+       "e": 45.794
+      },
+      {
+       "w": "passe-t-il",
+       "s": 45.794,
+       "e": 46.354
+      },
+      {
+       "w": "en",
+       "s": 46.354,
        "e": 46.514
       },
       {
-       "w": "finissent",
+       "w": "toi?",
        "s": 46.514,
-       "e": 46.914
-      },
-      {
-       "w": "par",
-       "s": 46.914,
-       "e": 47.074
-      },
-      {
-       "w": "douter",
-       "s": 47.074,
-       "e": 47.474
-      },
-      {
-       "w": "de",
-       "s": 47.474,
-       "e": 47.634
-      },
-      {
-       "w": "leurs",
-       "s": 47.634,
-       "e": 47.794
-      },
-      {
-       "w": "yeux.",
-       "s": 47.794,
-       "e": 48.274
+       "e": 46.994
       }
      ]
     },
     {
-     "text": "D'autres savent...",
-     "spoken": "D'autres savent...",
-     "start": 48.274,
-     "end": 49.314,
+     "text": "Deux forces.",
+     "spoken": "Deux forces.",
+     "start": 46.994,
+     "end": 48.114,
      "words": [
       {
-       "w": "D'autres",
-       "s": 48.274,
-       "e": 48.754
+       "w": "Deux",
+       "s": 46.994,
+       "e": 47.314
       },
       {
-       "w": "savent...",
-       "s": 48.754,
-       "e": 49.314
+       "w": "forces.",
+       "s": 47.314,
+       "e": 48.114
       }
      ]
     },
     {
-     "text": "mais ne veulent pas être le seul à dire non.",
-     "spoken": "mais ne veulent pas être le seul à dire non.",
-     "start": 49.314,
-     "end": 51.473,
+     "text": "La première, le doute : si sept personnes voient la ligne B, c'est peut-être toi qui vois mal.",
+     "spoken": "La première, le doute : si sept personnes voient la ligne B, c'est peut-être toi qui vois mal.",
+     "start": 48.114,
+     "end": 54.114,
      "words": [
       {
-       "w": "mais",
-       "s": 49.314,
-       "e": 49.554
+       "w": "La",
+       "s": 48.114,
+       "e": 48.354
       },
       {
-       "w": "ne",
-       "s": 49.554,
-       "e": 49.714
-      },
-      {
-       "w": "veulent",
-       "s": 49.714,
-       "e": 50.034
-      },
-      {
-       "w": "pas",
-       "s": 50.034,
-       "e": 50.194
-      },
-      {
-       "w": "être",
-       "s": 50.194,
-       "e": 50.354
+       "w": "première,",
+       "s": 48.354,
+       "e": 48.994
       },
       {
        "w": "le",
-       "s": 50.354,
-       "e": 50.487
+       "s": 48.994,
+       "e": 49.234
       },
       {
-       "w": "seul",
-       "s": 50.487,
-       "e": 50.754
+       "w": "doute:",
+       "s": 49.234,
+       "e": 49.954
       },
       {
-       "w": "à",
-       "s": 50.754,
+       "w": "si",
+       "s": 49.954,
+       "e": 50.167
+      },
+      {
+       "w": "sept",
+       "s": 50.167,
+       "e": 50.594
+      },
+      {
+       "w": "personnes",
+       "s": 50.594,
        "e": 50.914
       },
       {
-       "w": "dire",
+       "w": "voient",
        "s": 50.914,
-       "e": 51.074
+       "e": 51.234
       },
       {
-       "w": "non.",
-       "s": 51.074,
-       "e": 51.473
+       "w": "la",
+       "s": 51.234,
+       "e": 51.394
+      },
+      {
+       "w": "ligne",
+       "s": 51.394,
+       "e": 51.794
+      },
+      {
+       "w": "B,",
+       "s": 51.794,
+       "e": 52.194
+      },
+      {
+       "w": "c'est",
+       "s": 52.194,
+       "e": 52.354
+      },
+      {
+       "w": "peut-être",
+       "s": 52.354,
+       "e": 52.754
+      },
+      {
+       "w": "toi",
+       "s": 52.754,
+       "e": 52.994
+      },
+      {
+       "w": "qui",
+       "s": 52.994,
+       "e": 53.234
+      },
+      {
+       "w": "vois",
+       "s": 53.234,
+       "e": 53.474
+      },
+      {
+       "w": "mal.",
+       "s": 53.474,
+       "e": 54.114
+      }
+     ]
+    },
+    {
+     "text": "La seconde, la peur d'être exclu : tu sais que c'est la ligne A...",
+     "spoken": "La seconde, la peur d'être exclu : tu sais que c'est la ligne A...",
+     "start": 54.114,
+     "end": 58.114,
+     "words": [
+      {
+       "w": "La",
+       "s": 54.114,
+       "e": 54.274
+      },
+      {
+       "w": "seconde,",
+       "s": 54.274,
+       "e": 54.834
+      },
+      {
+       "w": "la",
+       "s": 54.834,
+       "e": 54.994
+      },
+      {
+       "w": "peur",
+       "s": 54.994,
+       "e": 55.234
+      },
+      {
+       "w": "d'être",
+       "s": 55.234,
+       "e": 55.834
+      },
+      {
+       "w": "exclu:",
+       "s": 55.834,
+       "e": 56.434
+      },
+      {
+       "w": "tu",
+       "s": 56.434,
+       "e": 56.594
+      },
+      {
+       "w": "sais",
+       "s": 56.594,
+       "e": 56.834
+      },
+      {
+       "w": "que",
+       "s": 56.834,
+       "e": 56.994
+      },
+      {
+       "w": "c'est",
+       "s": 56.994,
+       "e": 57.154
+      },
+      {
+       "w": "la",
+       "s": 57.154,
+       "e": 57.314
+      },
+      {
+       "w": "ligne",
+       "s": 57.314,
+       "e": 57.714
+      },
+      {
+       "w": "A...",
+       "s": 57.714,
+       "e": 58.114
+      }
+     ]
+    },
+    {
+     "text": "mais tu ne veux pas être le seul contre tous.",
+     "spoken": "mais tu ne veux pas être le seul contre tous.",
+     "start": 58.114,
+     "end": 61.394,
+     "words": [
+      {
+       "w": "mais",
+       "s": 58.114,
+       "e": 58.354
+      },
+      {
+       "w": "tu",
+       "s": 58.354,
+       "e": 58.514
+      },
+      {
+       "w": "ne",
+       "s": 58.514,
+       "e": 58.594
+      },
+      {
+       "w": "veux",
+       "s": 58.594,
+       "e": 58.754
+      },
+      {
+       "w": "pas",
+       "s": 58.754,
+       "e": 58.914
+      },
+      {
+       "w": "être",
+       "s": 58.914,
+       "e": 59.154
+      },
+      {
+       "w": "le",
+       "s": 59.154,
+       "e": 59.314
+      },
+      {
+       "w": "seul",
+       "s": 59.314,
+       "e": 59.634
+      },
+      {
+       "w": "contre",
+       "s": 59.634,
+       "e": 60.034
+      },
+      {
+       "w": "tous.",
+       "s": 60.034,
+       "e": 61.394
+      }
+     ]
+    },
+    {
+     "text": "En imagerie cérébrale, s'opposer au groupe active même les zones de l'alarme émotionnelle.",
+     "spoken": "En imagerie cérébrale, s'opposer au groupe active même les zones de l'alarme émotionnelle.",
+     "start": 61.491,
+     "end": 67.096,
+     "words": [
+      {
+       "w": "En",
+       "s": 61.491,
+       "e": 61.863
+      },
+      {
+       "w": "imagerie",
+       "s": 61.863,
+       "e": 62.607
+      },
+      {
+       "w": "cérébrale,",
+       "s": 62.607,
+       "e": 63.352
+      },
+      {
+       "w": "s'opposer",
+       "s": 63.352,
+       "e": 64.096
+      },
+      {
+       "w": "au",
+       "s": 64.096,
+       "e": 64.189
+      },
+      {
+       "w": "groupe",
+       "s": 64.189,
+       "e": 64.561
+      },
+      {
+       "w": "active",
+       "s": 64.561,
+       "e": 65.026
+      },
+      {
+       "w": "même",
+       "s": 65.026,
+       "e": 65.305
+      },
+      {
+       "w": "les",
+       "s": 65.305,
+       "e": 65.491
+      },
+      {
+       "w": "zones",
+       "s": 65.491,
+       "e": 65.77
+      },
+      {
+       "w": "de",
+       "s": 65.77,
+       "e": 65.863
+      },
+      {
+       "w": "l'alarme",
+       "s": 65.863,
+       "e": 66.514
+      },
+      {
+       "w": "émotionnelle.",
+       "s": 66.514,
+       "e": 67.096
       }
      ]
     }
    ],
-   "end": 51.773
+   "end": 67.655
   },
   {
    "id": "ally",
-   "start": 51.773,
+   "start": 67.655,
    "sentences": [
     {
      "text": "Mais il suffit d'un seul allié qui donne la bonne réponse...",
      "spoken": "Mais il suffit d'un seul allié qui donne la bonne réponse...",
-     "start": 51.773,
-     "end": 54.653,
+     "start": 67.655,
+     "end": 70.535,
      "words": [
       {
        "w": "Mais",
-       "s": 51.773,
-       "e": 51.933
+       "s": 67.655,
+       "e": 67.815
       },
       {
        "w": "il",
-       "s": 51.933,
-       "e": 52.093
+       "s": 67.815,
+       "e": 67.975
       },
       {
        "w": "suffit",
-       "s": 52.093,
-       "e": 52.413
+       "s": 67.975,
+       "e": 68.295
       },
       {
        "w": "d'un",
-       "s": 52.413,
-       "e": 52.653
+       "s": 68.295,
+       "e": 68.535
       },
       {
        "w": "seul",
-       "s": 52.653,
-       "e": 52.893
+       "s": 68.535,
+       "e": 68.775
       },
       {
        "w": "allié",
-       "s": 52.893,
-       "e": 53.213
+       "s": 68.775,
+       "e": 69.095
       },
       {
        "w": "qui",
-       "s": 53.213,
-       "e": 53.373
+       "s": 69.095,
+       "e": 69.255
       },
       {
        "w": "donne",
-       "s": 53.373,
-       "e": 53.693
+       "s": 69.255,
+       "e": 69.575
       },
       {
        "w": "la",
-       "s": 53.693,
-       "e": 53.773
+       "s": 69.575,
+       "e": 69.655
       },
       {
        "w": "bonne",
-       "s": 53.773,
-       "e": 54.013
+       "s": 69.655,
+       "e": 69.895
       },
       {
        "w": "réponse...",
-       "s": 54.013,
-       "e": 54.653
+       "s": 69.895,
+       "e": 70.535
       }
      ]
     },
     {
      "text": "et les erreurs chutent de plus de trois quarts.",
      "spoken": "et les erreurs chutent de plus de trois quarts.",
-     "start": 55.307,
-     "end": 57.957,
+     "start": 71.189,
+     "end": 73.839,
      "words": [
       {
        "w": "et",
-       "s": 55.307,
-       "e": 55.485
+       "s": 71.189,
+       "e": 71.366
       },
       {
        "w": "les",
-       "s": 55.485,
-       "e": 55.752
+       "s": 71.366,
+       "e": 71.633
       },
       {
        "w": "erreurs",
-       "s": 55.752,
-       "e": 56.196
+       "s": 71.633,
+       "e": 72.077
       },
       {
        "w": "chutent",
-       "s": 56.196,
-       "e": 56.64
+       "s": 72.077,
+       "e": 72.522
       },
       {
        "w": "de",
-       "s": 56.64,
-       "e": 56.818
+       "s": 72.522,
+       "e": 72.7
       },
       {
        "w": "plus",
-       "s": 56.818,
-       "e": 56.996
+       "s": 72.7,
+       "e": 72.877
       },
       {
        "w": "de",
-       "s": 56.996,
-       "e": 57.085
+       "s": 72.877,
+       "e": 72.966
       },
       {
        "w": "trois",
-       "s": 57.085,
-       "e": 57.44
+       "s": 72.966,
+       "e": 73.322
       },
       {
        "w": "quarts.",
-       "s": 57.44,
-       "e": 57.957
+       "s": 73.322,
+       "e": 73.839
       }
      ]
     }
    ],
-   "end": 58.258
+   "end": 74.139
   },
   {
    "id": "nuance",
-   "start": 58.258,
+   "start": 74.139,
    "sentences": [
     {
      "text": "Et un quart des participants n'a jamais cédé.",
      "spoken": "Et un quart des participants n'a jamais cédé.",
-     "start": 58.258,
-     "end": 60.518,
+     "start": 74.139,
+     "end": 76.399,
      "words": [
       {
        "w": "Et",
-       "s": 58.258,
-       "e": 58.418
+       "s": 74.139,
+       "e": 74.299
       },
       {
        "w": "un",
-       "s": 58.418,
-       "e": 58.578
+       "s": 74.299,
+       "e": 74.459
       },
       {
        "w": "quart",
-       "s": 58.578,
-       "e": 58.898
+       "s": 74.459,
+       "e": 74.779
       },
       {
        "w": "des",
-       "s": 58.898,
-       "e": 59.058
+       "s": 74.779,
+       "e": 74.939
       },
       {
        "w": "participants",
-       "s": 59.058,
-       "e": 59.538
+       "s": 74.939,
+       "e": 75.419
       },
       {
        "w": "n'a",
-       "s": 59.538,
-       "e": 59.778
+       "s": 75.419,
+       "e": 75.659
       },
       {
        "w": "jamais",
-       "s": 59.778,
-       "e": 60.018
+       "s": 75.659,
+       "e": 75.899
       },
       {
        "w": "cédé.",
-       "s": 60.018,
-       "e": 60.518
+       "s": 75.899,
+       "e": 76.399
       }
      ]
     }
    ],
-   "end": 60.92
+   "end": 76.802
+  },
+  {
+   "id": "now",
+   "start": 76.802,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 76.802,
+     "end": 77.762,
+     "words": [
+      {
+       "w": "Et",
+       "s": 76.802,
+       "e": 77.042
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 77.042,
+       "e": 77.762
+      }
+     ]
+    },
+    {
+     "text": "Ce sont les likes qui te disent quoi aimer, les avis cinq étoiles, le groupe de discussion où personne n'ose contredire.",
+     "spoken": "Ce sont les likes qui te disent quoi aimer, les avis cinq étoiles, le groupe de discussion où personne n'ose contredire.",
+     "start": 77.762,
+     "end": 84.082,
+     "words": [
+      {
+       "w": "Ce",
+       "s": 77.762,
+       "e": 78.002
+      },
+      {
+       "w": "sont",
+       "s": 78.002,
+       "e": 78.162
+      },
+      {
+       "w": "les",
+       "s": 78.162,
+       "e": 78.322
+      },
+      {
+       "w": "likes",
+       "s": 78.322,
+       "e": 78.722
+      },
+      {
+       "w": "qui",
+       "s": 78.722,
+       "e": 78.882
+      },
+      {
+       "w": "te",
+       "s": 78.882,
+       "e": 78.962
+      },
+      {
+       "w": "disent",
+       "s": 78.962,
+       "e": 79.202
+      },
+      {
+       "w": "quoi",
+       "s": 79.202,
+       "e": 79.522
+      },
+      {
+       "w": "aimer,",
+       "s": 79.522,
+       "e": 79.922
+      },
+      {
+       "w": "les",
+       "s": 79.922,
+       "e": 80.002
+      },
+      {
+       "w": "avis",
+       "s": 80.002,
+       "e": 80.322
+      },
+      {
+       "w": "cinq",
+       "s": 80.322,
+       "e": 80.642
+      },
+      {
+       "w": "étoiles,",
+       "s": 80.642,
+       "e": 81.202
+      },
+      {
+       "w": "le",
+       "s": 81.202,
+       "e": 81.362
+      },
+      {
+       "w": "groupe",
+       "s": 81.362,
+       "e": 81.682
+      },
+      {
+       "w": "de",
+       "s": 81.682,
+       "e": 81.842
+      },
+      {
+       "w": "discussion",
+       "s": 81.842,
+       "e": 82.322
+      },
+      {
+       "w": "où",
+       "s": 82.322,
+       "e": 82.562
+      },
+      {
+       "w": "personne",
+       "s": 82.562,
+       "e": 82.802
+      },
+      {
+       "w": "n'ose",
+       "s": 82.802,
+       "e": 83.362
+      },
+      {
+       "w": "contredire.",
+       "s": 83.362,
+       "e": 84.082
+      }
+     ]
+    },
+    {
+     "text": "Mais retiens ceci...",
+     "spoken": "Mais retiens ceci...",
+     "start": 84.238,
+     "end": 85.855,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 84.238,
+       "e": 84.493
+      },
+      {
+       "w": "retiens",
+       "s": 84.493,
+       "e": 85.089
+      },
+      {
+       "w": "ceci...",
+       "s": 85.089,
+       "e": 85.855
+      }
+     ]
+    },
+    {
+     "text": "il suffit d'une seule voix différente pour libérer les autres.",
+     "spoken": "il suffit d'une seule voix différente pour libérer les autres.",
+     "start": 86.005,
+     "end": 89.657,
+     "words": [
+      {
+       "w": "il",
+       "s": 86.005,
+       "e": 86.26
+      },
+      {
+       "w": "suffit",
+       "s": 86.26,
+       "e": 86.686
+      },
+      {
+       "w": "d'une",
+       "s": 86.686,
+       "e": 86.941
+      },
+      {
+       "w": "seule",
+       "s": 86.941,
+       "e": 87.32
+      },
+      {
+       "w": "voix",
+       "s": 87.32,
+       "e": 87.622
+      },
+      {
+       "w": "différente",
+       "s": 87.622,
+       "e": 88.218
+      },
+      {
+       "w": "pour",
+       "s": 88.218,
+       "e": 88.388
+      },
+      {
+       "w": "libérer",
+       "s": 88.388,
+       "e": 88.984
+      },
+      {
+       "w": "les",
+       "s": 88.984,
+       "e": 89.154
+      },
+      {
+       "w": "autres.",
+       "s": 89.154,
+       "e": 89.657
+      }
+     ]
+    }
+   ],
+   "end": 89.957
   },
   {
    "id": "cta",
-   "start": 60.92,
+   "start": 89.957,
    "sentences": [
     {
      "text": "Et toi...",
      "spoken": "Et toi...",
-     "start": 61.07,
-     "end": 61.496,
+     "start": 90.107,
+     "end": 90.532,
      "words": [
       {
        "w": "Et",
-       "s": 61.07,
-       "e": 61.241
+       "s": 90.107,
+       "e": 90.277
       },
       {
        "w": "toi...",
-       "s": 61.241,
-       "e": 61.496
+       "s": 90.277,
+       "e": 90.532
       }
      ]
     },
     {
      "text": "tu aurais suivi le groupe ?",
      "spoken": "tu aurais suivi le groupe ?",
-     "start": 61.646,
-     "end": 63.178,
+     "start": 90.682,
+     "end": 92.214,
      "words": [
       {
        "w": "tu",
-       "s": 61.646,
-       "e": 61.816
+       "s": 90.682,
+       "e": 90.852
       },
       {
        "w": "aurais",
-       "s": 61.816,
-       "e": 62.157
+       "s": 90.852,
+       "e": 91.193
       },
       {
        "w": "suivi",
-       "s": 62.157,
-       "e": 62.582
+       "s": 91.193,
+       "e": 91.618
       },
       {
        "w": "le",
-       "s": 62.582,
-       "e": 62.667
+       "s": 91.618,
+       "e": 91.703
       },
       {
        "w": "groupe?",
-       "s": 62.667,
-       "e": 63.178
+       "s": 91.703,
+       "e": 92.214
       }
      ]
     },
     {
      "text": "Dis-le en commentaire.",
      "spoken": "Dis-le en commentaire.",
-     "start": 63.175,
-     "end": 64.315,
+     "start": 92.211,
+     "end": 93.351,
      "words": [
       {
        "w": "Dis-le",
-       "s": 63.175,
-       "e": 63.655
+       "s": 92.211,
+       "e": 92.691
       },
       {
        "w": "en",
-       "s": 63.655,
-       "e": 63.815
+       "s": 92.691,
+       "e": 92.851
       },
       {
        "w": "commentaire.",
-       "s": 63.815,
-       "e": 64.315
+       "s": 92.851,
+       "e": 93.351
       }
      ]
     }
    ],
-   "end": 64.773
+   "end": 93.809
   }
  ]
 }

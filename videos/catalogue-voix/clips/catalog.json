@@ -1,0 +1,149 @@
+{
+ "line": "Tu enverrais quatre cent cinquante volts à un inconnu. Juste parce qu'on te le demande ?",
+ "entries": [
+  {
+   "n": 1,
+   "name": "Supertonic · Femme 1",
+   "desc": "voix aiguë",
+   "f0": 194
+  },
+  {
+   "n": 2,
+   "name": "Supertonic · Femme 2",
+   "desc": "voix aiguë",
+   "f0": 193
+  },
+  {
+   "n": 3,
+   "name": "Supertonic · Femme 3",
+   "desc": "voix aiguë",
+   "f0": 176
+  },
+  {
+   "n": 4,
+   "name": "Supertonic · Femme 4",
+   "desc": "voix aiguë",
+   "f0": 199
+  },
+  {
+   "n": 5,
+   "name": "Supertonic · Femme 5",
+   "desc": "voix médium",
+   "f0": 169
+  },
+  {
+   "n": 6,
+   "name": "Supertonic · Homme 1",
+   "desc": "voix médium",
+   "f0": 146
+  },
+  {
+   "n": 7,
+   "name": "Supertonic · Homme 2",
+   "desc": "voix grave",
+   "f0": 93
+  },
+  {
+   "n": 8,
+   "name": "Supertonic · Homme 3",
+   "desc": "voix grave",
+   "f0": 108
+  },
+  {
+   "n": 9,
+   "name": "Supertonic · Homme 4",
+   "desc": "voix grave",
+   "f0": 118
+  },
+  {
+   "n": 10,
+   "name": "Supertonic · Homme 5",
+   "desc": "voix grave",
+   "f0": 91
+  },
+  {
+   "n": 11,
+   "name": "Kokoro · Siwis (femme)",
+   "desc": "voix aiguë",
+   "f0": 203
+  },
+  {
+   "n": 12,
+   "name": "Piper · Tom (homme)",
+   "desc": "voix médium",
+   "f0": 130
+  },
+  {
+   "n": 13,
+   "name": "Piper · Jessica (femme)",
+   "desc": "voix aiguë",
+   "f0": 235
+  },
+  {
+   "n": 14,
+   "name": "Piper · Pierre (homme)",
+   "desc": "voix médium",
+   "f0": 125
+  },
+  {
+   "n": 15,
+   "name": "Piper · Miro (homme)",
+   "desc": "voix grave",
+   "f0": 100
+  },
+  {
+   "n": 16,
+   "name": "Piper · Gilles (homme)",
+   "desc": "voix grave",
+   "f0": 103
+  },
+  {
+   "n": 17,
+   "name": "Voix des vidéos",
+   "desc": "Homme 5 + traitement narrateur (grave, chaud)",
+   "f0": 89
+  },
+  {
+   "n": 18,
+   "name": "Voix des vidéos · chuchotée",
+   "desc": "pour les questions intimes",
+   "f0": 93
+  },
+  {
+   "n": 19,
+   "name": "Voix des vidéos · plus grave",
+   "desc": "deux tons et demi plus bas",
+   "f0": 82
+  },
+  {
+   "n": 20,
+   "name": "Voix des vidéos · plus claire",
+   "desc": "un ton et demi plus haut",
+   "f0": 97
+  },
+  {
+   "n": 21,
+   "name": "Voix des vidéos · lente et posée",
+   "desc": "documentaire, suspense",
+   "f0": 86
+  },
+  {
+   "n": 22,
+   "name": "Voix des vidéos · énergique",
+   "desc": "rythme rapide, plus de présence",
+   "f0": 87
+  },
+  {
+   "n": 23,
+   "name": "Voix des vidéos · radio",
+   "desc": "effet poste de radio / téléphone",
+   "f0": 91
+  },
+  {
+   "n": 24,
+   "name": "Voix des vidéos · grande salle",
+   "desc": "écho de cathédrale",
+   "f0": 91
+  }
+ ]
+}

@@ -206,6 +206,7 @@ function world(t) {
     chalk("22 %", 4710, 820 - 260 * 0.225 - 40, pb, { size: 40, color: "#9FE7FF" });
     chalk("par téléphone", 4710, 900, pb, { size: 28, color: "#9FE7FF" });
   }
+  if (IMM.c.z > 0.45) insideAndToday(t);
   // result: you are one lab among forty
   labsGrid(t, 1 - prog(IMM.c.z, 0.28, 0.6));
   if (IMM.c.z < 0.5) {
@@ -213,6 +214,45 @@ function world(t) {
     chalk("40 hommes · 40 laboratoires", 4190, -4750, prog(t, S("result") + 1.0, S("result") + 2.0) * a, { size: 360 });
     chalk("26 vont jusqu'à 450 V", 4190, -4200, prog(t, t26, t26 + 0.8) * a, { size: 380, color: "#FFB3A8" });
     chalk("trait blanc = 300 V : personne ne s'arrête avant", 4190, -3700, prog(t, tn, tn + 1.0) * a, { size: 250 });
+  }
+}
+
+
+// ---------------------------------------------------------------- inside you, and today
+function insideAndToday(t) {
+  // the mind: what happens in the teacher's head
+  mindWall(5000, 6500, CEIL - 260, FLOOR + 700);
+  const tag = wt("why", "agentique", 12), tau = wt("why", "l'auteur", 14.8), tex = wt("why", "l'exécutant", 16.4), trs = wt("why", "responsabilité", 18.5);
+  light(5800, 880, 900, 0.8, "200,215,255");
+  chalkHead(5700, 880, 1.15, prog(t, tag - 1.0, tag + 0.4));
+  chalk("l'état agentique", 5750, 280, prog(t, tag - 0.2, tag + 0.6), { size: 64, color: "#FFE08A" });
+  const lit = 1 - 0.75 * prog(t, tex - 0.2, tex + 0.8);
+  pulse(5640, 700, 90, t, prog(t, tag, tag + 0.6) * lit, "255,220,140");
+  chalk("conscience", 5640, 590, prog(t, tag + 0.2, tag + 0.8), { size: 40, color: "#FFE08A" });
+  chalkFigure(5700, 1010, 1.4, prog(t, tau - 0.6, tau));
+  chalk("auteur de mes actes", 5700, 1150, prog(t, tau - 0.2, tau + 0.6), { size: 42 });
+  sketchPath([[5480, 1150], [5920, 1150]], prog(t, tex - 0.2, tex + 0.3), { width: 7, color: "#FFB3A8" });
+  chalk("simple exécutant", 5700, 1220, prog(t, tex, tex + 0.6), { size: 48, color: "#FFB3A8" });
+  const pr = easeInOut(prog(t, trs - 0.2, trs + 1.4));
+  chalkArrow(5880, 920, 6330, 860, pr, { bend: -0.15, color: "#FFE08A" });
+  if (pr > 0) chalk("responsabilité", lerp(5900, 6260, pr), 820 - Math.sin(pr * Math.PI) * 90, 1, { size: 40, color: "#FFE08A" });
+  if (t > trs) character(6380, FLOOR, 1.0, "experimenter", { pose: "stand", flip: true, face: { look: [-1, 0] }, props: { clipboard: true }, t, id: "mind-exp" });
+  // today: the office
+  room(6500, 7900, "#3E4248", "#2F3236");
+  const tn = S("now"), tpro = wt("now", "procédure", 5), tord = wt("now", "ordres", 9), tbl = wt("now", "blouse", 9.8), tti = wt("now", "titre", 10.8), tvo = wt("now", "voix", 11.4), tju = wt("now", "juste", 15.5);
+  light(7200, 900, 900, 1, "225,235,255");
+  roundRectFill(6900, 1060, 600, 22, 4, "#4A4F57"); ctx.fillStyle = "#3A3E45"; ctx.fillRect(6920, 1082, 18, FLOOR - 1082); ctx.fillRect(7462, 1082, 18, FLOOR - 1082);
+  laptop(7130, 1060, 0.38, () => { ctx.fillStyle = "#E9EEF5"; ctx.fillRect(0, 0, 480, 290); roundRectFill(30, 30, 420, 40, 6, "#3D7BFF"); for (let k = 0; k < 5; k++) roundRectFill(30, 90 + k * 36, 300 + (k % 2) * 90, 16, 6, "#C9CED6"); });
+  character(6880, FLOOR, 1.0, "student", { pose: "sit", face: { look: [1, -0.1], brows: t > tpro ? "worried" : "neutral", mouth: t > tord ? "frown" : "neutral" }, t, id: "office-emp" });
+  character(7420, FLOOR, 1.1, "man1950b", { pose: t > tn + 1 && t < tord ? "point" : "stand", flip: true, face: { look: [-1, 0] }, props: { paper: true }, t, id: "office-boss" });
+  if (t > tn - 0.5) {
+    chalk("aujourd'hui", 7200, 380, prog(t, tn + 0.2, tn + 0.9), { size: 60, color: "#9FE7FF" });
+    chalk("« c'est la procédure »", 7200, 520, prog(t, tpro - 0.4, tpro + 0.5), { size: 50 });
+    chalk("« je n'ai fait qu'obéir aux ordres »", 7200, 620, prog(t, tord - 1.0, tord + 0.4), { size: 44, color: "#FFB3A8" });
+    chalk("une blouse", 6850, 720, prog(t, tbl - 0.1, tbl + 0.3), { size: 42 });
+    chalk("un titre", 7200, 720, prog(t, tti - 0.1, tti + 0.3), { size: 42 });
+    chalk("une voix assurée", 7560, 720, prog(t, tvo - 0.1, tvo + 0.4), { size: 42 });
+    chalk("… est-ce juste ?", 7200, 1360, prog(t, tju - 0.6, tju + 0.3), { size: 80, color: "#FFE08A" });
   }
 }
 
@@ -257,7 +297,7 @@ function overlay(t) {
 }
 
 startImmersive({
-  world, overlay, keyRegex: /^(450|TRUQUÉ|ACTEUR|VRAI|TRENTE|FAUX|RIEN|EXIGE|26|65|AUCUN|RESPONSABILITÉ|TÉLÉPHONE)/,
+  world, overlay, keyRegex: /^(450|TRUQUÉ|ACTEUR|VRAI|TRENTE|FAUX|RIEN|EXIGE|26|65|AUCUN|RESPONSABILITÉ|TÉLÉPHONE|PROGRESSIF|AGENTIQUE|EXÉCUTANT|PROCÉDURE|ORDRES|JUSTE)/,
   ambient: t => (t > wtEnd("protest", "rien", 4) && t < S("prod") + 1.2 ? 0.86 : IMM.c.z < 0.5 ? 0.45 : 0.68),
   camera: () => [
     { t: 0, x: 4390, y: 880, z: 2.5, d: 0.01 },
@@ -281,11 +321,15 @@ startImmersive({
     { t: S("prod") + 1.0, x: 4300, y: 700, z: 1.25, d: 1.8 },
     { t: S("result") - 0.1, x: 4190, y: 1500, z: 0.13, d: 3.2 },
     { t: S("why") - 0.2, x: 4150, y: 720, z: 1.15, d: 1.6 },
-    { t: wt("why", "responsabilité", 3) - 0.2, x: 4140, y: 820, z: 0.92, d: 1.2 },
+    { t: wt("why", "agentique", 12) - 1.2, x: 5800, y: 820, z: 1.0, d: 1.8 },
+    { t: wt("why", "responsabilité", 18.5) - 0.4, x: 6000, y: 860, z: 0.92, d: 1.4 },
     { t: S("nuance") - 0.1, x: 4360, y: 860, z: 1.0, d: 1.0 },
-    { t: S("cta") - 0.3, x: 4330, y: 880, z: 2.5, d: 1.6 },
+    { t: S("now") - 0.3, x: 7200, y: 860, z: 1.0, d: 2.2 },
+    { t: wt("now", "blouse", 9.8) - 0.5, x: 7200, y: 760, z: 1.15, d: 1.0 },
+    { t: wt("now", "juste", 15.5) - 1.0, x: 7200, y: 900, z: 1.0, d: 1.2 },
+    { t: S("cta") - 0.05, x: 4330, y: 880, z: 2.5, d: 0.01 },
   ],
-  dips: () => [[S("setup"), 0.6]],
+  dips: () => [[S("setup"), 0.6], [S("cta"), 0.6]],
   music: () => ({ style: "dark", root: 37, room: true, tick: true, heart: [[S("machine"), wt("protest", "rien", 4), 66, 110], [S("prod") + 1.0, S("result"), 84, 92]] }),
   sfx() {
     sfx(S("setup") + 0.25, "paper", { gain: 0.6 });
@@ -305,5 +349,10 @@ startImmersive({
     sfx(wt("why", "manette", 1) - 0.3, "scribble", { dur: 1.4 });
     for (let k = 0; k < 2; k++) sfx(S("nuance") + 0.3 + k * 0.42, "step", { gain: 0.45 });
     const tph = wt("nuance", "téléphone", 2); sfx(tph - 0.2, "ring", { dur: 1.2, gain: 0.9 }); sfx(tph + 1.4, "ring", { dur: 1.2, gain: 0.7 });
+    sfx(wt("why", "agentique", 12) - 1.0, "scribble", { dur: 1.4 });
+    sfx(wt("why", "responsabilité", 18.5), "dark_whoosh", { gain: 0.4, dur: 1.2 });
+    sfx(S("now") + 0.2, "door", { gain: 0.4 });
+    sfx(wt("now", "procédure", 5) - 0.3, "paper", { gain: 0.5 });
+    sfx(wt("now", "juste", 15.5) - 0.5, "scribble", { dur: 1.0 });
   },
 });

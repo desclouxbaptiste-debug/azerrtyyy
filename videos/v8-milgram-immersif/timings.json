@@ -1,5 +1,5 @@
 {
- "duration": 72.448,
+ "duration": 104.595,
  "speed": 1.071,
  "reveals": [
   18.964,
@@ -1008,263 +1008,749 @@
    "start": 59.6,
    "sentences": [
     {
-     "text": "Pourquoi ?",
-     "spoken": "Pourquoi ?",
+     "text": "Que se passe-t-il en toi ?",
+     "spoken": "Que se passe-t-il en toi ?",
      "start": 59.6,
-     "end": 60.08,
+     "end": 60.96,
      "words": [
       {
-       "w": "Pourquoi?",
+       "w": "Que",
        "s": 59.6,
-       "e": 60.08
-      }
-     ]
-    },
-    {
-     "text": "Chaque manette n'ajoute que quinze volts.",
-     "spoken": "Chaque manette n'ajoute que quinze volts.",
-     "start": 60.08,
-     "end": 62.16,
-     "words": [
+       "e": 59.76
+      },
       {
-       "w": "Chaque",
-       "s": 60.08,
+       "w": "se",
+       "s": 59.76,
+       "e": 59.92
+      },
+      {
+       "w": "passe-t-il",
+       "s": 59.92,
        "e": 60.32
       },
       {
-       "w": "manette",
+       "w": "en",
        "s": 60.32,
-       "e": 60.8
+       "e": 60.48
+      },
+      {
+       "w": "toi?",
+       "s": 60.48,
+       "e": 60.96
+      }
+     ]
+    },
+    {
+     "text": "D'abord, un piège progressif : chaque manette n'ajoute que quinze volts.",
+     "spoken": "D'abord, un piège progressif : chaque manette n'ajoute que quinze volts.",
+     "start": 60.96,
+     "end": 65.367,
+     "words": [
+      {
+       "w": "D'abord,",
+       "s": 60.96,
+       "e": 61.44
+      },
+      {
+       "w": "un",
+       "s": 61.44,
+       "e": 61.6
+      },
+      {
+       "w": "piège",
+       "s": 61.6,
+       "e": 62.08
+      },
+      {
+       "w": "progressif:",
+       "s": 62.08,
+       "e": 62.96
+      },
+      {
+       "w": "chaque",
+       "s": 62.96,
+       "e": 63.28
+      },
+      {
+       "w": "manette",
+       "s": 63.28,
+       "e": 63.76
       },
       {
        "w": "n'ajoute",
-       "s": 60.8,
-       "e": 61.28
+       "s": 63.76,
+       "e": 64.32
       },
       {
        "w": "que",
-       "s": 61.28,
-       "e": 61.36
+       "s": 64.32,
+       "e": 64.48
       },
       {
        "w": "quinze",
-       "s": 61.36,
-       "e": 61.68
+       "s": 64.48,
+       "e": 64.8
       },
       {
        "w": "volts.",
-       "s": 61.68,
-       "e": 62.16
+       "s": 64.8,
+       "e": 65.367
       }
      ]
     },
     {
-     "text": "Et la responsabilité...",
-     "spoken": "Et la responsabilité...",
-     "start": 62.16,
-     "end": 63.36,
+     "text": "Refuser, ce serait avouer que les précédentes étaient déjà de trop.",
+     "spoken": "Refuser, ce serait avouer que les précédentes étaient déjà de trop.",
+     "start": 65.367,
+     "end": 69.6,
      "words": [
       {
-       "w": "Et",
-       "s": 62.16,
-       "e": 62.32
+       "w": "Refuser,",
+       "s": 65.367,
+       "e": 66.16
       },
       {
-       "w": "la",
-       "s": 62.32,
-       "e": 62.48
+       "w": "ce",
+       "s": 66.16,
+       "e": 66.4
+      },
+      {
+       "w": "serait",
+       "s": 66.4,
+       "e": 66.76
+      },
+      {
+       "w": "avouer",
+       "s": 66.76,
+       "e": 67.12
+      },
+      {
+       "w": "que",
+       "s": 67.12,
+       "e": 67.28
+      },
+      {
+       "w": "les",
+       "s": 67.28,
+       "e": 67.44
+      },
+      {
+       "w": "précédentes",
+       "s": 67.44,
+       "e": 68.16
+      },
+      {
+       "w": "étaient",
+       "s": 68.16,
+       "e": 68.48
+      },
+      {
+       "w": "déjà",
+       "s": 68.48,
+       "e": 68.8
+      },
+      {
+       "w": "de",
+       "s": 68.8,
+       "e": 69.04
+      },
+      {
+       "w": "trop.",
+       "s": 69.04,
+       "e": 69.6
+      }
+     ]
+    },
+    {
+     "text": "Ensuite, ce que Milgram appelle l'état agentique : face à l'autorité, tu n'es plus l'auteur de tes actes...",
+     "spoken": "Ensuite, ce que Milgram appelle l'état agentique : face à l'autorité, tu n'es plus l'auteur de tes actes...",
+     "start": 69.6,
+     "end": 75.52,
+     "words": [
+      {
+       "w": "Ensuite,",
+       "s": 69.6,
+       "e": 70.08
+      },
+      {
+       "w": "ce",
+       "s": 70.08,
+       "e": 70.24
+      },
+      {
+       "w": "que",
+       "s": 70.24,
+       "e": 70.4
+      },
+      {
+       "w": "Milgram",
+       "s": 70.4,
+       "e": 71.12
+      },
+      {
+       "w": "appelle",
+       "s": 71.12,
+       "e": 71.36
+      },
+      {
+       "w": "l'état",
+       "s": 71.36,
+       "e": 71.76
+      },
+      {
+       "w": "agentique:",
+       "s": 71.76,
+       "e": 72.48
+      },
+      {
+       "w": "face",
+       "s": 72.48,
+       "e": 72.72
+      },
+      {
+       "w": "à",
+       "s": 72.72,
+       "e": 72.8
+      },
+      {
+       "w": "l'autorité,",
+       "s": 72.8,
+       "e": 73.84
+      },
+      {
+       "w": "tu",
+       "s": 73.84,
+       "e": 74.0
+      },
+      {
+       "w": "n'es",
+       "s": 74.0,
+       "e": 74.24
+      },
+      {
+       "w": "plus",
+       "s": 74.24,
+       "e": 74.4
+      },
+      {
+       "w": "l'auteur",
+       "s": 74.4,
+       "e": 74.88
+      },
+      {
+       "w": "de",
+       "s": 74.88,
+       "e": 74.96
+      },
+      {
+       "w": "tes",
+       "s": 74.96,
+       "e": 75.12
+      },
+      {
+       "w": "actes...",
+       "s": 75.12,
+       "e": 75.52
+      }
+     ]
+    },
+    {
+     "text": "juste l'exécutant.",
+     "spoken": "juste l'exécutant.",
+     "start": 75.547,
+     "end": 77.966,
+     "words": [
+      {
+       "w": "juste",
+       "s": 75.547,
+       "e": 76.012
+      },
+      {
+       "w": "l'exécutant.",
+       "s": 76.012,
+       "e": 77.966
+      }
+     ]
+    },
+    {
+     "text": "La responsabilité...",
+     "spoken": "La responsabilité...",
+     "start": 77.885,
+     "end": 79.005,
+     "words": [
+      {
+       "w": "La",
+       "s": 77.885,
+       "e": 78.125
       },
       {
        "w": "responsabilité...",
-       "s": 62.48,
-       "e": 63.36
+       "s": 78.125,
+       "e": 79.005
       }
      ]
     },
     {
-     "text": "on la laisse au chercheur.",
-     "spoken": "on la laisse au chercheur.",
-     "start": 63.36,
-     "end": 64.687,
+     "text": "c'est le chercheur qui la porte.",
+     "spoken": "c'est le chercheur qui la porte.",
+     "start": 79.005,
+     "end": 80.508,
      "words": [
       {
-       "w": "on",
-       "s": 63.36,
-       "e": 63.52
+       "w": "c'est",
+       "s": 79.005,
+       "e": 79.245
+      },
+      {
+       "w": "le",
+       "s": 79.245,
+       "e": 79.325
+      },
+      {
+       "w": "chercheur",
+       "s": 79.325,
+       "e": 79.805
+      },
+      {
+       "w": "qui",
+       "s": 79.805,
+       "e": 79.965
       },
       {
        "w": "la",
-       "s": 63.52,
-       "e": 63.68
+       "s": 79.965,
+       "e": 80.125
       },
       {
-       "w": "laisse",
-       "s": 63.68,
-       "e": 64.06
-      },
-      {
-       "w": "au",
-       "s": 64.06,
-       "e": 64.187
-      },
-      {
-       "w": "chercheur.",
-       "s": 64.187,
-       "e": 64.687
+       "w": "porte.",
+       "s": 80.125,
+       "e": 80.508
       }
      ]
     }
    ],
-   "end": 65.057
+   "end": 80.808
   },
   {
    "id": "nuance",
-   "start": 65.057,
+   "start": 80.808,
    "sentences": [
     {
      "text": "Mais quand les ordres arrivent par téléphone...",
      "spoken": "Mais quand les ordres arrivent par téléphone...",
-     "start": 65.057,
-     "end": 67.057,
+     "start": 80.808,
+     "end": 82.808,
      "words": [
       {
        "w": "Mais",
-       "s": 65.057,
-       "e": 65.297
+       "s": 80.808,
+       "e": 81.048
       },
       {
        "w": "quand",
-       "s": 65.297,
-       "e": 65.457
+       "s": 81.048,
+       "e": 81.208
       },
       {
        "w": "les",
-       "s": 65.457,
-       "e": 65.617
+       "s": 81.208,
+       "e": 81.368
       },
       {
        "w": "ordres",
-       "s": 65.617,
-       "e": 66.017
+       "s": 81.368,
+       "e": 81.768
       },
       {
        "w": "arrivent",
-       "s": 66.017,
-       "e": 66.337
+       "s": 81.768,
+       "e": 82.088
       },
       {
        "w": "par",
-       "s": 66.337,
-       "e": 66.497
+       "s": 82.088,
+       "e": 82.248
       },
       {
        "w": "téléphone...",
-       "s": 66.497,
-       "e": 67.057
+       "s": 82.248,
+       "e": 82.808
       }
      ]
     },
     {
      "text": "l'obéissance s'effondre.",
      "spoken": "l'obéissance s'effondre.",
-     "start": 67.057,
-     "end": 68.357,
+     "start": 82.808,
+     "end": 84.108,
      "words": [
       {
        "w": "l'obéissance",
-       "s": 67.057,
-       "e": 67.857
+       "s": 82.808,
+       "e": 83.608
       },
       {
        "w": "s'effondre.",
-       "s": 67.857,
-       "e": 68.357
+       "s": 83.608,
+       "e": 84.108
       }
      ]
     }
    ],
-   "end": 68.898
+   "end": 84.649
+  },
+  {
+   "id": "now",
+   "start": 84.649,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 84.649,
+     "end": 85.609,
+     "words": [
+      {
+       "w": "Et",
+       "s": 84.649,
+       "e": 84.889
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 84.889,
+       "e": 85.609
+      }
+     ]
+    },
+    {
+     "text": "C'est le salarié qui applique une consigne absurde, parce que « c'est la procédure ».",
+     "spoken": "C'est le salarié qui applique une consigne absurde, parce que « c'est la procédure ».",
+     "start": 85.609,
+     "end": 90.489,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 85.609,
+       "e": 85.929
+      },
+      {
+       "w": "le",
+       "s": 85.929,
+       "e": 86.089
+      },
+      {
+       "w": "salarié",
+       "s": 86.089,
+       "e": 86.649
+      },
+      {
+       "w": "qui",
+       "s": 86.649,
+       "e": 86.889
+      },
+      {
+       "w": "applique",
+       "s": 86.889,
+       "e": 87.289
+      },
+      {
+       "w": "une",
+       "s": 87.289,
+       "e": 87.449
+      },
+      {
+       "w": "consigne",
+       "s": 87.449,
+       "e": 88.009
+      },
+      {
+       "w": "absurde,",
+       "s": 88.009,
+       "e": 88.809
+      },
+      {
+       "w": "parce",
+       "s": 88.809,
+       "e": 89.129
+      },
+      {
+       "w": "que",
+       "s": 89.129,
+       "e": 89.249
+      },
+      {
+       "w": "«",
+       "s": 89.249,
+       "e": 89.299
+      },
+      {
+       "w": "c'est",
+       "s": 89.289,
+       "e": 89.529
+      },
+      {
+       "w": "la",
+       "s": 89.529,
+       "e": 89.689
+      },
+      {
+       "w": "procédure",
+       "s": 89.689,
+       "e": 90.409
+      },
+      {
+       "w": "».",
+       "s": 90.409,
+       "e": 90.489
+      }
+     ]
+    },
+    {
+     "text": "C'est celui qui se défend : « je n'ai fait qu'obéir aux ordres ».",
+     "spoken": "C'est celui qui se défend : « je n'ai fait qu'obéir aux ordres ».",
+     "start": 90.489,
+     "end": 94.009,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 90.489,
+       "e": 90.809
+      },
+      {
+       "w": "celui",
+       "s": 90.809,
+       "e": 91.129
+      },
+      {
+       "w": "qui",
+       "s": 91.129,
+       "e": 91.289
+      },
+      {
+       "w": "se",
+       "s": 91.289,
+       "e": 91.449
+      },
+      {
+       "w": "défend:",
+       "s": 91.449,
+       "e": 91.998
+      },
+      {
+       "w": "«",
+       "s": 91.998,
+       "e": 92.089
+      },
+      {
+       "w": "je",
+       "s": 92.089,
+       "e": 92.249
+      },
+      {
+       "w": "n'ai",
+       "s": 92.249,
+       "e": 92.489
+      },
+      {
+       "w": "fait",
+       "s": 92.489,
+       "e": 92.729
+      },
+      {
+       "w": "qu'obéir",
+       "s": 92.729,
+       "e": 93.289
+      },
+      {
+       "w": "aux",
+       "s": 93.289,
+       "e": 93.449
+      },
+      {
+       "w": "ordres",
+       "s": 93.449,
+       "e": 93.929
+      },
+      {
+       "w": "».",
+       "s": 93.929,
+       "e": 94.009
+      }
+     ]
+    },
+    {
+     "text": "Une blouse, un titre, une voix assurée...",
+     "spoken": "Une blouse, un titre, une voix assurée...",
+     "start": 94.16,
+     "end": 97.309,
+     "words": [
+      {
+       "w": "Une",
+       "s": 94.16,
+       "e": 94.415
+      },
+      {
+       "w": "blouse,",
+       "s": 94.415,
+       "e": 95.181
+      },
+      {
+       "w": "un",
+       "s": 95.181,
+       "e": 95.351
+      },
+      {
+       "w": "titre,",
+       "s": 95.351,
+       "e": 95.862
+      },
+      {
+       "w": "une",
+       "s": 95.862,
+       "e": 96.032
+      },
+      {
+       "w": "voix",
+       "s": 96.032,
+       "e": 96.373
+      },
+      {
+       "w": "assurée...",
+       "s": 96.373,
+       "e": 97.309
+      }
+     ]
+    },
+    {
+     "text": "et on oublie de se demander : est-ce juste ?",
+     "spoken": "et on oublie de se demander : est-ce juste ?",
+     "start": 97.459,
+     "end": 100.714,
+     "words": [
+      {
+       "w": "et",
+       "s": 97.459,
+       "e": 97.714
+      },
+      {
+       "w": "on",
+       "s": 97.714,
+       "e": 98.055
+      },
+      {
+       "w": "oublie",
+       "s": 98.055,
+       "e": 98.48
+      },
+      {
+       "w": "de",
+       "s": 98.48,
+       "e": 98.65
+      },
+      {
+       "w": "se",
+       "s": 98.65,
+       "e": 98.821
+      },
+      {
+       "w": "demander:",
+       "s": 98.821,
+       "e": 99.672
+      },
+      {
+       "w": "est-ce",
+       "s": 99.672,
+       "e": 100.182
+      },
+      {
+       "w": "juste?",
+       "s": 100.182,
+       "e": 100.714
+      }
+     ]
+    }
+   ],
+   "end": 101.045
   },
   {
    "id": "cta",
-   "start": 68.898,
+   "start": 101.045,
    "sentences": [
     {
      "text": "Et toi...",
      "spoken": "Et toi...",
-     "start": 69.048,
-     "end": 69.474,
+     "start": 101.195,
+     "end": 101.621,
      "words": [
       {
        "w": "Et",
-       "s": 69.048,
-       "e": 69.218
+       "s": 101.195,
+       "e": 101.366
       },
       {
        "w": "toi...",
-       "s": 69.218,
-       "e": 69.474
+       "s": 101.366,
+       "e": 101.621
       }
      ]
     },
     {
      "text": "à quelle manette tu t'arrêtes ?",
      "spoken": "à quelle manette tu t'arrêtes ?",
-     "start": 69.624,
-     "end": 71.07,
+     "start": 101.771,
+     "end": 103.218,
      "words": [
       {
        "w": "à",
-       "s": 69.624,
-       "e": 69.709
+       "s": 101.771,
+       "e": 101.856
       },
       {
        "w": "quelle",
-       "s": 69.709,
-       "e": 69.964
+       "s": 101.856,
+       "e": 102.111
       },
       {
        "w": "manette",
-       "s": 69.964,
-       "e": 70.39
+       "s": 102.111,
+       "e": 102.537
       },
       {
        "w": "tu",
-       "s": 70.39,
-       "e": 70.56
+       "s": 102.537,
+       "e": 102.707
       },
       {
        "w": "t'arrêtes?",
-       "s": 70.56,
-       "e": 71.07
+       "s": 102.707,
+       "e": 103.218
       }
      ]
     },
     {
      "text": "Dis-le en commentaire.",
      "spoken": "Dis-le en commentaire.",
-     "start": 71.067,
-     "end": 72.047,
+     "start": 103.214,
+     "end": 104.194,
      "words": [
       {
        "w": "Dis-le",
-       "s": 71.067,
-       "e": 71.387
+       "s": 103.214,
+       "e": 103.534
       },
       {
        "w": "en",
-       "s": 71.387,
-       "e": 71.547
+       "s": 103.534,
+       "e": 103.694
       },
       {
        "w": "commentaire.",
-       "s": 71.547,
-       "e": 72.047
+       "s": 103.694,
+       "e": 104.194
       }
      ]
     }
    ],
-   "end": 72.448
+   "end": 104.595
   }
  ]
 }

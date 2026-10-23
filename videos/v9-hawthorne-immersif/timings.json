@@ -1,10 +1,11 @@
 {
- "duration": 65.54,
+ "duration": 88.122,
  "speed": 1.071,
  "reveals": [
   18.551,
   43.177,
-  47.732
+  47.732,
+  81.556
  ],
  "segments": [
   {
@@ -970,199 +971,504 @@
    "start": 55.874,
    "sentences": [
     {
-     "text": "Il reste une vraie leçon : mesurer quelqu'un qui sait qu'il est mesuré...",
-     "spoken": "Il reste une vraie leçon : mesurer quelqu'un qui sait qu'il est mesuré...",
+     "text": "Que se passe-t-il en nous ?",
+     "spoken": "Que se passe-t-il en nous ?",
      "start": 55.874,
-     "end": 59.634,
+     "end": 57.474,
      "words": [
       {
-       "w": "Il",
+       "w": "Que",
        "s": 55.874,
        "e": 56.114
       },
       {
-       "w": "reste",
+       "w": "se",
        "s": 56.114,
-       "e": 56.354
+       "e": 56.274
       },
       {
-       "w": "une",
-       "s": 56.354,
-       "e": 56.514
+       "w": "passe-t-il",
+       "s": 56.274,
+       "e": 56.834
       },
       {
-       "w": "vraie",
-       "s": 56.514,
-       "e": 56.754
+       "w": "en",
+       "s": 56.834,
+       "e": 56.994
       },
       {
-       "w": "leçon:",
-       "s": 56.754,
-       "e": 57.314
-      },
-      {
-       "w": "mesurer",
-       "s": 57.314,
-       "e": 57.874
-      },
-      {
-       "w": "quelqu'un",
-       "s": 57.874,
-       "e": 58.194
-      },
-      {
-       "w": "qui",
-       "s": 58.194,
-       "e": 58.354
-      },
-      {
-       "w": "sait",
-       "s": 58.354,
-       "e": 58.594
-      },
-      {
-       "w": "qu'il",
-       "s": 58.594,
-       "e": 58.834
-      },
-      {
-       "w": "est",
-       "s": 58.834,
-       "e": 58.994
-      },
-      {
-       "w": "mesuré...",
-       "s": 58.994,
-       "e": 59.634
+       "w": "nous?",
+       "s": 56.994,
+       "e": 57.474
       }
      ]
     },
     {
-     "text": "ce n'est pas si simple.",
-     "spoken": "ce n'est pas si simple.",
-     "start": 59.634,
-     "end": 60.774,
+     "text": "Se savoir regardé réveille le souci de notre image : on se tient plus droit, on fait plus d'efforts.",
+     "spoken": "Se savoir regardé réveille le souci de notre image : on se tient plus droit, on fait plus d'efforts.",
+     "start": 57.474,
+     "end": 63.554,
      "words": [
       {
-       "w": "ce",
-       "s": 59.634,
-       "e": 59.794
+       "w": "Se",
+       "s": 57.474,
+       "e": 57.714
       },
       {
-       "w": "n'est",
-       "s": 59.794,
-       "e": 59.954
+       "w": "savoir",
+       "s": 57.714,
+       "e": 58.12
       },
       {
-       "w": "pas",
-       "s": 59.954,
+       "w": "regardé",
+       "s": 58.12,
+       "e": 58.594
+      },
+      {
+       "w": "réveille",
+       "s": 58.594,
+       "e": 59.154
+      },
+      {
+       "w": "le",
+       "s": 59.154,
+       "e": 59.234
+      },
+      {
+       "w": "souci",
+       "s": 59.234,
+       "e": 59.714
+      },
+      {
+       "w": "de",
+       "s": 59.714,
+       "e": 59.874
+      },
+      {
+       "w": "notre",
+       "s": 59.874,
        "e": 60.114
       },
       {
-       "w": "si",
+       "w": "image:",
        "s": 60.114,
-       "e": 60.274
+       "e": 60.754
       },
       {
-       "w": "simple.",
-       "s": 60.274,
-       "e": 60.774
+       "w": "on",
+       "s": 60.754,
+       "e": 60.914
+      },
+      {
+       "w": "se",
+       "s": 60.914,
+       "e": 61.074
+      },
+      {
+       "w": "tient",
+       "s": 61.074,
+       "e": 61.474
+      },
+      {
+       "w": "plus",
+       "s": 61.474,
+       "e": 61.634
+      },
+      {
+       "w": "droit,",
+       "s": 61.634,
+       "e": 62.114
+      },
+      {
+       "w": "on",
+       "s": 62.114,
+       "e": 62.354
+      },
+      {
+       "w": "fait",
+       "s": 62.354,
+       "e": 62.594
+      },
+      {
+       "w": "plus",
+       "s": 62.594,
+       "e": 62.754
+      },
+      {
+       "w": "d'efforts.",
+       "s": 62.754,
+       "e": 63.554
+      }
+     ]
+    },
+    {
+     "text": "Et pour ces ouvrières, l'attention elle-même motivait : enfin, quelqu'un s'intéressait à elles.",
+     "spoken": "Et pour ces ouvrières, l'attention elle-même motivait : enfin, quelqu'un s'intéressait à elles.",
+     "start": 63.554,
+     "end": 69.464,
+     "words": [
+      {
+       "w": "Et",
+       "s": 63.554,
+       "e": 63.794
+      },
+      {
+       "w": "pour",
+       "s": 63.794,
+       "e": 63.954
+      },
+      {
+       "w": "ces",
+       "s": 63.954,
+       "e": 64.194
+      },
+      {
+       "w": "ouvrières,",
+       "s": 64.194,
+       "e": 65.074
+      },
+      {
+       "w": "l'attention",
+       "s": 65.074,
+       "e": 65.714
+      },
+      {
+       "w": "elle-même",
+       "s": 65.714,
+       "e": 66.434
+      },
+      {
+       "w": "motivait:",
+       "s": 66.434,
+       "e": 67.154
+      },
+      {
+       "w": "enfin,",
+       "s": 67.154,
+       "e": 67.714
+      },
+      {
+       "w": "quelqu'un",
+       "s": 67.714,
+       "e": 68.194
+      },
+      {
+       "w": "s'intéressait",
+       "s": 68.194,
+       "e": 68.914
+      },
+      {
+       "w": "à",
+       "s": 68.914,
+       "e": 69.006
+      },
+      {
+       "w": "elles.",
+       "s": 69.006,
+       "e": 69.464
       }
      ]
     }
    ],
-   "end": 61.078
+   "end": 69.764
+  },
+  {
+   "id": "now",
+   "start": 69.764,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 69.764,
+     "end": 70.677,
+     "words": [
+      {
+       "w": "Et",
+       "s": 69.764,
+       "e": 69.924
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 69.924,
+       "e": 70.677
+      }
+     ]
+    },
+    {
+     "text": "Caméras, télétravail surveillé, montres connectées, likes...",
+     "spoken": "Caméras, télétravail surveillé, montres connectées, likes...",
+     "start": 70.677,
+     "end": 74.324,
+     "words": [
+      {
+       "w": "Caméras,",
+       "s": 70.677,
+       "e": 71.204
+      },
+      {
+       "w": "télétravail",
+       "s": 71.204,
+       "e": 71.924
+      },
+      {
+       "w": "surveillé,",
+       "s": 71.924,
+       "e": 72.621
+      },
+      {
+       "w": "montres",
+       "s": 72.621,
+       "e": 73.163
+      },
+      {
+       "w": "connectées,",
+       "s": 73.163,
+       "e": 73.937
+      },
+      {
+       "w": "likes...",
+       "s": 73.937,
+       "e": 74.324
+      }
+     ]
+    },
+    {
+     "text": "on est observés en permanence.",
+     "spoken": "on est observés en permanence.",
+     "start": 74.324,
+     "end": 76.244,
+     "words": [
+      {
+       "w": "on",
+       "s": 74.324,
+       "e": 74.564
+      },
+      {
+       "w": "est",
+       "s": 74.564,
+       "e": 74.76
+      },
+      {
+       "w": "observés",
+       "s": 74.76,
+       "e": 75.284
+      },
+      {
+       "w": "en",
+       "s": 75.284,
+       "e": 75.444
+      },
+      {
+       "w": "permanence.",
+       "s": 75.444,
+       "e": 76.244
+      }
+     ]
+    },
+    {
+     "text": "Dans une étude, une simple affiche avec des yeux, près d'une caisse à café...",
+     "spoken": "Dans une étude, une simple affiche avec des yeux, près d'une caisse à café...",
+     "start": 76.244,
+     "end": 80.884,
+     "words": [
+      {
+       "w": "Dans",
+       "s": 76.244,
+       "e": 76.484
+      },
+      {
+       "w": "une",
+       "s": 76.484,
+       "e": 76.644
+      },
+      {
+       "w": "étude,",
+       "s": 76.644,
+       "e": 77.284
+      },
+      {
+       "w": "une",
+       "s": 77.284,
+       "e": 77.524
+      },
+      {
+       "w": "simple",
+       "s": 77.524,
+       "e": 77.844
+      },
+      {
+       "w": "affiche",
+       "s": 77.844,
+       "e": 78.404
+      },
+      {
+       "w": "avec",
+       "s": 78.404,
+       "e": 78.564
+      },
+      {
+       "w": "des",
+       "s": 78.564,
+       "e": 78.724
+      },
+      {
+       "w": "yeux,",
+       "s": 78.724,
+       "e": 79.124
+      },
+      {
+       "w": "près",
+       "s": 79.124,
+       "e": 79.364
+      },
+      {
+       "w": "d'une",
+       "s": 79.364,
+       "e": 79.604
+      },
+      {
+       "w": "caisse",
+       "s": 79.604,
+       "e": 80.004
+      },
+      {
+       "w": "à",
+       "s": 80.004,
+       "e": 80.164
+      },
+      {
+       "w": "café...",
+       "s": 80.164,
+       "e": 80.884
+      }
+     ]
+    },
+    {
+     "text": "a presque triplé les paiements.",
+     "spoken": "a presque triplé les paiements.",
+     "start": 81.555,
+     "end": 83.355,
+     "words": [
+      {
+       "w": "a",
+       "s": 81.555,
+       "e": 81.733
+      },
+      {
+       "w": "presque",
+       "s": 81.733,
+       "e": 82.089
+      },
+      {
+       "w": "triplé",
+       "s": 82.089,
+       "e": 82.622
+      },
+      {
+       "w": "les",
+       "s": 82.622,
+       "e": 82.8
+      },
+      {
+       "w": "paiements.",
+       "s": 82.8,
+       "e": 83.355
+      }
+     ]
+    }
+   ],
+   "end": 83.66
   },
   {
    "id": "cta",
-   "start": 61.078,
+   "start": 83.66,
    "sentences": [
     {
      "text": "Et toi...",
      "spoken": "Et toi...",
-     "start": 61.228,
-     "end": 61.568,
+     "start": 83.81,
+     "end": 84.15,
      "words": [
       {
        "w": "Et",
-       "s": 61.228,
-       "e": 61.313
+       "s": 83.81,
+       "e": 83.895
       },
       {
        "w": "toi...",
-       "s": 61.313,
-       "e": 61.568
+       "s": 83.895,
+       "e": 84.15
       }
      ]
     },
     {
      "text": "tu bosses mieux quand le chef passe ?",
      "spoken": "tu bosses mieux quand le chef passe ?",
-     "start": 61.718,
-     "end": 64.016,
+     "start": 84.3,
+     "end": 86.598,
      "words": [
       {
        "w": "tu",
-       "s": 61.718,
-       "e": 62.314
+       "s": 84.3,
+       "e": 84.896
       },
       {
        "w": "bosses",
-       "s": 62.314,
-       "e": 62.655
+       "s": 84.896,
+       "e": 85.237
       },
       {
        "w": "mieux",
-       "s": 62.655,
-       "e": 62.825
+       "s": 85.237,
+       "e": 85.407
       },
       {
        "w": "quand",
-       "s": 62.825,
-       "e": 62.995
+       "s": 85.407,
+       "e": 85.577
       },
       {
        "w": "le",
-       "s": 62.995,
-       "e": 63.08
+       "s": 85.577,
+       "e": 85.662
       },
       {
        "w": "chef",
-       "s": 63.08,
-       "e": 63.421
+       "s": 85.662,
+       "e": 86.003
       },
       {
        "w": "passe?",
-       "s": 63.421,
-       "e": 64.016
+       "s": 86.003,
+       "e": 86.598
       }
      ]
     },
     {
      "text": "Dis-le en commentaire.",
      "spoken": "Dis-le en commentaire.",
-     "start": 64.003,
-     "end": 65.143,
+     "start": 86.585,
+     "end": 87.725,
      "words": [
       {
        "w": "Dis-le",
-       "s": 64.003,
-       "e": 64.483
+       "s": 86.585,
+       "e": 87.065
       },
       {
        "w": "en",
-       "s": 64.483,
-       "e": 64.643
+       "s": 87.065,
+       "e": 87.225
       },
       {
        "w": "commentaire.",
-       "s": 64.643,
-       "e": 65.143
+       "s": 87.225,
+       "e": 87.725
       }
      ]
     }
    ],
-   "end": 65.54
+   "end": 88.122
   }
  ]
 }

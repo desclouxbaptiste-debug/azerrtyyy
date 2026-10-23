@@ -93,10 +93,11 @@
   },
   {
    "id": "why",
-   "text": "Pourquoi ? Chaque manette n'ajoute que quinze volts. Et la responsabilité... on la laisse au chercheur.",
+   "text": "Que se passe-t-il en toi ? D'abord, un piège progressif : chaque manette n'ajoute que quinze volts. Refuser, ce serait avouer que les précédentes étaient déjà de trop. Ensuite, ce que Milgram appelle l'état agentique : face à l'autorité, tu n'es plus l'auteur de tes actes... <s>juste l'exécutant. La responsabilité... c'est le chercheur qui la porte.",
    "emph": [
-    "quinze",
-    "responsabilité"
+    "progressif",
+    "agentique",
+    "exécutant"
    ]
   },
   {
@@ -104,6 +105,15 @@
    "text": "Mais quand les ordres arrivent par téléphone... l'obéissance s'effondre.",
    "emph": [
     "téléphone"
+   ]
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? C'est le salarié qui applique une consigne absurde, parce que « c'est la procédure ». C'est celui qui se défend : « je n'ai fait qu'obéir aux ordres ». <w>Une blouse, un titre, une voix assurée... <w>et on oublie de se demander : est-ce juste ?",
+   "emph": [
+    "procédure",
+    "ordres",
+    "juste"
    ]
   },
   {

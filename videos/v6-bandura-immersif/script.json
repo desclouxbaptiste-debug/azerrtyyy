@@ -85,9 +85,12 @@
   },
   {
    "id": "lesson",
-   "text": "Pour {Bandura|Bandoura}, c'est la preuve : on apprend en regardant. Sans récompense. Sans punition.",
+   "text": "Que se passe-t-il chez l'enfant ? Bandura appelle ça l'apprentissage social. L'enfant observe, retient... puis reproduit. Surtout si le modèle lui ressemble, ou semble fort. Pas besoin de récompense, ni de punition : regarder suffit à apprendre.",
    "emph": [
-    "regardant"
+    "observe",
+    "retient",
+    "reproduit",
+    "regarder"
    ]
   },
   {
@@ -95,6 +98,14 @@
    "text": "Limite : Bobo est fait pour être frappé, et l'effet n'a été mesuré que sur le moment.",
    "emph": [
     "moment"
+   ]
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Les modèles sont sur les écrans : influenceurs, défis viraux, gestes copiés dans la cour de récré. Mais ça marche aussi dans l'autre sens. <s>Un enfant qui voit un adulte aider... aide davantage.",
+   "emph": [
+    "écrans",
+    "aider"
    ]
   },
   {

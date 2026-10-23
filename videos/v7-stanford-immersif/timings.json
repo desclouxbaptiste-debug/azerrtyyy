@@ -1,5 +1,5 @@
 {
- "duration": 79.496,
+ "duration": 104.106,
  "speed": 1.071,
  "reveals": [
   4.228,
@@ -1129,105 +1129,534 @@
    "end": 73.82
   },
   {
-   "id": "cta",
+   "id": "inside",
    "start": 73.82,
+   "sentences": [
+    {
+     "text": "Alors, que retenir ?",
+     "spoken": "Alors, que retenir ?",
+     "start": 73.82,
+     "end": 75.18,
+     "words": [
+      {
+       "w": "Alors,",
+       "s": 73.82,
+       "e": 74.3
+      },
+      {
+       "w": "que",
+       "s": 74.3,
+       "e": 74.54
+      },
+      {
+       "w": "retenir?",
+       "s": 74.54,
+       "e": 75.18
+      }
+     ]
+    },
+    {
+     "text": "Deux mécanismes, bien réels.",
+     "spoken": "Deux mécanismes, bien réels.",
+     "start": 75.18,
+     "end": 76.94,
+     "words": [
+      {
+       "w": "Deux",
+       "s": 75.18,
+       "e": 75.5
+      },
+      {
+       "w": "mécanismes,",
+       "s": 75.5,
+       "e": 76.14
+      },
+      {
+       "w": "bien",
+       "s": 76.14,
+       "e": 76.38
+      },
+      {
+       "w": "réels.",
+       "s": 76.38,
+       "e": 76.94
+      }
+     ]
+    },
+    {
+     "text": "La désindividuation : un uniforme, des lunettes, un numéro...",
+     "spoken": "La désindividuation : un uniforme, des lunettes, un numéro...",
+     "start": 76.94,
+     "end": 81.18,
+     "words": [
+      {
+       "w": "La",
+       "s": 76.94,
+       "e": 77.1
+      },
+      {
+       "w": "désindividuation:",
+       "s": 77.1,
+       "e": 78.38
+      },
+      {
+       "w": "un",
+       "s": 78.38,
+       "e": 78.62
+      },
+      {
+       "w": "uniforme,",
+       "s": 78.62,
+       "e": 79.34
+      },
+      {
+       "w": "des",
+       "s": 79.34,
+       "e": 79.58
+      },
+      {
+       "w": "lunettes,",
+       "s": 79.58,
+       "e": 80.3
+      },
+      {
+       "w": "un",
+       "s": 80.3,
+       "e": 80.46
+      },
+      {
+       "w": "numéro...",
+       "s": 80.46,
+       "e": 81.18
+      }
+     ]
+    },
+    {
+     "text": "et on se sent moins responsable.",
+     "spoken": "et on se sent moins responsable.",
+     "start": 81.18,
+     "end": 83.18,
+     "words": [
+      {
+       "w": "et",
+       "s": 81.18,
+       "e": 81.42
+      },
+      {
+       "w": "on",
+       "s": 81.42,
+       "e": 81.58
+      },
+      {
+       "w": "se",
+       "s": 81.58,
+       "e": 81.74
+      },
+      {
+       "w": "sent",
+       "s": 81.74,
+       "e": 81.98
+      },
+      {
+       "w": "moins",
+       "s": 81.98,
+       "e": 82.3
+      },
+      {
+       "w": "responsable.",
+       "s": 82.3,
+       "e": 83.18
+      }
+     ]
+    },
+    {
+     "text": "Et le poids du chef : quand une autorité encourage la dureté, certains suivent...",
+     "spoken": "Et le poids du chef : quand une autorité encourage la dureté, certains suivent...",
+     "start": 83.18,
+     "end": 87.82,
+     "words": [
+      {
+       "w": "Et",
+       "s": 83.18,
+       "e": 83.34
+      },
+      {
+       "w": "le",
+       "s": 83.34,
+       "e": 83.5
+      },
+      {
+       "w": "poids",
+       "s": 83.5,
+       "e": 83.9
+      },
+      {
+       "w": "du",
+       "s": 83.9,
+       "e": 84.06
+      },
+      {
+       "w": "chef:",
+       "s": 84.06,
+       "e": 84.54
+      },
+      {
+       "w": "quand",
+       "s": 84.54,
+       "e": 84.86
+      },
+      {
+       "w": "une",
+       "s": 84.86,
+       "e": 85.1
+      },
+      {
+       "w": "autorité",
+       "s": 85.1,
+       "e": 85.5
+      },
+      {
+       "w": "encourage",
+       "s": 85.5,
+       "e": 86.06
+      },
+      {
+       "w": "la",
+       "s": 86.06,
+       "e": 86.22
+      },
+      {
+       "w": "dureté,",
+       "s": 86.22,
+       "e": 86.86
+      },
+      {
+       "w": "certains",
+       "s": 86.86,
+       "e": 87.26
+      },
+      {
+       "w": "suivent...",
+       "s": 87.26,
+       "e": 87.82
+      }
+     ]
+    },
+    {
+     "text": "et en sont même fiers.",
+     "spoken": "et en sont même fiers.",
+     "start": 87.837,
+     "end": 89.349,
+     "words": [
+      {
+       "w": "et",
+       "s": 87.837,
+       "e": 88.116
+      },
+      {
+       "w": "en",
+       "s": 88.116,
+       "e": 88.302
+      },
+      {
+       "w": "sont",
+       "s": 88.302,
+       "e": 88.488
+      },
+      {
+       "w": "même",
+       "s": 88.488,
+       "e": 88.767
+      },
+      {
+       "w": "fiers.",
+       "s": 88.767,
+       "e": 89.349
+      }
+     ]
+    }
+   ],
+   "end": 89.692
+  },
+  {
+   "id": "now",
+   "start": 89.692,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 89.692,
+     "end": 90.492,
+     "words": [
+      {
+       "w": "Et",
+       "s": 89.692,
+       "e": 89.852
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 89.852,
+       "e": 90.492
+      }
+     ]
+    },
+    {
+     "text": "Derrière un pseudo, on écrit ce qu'on ne dirait jamais en face.",
+     "spoken": "Derrière un pseudo, on écrit ce qu'on ne dirait jamais en face.",
+     "start": 90.492,
+     "end": 93.932,
+     "words": [
+      {
+       "w": "Derrière",
+       "s": 90.492,
+       "e": 90.972
+      },
+      {
+       "w": "un",
+       "s": 90.972,
+       "e": 91.132
+      },
+      {
+       "w": "pseudo,",
+       "s": 91.132,
+       "e": 91.692
+      },
+      {
+       "w": "on",
+       "s": 91.692,
+       "e": 91.852
+      },
+      {
+       "w": "écrit",
+       "s": 91.852,
+       "e": 92.252
+      },
+      {
+       "w": "ce",
+       "s": 92.252,
+       "e": 92.332
+      },
+      {
+       "w": "qu'on",
+       "s": 92.332,
+       "e": 92.492
+      },
+      {
+       "w": "ne",
+       "s": 92.492,
+       "e": 92.652
+      },
+      {
+       "w": "dirait",
+       "s": 92.652,
+       "e": 93.052
+      },
+      {
+       "w": "jamais",
+       "s": 93.052,
+       "e": 93.372
+      },
+      {
+       "w": "en",
+       "s": 93.372,
+       "e": 93.532
+      },
+      {
+       "w": "face.",
+       "s": 93.532,
+       "e": 93.932
+      }
+     ]
+    },
+    {
+     "text": "Et dans un groupe, un chef qui ferme les yeux...",
+     "spoken": "Et dans un groupe, un chef qui ferme les yeux...",
+     "start": 93.932,
+     "end": 96.572,
+     "words": [
+      {
+       "w": "Et",
+       "s": 93.932,
+       "e": 94.172
+      },
+      {
+       "w": "dans",
+       "s": 94.172,
+       "e": 94.332
+      },
+      {
+       "w": "un",
+       "s": 94.332,
+       "e": 94.492
+      },
+      {
+       "w": "groupe,",
+       "s": 94.492,
+       "e": 95.052
+      },
+      {
+       "w": "un",
+       "s": 95.052,
+       "e": 95.212
+      },
+      {
+       "w": "chef",
+       "s": 95.212,
+       "e": 95.612
+      },
+      {
+       "w": "qui",
+       "s": 95.612,
+       "e": 95.772
+      },
+      {
+       "w": "ferme",
+       "s": 95.772,
+       "e": 96.172
+      },
+      {
+       "w": "les",
+       "s": 96.172,
+       "e": 96.332
+      },
+      {
+       "w": "yeux...",
+       "s": 96.332,
+       "e": 96.572
+      }
+     ]
+    },
+    {
+     "text": "suffit à tout permettre.",
+     "spoken": "suffit à tout permettre.",
+     "start": 96.727,
+     "end": 98.11,
+     "words": [
+      {
+       "w": "suffit",
+       "s": 96.727,
+       "e": 97.152
+      },
+      {
+       "w": "à",
+       "s": 97.152,
+       "e": 97.322
+      },
+      {
+       "w": "tout",
+       "s": 97.322,
+       "e": 97.578
+      },
+      {
+       "w": "permettre.",
+       "s": 97.578,
+       "e": 98.11
+      }
+     ]
+    }
+   ],
+   "end": 98.429
+  },
+  {
+   "id": "cta",
+   "start": 98.429,
    "sentences": [
     {
      "text": "Le pouvoir corrompt...",
      "spoken": "Le pouvoir corrompt...",
-     "start": 73.97,
-     "end": 75.502,
+     "start": 98.579,
+     "end": 100.111,
      "words": [
       {
        "w": "Le",
-       "s": 73.97,
-       "e": 74.225
+       "s": 98.579,
+       "e": 98.835
       },
       {
        "w": "pouvoir",
-       "s": 74.225,
-       "e": 74.651
+       "s": 98.835,
+       "e": 99.26
       },
       {
        "w": "corrompt...",
-       "s": 74.651,
-       "e": 75.502
+       "s": 99.26,
+       "e": 100.111
       }
      ]
     },
     {
      "text": "ou on nous a raconté une belle histoire ?",
      "spoken": "ou on nous a raconté une belle histoire ?",
-     "start": 75.652,
-     "end": 77.95,
+     "start": 100.261,
+     "end": 102.559,
      "words": [
       {
        "w": "ou",
-       "s": 75.652,
-       "e": 75.907
+       "s": 100.261,
+       "e": 100.517
       },
       {
        "w": "on",
-       "s": 75.907,
-       "e": 76.077
+       "s": 100.517,
+       "e": 100.687
       },
       {
        "w": "nous",
-       "s": 76.077,
-       "e": 76.248
+       "s": 100.687,
+       "e": 100.857
       },
       {
        "w": "a",
-       "s": 76.248,
-       "e": 76.418
+       "s": 100.857,
+       "e": 101.027
       },
       {
        "w": "raconté",
-       "s": 76.418,
-       "e": 76.928
+       "s": 101.027,
+       "e": 101.538
       },
       {
        "w": "une",
-       "s": 76.928,
-       "e": 77.013
+       "s": 101.538,
+       "e": 101.623
       },
       {
        "w": "belle",
-       "s": 77.013,
-       "e": 77.354
+       "s": 101.623,
+       "e": 101.963
       },
       {
        "w": "histoire?",
-       "s": 77.354,
-       "e": 77.95
+       "s": 101.963,
+       "e": 102.559
       }
      ]
     },
     {
      "text": "Dis-le en commentaire.",
      "spoken": "Dis-le en commentaire.",
-     "start": 77.947,
-     "end": 79.087,
+     "start": 102.556,
+     "end": 103.696,
      "words": [
       {
        "w": "Dis-le",
-       "s": 77.947,
-       "e": 78.427
+       "s": 102.556,
+       "e": 103.036
       },
       {
        "w": "en",
-       "s": 78.427,
-       "e": 78.587
+       "s": 103.036,
+       "e": 103.196
       },
       {
        "w": "commentaire.",
-       "s": 78.587,
-       "e": 79.087
+       "s": 103.196,
+       "e": 103.696
       }
      ]
     }
    ],
-   "end": 79.496
+   "end": 104.106
   }
  ]
 }

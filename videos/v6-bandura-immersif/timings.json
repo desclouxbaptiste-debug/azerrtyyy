@@ -1,5 +1,5 @@
 {
- "duration": 69.649,
+ "duration": 92.416,
  "speed": 1.071,
  "reveals": [
   45.838
@@ -948,287 +948,638 @@
    "start": 54.031,
    "sentences": [
     {
-     "text": "Pour Bandura, c'est la preuve : on apprend en regardant.",
-     "spoken": "Pour Bandoura, c'est la preuve : on apprend en regardant.",
+     "text": "Que se passe-t-il chez l'enfant ?",
+     "spoken": "Que se passe-t-il chez l'enfant ?",
      "start": 54.031,
-     "end": 57.311,
+     "end": 55.551,
      "words": [
       {
-       "w": "Pour",
+       "w": "Que",
        "s": 54.031,
-       "e": 54.324
+       "e": 54.271
       },
       {
-       "w": "Bandura,",
-       "s": 54.324,
+       "w": "se",
+       "s": 54.271,
+       "e": 54.351
+      },
+      {
+       "w": "passe-t-il",
+       "s": 54.351,
        "e": 54.911
       },
       {
-       "w": "c'est",
+       "w": "chez",
        "s": 54.911,
        "e": 55.071
       },
       {
-       "w": "la",
+       "w": "l'enfant?",
        "s": 55.071,
-       "e": 55.231
-      },
-      {
-       "w": "preuve:",
-       "s": 55.231,
-       "e": 55.871
-      },
-      {
-       "w": "on",
-       "s": 55.871,
-       "e": 56.111
-      },
-      {
-       "w": "apprend",
-       "s": 56.111,
-       "e": 56.511
-      },
-      {
-       "w": "en",
-       "s": 56.511,
-       "e": 56.671
-      },
-      {
-       "w": "regardant.",
-       "s": 56.671,
-       "e": 57.311
+       "e": 55.551
       }
      ]
     },
     {
-     "text": "Sans récompense.",
-     "spoken": "Sans récompense.",
-     "start": 57.311,
+     "text": "Bandura appelle ça l'apprentissage social.",
+     "spoken": "Bandura appelle ça l'apprentissage social.",
+     "start": 55.551,
      "end": 58.351,
      "words": [
       {
-       "w": "Sans",
-       "s": 57.311,
-       "e": 57.631
+       "w": "Bandura",
+       "s": 55.551,
+       "e": 56.431
       },
       {
-       "w": "récompense.",
-       "s": 57.631,
+       "w": "appelle",
+       "s": 56.431,
+       "e": 56.751
+      },
+      {
+       "w": "ça",
+       "s": 56.751,
+       "e": 56.991
+      },
+      {
+       "w": "l'apprentissage",
+       "s": 56.991,
+       "e": 57.871
+      },
+      {
+       "w": "social.",
+       "s": 57.871,
        "e": 58.351
       }
      ]
     },
     {
-     "text": "Sans punition.",
-     "spoken": "Sans punition.",
+     "text": "L'enfant observe, retient...",
+     "spoken": "L'enfant observe, retient...",
      "start": 58.351,
-     "end": 59.171,
+     "end": 60.111,
      "words": [
       {
-       "w": "Sans",
+       "w": "L'enfant",
        "s": 58.351,
-       "e": 58.671
+       "e": 58.991
       },
       {
-       "w": "punition.",
-       "s": 58.671,
-       "e": 59.171
+       "w": "observe,",
+       "s": 58.991,
+       "e": 59.551
+      },
+      {
+       "w": "retient...",
+       "s": 59.551,
+       "e": 60.111
+      }
+     ]
+    },
+    {
+     "text": "puis reproduit.",
+     "spoken": "puis reproduit.",
+     "start": 60.111,
+     "end": 61.231,
+     "words": [
+      {
+       "w": "puis",
+       "s": 60.111,
+       "e": 60.351
+      },
+      {
+       "w": "reproduit.",
+       "s": 60.351,
+       "e": 61.231
+      }
+     ]
+    },
+    {
+     "text": "Surtout si le modèle lui ressemble, ou semble fort.",
+     "spoken": "Surtout si le modèle lui ressemble, ou semble fort.",
+     "start": 61.231,
+     "end": 64.271,
+     "words": [
+      {
+       "w": "Surtout",
+       "s": 61.231,
+       "e": 61.631
+      },
+      {
+       "w": "si",
+       "s": 61.631,
+       "e": 61.791
+      },
+      {
+       "w": "le",
+       "s": 61.791,
+       "e": 61.951
+      },
+      {
+       "w": "modèle",
+       "s": 61.951,
+       "e": 62.431
+      },
+      {
+       "w": "lui",
+       "s": 62.431,
+       "e": 62.671
+      },
+      {
+       "w": "ressemble,",
+       "s": 62.671,
+       "e": 63.311
+      },
+      {
+       "w": "ou",
+       "s": 63.311,
+       "e": 63.551
+      },
+      {
+       "w": "semble",
+       "s": 63.551,
+       "e": 63.951
+      },
+      {
+       "w": "fort.",
+       "s": 63.951,
+       "e": 64.271
+      }
+     ]
+    },
+    {
+     "text": "Pas besoin de récompense, ni de punition : regarder suffit à apprendre.",
+     "spoken": "Pas besoin de récompense, ni de punition : regarder suffit à apprendre.",
+     "start": 64.271,
+     "end": 68.211,
+     "words": [
+      {
+       "w": "Pas",
+       "s": 64.271,
+       "e": 64.511
+      },
+      {
+       "w": "besoin",
+       "s": 64.511,
+       "e": 64.751
+      },
+      {
+       "w": "de",
+       "s": 64.751,
+       "e": 64.911
+      },
+      {
+       "w": "récompense,",
+       "s": 64.911,
+       "e": 65.471
+      },
+      {
+       "w": "ni",
+       "s": 65.471,
+       "e": 65.631
+      },
+      {
+       "w": "de",
+       "s": 65.631,
+       "e": 65.791
+      },
+      {
+       "w": "punition:",
+       "s": 65.791,
+       "e": 66.511
+      },
+      {
+       "w": "regarder",
+       "s": 66.511,
+       "e": 67.151
+      },
+      {
+       "w": "suffit",
+       "s": 67.151,
+       "e": 67.551
+      },
+      {
+       "w": "à",
+       "s": 67.551,
+       "e": 67.711
+      },
+      {
+       "w": "apprendre.",
+       "s": 67.711,
+       "e": 68.211
       }
      ]
     }
    ],
-   "end": 59.651
+   "end": 68.588
   },
   {
    "id": "nuance",
-   "start": 59.651,
+   "start": 68.588,
    "sentences": [
     {
      "text": "Limite : Bobo est fait pour être frappé, et l'effet n'a été mesuré que sur le moment.",
      "spoken": "Limite : Bobo est fait pour être frappé, et l'effet n'a été mesuré que sur le moment.",
-     "start": 59.651,
-     "end": 64.308,
+     "start": 68.588,
+     "end": 73.245,
      "words": [
       {
        "w": "Limite:",
-       "s": 59.651,
-       "e": 60.371
+       "s": 68.588,
+       "e": 69.308
       },
       {
        "w": "Bobo",
-       "s": 60.371,
-       "e": 61.011
+       "s": 69.308,
+       "e": 69.948
       },
       {
        "w": "est",
-       "s": 61.011,
-       "e": 61.091
+       "s": 69.948,
+       "e": 70.028
       },
       {
        "w": "fait",
-       "s": 61.091,
-       "e": 61.411
+       "s": 70.028,
+       "e": 70.348
       },
       {
        "w": "pour",
-       "s": 61.411,
-       "e": 61.571
+       "s": 70.348,
+       "e": 70.508
       },
       {
        "w": "être",
-       "s": 61.571,
-       "e": 61.731
+       "s": 70.508,
+       "e": 70.668
       },
       {
        "w": "frappé,",
-       "s": 61.731,
-       "e": 62.211
+       "s": 70.668,
+       "e": 71.148
       },
       {
        "w": "et",
-       "s": 62.211,
-       "e": 62.371
+       "s": 71.148,
+       "e": 71.308
       },
       {
        "w": "l'effet",
-       "s": 62.371,
-       "e": 62.851
+       "s": 71.308,
+       "e": 71.788
       },
       {
        "w": "n'a",
-       "s": 62.851,
-       "e": 63.091
+       "s": 71.788,
+       "e": 72.028
       },
       {
        "w": "été",
-       "s": 63.091,
-       "e": 63.251
+       "s": 72.028,
+       "e": 72.188
       },
       {
        "w": "mesuré",
-       "s": 63.251,
-       "e": 63.651
+       "s": 72.188,
+       "e": 72.588
       },
       {
        "w": "que",
-       "s": 63.651,
-       "e": 63.731
+       "s": 72.588,
+       "e": 72.668
       },
       {
        "w": "sur",
-       "s": 63.731,
-       "e": 63.891
+       "s": 72.668,
+       "e": 72.828
       },
       {
        "w": "le",
-       "s": 63.891,
-       "e": 63.971
+       "s": 72.828,
+       "e": 72.908
       },
       {
        "w": "moment.",
-       "s": 63.971,
-       "e": 64.308
+       "s": 72.908,
+       "e": 73.245
       }
      ]
     }
    ],
-   "end": 64.608
+   "end": 73.545
+  },
+  {
+   "id": "now",
+   "start": 73.545,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 73.545,
+     "end": 74.585,
+     "words": [
+      {
+       "w": "Et",
+       "s": 73.545,
+       "e": 73.785
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 73.785,
+       "e": 74.585
+      }
+     ]
+    },
+    {
+     "text": "Les modèles sont sur les écrans : influenceurs, défis viraux, gestes copiés dans la cour de récré.",
+     "spoken": "Les modèles sont sur les écrans : influenceurs, défis viraux, gestes copiés dans la cour de récré.",
+     "start": 74.585,
+     "end": 80.905,
+     "words": [
+      {
+       "w": "Les",
+       "s": 74.585,
+       "e": 74.825
+      },
+      {
+       "w": "modèles",
+       "s": 74.825,
+       "e": 75.385
+      },
+      {
+       "w": "sont",
+       "s": 75.385,
+       "e": 75.625
+      },
+      {
+       "w": "sur",
+       "s": 75.625,
+       "e": 75.785
+      },
+      {
+       "w": "les",
+       "s": 75.785,
+       "e": 76.025
+      },
+      {
+       "w": "écrans:",
+       "s": 76.025,
+       "e": 76.825
+      },
+      {
+       "w": "influenceurs,",
+       "s": 76.825,
+       "e": 77.785
+      },
+      {
+       "w": "défis",
+       "s": 77.785,
+       "e": 78.185
+      },
+      {
+       "w": "viraux,",
+       "s": 78.185,
+       "e": 78.825
+      },
+      {
+       "w": "gestes",
+       "s": 78.825,
+       "e": 79.145
+      },
+      {
+       "w": "copiés",
+       "s": 79.145,
+       "e": 79.625
+      },
+      {
+       "w": "dans",
+       "s": 79.625,
+       "e": 79.705
+      },
+      {
+       "w": "la",
+       "s": 79.705,
+       "e": 79.865
+      },
+      {
+       "w": "cour",
+       "s": 79.865,
+       "e": 80.105
+      },
+      {
+       "w": "de",
+       "s": 80.105,
+       "e": 80.185
+      },
+      {
+       "w": "récré.",
+       "s": 80.185,
+       "e": 80.905
+      }
+     ]
+    },
+    {
+     "text": "Mais ça marche aussi dans l'autre sens.",
+     "spoken": "Mais ça marche aussi dans l'autre sens.",
+     "start": 80.905,
+     "end": 82.985,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 80.905,
+       "e": 81.065
+      },
+      {
+       "w": "ça",
+       "s": 81.065,
+       "e": 81.225
+      },
+      {
+       "w": "marche",
+       "s": 81.225,
+       "e": 81.545
+      },
+      {
+       "w": "aussi",
+       "s": 81.545,
+       "e": 81.785
+      },
+      {
+       "w": "dans",
+       "s": 81.785,
+       "e": 81.945
+      },
+      {
+       "w": "l'autre",
+       "s": 81.945,
+       "e": 82.345
+      },
+      {
+       "w": "sens.",
+       "s": 82.345,
+       "e": 82.985
+      }
+     ]
+    },
+    {
+     "text": "Un enfant qui voit un adulte aider...",
+     "spoken": "Un enfant qui voit un adulte aider...",
+     "start": 83.017,
+     "end": 85.901,
+     "words": [
+      {
+       "w": "Un",
+       "s": 83.017,
+       "e": 83.296
+      },
+      {
+       "w": "enfant",
+       "s": 83.296,
+       "e": 83.668
+      },
+      {
+       "w": "qui",
+       "s": 83.668,
+       "e": 83.854
+      },
+      {
+       "w": "voit",
+       "s": 83.854,
+       "e": 84.226
+      },
+      {
+       "w": "un",
+       "s": 84.226,
+       "e": 84.412
+      },
+      {
+       "w": "adulte",
+       "s": 84.412,
+       "e": 84.971
+      },
+      {
+       "w": "aider...",
+       "s": 84.971,
+       "e": 85.901
+      }
+     ]
+    },
+    {
+     "text": "aide davantage.",
+     "spoken": "aide davantage.",
+     "start": 85.884,
+     "end": 86.784,
+     "words": [
+      {
+       "w": "aide",
+       "s": 85.884,
+       "e": 86.284
+      },
+      {
+       "w": "davantage.",
+       "s": 86.284,
+       "e": 86.784
+      }
+     ]
+    }
+   ],
+   "end": 87.375
   },
   {
    "id": "cta",
-   "start": 64.608,
+   "start": 87.375,
    "sentences": [
     {
      "text": "Et toi...",
      "spoken": "Et toi...",
-     "start": 64.758,
-     "end": 65.524,
+     "start": 87.525,
+     "end": 88.29,
      "words": [
       {
        "w": "Et",
-       "s": 64.758,
-       "e": 65.013
+       "s": 87.525,
+       "e": 87.78
       },
       {
        "w": "toi...",
-       "s": 65.013,
-       "e": 65.524
+       "s": 87.78,
+       "e": 88.29
       }
      ]
     },
     {
      "text": "qu'est-ce que les enfants autour de toi regardent ?",
      "spoken": "qu'est-ce que les enfants autour de toi regardent ?",
-     "start": 65.674,
-     "end": 68.056,
+     "start": 88.44,
+     "end": 90.823,
      "words": [
       {
        "w": "qu'est-ce",
-       "s": 65.674,
-       "e": 66.014
+       "s": 88.44,
+       "e": 88.781
       },
       {
        "w": "que",
-       "s": 66.014,
-       "e": 66.184
+       "s": 88.781,
+       "e": 88.951
       },
       {
        "w": "les",
-       "s": 66.184,
-       "e": 66.354
+       "s": 88.951,
+       "e": 89.121
       },
       {
        "w": "enfants",
-       "s": 66.354,
-       "e": 66.695
+       "s": 89.121,
+       "e": 89.462
       },
       {
        "w": "autour",
-       "s": 66.695,
-       "e": 66.95
+       "s": 89.462,
+       "e": 89.717
       },
       {
        "w": "de",
-       "s": 66.95,
-       "e": 67.035
+       "s": 89.717,
+       "e": 89.802
       },
       {
        "w": "toi",
-       "s": 67.035,
-       "e": 67.376
+       "s": 89.802,
+       "e": 90.143
       },
       {
        "w": "regardent?",
-       "s": 67.376,
-       "e": 68.056
+       "s": 90.143,
+       "e": 90.823
       }
      ]
     },
     {
      "text": "Dis-le en commentaire.",
      "spoken": "Dis-le en commentaire.",
-     "start": 68.052,
-     "end": 69.112,
+     "start": 90.819,
+     "end": 91.879,
      "words": [
       {
        "w": "Dis-le",
-       "s": 68.052,
-       "e": 68.532
+       "s": 90.819,
+       "e": 91.299
       },
       {
        "w": "en",
-       "s": 68.532,
-       "e": 68.612
+       "s": 91.299,
+       "e": 91.379
       },
       {
        "w": "commentaire.",
-       "s": 68.612,
-       "e": 69.112
+       "s": 91.379,
+       "e": 91.879
       }
      ]
     }
    ],
-   "end": 69.649
+   "end": 92.416
   }
  ]
 }

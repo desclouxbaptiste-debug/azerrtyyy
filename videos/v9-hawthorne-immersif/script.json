@@ -85,9 +85,19 @@
   },
   {
    "id": "lesson",
-   "text": "Il reste une vraie leçon : mesurer quelqu'un qui sait qu'il est mesuré... ce n'est pas si simple.",
+   "text": "Que se passe-t-il en nous ? Se savoir regardé réveille le souci de notre image : on se tient plus droit, on fait plus d'efforts. Et pour ces ouvrières, l'attention elle-même motivait : enfin, quelqu'un s'intéressait à elles.",
    "emph": [
-    "simple"
+    "regardé",
+    "image",
+    "attention"
+   ]
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Caméras, télétravail surveillé, montres connectées, likes... on est observés en permanence. Dans une étude, une simple affiche avec des yeux, près d'une caisse à café... <r>a presque triplé les paiements.",
+   "emph": [
+    "permanence",
+    "triplé"
    ]
   },
   {

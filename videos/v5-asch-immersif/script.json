@@ -70,10 +70,11 @@
   },
   {
    "id": "why",
-   "text": "Pourquoi ? Certains finissent par douter de leurs yeux. D'autres savent... mais ne veulent pas être le seul à dire non.",
+   "text": "Que se passe-t-il en toi ? Deux forces. La première, le doute : si sept personnes voient la ligne B, c'est peut-être toi qui vois mal. La seconde, la peur d'être exclu : tu sais que c'est la ligne A... mais tu ne veux pas être le seul contre tous. <s>En imagerie cérébrale, s'opposer au groupe active même les zones de l'alarme émotionnelle.",
    "emph": [
-    "douter",
-    "seul"
+    "doute",
+    "exclu",
+    "alarme"
    ]
   },
   {
@@ -89,6 +90,14 @@
    "text": "Et un quart des participants n'a jamais cédé.",
    "emph": [
     "jamais"
+   ]
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Ce sont les likes qui te disent quoi aimer, les avis cinq étoiles, le groupe de discussion où personne n'ose contredire. <w>Mais retiens ceci... <w>il suffit d'une seule voix différente pour libérer les autres.",
+   "emph": [
+    "likes",
+    "seule"
    ]
   },
   {
