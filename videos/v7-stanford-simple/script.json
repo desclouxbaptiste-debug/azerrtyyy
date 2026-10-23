@@ -20,7 +20,7 @@
   },
   {
    "id": "recruit",
-   "text": "Il cherche des étudiants avec une petite annonce : quinze dollars par jour. Vingt-quatre sont choisis. Pile ou face : gardien... ou prisonnier."
+   "text": "Une petite annonce : quinze dollars par jour. Vingt-quatre étudiants sont choisis. Puis, pile ou face : gardien... ou prisonnier."
   },
   {
    "id": "arrest",
@@ -48,7 +48,7 @@
   },
   {
    "id": "twist",
-   "text": "<r>Sauf que... des enregistrements montrent qu'on poussait les gardiens à être durs. Et un prisonnier a raconté qu'il faisait semblant."
+   "text": "<r>Sauf que... des enregistrements montrent qu'on poussait les gardiens à être durs. Et un prisonnier a dit, plus tard, qu'il faisait semblant."
   },
   {
    "id": "today",

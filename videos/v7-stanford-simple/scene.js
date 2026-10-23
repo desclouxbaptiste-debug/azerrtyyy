@@ -44,7 +44,7 @@ function world(t) {
   wall(-300, 1150, "#3A3D3A");
   desk(560, 1150, 820); light(420, 980, 760, 1);
   const ts = S("setup"), trc = S("recruit"), t24 = wt("recruit", "Vingt-quatre", 4), tpf = wt("recruit", "pile", 6.5);
-  chalk("le but : un gentil peut-il devenir méchant ?", 560, 480, prog(t, wt("setup", "méchant", 5) - 0.6, wt("setup", "méchant", 5) + 0.6), { size: 46, color: "#FFE08A" });
+  chalk("le but : un gentil peut-il devenir méchant ?", 560, 480, prog(t, wt("setup", "méchant", 5) - 0.6, wt("setup", "méchant", 5) + 0.6) * (1 - prog(t, S("recruit") + 0.3, S("recruit") + 1.0)), { size: 46, color: "#FFE08A" });
   chalk("une cave → une fausse prison", 560, 570, prog(t, wt("setup", "cave", 4), wt("setup", "cave", 4) + 1.0), { size: 46 });
   newspaperAd(500, 1000, 0.62, t, -10);
   if (t > trc) {
