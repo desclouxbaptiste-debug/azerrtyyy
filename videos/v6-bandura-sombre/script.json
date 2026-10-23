@@ -3,8 +3,8 @@
  "sid": 9,
  "lang": "fr",
  "steps": 12,
- "speed": 1.0,
- "target": 58.0,
+ "speed": 1.056,
+ "target": null,
  "chunk": "segment",
  "best_of": 4,
  "lead": 0.45,
@@ -34,7 +34,7 @@
   },
   {
    "id": "groups",
-   "text": "Un tiers voit un adulte frapper Bobo, une poupée gonflable, en criant. Un tiers, un adulte calme. Le dernier tiers... personne.",
+   "text": "Un tiers voit un adulte frapper Bobo, une poupée gonflable, en hurlant. Un tiers, un adulte calme. Le dernier tiers... personne.",
    "emph": [
     "frapper"
    ]
@@ -48,7 +48,7 @@
   },
   {
    "id": "room",
-   "text": "Puis chaque enfant reste seul avec Bobo, vingt minutes. <w>Derrière un miroir sans tain... <w>on observe.",
+   "text": "Puis chaque enfant reste seul avec Bobo, vingt minutes. <w>Derrière un miroir {sans tain|sans tin}... <w>on observe.",
    "emph": [
     "seul"
    ]

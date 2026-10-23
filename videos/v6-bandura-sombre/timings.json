@@ -1,0 +1,1038 @@
+{
+ "duration": 57.691,
+ "speed": 1.0560724258345546,
+ "reveals": [
+  33.517
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "Un adulte frappe une poupée.",
+     "spoken": "Un adulte frappe une poupée.",
+     "start": 0.45,
+     "end": 2.13,
+     "words": [
+      {
+       "w": "Un",
+       "s": 0.45,
+       "e": 0.61
+      },
+      {
+       "w": "adulte",
+       "s": 0.61,
+       "e": 1.01
+      },
+      {
+       "w": "frappe",
+       "s": 1.01,
+       "e": 1.41
+      },
+      {
+       "w": "une",
+       "s": 1.41,
+       "e": 1.57
+      },
+      {
+       "w": "poupée.",
+       "s": 1.57,
+       "e": 2.13
+      }
+     ]
+    },
+    {
+     "text": "Des enfants le regardent.",
+     "spoken": "Des enfants le regardent.",
+     "start": 2.13,
+     "end": 3.65,
+     "words": [
+      {
+       "w": "Des",
+       "s": 2.13,
+       "e": 2.37
+      },
+      {
+       "w": "enfants",
+       "s": 2.37,
+       "e": 2.69
+      },
+      {
+       "w": "le",
+       "s": 2.69,
+       "e": 2.93
+      },
+      {
+       "w": "regardent.",
+       "s": 2.93,
+       "e": 3.65
+      }
+     ]
+    },
+    {
+     "text": "Quelques minutes plus tard...",
+     "spoken": "Quelques minutes plus tard...",
+     "start": 3.65,
+     "end": 4.802,
+     "words": [
+      {
+       "w": "Quelques",
+       "s": 3.65,
+       "e": 3.97
+      },
+      {
+       "w": "minutes",
+       "s": 3.97,
+       "e": 4.29
+      },
+      {
+       "w": "plus",
+       "s": 4.29,
+       "e": 4.45
+      },
+      {
+       "w": "tard...",
+       "s": 4.45,
+       "e": 4.802
+      }
+     ]
+    },
+    {
+     "text": "devine ce qu'ils font.",
+     "spoken": "devine ce qu'ils font.",
+     "start": 4.965,
+     "end": 6.302,
+     "words": [
+      {
+       "w": "devine",
+       "s": 4.965,
+       "e": 5.526
+      },
+      {
+       "w": "ce",
+       "s": 5.526,
+       "e": 5.696
+      },
+      {
+       "w": "qu'ils",
+       "s": 5.696,
+       "e": 5.952
+      },
+      {
+       "w": "font.",
+       "s": 5.952,
+       "e": 6.302
+      }
+     ]
+    }
+   ],
+   "end": 6.602
+  },
+  {
+   "id": "setup",
+   "start": 6.602,
+   "sentences": [
+    {
+     "text": "Années soixante, à Stanford.",
+     "spoken": "Années soixante, à Stanford.",
+     "start": 6.752,
+     "end": 8.362,
+     "words": [
+      {
+       "w": "Années",
+       "s": 6.752,
+       "e": 7.002
+      },
+      {
+       "w": "soixante,",
+       "s": 7.002,
+       "e": 7.642
+      },
+      {
+       "w": "à",
+       "s": 7.642,
+       "e": 7.722
+      },
+      {
+       "w": "Stanford.",
+       "s": 7.722,
+       "e": 8.362
+      }
+     ]
+    },
+    {
+     "text": "Albert Bandura réunit 72 enfants, de trois à six ans.",
+     "spoken": "Albert Bandoura réunit soixante-douze enfants, de trois à six ans.",
+     "start": 8.362,
+     "end": 12.83,
+     "words": [
+      {
+       "w": "Albert",
+       "s": 8.362,
+       "e": 8.808
+      },
+      {
+       "w": "Bandura",
+       "s": 8.808,
+       "e": 9.402
+      },
+      {
+       "w": "réunit",
+       "s": 9.402,
+       "e": 9.882
+      },
+      {
+       "w": "72",
+       "s": 9.882,
+       "e": 10.762
+      },
+      {
+       "w": "enfants,",
+       "s": 10.762,
+       "e": 11.322
+      },
+      {
+       "w": "de",
+       "s": 11.322,
+       "e": 11.562
+      },
+      {
+       "w": "trois",
+       "s": 11.562,
+       "e": 11.962
+      },
+      {
+       "w": "à",
+       "s": 11.962,
+       "e": 12.122
+      },
+      {
+       "w": "six",
+       "s": 12.122,
+       "e": 12.362
+      },
+      {
+       "w": "ans.",
+       "s": 12.362,
+       "e": 12.83
+      }
+     ]
+    }
+   ],
+   "end": 13.13
+  },
+  {
+   "id": "groups",
+   "start": 13.13,
+   "sentences": [
+    {
+     "text": "Un tiers voit un adulte frapper Bobo, une poupée gonflable, en criant.",
+     "spoken": "Un tiers voit un adulte frapper Bobo, une poupée gonflable, en criant.",
+     "start": 13.13,
+     "end": 17.29,
+     "words": [
+      {
+       "w": "Un",
+       "s": 13.13,
+       "e": 13.29
+      },
+      {
+       "w": "tiers",
+       "s": 13.29,
+       "e": 13.61
+      },
+      {
+       "w": "voit",
+       "s": 13.61,
+       "e": 13.85
+      },
+      {
+       "w": "un",
+       "s": 13.85,
+       "e": 13.93
+      },
+      {
+       "w": "adulte",
+       "s": 13.93,
+       "e": 14.25
+      },
+      {
+       "w": "frapper",
+       "s": 14.25,
+       "e": 14.73
+      },
+      {
+       "w": "Bobo,",
+       "s": 14.73,
+       "e": 15.21
+      },
+      {
+       "w": "une",
+       "s": 15.21,
+       "e": 15.37
+      },
+      {
+       "w": "poupée",
+       "s": 15.37,
+       "e": 15.77
+      },
+      {
+       "w": "gonflable,",
+       "s": 15.77,
+       "e": 16.41
+      },
+      {
+       "w": "en",
+       "s": 16.41,
+       "e": 16.63
+      },
+      {
+       "w": "criant.",
+       "s": 16.63,
+       "e": 17.29
+      }
+     ]
+    },
+    {
+     "text": "Un tiers, un adulte calme.",
+     "spoken": "Un tiers, un adulte calme.",
+     "start": 17.29,
+     "end": 19.21,
+     "words": [
+      {
+       "w": "Un",
+       "s": 17.29,
+       "e": 17.45
+      },
+      {
+       "w": "tiers,",
+       "s": 17.45,
+       "e": 18.01
+      },
+      {
+       "w": "un",
+       "s": 18.01,
+       "e": 18.17
+      },
+      {
+       "w": "adulte",
+       "s": 18.17,
+       "e": 18.57
+      },
+      {
+       "w": "calme.",
+       "s": 18.57,
+       "e": 19.21
+      }
+     ]
+    },
+    {
+     "text": "Le dernier tiers...",
+     "spoken": "Le dernier tiers...",
+     "start": 19.21,
+     "end": 20.25,
+     "words": [
+      {
+       "w": "Le",
+       "s": 19.21,
+       "e": 19.37
+      },
+      {
+       "w": "dernier",
+       "s": 19.37,
+       "e": 19.77
+      },
+      {
+       "w": "tiers...",
+       "s": 19.77,
+       "e": 20.25
+      }
+     ]
+    },
+    {
+     "text": "personne.",
+     "spoken": "personne.",
+     "start": 20.25,
+     "end": 20.75,
+     "words": [
+      {
+       "w": "personne.",
+       "s": 20.25,
+       "e": 20.75
+      }
+     ]
+    }
+   ],
+   "end": 21.123
+  },
+  {
+   "id": "tease",
+   "start": 21.123,
+   "sentences": [
+    {
+     "text": "Ensuite, on leur montre de beaux jouets...",
+     "spoken": "Ensuite, on leur montre de beaux jouets...",
+     "start": 21.123,
+     "end": 23.283,
+     "words": [
+      {
+       "w": "Ensuite,",
+       "s": 21.123,
+       "e": 21.603
+      },
+      {
+       "w": "on",
+       "s": 21.603,
+       "e": 21.843
+      },
+      {
+       "w": "leur",
+       "s": 21.843,
+       "e": 22.083
+      },
+      {
+       "w": "montre",
+       "s": 22.083,
+       "e": 22.323
+      },
+      {
+       "w": "de",
+       "s": 22.323,
+       "e": 22.483
+      },
+      {
+       "w": "beaux",
+       "s": 22.483,
+       "e": 22.803
+      },
+      {
+       "w": "jouets...",
+       "s": 22.803,
+       "e": 23.283
+      }
+     ]
+    },
+    {
+     "text": "réservés à d'autres.",
+     "spoken": "réservés à d'autres.",
+     "start": 23.283,
+     "end": 24.403,
+     "words": [
+      {
+       "w": "réservés",
+       "s": 23.283,
+       "e": 23.843
+      },
+      {
+       "w": "à",
+       "s": 23.843,
+       "e": 24.003
+      },
+      {
+       "w": "d'autres.",
+       "s": 24.003,
+       "e": 24.403
+      }
+     ]
+    },
+    {
+     "text": "Juste de quoi les agacer.",
+     "spoken": "Juste de quoi les agacer.",
+     "start": 24.433,
+     "end": 26.13,
+     "words": [
+      {
+       "w": "Juste",
+       "s": 24.433,
+       "e": 24.805
+      },
+      {
+       "w": "de",
+       "s": 24.805,
+       "e": 24.991
+      },
+      {
+       "w": "quoi",
+       "s": 24.991,
+       "e": 25.27
+      },
+      {
+       "w": "les",
+       "s": 25.27,
+       "e": 25.549
+      },
+      {
+       "w": "agacer.",
+       "s": 25.549,
+       "e": 26.13
+      }
+     ]
+    }
+   ],
+   "end": 26.51
+  },
+  {
+   "id": "room",
+   "start": 26.51,
+   "sentences": [
+    {
+     "text": "Puis chaque enfant reste seul avec Bobo, vingt minutes.",
+     "spoken": "Puis chaque enfant reste seul avec Bobo, vingt minutes.",
+     "start": 26.51,
+     "end": 29.47,
+     "words": [
+      {
+       "w": "Puis",
+       "s": 26.51,
+       "e": 26.83
+      },
+      {
+       "w": "chaque",
+       "s": 26.83,
+       "e": 26.99
+      },
+      {
+       "w": "enfant",
+       "s": 26.99,
+       "e": 27.31
+      },
+      {
+       "w": "reste",
+       "s": 27.31,
+       "e": 27.55
+      },
+      {
+       "w": "seul",
+       "s": 27.55,
+       "e": 27.79
+      },
+      {
+       "w": "avec",
+       "s": 27.79,
+       "e": 27.95
+      },
+      {
+       "w": "Bobo,",
+       "s": 27.95,
+       "e": 28.59
+      },
+      {
+       "w": "vingt",
+       "s": 28.59,
+       "e": 28.99
+      },
+      {
+       "w": "minutes.",
+       "s": 28.99,
+       "e": 29.47
+      }
+     ]
+    },
+    {
+     "text": "Derrière un miroir sans tain...",
+     "spoken": "Derrière un miroir sans tain...",
+     "start": 29.625,
+     "end": 31.582,
+     "words": [
+      {
+       "w": "Derrière",
+       "s": 29.625,
+       "e": 29.965
+      },
+      {
+       "w": "un",
+       "s": 29.965,
+       "e": 30.135
+      },
+      {
+       "w": "miroir",
+       "s": 30.135,
+       "e": 30.561
+      },
+      {
+       "w": "sans",
+       "s": 30.561,
+       "e": 31.072
+      },
+      {
+       "w": "tain...",
+       "s": 31.072,
+       "e": 31.582
+      }
+     ]
+    },
+    {
+     "text": "on observe.",
+     "spoken": "on observe.",
+     "start": 31.732,
+     "end": 32.434,
+     "words": [
+      {
+       "w": "on",
+       "s": 31.732,
+       "e": 31.902
+      },
+      {
+       "w": "observe.",
+       "s": 31.902,
+       "e": 32.434
+      }
+     ]
+    }
+   ],
+   "end": 32.867
+  },
+  {
+   "id": "result",
+   "start": 32.867,
+   "sentences": [
+    {
+     "text": "Ceux qui ont vu l'adulte violent le reproduisent.",
+     "spoken": "Ceux qui ont vu l'adulte violent le reproduisent.",
+     "start": 33.517,
+     "end": 36.54,
+     "words": [
+      {
+       "w": "Ceux",
+       "s": 33.517,
+       "e": 33.784
+      },
+      {
+       "w": "qui",
+       "s": 33.784,
+       "e": 33.873
+      },
+      {
+       "w": "ont",
+       "s": 33.873,
+       "e": 33.962
+      },
+      {
+       "w": "vu",
+       "s": 33.962,
+       "e": 34.14
+      },
+      {
+       "w": "l'adulte",
+       "s": 34.14,
+       "e": 34.717
+      },
+      {
+       "w": "violent",
+       "s": 34.717,
+       "e": 35.295
+      },
+      {
+       "w": "le",
+       "s": 35.295,
+       "e": 35.473
+      },
+      {
+       "w": "reproduisent.",
+       "s": 35.473,
+       "e": 36.54
+      }
+     ]
+    },
+    {
+     "text": "Les mêmes coups.",
+     "spoken": "Les mêmes coups.",
+     "start": 36.519,
+     "end": 37.319,
+     "words": [
+      {
+       "w": "Les",
+       "s": 36.519,
+       "e": 36.679
+      },
+      {
+       "w": "mêmes",
+       "s": 36.679,
+       "e": 36.919
+      },
+      {
+       "w": "coups.",
+       "s": 36.919,
+       "e": 37.319
+      }
+     ]
+    },
+    {
+     "text": "Parfois...",
+     "spoken": "Parfois...",
+     "start": 37.33,
+     "end": 38.074,
+     "words": [
+      {
+       "w": "Parfois...",
+       "s": 37.33,
+       "e": 38.074
+      }
+     ]
+    },
+    {
+     "text": "les mêmes mots.",
+     "spoken": "les mêmes mots.",
+     "start": 38.074,
+     "end": 39.027,
+     "words": [
+      {
+       "w": "les",
+       "s": 38.074,
+       "e": 38.26
+      },
+      {
+       "w": "mêmes",
+       "s": 38.26,
+       "e": 38.539
+      },
+      {
+       "w": "mots.",
+       "s": 38.539,
+       "e": 39.027
+      }
+     ]
+    }
+   ],
+   "end": 39.327
+  },
+  {
+   "id": "boys",
+   "start": 39.327,
+   "sentences": [
+    {
+     "text": "Et les garçons copient surtout les coups.",
+     "spoken": "Et les garçons copient surtout les coups.",
+     "start": 39.327,
+     "end": 41.393,
+     "words": [
+      {
+       "w": "Et",
+       "s": 39.327,
+       "e": 39.487
+      },
+      {
+       "w": "les",
+       "s": 39.487,
+       "e": 39.567
+      },
+      {
+       "w": "garçons",
+       "s": 39.567,
+       "e": 39.967
+      },
+      {
+       "w": "copient",
+       "s": 39.967,
+       "e": 40.527
+      },
+      {
+       "w": "surtout",
+       "s": 40.527,
+       "e": 40.847
+      },
+      {
+       "w": "les",
+       "s": 40.847,
+       "e": 41.007
+      },
+      {
+       "w": "coups.",
+       "s": 41.007,
+       "e": 41.393
+      }
+     ]
+    }
+   ],
+   "end": 41.693
+  },
+  {
+   "id": "lesson",
+   "start": 41.693,
+   "sentences": [
+    {
+     "text": "Pour Bandura, c'est la preuve : on apprend en regardant.",
+     "spoken": "Pour Bandoura, c'est la preuve : on apprend en regardant.",
+     "start": 41.693,
+     "end": 44.973,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 41.693,
+       "e": 42.013
+      },
+      {
+       "w": "Bandura,",
+       "s": 42.013,
+       "e": 42.653
+      },
+      {
+       "w": "c'est",
+       "s": 42.653,
+       "e": 42.893
+      },
+      {
+       "w": "la",
+       "s": 42.893,
+       "e": 43.053
+      },
+      {
+       "w": "preuve:",
+       "s": 43.053,
+       "e": 43.613
+      },
+      {
+       "w": "on",
+       "s": 43.613,
+       "e": 43.853
+      },
+      {
+       "w": "apprend",
+       "s": 43.853,
+       "e": 44.253
+      },
+      {
+       "w": "en",
+       "s": 44.253,
+       "e": 44.413
+      },
+      {
+       "w": "regardant.",
+       "s": 44.413,
+       "e": 44.973
+      }
+     ]
+    },
+    {
+     "text": "Sans récompense.",
+     "spoken": "Sans récompense.",
+     "start": 44.973,
+     "end": 46.173,
+     "words": [
+      {
+       "w": "Sans",
+       "s": 44.973,
+       "e": 45.373
+      },
+      {
+       "w": "récompense.",
+       "s": 45.373,
+       "e": 46.173
+      }
+     ]
+    },
+    {
+     "text": "Sans punition.",
+     "spoken": "Sans punition.",
+     "start": 46.173,
+     "end": 46.913,
+     "words": [
+      {
+       "w": "Sans",
+       "s": 46.173,
+       "e": 46.413
+      },
+      {
+       "w": "punition.",
+       "s": 46.413,
+       "e": 46.913
+      }
+     ]
+    }
+   ],
+   "end": 47.494
+  },
+  {
+   "id": "nuance",
+   "start": 47.494,
+   "sentences": [
+    {
+     "text": "Limite : Bobo est fait pour être frappé, et l'effet n'a été mesuré qu'à court terme.",
+     "spoken": "Limite : Bobo est fait pour être frappé, et l'effet n'a été mesuré qu'à court terme.",
+     "start": 47.494,
+     "end": 51.875,
+     "words": [
+      {
+       "w": "Limite:",
+       "s": 47.494,
+       "e": 48.214
+      },
+      {
+       "w": "Bobo",
+       "s": 48.214,
+       "e": 48.774
+      },
+      {
+       "w": "est",
+       "s": 48.774,
+       "e": 48.854
+      },
+      {
+       "w": "fait",
+       "s": 48.854,
+       "e": 49.094
+      },
+      {
+       "w": "pour",
+       "s": 49.094,
+       "e": 49.174
+      },
+      {
+       "w": "être",
+       "s": 49.174,
+       "e": 49.334
+      },
+      {
+       "w": "frappé,",
+       "s": 49.334,
+       "e": 49.814
+      },
+      {
+       "w": "et",
+       "s": 49.814,
+       "e": 49.974
+      },
+      {
+       "w": "l'effet",
+       "s": 49.974,
+       "e": 50.374
+      },
+      {
+       "w": "n'a",
+       "s": 50.374,
+       "e": 50.534
+      },
+      {
+       "w": "été",
+       "s": 50.534,
+       "e": 50.694
+      },
+      {
+       "w": "mesuré",
+       "s": 50.694,
+       "e": 51.094
+      },
+      {
+       "w": "qu'à",
+       "s": 51.094,
+       "e": 51.334
+      },
+      {
+       "w": "court",
+       "s": 51.334,
+       "e": 51.494
+      },
+      {
+       "w": "terme.",
+       "s": 51.494,
+       "e": 51.875
+      }
+     ]
+    }
+   ],
+   "end": 52.175
+  },
+  {
+   "id": "cta",
+   "start": 52.175,
+   "sentences": [
+    {
+     "text": "Et toi...",
+     "spoken": "Et toi...",
+     "start": 52.325,
+     "end": 53.091,
+     "words": [
+      {
+       "w": "Et",
+       "s": 52.325,
+       "e": 52.495
+      },
+      {
+       "w": "toi...",
+       "s": 52.495,
+       "e": 53.091
+      }
+     ]
+    },
+    {
+     "text": "que regardent les enfants autour de toi, chaque jour ?",
+     "spoken": "que regardent les enfants autour de toi, chaque jour ?",
+     "start": 53.241,
+     "end": 56.049,
+     "words": [
+      {
+       "w": "que",
+       "s": 53.241,
+       "e": 53.496
+      },
+      {
+       "w": "regardent",
+       "s": 53.496,
+       "e": 54.007
+      },
+      {
+       "w": "les",
+       "s": 54.007,
+       "e": 54.177
+      },
+      {
+       "w": "enfants",
+       "s": 54.177,
+       "e": 54.517
+      },
+      {
+       "w": "autour",
+       "s": 54.517,
+       "e": 54.858
+      },
+      {
+       "w": "de",
+       "s": 54.858,
+       "e": 55.028
+      },
+      {
+       "w": "toi,",
+       "s": 55.028,
+       "e": 55.283
+      },
+      {
+       "w": "chaque",
+       "s": 55.283,
+       "e": 55.539
+      },
+      {
+       "w": "jour?",
+       "s": 55.539,
+       "e": 56.049
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 56.044,
+     "end": 57.184,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 56.044,
+       "e": 56.524
+      },
+      {
+       "w": "en",
+       "s": 56.524,
+       "e": 56.684
+      },
+      {
+       "w": "commentaire.",
+       "s": 56.684,
+       "e": 57.184
+      }
+     ]
+    }
+   ],
+   "end": 57.691
+  }
+ ]
+}
