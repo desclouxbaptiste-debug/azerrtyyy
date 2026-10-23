@@ -4,7 +4,7 @@
  "lang": "fr",
  "steps": 12,
  "speed": 1.0,
- "target": 58.0,
+ "target": 58.8,
  "chunk": "segment",
  "best_of": 4,
  "lead": 0.45,
@@ -34,7 +34,7 @@
   },
   {
    "id": "recruit",
-   "text": "Une annonce : quinze dollars par jour. Des étudiants sont tirés au sort : gardiens... <s>ou prisonniers.",
+   "text": "Une annonce : quinze dollars par jour. Des étudiants, tirés au sort : gardiens... <s>ou prisonniers.",
    "emph": [
     "sort"
    ]
@@ -55,7 +55,7 @@
   },
   {
    "id": "revolt",
-   "text": "Dès le deuxième jour, les prisonniers se révoltent. Les gardiens répliquent : extincteurs, pompes, et nuits sans sommeil.",
+   "text": "Dès le deuxième jour, les prisonniers se révoltent. Les gardiens répliquent : extincteurs, pompes, nuits sans sommeil.",
    "emph": [
     "révoltent",
     "sommeil"
@@ -92,7 +92,7 @@
   },
   {
    "id": "cta",
-   "text": "<w>Le pouvoir corrompt ? <w>Ou on nous a raconté une belle histoire ? Dis-le en commentaire."
+   "text": "<w>Le pouvoir corrompt... <w>ou c'est une belle histoire ? Dis-le en commentaire."
   }
  ]
 }

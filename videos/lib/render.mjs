@@ -1,5 +1,5 @@
 // Renders a video folder (scene.html + core.js) frame by frame into an MP4.
-// Usage: NODE_PATH=$(npm root -g) node videos/lib/render.mjs videos/<folder> [--stills 1.5,4,8] [--workers 2]
+// Usage: NODE_PATH=$(npm root -g) node videos/lib/render.mjs videos/<folder> [--stills 1.5,4,8] [--workers 2] [--audio-only]
 // The videos/ directory is served over a local HTTP server so scenes can fetch() their timings and voice files.
 import { createRequire } from "node:module";
 import { spawn, spawnSync, execFileSync } from "node:child_process";
@@ -65,6 +65,7 @@ if (tl.LOUDNESS) {
   execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", wav, "-af", `${ln}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`, "-ar", "44100", tmp]);
   renameSync(tmp, wav);
 }
+if (process.argv.includes("--audio-only")) { await browser.close(); server.close(); process.exit(0); }
 
 // each worker renders a contiguous range of frames into its own video-only segment
 const total = Math.round(tl.DURATION * tl.FPS);
