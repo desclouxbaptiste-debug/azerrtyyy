@@ -74,7 +74,7 @@ const per = Math.ceil(total / workers);
 async function renderRange(w, pg) {
   const seg = join(out, `seg_${w}.mp4`);
   const ff = spawn("ffmpeg", ["-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", String(tl.FPS), "-c:v", "mjpeg", "-i", "-",
-    "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-pix_fmt", "yuv420p", "-profile:v", "high", seg], { stdio: ["pipe", "inherit", "inherit"] });
+    "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-maxrate", "6M", "-bufsize", "12M", "-pix_fmt", "yuv420p", "-profile:v", "high", seg], { stdio: ["pipe", "inherit", "inherit"] });
   const from = w * per, to = Math.min(total, from + per);
   for (let i = from; i < to; i++) {
     const data = await grab(pg, i / tl.FPS);
