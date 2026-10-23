@@ -43,13 +43,13 @@ function world(t) {
   // ---- A: the desk, the ad, the coin
   wall(-300, 1150, "#3A3D3A");
   desk(560, 1150, 820); light(420, 980, 760, 1);
-  const ts = S("setup"), trc = S("recruit"), t24 = wt("recruit", "Vingt-quatre", 4), tpf = wt("recruit", "pile", 6.5);
+  const ts = S("setup"), trc = S("recruit"), t24 = wt("recruit", "Vingt-quatre", 4), tpf = wt("recruit", "hasard", 4.5);
   chalk("le but : un gentil peut-il devenir méchant ?", 560, 480, prog(t, wt("setup", "méchant", 5) - 0.6, wt("setup", "méchant", 5) + 0.6) * (1 - prog(t, S("recruit") + 0.3, S("recruit") + 1.0)), { size: 46, color: "#FFE08A" });
   chalk("une cave → une fausse prison", 560, 570, prog(t, wt("setup", "cave", 4), wt("setup", "cave", 4) + 1.0), { size: 46 });
   newspaperAd(500, 1000, 0.62, t, -10);
   if (t > trc) {
-    for (let k = 0; k < 24; k++) { const x = 250 + (k % 12) * 52, y = 680 + Math.floor(k / 12) * 70, p = prog(t, t24 + k * 0.02, t24 + 0.2 + k * 0.02); sketchPath([[x, y + 24], [x, y], [x - 10, y + 15], [x, y], [x + 10, y + 15]], p, { width: 3 }); chalkCircle(x, y - 10, 8, 8, p, { width: 3 }); }
-    chalk("24 étudiants", 560, 840, prog(t, t24 + 0.3, t24 + 1.0), { size: 40 });
+    for (let k = 0; k < 24; k++) { const x = 250 + (k % 12) * 52, y = 645 + Math.floor(k / 12) * 62, p = prog(t, t24 + k * 0.02, t24 + 0.2 + k * 0.02); sketchPath([[x, y + 24], [x, y], [x - 10, y + 15], [x, y], [x + 10, y + 15]], p, { width: 3 }); chalkCircle(x, y - 10, 8, 8, p, { width: 3 }); }
+    chalk("24 étudiants", 560, 795, prog(t, t24 + 0.3, t24 + 1.0), { size: 40 });
     coinFlip(880, 1080, 0.8, t, tpf - 0.2, t > tpf + 0.9 ? "?" : "");
     if (t > tpf) {
       roundRectFill(760, 1110, 110, 30, 4, "#B79E6E"); txt("GARDIEN", 815, 1126, 16, "MontX", "#2B2116");
@@ -216,7 +216,7 @@ startImmersive({
     { t: S("setup") + 0.1, x: 560, y: 860, z: 1.45, d: 4.0 },
     { t: S("recruit") - 0.1, x: 520, y: 980, z: 1.7, d: 1.4 },
     { t: wt("recruit", "Vingt-quatre", 4) - 0.4, x: 560, y: 860, z: 1.35, d: 1.2 },
-    { t: wt("recruit", "pile", 6.5) - 0.5, x: 880, y: 1000, z: 1.5, d: 1.2 },
+    { t: wt("recruit", "hasard", 4.5) - 0.5, x: 880, y: 1000, z: 1.5, d: 1.2 },
     { t: S("arrest") - 0.4, x: 1900, y: 900, z: 1.0, d: 2.2 },
     { t: wt("arrest", "Menottes", 4) - 0.4, x: 1780, y: 1000, z: 1.35, d: 1.2 },
     { t: S("cell") - 0.4, x: 3330, y: 920, z: 1.25, d: 2.2 },
@@ -239,7 +239,7 @@ startImmersive({
   music: () => ({ style: "dark", root: 36, room: true, heart: [[S("arrest"), S("cell"), 62, 76], [S("revolt"), S("stop") + 1, 76, 104]] }),
   sfx() {
     sfx(S("recruit") + 0.2, "paper", { gain: 0.5 });
-    const tpf = wt("recruit", "pile", 6.5); sfx(tpf - 0.2, "ding", { gain: 0.35 }); sfx(tpf + 0.7, "click", { gain: 0.6 });
+    const tpf = wt("recruit", "hasard", 4.5); sfx(tpf - 0.2, "ding", { gain: 0.35 }); sfx(tpf + 0.7, "click", { gain: 0.6 });
     sfx(S("arrest") - 0.3, "rumble", { dur: 1.6, gain: 0.5 });
     sfx(S("arrest") + 0.2, "door", { gain: 0.5 });
     const tmen = wt("arrest", "Menottes", 4); sfx(tmen, "click", { gain: 0.7 }); sfx(tmen + 0.15, "click", { gain: 0.7 });
