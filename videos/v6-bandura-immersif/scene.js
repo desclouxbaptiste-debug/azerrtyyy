@@ -38,6 +38,7 @@ function tv(x, y, t, on) {
 }
 
 function world(t) {
+  insideAndToday(t);
   // ---- A: the playroom where the adult models
   room(-300, 1420, "#B79A73");
   light(700, 900, 1000, 1); hangingLamp(700, 380, 60, 1, t);
@@ -163,7 +164,7 @@ function world(t) {
     sketchPath([[5000, 900], [5000, 900 - 330 * 0.42 * pb], [5090, 900 - 330 * 0.42 * pb], [5090, 900]], pb, { width: 5, color: "#FFB3A8" });
     chalk("filles", 5045, 920, pb, { size: 31, color: "#FFB3A8" });
   }
-  if (t > S("lesson") - 0.1 && t < S("nuance") + 0.3) {
+  if (false) {
     const tl = S("lesson"), tre = wt("lesson", "récompense", 3), tpu = wt("lesson", "punition", 4.5);
     chalk("voir", 4880, 520, prog(t, tl + 0.3, tl + 0.8), { size: 53 });
     chalkArrow(4930, 540, 5040, 620, prog(t, tl + 0.6, tl + 1.1), { bend: -0.2 });
@@ -181,6 +182,62 @@ function world(t) {
   tv(5900, 960, t, on);
   roundRectFill(5720, 1090, 360, 160, 10, "#3A2E24");
   character(5620, GROUND + 40, 0.8, "boy", { pose: "sit", face: { look: [1, -0.1], eyes: "wide" }, t });
+}
+
+
+// ---------------------------------------------------------------- inside the child, and today
+function insideAndToday(t) {
+  mindWall(6450, 7950, -600, 2400);
+  const tl = S("lesson"), tso = wt("lesson", "social", 3.9), tob = wt("lesson", "observe", 5), tre = wt("lesson", "retient", 5.6), trp = wt("lesson", "reproduit", 6.4);
+  const tres = wt("lesson", "ressemble", 8.7), tfo = wt("lesson", "fort", 10), trec = wt("lesson", "récompense", 10.9), tpu = wt("lesson", "punition", 11.8), trg = wt("lesson", "regarder", 12.5);
+  light(7200, 880, 1000, 0.8, "200,215,255");
+  chalkHead(7150, 900, 1.2, prog(t, tl, tl + 1.4));
+  chalk("l'apprentissage social", 7200, 250, prog(t, tso - 1.2, tso), { size: 64, color: "#FFE08A" });
+  // observe -> remember -> do
+  const steps = [["observer", 6930, tob], ["retenir", 7180, tre], ["reproduire", 7430, trp]];
+  steps.forEach(([l, x, tt], k) => {
+    const p = prog(t, tt - 0.3, tt + 0.2);
+    if (k === 0) { ctx.save(); ctx.globalAlpha = p; eyeIcon(x, 640, 0.45, 1, CHALK); ctx.restore(); }
+    if (k === 1) chalkCircle(x, 640, 50, 40, p);
+    if (k === 2) sketchPath([[x - 30, 670], [x - 30, 610], [x, 590], [x + 30, 610], [x + 30, 670]], p, { width: 6 });
+    chalk(l, x, 730, p, { size: 38 });
+    if (k < 2) chalkArrow(x + 60, 640, x + 190, 640, prog(t, steps[k + 1][2] - 0.4, steps[k + 1][2]), { bend: 0, width: 5 });
+  });
+  // which models: one like me, one strong
+  chalkFigure(6980, 1060, 0.7, prog(t, tres - 0.6, tres));
+  chalk("il me ressemble", 6980, 1150, prog(t, tres - 0.3, tres + 0.4), { size: 36 });
+  chalkFigure(7330, 1080, 1.1, prog(t, tfo - 0.6, tfo), "#FFE08A");
+  chalk("il semble fort", 7330, 1170, prog(t, tfo - 0.3, tfo + 0.4), { size: 36, color: "#FFE08A" });
+  chalk("récompense", 6980, 1260, prog(t, trec - 0.3, trec + 0.2), { size: 38 });
+  sketchPath([[6860, 1262], [7100, 1262]], prog(t, trec + 0.2, trec + 0.5), { width: 6, color: "#FFB3A8" });
+  chalk("punition", 7330, 1260, prog(t, tpu - 0.3, tpu + 0.2), { size: 38 });
+  sketchPath([[7240, 1262], [7420, 1262]], prog(t, tpu + 0.2, tpu + 0.5), { width: 6, color: "#FFB3A8" });
+  chalk("regarder suffit à apprendre", 7200, 1370, prog(t, trg - 0.2, trg + 0.8), { size: 50, color: "#B9F5C8" });
+  // today: screens, the playground, and the good example
+  room(7950, 9900, "#3B4048", "#2E3036");
+  const tn = S("now"), tec = wt("now", "écrans", 2.5), tin = wt("now", "influenceurs", 3.3), tdv = wt("now", "défis", 4.3), tcr = wt("now", "récré", 6.7), tai = wt("now", "aider", 11.5), tdav = wt("now", "davantage", 12.8);
+  light(8400, 900, 700, 1, "200,220,255"); light(9000, 900, 700, 0.9); light(9500, 900, 700, 0.9);
+  chalk("aujourd'hui", 8900, 330, prog(t, tn + 0.2, tn + 0.9), { size: 70, color: "#9FE7FF" });
+  smartphone(8420, 900, 0.7, () => {
+    ctx.fillStyle = "#1C1E26"; ctx.fillRect(0, 0, 344, 724);
+    const k = Math.sin(t * 6), up = t > tdv ? 1 : 0;
+    character(172, 600, 0.9, "student", { pose: "stand", override: up ? { sh: [2.25 + 0.2 * k, 1.95 - 0.2 * k], el: [0.6, 0.5] } : { sh: [0.6 + 0.3 * k, 0.4], el: [1.2, 1.0] }, face: { mouth: "smile", look: [1, 0] }, t, shadow: false, id: "screen-influencer" });
+    if (t > tin) { txt("@influenceur", 172, 70, 26, "MontX", "#fff"); heart(300, 520, 1.2); heart(290, 450, 0.9); }
+    if (t > tdv) txt("#défi", 172, 680, 34, "MontX", "#FFC93C");
+  });
+  character(8200, GROUND, 0.75, "boy", { pose: "sit", face: { look: [1, -0.3], eyes: "wide" }, t, id: "tablet-kid" });
+  chalk("les modèles sont sur les écrans", 8420, 470, prog(t, tec - 0.3, tec + 0.6), { size: 40 });
+  // the playground copies the move
+  const copy = t > tcr - 1.0, k2 = Math.sin(t * 6 + 1);
+  for (const [x, look] of [[8880, "boy"], [9060, "girl"]]) character(x, GROUND, 0.75, look, { pose: "stand", override: copy ? { sh: [2.25 + 0.2 * k2, 1.95 - 0.2 * k2], el: [0.6, 0.5] } : {}, face: { mouth: "smile", look: [1, 0] }, t, id: "copy-" + look });
+  chalk("copié dans la cour", 8970, 760, prog(t, tcr - 0.6, tcr + 0.3), { size: 42 });
+  // the good example
+  const help = t > tai - 1.2, khelp = t > tdav - 0.6;
+  character(9420, GROUND, 1.0, "man1950", { pose: help ? "kneel" : "stand", face: { look: [1, 0.3], mouth: "smile" }, t, id: "helper-adult" });
+  character(9700, GROUND, 0.75, "boy", { pose: khelp ? "kneel" : "stand", flip: !khelp, face: { look: [khelp ? 1 : -1, 0.3], mouth: "smile" }, t, id: "helper-kid" });
+  for (let i = 0; i < 4; i++) { const gone = (help ? prog(t, tai - 0.8 + i * 0.2, tai - 0.4 + i * 0.2) : 0); if (gone < 1) roundRectFill(9480 + i * 40 + (i % 2) * 20, GROUND - 20, 34, 14, 3, "#F2EEE4"); }
+  chalk("il voit aider…", 9460, 700, prog(t, tai - 0.6, tai + 0.2), { size: 44, color: "#B9F5C8" });
+  chalk("…il aide davantage", 9560, 790, prog(t, tdav - 0.3, tdav + 0.4), { size: 44, color: "#B9F5C8" });
 }
 
 startImmersive({
@@ -201,10 +258,17 @@ startImmersive({
     { t: S("result") - 0.6, x: 4330, y: 860, z: 1.25, d: 1.6 },
     { t: S("result") + 1.0, x: 4600, y: 820, z: 1.05, d: 1.6 },
     { t: S("boys") - 0.1, x: 4970, y: 690, z: 1.6, d: 1.0 },
-    { t: S("nuance") - 0.3, x: 3250, y: 960, z: 1.3, d: 2.0 },
-    { t: S("cta") - 0.4, x: 5800, y: 1040, z: 1.6, d: 2.2 },
+    { t: S("lesson") - 0.2, x: 7180, y: 860, z: 0.98, d: 1.8 },
+    { t: wt("lesson", "observe", 5) - 0.6, x: 7180, y: 700, z: 1.3, d: 1.0 },
+    { t: wt("lesson", "ressemble", 8.7) - 0.8, x: 7160, y: 1100, z: 1.2, d: 1.2 },
+    { t: S("nuance") - 0.05, x: 3250, y: 960, z: 1.3, d: 0.01 },
+    { t: S("now") - 0.05, x: 8440, y: 860, z: 1.15, d: 0.01 },
+    { t: wt("now", "récré", 6.7) - 1.6, x: 8970, y: 900, z: 1.15, d: 1.4 },
+    { t: wt("now", "aider", 11.5) - 1.6, x: 9540, y: 900, z: 1.15, d: 1.4 },
+    { t: S("cta") - 0.05, x: 5800, y: 1040, z: 1.45, d: 0.01 },
+    { t: S("cta") + 0.1, x: 5800, y: 1040, z: 1.6, d: 4.0 },
   ],
-  dips: () => [[S("result") - 0.3, 0.5]],
+  dips: () => [[S("result") - 0.3, 0.5], [S("nuance"), 0.6], [S("now"), 0.6], [S("cta"), 0.6]],
   music: () => ({ style: "dark", root: 40, room: true, musicbox: true, heart: [[S("test"), S("result") + 0.6, 64, 96]] }),
   sfx() {
     for (const h of hitsBetween(0.3, S("setup") - 0.2, 1.5, 0.3)) sfx(h, "hit", { gain: 0.35 });
@@ -215,5 +279,9 @@ startImmersive({
     for (let k = 0; k < 4; k++) sfx(S("test") - 0.2 + k * 0.4, "step", { gain: 0.4 });
     for (const h of hitsBetween(S("result"), S("lesson"), 1.7, S("result"))) sfx(h, "hit", { gain: 0.3 });
     sfx(S("result") + 1.2, "scribble", { dur: 1.4 });
+    sfx(S("lesson") + 0.2, "scribble", { dur: 1.4 });
+    for (const w of ["observe", "retient", "reproduit"]) sfx(wt("lesson", w, 5) - 0.2, "pop", { gain: 0.35 });
+    sfx(wt("now", "écrans", 2.5) - 0.3, "ding", { gain: 0.3 });
+    sfx(wt("now", "aider", 11.5) - 0.8, "paper", { gain: 0.5 });
   },
 });

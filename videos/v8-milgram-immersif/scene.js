@@ -197,7 +197,7 @@ function world(t) {
     }
   }
   // nuance: obedience in the room vs. by phone, chalked on the wall
-  if (t > S("nuance")) {
+  if (t > S("nuance") && t < S("now")) {
     const pa = easeOutCubic(prog(t, S("nuance") + 0.3, S("nuance") + 1.0)), pb = easeOutCubic(prog(t, tp + 0.4, tp + 1.2));
     sketchPath([[4480, 820], [4480, 820 - 260 * 0.65 * pa], [4580, 820 - 260 * 0.65 * pa], [4580, 820]], pa, { width: 5 });
     chalk("65 %", 4530, 820 - 260 * 0.65 - 40, pa, { size: 40 });
@@ -246,13 +246,13 @@ function insideAndToday(t) {
   character(6880, FLOOR, 1.0, "student", { pose: "sit", face: { look: [1, -0.1], brows: t > tpro ? "worried" : "neutral", mouth: t > tord ? "frown" : "neutral" }, t, id: "office-emp" });
   character(7420, FLOOR, 1.1, "man1950b", { pose: t > tn + 1 && t < tord ? "point" : "stand", flip: true, face: { look: [-1, 0] }, props: { paper: true }, t, id: "office-boss" });
   if (t > tn - 0.5) {
-    chalk("aujourd'hui", 7200, 380, prog(t, tn + 0.2, tn + 0.9), { size: 60, color: "#9FE7FF" });
-    chalk("« c'est la procédure »", 7200, 520, prog(t, tpro - 0.4, tpro + 0.5), { size: 50 });
-    chalk("« je n'ai fait qu'obéir aux ordres »", 7200, 620, prog(t, tord - 1.0, tord + 0.4), { size: 44, color: "#FFB3A8" });
-    chalk("une blouse", 6850, 720, prog(t, tbl - 0.1, tbl + 0.3), { size: 42 });
-    chalk("un titre", 7200, 720, prog(t, tti - 0.1, tti + 0.3), { size: 42 });
-    chalk("une voix assurée", 7560, 720, prog(t, tvo - 0.1, tvo + 0.4), { size: 42 });
-    chalk("… est-ce juste ?", 7200, 1360, prog(t, tju - 0.6, tju + 0.3), { size: 80, color: "#FFE08A" });
+    chalk("aujourd'hui", 7200, 380, prog(t, tn + 0.2, tn + 0.9), { size: 78, color: "#9FE7FF" });
+    chalk("« c'est la procédure »", 7200, 520, prog(t, tpro - 0.4, tpro + 0.5), { size: 65 });
+    chalk("« je n'ai fait qu'obéir aux ordres »", 7200, 620, prog(t, tord - 1.0, tord + 0.4), { size: 57, color: "#FFB3A8" });
+    chalk("une blouse", 6830, 740, prog(t, tbl - 0.1, tbl + 0.3), { size: 55 });
+    chalk("un titre", 7200, 740, prog(t, tti - 0.1, tti + 0.3), { size: 55 });
+    chalk("une voix assurée", 7560, 740, prog(t, tvo - 0.1, tvo + 0.4), { size: 55 });
+    chalk("… est-ce juste ?", 7200, 1360, prog(t, tju - 0.6, tju + 0.3), { size: 104, color: "#FFE08A" });
   }
 }
 
@@ -324,9 +324,9 @@ startImmersive({
     { t: wt("why", "agentique", 12) - 1.2, x: 5800, y: 820, z: 1.0, d: 1.8 },
     { t: wt("why", "responsabilité", 18.5) - 0.4, x: 6000, y: 860, z: 0.92, d: 1.4 },
     { t: S("nuance") - 0.1, x: 4360, y: 860, z: 1.0, d: 1.0 },
-    { t: S("now") - 0.3, x: 7200, y: 860, z: 1.0, d: 2.2 },
+    { t: S("now") - 0.3, x: 7200, y: 820, z: 1.15, d: 2.2 },
     { t: wt("now", "blouse", 9.8) - 0.5, x: 7200, y: 760, z: 1.15, d: 1.0 },
-    { t: wt("now", "juste", 15.5) - 1.0, x: 7200, y: 900, z: 1.0, d: 1.2 },
+    { t: wt("now", "juste", 15.5) - 1.0, x: 7200, y: 960, z: 1.05, d: 1.2 },
     { t: S("cta") - 0.05, x: 4330, y: 880, z: 2.5, d: 0.01 },
   ],
   dips: () => [[S("setup"), 0.6], [S("cta"), 0.6]],

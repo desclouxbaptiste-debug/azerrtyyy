@@ -36,6 +36,7 @@ const above = (i, k = 480) => seatY(i) - k * seatS(i);
 
 function world(t) {
   classroom();
+  insideAndToday(t);
   light(1100, 1150, 1100, 0.95); light(CARD.x, CARD.y + 40, 520, 1); light(900, 560, 700, 0.8);
   hangingLamp(1000, 160, 60, 1, t);
   const pre = 1 - prog(t, S("task") - 0.2, S("task") + 0.4);
@@ -98,11 +99,6 @@ function world(t) {
     chalk("seuls : moins de 1 % d'erreurs", 1170, 560, prog(t, ts - 0.1, ts + 0.8), { size: 30, color: "#B9F5C8", rot: -0.08 });
     ctx.restore();
   }
-  if (t > S("why") && t < S("ally")) {
-    const td = wt("why", "douter", 1.5), tsv = wt("why", "savent", 3.5);
-    iconBubble(seatX(YOU) + 60, seatY(YOU) - 560, 470, 110, "Et si je voyais mal ?", { p: prog(t, td - 0.2, td + 0.1), size: 36 });
-    iconBubble(seatX(YOU) + 160, seatY(YOU) - 720, 520, 110, "Je ne veux pas être seul.", { p: prog(t, tsv, tsv + 0.3), size: 36, bg: "#FFE08A" });
-  }
   if (t > S("ally") - 0.2 && t < S("cta")) {
     for (let i = 0; i < YOU; i++) answer(i, i === 3 ? "A" : "B", 1, i === 3);
     answer(YOU, "A", prog(t, ta + 1.2, ta + 1.5), true);
@@ -123,6 +119,48 @@ function world(t) {
   }
 }
 
+
+// ---------------------------------------------------------------- inside you, and today
+function insideAndToday(t) {
+  mindWall(2700, 4300, -600, 2400);
+  const tw = S("why"), td = wt("why", "doute", 3.8), tex = wt("why", "exclu", 10.4), tse = wt("why", "seul", 14), tal = wt("why", "alarme", 20);
+  light(3500, 880, 1000, 0.8, "200,215,255");
+  chalkHead(3450, 900, 1.2, prog(t, tw, tw + 1.4));
+  chalk("deux forces", 3500, 260, prog(t, tw + 0.8, tw + 1.6), { size: 64, color: "#FFE08A" });
+  // 1. doubt
+  chalk("1. le doute", 3380, 560, prog(t, td - 0.4, td + 0.3), { size: 50 });
+  for (let k = 0; k < 7; k++) chalk("B", 3150 + k * 60, 650, prog(t, td + 0.4 + k * 0.08, td + 0.6 + k * 0.08), { size: 44, color: "#FFB3A8" });
+  chalk("« et si je voyais mal ? »", 3420, 730, prog(t, td + 1.6, td + 2.6), { size: 40 });
+  // 2. fear of being left out: seven together, you alone
+  chalk("2. la peur d'être exclu", 3400, 880, prog(t, tex - 1.2, tex - 0.4), { size: 50 });
+  for (let k = 0; k < 7; k++) { const a = k / 7 * 6.28; chalkFigure(3270 + Math.cos(a) * 90, 1080 + Math.sin(a) * 40, 0.55, prog(t, tex - 0.3 + k * 0.06, tex + k * 0.06)); }
+  chalkFigure(3560, 1090, 0.6, prog(t, tse - 0.4, tse), "#FFE08A");
+  chalk("seul contre tous", 3600, 1180, prog(t, tse - 0.2, tse + 0.5), { size: 38, color: "#FFE08A" });
+  // the brain's alarm
+  pulse(3690, 980, 90, t, prog(t, tal - 1.6, tal - 0.6), "255,80,70");
+  chalk("alarme émotionnelle", 3450, 1290, prog(t, tal - 0.8, tal + 0.2), { size: 48, color: "#FFB3A8" });
+  // today: a phone full of other people's opinions
+  mindWall(4300, 6000, -600, 2400);
+  const tn = S("now"), tli = wt("now", "likes", 1.5), tav = wt("now", "avis", 3.2), tgr = wt("now", "groupe", 4.6), tvo = wt("now", "voix", 10.5), tlib = wt("now", "libérer", 11.6);
+  chalk("aujourd'hui", 5150, 140, prog(t, tn + 0.2, tn + 0.9), { size: 70, color: "#9FE7FF" });
+  smartphone(5150, 840, 1.45, () => {
+    ctx.fillStyle = "#F4F5F7"; ctx.fillRect(0, 0, 344, 724);
+    if (t < tgr - 0.3) {
+      roundRectFill(20, 60, 304, 300, 16, "#DDE3EC"); txt("📷", 172, 200, 80, "MontX", "#888");
+      const likes = Math.round(12000 * easeOutExpo(prog(t, tli - 0.3, tli + 1.2)));
+      heart(46, 400, 1.1); txt(`${(likes / 1000).toFixed(1)} k`, 110, 400, 30, "MontX", "#1C1E24", { align: "left" });
+      if (t > tav - 0.3) { starsRow(40, 480, 5, 26); txt("4,9 · 2 315 avis", 172, 540, 24, "MontS", "#555"); }
+    } else {
+      roundRectFill(0, 0, 344, 80, 0, "#3D7BFF"); txt("Groupe · 8 membres", 172, 46, 24, "MontX", "#fff");
+      ["C'est trop bien !", "Grave", "Pareil", "+1", "Carrément", "Oui !"].forEach((m, k) => chatBubble(110 + k * 64, m, { p: prog(t, tgr + k * 0.25, tgr + 0.15 + k * 0.25) }));
+      chatBubble(110 + 6 * 64, "Moi, pas d'accord !", { me: true, color: "#2FB866", p: prog(t, tvo - 0.4, tvo) });
+      chatBubble(110 + 7 * 64, "En fait… moi non plus", { p: prog(t, tlib, tlib + 0.3) });
+    }
+  });
+  const cap = t < tav - 0.3 ? ["les likes", tli] : t < tgr - 0.3 ? ["les avis", tav] : t < tvo - 0.3 ? ["personne n'ose contredire", tgr + 0.3] : ["une seule voix suffit", tvo];
+  if (t > tli - 0.3) chalk(cap[0], 5150, 240, prog(t, cap[1] - 0.2, cap[1] + 0.5), { size: 54, color: cap[0] === "une seule voix suffit" ? "#B9F5C8" : CHALK });
+}
+
 function overlay(t) {
   // first person: your finger hesitating between A and B
   const hes = (t0, t1) => {
@@ -136,8 +174,9 @@ function overlay(t) {
 }
 
 startImmersive({
-  world, overlay, keyRegex: /^(TROMPER|SEPT|AVANT-DERNIER|MAUVAISE|COMPLICES|TIERS|QUATRE|SEULS|ALLIÉ|CHUTENT|QUART|JAMAIS)/,
+  world, overlay, keyRegex: /^(TROMPER|SEPT|AVANT-DERNIER|MAUVAISE|COMPLICES|TIERS|QUATRE|SEULS|ALLIÉ|CHUTENT|QUART|JAMAIS|DOUTE|EXCLU|ALARME|LIKES|SEULE)/,
   ambient: 0.6,
+  dips: () => [[S("cta"), 0.6]],
   camera: () => [
     { t: 0, x: 1600, y: 640, z: 2.0, d: 0.01 },
     { t: 0.3, x: 1600, y: 640, z: 2.2, d: 4.0 },
@@ -153,10 +192,15 @@ startImmersive({
     { t: wt("twist", "mauvaise", 3) - 0.2, x: 740, y: 1180, z: 1.6, d: 1.0 },
     { t: S("secret") - 0.1, x: 1080, y: 930, z: 0.82, d: 1.4 },
     { t: S("result") - 0.1, x: 900, y: 600, z: 1.1, d: 1.6 },
-    { t: S("why") - 0.1, x: 820, y: 1000, z: 1.05, d: 1.4 },
+    { t: S("why") - 0.2, x: 3480, y: 860, z: 1.0, d: 1.8 },
+    { t: wt("why", "doute", 3.8) - 0.6, x: 3420, y: 700, z: 1.35, d: 1.2 },
+    { t: wt("why", "exclu", 10.4) - 1.4, x: 3420, y: 1000, z: 1.3, d: 1.2 },
+    { t: wt("why", "alarme", 20) - 2.2, x: 3450, y: 920, z: 0.95, d: 1.4 },
     { t: S("ally") - 0.1, x: 900, y: 880, z: 0.85, d: 1.6 },
     { t: S("nuance") - 0.1, x: 980, y: 640, z: 1.05, d: 1.2 },
-    { t: S("cta") - 0.3, x: 1600, y: 640, z: 2.0, d: 1.6 },
+    { t: S("now") - 0.3, x: 5150, y: 840, z: 0.98, d: 2.0 },
+    { t: wt("now", "groupe", 4.6) - 0.6, x: 5150, y: 880, z: 1.02, d: 1.2 },
+    { t: S("cta") - 0.05, x: 1600, y: 640, z: 2.0, d: 0.01 },
   ],
   music: () => ({ style: "dark", root: 38, room: true, tick: true, heart: [[wt("twist", "tour-là", 1), S("secret") + 0.5, 70, 104]] }),
   sfx() {
@@ -167,5 +211,9 @@ startImmersive({
     const tt = wt("twist", "tour-là", 1); for (let i = 0; i < YOU; i++) sfx(tt + 0.3 + i * 0.28, "pop", { gain: 0.4 });
     sfx(S("result") + 0.3, "scribble", { dur: 1.6 });
     sfx(wt("ally", "allié", 2), "ding", { gain: 0.4 });
+    sfx(S("why") + 0.2, "scribble", { dur: 1.4 });
+    sfx(wt("why", "alarme", 20) - 1.6, "heartbeat", { gain: 0.7 }); sfx(wt("why", "alarme", 20) - 0.8, "heartbeat", { gain: 0.7 });
+    const tg = wt("now", "groupe", 4.6); for (let k = 0; k < 6; k++) sfx(tg + k * 0.25, "pop", { gain: 0.35 });
+    sfx(wt("now", "voix", 10.5) - 0.4, "ding", { gain: 0.45 });
   },
 });

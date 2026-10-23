@@ -39,6 +39,7 @@ function proscenium(t, close = 0, a = 1) {
 }
 
 function world(t) {
+  insideAndToday(t);
   // ---- A: the desk, the ad, the coin
   wall(-300, 1150, "#3A3D3A");
   desk(560, 1150, 820); light(420, 980, 760, 1);
@@ -139,11 +140,11 @@ function world(t) {
   chalk("gardiens poussés à être durs", 5450, 760, prog(t, tpo - 0.2, tpo + 0.8), { size: 44, color: "#FFB3A8" });
   chalk("prisonnier 8612 : crise simulée pour sortir", 5450, 860, prog(t, tsi - 0.2, tsi + 1.0), { size: 38, color: "#FFE08A" });
   // ---- the theatre around the jail (always there, mostly off screen)
-  const stage = Math.max(1 - prog(t, S("setup") - 0.3, S("setup")), prog(t, S("today") - 0.2, S("today") + 1.2));
+  const stage = Math.max(1 - prog(t, S("setup") - 0.3, S("setup")), prog(t, S("today") - 0.2, S("today") + 1.2) * (1 - prog(t, S("inside") - 0.3, S("inside"))), prog(t, S("cta") - 0.3, S("cta")));
   proscenium(t, prog(t, S("cta") + 0.4, S("cta") + 2.6) * 0.75, stage);
   const tmise = wt("today", "mise", 3);
   chalk("mise en scène ?", 3700, 220, prog(t, 3.9, 4.6) * (t < S("setup") ? 1 : 0), { size: 120, color: "#FFE08A" });
-  chalk("plus une mise en scène qu'une expérience", 3700, 1420, prog(t, tmise - 0.2, tmise + 1.0) * (t < S("cta") ? 1 : 0), { size: 70, color: "#FFE08A" });
+  chalk("plus une mise en scène qu'une expérience", 3700, 1420, prog(t, tmise - 0.2, tmise + 1.0) * (t < S("inside") ? 1 : 0), { size: 70, color: "#FFE08A" });
   if (t > S("cta") - 0.3) {
     coinFlip(3700, GROUND - 80, 1.2, t, S("cta") + 0.6, "");
     light(3700, GROUND - 200, 500, 1.2);
@@ -152,8 +153,61 @@ function world(t) {
   }
 }
 
+
+// ---------------------------------------------------------------- what is really at work, and today
+function insideAndToday(t) {
+  mindWall(6000, 7700, -600, 2400);
+  const ti = S("inside"), tme = wt("inside", "mécanismes", 1.7), tde = wt("inside", "désindividuation", 3.3), tun = wt("inside", "uniforme", 4.8), tlu = wt("inside", "lunettes", 5.8), tnu = wt("inside", "numéro", 6.7), tre = wt("inside", "responsable", 8.5);
+  const tch = wt("inside", "chef", 10.3), tdu = wt("inside", "dureté", 12.4), tsu = wt("inside", "suivent", 13.5), tfi = wt("inside", "fiers", 15);
+  light(6850, 880, 1000, 0.8, "200,215,255");
+  chalkHead(6800, 900, 1.2, prog(t, ti, ti + 1.4));
+  chalk("deux mécanismes bien réels", 6850, 250, prog(t, tme - 0.4, tme + 0.6), { size: 58, color: "#FFE08A" });
+  chalk("1. la désindividuation", 6780, 560, prog(t, tde - 0.3, tde + 0.4), { size: 48 });
+  // "me" fading behind uniform, glasses, number
+  const fadeMe = 1 - 0.7 * prog(t, tre - 0.6, tre + 0.4);
+  ctx.save(); ctx.globalAlpha = fadeMe; chalkFigure(6620, 800, 1.1, prog(t, tde, tde + 0.5)); chalk("moi", 6620, 830, prog(t, tde + 0.2, tde + 0.6), { size: 36 }); ctx.restore();
+  if (t > tun - 0.2) { ctx.save(); ctx.globalAlpha = prog(t, tun - 0.2, tun + 0.2); roundRectFill(6595, 720, 50, 60, 10, "#B79E6E"); ctx.restore(); chalk("uniforme", 6780, 690, prog(t, tun - 0.2, tun + 0.3), { size: 34 }); }
+  if (t > tlu - 0.2) { ctx.save(); ctx.globalAlpha = prog(t, tlu - 0.2, tlu + 0.2); roundRectFill(6596, 694, 48, 14, 6, "#15171C"); ctx.restore(); chalk("lunettes", 6780, 740, prog(t, tlu - 0.2, tlu + 0.3), { size: 34 }); }
+  if (t > tnu - 0.2) { chalk("819", 6620, 760, prog(t, tnu - 0.2, tnu + 0.2), { size: 26 }); chalk("numéro", 6780, 790, prog(t, tnu - 0.2, tnu + 0.3), { size: 34 }); }
+  chalk("→ moins responsable", 6870, 860, prog(t, tre - 0.5, tre + 0.4), { size: 40, color: "#FFB3A8" });
+  chalk("2. le poids du chef", 6780, 960, prog(t, tch - 0.4, tch + 0.3), { size: 48 });
+  chalkFigure(6560, 1180, 1.2, prog(t, tdu - 0.6, tdu), "#FFE08A");
+  for (let k = 0; k < 3; k++) { chalkFigure(6760 + k * 90, 1180, 0.8, prog(t, tsu - 0.3 + k * 0.12, tsu + k * 0.12)); }
+  chalkArrow(6620, 1080, 6740, 1080, prog(t, tsu - 0.4, tsu), { bend: -0.3, width: 5, color: "#FFE08A" });
+  if (t > tfi - 0.3) for (let k = 0; k < 3; k++) chalk("★", 6760 + k * 90, 1060, prog(t, tfi - 0.3 + k * 0.08, tfi + k * 0.08), { size: 40, color: "#FFE08A", font: "MontX" });
+  chalk("et même fiers", 6900, 1290, prog(t, tfi - 0.2, tfi + 0.5), { size: 44, color: "#FFE08A" });
+  // today: anonymous comments, and a group whose leader looks away
+  mindWall(7700, 9700, -600, 2400);
+  const tn = S("now"), tps = wt("now", "pseudo", 1.4), tfa = wt("now", "face", 3.8), tgr = wt("now", "groupe", 4.8), tye = wt("now", "yeux", 6.6), tpe = wt("now", "permettre", 7.9);
+  chalk("aujourd'hui", 8200, 160, prog(t, tn + 0.2, tn + 0.9), { size: 66, color: "#9FE7FF" });
+  smartphone(8100, 840, 1.1, () => {
+    ctx.fillStyle = "#F4F5F7"; ctx.fillRect(0, 0, 344, 724);
+    roundRectFill(0, 0, 344, 80, 0, "#22252C"); txt("Commentaires", 172, 46, 24, "MontX", "#fff");
+    [["@anonyme_93", "T'es vraiment nul…"], ["@dark_wolf", "Personne t'aime"], ["@xx_inconnu", "Supprime ton compte"], ["@user_4471", "Ridicule"]].forEach(([who, msg], k) => {
+      const p = prog(t, tps + k * 0.45, tps + 0.2 + k * 0.45); if (p <= 0) return;
+      ctx.save(); ctx.globalAlpha = p;
+      ctx.fillStyle = "#B8BDC6"; ctx.beginPath(); ctx.arc(40, 130 + k * 110, 22, 0, 6.29); ctx.fill();
+      txt("?", 40, 132 + k * 110, 24, "MontX", "#fff");
+      txt(who, 74, 118 + k * 110, 20, "MontX", "#555", { align: "left" });
+      txt(msg, 74, 148 + k * 110, 22, "MontS", "#C0392B", { align: "left" });
+      ctx.restore();
+    });
+  });
+  chalk("derrière un pseudo", 8100, 300, prog(t, tps - 0.3, tps + 0.4) * (t < tgr - 0.4 ? 1 : 0), { size: 52 });
+  chalk("ce qu'on n'oserait jamais dire en face", 8100, 1360, prog(t, tfa - 0.8, tfa + 0.3) * (t < tgr - 0.4 ? 1 : 0), { size: 44, color: "#FFB3A8" });
+  // the group: three against one, the boss with closed eyes
+  ctx.fillStyle = "#2A2D33"; ctx.fillRect(8500, GROUND, 1200, 700);
+  light(9050, 950, 800, 0.9);
+  const k = Math.sin(t * 5);
+  for (const [x, look] of [[8780, "man1950"], [8920, "man1950b"], [9060, "student"]]) character(x, GROUND, 0.95, look, { pose: "point", override: { sh: [1.55 + 0.1 * k, 0.1], el: [0.05, 0.2] }, face: { mouth: "smile", look: [1, 0] }, t, id: "bully-" + x });
+  character(9270, GROUND, 0.95, "passerby", { pose: "stand", flip: true, override: { sh: [0.4, 0.5], el: [1.4, 1.4] }, face: { brows: "worried", mouth: "frown", look: [-1, 0.3] }, t, id: "victim" });
+  character(9480, GROUND, 1.15, "experimenter", { pose: "stand", override: { sh: [0.6, 0.6], el: [1.7, 1.7] }, face: { eyes: t > tye - 0.4 ? "closed" : "open", look: [-1, 0] }, flip: true, t, id: "boss" });
+  chalk("le chef ferme les yeux", 9200, 620, prog(t, tye - 0.5, tye + 0.3), { size: 46 });
+  chalk("… et tout devient permis", 9160, 1380, prog(t, tpe - 0.4, tpe + 0.4), { size: 50, color: "#FFB3A8" });
+}
+
 startImmersive({
-  world, keyRegex: /^(MISE|PRISON|FACE|VRAIE|NUMÉRO|MIROIR|RÉVOLTENT|SOMMEIL|SIX|BOURREAUX|POUSSÉS|SIMULÉ)/,
+  world, keyRegex: /^(MISE|PRISON|FACE|VRAIE|NUMÉRO|MIROIR|RÉVOLTENT|SOMMEIL|SIX|BOURREAUX|POUSSÉS|SIMULÉ|DÉSINDIVIDUATION|CHEF|FIERS|PSEUDO|YEUX)/,
   ambient: t => (t < S("setup") || t > S("today") ? 0.55 : 0.62),
   camera: () => [
     { t: 0, x: 3850, y: 860, z: 1.6, d: 0.01 },
@@ -175,9 +229,14 @@ startImmersive({
     { t: S("twist") - 0.2, x: 5450, y: 860, z: 1.3, d: 2.0 },
     { t: wt("twist", "simulé", 5) - 1.0, x: 5450, y: 830, z: 1.45, d: 1.4 },
     { t: S("today") - 0.2, x: 3700, y: 850, z: 0.42, d: 3.0 },
-    { t: S("cta") - 0.1, x: 3700, y: 950, z: 0.85, d: 2.4 },
+    { t: S("inside") - 0.05, x: 6850, y: 860, z: 0.98, d: 0.01 },
+    { t: wt("inside", "désindividuation", 3.3) - 0.5, x: 6760, y: 760, z: 1.3, d: 1.2 },
+    { t: wt("inside", "chef", 10.3) - 0.6, x: 6760, y: 1080, z: 1.25, d: 1.2 },
+    { t: S("now") - 0.05, x: 8100, y: 840, z: 1.0, d: 0.01 },
+    { t: wt("now", "groupe", 4.8) - 0.7, x: 9140, y: 980, z: 1.08, d: 1.4 },
+    { t: S("cta") - 0.05, x: 3700, y: 950, z: 0.85, d: 0.01 },
   ],
-  dips: () => [[S("setup"), 0.6]],
+  dips: () => [[S("setup"), 0.6], [S("inside"), 0.6], [S("now"), 0.6], [S("cta"), 0.6]],
   music: () => ({ style: "dark", root: 36, room: true, heart: [[S("arrest"), S("cell"), 62, 76], [S("revolt"), S("stop") + 1, 76, 104]] }),
   sfx() {
     sfx(S("recruit") + 0.2, "paper", { gain: 0.5 });
@@ -193,5 +252,8 @@ startImmersive({
     sfx(S("stop") + 0.2, "scribble", { dur: 1.0 });
     sfx(S("twist") + 0.4, "click", { gain: 0.6 });
     sfx(wt("cta", "Le", 0.3) + 0.6, "ding", { gain: 0.3 });
+    sfx(S("inside") + 0.2, "scribble", { dur: 1.4 });
+    sfx(wt("inside", "chef", 10.3) - 0.3, "scribble", { dur: 1.0 });
+    const tps = wt("now", "pseudo", 1.4); for (let k = 0; k < 4; k++) sfx(tps + k * 0.45, "pop", { gain: 0.35 });
   },
 });

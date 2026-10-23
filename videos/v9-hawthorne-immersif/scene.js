@@ -34,6 +34,7 @@ function testLight(t) {
 }
 
 function world(t) {
+  insideAndToday(t);
   // ---- A: the factory at night
   ctx.fillStyle = "#121827"; ctx.fillRect(-400, -400, 1700, GROUND + 400);
   ctx.fillStyle = "#2A2622"; ctx.fillRect(-400, GROUND, 1700, 900);
@@ -133,8 +134,63 @@ function overlay(t) {
   }
 }
 
+
+// ---------------------------------------------------------------- inside us, and today
+function insideAndToday(t) {
+  mindWall(7050, 8650, -600, 2400);
+  const tl = S("lesson"), tre = wt("lesson", "regardé", 2.2), tim = wt("lesson", "image", 4.2), tdr = wt("lesson", "droit", 5.7), tef = wt("lesson", "d'efforts", 6.9), tat = wt("lesson", "l'attention", 9.2), tin = wt("lesson", "s'intéressait", 12.3);
+  light(7800, 880, 1000, 0.8, "200,215,255");
+  chalkHead(7760, 920, 1.2, prog(t, tl, tl + 1.4));
+  // the gaze from outside
+  const pe = prog(t, tre - 0.4, tre + 0.2);
+  if (pe > 0) { ctx.save(); ctx.globalAlpha = pe; eyeIcon(8190, 470, 0.7, Math.max(0.15, 1 - Math.pow(Math.max(0, Math.sin(t * 1.3)), 40)), "#FFE08A"); ctx.restore(); light(8190, 470, 300, 0.6 * pe); }
+  chalkArrow(8150, 520, 8020, 640, prog(t, tre, tre + 0.5), { bend: 0.2, color: "#FFE08A" });
+  chalk("se savoir regardé", 7980, 360, prog(t, tre - 0.2, tre + 0.5), { size: 46, color: "#FFE08A" });
+  chalkCircle(7620, 640, 50, 66, prog(t, tim - 0.3, tim + 0.3));
+  chalk("mon image", 7620, 750, prog(t, tim - 0.1, tim + 0.4), { size: 38 });
+  // posture straightens, effort goes up
+  const st = easeInOut(prog(t, tdr - 0.5, tdr + 0.3));
+  sketchPath([[7880, 980], [7880 + 30 * (1 - st), 900], [7880 + 40 * (1 - st), 830]], prog(t, tdr - 0.8, tdr - 0.5), { width: 6 });
+  chalkCircle(7880 + 46 * (1 - st), 808, 18, 18, prog(t, tdr - 0.8, tdr - 0.5), { width: 6 });
+  chalk("plus droit", 7880, 1030, prog(t, tdr - 0.2, tdr + 0.4), { size: 36 });
+  chalkArrow(8060, 980, 8060, 820, prog(t, tef - 0.3, tef + 0.2), { bend: 0, color: "#B9F5C8" });
+  chalk("plus d'efforts", 8070, 1030, prog(t, tef - 0.2, tef + 0.4), { size: 36, color: "#B9F5C8" });
+  pulse(7700, 1130, 70, t, prog(t, tat - 0.4, tat + 0.4), "255,200,120");
+  chalk("l'attention motive", 7720, 1240, prog(t, tat - 0.2, tat + 0.6), { size: 46, color: "#FFE08A" });
+  chalk("« enfin, on s'intéresse à nous »", 7780, 1340, prog(t, tin - 0.6, tin + 0.4), { size: 40 });
+  // today: watched all the time; the eyes above the coffee box
+  mindWall(8650, 10700, -600, 2400);
+  const tn = S("now"), tca = wt("now", "Caméras", 0.9), ttv = wt("now", "télétravail", 1.4), tmo = wt("now", "montres", 2.8), tli = wt("now", "likes", 4.1), tpe = wt("now", "permanence", 5.6);
+  const tye = wt("now", "yeux", 8.9), tcf = wt("now", "café", 10.4), ttr = wt("now", "triplé", 12.3);
+  light(9220, 900, 800, 0.8, "210,225,255");
+  chalk("aujourd'hui", 9200, 230, prog(t, tn + 0.2, tn + 0.9), { size: 66, color: "#9FE7FF" });
+  if (t > tca - 0.4) { ctx.save(); ctx.globalAlpha = prog(t, tca - 0.4, tca); cctv(8950, 470, 1.0, t); ctx.restore(); }
+  if (t > ttv - 0.4) laptop(9260, 760, 0.55 * easeOutBack(prog(t, ttv - 0.4, ttv)), () => { ctx.fillStyle = "#E9EEF5"; ctx.fillRect(0, 0, 480, 290); txt("Activité", 240, 70, 40, "MontX", "#2B2F35"); txt("97 %", 240, 150, 80, "MontX", "#2FB866"); txt("dernier clic : il y a 3 min", 240, 230, 26, "MontS", "#777"); });
+  if (t > tmo - 0.4) smartwatch(8980, 1010, 1.0 * easeOutBack(prog(t, tmo - 0.4, tmo)), "8 432", "#3DDC84");
+  if (t > tli - 0.4) { const p = easeOutBack(prog(t, tli - 0.4, tli)); heart(9500, 980, 2.2 * p); txt("+128", 9500, 1070, 40 * p, "MontX", "#FF3B5C"); }
+  chalk("observés en permanence", 9200, 1150, prog(t, tpe - 0.4, tpe + 0.4) * (t < tye - 0.8 ? 1 : 0), { size: 50, color: "#FFE08A" });
+  // the honesty-box study: same coffee corner, two posters
+  const tb = tye - 1.6;
+  if (t > tb) {
+    const a = prog(t, tb, tb + 0.6);
+    ctx.save(); ctx.globalAlpha = a;
+    roundRectFill(9850, 1060, 760, 22, 4, "#4A3A2A"); ctx.fillStyle = "#3A2C20"; ctx.fillRect(9870, 1082, 16, GROUND - 1082); ctx.fillRect(10574, 1082, 16, GROUND - 1082);
+    poster(10020, 760, 230, 300, "flowers"); poster(10440, 760, 230, 300, "eyes");
+    for (const x of [10020, 10440]) { roundRectFill(x - 70, 960, 140, 100, 10, "#C9A24A"); ctx.fillStyle = "#3A2C20"; ctx.fillRect(x - 30, 966, 60, 8); }
+    ctx.restore();
+    light(10230, 860, 700, a);
+    chalk("semaine « fleurs »", 10020, 560, prog(t, tye - 0.6, tye), { size: 34 });
+    chalk("semaine « yeux »", 10440, 560, prog(t, tye - 0.3, tye + 0.3), { size: 34, color: "#FFE08A" });
+    const pr = easeOutCubic(prog(t, ttr - 0.2, ttr + 0.8));
+    sketchPath([[9960, 1360], [9960, 1360 - 70 * pr], [10080, 1360 - 70 * pr], [10080, 1360]], pr, { width: 6 });
+    sketchPath([[10380, 1360], [10380, 1360 - 195 * pr], [10500, 1360 - 195 * pr], [10500, 1360]], pr, { width: 6, color: "#FFE08A" });
+    chalk("× 2,8", 10440, 1360 - 195 * pr - 40, pr, { size: 54, color: "#FFE08A" });
+    chalk("paiements", 10230, 1400, pr, { size: 34 });
+  }
+}
+
 startImmersive({
-  world, keyRegex: /^(REGARDE|MILLIERS|MONTE|AUSSI|TIENT|PRESQUE|OBSERVATEUR|GRIMPE|HAUTE|OBSERVÉ|FAIBLE|SIMPLE)/,
+  world, keyRegex: /^(REGARDE|MILLIERS|MONTE|AUSSI|TIENT|PRESQUE|OBSERVATEUR|GRIMPE|HAUTE|OBSERVÉ|FAIBLE|SIMPLE|IMAGE|ATTENTION|PERMANENCE|YEUX|TRIPLÉ)/,
   ambient: t => (t > S("dim") && t < S("relay") ? 0.62 + 0.3 * prog(t, S("dim"), wt("dim", "presque", 4)) : 0.6),
   camera: () => [
     { t: 0, x: 4880, y: 960, z: 1.7, d: 0.01 },
@@ -151,10 +207,14 @@ startImmersive({
     { t: wt("relay", "Pauses", 5.5) - 0.5, x: 4700, y: 760, z: 1.15, d: 1.2 },
     { t: S("name") - 0.2, x: 4880, y: 640, z: 1.1, d: 1.4 },
     { t: S("twist") - 0.3, x: 6330, y: 820, z: 1.0, d: 2.2 },
-    { t: S("lesson") - 0.3, x: 5150, y: 880, z: 1.15, d: 2.2 },
-    { t: S("cta") - 0.4, x: 6330, y: 900, z: 1.0, d: 2.2 },
+    { t: S("lesson") - 0.05, x: 7820, y: 860, z: 0.98, d: 0.01 },
+    { t: wt("lesson", "image", 4.2) - 0.8, x: 7900, y: 760, z: 1.2, d: 1.2 },
+    { t: wt("lesson", "l'attention", 9.2) - 0.8, x: 7800, y: 1060, z: 1.15, d: 1.2 },
+    { t: S("now") - 0.05, x: 9220, y: 800, z: 1.05, d: 0.01 },
+    { t: wt("now", "yeux", 8.9) - 2.0, x: 10230, y: 960, z: 1.1, d: 1.6 },
+    { t: S("cta") - 0.05, x: 6330, y: 900, z: 1.0, d: 0.01 },
   ],
-  dips: () => [[S("setup"), 0.6]],
+  dips: () => [[S("setup"), 0.6], [S("lesson"), 0.6], [S("now"), 0.6], [S("cta"), 0.6]],
   music: () => ({ style: "dark", root: 39, room: true, tick: true, heart: [[S("control"), S("dim") + 1, 62, 82]] }),
   sfx() {
     for (let k = 0; k < 6; k++) sfx(S("light") - 0.3 + k * 0.4, "step", { gain: 0.35 });
@@ -166,5 +226,8 @@ startImmersive({
     sfx(wt("relay", "Pauses", 5.5), "scribble", { dur: 0.5 }); sfx(wt("relay", "horaires", 6.2), "scribble", { dur: 0.5 }); sfx(wt("relay", "collations", 7), "scribble", { dur: 0.5 });
     sfx(S("twist") + 0.4, "click", { gain: 0.6 });
     for (let k = 0; k < 6; k++) sfx(S("cta") + 0.5 + k * 0.55, "step", { gain: 0.45 });
+    sfx(S("lesson") + 0.2, "scribble", { dur: 1.4 });
+    for (const w of ["Caméras", "télétravail", "montres", "likes"]) sfx(wt("now", w, 2) - 0.3, "pop", { gain: 0.35 });
+    sfx(wt("now", "yeux", 8.9) - 1.4, "dark_whoosh", { gain: 0.4, dur: 0.8 });
   },
 });
