@@ -29,7 +29,7 @@ const SHOT = {
     const z = 1 + (t - s.start) * 0.03;
     camera(z, 540, 1000, () => character(540, FLOOR + 40, 1.35, "guard", { pose: "stand", face: { mouth: "neutral" }, props: { baton: true }, t }));
     const tm = wt("hook", "mise", 3);
-    stamp("MISE EN SCÈNE ?", W / 2, 600, 70, COL.accent, prog(t, tm - 0.2, tm + 0.2), -0.08);
+    stamp("MISE EN SCÈNE ?", W / 2, 1290, 70, COL.accent, prog(t, tm - 0.2, tm + 0.2), -0.08);
   },
   setup(s, t) {
     spotlightBg(t, "#1E2230");
