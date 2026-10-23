@@ -1,0 +1,1030 @@
+{
+ "duration": 58.11,
+ "speed": 1.213,
+ "reveals": [
+  3.824,
+  36.903,
+  42.944
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "La plus célèbre expérience sur la cruauté humaine...",
+     "spoken": "La plus célèbre expérience sur la cruauté humaine...",
+     "start": 0.45,
+     "end": 3.17,
+     "words": [
+      {
+       "w": "La",
+       "s": 0.45,
+       "e": 0.69
+      },
+      {
+       "w": "plus",
+       "s": 0.69,
+       "e": 0.85
+      },
+      {
+       "w": "célèbre",
+       "s": 0.85,
+       "e": 1.33
+      },
+      {
+       "w": "expérience",
+       "s": 1.33,
+       "e": 1.81
+      },
+      {
+       "w": "sur",
+       "s": 1.81,
+       "e": 1.97
+      },
+      {
+       "w": "la",
+       "s": 1.97,
+       "e": 2.05
+      },
+      {
+       "w": "cruauté",
+       "s": 2.05,
+       "e": 2.69
+      },
+      {
+       "w": "humaine...",
+       "s": 2.69,
+       "e": 3.17
+      }
+     ]
+    },
+    {
+     "text": "était peut-être une mise en scène.",
+     "spoken": "était peut-être une mise en scène.",
+     "start": 3.824,
+     "end": 5.687,
+     "words": [
+      {
+       "w": "était",
+       "s": 3.824,
+       "e": 4.179
+      },
+      {
+       "w": "peut-être",
+       "s": 4.179,
+       "e": 4.535
+      },
+      {
+       "w": "une",
+       "s": 4.535,
+       "e": 4.713
+      },
+      {
+       "w": "mise",
+       "s": 4.713,
+       "e": 4.979
+      },
+      {
+       "w": "en",
+       "s": 4.979,
+       "e": 5.157
+      },
+      {
+       "w": "scène.",
+       "s": 5.157,
+       "e": 5.687
+      }
+     ]
+    }
+   ],
+   "end": 5.988
+  },
+  {
+   "id": "setup",
+   "start": 5.988,
+   "sentences": [
+    {
+     "text": "Été 1971.",
+     "spoken": "Été mille neuf cent soixante et onze.",
+     "start": 5.988,
+     "end": 7.668,
+     "words": [
+      {
+       "w": "Été",
+       "s": 5.988,
+       "e": 6.388
+      },
+      {
+       "w": "1971.",
+       "s": 6.388,
+       "e": 7.668
+      }
+     ]
+    },
+    {
+     "text": "Zimbardo transforme le sous-sol de Stanford...",
+     "spoken": "Zimbardo transforme le sous-sol de Stanford...",
+     "start": 7.668,
+     "end": 10.228,
+     "words": [
+      {
+       "w": "Zimbardo",
+       "s": 7.668,
+       "e": 8.388
+      },
+      {
+       "w": "transforme",
+       "s": 8.388,
+       "e": 8.788
+      },
+      {
+       "w": "le",
+       "s": 8.788,
+       "e": 8.868
+      },
+      {
+       "w": "sous-sol",
+       "s": 8.868,
+       "e": 9.268
+      },
+      {
+       "w": "de",
+       "s": 9.268,
+       "e": 9.348
+      },
+      {
+       "w": "Stanford...",
+       "s": 9.348,
+       "e": 10.228
+      }
+     ]
+    },
+    {
+     "text": "en fausse prison.",
+     "spoken": "en fausse prison.",
+     "start": 10.228,
+     "end": 11.125,
+     "words": [
+      {
+       "w": "en",
+       "s": 10.228,
+       "e": 10.388
+      },
+      {
+       "w": "fausse",
+       "s": 10.388,
+       "e": 10.708
+      },
+      {
+       "w": "prison.",
+       "s": 10.708,
+       "e": 11.125
+      }
+     ]
+    }
+   ],
+   "end": 11.425
+  },
+  {
+   "id": "recruit",
+   "start": 11.425,
+   "sentences": [
+    {
+     "text": "Une annonce : quinze dollars par jour.",
+     "spoken": "Une annonce : quinze dollars par jour.",
+     "start": 11.425,
+     "end": 13.425,
+     "words": [
+      {
+       "w": "Une",
+       "s": 11.425,
+       "e": 11.665
+      },
+      {
+       "w": "annonce:",
+       "s": 11.665,
+       "e": 12.305
+      },
+      {
+       "w": "quinze",
+       "s": 12.305,
+       "e": 12.637
+      },
+      {
+       "w": "dollars",
+       "s": 12.637,
+       "e": 13.025
+      },
+      {
+       "w": "par",
+       "s": 13.025,
+       "e": 13.185
+      },
+      {
+       "w": "jour.",
+       "s": 13.185,
+       "e": 13.425
+      }
+     ]
+    },
+    {
+     "text": "Des étudiants, tirés au sort : gardiens...",
+     "spoken": "Des étudiants, tirés au sort : gardiens...",
+     "start": 13.425,
+     "end": 15.825,
+     "words": [
+      {
+       "w": "Des",
+       "s": 13.425,
+       "e": 13.665
+      },
+      {
+       "w": "étudiants,",
+       "s": 13.665,
+       "e": 14.225
+      },
+      {
+       "w": "tirés",
+       "s": 14.225,
+       "e": 14.698
+      },
+      {
+       "w": "au",
+       "s": 14.698,
+       "e": 14.887
+      },
+      {
+       "w": "sort:",
+       "s": 14.887,
+       "e": 15.265
+      },
+      {
+       "w": "gardiens...",
+       "s": 15.265,
+       "e": 15.825
+      }
+     ]
+    },
+    {
+     "text": "ou prisonniers.",
+     "spoken": "ou prisonniers.",
+     "start": 15.829,
+     "end": 16.596,
+     "words": [
+      {
+       "w": "ou",
+       "s": 15.829,
+       "e": 16.015
+      },
+      {
+       "w": "prisonniers.",
+       "s": 16.015,
+       "e": 16.596
+      }
+     ]
+    }
+   ],
+   "end": 17.116
+  },
+  {
+   "id": "arrest",
+   "start": 17.116,
+   "sentences": [
+    {
+     "text": "Les prisonniers sont arrêtés chez eux, par la vraie police.",
+     "spoken": "Les prisonniers sont arrêtés chez eux, par la vraie police.",
+     "start": 17.116,
+     "end": 20.156,
+     "words": [
+      {
+       "w": "Les",
+       "s": 17.116,
+       "e": 17.276
+      },
+      {
+       "w": "prisonniers",
+       "s": 17.276,
+       "e": 17.836
+      },
+      {
+       "w": "sont",
+       "s": 17.836,
+       "e": 17.996
+      },
+      {
+       "w": "arrêtés",
+       "s": 17.996,
+       "e": 18.476
+      },
+      {
+       "w": "chez",
+       "s": 18.476,
+       "e": 18.636
+      },
+      {
+       "w": "eux,",
+       "s": 18.636,
+       "e": 18.956
+      },
+      {
+       "w": "par",
+       "s": 18.956,
+       "e": 19.116
+      },
+      {
+       "w": "la",
+       "s": 19.116,
+       "e": 19.196
+      },
+      {
+       "w": "vraie",
+       "s": 19.196,
+       "e": 19.516
+      },
+      {
+       "w": "police.",
+       "s": 19.516,
+       "e": 20.156
+      }
+     ]
+    },
+    {
+     "text": "Un numéro, une blouse, une chaîne à la cheville.",
+     "spoken": "Un numéro, une blouse, une chaîne à la cheville.",
+     "start": 20.156,
+     "end": 22.736,
+     "words": [
+      {
+       "w": "Un",
+       "s": 20.156,
+       "e": 20.396
+      },
+      {
+       "w": "numéro,",
+       "s": 20.396,
+       "e": 20.876
+      },
+      {
+       "w": "une",
+       "s": 20.876,
+       "e": 21.116
+      },
+      {
+       "w": "blouse,",
+       "s": 21.116,
+       "e": 21.596
+      },
+      {
+       "w": "une",
+       "s": 21.596,
+       "e": 21.676
+      },
+      {
+       "w": "chaîne",
+       "s": 21.676,
+       "e": 21.996
+      },
+      {
+       "w": "à",
+       "s": 21.996,
+       "e": 22.076
+      },
+      {
+       "w": "la",
+       "s": 22.076,
+       "e": 22.236
+      },
+      {
+       "w": "cheville.",
+       "s": 22.236,
+       "e": 22.736
+      }
+     ]
+    }
+   ],
+   "end": 23.159
+  },
+  {
+   "id": "guards",
+   "start": 23.159,
+   "sentences": [
+    {
+     "text": "Les gardiens, eux, reçoivent un uniforme, une matraque, et des lunettes miroir.",
+     "spoken": "Les gardiens, eux, reçoivent un uniforme, une matraque, et des lunettes miroir.",
+     "start": 23.159,
+     "end": 27.099,
+     "words": [
+      {
+       "w": "Les",
+       "s": 23.159,
+       "e": 23.319
+      },
+      {
+       "w": "gardiens,",
+       "s": 23.319,
+       "e": 23.959
+      },
+      {
+       "w": "eux,",
+       "s": 23.959,
+       "e": 24.199
+      },
+      {
+       "w": "reçoivent",
+       "s": 24.199,
+       "e": 24.679
+      },
+      {
+       "w": "un",
+       "s": 24.679,
+       "e": 24.839
+      },
+      {
+       "w": "uniforme,",
+       "s": 24.839,
+       "e": 25.319
+      },
+      {
+       "w": "une",
+       "s": 25.319,
+       "e": 25.559
+      },
+      {
+       "w": "matraque,",
+       "s": 25.559,
+       "e": 26.039
+      },
+      {
+       "w": "et",
+       "s": 26.039,
+       "e": 26.119
+      },
+      {
+       "w": "des",
+       "s": 26.119,
+       "e": 26.199
+      },
+      {
+       "w": "lunettes",
+       "s": 26.199,
+       "e": 26.599
+      },
+      {
+       "w": "miroir.",
+       "s": 26.599,
+       "e": 27.099
+      }
+     ]
+    }
+   ],
+   "end": 27.488
+  },
+  {
+   "id": "revolt",
+   "start": 27.488,
+   "sentences": [
+    {
+     "text": "Dès le deuxième jour, les prisonniers se révoltent.",
+     "spoken": "Dès le deuxième jour, les prisonniers se révoltent.",
+     "start": 27.488,
+     "end": 29.968,
+     "words": [
+      {
+       "w": "Dès",
+       "s": 27.488,
+       "e": 27.728
+      },
+      {
+       "w": "le",
+       "s": 27.728,
+       "e": 27.808
+      },
+      {
+       "w": "deuxième",
+       "s": 27.808,
+       "e": 28.128
+      },
+      {
+       "w": "jour,",
+       "s": 28.128,
+       "e": 28.448
+      },
+      {
+       "w": "les",
+       "s": 28.448,
+       "e": 28.608
+      },
+      {
+       "w": "prisonniers",
+       "s": 28.608,
+       "e": 29.088
+      },
+      {
+       "w": "se",
+       "s": 29.088,
+       "e": 29.168
+      },
+      {
+       "w": "révoltent.",
+       "s": 29.168,
+       "e": 29.968
+      }
+     ]
+    },
+    {
+     "text": "Les gardiens répliquent : extincteurs, pompes, nuits sans sommeil.",
+     "spoken": "Les gardiens répliquent : extincteurs, pompes, nuits sans sommeil.",
+     "start": 29.968,
+     "end": 33.588,
+     "words": [
+      {
+       "w": "Les",
+       "s": 29.968,
+       "e": 30.128
+      },
+      {
+       "w": "gardiens",
+       "s": 30.128,
+       "e": 30.608
+      },
+      {
+       "w": "répliquent:",
+       "s": 30.608,
+       "e": 31.408
+      },
+      {
+       "w": "extincteurs,",
+       "s": 31.408,
+       "e": 32.168
+      },
+      {
+       "w": "pompes,",
+       "s": 32.168,
+       "e": 32.583
+      },
+      {
+       "w": "nuits",
+       "s": 32.583,
+       "e": 32.928
+      },
+      {
+       "w": "sans",
+       "s": 32.928,
+       "e": 33.088
+      },
+      {
+       "w": "sommeil.",
+       "s": 33.088,
+       "e": 33.588
+      }
+     ]
+    }
+   ],
+   "end": 33.926
+  },
+  {
+   "id": "stop",
+   "start": 33.926,
+   "sentences": [
+    {
+     "text": "Prévue pour deux semaines, l'expérience s'arrête...",
+     "spoken": "Prévue pour deux semaines, l'expérience s'arrête...",
+     "start": 33.926,
+     "end": 36.246,
+     "words": [
+      {
+       "w": "Prévue",
+       "s": 33.926,
+       "e": 34.406
+      },
+      {
+       "w": "pour",
+       "s": 34.406,
+       "e": 34.486
+      },
+      {
+       "w": "deux",
+       "s": 34.486,
+       "e": 34.646
+      },
+      {
+       "w": "semaines,",
+       "s": 34.646,
+       "e": 35.046
+      },
+      {
+       "w": "l'expérience",
+       "s": 35.046,
+       "e": 35.606
+      },
+      {
+       "w": "s'arrête...",
+       "s": 35.606,
+       "e": 36.246
+      }
+     ]
+    },
+    {
+     "text": "au bout de six jours.",
+     "spoken": "au bout de six jours.",
+     "start": 36.904,
+     "end": 38.135,
+     "words": [
+      {
+       "w": "au",
+       "s": 36.904,
+       "e": 37.081
+      },
+      {
+       "w": "bout",
+       "s": 37.081,
+       "e": 37.259
+      },
+      {
+       "w": "de",
+       "s": 37.259,
+       "e": 37.348
+      },
+      {
+       "w": "six",
+       "s": 37.348,
+       "e": 37.615
+      },
+      {
+       "w": "jours.",
+       "s": 37.615,
+       "e": 38.135
+      }
+     ]
+    }
+   ],
+   "end": 38.435
+  },
+  {
+   "id": "claim",
+   "start": 38.435,
+   "sentences": [
+    {
+     "text": "Conclusion de Zimbardo : <s>la situation suffit à créer des bourreaux.",
+     "spoken": "Conclusion de Zimbardo : <s>la situation suffit à créer des bourreaux.",
+     "start": 38.435,
+     "end": 41.895,
+     "words": [
+      {
+       "w": "Conclusion",
+       "s": 38.435,
+       "e": 38.995
+      },
+      {
+       "w": "de",
+       "s": 38.995,
+       "e": 39.075
+      },
+      {
+       "w": "Zimbardo:",
+       "s": 39.075,
+       "e": 39.955
+      },
+      {
+       "w": "<s>la",
+       "s": 39.955,
+       "e": 40.115
+      },
+      {
+       "w": "situation",
+       "s": 40.115,
+       "e": 40.515
+      },
+      {
+       "w": "suffit",
+       "s": 40.515,
+       "e": 40.995
+      },
+      {
+       "w": "à",
+       "s": 40.995,
+       "e": 41.075
+      },
+      {
+       "w": "créer",
+       "s": 41.075,
+       "e": 41.315
+      },
+      {
+       "w": "des",
+       "s": 41.315,
+       "e": 41.395
+      },
+      {
+       "w": "bourreaux.",
+       "s": 41.395,
+       "e": 41.895
+      }
+     ]
+    }
+   ],
+   "end": 42.294
+  },
+  {
+   "id": "twist",
+   "start": 42.294,
+   "sentences": [
+    {
+     "text": "Sauf que...",
+     "spoken": "Sauf que...",
+     "start": 42.944,
+     "end": 43.566,
+     "words": [
+      {
+       "w": "Sauf",
+       "s": 42.944,
+       "e": 43.389
+      },
+      {
+       "w": "que...",
+       "s": 43.389,
+       "e": 43.566
+      }
+     ]
+    },
+    {
+     "text": "des enregistrements montrent des gardiens encouragés à être durs.",
+     "spoken": "des enregistrements montrent des gardiens encouragés à être durs.",
+     "start": 43.564,
+     "end": 46.764,
+     "words": [
+      {
+       "w": "des",
+       "s": 43.564,
+       "e": 43.724
+      },
+      {
+       "w": "enregistrements",
+       "s": 43.724,
+       "e": 44.444
+      },
+      {
+       "w": "montrent",
+       "s": 44.444,
+       "e": 44.924
+      },
+      {
+       "w": "des",
+       "s": 44.924,
+       "e": 45.004
+      },
+      {
+       "w": "gardiens",
+       "s": 45.004,
+       "e": 45.484
+      },
+      {
+       "w": "encouragés",
+       "s": 45.484,
+       "e": 46.044
+      },
+      {
+       "w": "à",
+       "s": 46.044,
+       "e": 46.124
+      },
+      {
+       "w": "être",
+       "s": 46.124,
+       "e": 46.284
+      },
+      {
+       "w": "durs.",
+       "s": 46.284,
+       "e": 46.764
+      }
+     ]
+    },
+    {
+     "text": "Et un prisonnier dira avoir simulé sa crise.",
+     "spoken": "Et un prisonnier dira avoir simulé sa crise.",
+     "start": 46.764,
+     "end": 49.151,
+     "words": [
+      {
+       "w": "Et",
+       "s": 46.764,
+       "e": 46.924
+      },
+      {
+       "w": "un",
+       "s": 46.924,
+       "e": 47.004
+      },
+      {
+       "w": "prisonnier",
+       "s": 47.004,
+       "e": 47.484
+      },
+      {
+       "w": "dira",
+       "s": 47.484,
+       "e": 47.884
+      },
+      {
+       "w": "avoir",
+       "s": 47.884,
+       "e": 48.124
+      },
+      {
+       "w": "simulé",
+       "s": 48.124,
+       "e": 48.604
+      },
+      {
+       "w": "sa",
+       "s": 48.604,
+       "e": 48.684
+      },
+      {
+       "w": "crise.",
+       "s": 48.684,
+       "e": 49.151
+      }
+     ]
+    }
+   ],
+   "end": 49.452
+  },
+  {
+   "id": "today",
+   "start": 49.452,
+   "sentences": [
+    {
+     "text": "Aujourd'hui, beaucoup de chercheurs y voient...",
+     "spoken": "Aujourd'hui, beaucoup de chercheurs y voient...",
+     "start": 49.452,
+     "end": 51.212,
+     "words": [
+      {
+       "w": "Aujourd'hui,",
+       "s": 49.452,
+       "e": 49.932
+      },
+      {
+       "w": "beaucoup",
+       "s": 49.932,
+       "e": 50.252
+      },
+      {
+       "w": "de",
+       "s": 50.252,
+       "e": 50.332
+      },
+      {
+       "w": "chercheurs",
+       "s": 50.332,
+       "e": 50.732
+      },
+      {
+       "w": "y",
+       "s": 50.732,
+       "e": 50.972
+      },
+      {
+       "w": "voient...",
+       "s": 50.972,
+       "e": 51.212
+      }
+     ]
+    },
+    {
+     "text": "une mise en scène, plus qu'une expérience.",
+     "spoken": "une mise en scène, plus qu'une expérience.",
+     "start": 51.222,
+     "end": 53.385,
+     "words": [
+      {
+       "w": "une",
+       "s": 51.222,
+       "e": 51.408
+      },
+      {
+       "w": "mise",
+       "s": 51.408,
+       "e": 51.687
+      },
+      {
+       "w": "en",
+       "s": 51.687,
+       "e": 51.873
+      },
+      {
+       "w": "scène,",
+       "s": 51.873,
+       "e": 52.245
+      },
+      {
+       "w": "plus",
+       "s": 52.245,
+       "e": 52.431
+      },
+      {
+       "w": "qu'une",
+       "s": 52.431,
+       "e": 52.804
+      },
+      {
+       "w": "expérience.",
+       "s": 52.804,
+       "e": 53.385
+      }
+     ]
+    }
+   ],
+   "end": 53.989
+  },
+  {
+   "id": "cta",
+   "start": 53.989,
+   "sentences": [
+    {
+     "text": "Le pouvoir corrompt...",
+     "spoken": "Le pouvoir corrompt...",
+     "start": 54.139,
+     "end": 55.331,
+     "words": [
+      {
+       "w": "Le",
+       "s": 54.139,
+       "e": 54.309
+      },
+      {
+       "w": "pouvoir",
+       "s": 54.309,
+       "e": 54.65
+      },
+      {
+       "w": "corrompt...",
+       "s": 54.65,
+       "e": 55.331
+      }
+     ]
+    },
+    {
+     "text": "ou c'est une belle histoire ?",
+     "spoken": "ou c'est une belle histoire ?",
+     "start": 55.481,
+     "end": 56.694,
+     "words": [
+      {
+       "w": "ou",
+       "s": 55.481,
+       "e": 55.651
+      },
+      {
+       "w": "c'est",
+       "s": 55.651,
+       "e": 55.906
+      },
+      {
+       "w": "une",
+       "s": 55.906,
+       "e": 55.991
+      },
+      {
+       "w": "belle",
+       "s": 55.991,
+       "e": 56.247
+      },
+      {
+       "w": "histoire?",
+       "s": 56.247,
+       "e": 56.694
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 56.691,
+     "end": 57.731,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 56.691,
+       "e": 57.151
+      },
+      {
+       "w": "en",
+       "s": 57.151,
+       "e": 57.231
+      },
+      {
+       "w": "commentaire.",
+       "s": 57.231,
+       "e": 57.731
+      }
+     ]
+    }
+   ],
+   "end": 58.11
+  }
+ ]
+}

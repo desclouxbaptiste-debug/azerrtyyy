@@ -3,8 +3,8 @@
  "sid": 9,
  "lang": "fr",
  "steps": 12,
- "speed": 1.0,
- "target": 58.8,
+ "speed": 1.213,
+ "target": null,
  "chunk": "segment",
  "best_of": 4,
  "lead": 0.45,
@@ -34,7 +34,7 @@
   },
   {
    "id": "recruit",
-   "text": "Une annonce : quinze dollars par jour. Des étudiants, tirés au sort : gardiens... <s>ou prisonniers.",
+   "text": "Une annonce : quinze dollars par jour. Des étudiants, tirés à pile ou face : gardiens... <s>ou prisonniers.",
    "emph": [
     "sort"
    ]
