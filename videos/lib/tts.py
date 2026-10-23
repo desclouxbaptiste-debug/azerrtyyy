@@ -22,6 +22,7 @@ reveal (silence before it, slower read, listed in timings.json "reveals" for the
 silence, <l> a long one. The segment is still synthesised in one go; the sentences are cut apart afterwards and reshaped.
 "emph": ["trois", ...] on a segment lifts those words (prefix match on the subtitle word) a few dB in the final mix.
 """
+import hashlib
 import json
 import re
 import sys
@@ -320,6 +321,13 @@ def synth_segments(speed):
     clips = []
     for seg in cfg["segments"]:
         text = spoken(seg["text"]).replace("…", "...").replace("...", ".")
+        # takes are cached per (voice, speed, text): editing one segment only re-synthesises that one
+        key = hashlib.sha1(f"{ENGINE}|{cfg.get('sid')}|{cfg.get('steps')}|{speed:.3f}|{n}|{text}".encode()).hexdigest()[:12]
+        cached = f"{folder}/.takes/{seg['id']}_{key}.wav"
+        if os.path.exists(cached):
+            best, _ = sf.read(cached, dtype="float32")
+            clips.append((seg["id"], seg["text"], best))
+            continue
         best, best_score = None, -1
         for k in range(n if have_asr else 1):
             audio = trim(synth(text, speed))
@@ -334,6 +342,8 @@ def synth_segments(speed):
                 break
         if n > 1 and have_asr:
             print(f"  [{seg['id']}] best take {best_score:.2f}")
+        os.makedirs(f"{folder}/.takes", exist_ok=True)
+        sf.write(cached, best, SR, subtype="FLOAT")
         clips.append((seg["id"], seg["text"], best))
     total = LEAD + sum(len(c[2]) / SR for c in clips) + GAP_SEG * len(clips)
     return clips, total
@@ -382,9 +392,9 @@ if cfg.get("chunk") == "segment":
     if cfg.get("target"):
         if HAS_MOODS:  # pauses and slowed sentences only exist after alignment: measure the real length first
             _, _, _, total, fixed = build_segments(clips, False)
-            speed = float(np.clip(speed * (total - fixed) / max(1.0, cfg["target"] - fixed), 0.85, 1.35))
+            speed = round(float(np.clip(speed * (total - fixed) / max(1.0, cfg["target"] - fixed), 0.85, 1.35)), 3)
         else:
-            speed = float(np.clip(speed * total / cfg["target"], 0.85, 1.35))
+            speed = round(float(np.clip(speed * total / cfg["target"], 0.85, 1.35)), 3)
         clips, total = synth_segments(speed)
     out, segs, reveals, total, _ = build_segments(clips, True)
     print(f"speed {speed:.3f} -> {total:.2f}s")

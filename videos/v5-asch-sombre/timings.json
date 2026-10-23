@@ -1,0 +1,1040 @@
+{
+ "duration": 58.438,
+ "speed": 1.061980936483649,
+ "reveals": [
+  4.089,
+  15.945,
+  31.099,
+  47.533
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "Trois lignes.",
+     "spoken": "Trois lignes.",
+     "start": 0.45,
+     "end": 1.49,
+     "words": [
+      {
+       "w": "Trois",
+       "s": 0.45,
+       "e": 0.85
+      },
+      {
+       "w": "lignes.",
+       "s": 0.85,
+       "e": 1.49
+      }
+     ]
+    },
+    {
+     "text": "Une réponse évidente.",
+     "spoken": "Une réponse évidente.",
+     "start": 1.49,
+     "end": 2.69,
+     "words": [
+      {
+       "w": "Une",
+       "s": 1.49,
+       "e": 1.73
+      },
+      {
+       "w": "réponse",
+       "s": 1.73,
+       "e": 2.13
+      },
+      {
+       "w": "évidente.",
+       "s": 2.13,
+       "e": 2.69
+      }
+     ]
+    },
+    {
+     "text": "Et pourtant...",
+     "spoken": "Et pourtant...",
+     "start": 2.69,
+     "end": 3.41,
+     "words": [
+      {
+       "w": "Et",
+       "s": 2.69,
+       "e": 2.93
+      },
+      {
+       "w": "pourtant...",
+       "s": 2.93,
+       "e": 3.41
+      }
+     ]
+    },
+    {
+     "text": "trois personnes sur quatre vont se tromper, au moins une fois.",
+     "spoken": "trois personnes sur quatre vont se tromper, au moins une fois.",
+     "start": 4.089,
+     "end": 7.724,
+     "words": [
+      {
+       "w": "trois",
+       "s": 4.089,
+       "e": 4.445
+      },
+      {
+       "w": "personnes",
+       "s": 4.445,
+       "e": 4.801
+      },
+      {
+       "w": "sur",
+       "s": 4.801,
+       "e": 5.067
+      },
+      {
+       "w": "quatre",
+       "s": 5.067,
+       "e": 5.423
+      },
+      {
+       "w": "vont",
+       "s": 5.423,
+       "e": 5.689
+      },
+      {
+       "w": "se",
+       "s": 5.689,
+       "e": 5.867
+      },
+      {
+       "w": "tromper,",
+       "s": 5.867,
+       "e": 6.578
+      },
+      {
+       "w": "au",
+       "s": 6.578,
+       "e": 6.756
+      },
+      {
+       "w": "moins",
+       "s": 6.756,
+       "e": 7.023
+      },
+      {
+       "w": "une",
+       "s": 7.023,
+       "e": 7.201
+      },
+      {
+       "w": "fois.",
+       "s": 7.201,
+       "e": 7.724
+      }
+     ]
+    }
+   ],
+   "end": 8.023
+  },
+  {
+   "id": "setup",
+   "start": 8.023,
+   "sentences": [
+    {
+     "text": "Années cinquante.",
+     "spoken": "Années cinquante.",
+     "start": 8.253,
+     "end": 9.027,
+     "words": [
+      {
+       "w": "Années",
+       "s": 8.253,
+       "e": 8.503
+      },
+      {
+       "w": "cinquante.",
+       "s": 8.503,
+       "e": 9.027
+      }
+     ]
+    },
+    {
+     "text": "Le psychologue Solomon Asch propose un simple test de vision.",
+     "spoken": "Le psychologue Solomon Ache propose un simple test de vision.",
+     "start": 9.027,
+     "end": 12.549,
+     "words": [
+      {
+       "w": "Le",
+       "s": 9.027,
+       "e": 9.143
+      },
+      {
+       "w": "psychologue",
+       "s": 9.143,
+       "e": 9.783
+      },
+      {
+       "w": "Solomon",
+       "s": 9.783,
+       "e": 10.343
+      },
+      {
+       "w": "Asch",
+       "s": 10.343,
+       "e": 10.663
+      },
+      {
+       "w": "propose",
+       "s": 10.663,
+       "e": 11.223
+      },
+      {
+       "w": "un",
+       "s": 11.223,
+       "e": 11.383
+      },
+      {
+       "w": "simple",
+       "s": 11.383,
+       "e": 11.623
+      },
+      {
+       "w": "test",
+       "s": 11.623,
+       "e": 11.89
+      },
+      {
+       "w": "de",
+       "s": 11.89,
+       "e": 12.023
+      },
+      {
+       "w": "vision.",
+       "s": 12.023,
+       "e": 12.549
+      }
+     ]
+    },
+    {
+     "text": "Autour de la table, sept participants...",
+     "spoken": "Autour de la table, sept participants...",
+     "start": 12.549,
+     "end": 15.288,
+     "words": [
+      {
+       "w": "Autour",
+       "s": 12.549,
+       "e": 13.074
+      },
+      {
+       "w": "de",
+       "s": 13.074,
+       "e": 13.25
+      },
+      {
+       "w": "la",
+       "s": 13.25,
+       "e": 13.425
+      },
+      {
+       "w": "table,",
+       "s": 13.425,
+       "e": 13.863
+      },
+      {
+       "w": "sept",
+       "s": 13.863,
+       "e": 14.343
+      },
+      {
+       "w": "participants...",
+       "s": 14.343,
+       "e": 15.288
+      }
+     ]
+    },
+    {
+     "text": "tous complices.",
+     "spoken": "tous complices.",
+     "start": 15.945,
+     "end": 16.851,
+     "words": [
+      {
+       "w": "tous",
+       "s": 15.945,
+       "e": 16.295
+      },
+      {
+       "w": "complices.",
+       "s": 16.295,
+       "e": 16.851
+      }
+     ]
+    }
+   ],
+   "end": 17.382
+  },
+  {
+   "id": "task",
+   "start": 17.382,
+   "sentences": [
+    {
+     "text": "Une ligne.",
+     "spoken": "Une ligne.",
+     "start": 17.382,
+     "end": 18.262,
+     "words": [
+      {
+       "w": "Une",
+       "s": 17.382,
+       "e": 17.702
+      },
+      {
+       "w": "ligne.",
+       "s": 17.702,
+       "e": 18.262
+      }
+     ]
+    },
+    {
+     "text": "Puis trois autres.",
+     "spoken": "Puis trois autres.",
+     "start": 18.262,
+     "end": 19.199,
+     "words": [
+      {
+       "w": "Puis",
+       "s": 18.262,
+       "e": 18.502
+      },
+      {
+       "w": "trois",
+       "s": 18.502,
+       "e": 18.822
+      },
+      {
+       "w": "autres.",
+       "s": 18.822,
+       "e": 19.199
+      }
+     ]
+    },
+    {
+     "text": "Laquelle a la même longueur ?",
+     "spoken": "Laquelle a la même longueur ?",
+     "start": 19.199,
+     "end": 20.662,
+     "words": [
+      {
+       "w": "Laquelle",
+       "s": 19.199,
+       "e": 19.702
+      },
+      {
+       "w": "a",
+       "s": 19.702,
+       "e": 19.862
+      },
+      {
+       "w": "la",
+       "s": 19.862,
+       "e": 19.942
+      },
+      {
+       "w": "même",
+       "s": 19.942,
+       "e": 20.182
+      },
+      {
+       "w": "longueur?",
+       "s": 20.182,
+       "e": 20.662
+      }
+     ]
+    },
+    {
+     "text": "Seul, presque personne ne se trompe.",
+     "spoken": "Seul, presque personne ne se trompe.",
+     "start": 20.662,
+     "end": 22.762,
+     "words": [
+      {
+       "w": "Seul,",
+       "s": 20.662,
+       "e": 21.142
+      },
+      {
+       "w": "presque",
+       "s": 21.142,
+       "e": 21.542
+      },
+      {
+       "w": "personne",
+       "s": 21.542,
+       "e": 21.942
+      },
+      {
+       "w": "ne",
+       "s": 21.942,
+       "e": 22.102
+      },
+      {
+       "w": "se",
+       "s": 22.102,
+       "e": 22.262
+      },
+      {
+       "w": "trompe.",
+       "s": 22.262,
+       "e": 22.762
+      }
+     ]
+    }
+   ],
+   "end": 23.075
+  },
+  {
+   "id": "twist",
+   "start": 23.075,
+   "sentences": [
+    {
+     "text": "Mais à certains tours, les complices donnent tous la même mauvaise réponse.",
+     "spoken": "Mais à certains tours, les complices donnent tous la même mauvaise réponse.",
+     "start": 23.075,
+     "end": 27.315,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 23.075,
+       "e": 23.315
+      },
+      {
+       "w": "à",
+       "s": 23.315,
+       "e": 23.475
+      },
+      {
+       "w": "certains",
+       "s": 23.475,
+       "e": 23.795
+      },
+      {
+       "w": "tours,",
+       "s": 23.795,
+       "e": 24.275
+      },
+      {
+       "w": "les",
+       "s": 24.275,
+       "e": 24.515
+      },
+      {
+       "w": "complices",
+       "s": 24.515,
+       "e": 25.155
+      },
+      {
+       "w": "donnent",
+       "s": 25.155,
+       "e": 25.475
+      },
+      {
+       "w": "tous",
+       "s": 25.475,
+       "e": 25.715
+      },
+      {
+       "w": "la",
+       "s": 25.715,
+       "e": 25.875
+      },
+      {
+       "w": "même",
+       "s": 25.875,
+       "e": 26.115
+      },
+      {
+       "w": "mauvaise",
+       "s": 26.115,
+       "e": 26.595
+      },
+      {
+       "w": "réponse.",
+       "s": 26.595,
+       "e": 27.315
+      }
+     ]
+    },
+    {
+     "text": "Et toi...",
+     "spoken": "Et toi...",
+     "start": 27.471,
+     "end": 28.152,
+     "words": [
+      {
+       "w": "Et",
+       "s": 27.471,
+       "e": 27.642
+      },
+      {
+       "w": "toi...",
+       "s": 27.642,
+       "e": 28.152
+      }
+     ]
+    },
+    {
+     "text": "tu réponds en avant-dernier.",
+     "spoken": "tu réponds en avant-dernier.",
+     "start": 28.302,
+     "end": 29.77,
+     "words": [
+      {
+       "w": "tu",
+       "s": 28.302,
+       "e": 28.558
+      },
+      {
+       "w": "réponds",
+       "s": 28.558,
+       "e": 29.068
+      },
+      {
+       "w": "en",
+       "s": 29.068,
+       "e": 29.238
+      },
+      {
+       "w": "avant-dernier.",
+       "s": 29.238,
+       "e": 29.77
+      }
+     ]
+    }
+   ],
+   "end": 30.449
+  },
+  {
+   "id": "result",
+   "start": 30.449,
+   "sentences": [
+    {
+     "text": "Résultat : environ un tiers des réponses suivent le groupe.",
+     "spoken": "Résultat : environ un tiers des réponses suivent le groupe.",
+     "start": 31.099,
+     "end": 35.188,
+     "words": [
+      {
+       "w": "Résultat:",
+       "s": 31.099,
+       "e": 32.343
+      },
+      {
+       "w": "environ",
+       "s": 32.343,
+       "e": 32.965
+      },
+      {
+       "w": "un",
+       "s": 32.965,
+       "e": 33.143
+      },
+      {
+       "w": "tiers",
+       "s": 33.143,
+       "e": 33.499
+      },
+      {
+       "w": "des",
+       "s": 33.499,
+       "e": 33.676
+      },
+      {
+       "w": "réponses",
+       "s": 33.676,
+       "e": 34.21
+      },
+      {
+       "w": "suivent",
+       "s": 34.21,
+       "e": 34.654
+      },
+      {
+       "w": "le",
+       "s": 34.654,
+       "e": 34.743
+      },
+      {
+       "w": "groupe.",
+       "s": 34.743,
+       "e": 35.188
+      }
+     ]
+    },
+    {
+     "text": "Et 75 % des participants cèdent...",
+     "spoken": "Et soixante-quinze pour cent des participants cèdent...",
+     "start": 35.181,
+     "end": 38.541,
+     "words": [
+      {
+       "w": "Et",
+       "s": 35.181,
+       "e": 35.421
+      },
+      {
+       "w": "75 %",
+       "s": 35.421,
+       "e": 36.861
+      },
+      {
+       "w": "des",
+       "s": 36.861,
+       "e": 37.021
+      },
+      {
+       "w": "participants",
+       "s": 37.021,
+       "e": 37.901
+      },
+      {
+       "w": "cèdent...",
+       "s": 37.901,
+       "e": 38.541
+      }
+     ]
+    },
+    {
+     "text": "au moins une fois.",
+     "spoken": "au moins une fois.",
+     "start": 38.541,
+     "end": 39.588,
+     "words": [
+      {
+       "w": "au",
+       "s": 38.541,
+       "e": 38.701
+      },
+      {
+       "w": "moins",
+       "s": 38.701,
+       "e": 39.021
+      },
+      {
+       "w": "une",
+       "s": 39.021,
+       "e": 39.181
+      },
+      {
+       "w": "fois.",
+       "s": 39.181,
+       "e": 39.588
+      }
+     ]
+    }
+   ],
+   "end": 39.889
+  },
+  {
+   "id": "why",
+   "start": 39.889,
+   "sentences": [
+    {
+     "text": "Pourquoi ?",
+     "spoken": "Pourquoi ?",
+     "start": 39.889,
+     "end": 40.529,
+     "words": [
+      {
+       "w": "Pourquoi?",
+       "s": 39.889,
+       "e": 40.529
+      }
+     ]
+    },
+    {
+     "text": "La peur d'être rejeté.",
+     "spoken": "La peur d'être rejeté.",
+     "start": 40.529,
+     "end": 41.649,
+     "words": [
+      {
+       "w": "La",
+       "s": 40.529,
+       "e": 40.689
+      },
+      {
+       "w": "peur",
+       "s": 40.689,
+       "e": 40.929
+      },
+      {
+       "w": "d'être",
+       "s": 40.929,
+       "e": 41.256
+      },
+      {
+       "w": "rejeté.",
+       "s": 41.256,
+       "e": 41.649
+      }
+     ]
+    },
+    {
+     "text": "Et ce doute...",
+     "spoken": "Et ce doute...",
+     "start": 41.812,
+     "end": 42.578,
+     "words": [
+      {
+       "w": "Et",
+       "s": 41.812,
+       "e": 42.067
+      },
+      {
+       "w": "ce",
+       "s": 42.067,
+       "e": 42.237
+      },
+      {
+       "w": "doute...",
+       "s": 42.237,
+       "e": 42.578
+      }
+     ]
+    },
+    {
+     "text": "et si c'était moi qui voyais mal ?",
+     "spoken": "et si c'était moi qui voyais mal ?",
+     "start": 42.727,
+     "end": 44.16,
+     "words": [
+      {
+       "w": "et",
+       "s": 42.727,
+       "e": 42.813
+      },
+      {
+       "w": "si",
+       "s": 42.813,
+       "e": 42.898
+      },
+      {
+       "w": "c'était",
+       "s": 42.898,
+       "e": 43.153
+      },
+      {
+       "w": "moi",
+       "s": 43.153,
+       "e": 43.323
+      },
+      {
+       "w": "qui",
+       "s": 43.323,
+       "e": 43.493
+      },
+      {
+       "w": "voyais",
+       "s": 43.493,
+       "e": 43.834
+      },
+      {
+       "w": "mal?",
+       "s": 43.834,
+       "e": 44.16
+      }
+     ]
+    }
+   ],
+   "end": 44.46
+  },
+  {
+   "id": "ally",
+   "start": 44.46,
+   "sentences": [
+    {
+     "text": "Mais il suffit d'un seul allié qui dit la vérité...",
+     "spoken": "Mais il suffit d'un seul allié qui dit la vérité...",
+     "start": 44.46,
+     "end": 46.86,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 44.46,
+       "e": 44.62
+      },
+      {
+       "w": "il",
+       "s": 44.62,
+       "e": 44.78
+      },
+      {
+       "w": "suffit",
+       "s": 44.78,
+       "e": 45.1
+      },
+      {
+       "w": "d'un",
+       "s": 45.1,
+       "e": 45.34
+      },
+      {
+       "w": "seul",
+       "s": 45.34,
+       "e": 45.5
+      },
+      {
+       "w": "allié",
+       "s": 45.5,
+       "e": 45.9
+      },
+      {
+       "w": "qui",
+       "s": 45.9,
+       "e": 46.06
+      },
+      {
+       "w": "dit",
+       "s": 46.06,
+       "e": 46.3
+      },
+      {
+       "w": "la",
+       "s": 46.3,
+       "e": 46.38
+      },
+      {
+       "w": "vérité...",
+       "s": 46.38,
+       "e": 46.86
+      }
+     ]
+    },
+    {
+     "text": "et la pression s'effondre.",
+     "spoken": "et la pression s'effondre.",
+     "start": 47.533,
+     "end": 48.888,
+     "words": [
+      {
+       "w": "et",
+       "s": 47.533,
+       "e": 47.711
+      },
+      {
+       "w": "la",
+       "s": 47.711,
+       "e": 47.888
+      },
+      {
+       "w": "pression",
+       "s": 47.888,
+       "e": 48.333
+      },
+      {
+       "w": "s'effondre.",
+       "s": 48.333,
+       "e": 48.888
+      }
+     ]
+    }
+   ],
+   "end": 49.455
+  },
+  {
+   "id": "nuance",
+   "start": 49.455,
+   "sentences": [
+    {
+     "text": "Un quart des participants n'a jamais cédé.",
+     "spoken": "Un quart des participants n'a jamais cédé.",
+     "start": 49.455,
+     "end": 51.935,
+     "words": [
+      {
+       "w": "Un",
+       "s": 49.455,
+       "e": 49.695
+      },
+      {
+       "w": "quart",
+       "s": 49.695,
+       "e": 50.015
+      },
+      {
+       "w": "des",
+       "s": 50.015,
+       "e": 50.175
+      },
+      {
+       "w": "participants",
+       "s": 50.175,
+       "e": 50.735
+      },
+      {
+       "w": "n'a",
+       "s": 50.735,
+       "e": 50.975
+      },
+      {
+       "w": "jamais",
+       "s": 50.975,
+       "e": 51.295
+      },
+      {
+       "w": "cédé.",
+       "s": 51.295,
+       "e": 51.935
+      }
+     ]
+    },
+    {
+     "text": "On n'est pas des moutons...",
+     "spoken": "On n'est pas des moutons...",
+     "start": 51.935,
+     "end": 53.295,
+     "words": [
+      {
+       "w": "On",
+       "s": 51.935,
+       "e": 52.095
+      },
+      {
+       "w": "n'est",
+       "s": 52.095,
+       "e": 52.335
+      },
+      {
+       "w": "pas",
+       "s": 52.335,
+       "e": 52.495
+      },
+      {
+       "w": "des",
+       "s": 52.495,
+       "e": 52.655
+      },
+      {
+       "w": "moutons...",
+       "s": 52.655,
+       "e": 53.295
+      }
+     ]
+    },
+    {
+     "text": "mais le groupe pèse lourd.",
+     "spoken": "mais le groupe pèse lourd.",
+     "start": 53.352,
+     "end": 54.952,
+     "words": [
+      {
+       "w": "mais",
+       "s": 53.352,
+       "e": 53.538
+      },
+      {
+       "w": "le",
+       "s": 53.538,
+       "e": 53.631
+      },
+      {
+       "w": "groupe",
+       "s": 53.631,
+       "e": 54.004
+      },
+      {
+       "w": "pèse",
+       "s": 54.004,
+       "e": 54.562
+      },
+      {
+       "w": "lourd.",
+       "s": 54.562,
+       "e": 54.952
+      }
+     ]
+    }
+   ],
+   "end": 55.252
+  },
+  {
+   "id": "cta",
+   "start": 55.252,
+   "sentences": [
+    {
+     "text": "Et toi...",
+     "spoken": "Et toi...",
+     "start": 55.402,
+     "end": 55.827,
+     "words": [
+      {
+       "w": "Et",
+       "s": 55.402,
+       "e": 55.572
+      },
+      {
+       "w": "toi...",
+       "s": 55.572,
+       "e": 55.827
+      }
+     ]
+    },
+    {
+     "text": "tu aurais tenu bon ?",
+     "spoken": "tu aurais tenu bon ?",
+     "start": 55.977,
+     "end": 57.084,
+     "words": [
+      {
+       "w": "tu",
+       "s": 55.977,
+       "e": 56.148
+      },
+      {
+       "w": "aurais",
+       "s": 56.148,
+       "e": 56.403
+      },
+      {
+       "w": "tenu",
+       "s": 56.403,
+       "e": 56.743
+      },
+      {
+       "w": "bon?",
+       "s": 56.743,
+       "e": 57.084
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 57.078,
+     "end": 58.058,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 57.078,
+       "e": 57.398
+      },
+      {
+       "w": "en",
+       "s": 57.398,
+       "e": 57.558
+      },
+      {
+       "w": "commentaire.",
+       "s": 57.558,
+       "e": 58.058
+      }
+     ]
+    }
+   ],
+   "end": 58.438
+  }
+ ]
+}
