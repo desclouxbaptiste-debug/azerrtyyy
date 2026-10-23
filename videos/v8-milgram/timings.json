@@ -1,0 +1,999 @@
+{
+ "duration": 56.943,
+ "speed": 1.1114305432317855,
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.3,
+   "sentences": [
+    {
+     "text": "Tu enverrais 450 volts à un inconnu...",
+     "spoken": "Tu enverrais quatre cent cinquante volts à un inconnu...",
+     "start": 0.3,
+     "end": 2.78,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 0.3,
+       "e": 0.46
+      },
+      {
+       "w": "enverrais",
+       "s": 0.46,
+       "e": 0.94
+      },
+      {
+       "w": "450",
+       "s": 0.94,
+       "e": 1.89
+      },
+      {
+       "w": "volts",
+       "s": 1.89,
+       "e": 2.14
+      },
+      {
+       "w": "à",
+       "s": 2.14,
+       "e": 2.22
+      },
+      {
+       "w": "un",
+       "s": 2.22,
+       "e": 2.38
+      },
+      {
+       "w": "inconnu...",
+       "s": 2.38,
+       "e": 2.78
+      }
+     ]
+    },
+    {
+     "text": "juste parce qu'un homme en blouse te le demande ?",
+     "spoken": "juste parce qu'un homme en blouse te le demande ?",
+     "start": 2.78,
+     "end": 5.195,
+     "words": [
+      {
+       "w": "juste",
+       "s": 2.78,
+       "e": 3.42
+      },
+      {
+       "w": "parce",
+       "s": 3.42,
+       "e": 3.58
+      },
+      {
+       "w": "qu'un",
+       "s": 3.58,
+       "e": 3.74
+      },
+      {
+       "w": "homme",
+       "s": 3.74,
+       "e": 3.9
+      },
+      {
+       "w": "en",
+       "s": 3.9,
+       "e": 4.06
+      },
+      {
+       "w": "blouse",
+       "s": 4.06,
+       "e": 4.54
+      },
+      {
+       "w": "te",
+       "s": 4.54,
+       "e": 4.62
+      },
+      {
+       "w": "le",
+       "s": 4.62,
+       "e": 4.78
+      },
+      {
+       "w": "demande?",
+       "s": 4.78,
+       "e": 5.195
+      }
+     ]
+    }
+   ],
+   "end": 5.415
+  },
+  {
+   "id": "setup",
+   "start": 5.415,
+   "sentences": [
+    {
+     "text": "1961, université Yale.",
+     "spoken": "Mille neuf cent soixante et un, université Yèle.",
+     "start": 5.495,
+     "end": 8.455,
+     "words": [
+      {
+       "w": "1961,",
+       "s": 5.495,
+       "e": 7.495
+      },
+      {
+       "w": "université",
+       "s": 7.495,
+       "e": 8.181
+      },
+      {
+       "w": "Yale.",
+       "s": 8.181,
+       "e": 8.455
+      }
+     ]
+    },
+    {
+     "text": "Stanley Milgram recrute des hommes ordinaires pour une étude sur la mémoire.",
+     "spoken": "Stanley Milgrame recrute des hommes ordinaires pour une étude sur la mémoire.",
+     "start": 8.455,
+     "end": 12.475,
+     "words": [
+      {
+       "w": "Stanley",
+       "s": 8.455,
+       "e": 8.978
+      },
+      {
+       "w": "Milgram",
+       "s": 8.978,
+       "e": 9.575
+      },
+      {
+       "w": "recrute",
+       "s": 9.575,
+       "e": 9.975
+      },
+      {
+       "w": "des",
+       "s": 9.975,
+       "e": 10.135
+      },
+      {
+       "w": "hommes",
+       "s": 10.135,
+       "e": 10.375
+      },
+      {
+       "w": "ordinaires",
+       "s": 10.375,
+       "e": 11.015
+      },
+      {
+       "w": "pour",
+       "s": 11.015,
+       "e": 11.175
+      },
+      {
+       "w": "une",
+       "s": 11.175,
+       "e": 11.335
+      },
+      {
+       "w": "étude",
+       "s": 11.335,
+       "e": 11.655
+      },
+      {
+       "w": "sur",
+       "s": 11.655,
+       "e": 11.815
+      },
+      {
+       "w": "la",
+       "s": 11.815,
+       "e": 11.975
+      },
+      {
+       "w": "mémoire.",
+       "s": 11.975,
+       "e": 12.475
+      }
+     ]
+    }
+   ],
+   "end": 12.852
+  },
+  {
+   "id": "roles",
+   "start": 12.852,
+   "sentences": [
+    {
+     "text": "Un tirage au sort, truqué, te désigne professeur.",
+     "spoken": "Un tirage au sort, truqué, te désigne professeur.",
+     "start": 12.852,
+     "end": 15.412,
+     "words": [
+      {
+       "w": "Un",
+       "s": 12.852,
+       "e": 13.012
+      },
+      {
+       "w": "tirage",
+       "s": 13.012,
+       "e": 13.412
+      },
+      {
+       "w": "au",
+       "s": 13.412,
+       "e": 13.572
+      },
+      {
+       "w": "sort,",
+       "s": 13.572,
+       "e": 13.812
+      },
+      {
+       "w": "truqué,",
+       "s": 13.812,
+       "e": 14.292
+      },
+      {
+       "w": "te",
+       "s": 14.292,
+       "e": 14.452
+      },
+      {
+       "w": "désigne",
+       "s": 14.452,
+       "e": 15.012
+      },
+      {
+       "w": "professeur.",
+       "s": 15.012,
+       "e": 15.412
+      }
+     ]
+    },
+    {
+     "text": "L'élève, un complice, est attaché dans la pièce voisine.",
+     "spoken": "L'élève, un complice, est attaché dans la pièce voisine.",
+     "start": 15.412,
+     "end": 18.712,
+     "words": [
+      {
+       "w": "L'élève,",
+       "s": 15.412,
+       "e": 16.212
+      },
+      {
+       "w": "un",
+       "s": 16.212,
+       "e": 16.372
+      },
+      {
+       "w": "complice,",
+       "s": 16.372,
+       "e": 16.932
+      },
+      {
+       "w": "est",
+       "s": 16.932,
+       "e": 17.172
+      },
+      {
+       "w": "attaché",
+       "s": 17.172,
+       "e": 17.652
+      },
+      {
+       "w": "dans",
+       "s": 17.652,
+       "e": 17.732
+      },
+      {
+       "w": "la",
+       "s": 17.732,
+       "e": 17.812
+      },
+      {
+       "w": "pièce",
+       "s": 17.812,
+       "e": 18.212
+      },
+      {
+       "w": "voisine.",
+       "s": 18.212,
+       "e": 18.712
+      }
+     ]
+    }
+   ],
+   "end": 19.058
+  },
+  {
+   "id": "machine",
+   "start": 19.058,
+   "sentences": [
+    {
+     "text": "Devant toi, un générateur : de 15 à 450 volts.",
+     "spoken": "Devant toi, un générateur : de quinze à quatre cent cinquante volts.",
+     "start": 19.058,
+     "end": 22.738,
+     "words": [
+      {
+       "w": "Devant",
+       "s": 19.058,
+       "e": 19.458
+      },
+      {
+       "w": "toi,",
+       "s": 19.458,
+       "e": 19.698
+      },
+      {
+       "w": "un",
+       "s": 19.698,
+       "e": 19.778
+      },
+      {
+       "w": "générateur:",
+       "s": 19.778,
+       "e": 20.498
+      },
+      {
+       "w": "de",
+       "s": 20.498,
+       "e": 20.658
+      },
+      {
+       "w": "15",
+       "s": 20.658,
+       "e": 21.058
+      },
+      {
+       "w": "à",
+       "s": 21.058,
+       "e": 21.218
+      },
+      {
+       "w": "450",
+       "s": 21.218,
+       "e": 22.178
+      },
+      {
+       "w": "volts.",
+       "s": 22.178,
+       "e": 22.738
+      }
+     ]
+    },
+    {
+     "text": "À chaque erreur, tu montes d'un cran.",
+     "spoken": "À chaque erreur, tu montes d'un cran.",
+     "start": 22.738,
+     "end": 24.548,
+     "words": [
+      {
+       "w": "À",
+       "s": 22.738,
+       "e": 22.898
+      },
+      {
+       "w": "chaque",
+       "s": 22.898,
+       "e": 23.138
+      },
+      {
+       "w": "erreur,",
+       "s": 23.138,
+       "e": 23.538
+      },
+      {
+       "w": "tu",
+       "s": 23.538,
+       "e": 23.698
+      },
+      {
+       "w": "montes",
+       "s": 23.698,
+       "e": 23.938
+      },
+      {
+       "w": "d'un",
+       "s": 23.938,
+       "e": 24.178
+      },
+      {
+       "w": "cran.",
+       "s": 24.178,
+       "e": 24.548
+      }
+     ]
+    }
+   ],
+   "end": 24.768
+  },
+  {
+   "id": "fake",
+   "start": 24.768,
+   "sentences": [
+    {
+     "text": "Les chocs sont faux.",
+     "spoken": "Les chocs sont faux.",
+     "start": 24.768,
+     "end": 25.888,
+     "words": [
+      {
+       "w": "Les",
+       "s": 24.768,
+       "e": 24.928
+      },
+      {
+       "w": "chocs",
+       "s": 24.928,
+       "e": 25.328
+      },
+      {
+       "w": "sont",
+       "s": 25.328,
+       "e": 25.488
+      },
+      {
+       "w": "faux.",
+       "s": 25.488,
+       "e": 25.888
+      }
+     ]
+    },
+    {
+     "text": "Mais toi, tu ne le sais pas.",
+     "spoken": "Mais toi, tu ne le sais pas.",
+     "start": 25.888,
+     "end": 27.397,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 25.888,
+       "e": 26.128
+      },
+      {
+       "w": "toi,",
+       "s": 26.128,
+       "e": 26.448
+      },
+      {
+       "w": "tu",
+       "s": 26.448,
+       "e": 26.608
+      },
+      {
+       "w": "ne",
+       "s": 26.608,
+       "e": 26.768
+      },
+      {
+       "w": "le",
+       "s": 26.768,
+       "e": 26.848
+      },
+      {
+       "w": "sais",
+       "s": 26.848,
+       "e": 27.088
+      },
+      {
+       "w": "pas.",
+       "s": 27.088,
+       "e": 27.397
+      }
+     ]
+    }
+   ],
+   "end": 27.617
+  },
+  {
+   "id": "protest",
+   "start": 27.617,
+   "sentences": [
+    {
+     "text": "À 300 volts, l'élève tape contre le mur.",
+     "spoken": "À trois cents volts, l'élève tape contre le mur.",
+     "start": 27.617,
+     "end": 29.937,
+     "words": [
+      {
+       "w": "À",
+       "s": 27.617,
+       "e": 27.777
+      },
+      {
+       "w": "300",
+       "s": 27.777,
+       "e": 28.31
+      },
+      {
+       "w": "volts,",
+       "s": 28.31,
+       "e": 28.577
+      },
+      {
+       "w": "l'élève",
+       "s": 28.577,
+       "e": 29.057
+      },
+      {
+       "w": "tape",
+       "s": 29.057,
+       "e": 29.377
+      },
+      {
+       "w": "contre",
+       "s": 29.377,
+       "e": 29.537
+      },
+      {
+       "w": "le",
+       "s": 29.537,
+       "e": 29.617
+      },
+      {
+       "w": "mur.",
+       "s": 29.617,
+       "e": 29.937
+      }
+     ]
+    },
+    {
+     "text": "Puis...",
+     "spoken": "Puis...",
+     "start": 29.937,
+     "end": 30.177,
+     "words": [
+      {
+       "w": "Puis...",
+       "s": 29.937,
+       "e": 30.177
+      }
+     ]
+    },
+    {
+     "text": "plus rien.",
+     "spoken": "plus rien.",
+     "start": 30.177,
+     "end": 31.03,
+     "words": [
+      {
+       "w": "plus",
+       "s": 30.177,
+       "e": 30.657
+      },
+      {
+       "w": "rien.",
+       "s": 30.657,
+       "e": 31.03
+      }
+     ]
+    }
+   ],
+   "end": 31.25
+  },
+  {
+   "id": "prod",
+   "start": 31.25,
+   "sentences": [
+    {
+     "text": "Tu hésites ?",
+     "spoken": "Tu hésites ?",
+     "start": 31.25,
+     "end": 32.05,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 31.25,
+       "e": 31.49
+      },
+      {
+       "w": "hésites?",
+       "s": 31.49,
+       "e": 32.05
+      }
+     ]
+    },
+    {
+     "text": "Le chercheur répond calmement : l'expérience exige que vous continuiez.",
+     "spoken": "Le chercheur répond calmement : l'expérience exige que vous continuiez.",
+     "start": 32.05,
+     "end": 35.43,
+     "words": [
+      {
+       "w": "Le",
+       "s": 32.05,
+       "e": 32.21
+      },
+      {
+       "w": "chercheur",
+       "s": 32.21,
+       "e": 32.61
+      },
+      {
+       "w": "répond",
+       "s": 32.61,
+       "e": 32.93
+      },
+      {
+       "w": "calmement:",
+       "s": 32.93,
+       "e": 33.49
+      },
+      {
+       "w": "l'expérience",
+       "s": 33.49,
+       "e": 34.21
+      },
+      {
+       "w": "exige",
+       "s": 34.21,
+       "e": 34.61
+      },
+      {
+       "w": "que",
+       "s": 34.61,
+       "e": 34.77
+      },
+      {
+       "w": "vous",
+       "s": 34.77,
+       "e": 34.93
+      },
+      {
+       "w": "continuiez.",
+       "s": 34.93,
+       "e": 35.43
+      }
+     ]
+    }
+   ],
+   "end": 35.838
+  },
+  {
+   "id": "predict",
+   "start": 35.838,
+   "sentences": [
+    {
+     "text": "Interrogés, des psychiatres prédisaient qu'à peine une personne sur mille irait jusqu'au bout.",
+     "spoken": "Interrogés, des psychiatres prédisaient qu'à peine une personne sur mille irait jusqu'au bout.",
+     "start": 35.838,
+     "end": 40.439,
+     "words": [
+      {
+       "w": "Interrogés,",
+       "s": 35.838,
+       "e": 36.638
+      },
+      {
+       "w": "des",
+       "s": 36.638,
+       "e": 36.798
+      },
+      {
+       "w": "psychiatres",
+       "s": 36.798,
+       "e": 37.438
+      },
+      {
+       "w": "prédisaient",
+       "s": 37.438,
+       "e": 37.998
+      },
+      {
+       "w": "qu'à",
+       "s": 37.998,
+       "e": 38.238
+      },
+      {
+       "w": "peine",
+       "s": 38.238,
+       "e": 38.478
+      },
+      {
+       "w": "une",
+       "s": 38.478,
+       "e": 38.638
+      },
+      {
+       "w": "personne",
+       "s": 38.638,
+       "e": 38.878
+      },
+      {
+       "w": "sur",
+       "s": 38.878,
+       "e": 39.038
+      },
+      {
+       "w": "mille",
+       "s": 39.038,
+       "e": 39.438
+      },
+      {
+       "w": "irait",
+       "s": 39.438,
+       "e": 39.838
+      },
+      {
+       "w": "jusqu'au",
+       "s": 39.838,
+       "e": 40.078
+      },
+      {
+       "w": "bout.",
+       "s": 40.078,
+       "e": 40.439
+      }
+     ]
+    }
+   ],
+   "end": 40.659
+  },
+  {
+   "id": "result",
+   "start": 40.659,
+   "sentences": [
+    {
+     "text": "Résultat : 26 hommes sur 40 vont jusqu'à 450 volts.",
+     "spoken": "Résultat : vingt-six hommes sur quarante vont jusqu'à quatre cent cinquante volts.",
+     "start": 40.659,
+     "end": 44.739,
+     "words": [
+      {
+       "w": "Résultat:",
+       "s": 40.659,
+       "e": 41.539
+      },
+      {
+       "w": "26",
+       "s": 41.539,
+       "e": 42.088
+      },
+      {
+       "w": "hommes",
+       "s": 42.088,
+       "e": 42.499
+      },
+      {
+       "w": "sur",
+       "s": 42.499,
+       "e": 42.579
+      },
+      {
+       "w": "40",
+       "s": 42.579,
+       "e": 42.979
+      },
+      {
+       "w": "vont",
+       "s": 42.979,
+       "e": 43.219
+      },
+      {
+       "w": "jusqu'à",
+       "s": 43.219,
+       "e": 43.539
+      },
+      {
+       "w": "450",
+       "s": 43.539,
+       "e": 44.489
+      },
+      {
+       "w": "volts.",
+       "s": 44.489,
+       "e": 44.739
+      }
+     ]
+    },
+    {
+     "text": "65 %.",
+     "spoken": "Soixante-cinq pour cent.",
+     "start": 44.739,
+     "end": 45.239,
+     "words": [
+      {
+       "w": "65 %.",
+       "s": 44.739,
+       "e": 45.239
+      }
+     ]
+    }
+   ],
+   "end": 46.487
+  },
+  {
+   "id": "nuance",
+   "start": 46.487,
+   "sentences": [
+    {
+     "text": "Mais selon les variantes, l'obéissance change énormément.",
+     "spoken": "Mais selon les variantes, l'obéissance change énormément.",
+     "start": 46.487,
+     "end": 49.927,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 46.487,
+       "e": 46.727
+      },
+      {
+       "w": "selon",
+       "s": 46.727,
+       "e": 47.047
+      },
+      {
+       "w": "les",
+       "s": 47.047,
+       "e": 47.287
+      },
+      {
+       "w": "variantes,",
+       "s": 47.287,
+       "e": 47.927
+      },
+      {
+       "w": "l'obéissance",
+       "s": 47.927,
+       "e": 48.807
+      },
+      {
+       "w": "change",
+       "s": 48.807,
+       "e": 49.207
+      },
+      {
+       "w": "énormément.",
+       "s": 49.207,
+       "e": 49.927
+      }
+     ]
+    },
+    {
+     "text": "Quand les ordres arrivent par téléphone, elle chute fortement.",
+     "spoken": "Quand les ordres arrivent par téléphone, elle chute fortement.",
+     "start": 49.927,
+     "end": 53.147,
+     "words": [
+      {
+       "w": "Quand",
+       "s": 49.927,
+       "e": 50.167
+      },
+      {
+       "w": "les",
+       "s": 50.167,
+       "e": 50.327
+      },
+      {
+       "w": "ordres",
+       "s": 50.327,
+       "e": 50.807
+      },
+      {
+       "w": "arrivent",
+       "s": 50.807,
+       "e": 51.127
+      },
+      {
+       "w": "par",
+       "s": 51.127,
+       "e": 51.287
+      },
+      {
+       "w": "téléphone,",
+       "s": 51.287,
+       "e": 51.967
+      },
+      {
+       "w": "elle",
+       "s": 51.967,
+       "e": 52.269
+      },
+      {
+       "w": "chute",
+       "s": 52.269,
+       "e": 52.647
+      },
+      {
+       "w": "fortement.",
+       "s": 52.647,
+       "e": 53.147
+      }
+     ]
+    }
+   ],
+   "end": 53.421
+  },
+  {
+   "id": "cta",
+   "start": 53.421,
+   "sentences": [
+    {
+     "text": "Et toi, à quel moment tu aurais dit non ?",
+     "spoken": "Et toi, à quel moment tu aurais dit non ?",
+     "start": 53.421,
+     "end": 55.581,
+     "words": [
+      {
+       "w": "Et",
+       "s": 53.421,
+       "e": 53.581
+      },
+      {
+       "w": "toi,",
+       "s": 53.581,
+       "e": 53.981
+      },
+      {
+       "w": "à",
+       "s": 53.981,
+       "e": 54.141
+      },
+      {
+       "w": "quel",
+       "s": 54.141,
+       "e": 54.381
+      },
+      {
+       "w": "moment",
+       "s": 54.381,
+       "e": 54.541
+      },
+      {
+       "w": "tu",
+       "s": 54.541,
+       "e": 54.781
+      },
+      {
+       "w": "aurais",
+       "s": 54.781,
+       "e": 55.021
+      },
+      {
+       "w": "dit",
+       "s": 55.021,
+       "e": 55.261
+      },
+      {
+       "w": "non?",
+       "s": 55.261,
+       "e": 55.581
+      }
+     ]
+    },
+    {
+     "text": "Réponds en commentaire !",
+     "spoken": "Réponds en commentaire !",
+     "start": 55.581,
+     "end": 56.641,
+     "words": [
+      {
+       "w": "Réponds",
+       "s": 55.581,
+       "e": 55.981
+      },
+      {
+       "w": "en",
+       "s": 55.981,
+       "e": 56.141
+      },
+      {
+       "w": "commentaire!",
+       "s": 56.141,
+       "e": 56.641
+      }
+     ]
+    }
+   ],
+   "end": 56.943
+  }
+ ]
+}

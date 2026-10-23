@@ -60,8 +60,8 @@ const SHOT = {
     const bubbles = [];
     for (let i = 0; i < SEATS; i++) if (i !== YOU) bubbles.push({ i, text: "B", p: prog(t, tm - 0.6 + i * 0.16, tm - 0.35 + i * 0.16), bg: COL.accent, fg: "#fff" });
     bubbles.push({ i: YOU, text: "?", p: prog(t, ty, ty + 0.25) });
-    aschTable(t, { bubbles, youFace: { eyes: t > ty ? "wide" : "open", brows: "worried", mouth: t > ty ? "o" : "neutral", look: [-1, -0.3] }, z: 1 + 0.25 * easeInOut(prog(t, ty - 0.2, ty + 0.8)), focus: YOU });
-    lineCard(540, 410, 0.44, { p: 1, wrong: t > tm ? 1 : -1 });
+    aschTable(t, { bubbles, youFace: { eyes: t > ty ? "wide" : "open", brows: "worried", mouth: t > ty ? "o" : "neutral", look: [-1, -0.3] }, z: 1 + 0.18 * easeInOut(prog(t, ty - 0.2, ty + 0.8)), focus: YOU });
+    lineCard(540, 380, 0.36, { p: 1, wrong: t > tm ? 1 : -1 });
   },
   result(s, t) {
     spotlightBg(t, "#1A2038");
@@ -78,8 +78,8 @@ const SHOT = {
     }
     if (t > t75 - 0.4) {
       headline("ONT CÉDÉ AU MOINS UNE FOIS", 1000, 38, "rgba(255,255,255,.9)", t, t75 - 0.4);
-      peopleRow(250, 1150, 120, 0.75, prog(t, t75 - 0.3, t75 + 0.8), COL.gold, { n: 4, gap: 1.6 });
-      bigStat(75, " %", "", 540, 1280, 80, COL.gold, t, t75);
+      peopleRow(200, 1150, 120, 0.75, prog(t, t75 - 0.3, t75 + 0.8), COL.gold, { n: 4, gap: 1.6 });
+      bigStat(75, " %", "", 830, 1190, 120, COL.gold, t, t75);
     }
   },
   why(s, t) {

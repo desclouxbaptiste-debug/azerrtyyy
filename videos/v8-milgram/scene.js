@@ -17,8 +17,10 @@ function twoRooms(t, { level = 0, knock = -1, silence = false } = {}) {
   strapChair(850, FLOOR, 1.0);
   character(860, FLOOR, 0.85, "learner", { pose: "sit", face: { brows: "worried", mouth: silence ? "neutral" : "grimace", eyes: silence ? "closed" : "open", look: [-1, 0] }, flip: true, t });
   straps(860, FLOOR, -0.85);
-  shockGenerator(300, 860, 0.5, level, t);
-  character(250, FLOOR + 30, 0.95, "man1950", { pose: "stand", face: { brows: "worried", look: [1, 0] }, t });
+  // generator on a small table, teacher standing beside it
+  ctx.fillStyle = "#5A4636"; ctx.fillRect(190, 990, 420, 18); ctx.fillRect(210, 1008, 14, FLOOR - 1008); ctx.fillRect(576, 1008, 14, FLOOR - 1008);
+  shockGenerator(400, 900, 0.4, level, t);
+  character(110, FLOOR + 30, 0.95, "man1950", { pose: "stand", face: { brows: "worried", look: [1, 0] }, t });
   if (knock >= 0) { // knocks on the wall
     const k = t - knock;
     if (k > 0 && k < 1.6) for (let n = 0; n < 3; n++) { const p = prog(k, n * 0.35, n * 0.35 + 0.4); if (p > 0 && p < 1) { ctx.strokeStyle = `rgba(255,77,77,${1 - p})`; ctx.lineWidth = 8; ctx.beginPath(); ctx.arc(612, 760, 40 + p * 120, Math.PI * 0.6, Math.PI * 1.4); ctx.stroke(); } }
@@ -29,9 +31,9 @@ const SHOT = {
   hook(s, t) {
     spotlightBg(t, "#2A1E22");
     const lvl = 30 * easeInOut(prog(t, s.start + 0.2, wt("hook", "volts", 1.6) + 0.3));
-    shockGenerator(540, 760, 1.0, lvl, t);
-    if (t > wt("hook", "blouse", 4.3) - 0.5) character(860, 1320, 0.8, "experimenter", { pose: "point", flip: true, face: { look: [-1, 0] }, t });
-    label("450 VOLTS", W / 2, 420, 52, "#fff", COL.accent, pop(t, wt("hook", "volts", 1.6) - 0.2));
+    shockGenerator(540, 670, 0.95, lvl, t);
+    if (t > wt("hook", "blouse", 4.3) - 0.5) character(860, 1330, 0.8, "experimenter", { pose: "point", flip: true, face: { look: [-1, 0] }, t });
+    label("450 VOLTS", W / 2, 380, 52, "#fff", COL.accent, pop(t, wt("hook", "volts", 1.6) - 0.2));
   },
   setup(s, t) {
     spotlightBg(t, "#1E2230");
@@ -53,8 +55,8 @@ const SHOT = {
       stamp("TRUQUÉ", W / 2, 1020, 80, COL.accent, prog(t, tt - 0.2, tt + 0.2));
     } else {
       twoRooms(t, {});
-      label("L'ÉLÈVE : UN COMPLICE", 860, 420, 32, "#fff", COL.accent, pop(t, te - 0.2));
-      label("TOI", 250, 560, 34, COL.ink, COL.gold, pop(t, te));
+      label("L'ÉLÈVE : UN COMPLICE", 760, 420, 32, "#fff", COL.accent, pop(t, te - 0.2));
+      label("TOI", 110, 700, 34, COL.ink, COL.gold, pop(t, te));
     }
   },
   machine(s, t) {
@@ -70,13 +72,13 @@ const SHOT = {
     twoRooms(t, { level: 8 });
     const tf = wt("fake", "faux", 0.8), ts = wt("fake", "sais", 2);
     stamp("CHOCS FACTICES", W / 2, 420, 64, COL.green, prog(t, tf - 0.2, tf + 0.2), -0.06);
-    if (t > ts - 0.3) label("MAIS TOI, TU L'IGNORES", 300, 560, 32, COL.ink, COL.gold, pop(t, ts - 0.3));
+    if (t > ts - 0.3) label("MAIS TOI, TU L'IGNORES", 330, 600, 32, COL.ink, COL.gold, pop(t, ts - 0.3));
   },
   protest(s, t) {
     const t3 = wt("protest", "300", 0.6), tk = wt("protest", "tape", 1.6), tr = wt("protest", "rien", 3.4);
     twoRooms(t, { level: 20, knock: tk - 0.2, silence: t > tr - 0.3 });
     label("300 VOLTS", 300, 420, 44, "#fff", COL.accent, pop(t, t3 - 0.2));
-    if (t > tk - 0.2 && t < tr - 0.4) txt("BAM ! BAM !", 820, 560, 64, "MontX", COL.accent, { alpha: fade(t, tk - 0.2) });
+    if (t > tk - 0.2 && t < tr - 0.4) txt("BAM ! BAM !", 862, 560, 64, "MontX", COL.accent, { alpha: fade(t, tk - 0.2) });
     if (t > tr - 0.3) { ctx.fillStyle = `rgba(0,0,0,${0.35 * fade(t, tr - 0.3)})`; ctx.fillRect(644, 300, 436, FLOOR - 300); txt("…", 860, 600, 120, "MontX", "#fff", { alpha: fade(t, tr - 0.2) }); }
   },
   prod(s, t) {
@@ -84,8 +86,8 @@ const SHOT = {
     const th = wt("prod", "hésites", 0.6), tc = wt("prod", "exige", 2.6);
     character(300, 1250, 1.2, "man1950", { pose: "stand", face: { brows: "worried", mouth: "grimace", look: [1, -0.2] }, t });
     character(800, 1250, 1.25, "experimenter", { pose: t > tc - 0.6 ? "talk" : "stand", phase: t * 4, flip: true, face: { mouth: t > tc - 0.6 && Math.sin(t * 11) > 0 ? "o" : "neutral", look: [-1, 0] }, props: { clipboard: true }, t });
-    iconBubble(330, 520, 300, 110, "Je ne veux plus…", { p: prog(t, th - 0.2, th + 0.1), size: 40 });
-    iconBubble(640, 760, 820, 150, "L'expérience exige que vous continuiez.", { p: prog(t, tc - 0.7, tc - 0.4), size: 40, bg: COL.cream, tail: "right" });
+    iconBubble(320, 520, 440, 110, "Je ne veux plus…", { p: prog(t, th - 0.2, th + 0.1), size: 40 });
+    iconBubble(560, 760, 960, 150, "L'expérience exige que vous continuiez.", { p: prog(t, tc - 0.7, tc - 0.4), size: 38, bg: COL.cream, tail: "right" });
   },
   predict(s, t) {
     spotlightBg(t, "#1E2230");
@@ -109,7 +111,7 @@ const SHOT = {
       const lit = prog(t, t26 - 0.2 + i * 0.03, t26 + i * 0.03) > 0 && i < 26;
       ctx.save(); ctx.translate(150 + (i % 8) * 112, 520 + Math.floor(i / 8) * 128); ctx.scale(p, p); iconPerson(0, 0, 66, lit ? COL.accent : "rgba(255,255,255,.28)"); ctx.restore();
     }
-    label("26 SUR 40 → 450 V", W / 2, 420, 42, "#fff", COL.accent, pop(t, t26 - 0.2));
+    label("26 SUR 40 JUSQU'À 450 V", W / 2, 420, 42, "#fff", COL.accent, pop(t, t26 - 0.2));
     bigStat(65, " %", "ONT OBÉI JUSQU'AU BOUT", W / 2, 1210, 130, COL.accent, t, t65 - 0.4);
   },
   nuance(s, t) {
@@ -117,9 +119,9 @@ const SHOT = {
     const tv = wt("nuance", "variantes", 1), tt = wt("nuance", "téléphone", 4.4);
     headline("SELON LA SITUATION", 400, 46, "#fff", t, tv - 0.3);
     const pa = easeOutExpo(prog(t, tv - 0.2, tv + 0.6)), pb = easeOutExpo(prog(t, tt - 0.2, tt + 0.6));
-    ctx.fillStyle = COL.accent; ctx.beginPath(); ctx.roundRect(200, 1040 - 460 * pa, 260, 460 * pa, 20); ctx.fill();
-    ctx.fillStyle = COL.cyan; ctx.beginPath(); ctx.roundRect(620, 1040 - 150 * pb, 260, 150 * pb, 20); ctx.fill();
-    character(330, 560, 0.45, "experimenter", { pose: "stand", face: {}, t, shadow: false });
+    ctx.fillStyle = COL.accent; ctx.beginPath(); ctx.roundRect(200, 1040 - 380 * pa, 260, 380 * pa, 20); ctx.fill();
+    ctx.fillStyle = COL.cyan; ctx.beginPath(); ctx.roundRect(620, 1040 - 125 * pb, 260, 125 * pb, 20); ctx.fill();
+    if (pa > 0) character(330, 1042 - 380 * pa, 0.45, "experimenter", { pose: "stand", face: {}, t, shadow: false });
     txt("CHERCHEUR", 330, 1100, 32, "MontX", COL.accent); txt("DANS LA PIÈCE", 330, 1140, 28, "MontX", "rgba(255,255,255,.7)");
     if (pb > 0) { oldPhone(750, 790, 0.9); txt("ORDRES PAR", 750, 1100, 32, "MontX", COL.cyan); txt("TÉLÉPHONE", 750, 1140, 28, "MontX", "rgba(255,255,255,.7)"); }
   },
