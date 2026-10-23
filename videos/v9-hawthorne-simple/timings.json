@@ -1,0 +1,1702 @@
+{
+ "duration": 95.354,
+ "speed": 1.07,
+ "reveals": [
+  24.738,
+  51.084,
+  55.279,
+  89.209
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "Et si tu travaillais mieux...",
+     "spoken": "Et si tu travaillais mieux...",
+     "start": 0.45,
+     "end": 1.97,
+     "words": [
+      {
+       "w": "Et",
+       "s": 0.45,
+       "e": 0.61
+      },
+      {
+       "w": "si",
+       "s": 0.61,
+       "e": 0.77
+      },
+      {
+       "w": "tu",
+       "s": 0.77,
+       "e": 0.85
+      },
+      {
+       "w": "travaillais",
+       "s": 0.85,
+       "e": 1.33
+      },
+      {
+       "w": "mieux...",
+       "s": 1.33,
+       "e": 1.97
+      }
+     ]
+    },
+    {
+     "text": "juste parce que quelqu'un te regarde ?",
+     "spoken": "juste parce que quelqu'un te regarde ?",
+     "start": 1.97,
+     "end": 3.485,
+     "words": [
+      {
+       "w": "juste",
+       "s": 1.97,
+       "e": 2.21
+      },
+      {
+       "w": "parce",
+       "s": 2.21,
+       "e": 2.37
+      },
+      {
+       "w": "que",
+       "s": 2.37,
+       "e": 2.53
+      },
+      {
+       "w": "quelqu'un",
+       "s": 2.53,
+       "e": 2.85
+      },
+      {
+       "w": "te",
+       "s": 2.85,
+       "e": 3.01
+      },
+      {
+       "w": "regarde?",
+       "s": 3.01,
+       "e": 3.485
+      }
+     ]
+    }
+   ],
+   "end": 3.785
+  },
+  {
+   "id": "setup",
+   "start": 3.785,
+   "sentences": [
+    {
+     "text": "Dans les années vingt, près de Chicago, une grande usine fabrique des téléphones.",
+     "spoken": "Dans les années vingt, près de Chicago, une grande usine fabrique des téléphones.",
+     "start": 3.785,
+     "end": 9.145,
+     "words": [
+      {
+       "w": "Dans",
+       "s": 3.785,
+       "e": 4.025
+      },
+      {
+       "w": "les",
+       "s": 4.025,
+       "e": 4.185
+      },
+      {
+       "w": "années",
+       "s": 4.185,
+       "e": 4.425
+      },
+      {
+       "w": "vingt,",
+       "s": 4.425,
+       "e": 5.065
+      },
+      {
+       "w": "près",
+       "s": 5.065,
+       "e": 5.225
+      },
+      {
+       "w": "de",
+       "s": 5.225,
+       "e": 5.385
+      },
+      {
+       "w": "Chicago,",
+       "s": 5.385,
+       "e": 6.265
+      },
+      {
+       "w": "une",
+       "s": 6.265,
+       "e": 6.505
+      },
+      {
+       "w": "grande",
+       "s": 6.505,
+       "e": 6.825
+      },
+      {
+       "w": "usine",
+       "s": 6.825,
+       "e": 7.385
+      },
+      {
+       "w": "fabrique",
+       "s": 7.385,
+       "e": 7.945
+      },
+      {
+       "w": "des",
+       "s": 7.945,
+       "e": 8.185
+      },
+      {
+       "w": "téléphones.",
+       "s": 8.185,
+       "e": 9.145
+      }
+     ]
+    },
+    {
+     "text": "Des milliers d'ouvriers y travaillent.",
+     "spoken": "Des milliers d'ouvriers y travaillent.",
+     "start": 9.145,
+     "end": 11.545,
+     "words": [
+      {
+       "w": "Des",
+       "s": 9.145,
+       "e": 9.385
+      },
+      {
+       "w": "milliers",
+       "s": 9.385,
+       "e": 9.785
+      },
+      {
+       "w": "d'ouvriers",
+       "s": 9.785,
+       "e": 10.505
+      },
+      {
+       "w": "y",
+       "s": 10.505,
+       "e": 10.745
+      },
+      {
+       "w": "travaillent.",
+       "s": 10.745,
+       "e": 11.545
+      }
+     ]
+    },
+    {
+     "text": "Des savants veulent savoir une chose.",
+     "spoken": "Des savants veulent savoir une chose.",
+     "start": 11.545,
+     "end": 13.705,
+     "words": [
+      {
+       "w": "Des",
+       "s": 11.545,
+       "e": 11.785
+      },
+      {
+       "w": "savants",
+       "s": 11.785,
+       "e": 12.265
+      },
+      {
+       "w": "veulent",
+       "s": 12.265,
+       "e": 12.585
+      },
+      {
+       "w": "savoir",
+       "s": 12.585,
+       "e": 12.985
+      },
+      {
+       "w": "une",
+       "s": 12.985,
+       "e": 13.145
+      },
+      {
+       "w": "chose.",
+       "s": 13.145,
+       "e": 13.705
+      }
+     ]
+    },
+    {
+     "text": "Qu'est-ce qui aide les ouvriers à mieux travailler ?",
+     "spoken": "Qu'est-ce qui aide les ouvriers à mieux travailler ?",
+     "start": 13.705,
+     "end": 16.205,
+     "words": [
+      {
+       "w": "Qu'est-ce",
+       "s": 13.705,
+       "e": 14.025
+      },
+      {
+       "w": "qui",
+       "s": 14.025,
+       "e": 14.265
+      },
+      {
+       "w": "aide",
+       "s": 14.265,
+       "e": 14.585
+      },
+      {
+       "w": "les",
+       "s": 14.585,
+       "e": 14.745
+      },
+      {
+       "w": "ouvriers",
+       "s": 14.745,
+       "e": 15.305
+      },
+      {
+       "w": "à",
+       "s": 15.305,
+       "e": 15.465
+      },
+      {
+       "w": "mieux",
+       "s": 15.465,
+       "e": 15.705
+      },
+      {
+       "w": "travailler?",
+       "s": 15.705,
+       "e": 16.205
+      }
+     ]
+    }
+   ],
+   "end": 16.573
+  },
+  {
+   "id": "light",
+   "start": 16.573,
+   "sentences": [
+    {
+     "text": "D'abord, ils mettent plus de lumière.",
+     "spoken": "D'abord, ils mettent plus de lumière.",
+     "start": 16.573,
+     "end": 18.493,
+     "words": [
+      {
+       "w": "D'abord,",
+       "s": 16.573,
+       "e": 17.213
+      },
+      {
+       "w": "ils",
+       "s": 17.213,
+       "e": 17.453
+      },
+      {
+       "w": "mettent",
+       "s": 17.453,
+       "e": 17.773
+      },
+      {
+       "w": "plus",
+       "s": 17.773,
+       "e": 17.933
+      },
+      {
+       "w": "de",
+       "s": 17.933,
+       "e": 18.093
+      },
+      {
+       "w": "lumière.",
+       "s": 18.093,
+       "e": 18.493
+      }
+     ]
+    },
+    {
+     "text": "Et les ouvriers travaillent plus vite.",
+     "spoken": "Et les ouvriers travaillent plus vite.",
+     "start": 18.493,
+     "end": 20.493,
+     "words": [
+      {
+       "w": "Et",
+       "s": 18.493,
+       "e": 18.733
+      },
+      {
+       "w": "les",
+       "s": 18.733,
+       "e": 18.893
+      },
+      {
+       "w": "ouvriers",
+       "s": 18.893,
+       "e": 19.533
+      },
+      {
+       "w": "travaillent",
+       "s": 19.533,
+       "e": 20.013
+      },
+      {
+       "w": "plus",
+       "s": 20.013,
+       "e": 20.173
+      },
+      {
+       "w": "vite.",
+       "s": 20.173,
+       "e": 20.493
+      }
+     ]
+    },
+    {
+     "text": "Logique.",
+     "spoken": "Logique.",
+     "start": 20.493,
+     "end": 20.993,
+     "words": [
+      {
+       "w": "Logique.",
+       "s": 20.493,
+       "e": 20.993
+      }
+     ]
+    }
+   ],
+   "end": 21.368
+  },
+  {
+   "id": "control",
+   "start": 21.368,
+   "sentences": [
+    {
+     "text": "Mais dans l'autre atelier, où on ne change rien...",
+     "spoken": "Mais dans l'autre atelier, où on ne change rien...",
+     "start": 21.368,
+     "end": 24.088,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 21.368,
+       "e": 21.528
+      },
+      {
+       "w": "dans",
+       "s": 21.528,
+       "e": 21.608
+      },
+      {
+       "w": "l'autre",
+       "s": 21.608,
+       "e": 22.008
+      },
+      {
+       "w": "atelier,",
+       "s": 22.008,
+       "e": 22.728
+      },
+      {
+       "w": "où",
+       "s": 22.728,
+       "e": 22.888
+      },
+      {
+       "w": "on",
+       "s": 22.888,
+       "e": 23.048
+      },
+      {
+       "w": "ne",
+       "s": 23.048,
+       "e": 23.128
+      },
+      {
+       "w": "change",
+       "s": 23.128,
+       "e": 23.528
+      },
+      {
+       "w": "rien...",
+       "s": 23.528,
+       "e": 24.088
+      }
+     ]
+    },
+    {
+     "text": "ils travaillent plus vite aussi !",
+     "spoken": "ils travaillent plus vite aussi !",
+     "start": 24.738,
+     "end": 26.402,
+     "words": [
+      {
+       "w": "ils",
+       "s": 24.738,
+       "e": 24.978
+      },
+      {
+       "w": "travaillent",
+       "s": 24.978,
+       "e": 25.458
+      },
+      {
+       "w": "plus",
+       "s": 25.458,
+       "e": 25.618
+      },
+      {
+       "w": "vite",
+       "s": 25.618,
+       "e": 25.938
+      },
+      {
+       "w": "aussi!",
+       "s": 25.938,
+       "e": 26.402
+      }
+     ]
+    }
+   ],
+   "end": 26.702
+  },
+  {
+   "id": "dim",
+   "start": 26.702,
+   "sentences": [
+    {
+     "text": "Alors on baisse la lumière.",
+     "spoken": "Alors on baisse la lumière.",
+     "start": 26.702,
+     "end": 28.062,
+     "words": [
+      {
+       "w": "Alors",
+       "s": 26.702,
+       "e": 27.022
+      },
+      {
+       "w": "on",
+       "s": 27.022,
+       "e": 27.182
+      },
+      {
+       "w": "baisse",
+       "s": 27.182,
+       "e": 27.582
+      },
+      {
+       "w": "la",
+       "s": 27.582,
+       "e": 27.662
+      },
+      {
+       "w": "lumière.",
+       "s": 27.662,
+       "e": 28.062
+      }
+     ]
+    },
+    {
+     "text": "Et ils travaillent toujours aussi bien...",
+     "spoken": "Et ils travaillent toujours aussi bien...",
+     "start": 28.062,
+     "end": 30.222,
+     "words": [
+      {
+       "w": "Et",
+       "s": 28.062,
+       "e": 28.302
+      },
+      {
+       "w": "ils",
+       "s": 28.302,
+       "e": 28.462
+      },
+      {
+       "w": "travaillent",
+       "s": 28.462,
+       "e": 29.022
+      },
+      {
+       "w": "toujours",
+       "s": 29.022,
+       "e": 29.342
+      },
+      {
+       "w": "aussi",
+       "s": 29.342,
+       "e": 29.662
+      },
+      {
+       "w": "bien...",
+       "s": 29.662,
+       "e": 30.222
+      }
+     ]
+    },
+    {
+     "text": "jusqu'à ce qu'on n'y voie presque plus rien !",
+     "spoken": "jusqu'à ce qu'on n'y voie presque plus rien !",
+     "start": 30.222,
+     "end": 32.278,
+     "words": [
+      {
+       "w": "jusqu'à",
+       "s": 30.222,
+       "e": 30.542
+      },
+      {
+       "w": "ce",
+       "s": 30.542,
+       "e": 30.622
+      },
+      {
+       "w": "qu'on",
+       "s": 30.622,
+       "e": 30.862
+      },
+      {
+       "w": "n'y",
+       "s": 30.862,
+       "e": 31.102
+      },
+      {
+       "w": "voie",
+       "s": 31.102,
+       "e": 31.342
+      },
+      {
+       "w": "presque",
+       "s": 31.342,
+       "e": 31.662
+      },
+      {
+       "w": "plus",
+       "s": 31.662,
+       "e": 31.822
+      },
+      {
+       "w": "rien!",
+       "s": 31.822,
+       "e": 32.278
+      }
+     ]
+    }
+   ],
+   "end": 32.578
+  },
+  {
+   "id": "relay",
+   "start": 32.578,
+   "sentences": [
+    {
+     "text": "Puis six ouvrières vont dans une petite salle, avec quelqu'un qui les regarde et prend des notes.",
+     "spoken": "Puis six ouvrières vont dans une petite salle, avec quelqu'un qui les regarde et prend des notes.",
+     "start": 32.578,
+     "end": 38.098,
+     "words": [
+      {
+       "w": "Puis",
+       "s": 32.578,
+       "e": 32.818
+      },
+      {
+       "w": "six",
+       "s": 32.818,
+       "e": 33.138
+      },
+      {
+       "w": "ouvrières",
+       "s": 33.138,
+       "e": 33.698
+      },
+      {
+       "w": "vont",
+       "s": 33.698,
+       "e": 33.938
+      },
+      {
+       "w": "dans",
+       "s": 33.938,
+       "e": 34.098
+      },
+      {
+       "w": "une",
+       "s": 34.098,
+       "e": 34.258
+      },
+      {
+       "w": "petite",
+       "s": 34.258,
+       "e": 34.578
+      },
+      {
+       "w": "salle,",
+       "s": 34.578,
+       "e": 35.218
+      },
+      {
+       "w": "avec",
+       "s": 35.218,
+       "e": 35.538
+      },
+      {
+       "w": "quelqu'un",
+       "s": 35.538,
+       "e": 36.018
+      },
+      {
+       "w": "qui",
+       "s": 36.018,
+       "e": 36.258
+      },
+      {
+       "w": "les",
+       "s": 36.258,
+       "e": 36.498
+      },
+      {
+       "w": "regarde",
+       "s": 36.498,
+       "e": 36.978
+      },
+      {
+       "w": "et",
+       "s": 36.978,
+       "e": 37.138
+      },
+      {
+       "w": "prend",
+       "s": 37.138,
+       "e": 37.378
+      },
+      {
+       "w": "des",
+       "s": 37.378,
+       "e": 37.538
+      },
+      {
+       "w": "notes.",
+       "s": 37.538,
+       "e": 38.098
+      }
+     ]
+    },
+    {
+     "text": "On change les pauses, les horaires, on donne des goûters...",
+     "spoken": "On change les pauses, les horaires, on donne des goûters...",
+     "start": 38.098,
+     "end": 41.858,
+     "words": [
+      {
+       "w": "On",
+       "s": 38.098,
+       "e": 38.338
+      },
+      {
+       "w": "change",
+       "s": 38.338,
+       "e": 38.738
+      },
+      {
+       "w": "les",
+       "s": 38.738,
+       "e": 38.978
+      },
+      {
+       "w": "pauses,",
+       "s": 38.978,
+       "e": 39.458
+      },
+      {
+       "w": "les",
+       "s": 39.458,
+       "e": 39.698
+      },
+      {
+       "w": "horaires,",
+       "s": 39.698,
+       "e": 40.338
+      },
+      {
+       "w": "on",
+       "s": 40.338,
+       "e": 40.578
+      },
+      {
+       "w": "donne",
+       "s": 40.578,
+       "e": 40.898
+      },
+      {
+       "w": "des",
+       "s": 40.898,
+       "e": 41.186
+      },
+      {
+       "w": "goûters...",
+       "s": 41.186,
+       "e": 41.858
+      }
+     ]
+    },
+    {
+     "text": "et elles travaillent de mieux en mieux.",
+     "spoken": "et elles travaillent de mieux en mieux.",
+     "start": 41.858,
+     "end": 43.77,
+     "words": [
+      {
+       "w": "et",
+       "s": 41.858,
+       "e": 42.098
+      },
+      {
+       "w": "elles",
+       "s": 42.098,
+       "e": 42.338
+      },
+      {
+       "w": "travaillent",
+       "s": 42.338,
+       "e": 42.818
+      },
+      {
+       "w": "de",
+       "s": 42.818,
+       "e": 42.978
+      },
+      {
+       "w": "mieux",
+       "s": 42.978,
+       "e": 43.218
+      },
+      {
+       "w": "en",
+       "s": 43.218,
+       "e": 43.378
+      },
+      {
+       "w": "mieux.",
+       "s": 43.378,
+       "e": 43.77
+      }
+     ]
+    }
+   ],
+   "end": 44.07
+  },
+  {
+   "id": "back",
+   "start": 44.07,
+   "sentences": [
+    {
+     "text": "Même quand on remet tout comme avant...",
+     "spoken": "Même quand on remet tout comme avant...",
+     "start": 44.07,
+     "end": 46.23,
+     "words": [
+      {
+       "w": "Même",
+       "s": 44.07,
+       "e": 44.31
+      },
+      {
+       "w": "quand",
+       "s": 44.31,
+       "e": 44.55
+      },
+      {
+       "w": "on",
+       "s": 44.55,
+       "e": 44.71
+      },
+      {
+       "w": "remet",
+       "s": 44.71,
+       "e": 45.19
+      },
+      {
+       "w": "tout",
+       "s": 45.19,
+       "e": 45.35
+      },
+      {
+       "w": "comme",
+       "s": 45.35,
+       "e": 45.67
+      },
+      {
+       "w": "avant...",
+       "s": 45.67,
+       "e": 46.23
+      }
+     ]
+    },
+    {
+     "text": "elles travaillent toujours mieux.",
+     "spoken": "elles travaillent toujours mieux.",
+     "start": 46.23,
+     "end": 47.734,
+     "words": [
+      {
+       "w": "elles",
+       "s": 46.23,
+       "e": 46.47
+      },
+      {
+       "w": "travaillent",
+       "s": 46.47,
+       "e": 47.11
+      },
+      {
+       "w": "toujours",
+       "s": 47.11,
+       "e": 47.35
+      },
+      {
+       "w": "mieux.",
+       "s": 47.35,
+       "e": 47.734
+      }
+     ]
+    }
+   ],
+   "end": 48.034
+  },
+  {
+   "id": "name",
+   "start": 48.034,
+   "sentences": [
+    {
+     "text": "Dans les années cinquante, on donne un nom à ça.",
+     "spoken": "Dans les années cinquante, on donne un nom à ça.",
+     "start": 48.034,
+     "end": 50.434,
+     "words": [
+      {
+       "w": "Dans",
+       "s": 48.034,
+       "e": 48.274
+      },
+      {
+       "w": "les",
+       "s": 48.274,
+       "e": 48.434
+      },
+      {
+       "w": "années",
+       "s": 48.434,
+       "e": 48.754
+      },
+      {
+       "w": "cinquante,",
+       "s": 48.754,
+       "e": 49.314
+      },
+      {
+       "w": "on",
+       "s": 49.314,
+       "e": 49.474
+      },
+      {
+       "w": "donne",
+       "s": 49.474,
+       "e": 49.714
+      },
+      {
+       "w": "un",
+       "s": 49.714,
+       "e": 49.874
+      },
+      {
+       "w": "nom",
+       "s": 49.874,
+       "e": 50.034
+      },
+      {
+       "w": "à",
+       "s": 50.034,
+       "e": 50.194
+      },
+      {
+       "w": "ça.",
+       "s": 50.194,
+       "e": 50.434
+      }
+     ]
+    },
+    {
+     "text": "L'effet Hawthorne.",
+     "spoken": "L'effet Hosorne.",
+     "start": 51.084,
+     "end": 52.284,
+     "words": [
+      {
+       "w": "L'effet",
+       "s": 51.084,
+       "e": 51.638
+      },
+      {
+       "w": "Hawthorne.",
+       "s": 51.638,
+       "e": 52.284
+      }
+     ]
+    },
+    {
+     "text": "On change...",
+     "spoken": "On change...",
+     "start": 52.284,
+     "end": 52.924,
+     "words": [
+      {
+       "w": "On",
+       "s": 52.284,
+       "e": 52.444
+      },
+      {
+       "w": "change...",
+       "s": 52.444,
+       "e": 52.924
+      }
+     ]
+    },
+    {
+     "text": "quand on sait qu'on nous regarde.",
+     "spoken": "quand on sait qu'on nous regarde.",
+     "start": 52.924,
+     "end": 54.329,
+     "words": [
+      {
+       "w": "quand",
+       "s": 52.924,
+       "e": 53.084
+      },
+      {
+       "w": "on",
+       "s": 53.084,
+       "e": 53.244
+      },
+      {
+       "w": "sait",
+       "s": 53.244,
+       "e": 53.484
+      },
+      {
+       "w": "qu'on",
+       "s": 53.484,
+       "e": 53.724
+      },
+      {
+       "w": "nous",
+       "s": 53.724,
+       "e": 53.884
+      },
+      {
+       "w": "regarde.",
+       "s": 53.884,
+       "e": 54.329
+      }
+     ]
+    }
+   ],
+   "end": 54.629
+  },
+  {
+   "id": "twist",
+   "start": 54.629,
+   "sentences": [
+    {
+     "text": "Mais en 2011, deux savants revérifient les chiffres.",
+     "spoken": "Mais en deux mille onze, deux savants revérifient les chiffres.",
+     "start": 55.279,
+     "end": 58.719,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 55.279,
+       "e": 55.519
+      },
+      {
+       "w": "en",
+       "s": 55.519,
+       "e": 55.679
+      },
+      {
+       "w": "2011,",
+       "s": 55.679,
+       "e": 56.479
+      },
+      {
+       "w": "deux",
+       "s": 56.479,
+       "e": 56.879
+      },
+      {
+       "w": "savants",
+       "s": 56.879,
+       "e": 57.359
+      },
+      {
+       "w": "revérifient",
+       "s": 57.359,
+       "e": 58.079
+      },
+      {
+       "w": "les",
+       "s": 58.079,
+       "e": 58.239
+      },
+      {
+       "w": "chiffres.",
+       "s": 58.239,
+       "e": 58.719
+      }
+     ]
+    },
+    {
+     "text": "Résultat : l'effet est beaucoup plus petit...",
+     "spoken": "Résultat : l'effet est beaucoup plus petit...",
+     "start": 58.719,
+     "end": 61.199,
+     "words": [
+      {
+       "w": "Résultat:",
+       "s": 58.719,
+       "e": 59.519
+      },
+      {
+       "w": "l'effet",
+       "s": 59.519,
+       "e": 60.079
+      },
+      {
+       "w": "est",
+       "s": 60.079,
+       "e": 60.239
+      },
+      {
+       "w": "beaucoup",
+       "s": 60.239,
+       "e": 60.559
+      },
+      {
+       "w": "plus",
+       "s": 60.559,
+       "e": 60.719
+      },
+      {
+       "w": "petit...",
+       "s": 60.719,
+       "e": 61.199
+      }
+     ]
+    },
+    {
+     "text": "que l'histoire qu'on raconte.",
+     "spoken": "que l'histoire qu'on raconte.",
+     "start": 61.199,
+     "end": 62.659,
+     "words": [
+      {
+       "w": "que",
+       "s": 61.199,
+       "e": 61.439
+      },
+      {
+       "w": "l'histoire",
+       "s": 61.439,
+       "e": 61.919
+      },
+      {
+       "w": "qu'on",
+       "s": 61.919,
+       "e": 62.159
+      },
+      {
+       "w": "raconte.",
+       "s": 62.159,
+       "e": 62.659
+      }
+     ]
+    }
+   ],
+   "end": 63.097
+  },
+  {
+   "id": "lesson",
+   "start": 63.097,
+   "sentences": [
+    {
+     "text": "Pourquoi on change quand on nous regarde ?",
+     "spoken": "Pourquoi on change quand on nous regarde ?",
+     "start": 63.097,
+     "end": 65.497,
+     "words": [
+      {
+       "w": "Pourquoi",
+       "s": 63.097,
+       "e": 63.577
+      },
+      {
+       "w": "on",
+       "s": 63.577,
+       "e": 63.737
+      },
+      {
+       "w": "change",
+       "s": 63.737,
+       "e": 64.057
+      },
+      {
+       "w": "quand",
+       "s": 64.057,
+       "e": 64.297
+      },
+      {
+       "w": "on",
+       "s": 64.297,
+       "e": 64.457
+      },
+      {
+       "w": "nous",
+       "s": 64.457,
+       "e": 64.617
+      },
+      {
+       "w": "regarde?",
+       "s": 64.617,
+       "e": 65.497
+      }
+     ]
+    },
+    {
+     "text": "Parce qu'on veut donner une bonne image : on se tient droit, on fait plus d'efforts.",
+     "spoken": "Parce qu'on veut donner une bonne image : on se tient droit, on fait plus d'efforts.",
+     "start": 65.497,
+     "end": 70.377,
+     "words": [
+      {
+       "w": "Parce",
+       "s": 65.497,
+       "e": 65.657
+      },
+      {
+       "w": "qu'on",
+       "s": 65.657,
+       "e": 65.977
+      },
+      {
+       "w": "veut",
+       "s": 65.977,
+       "e": 66.137
+      },
+      {
+       "w": "donner",
+       "s": 66.137,
+       "e": 66.457
+      },
+      {
+       "w": "une",
+       "s": 66.457,
+       "e": 66.617
+      },
+      {
+       "w": "bonne",
+       "s": 66.617,
+       "e": 66.937
+      },
+      {
+       "w": "image:",
+       "s": 66.937,
+       "e": 67.657
+      },
+      {
+       "w": "on",
+       "s": 67.657,
+       "e": 67.817
+      },
+      {
+       "w": "se",
+       "s": 67.817,
+       "e": 67.977
+      },
+      {
+       "w": "tient",
+       "s": 67.977,
+       "e": 68.297
+      },
+      {
+       "w": "droit,",
+       "s": 68.297,
+       "e": 68.777
+      },
+      {
+       "w": "on",
+       "s": 68.777,
+       "e": 69.017
+      },
+      {
+       "w": "fait",
+       "s": 69.017,
+       "e": 69.257
+      },
+      {
+       "w": "plus",
+       "s": 69.257,
+       "e": 69.497
+      },
+      {
+       "w": "d'efforts.",
+       "s": 69.497,
+       "e": 70.377
+      }
+     ]
+    },
+    {
+     "text": "Et ces ouvrières étaient contentes qu'enfin, quelqu'un s'intéresse à elles.",
+     "spoken": "Et ces ouvrières étaient contentes qu'enfin, quelqu'un s'intéresse à elles.",
+     "start": 70.377,
+     "end": 74.659,
+     "words": [
+      {
+       "w": "Et",
+       "s": 70.377,
+       "e": 70.537
+      },
+      {
+       "w": "ces",
+       "s": 70.537,
+       "e": 70.777
+      },
+      {
+       "w": "ouvrières",
+       "s": 70.777,
+       "e": 71.417
+      },
+      {
+       "w": "étaient",
+       "s": 71.417,
+       "e": 71.737
+      },
+      {
+       "w": "contentes",
+       "s": 71.737,
+       "e": 72.217
+      },
+      {
+       "w": "qu'enfin,",
+       "s": 72.217,
+       "e": 72.937
+      },
+      {
+       "w": "quelqu'un",
+       "s": 72.937,
+       "e": 73.497
+      },
+      {
+       "w": "s'intéresse",
+       "s": 73.497,
+       "e": 74.137
+      },
+      {
+       "w": "à",
+       "s": 74.137,
+       "e": 74.297
+      },
+      {
+       "w": "elles.",
+       "s": 74.297,
+       "e": 74.659
+      }
+     ]
+    }
+   ],
+   "end": 74.959
+  },
+  {
+   "id": "now",
+   "start": 74.959,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 74.959,
+     "end": 75.839,
+     "words": [
+      {
+       "w": "Et",
+       "s": 74.959,
+       "e": 75.199
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 75.199,
+       "e": 75.839
+      }
+     ]
+    },
+    {
+     "text": "Des caméras partout, des patrons qui surveillent l'ordinateur, des montres qui comptent nos pas, des likes...",
+     "spoken": "Des caméras partout, des patrons qui surveillent l'ordinateur, des montres qui comptent nos pas, des likes...",
+     "start": 75.839,
+     "end": 82.079,
+     "words": [
+      {
+       "w": "Des",
+       "s": 75.839,
+       "e": 76.079
+      },
+      {
+       "w": "caméras",
+       "s": 76.079,
+       "e": 76.639
+      },
+      {
+       "w": "partout,",
+       "s": 76.639,
+       "e": 77.199
+      },
+      {
+       "w": "des",
+       "s": 77.199,
+       "e": 77.359
+      },
+      {
+       "w": "patrons",
+       "s": 77.359,
+       "e": 77.759
+      },
+      {
+       "w": "qui",
+       "s": 77.759,
+       "e": 77.919
+      },
+      {
+       "w": "surveillent",
+       "s": 77.919,
+       "e": 78.479
+      },
+      {
+       "w": "l'ordinateur,",
+       "s": 78.479,
+       "e": 79.439
+      },
+      {
+       "w": "des",
+       "s": 79.439,
+       "e": 79.679
+      },
+      {
+       "w": "montres",
+       "s": 79.679,
+       "e": 80.159
+      },
+      {
+       "w": "qui",
+       "s": 80.159,
+       "e": 80.319
+      },
+      {
+       "w": "comptent",
+       "s": 80.319,
+       "e": 80.719
+      },
+      {
+       "w": "nos",
+       "s": 80.719,
+       "e": 80.959
+      },
+      {
+       "w": "pas,",
+       "s": 80.959,
+       "e": 81.359
+      },
+      {
+       "w": "des",
+       "s": 81.359,
+       "e": 81.519
+      },
+      {
+       "w": "likes...",
+       "s": 81.519,
+       "e": 82.079
+      }
+     ]
+    },
+    {
+     "text": "on est regardés tout le temps.",
+     "spoken": "on est regardés tout le temps.",
+     "start": 82.079,
+     "end": 83.519,
+     "words": [
+      {
+       "w": "on",
+       "s": 82.079,
+       "e": 82.239
+      },
+      {
+       "w": "est",
+       "s": 82.239,
+       "e": 82.414
+      },
+      {
+       "w": "regardés",
+       "s": 82.414,
+       "e": 82.879
+      },
+      {
+       "w": "tout",
+       "s": 82.879,
+       "e": 83.039
+      },
+      {
+       "w": "le",
+       "s": 83.039,
+       "e": 83.119
+      },
+      {
+       "w": "temps.",
+       "s": 83.119,
+       "e": 83.519
+      }
+     ]
+    },
+    {
+     "text": "Une étude a même montré qu'une simple affiche avec des yeux, au-dessus d'une boîte à café...",
+     "spoken": "Une étude a même montré qu'une simple affiche avec des yeux, au-dessus d'une boîte à café...",
+     "start": 83.519,
+     "end": 88.559,
+     "words": [
+      {
+       "w": "Une",
+       "s": 83.519,
+       "e": 83.679
+      },
+      {
+       "w": "étude",
+       "s": 83.679,
+       "e": 84.079
+      },
+      {
+       "w": "a",
+       "s": 84.079,
+       "e": 84.239
+      },
+      {
+       "w": "même",
+       "s": 84.239,
+       "e": 84.479
+      },
+      {
+       "w": "montré",
+       "s": 84.479,
+       "e": 84.799
+      },
+      {
+       "w": "qu'une",
+       "s": 84.799,
+       "e": 85.119
+      },
+      {
+       "w": "simple",
+       "s": 85.119,
+       "e": 85.439
+      },
+      {
+       "w": "affiche",
+       "s": 85.439,
+       "e": 85.999
+      },
+      {
+       "w": "avec",
+       "s": 85.999,
+       "e": 86.239
+      },
+      {
+       "w": "des",
+       "s": 86.239,
+       "e": 86.399
+      },
+      {
+       "w": "yeux,",
+       "s": 86.399,
+       "e": 86.879
+      },
+      {
+       "w": "au-dessus",
+       "s": 86.879,
+       "e": 87.359
+      },
+      {
+       "w": "d'une",
+       "s": 87.359,
+       "e": 87.519
+      },
+      {
+       "w": "boîte",
+       "s": 87.519,
+       "e": 87.919
+      },
+      {
+       "w": "à",
+       "s": 87.919,
+       "e": 88.079
+      },
+      {
+       "w": "café...",
+       "s": 88.079,
+       "e": 88.559
+      }
+     ]
+    },
+    {
+     "text": "fait payer presque trois fois plus.",
+     "spoken": "fait payer presque trois fois plus.",
+     "start": 89.209,
+     "end": 91.254,
+     "words": [
+      {
+       "w": "fait",
+       "s": 89.209,
+       "e": 89.529
+      },
+      {
+       "w": "payer",
+       "s": 89.529,
+       "e": 90.009
+      },
+      {
+       "w": "presque",
+       "s": 90.009,
+       "e": 90.329
+      },
+      {
+       "w": "trois",
+       "s": 90.329,
+       "e": 90.569
+      },
+      {
+       "w": "fois",
+       "s": 90.569,
+       "e": 90.809
+      },
+      {
+       "w": "plus.",
+       "s": 90.809,
+       "e": 91.254
+      }
+     ]
+    }
+   ],
+   "end": 91.554
+  },
+  {
+   "id": "cta",
+   "start": 91.554,
+   "sentences": [
+    {
+     "text": "Et toi...",
+     "spoken": "Et toi...",
+     "start": 91.554,
+     "end": 92.034,
+     "words": [
+      {
+       "w": "Et",
+       "s": 91.554,
+       "e": 91.714
+      },
+      {
+       "w": "toi...",
+       "s": 91.714,
+       "e": 92.034
+      }
+     ]
+    },
+    {
+     "text": "tu bosses mieux quand le chef passe ?",
+     "spoken": "tu bosses mieux quand le chef passe ?",
+     "start": 92.034,
+     "end": 93.954,
+     "words": [
+      {
+       "w": "tu",
+       "s": 92.034,
+       "e": 92.274
+      },
+      {
+       "w": "bosses",
+       "s": 92.274,
+       "e": 92.754
+      },
+      {
+       "w": "mieux",
+       "s": 92.754,
+       "e": 92.914
+      },
+      {
+       "w": "quand",
+       "s": 92.914,
+       "e": 93.074
+      },
+      {
+       "w": "le",
+       "s": 93.074,
+       "e": 93.234
+      },
+      {
+       "w": "chef",
+       "s": 93.234,
+       "e": 93.554
+      },
+      {
+       "w": "passe?",
+       "s": 93.554,
+       "e": 93.954
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 93.954,
+     "end": 94.934,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 93.954,
+       "e": 94.354
+      },
+      {
+       "w": "en",
+       "s": 94.354,
+       "e": 94.434
+      },
+      {
+       "w": "commentaire.",
+       "s": 94.434,
+       "e": 94.934
+      }
+     ]
+    }
+   ],
+   "end": 95.354
+  }
+ ]
+}

@@ -1,0 +1,113 @@
+{
+ "line": "Tu enverrais quatre cent cinquante volts à un inconnu. Juste parce qu'on te le demande ?",
+ "entries": [
+  {
+   "n": 1,
+   "name": "Supertonic · Femme 1",
+   "desc": "voix aiguë",
+   "f0": 190
+  },
+  {
+   "n": 2,
+   "name": "Supertonic · Femme 2",
+   "desc": "voix aiguë",
+   "f0": 209
+  },
+  {
+   "n": 3,
+   "name": "Supertonic · Femme 3",
+   "desc": "voix médium",
+   "f0": 164
+  },
+  {
+   "n": 4,
+   "name": "Supertonic · Femme 4",
+   "desc": "voix aiguë",
+   "f0": 193
+  },
+  {
+   "n": 5,
+   "name": "Supertonic · Femme 5",
+   "desc": "voix médium",
+   "f0": 165
+  },
+  {
+   "n": 6,
+   "name": "Supertonic · Homme 1",
+   "desc": "voix médium",
+   "f0": 138
+  },
+  {
+   "n": 7,
+   "name": "Supertonic · Homme 2",
+   "desc": "voix grave",
+   "f0": 92
+  },
+  {
+   "n": 8,
+   "name": "Supertonic · Homme 3",
+   "desc": "voix grave",
+   "f0": 96
+  },
+  {
+   "n": 9,
+   "name": "Supertonic · Homme 4",
+   "desc": "voix grave",
+   "f0": 115
+  },
+  {
+   "n": 10,
+   "name": "Supertonic · Homme 5",
+   "desc": "voix grave",
+   "f0": 94
+  },
+  {
+   "n": 11,
+   "name": "Kokoro · Siwis (femme)",
+   "desc": "voix aiguë",
+   "f0": 203
+  },
+  {
+   "n": 12,
+   "name": "Piper · Tom (homme)",
+   "desc": "voix médium",
+   "f0": 132
+  },
+  {
+   "n": 13,
+   "name": "Piper · Jessica (femme)",
+   "desc": "voix aiguë",
+   "f0": 232
+  },
+  {
+   "n": 14,
+   "name": "Piper · Pierre (homme)",
+   "desc": "voix médium",
+   "f0": 128
+  },
+  {
+   "n": 15,
+   "name": "Piper · Miro (homme)",
+   "desc": "voix grave",
+   "f0": 101
+  },
+  {
+   "n": 16,
+   "name": "Piper · Gilles (homme)",
+   "desc": "voix grave",
+   "f0": 108
+  },
+  {
+   "n": 17,
+   "name": "Piper · Siwis (femme)",
+   "desc": "voix aiguë",
+   "f0": 230
+  },
+  {
+   "n": 18,
+   "name": "Coqui · CSS10 (homme)",
+   "desc": "voix grave",
+   "f0": 110
+  }
+ ]
+}

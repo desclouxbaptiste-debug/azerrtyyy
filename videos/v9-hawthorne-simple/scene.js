@@ -42,8 +42,10 @@ function world(t) {
   light(450, 900, 900, 0.9);
   const ts = S("setup"), tm = wt("setup", "milliers", 3);
   chalk("années 20 · près de Chicago", 450, 120, prog(t, ts + 0.3, ts + 1.2), { size: 65 });
-  chalk("le but : qu'est-ce qui aide à mieux travailler ?", 450, 230, prog(t, wt("setup", "mieux", 5) - 0.6, wt("setup", "mieux", 5) + 0.8), { size: 44, color: "#FFE08A" });
-  chalk("Western Electric : des milliers d'ouvriers", 450, 1360, prog(t, tm - 0.2, tm + 0.8), { size: 53 });
+  const pGoal = prog(t, wt("setup", "mieux", 5) - 0.6, wt("setup", "mieux", 5) + 0.8);
+  chalk("le but :", 450, 440, pGoal, { size: 54, color: "#FFE08A" });
+  chalk("qu'est-ce qui aide à mieux travailler ?", 450, 510, pGoal, { size: 46, color: "#FFE08A" });
+  chalk("des milliers d'ouvriers", 450, 330, prog(t, tm - 0.2, tm + 0.8), { size: 50 });
   // ---- B: the test workshop
   shop(1300, 2700);
   const lv = testLight(t);
