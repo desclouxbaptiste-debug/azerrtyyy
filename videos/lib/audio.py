@@ -525,6 +525,9 @@ def style_dark(n, cfg):
             k = t_axis(r.uniform(0.004, 0.03))
             add(sparks, hp(r.normal(0, 1, len(k)), 2500) * np.exp(-k * 120), at, r.uniform(0.1, 1) ** 2)
         extra += hum * 0.05 + sparks * 0.16
+    if cfg.get("room"):  # room tone: air and a faint fluorescent hum, so silence still sounds like a place
+        air = lp(np.random.default_rng(21).normal(0, 1, n), 380)
+        extra += air / (np.max(np.abs(air)) + 1e-9) * 0.05 + np.sin(2 * np.pi * 120 * t) * 0.006
     if cfg.get("tick"):
         for k in range(int(n / SR)):
             add(extra, fx("tick" if k % 2 == 0 else "click"), k + 0.5, 0.55)
@@ -585,6 +588,32 @@ def fx(kind, dur=None):
         t = t_axis(0.7)
         thump = lambda d: np.where(t >= d, np.sin(2 * np.pi * 55 * (t - d)) * np.exp(-(t - d) * 18), 0)
         return lp(thump(0) + thump(0.22) * 0.75, 200) * 1.2
+    # ---- foley for the immersive cuts
+    if kind == "switch":  # heavy bakelite toggle: click + small body thump
+        t = t_axis(0.18)
+        return (bp(rng.normal(0, 1, len(t)), 1500, 6000) * np.exp(-t * 180) * 0.6 + np.sin(2 * np.pi * 140 * t) * np.exp(-t * 40) * 0.35) * 0.8
+    if kind == "buzz":  # electrical buzz of a shock
+        t = t_axis(dur or 0.5)
+        b = sum(saw(f, t) / k for k, f in enumerate((100, 200, 300, 450), 1)) * 0.4 + hp(rng.normal(0, 1, len(t)), 3000) * 0.25
+        return np.tanh(b * 2) * env_adsr(len(t), 0.005, 10, 1, 0.06) * 0.35
+    if kind == "spark":
+        t = t_axis(0.35)
+        return (hp(rng.normal(0, 1, len(t)), 2500) * (np.abs(np.sin(2 * np.pi * 37 * t)) ** 4) + saw(120, t) * 0.3) * np.exp(-t * 9) * 0.25
+    if kind == "knock":  # fist on a wooden wall
+        t = t_axis(0.4)
+        return (np.sin(sweep_phase(95 + 60 * np.exp(-t * 40))) * np.exp(-t * 18) + lp(rng.normal(0, 1, len(t)), 900) * np.exp(-t * 45) * 0.8) * 0.9
+    if kind == "step":
+        t = t_axis(0.25)
+        return (np.sin(2 * np.pi * 70 * t) * np.exp(-t * 30) * 0.6 + bp(rng.normal(0, 1, len(t)), 300, 2500) * np.exp(-t * 25) * 0.25) * 0.7
+    if kind == "door":
+        t = t_axis(1.1)
+        creak = np.sin(sweep_phase(220 + 90 * np.sin(2 * np.pi * 1.3 * t) + 30 * rng.normal(0, 1, len(t)).cumsum() / SR)) * env_adsr(len(t), 0.1, 10, 1, 0.3) * 0.12
+        latch = np.where(t > 0.85, bp(rng.normal(0, 1, len(t)), 800, 5000) * np.exp(-(t - 0.85) * 60), 0) * 0.5
+        return creak + latch
+    if kind == "ring":  # old bell telephone, one ring
+        t = t_axis(dur or 1.2)
+        bells = (bell(1250, dur or 1.2) + bell(1610, dur or 1.2) * 0.7) * (0.5 + 0.5 * np.sign(np.sin(2 * np.pi * 20 * t)))
+        return bells * env_adsr(len(t), 0.005, 10, 1, 0.1) * 0.12
     if kind == "impact_deep":
         t = t_axis(3.0)
         thud = np.sin(sweep_phase(28 + 62 * np.exp(-t * 7))) * np.exp(-t * 1.6)

@@ -1,0 +1,114 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.071,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "<w>Tu enverrais {450|quatre cent cinquante} volts à un inconnu... <w>parce qu'on te le demande ?",
+   "emph": [
+    "450"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "{1961|Mille neuf cent soixante et un}. L'université {Yale|Yèle} paie quatre dollars pour une étude sur la mémoire. Tu te présentes.",
+   "emph": [
+    "mémoire"
+   ]
+  },
+  {
+   "id": "roles",
+   "text": "Un autre volontaire attend. Tirage au sort : toi, professeur. Lui, élève. Mais le tirage est truqué... <r>lui, c'est un acteur.",
+   "emph": [
+    "truqué",
+    "acteur"
+   ]
+  },
+  {
+   "id": "strap",
+   "text": "On l'attache, une électrode au poignet. Pour que tu y croies, tu reçois un vrai choc : quarante-cinq volts.",
+   "emph": [
+    "vrai"
+   ]
+  },
+  {
+   "id": "machine",
+   "text": "Toi, tu passes à côté, face à un générateur : trente manettes, de {15|quinze} à {450|quatre cent cinquante} volts.",
+   "emph": [
+    "trente"
+   ]
+  },
+  {
+   "id": "rule",
+   "text": "Tu lui lis des paires de mots. Chaque erreur... une manette de plus.",
+   "emph": [
+    "erreur"
+   ]
+  },
+  {
+   "id": "fake",
+   "text": "Ce que tu ignores... <w>les chocs sont faux.",
+   "emph": [
+    "faux"
+   ]
+  },
+  {
+   "id": "protest",
+   "text": "À {300|trois cents} volts, l'élève tape contre le mur. Puis... <r>plus rien.",
+   "emph": [
+    "rien"
+   ]
+  },
+  {
+   "id": "prod",
+   "text": "<lw>Tu hésites ? Derrière toi, le chercheur reste calme. <s>L'expérience exige que vous continuiez.",
+   "emph": [
+    "exige"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "<r>Résultat : {26|vingt-six} hommes sur {40|quarante} vont jusqu'au bout. <s>{65 %|Soixante-cinq pour cent}. Aucun ne s'arrête avant trois cents volts.",
+   "emph": [
+    "26",
+    "65",
+    "aucun"
+   ]
+  },
+  {
+   "id": "why",
+   "text": "Pourquoi ? Chaque manette n'ajoute que quinze volts. Et la responsabilité... on la laisse au chercheur.",
+   "emph": [
+    "quinze",
+    "responsabilité"
+   ]
+  },
+  {
+   "id": "nuance",
+   "text": "Mais quand les ordres arrivent par téléphone... l'obéissance s'effondre.",
+   "emph": [
+    "téléphone"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Et toi... <w>à quelle manette tu t'arrêtes ? Dis-le en commentaire."
+  }
+ ]
+}
