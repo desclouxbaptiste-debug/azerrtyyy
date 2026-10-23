@@ -218,7 +218,7 @@ function factory(cx, groundY, s, t) {
   const r = rng(8);
   for (let i = 0; i < 8; i++) { const k = (t * 0.25 + i / 8) % 1; ctx.fillStyle = `rgba(220,220,225,${0.5 * (1 - k)})`; ctx.beginPath(); ctx.arc(335 + k * 160 + r() * 30, -920 - k * 360, 30 + k * 70, 0, 6.29); ctx.fill(); }
   for (let row = 0; row < 3; row++) for (let c = 0; c < 7; c++) roundRectFill(-410 + c * 125, -460 + row * 140, 80, 90, 6, (row + c + Math.floor(t * 0.5)) % 5 ? "#FFD889" : "#5A3328");
-  roundRectFill(-200, -110, 400, 60, 8, "#E9E1CC"); txt("HAWTHORNE WORKS", 0, -78, 34, "MontX", "#5A2E22", { spacing: 3 });
+  roundRectFill(-250, -110, 500, 60, 8, "#E9E1CC"); txt("HAWTHORNE WORKS", 0, -78, 32, "MontX", "#5A2E22", { spacing: 3 });
   ctx.restore();
 }
 // hanging bulb; level 0..1 = brightness

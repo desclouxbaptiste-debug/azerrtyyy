@@ -26,10 +26,10 @@ const SHOT = {
   setup(s, t) {
     const g = ctx.createLinearGradient(0, 0, 0, FLOOR); g.addColorStop(0, "#9DB8D2"); g.addColorStop(1, "#E7E0D2"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = "#6F6A63"; ctx.fillRect(0, FLOOR, W, H - FLOOR);
-    factory(540, FLOOR, 0.95, t);
+    factory(540, FLOOR, 0.8, t);
     headline("ANNÉES 20 · PRÈS DE CHICAGO", 380, 46, COL.ink, t, s.start + 0.05, { spacing: 2 });
-    label("DES MILLIERS D'OUVRIERS", W / 2, 520, 34, "#fff", COL.ink, pop(t, wt("setup", "milliers", 3.4) - 0.3));
-    if (t > wt("setup", "téléphonique", 5.6) - 0.5) { const p = pop(t, wt("setup", "téléphonique", 5.6) - 0.5); ctx.save(); ctx.translate(880, 640); ctx.scale(p, p); oldPhone(0, 0, 0.8); ctx.restore(); }
+    label("DES MILLIERS D'OUVRIERS", W / 2, 1290, 34, "#fff", COL.ink, pop(t, wt("setup", "milliers", 3.4) - 0.3));
+    if (t > wt("setup", "téléphonique", 5.6) - 0.5) { const p = pop(t, wt("setup", "téléphonique", 5.6) - 0.5); ctx.save(); ctx.translate(200, 560); ctx.scale(p, p); oldPhone(0, 0, 1.6); ctx.restore(); }
   },
   light(s, t) {
     const tl = wt("light", "lumière", 2.2), tm = wt("light", "monte", 3.2);
@@ -59,10 +59,10 @@ const SHOT = {
     const lt = t - s.start, ts = wt("relay", "six", 0.6), tp = wt("relay", "Pauses", 2.6), th = wt("relay", "horaires", 3.2), tc = wt("relay", "collations", 3.8), tg = wt("relay", "grimpe", 5.4);
     workshop(t, 0.85);
     workbench(540, 1000, 900);
-    for (let k = 0; k < 6; k++) { const p = fade(t, ts - 0.3 + k * 0.08); if (p <= 0) continue; ctx.save(); ctx.globalAlpha = p; character(150 + k * 150, FLOOR - 40, 0.62, "worker", { pose: "stand", override: { sh: [1.1 + 0.1 * Math.sin(t * 7 + k), 0.6], el: [0.7, 0.6] }, face: { look: [1, 0.4] }, t, seed: k, shadow: false }); ctx.restore(); }
-    character(960, FLOOR + 50, 0.8, "researcher", { pose: "stand", flip: true, face: { look: [-1, 0] }, props: { clipboard: true }, t });
+    for (let k = 0; k < 6; k++) { const p = fade(t, ts - 0.3 + k * 0.08); if (p <= 0) continue; ctx.save(); ctx.globalAlpha = p; character(130 + k * 140, FLOOR - 40, 0.62, "worker", { pose: "stand", override: { sh: [1.1 + 0.1 * Math.sin(t * 7 + k), 0.6], el: [0.7, 0.6] }, face: { look: [1, 0.4] }, t, seed: k, shadow: false }); ctx.restore(); }
+    character(985, FLOOR + 50, 0.8, "researcher", { pose: "stand", flip: true, face: { look: [-1, 0] }, props: { clipboard: true }, t });
     [["PAUSES", tp, 260], ["HORAIRES", th, 540], ["COLLATIONS", tc, 820]].forEach(([l, tt, x]) => label(l, x, 420, 32, COL.ink, COL.gold, pop(t, tt - 0.3)));
-    sparkTrend(540, 620, 700, 180, [0.2, 0.3, 0.42, 0.55, 0.7], prog(t, tg - 1.2, tg + 0.4), COL.green);
+    sparkTrend(540, 620, 700, 180, [0.2, 0.3, 0.42, 0.55, 0.7], prog(t, tp - 0.3, tg + 0.4), COL.green);
   },
   name(s, t) {
     spotlightBg(t, "#1C2238");
@@ -76,13 +76,13 @@ const SHOT = {
     spotlightBg(t, "#2A1E22");
     const t11 = wt("twist", "2011", 0.6), td = wt("twist", "données", 2.8), tv = wt("twist", "faible", 5);
     headline("2011", 380, 110, "#fff", t, t11 - 0.3, { spacing: 8 });
-    character(270, 1250, 0.8, "man1950", { pose: "stand", face: { look: [1, -0.2] }, props: { paper: true }, t });
-    character(470, 1250, 0.8, "man1950b", { pose: "stand", face: { look: [1, -0.2] }, props: { paper: true }, t });
-    lineChart(620, 760, 600, 300, [
+    character(150, 1250, 0.75, "man1950", { pose: "stand", face: { look: [1, -0.2] }, props: { paper: true }, t });
+    character(310, 1250, 0.75, "man1950b", { pose: "stand", face: { look: [1, -0.2] }, props: { paper: true }, t });
+    lineChart(580, 760, 520, 300, [
       { color: COL.gold, pts: [0.2, 0.45, 0.7, 0.9], dash: [18, 12], label: "LÉGENDE" },
       { color: COL.cyan, pts: [0.4, 0.42, 0.45, 0.44], label: "DONNÉES" },
     ], prog(t, td - 0.4, td + 1.0), { yLabel: "EFFET" });
-    stamp("TRÈS EXAGÉRÉ", 700, 1050, 54, COL.accent, prog(t, tv - 0.3, tv + 0.1), -0.06);
+    stamp("TRÈS EXAGÉRÉ", 720, 1060, 54, COL.accent, prog(t, tv - 0.3, tv + 0.1), -0.06);
   },
   lesson(s, t) {
     spotlightBg(t, "#1C2238");
