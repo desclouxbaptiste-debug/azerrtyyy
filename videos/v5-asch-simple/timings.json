@@ -1,0 +1,1735 @@
+{
+ "duration": 93.202,
+ "speed": 1.07,
+ "reveals": [
+  32.269,
+  39.371,
+  71.39
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "Trois traits.",
+     "spoken": "Trois traits.",
+     "start": 0.45,
+     "end": 1.49,
+     "words": [
+      {
+       "w": "Trois",
+       "s": 0.45,
+       "e": 0.77
+      },
+      {
+       "w": "traits.",
+       "s": 0.77,
+       "e": 1.49
+      }
+     ]
+    },
+    {
+     "text": "Une réponse facile...",
+     "spoken": "Une réponse facile...",
+     "start": 1.49,
+     "end": 2.69,
+     "words": [
+      {
+       "w": "Une",
+       "s": 1.49,
+       "e": 1.73
+      },
+      {
+       "w": "réponse",
+       "s": 1.73,
+       "e": 2.13
+      },
+      {
+       "w": "facile...",
+       "s": 2.13,
+       "e": 2.69
+      }
+     ]
+    },
+    {
+     "text": "et pourtant, tu pourrais te tromper.",
+     "spoken": "et pourtant, tu pourrais te tromper.",
+     "start": 2.69,
+     "end": 4.292,
+     "words": [
+      {
+       "w": "et",
+       "s": 2.69,
+       "e": 2.85
+      },
+      {
+       "w": "pourtant,",
+       "s": 2.85,
+       "e": 3.25
+      },
+      {
+       "w": "tu",
+       "s": 3.25,
+       "e": 3.41
+      },
+      {
+       "w": "pourrais",
+       "s": 3.41,
+       "e": 3.65
+      },
+      {
+       "w": "te",
+       "s": 3.65,
+       "e": 3.81
+      },
+      {
+       "w": "tromper.",
+       "s": 3.81,
+       "e": 4.292
+      }
+     ]
+    }
+   ],
+   "end": 4.592
+  },
+  {
+   "id": "setup",
+   "start": 4.592,
+   "sentences": [
+    {
+     "text": "En 1951, un savant, Solomon Asch, veut savoir une chose.",
+     "spoken": "En mille neuf cent cinquante et un, un savant, Solomon Ache, veut savoir une chose.",
+     "start": 4.592,
+     "end": 10.112,
+     "words": [
+      {
+       "w": "En",
+       "s": 4.592,
+       "e": 4.832
+      },
+      {
+       "w": "1951,",
+       "s": 4.832,
+       "e": 6.512
+      },
+      {
+       "w": "un",
+       "s": 6.512,
+       "e": 6.672
+      },
+      {
+       "w": "savant,",
+       "s": 6.672,
+       "e": 7.232
+      },
+      {
+       "w": "Solomon",
+       "s": 7.232,
+       "e": 8.097
+      },
+      {
+       "w": "Asch,",
+       "s": 8.097,
+       "e": 8.592
+      },
+      {
+       "w": "veut",
+       "s": 8.592,
+       "e": 8.912
+      },
+      {
+       "w": "savoir",
+       "s": 8.912,
+       "e": 9.312
+      },
+      {
+       "w": "une",
+       "s": 9.312,
+       "e": 9.472
+      },
+      {
+       "w": "chose.",
+       "s": 9.472,
+       "e": 10.112
+      }
+     ]
+    },
+    {
+     "text": "Est-ce qu'on dit comme les autres, même quand les autres ont tort ?",
+     "spoken": "Est-ce qu'on dit comme les autres, même quand les autres ont tort ?",
+     "start": 10.112,
+     "end": 13.472,
+     "words": [
+      {
+       "w": "Est-ce",
+       "s": 10.112,
+       "e": 10.432
+      },
+      {
+       "w": "qu'on",
+       "s": 10.432,
+       "e": 10.832
+      },
+      {
+       "w": "dit",
+       "s": 10.832,
+       "e": 10.992
+      },
+      {
+       "w": "comme",
+       "s": 10.992,
+       "e": 11.232
+      },
+      {
+       "w": "les",
+       "s": 11.232,
+       "e": 11.392
+      },
+      {
+       "w": "autres,",
+       "s": 11.392,
+       "e": 11.792
+      },
+      {
+       "w": "même",
+       "s": 11.792,
+       "e": 12.032
+      },
+      {
+       "w": "quand",
+       "s": 12.032,
+       "e": 12.272
+      },
+      {
+       "w": "les",
+       "s": 12.272,
+       "e": 12.432
+      },
+      {
+       "w": "autres",
+       "s": 12.432,
+       "e": 12.672
+      },
+      {
+       "w": "ont",
+       "s": 12.672,
+       "e": 12.912
+      },
+      {
+       "w": "tort?",
+       "s": 12.912,
+       "e": 13.472
+      }
+     ]
+    },
+    {
+     "text": "Tu t'assois avec sept autres personnes.",
+     "spoken": "Tu t'assois avec sept autres personnes.",
+     "start": 13.472,
+     "end": 15.5,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 13.472,
+       "e": 13.632
+      },
+      {
+       "w": "t'assois",
+       "s": 13.632,
+       "e": 14.272
+      },
+      {
+       "w": "avec",
+       "s": 14.272,
+       "e": 14.486
+      },
+      {
+       "w": "sept",
+       "s": 14.486,
+       "e": 14.699
+      },
+      {
+       "w": "autres",
+       "s": 14.699,
+       "e": 15.019
+      },
+      {
+       "w": "personnes.",
+       "s": 15.019,
+       "e": 15.5
+      }
+     ]
+    }
+   ],
+   "end": 15.8
+  },
+  {
+   "id": "task",
+   "start": 15.8,
+   "sentences": [
+    {
+     "text": "On montre une ligne.",
+     "spoken": "On montre une ligne.",
+     "start": 15.8,
+     "end": 16.92,
+     "words": [
+      {
+       "w": "On",
+       "s": 15.8,
+       "e": 16.04
+      },
+      {
+       "w": "montre",
+       "s": 16.04,
+       "e": 16.36
+      },
+      {
+       "w": "une",
+       "s": 16.36,
+       "e": 16.52
+      },
+      {
+       "w": "ligne.",
+       "s": 16.52,
+       "e": 16.92
+      }
+     ]
+    },
+    {
+     "text": "Puis trois autres.",
+     "spoken": "Puis trois autres.",
+     "start": 16.92,
+     "end": 17.96,
+     "words": [
+      {
+       "w": "Puis",
+       "s": 16.92,
+       "e": 17.24
+      },
+      {
+       "w": "trois",
+       "s": 17.24,
+       "e": 17.56
+      },
+      {
+       "w": "autres.",
+       "s": 17.56,
+       "e": 17.96
+      }
+     ]
+    },
+    {
+     "text": "Le jeu : trouver la ligne de la même taille.",
+     "spoken": "Le jeu : trouver la ligne de la même taille.",
+     "start": 17.96,
+     "end": 21.0,
+     "words": [
+      {
+       "w": "Le",
+       "s": 17.96,
+       "e": 18.2
+      },
+      {
+       "w": "jeu:",
+       "s": 18.2,
+       "e": 18.84
+      },
+      {
+       "w": "trouver",
+       "s": 18.84,
+       "e": 19.32
+      },
+      {
+       "w": "la",
+       "s": 19.32,
+       "e": 19.48
+      },
+      {
+       "w": "ligne",
+       "s": 19.48,
+       "e": 19.8
+      },
+      {
+       "w": "de",
+       "s": 19.8,
+       "e": 19.96
+      },
+      {
+       "w": "la",
+       "s": 19.96,
+       "e": 20.04
+      },
+      {
+       "w": "même",
+       "s": 20.04,
+       "e": 20.36
+      },
+      {
+       "w": "taille.",
+       "s": 20.36,
+       "e": 21.0
+      }
+     ]
+    },
+    {
+     "text": "Chacun répond à voix haute, à tour de rôle.",
+     "spoken": "Chacun répond à voix haute, à tour de rôle.",
+     "start": 21.0,
+     "end": 24.12,
+     "words": [
+      {
+       "w": "Chacun",
+       "s": 21.0,
+       "e": 21.48
+      },
+      {
+       "w": "répond",
+       "s": 21.48,
+       "e": 21.96
+      },
+      {
+       "w": "à",
+       "s": 21.96,
+       "e": 22.04
+      },
+      {
+       "w": "voix",
+       "s": 22.04,
+       "e": 22.36
+      },
+      {
+       "w": "haute,",
+       "s": 22.36,
+       "e": 22.76
+      },
+      {
+       "w": "à",
+       "s": 22.76,
+       "e": 23.0
+      },
+      {
+       "w": "tour",
+       "s": 23.0,
+       "e": 23.32
+      },
+      {
+       "w": "de",
+       "s": 23.32,
+       "e": 23.48
+      },
+      {
+       "w": "rôle.",
+       "s": 23.48,
+       "e": 24.12
+      }
+     ]
+    },
+    {
+     "text": "Toi, tu passes avant-dernier.",
+     "spoken": "Toi, tu passes avant-dernier.",
+     "start": 24.12,
+     "end": 25.66,
+     "words": [
+      {
+       "w": "Toi,",
+       "s": 24.12,
+       "e": 24.6
+      },
+      {
+       "w": "tu",
+       "s": 24.6,
+       "e": 24.84
+      },
+      {
+       "w": "passes",
+       "s": 24.84,
+       "e": 25.16
+      },
+      {
+       "w": "avant-dernier.",
+       "s": 25.16,
+       "e": 25.66
+      }
+     ]
+    }
+   ],
+   "end": 26.287
+  },
+  {
+   "id": "easy",
+   "start": 26.287,
+   "sentences": [
+    {
+     "text": "Au début, c'est facile.",
+     "spoken": "Au début, c'est facile.",
+     "start": 26.287,
+     "end": 27.487,
+     "words": [
+      {
+       "w": "Au",
+       "s": 26.287,
+       "e": 26.447
+      },
+      {
+       "w": "début,",
+       "s": 26.447,
+       "e": 26.847
+      },
+      {
+       "w": "c'est",
+       "s": 26.847,
+       "e": 27.007
+      },
+      {
+       "w": "facile.",
+       "s": 27.007,
+       "e": 27.487
+      }
+     ]
+    },
+    {
+     "text": "Tout le monde trouve la bonne.",
+     "spoken": "Tout le monde trouve la bonne.",
+     "start": 27.487,
+     "end": 28.76,
+     "words": [
+      {
+       "w": "Tout",
+       "s": 27.487,
+       "e": 27.647
+      },
+      {
+       "w": "le",
+       "s": 27.647,
+       "e": 27.727
+      },
+      {
+       "w": "monde",
+       "s": 27.727,
+       "e": 27.967
+      },
+      {
+       "w": "trouve",
+       "s": 27.967,
+       "e": 28.207
+      },
+      {
+       "w": "la",
+       "s": 28.207,
+       "e": 28.367
+      },
+      {
+       "w": "bonne.",
+       "s": 28.367,
+       "e": 28.76
+      }
+     ]
+    }
+   ],
+   "end": 29.059
+  },
+  {
+   "id": "twist",
+   "start": 29.059,
+   "sentences": [
+    {
+     "text": "Puis, à ce tour-là, les sept disent tous...",
+     "spoken": "Puis, à ce tour-là, les sept disent tous...",
+     "start": 29.059,
+     "end": 31.619,
+     "words": [
+      {
+       "w": "Puis,",
+       "s": 29.059,
+       "e": 29.539
+      },
+      {
+       "w": "à",
+       "s": 29.539,
+       "e": 29.699
+      },
+      {
+       "w": "ce",
+       "s": 29.699,
+       "e": 29.859
+      },
+      {
+       "w": "tour-là,",
+       "s": 29.859,
+       "e": 30.339
+      },
+      {
+       "w": "les",
+       "s": 30.339,
+       "e": 30.499
+      },
+      {
+       "w": "sept",
+       "s": 30.499,
+       "e": 30.979
+      },
+      {
+       "w": "disent",
+       "s": 30.979,
+       "e": 31.299
+      },
+      {
+       "w": "tous...",
+       "s": 31.299,
+       "e": 31.619
+      }
+     ]
+    },
+    {
+     "text": "la même mauvaise réponse.",
+     "spoken": "la même mauvaise réponse.",
+     "start": 32.269,
+     "end": 33.649,
+     "words": [
+      {
+       "w": "la",
+       "s": 32.269,
+       "e": 32.429
+      },
+      {
+       "w": "même",
+       "s": 32.429,
+       "e": 32.669
+      },
+      {
+       "w": "mauvaise",
+       "s": 32.669,
+       "e": 33.149
+      },
+      {
+       "w": "réponse.",
+       "s": 33.149,
+       "e": 33.649
+      }
+     ]
+    }
+   ],
+   "end": 34.045
+  },
+  {
+   "id": "secret",
+   "start": 34.045,
+   "sentences": [
+    {
+     "text": "Ce que tu ne sais pas...",
+     "spoken": "Ce que tu ne sais pas...",
+     "start": 34.045,
+     "end": 35.165,
+     "words": [
+      {
+       "w": "Ce",
+       "s": 34.045,
+       "e": 34.285
+      },
+      {
+       "w": "que",
+       "s": 34.285,
+       "e": 34.365
+      },
+      {
+       "w": "tu",
+       "s": 34.365,
+       "e": 34.525
+      },
+      {
+       "w": "ne",
+       "s": 34.525,
+       "e": 34.605
+      },
+      {
+       "w": "sais",
+       "s": 34.605,
+       "e": 34.765
+      },
+      {
+       "w": "pas...",
+       "s": 34.765,
+       "e": 35.165
+      }
+     ]
+    },
+    {
+     "text": "ils sont tous d'accord pour te piéger.",
+     "spoken": "ils sont tous d'accord pour te piéger.",
+     "start": 35.165,
+     "end": 37.165,
+     "words": [
+      {
+       "w": "ils",
+       "s": 35.165,
+       "e": 35.325
+      },
+      {
+       "w": "sont",
+       "s": 35.325,
+       "e": 35.485
+      },
+      {
+       "w": "tous",
+       "s": 35.485,
+       "e": 35.725
+      },
+      {
+       "w": "d'accord",
+       "s": 35.725,
+       "e": 36.125
+      },
+      {
+       "w": "pour",
+       "s": 36.125,
+       "e": 36.285
+      },
+      {
+       "w": "te",
+       "s": 36.285,
+       "e": 36.445
+      },
+      {
+       "w": "piéger.",
+       "s": 36.445,
+       "e": 37.165
+      }
+     ]
+    },
+    {
+     "text": "Ce sont des complices.",
+     "spoken": "Ce sont des complices.",
+     "start": 37.165,
+     "end": 38.225,
+     "words": [
+      {
+       "w": "Ce",
+       "s": 37.165,
+       "e": 37.405
+      },
+      {
+       "w": "sont",
+       "s": 37.405,
+       "e": 37.565
+      },
+      {
+       "w": "des",
+       "s": 37.565,
+       "e": 37.725
+      },
+      {
+       "w": "complices.",
+       "s": 37.725,
+       "e": 38.225
+      }
+     ]
+    }
+   ],
+   "end": 38.721
+  },
+  {
+   "id": "result",
+   "start": 38.721,
+   "sentences": [
+    {
+     "text": "Et devine quoi ?",
+     "spoken": "Et devine quoi ?",
+     "start": 39.371,
+     "end": 40.411,
+     "words": [
+      {
+       "w": "Et",
+       "s": 39.371,
+       "e": 39.531
+      },
+      {
+       "w": "devine",
+       "s": 39.531,
+       "e": 39.931
+      },
+      {
+       "w": "quoi?",
+       "s": 39.931,
+       "e": 40.411
+      }
+     ]
+    },
+    {
+     "text": "Une fois sur trois, les gens disent comme le groupe.",
+     "spoken": "Une fois sur trois, les gens disent comme le groupe.",
+     "start": 40.411,
+     "end": 43.371,
+     "words": [
+      {
+       "w": "Une",
+       "s": 40.411,
+       "e": 40.651
+      },
+      {
+       "w": "fois",
+       "s": 40.651,
+       "e": 40.891
+      },
+      {
+       "w": "sur",
+       "s": 40.891,
+       "e": 41.131
+      },
+      {
+       "w": "trois,",
+       "s": 41.131,
+       "e": 41.691
+      },
+      {
+       "w": "les",
+       "s": 41.691,
+       "e": 41.851
+      },
+      {
+       "w": "gens",
+       "s": 41.851,
+       "e": 42.171
+      },
+      {
+       "w": "disent",
+       "s": 42.171,
+       "e": 42.571
+      },
+      {
+       "w": "comme",
+       "s": 42.571,
+       "e": 42.811
+      },
+      {
+       "w": "le",
+       "s": 42.811,
+       "e": 42.971
+      },
+      {
+       "w": "groupe.",
+       "s": 42.971,
+       "e": 43.371
+      }
+     ]
+    },
+    {
+     "text": "Et trois personnes sur quatre se trompent au moins une fois.",
+     "spoken": "Et trois personnes sur quatre se trompent au moins une fois.",
+     "start": 43.371,
+     "end": 46.811,
+     "words": [
+      {
+       "w": "Et",
+       "s": 43.371,
+       "e": 43.611
+      },
+      {
+       "w": "trois",
+       "s": 43.611,
+       "e": 43.931
+      },
+      {
+       "w": "personnes",
+       "s": 43.931,
+       "e": 44.331
+      },
+      {
+       "w": "sur",
+       "s": 44.331,
+       "e": 44.571
+      },
+      {
+       "w": "quatre",
+       "s": 44.571,
+       "e": 44.971
+      },
+      {
+       "w": "se",
+       "s": 44.971,
+       "e": 45.131
+      },
+      {
+       "w": "trompent",
+       "s": 45.131,
+       "e": 45.691
+      },
+      {
+       "w": "au",
+       "s": 45.691,
+       "e": 45.851
+      },
+      {
+       "w": "moins",
+       "s": 45.851,
+       "e": 46.091
+      },
+      {
+       "w": "une",
+       "s": 46.091,
+       "e": 46.331
+      },
+      {
+       "w": "fois.",
+       "s": 46.331,
+       "e": 46.811
+      }
+     ]
+    },
+    {
+     "text": "Pourtant, seuls, presque personne ne se trompe.",
+     "spoken": "Pourtant, seuls, presque personne ne se trompe.",
+     "start": 46.811,
+     "end": 49.471,
+     "words": [
+      {
+       "w": "Pourtant,",
+       "s": 46.811,
+       "e": 47.5
+      },
+      {
+       "w": "seuls,",
+       "s": 47.5,
+       "e": 47.931
+      },
+      {
+       "w": "presque",
+       "s": 47.931,
+       "e": 48.331
+      },
+      {
+       "w": "personne",
+       "s": 48.331,
+       "e": 48.651
+      },
+      {
+       "w": "ne",
+       "s": 48.651,
+       "e": 48.811
+      },
+      {
+       "w": "se",
+       "s": 48.811,
+       "e": 48.971
+      },
+      {
+       "w": "trompe.",
+       "s": 48.971,
+       "e": 49.471
+      }
+     ]
+    }
+   ],
+   "end": 49.817
+  },
+  {
+   "id": "why",
+   "start": 49.817,
+   "sentences": [
+    {
+     "text": "Pourquoi ?",
+     "spoken": "Pourquoi ?",
+     "start": 49.817,
+     "end": 50.617,
+     "words": [
+      {
+       "w": "Pourquoi?",
+       "s": 49.817,
+       "e": 50.617
+      }
+     ]
+    },
+    {
+     "text": "Deux raisons.",
+     "spoken": "Deux raisons.",
+     "start": 50.617,
+     "end": 51.417,
+     "words": [
+      {
+       "w": "Deux",
+       "s": 50.617,
+       "e": 50.937
+      },
+      {
+       "w": "raisons.",
+       "s": 50.937,
+       "e": 51.417
+      }
+     ]
+    },
+    {
+     "text": "D'abord, le doute : s'ils sont sept à voir autre chose, c'est peut-être toi qui vois mal.",
+     "spoken": "D'abord, le doute : s'ils sont sept à voir autre chose, c'est peut-être toi qui vois mal.",
+     "start": 51.417,
+     "end": 57.017,
+     "words": [
+      {
+       "w": "D'abord,",
+       "s": 51.417,
+       "e": 51.897
+      },
+      {
+       "w": "le",
+       "s": 51.897,
+       "e": 52.057
+      },
+      {
+       "w": "doute:",
+       "s": 52.057,
+       "e": 52.368
+      },
+      {
+       "w": "s'ils",
+       "s": 52.368,
+       "e": 52.617
+      },
+      {
+       "w": "sont",
+       "s": 52.617,
+       "e": 53.017
+      },
+      {
+       "w": "sept",
+       "s": 53.017,
+       "e": 53.497
+      },
+      {
+       "w": "à",
+       "s": 53.497,
+       "e": 53.577
+      },
+      {
+       "w": "voir",
+       "s": 53.577,
+       "e": 53.817
+      },
+      {
+       "w": "autre",
+       "s": 53.817,
+       "e": 54.137
+      },
+      {
+       "w": "chose,",
+       "s": 54.137,
+       "e": 54.857
+      },
+      {
+       "w": "c'est",
+       "s": 54.857,
+       "e": 55.097
+      },
+      {
+       "w": "peut-être",
+       "s": 55.097,
+       "e": 55.497
+      },
+      {
+       "w": "toi",
+       "s": 55.497,
+       "e": 55.737
+      },
+      {
+       "w": "qui",
+       "s": 55.737,
+       "e": 55.977
+      },
+      {
+       "w": "vois",
+       "s": 55.977,
+       "e": 56.297
+      },
+      {
+       "w": "mal.",
+       "s": 56.297,
+       "e": 57.017
+      }
+     ]
+    },
+    {
+     "text": "Ensuite, la peur : tu sais que c'est la ligne A...",
+     "spoken": "Ensuite, la peur : tu sais que c'est la ligne A...",
+     "start": 57.017,
+     "end": 60.057,
+     "words": [
+      {
+       "w": "Ensuite,",
+       "s": 57.017,
+       "e": 57.817
+      },
+      {
+       "w": "la",
+       "s": 57.817,
+       "e": 57.977
+      },
+      {
+       "w": "peur:",
+       "s": 57.977,
+       "e": 58.537
+      },
+      {
+       "w": "tu",
+       "s": 58.537,
+       "e": 58.697
+      },
+      {
+       "w": "sais",
+       "s": 58.697,
+       "e": 58.937
+      },
+      {
+       "w": "que",
+       "s": 58.937,
+       "e": 59.097
+      },
+      {
+       "w": "c'est",
+       "s": 59.097,
+       "e": 59.257
+      },
+      {
+       "w": "la",
+       "s": 59.257,
+       "e": 59.337
+      },
+      {
+       "w": "ligne",
+       "s": 59.337,
+       "e": 59.737
+      },
+      {
+       "w": "A...",
+       "s": 59.737,
+       "e": 60.057
+      }
+     ]
+    },
+    {
+     "text": "mais tu ne veux pas être tout seul contre tous.",
+     "spoken": "mais tu ne veux pas être tout seul contre tous.",
+     "start": 60.057,
+     "end": 63.177,
+     "words": [
+      {
+       "w": "mais",
+       "s": 60.057,
+       "e": 60.297
+      },
+      {
+       "w": "tu",
+       "s": 60.297,
+       "e": 60.457
+      },
+      {
+       "w": "ne",
+       "s": 60.457,
+       "e": 60.537
+      },
+      {
+       "w": "veux",
+       "s": 60.537,
+       "e": 60.857
+      },
+      {
+       "w": "pas",
+       "s": 60.857,
+       "e": 61.177
+      },
+      {
+       "w": "être",
+       "s": 61.177,
+       "e": 61.497
+      },
+      {
+       "w": "tout",
+       "s": 61.497,
+       "e": 61.817
+      },
+      {
+       "w": "seul",
+       "s": 61.817,
+       "e": 62.217
+      },
+      {
+       "w": "contre",
+       "s": 62.217,
+       "e": 62.617
+      },
+      {
+       "w": "tous.",
+       "s": 62.617,
+       "e": 63.177
+      }
+     ]
+    },
+    {
+     "text": "Dans le cerveau, être différent du groupe, ça déclenche comme une petite alarme.",
+     "spoken": "Dans le cerveau, être différent du groupe, ça déclenche comme une petite alarme.",
+     "start": 63.177,
+     "end": 67.517,
+     "words": [
+      {
+       "w": "Dans",
+       "s": 63.177,
+       "e": 63.417
+      },
+      {
+       "w": "le",
+       "s": 63.417,
+       "e": 63.577
+      },
+      {
+       "w": "cerveau,",
+       "s": 63.577,
+       "e": 64.057
+      },
+      {
+       "w": "être",
+       "s": 64.057,
+       "e": 64.377
+      },
+      {
+       "w": "différent",
+       "s": 64.377,
+       "e": 64.857
+      },
+      {
+       "w": "du",
+       "s": 64.857,
+       "e": 65.017
+      },
+      {
+       "w": "groupe,",
+       "s": 65.017,
+       "e": 65.497
+      },
+      {
+       "w": "ça",
+       "s": 65.497,
+       "e": 65.737
+      },
+      {
+       "w": "déclenche",
+       "s": 65.737,
+       "e": 66.377
+      },
+      {
+       "w": "comme",
+       "s": 66.377,
+       "e": 66.537
+      },
+      {
+       "w": "une",
+       "s": 66.537,
+       "e": 66.697
+      },
+      {
+       "w": "petite",
+       "s": 66.697,
+       "e": 67.017
+      },
+      {
+       "w": "alarme.",
+       "s": 67.017,
+       "e": 67.517
+      }
+     ]
+    }
+   ],
+   "end": 67.94
+  },
+  {
+   "id": "ally",
+   "start": 67.94,
+   "sentences": [
+    {
+     "text": "Mais si un seul autre joueur dit la bonne réponse...",
+     "spoken": "Mais si un seul autre joueur dit la bonne réponse...",
+     "start": 67.94,
+     "end": 70.74,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 67.94,
+       "e": 68.18
+      },
+      {
+       "w": "si",
+       "s": 68.18,
+       "e": 68.34
+      },
+      {
+       "w": "un",
+       "s": 68.34,
+       "e": 68.5
+      },
+      {
+       "w": "seul",
+       "s": 68.5,
+       "e": 68.74
+      },
+      {
+       "w": "autre",
+       "s": 68.74,
+       "e": 68.98
+      },
+      {
+       "w": "joueur",
+       "s": 68.98,
+       "e": 69.38
+      },
+      {
+       "w": "dit",
+       "s": 69.38,
+       "e": 69.62
+      },
+      {
+       "w": "la",
+       "s": 69.62,
+       "e": 69.78
+      },
+      {
+       "w": "bonne",
+       "s": 69.78,
+       "e": 70.1
+      },
+      {
+       "w": "réponse...",
+       "s": 70.1,
+       "e": 70.74
+      }
+     ]
+    },
+    {
+     "text": "presque tout le monde ose enfin dire la vérité.",
+     "spoken": "presque tout le monde ose enfin dire la vérité.",
+     "start": 71.39,
+     "end": 73.97,
+     "words": [
+      {
+       "w": "presque",
+       "s": 71.39,
+       "e": 71.87
+      },
+      {
+       "w": "tout",
+       "s": 71.87,
+       "e": 72.03
+      },
+      {
+       "w": "le",
+       "s": 72.03,
+       "e": 72.11
+      },
+      {
+       "w": "monde",
+       "s": 72.11,
+       "e": 72.35
+      },
+      {
+       "w": "ose",
+       "s": 72.35,
+       "e": 72.67
+      },
+      {
+       "w": "enfin",
+       "s": 72.67,
+       "e": 73.07
+      },
+      {
+       "w": "dire",
+       "s": 73.07,
+       "e": 73.39
+      },
+      {
+       "w": "la",
+       "s": 73.39,
+       "e": 73.47
+      },
+      {
+       "w": "vérité.",
+       "s": 73.47,
+       "e": 73.97
+      }
+     ]
+    }
+   ],
+   "end": 74.302
+  },
+  {
+   "id": "nuance",
+   "start": 74.302,
+   "sentences": [
+    {
+     "text": "Et une personne sur quatre n'a jamais suivi le groupe.",
+     "spoken": "Et une personne sur quatre n'a jamais suivi le groupe.",
+     "start": 74.302,
+     "end": 76.899,
+     "words": [
+      {
+       "w": "Et",
+       "s": 74.302,
+       "e": 74.462
+      },
+      {
+       "w": "une",
+       "s": 74.462,
+       "e": 74.702
+      },
+      {
+       "w": "personne",
+       "s": 74.702,
+       "e": 75.022
+      },
+      {
+       "w": "sur",
+       "s": 75.022,
+       "e": 75.182
+      },
+      {
+       "w": "quatre",
+       "s": 75.182,
+       "e": 75.422
+      },
+      {
+       "w": "n'a",
+       "s": 75.422,
+       "e": 75.662
+      },
+      {
+       "w": "jamais",
+       "s": 75.662,
+       "e": 75.982
+      },
+      {
+       "w": "suivi",
+       "s": 75.982,
+       "e": 76.302
+      },
+      {
+       "w": "le",
+       "s": 76.302,
+       "e": 76.462
+      },
+      {
+       "w": "groupe.",
+       "s": 76.462,
+       "e": 76.899
+      }
+     ]
+    }
+   ],
+   "end": 77.199
+  },
+  {
+   "id": "now",
+   "start": 77.199,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 77.199,
+     "end": 78.079,
+     "words": [
+      {
+       "w": "Et",
+       "s": 77.199,
+       "e": 77.439
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 77.439,
+       "e": 78.079
+      }
+     ]
+    },
+    {
+     "text": "Les likes te disent quoi aimer.",
+     "spoken": "Les likes te disent quoi aimer.",
+     "start": 78.079,
+     "end": 80.079,
+     "words": [
+      {
+       "w": "Les",
+       "s": 78.079,
+       "e": 78.319
+      },
+      {
+       "w": "likes",
+       "s": 78.319,
+       "e": 78.719
+      },
+      {
+       "w": "te",
+       "s": 78.719,
+       "e": 78.879
+      },
+      {
+       "w": "disent",
+       "s": 78.879,
+       "e": 79.119
+      },
+      {
+       "w": "quoi",
+       "s": 79.119,
+       "e": 79.359
+      },
+      {
+       "w": "aimer.",
+       "s": 79.359,
+       "e": 80.079
+      }
+     ]
+    },
+    {
+     "text": "Les étoiles te disent quoi acheter.",
+     "spoken": "Les étoiles te disent quoi acheter.",
+     "start": 80.079,
+     "end": 82.399,
+     "words": [
+      {
+       "w": "Les",
+       "s": 80.079,
+       "e": 80.319
+      },
+      {
+       "w": "étoiles",
+       "s": 80.319,
+       "e": 80.799
+      },
+      {
+       "w": "te",
+       "s": 80.799,
+       "e": 80.959
+      },
+      {
+       "w": "disent",
+       "s": 80.959,
+       "e": 81.279
+      },
+      {
+       "w": "quoi",
+       "s": 81.279,
+       "e": 81.599
+      },
+      {
+       "w": "acheter.",
+       "s": 81.599,
+       "e": 82.399
+      }
+     ]
+    },
+    {
+     "text": "Et dans un groupe de copains, personne n'ose dire non.",
+     "spoken": "Et dans un groupe de copains, personne n'ose dire non.",
+     "start": 82.399,
+     "end": 85.359,
+     "words": [
+      {
+       "w": "Et",
+       "s": 82.399,
+       "e": 82.639
+      },
+      {
+       "w": "dans",
+       "s": 82.639,
+       "e": 82.799
+      },
+      {
+       "w": "un",
+       "s": 82.799,
+       "e": 82.959
+      },
+      {
+       "w": "groupe",
+       "s": 82.959,
+       "e": 83.199
+      },
+      {
+       "w": "de",
+       "s": 83.199,
+       "e": 83.359
+      },
+      {
+       "w": "copains,",
+       "s": 83.359,
+       "e": 84.079
+      },
+      {
+       "w": "personne",
+       "s": 84.079,
+       "e": 84.399
+      },
+      {
+       "w": "n'ose",
+       "s": 84.399,
+       "e": 84.799
+      },
+      {
+       "w": "dire",
+       "s": 84.799,
+       "e": 85.039
+      },
+      {
+       "w": "non.",
+       "s": 85.039,
+       "e": 85.359
+      }
+     ]
+    },
+    {
+     "text": "Mais souviens-toi...",
+     "spoken": "Mais souviens-toi...",
+     "start": 85.359,
+     "end": 86.479,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 85.359,
+       "e": 85.599
+      },
+      {
+       "w": "souviens-toi...",
+       "s": 85.599,
+       "e": 86.479
+      }
+     ]
+    },
+    {
+     "text": "une seule voix différente, et les autres osent aussi.",
+     "spoken": "une seule voix différente, et les autres osent aussi.",
+     "start": 86.479,
+     "end": 89.599,
+     "words": [
+      {
+       "w": "une",
+       "s": 86.479,
+       "e": 86.639
+      },
+      {
+       "w": "seule",
+       "s": 86.639,
+       "e": 86.879
+      },
+      {
+       "w": "voix",
+       "s": 86.879,
+       "e": 87.279
+      },
+      {
+       "w": "différente,",
+       "s": 87.279,
+       "e": 87.919
+      },
+      {
+       "w": "et",
+       "s": 87.919,
+       "e": 88.159
+      },
+      {
+       "w": "les",
+       "s": 88.159,
+       "e": 88.319
+      },
+      {
+       "w": "autres",
+       "s": 88.319,
+       "e": 88.639
+      },
+      {
+       "w": "osent",
+       "s": 88.639,
+       "e": 89.199
+      },
+      {
+       "w": "aussi.",
+       "s": 89.199,
+       "e": 89.599
+      }
+     ]
+    }
+   ],
+   "end": 89.899
+  },
+  {
+   "id": "cta",
+   "start": 89.899,
+   "sentences": [
+    {
+     "text": "Et toi...",
+     "spoken": "Et toi...",
+     "start": 89.899,
+     "end": 90.299,
+     "words": [
+      {
+       "w": "Et",
+       "s": 89.899,
+       "e": 90.059
+      },
+      {
+       "w": "toi...",
+       "s": 90.059,
+       "e": 90.299
+      }
+     ]
+    },
+    {
+     "text": "tu aurais suivi le groupe ?",
+     "spoken": "tu aurais suivi le groupe ?",
+     "start": 90.299,
+     "end": 91.739,
+     "words": [
+      {
+       "w": "tu",
+       "s": 90.299,
+       "e": 90.459
+      },
+      {
+       "w": "aurais",
+       "s": 90.459,
+       "e": 90.779
+      },
+      {
+       "w": "suivi",
+       "s": 90.779,
+       "e": 91.179
+      },
+      {
+       "w": "le",
+       "s": 91.179,
+       "e": 91.259
+      },
+      {
+       "w": "groupe?",
+       "s": 91.259,
+       "e": 91.739
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 91.739,
+     "end": 92.719,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 91.739,
+       "e": 92.139
+      },
+      {
+       "w": "en",
+       "s": 92.139,
+       "e": 92.219
+      },
+      {
+       "w": "commentaire.",
+       "s": 92.219,
+       "e": 92.719
+      }
+     ]
+    }
+   ],
+   "end": 93.202
+  }
+ ]
+}

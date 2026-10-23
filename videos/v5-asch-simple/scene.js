@@ -41,7 +41,7 @@ function world(t) {
   hangingLamp(1000, 160, 60, 1, t);
   const pre = 1 - prog(t, S("task") - 0.2, S("task") + 0.4);
   chalk("1951", 560, 470, prog(t, S("setup") + 0.2, S("setup") + 1.0) * pre, { size: 96 });
-  chalk("le but : suit-on le groupe, même s'il a tort ?", 900, 580, prog(t, S("setup") + 0.8, S("setup") + 2.0) * pre, { size: 40 });
+  chalk("le but : suit-on le groupe, même s'il a tort ?", 900, 600, prog(t, S("setup") + 0.8, S("setup") + 2.0) * pre, { size: 52, color: "#FFE08A" });
 
   const tw = wt("twist", "mauvaise", 3), tToi = wt("twist", "tour-là", 1), ta = wt("ally", "joueur", 2), te = wt("easy", "facile", 0.6);
   const worried = t > tToi && t < ta + 1;
