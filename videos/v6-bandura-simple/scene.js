@@ -82,7 +82,7 @@ function world(t) {
     const tp = wt("model", "poings", 3), tma = wt("model", "marteau", 4), ti = wt("model", "gros", 5.5);
     chalk("POW !", 1250, 640, prog(t, tp, tp + 0.2), { size: 84, color: "#FFB3A8", rot: 0.1 });
     chalk("coups de marteau", 1200, 760, prog(t, tma, tma + 0.5), { size: 43 });
-    chalk("« Dans le nez ! »", 780, 600, prog(t, ti, ti + 0.6), { size: 53, color: "#FFB3A8" });
+    chalk("« Dans le nez ! »", 780, 600, prog(t, ti, ti + 0.6) * (1 - prog(t, tcalm - 0.5, tcalm)), { size: 53, color: "#FFB3A8" });
     chalk("certains : adulte méchant", 700, 530, prog(t, tm + 0.6, tm + 1.4), { size: 43 });
     chalk("d'autres : adulte calme", 700, 580, prog(t, tcalm, tcalm + 0.6), { size: 43, color: "#B9F5C8" });
     chalk("d'autres : personne", 700, 630, prog(t, tnone, tnone + 0.6), { size: 43, color: "#9FE7FF" });
@@ -217,7 +217,7 @@ function insideAndToday(t) {
   room(7950, 9900, "#3B4048", "#2E3036");
   const tn = S("now"), tec = wt("now", "écrans", 2.5), tin = wt("now", "influenceurs", 3.3), tdv = wt("now", "défis", 4.3), tcr = wt("now", "récré", 6.7), tai = wt("now", "aider", 11.5), tdav = wt("now", "souvent", 12.8);
   light(8400, 900, 700, 1, "200,220,255"); light(9000, 900, 700, 0.9); light(9500, 900, 700, 0.9);
-  chalk("aujourd'hui", 8900, 330, prog(t, tn + 0.2, tn + 0.9), { size: 70, color: "#9FE7FF" });
+  chalk("aujourd'hui", 8440, 330, prog(t, tn + 0.2, tn + 0.9), { size: 70, color: "#9FE7FF" });
   smartphone(8420, 900, 0.7, () => {
     ctx.fillStyle = "#1C1E26"; ctx.fillRect(0, 0, 344, 724);
     const k = Math.sin(t * 6), up = t > tdv ? 1 : 0;
