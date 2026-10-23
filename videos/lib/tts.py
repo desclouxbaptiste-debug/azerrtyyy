@@ -94,7 +94,11 @@ for _seg in cfg["segments"]:
     for _s in sentences(_seg["text"]):
         _m = re.match(r"^<([wsrpl]+)>\s*", _s)
         _moods.append(_m.group(1) if _m else "")
-        _clean.append(_s[_m.end():] if _m else _s)
+        _body = _s[_m.end():] if _m else _s
+        if re.search(r"<[a-z]+>", _body):  # a tag can only open a sentence; a stray one would be read and shown
+            print(f"  [{_seg['id']}] mood tag inside a sentence ignored: {_body}")
+            _body = re.sub(r"\s*<[a-z]+>\s*", " ", _body).strip()
+        _clean.append(_body)
     _seg["text"], _seg["moods"] = " ".join(_clean), _moods
 HAS_MOODS = any(m for s in cfg["segments"] for m in s["moods"])
 

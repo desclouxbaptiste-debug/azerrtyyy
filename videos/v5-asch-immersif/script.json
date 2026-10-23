@@ -1,0 +1,99 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.071,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "<w>Trois lignes. Une seule bonne réponse... <w>et pourtant, tu vas peut-être te tromper.",
+   "emph": [
+    "tromper"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "{1951|Mille neuf cent cinquante et un}. Le psychologue Solomon {Asch|Ache} t'invite à un test de vision. Autour de la table, sept autres participants.",
+   "emph": [
+    "sept"
+   ]
+  },
+  {
+   "id": "task",
+   "text": "On te montre une ligne, puis trois autres. Laquelle a la même longueur ? Chacun répond à voix haute, à tour de rôle. Toi, tu passes avant-dernier.",
+   "emph": [
+    "avant-dernier"
+   ]
+  },
+  {
+   "id": "easy",
+   "text": "Les premiers tours sont faciles. Tout le monde est d'accord.",
+   "emph": [
+    "faciles"
+   ]
+  },
+  {
+   "id": "twist",
+   "text": "Puis, à ce tour-là, les sept répondent tous... <r>la même mauvaise réponse.",
+   "emph": [
+    "mauvaise"
+   ]
+  },
+  {
+   "id": "secret",
+   "text": "Ce que tu ignores... <w>ce sont tous des complices.",
+   "emph": [
+    "complices"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "<r>Résultat : environ un tiers des réponses suivent le groupe. Et trois participants sur quatre cèdent au moins une fois. Pourtant, seuls, presque personne ne se trompe.",
+   "emph": [
+    "tiers",
+    "quatre"
+   ]
+  },
+  {
+   "id": "why",
+   "text": "Pourquoi ? Certains finissent par douter de leurs yeux. D'autres savent... mais ne veulent pas être le seul à dire non.",
+   "emph": [
+    "douter",
+    "seul"
+   ]
+  },
+  {
+   "id": "ally",
+   "text": "Mais il suffit d'un seul allié qui donne la bonne réponse... <r>et les erreurs chutent de plus de trois quarts.",
+   "emph": [
+    "allié",
+    "chutent"
+   ]
+  },
+  {
+   "id": "nuance",
+   "text": "Et un quart des participants n'a jamais cédé.",
+   "emph": [
+    "jamais"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Et toi... <w>tu aurais suivi le groupe ? Dis-le en commentaire."
+  }
+ ]
+}

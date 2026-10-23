@@ -1,0 +1,98 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.071,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "<w>Et si tu travaillais mieux... <w>juste parce que quelqu'un te regarde ?",
+   "emph": [
+    "regarde"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "Années vingt, près de Chicago. Dans l'usine {Hawthorne|Hosorne}, des milliers d'ouvriers montent des pièces de téléphone.",
+   "emph": [
+    "milliers"
+   ]
+  },
+  {
+   "id": "light",
+   "text": "Les ingénieurs testent l'éclairage. Plus de lumière ? La production monte.",
+   "emph": [
+    "monte"
+   ]
+  },
+  {
+   "id": "control",
+   "text": "Logique. Sauf que dans l'atelier témoin, où l'on ne touche à rien... <r>elle monte aussi.",
+   "emph": [
+    "aussi"
+   ]
+  },
+  {
+   "id": "dim",
+   "text": "Alors on baisse la lumière. <s>Et la production tient... jusqu'à ce qu'on n'y voie presque plus.",
+   "emph": [
+    "tient",
+    "presque"
+   ]
+  },
+  {
+   "id": "relay",
+   "text": "Puis six ouvrières sont isolées dans une petite salle, avec un observateur. Pauses, horaires, collations : on change tout... <s>et leur production grimpe.",
+   "emph": [
+    "observateur",
+    "grimpe"
+   ]
+  },
+  {
+   "id": "back",
+   "text": "Même quand on revient aux conditions de départ... elle reste haute.",
+   "emph": [
+    "haute"
+   ]
+  },
+  {
+   "id": "name",
+   "text": "Dans les années cinquante, on donne un nom à ce phénomène. <r>L'effet {Hawthorne|Hosorne}. <s>On change... quand on se sait observé.",
+   "emph": [
+    "observé"
+   ]
+  },
+  {
+   "id": "twist",
+   "text": "<r>Mais en {2011|deux mille onze}, deux économistes ressortent les données d'éclairage. Verdict : l'effet est bien plus faible... que la légende.",
+   "emph": [
+    "faible"
+   ]
+  },
+  {
+   "id": "lesson",
+   "text": "Il reste une vraie leçon : mesurer quelqu'un qui sait qu'il est mesuré... ce n'est pas si simple.",
+   "emph": [
+    "simple"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Et toi... <w>tu bosses mieux quand le chef passe ? Dis-le en commentaire."
+  }
+ ]
+}

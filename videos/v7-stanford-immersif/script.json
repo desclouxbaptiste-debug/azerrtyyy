@@ -1,0 +1,105 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.071,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "post": {
+  "semitones": -1.0,
+  "warmth": 3,
+  "presence": 1.2,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.15
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "La plus célèbre expérience sur la cruauté humaine... <r>était peut-être une mise en scène.",
+   "emph": [
+    "mise"
+   ]
+  },
+  {
+   "id": "setup",
+   "text": "Août {1971|mille neuf cent soixante et onze}, université Stanford. Philip Zimbardo transforme un sous-sol en fausse prison.",
+   "emph": [
+    "prison"
+   ]
+  },
+  {
+   "id": "recruit",
+   "text": "Une petite annonce : quinze dollars par jour. Vingt-quatre étudiants sont retenus. Pile ou face : gardiens... <s>ou prisonniers.",
+   "emph": [
+    "face"
+   ]
+  },
+  {
+   "id": "arrest",
+   "text": "Un dimanche matin, la vraie police arrête les prisonniers chez eux. Menottes, empreintes, yeux bandés.",
+   "emph": [
+    "vraie"
+   ]
+  },
+  {
+   "id": "cell",
+   "text": "En prison : une blouse, un numéro au lieu du nom, une chaîne à la cheville.",
+   "emph": [
+    "numéro"
+   ]
+  },
+  {
+   "id": "guards",
+   "text": "Les gardiens, eux, reçoivent un uniforme, une matraque, et des lunettes miroir... pour qu'on ne voie pas leurs yeux.",
+   "emph": [
+    "miroir"
+   ]
+  },
+  {
+   "id": "revolt",
+   "text": "Dès le deuxième jour, les prisonniers se révoltent. Les gardiens répliquent : extincteurs, pompes, isolement, nuits sans sommeil.",
+   "emph": [
+    "révoltent",
+    "sommeil"
+   ]
+  },
+  {
+   "id": "stop",
+   "text": "Prévue pour deux semaines, l'expérience est arrêtée... <r>au bout de six jours.",
+   "emph": [
+    "six"
+   ]
+  },
+  {
+   "id": "claim",
+   "text": "Conclusion de Zimbardo... <s>la situation suffit à créer des bourreaux.",
+   "emph": [
+    "bourreaux"
+   ]
+  },
+  {
+   "id": "twist",
+   "text": "<r>Sauf que... les archives montrent des gardiens poussés à être durs. Et un prisonnier dira avoir simulé sa crise.",
+   "emph": [
+    "poussés",
+    "simulé"
+   ]
+  },
+  {
+   "id": "today",
+   "text": "Aujourd'hui, beaucoup de chercheurs y voient... <s>plus une mise en scène qu'une vraie expérience.",
+   "emph": [
+    "mise"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "<w>Le pouvoir corrompt... <w>ou on nous a raconté une belle histoire ? Dis-le en commentaire."
+  }
+ ]
+}

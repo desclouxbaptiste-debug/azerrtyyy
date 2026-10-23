@@ -70,7 +70,7 @@
   },
   {
    "id": "claim",
-   "text": "Conclusion de Zimbardo : <s>la situation suffit à créer des bourreaux.",
+   "text": "Conclusion de Zimbardo... <s>la situation suffit à créer des bourreaux.",
    "emph": [
     "bourreaux"
    ]
