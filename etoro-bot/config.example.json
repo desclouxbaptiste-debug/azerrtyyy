@@ -1,0 +1,32 @@
+{
+  "mode": "simulation",
+  "real_mode_confirmation": "",
+
+  "budget": 1000,
+  "max_position_pct": 10,
+  "max_positions": 8,
+  "max_trades_per_run": 3,
+  "min_order_amount": 10,
+  "max_drawdown_pct": 10,
+
+  "stop_atr_mult": 2,
+  "max_stop_pct": 8,
+  "take_profit_atr_mult": 4,
+
+  "buy_threshold": 0.35,
+  "sell_threshold": -0.15,
+
+  "ranking_presets": ["BeatingTheMarketUS", "BeatingtheMarketGlobalpro"],
+  "max_investors": 15,
+  "max_investor_risk": 6,
+
+  "market_index": {"symbol": "SPX500", "id": 27},
+  "watchlist": {
+    "AAPL": 1001, "MSFT": 1004, "NVDA": 1137, "GOOG": 1002, "AMZN": 1005,
+    "META": 1003, "TSLA": 1111, "AMD": 1832, "AVGO": 4236, "JPM": 1023,
+    "V": 1046, "LLY": 1567, "PLTR": 7991, "ORCL": 1135, "NFLX": 1127,
+    "ASML.NV": 4509, "SAP.DE": 1202, "MC.PA": 1253, "NESN.ZU": 1400, "NOVN.ZU": 2948,
+    "SPY": 3000, "QQQ": 3006,
+    "BTC": 100000, "ETH": 100001, "SOL": 100063
+  }
+}
