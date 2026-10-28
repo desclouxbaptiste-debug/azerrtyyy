@@ -1,0 +1,59 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.07,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Tu veux voir tout ce que je sais faire ? Regarde bien."
+  },
+  {
+   "id": "cast",
+   "text": "D'abord, des personnages en trois dimensions. Chacun a son rôle : le sujet, l'autre, la foule, le chercheur, l'autorité... et l'ombre."
+  },
+  {
+   "id": "faces",
+   "text": "Ils ont des émotions. La joie. Le choc. La peur. Le doute. La colère. Et la tristesse."
+  },
+  {
+   "id": "poses",
+   "text": "Ils bougent. Ils lèvent la main, ils haussent les épaules, ils prennent des notes, ils s'assoient."
+  },
+  {
+   "id": "walk",
+   "text": "Ils marchent... et la caméra tourne autour d'eux, comme au cinéma."
+  },
+  {
+   "id": "crowd",
+   "text": "Je peux faire toute une foule, en une seconde."
+  },
+  {
+   "id": "story",
+   "text": "Et surtout, je raconte des expériences. Le savant pose une question. Tout le groupe lève la main... sauf toi. Tu doutes."
+  },
+  {
+   "id": "tools",
+   "text": "Je m'occupe de tout : la voix, les sous-titres, la musique, les bruitages... et l'écriture à la main."
+  },
+  {
+   "id": "mood",
+   "text": "Et je change l'ambiance... <r>d'un seul coup."
+  },
+  {
+   "id": "cta",
+   "text": "Alors, quelle expérience tu veux voir ? Dis-le en commentaire."
+  }
+ ]
+}

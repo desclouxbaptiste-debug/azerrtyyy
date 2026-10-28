@@ -1,0 +1,993 @@
+{
+ "duration": 47.305,
+ "speed": 1.07,
+ "reveals": [
+  42.59
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "Tu veux voir tout ce que je sais faire ?",
+     "spoken": "Tu veux voir tout ce que je sais faire ?",
+     "start": 0.45,
+     "end": 2.13,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 0.45,
+       "e": 0.69
+      },
+      {
+       "w": "veux",
+       "s": 0.69,
+       "e": 0.85
+      },
+      {
+       "w": "voir",
+       "s": 0.85,
+       "e": 1.01
+      },
+      {
+       "w": "tout",
+       "s": 1.01,
+       "e": 1.17
+      },
+      {
+       "w": "ce",
+       "s": 1.17,
+       "e": 1.25
+      },
+      {
+       "w": "que",
+       "s": 1.25,
+       "e": 1.33
+      },
+      {
+       "w": "je",
+       "s": 1.33,
+       "e": 1.49
+      },
+      {
+       "w": "sais",
+       "s": 1.49,
+       "e": 1.73
+      },
+      {
+       "w": "faire?",
+       "s": 1.73,
+       "e": 2.13
+      }
+     ]
+    },
+    {
+     "text": "Regarde bien.",
+     "spoken": "Regarde bien.",
+     "start": 2.13,
+     "end": 2.98,
+     "words": [
+      {
+       "w": "Regarde",
+       "s": 2.13,
+       "e": 2.61
+      },
+      {
+       "w": "bien.",
+       "s": 2.61,
+       "e": 2.98
+      }
+     ]
+    }
+   ],
+   "end": 3.28
+  },
+  {
+   "id": "cast",
+   "start": 3.28,
+   "sentences": [
+    {
+     "text": "D'abord, des personnages en trois dimensions.",
+     "spoken": "D'abord, des personnages en trois dimensions.",
+     "start": 3.28,
+     "end": 5.52,
+     "words": [
+      {
+       "w": "D'abord,",
+       "s": 3.28,
+       "e": 3.84
+      },
+      {
+       "w": "des",
+       "s": 3.84,
+       "e": 4.0
+      },
+      {
+       "w": "personnages",
+       "s": 4.0,
+       "e": 4.48
+      },
+      {
+       "w": "en",
+       "s": 4.48,
+       "e": 4.64
+      },
+      {
+       "w": "trois",
+       "s": 4.64,
+       "e": 4.88
+      },
+      {
+       "w": "dimensions.",
+       "s": 4.88,
+       "e": 5.52
+      }
+     ]
+    },
+    {
+     "text": "Chacun a son rôle : le sujet, l'autre, la foule, le chercheur, l'autorité...",
+     "spoken": "Chacun a son rôle : le sujet, l'autre, la foule, le chercheur, l'autorité...",
+     "start": 5.52,
+     "end": 10.0,
+     "words": [
+      {
+       "w": "Chacun",
+       "s": 5.52,
+       "e": 5.92
+      },
+      {
+       "w": "a",
+       "s": 5.92,
+       "e": 6.08
+      },
+      {
+       "w": "son",
+       "s": 6.08,
+       "e": 6.32
+      },
+      {
+       "w": "rôle:",
+       "s": 6.32,
+       "e": 6.8
+      },
+      {
+       "w": "le",
+       "s": 6.8,
+       "e": 6.96
+      },
+      {
+       "w": "sujet,",
+       "s": 6.96,
+       "e": 7.44
+      },
+      {
+       "w": "l'autre,",
+       "s": 7.44,
+       "e": 7.84
+      },
+      {
+       "w": "la",
+       "s": 7.84,
+       "e": 8.0
+      },
+      {
+       "w": "foule,",
+       "s": 8.0,
+       "e": 8.56
+      },
+      {
+       "w": "le",
+       "s": 8.56,
+       "e": 8.72
+      },
+      {
+       "w": "chercheur,",
+       "s": 8.72,
+       "e": 9.28
+      },
+      {
+       "w": "l'autorité...",
+       "s": 9.28,
+       "e": 10.0
+      }
+     ]
+    },
+    {
+     "text": "et l'ombre.",
+     "spoken": "et l'ombre.",
+     "start": 10.0,
+     "end": 10.66,
+     "words": [
+      {
+       "w": "et",
+       "s": 10.0,
+       "e": 10.16
+      },
+      {
+       "w": "l'ombre.",
+       "s": 10.16,
+       "e": 10.66
+      }
+     ]
+    }
+   ],
+   "end": 11.069
+  },
+  {
+   "id": "faces",
+   "start": 11.069,
+   "sentences": [
+    {
+     "text": "Ils ont des émotions.",
+     "spoken": "Ils ont des émotions.",
+     "start": 11.069,
+     "end": 12.109,
+     "words": [
+      {
+       "w": "Ils",
+       "s": 11.069,
+       "e": 11.229
+      },
+      {
+       "w": "ont",
+       "s": 11.229,
+       "e": 11.389
+      },
+      {
+       "w": "des",
+       "s": 11.389,
+       "e": 11.549
+      },
+      {
+       "w": "émotions.",
+       "s": 11.549,
+       "e": 12.109
+      }
+     ]
+    },
+    {
+     "text": "La joie.",
+     "spoken": "La joie.",
+     "start": 12.109,
+     "end": 12.749,
+     "words": [
+      {
+       "w": "La",
+       "s": 12.109,
+       "e": 12.349
+      },
+      {
+       "w": "joie.",
+       "s": 12.349,
+       "e": 12.749
+      }
+     ]
+    },
+    {
+     "text": "Le choc.",
+     "spoken": "Le choc.",
+     "start": 12.749,
+     "end": 13.389,
+     "words": [
+      {
+       "w": "Le",
+       "s": 12.749,
+       "e": 12.909
+      },
+      {
+       "w": "choc.",
+       "s": 12.909,
+       "e": 13.389
+      }
+     ]
+    },
+    {
+     "text": "La peur.",
+     "spoken": "La peur.",
+     "start": 13.389,
+     "end": 13.949,
+     "words": [
+      {
+       "w": "La",
+       "s": 13.389,
+       "e": 13.549
+      },
+      {
+       "w": "peur.",
+       "s": 13.549,
+       "e": 13.949
+      }
+     ]
+    },
+    {
+     "text": "Le doute.",
+     "spoken": "Le doute.",
+     "start": 13.949,
+     "end": 14.589,
+     "words": [
+      {
+       "w": "Le",
+       "s": 13.949,
+       "e": 14.109
+      },
+      {
+       "w": "doute.",
+       "s": 14.109,
+       "e": 14.589
+      }
+     ]
+    },
+    {
+     "text": "La colère.",
+     "spoken": "La colère.",
+     "start": 14.589,
+     "end": 15.149,
+     "words": [
+      {
+       "w": "La",
+       "s": 14.589,
+       "e": 14.749
+      },
+      {
+       "w": "colère.",
+       "s": 14.749,
+       "e": 15.149
+      }
+     ]
+    },
+    {
+     "text": "Et la tristesse.",
+     "spoken": "Et la tristesse.",
+     "start": 15.149,
+     "end": 15.889,
+     "words": [
+      {
+       "w": "Et",
+       "s": 15.149,
+       "e": 15.229
+      },
+      {
+       "w": "la",
+       "s": 15.229,
+       "e": 15.389
+      },
+      {
+       "w": "tristesse.",
+       "s": 15.389,
+       "e": 15.889
+      }
+     ]
+    }
+   ],
+   "end": 16.397
+  },
+  {
+   "id": "poses",
+   "start": 16.397,
+   "sentences": [
+    {
+     "text": "Ils bougent.",
+     "spoken": "Ils bougent.",
+     "start": 16.397,
+     "end": 17.197,
+     "words": [
+      {
+       "w": "Ils",
+       "s": 16.397,
+       "e": 16.637
+      },
+      {
+       "w": "bougent.",
+       "s": 16.637,
+       "e": 17.197
+      }
+     ]
+    },
+    {
+     "text": "Ils lèvent la main, ils haussent les épaules, ils prennent des notes, ils s'assoient.",
+     "spoken": "Ils lèvent la main, ils haussent les épaules, ils prennent des notes, ils s'assoient.",
+     "start": 17.197,
+     "end": 21.457,
+     "words": [
+      {
+       "w": "Ils",
+       "s": 17.197,
+       "e": 17.357
+      },
+      {
+       "w": "lèvent",
+       "s": 17.357,
+       "e": 17.757
+      },
+      {
+       "w": "la",
+       "s": 17.757,
+       "e": 17.917
+      },
+      {
+       "w": "main,",
+       "s": 17.917,
+       "e": 18.237
+      },
+      {
+       "w": "ils",
+       "s": 18.237,
+       "e": 18.477
+      },
+      {
+       "w": "haussent",
+       "s": 18.477,
+       "e": 18.957
+      },
+      {
+       "w": "les",
+       "s": 18.957,
+       "e": 19.117
+      },
+      {
+       "w": "épaules,",
+       "s": 19.117,
+       "e": 19.597
+      },
+      {
+       "w": "ils",
+       "s": 19.597,
+       "e": 19.757
+      },
+      {
+       "w": "prennent",
+       "s": 19.757,
+       "e": 20.157
+      },
+      {
+       "w": "des",
+       "s": 20.157,
+       "e": 20.317
+      },
+      {
+       "w": "notes,",
+       "s": 20.317,
+       "e": 20.797
+      },
+      {
+       "w": "ils",
+       "s": 20.797,
+       "e": 20.957
+      },
+      {
+       "w": "s'assoient.",
+       "s": 20.957,
+       "e": 21.457
+      }
+     ]
+    }
+   ],
+   "end": 22.026
+  },
+  {
+   "id": "walk",
+   "start": 22.026,
+   "sentences": [
+    {
+     "text": "Ils marchent...",
+     "spoken": "Ils marchent...",
+     "start": 22.026,
+     "end": 22.906,
+     "words": [
+      {
+       "w": "Ils",
+       "s": 22.026,
+       "e": 22.346
+      },
+      {
+       "w": "marchent...",
+       "s": 22.346,
+       "e": 22.906
+      }
+     ]
+    },
+    {
+     "text": "et la caméra tourne autour d'eux, comme au cinéma.",
+     "spoken": "et la caméra tourne autour d'eux, comme au cinéma.",
+     "start": 22.906,
+     "end": 25.326,
+     "words": [
+      {
+       "w": "et",
+       "s": 22.906,
+       "e": 23.066
+      },
+      {
+       "w": "la",
+       "s": 23.066,
+       "e": 23.226
+      },
+      {
+       "w": "caméra",
+       "s": 23.226,
+       "e": 23.706
+      },
+      {
+       "w": "tourne",
+       "s": 23.706,
+       "e": 24.026
+      },
+      {
+       "w": "autour",
+       "s": 24.026,
+       "e": 24.266
+      },
+      {
+       "w": "d'eux,",
+       "s": 24.266,
+       "e": 24.506
+      },
+      {
+       "w": "comme",
+       "s": 24.506,
+       "e": 24.666
+      },
+      {
+       "w": "au",
+       "s": 24.666,
+       "e": 24.826
+      },
+      {
+       "w": "cinéma.",
+       "s": 24.826,
+       "e": 25.326
+      }
+     ]
+    }
+   ],
+   "end": 25.69
+  },
+  {
+   "id": "crowd",
+   "start": 25.69,
+   "sentences": [
+    {
+     "text": "Je peux faire toute une foule, en une seconde.",
+     "spoken": "Je peux faire toute une foule, en une seconde.",
+     "start": 25.69,
+     "end": 27.95,
+     "words": [
+      {
+       "w": "Je",
+       "s": 25.69,
+       "e": 25.85
+      },
+      {
+       "w": "peux",
+       "s": 25.85,
+       "e": 26.01
+      },
+      {
+       "w": "faire",
+       "s": 26.01,
+       "e": 26.17
+      },
+      {
+       "w": "toute",
+       "s": 26.17,
+       "e": 26.41
+      },
+      {
+       "w": "une",
+       "s": 26.41,
+       "e": 26.57
+      },
+      {
+       "w": "foule,",
+       "s": 26.57,
+       "e": 27.05
+      },
+      {
+       "w": "en",
+       "s": 27.05,
+       "e": 27.21
+      },
+      {
+       "w": "une",
+       "s": 27.21,
+       "e": 27.45
+      },
+      {
+       "w": "seconde.",
+       "s": 27.45,
+       "e": 27.95
+      }
+     ]
+    }
+   ],
+   "end": 28.282
+  },
+  {
+   "id": "story",
+   "start": 28.282,
+   "sentences": [
+    {
+     "text": "Et surtout, je raconte des expériences.",
+     "spoken": "Et surtout, je raconte des expériences.",
+     "start": 28.282,
+     "end": 30.842,
+     "words": [
+      {
+       "w": "Et",
+       "s": 28.282,
+       "e": 28.442
+      },
+      {
+       "w": "surtout,",
+       "s": 28.442,
+       "e": 29.002
+      },
+      {
+       "w": "je",
+       "s": 29.002,
+       "e": 29.242
+      },
+      {
+       "w": "raconte",
+       "s": 29.242,
+       "e": 29.802
+      },
+      {
+       "w": "des",
+       "s": 29.802,
+       "e": 30.042
+      },
+      {
+       "w": "expériences.",
+       "s": 30.042,
+       "e": 30.842
+      }
+     ]
+    },
+    {
+     "text": "Le savant pose une question.",
+     "spoken": "Le savant pose une question.",
+     "start": 30.842,
+     "end": 32.522,
+     "words": [
+      {
+       "w": "Le",
+       "s": 30.842,
+       "e": 31.002
+      },
+      {
+       "w": "savant",
+       "s": 31.002,
+       "e": 31.482
+      },
+      {
+       "w": "pose",
+       "s": 31.482,
+       "e": 31.802
+      },
+      {
+       "w": "une",
+       "s": 31.802,
+       "e": 31.962
+      },
+      {
+       "w": "question.",
+       "s": 31.962,
+       "e": 32.522
+      }
+     ]
+    },
+    {
+     "text": "Tout le groupe lève la main...",
+     "spoken": "Tout le groupe lève la main...",
+     "start": 32.522,
+     "end": 33.882,
+     "words": [
+      {
+       "w": "Tout",
+       "s": 32.522,
+       "e": 32.762
+      },
+      {
+       "w": "le",
+       "s": 32.762,
+       "e": 32.842
+      },
+      {
+       "w": "groupe",
+       "s": 32.842,
+       "e": 33.162
+      },
+      {
+       "w": "lève",
+       "s": 33.162,
+       "e": 33.482
+      },
+      {
+       "w": "la",
+       "s": 33.482,
+       "e": 33.642
+      },
+      {
+       "w": "main...",
+       "s": 33.642,
+       "e": 33.882
+      }
+     ]
+    },
+    {
+     "text": "sauf toi.",
+     "spoken": "sauf toi.",
+     "start": 33.882,
+     "end": 34.442,
+     "words": [
+      {
+       "w": "sauf",
+       "s": 33.882,
+       "e": 34.122
+      },
+      {
+       "w": "toi.",
+       "s": 34.122,
+       "e": 34.442
+      }
+     ]
+    },
+    {
+     "text": "Tu doutes.",
+     "spoken": "Tu doutes.",
+     "start": 34.442,
+     "end": 35.073,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 34.442,
+       "e": 34.602
+      },
+      {
+       "w": "doutes.",
+       "s": 34.602,
+       "e": 35.073
+      }
+     ]
+    }
+   ],
+   "end": 35.373
+  },
+  {
+   "id": "tools",
+   "start": 35.373,
+   "sentences": [
+    {
+     "text": "Je m'occupe de tout : la voix, les sous-titres, la musique, les bruitages...",
+     "spoken": "Je m'occupe de tout : la voix, les sous-titres, la musique, les bruitages...",
+     "start": 35.373,
+     "end": 39.293,
+     "words": [
+      {
+       "w": "Je",
+       "s": 35.373,
+       "e": 35.533
+      },
+      {
+       "w": "m'occupe",
+       "s": 35.533,
+       "e": 36.013
+      },
+      {
+       "w": "de",
+       "s": 36.013,
+       "e": 36.2
+      },
+      {
+       "w": "tout:",
+       "s": 36.2,
+       "e": 36.573
+      },
+      {
+       "w": "la",
+       "s": 36.573,
+       "e": 36.733
+      },
+      {
+       "w": "voix,",
+       "s": 36.733,
+       "e": 37.053
+      },
+      {
+       "w": "les",
+       "s": 37.053,
+       "e": 37.213
+      },
+      {
+       "w": "sous-titres,",
+       "s": 37.213,
+       "e": 37.853
+      },
+      {
+       "w": "la",
+       "s": 37.853,
+       "e": 37.933
+      },
+      {
+       "w": "musique,",
+       "s": 37.933,
+       "e": 38.333
+      },
+      {
+       "w": "les",
+       "s": 38.333,
+       "e": 38.493
+      },
+      {
+       "w": "bruitages...",
+       "s": 38.493,
+       "e": 39.293
+      }
+     ]
+    },
+    {
+     "text": "et l'écriture à la main.",
+     "spoken": "et l'écriture à la main.",
+     "start": 39.293,
+     "end": 40.68,
+     "words": [
+      {
+       "w": "et",
+       "s": 39.293,
+       "e": 39.453
+      },
+      {
+       "w": "l'écriture",
+       "s": 39.453,
+       "e": 40.093
+      },
+      {
+       "w": "à",
+       "s": 40.093,
+       "e": 40.173
+      },
+      {
+       "w": "la",
+       "s": 40.173,
+       "e": 40.333
+      },
+      {
+       "w": "main.",
+       "s": 40.333,
+       "e": 40.68
+      }
+     ]
+    }
+   ],
+   "end": 40.98
+  },
+  {
+   "id": "mood",
+   "start": 40.98,
+   "sentences": [
+    {
+     "text": "Et je change l'ambiance...",
+     "spoken": "Et je change l'ambiance...",
+     "start": 40.98,
+     "end": 41.94,
+     "words": [
+      {
+       "w": "Et",
+       "s": 40.98,
+       "e": 41.14
+      },
+      {
+       "w": "je",
+       "s": 41.14,
+       "e": 41.22
+      },
+      {
+       "w": "change",
+       "s": 41.22,
+       "e": 41.54
+      },
+      {
+       "w": "l'ambiance...",
+       "s": 41.54,
+       "e": 41.94
+      }
+     ]
+    },
+    {
+     "text": "d'un seul coup.",
+     "spoken": "d'un seul coup.",
+     "start": 42.59,
+     "end": 43.3,
+     "words": [
+      {
+       "w": "d'un",
+       "s": 42.59,
+       "e": 42.83
+      },
+      {
+       "w": "seul",
+       "s": 42.83,
+       "e": 42.99
+      },
+      {
+       "w": "coup.",
+       "s": 42.99,
+       "e": 43.3
+      }
+     ]
+    }
+   ],
+   "end": 43.6
+  },
+  {
+   "id": "cta",
+   "start": 43.6,
+   "sentences": [
+    {
+     "text": "Alors, quelle expérience tu veux voir ?",
+     "spoken": "Alors, quelle expérience tu veux voir ?",
+     "start": 43.6,
+     "end": 45.68,
+     "words": [
+      {
+       "w": "Alors,",
+       "s": 43.6,
+       "e": 43.92
+      },
+      {
+       "w": "quelle",
+       "s": 43.92,
+       "e": 44.32
+      },
+      {
+       "w": "expérience",
+       "s": 44.32,
+       "e": 44.8
+      },
+      {
+       "w": "tu",
+       "s": 44.8,
+       "e": 44.96
+      },
+      {
+       "w": "veux",
+       "s": 44.96,
+       "e": 45.2
+      },
+      {
+       "w": "voir?",
+       "s": 45.2,
+       "e": 45.68
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 45.68,
+     "end": 46.82,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 45.68,
+       "e": 46.16
+      },
+      {
+       "w": "en",
+       "s": 46.16,
+       "e": 46.32
+      },
+      {
+       "w": "commentaire.",
+       "s": 46.32,
+       "e": 46.82
+      }
+     ]
+    }
+   ],
+   "end": 47.305
+  }
+ ]
+}
