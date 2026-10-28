@@ -551,6 +551,26 @@ def test_failing_start_job_is_recorded_and_not_retried(watcher):
     assert [s[0] for s in watcher.started] == [1, 2], "the failing VOD is not retried"
 
 
+def test_busy_server_postpones_the_vod_to_the_next_poll(watcher):
+    twitch.save_link(1, "gotaga", "111", True, {}, "900")
+    accounts.execute("UPDATE twitch_links SET last_error = 'ancienne erreur' WHERE user_id = 1")
+    watcher.api.video("111", "987", NOW - 5 * HOUR)
+    busy = [True]
+
+    def start_job(user_id, settings, vod):
+        watcher.started.append(vod["id"])
+        if busy[0]:
+            raise twitch.RetryLater("Le serveur est très demandé")
+
+    watcher.imp.start_job = start_job
+    assert watcher.imp.poll_once() == 0
+    link = twitch.get_link(1)
+    assert link["last_vod_id"] == "900" and link["last_error"] == "ancienne erreur", "nothing recorded"
+    busy[0] = False
+    assert watcher.imp.poll_once() == 1 and watcher.started == ["987", "987"]
+    assert twitch.get_link(1)["last_vod_id"] == "987"
+
+
 def test_unknown_live_status_imports_nothing(watcher):
     twitch.save_link(1, "gotaga", "111", True, {}, None)
     watcher.api.video("111", "987", NOW - 5 * HOUR)

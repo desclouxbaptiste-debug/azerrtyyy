@@ -501,6 +501,10 @@ def mark_vod(user_id: int, vod_id: str, error: str | None = None) -> None:
 
 # ---------------------------------------------------------------- automatic import after each live
 
+class RetryLater(RuntimeError):
+    """Raised by start_job when the VOD can't start *now* (queue full): the next poll tries again."""
+
+
 class AutoImporter:
     """Watches the linked channels and starts an analysis of each new VOD once the live is over.
 
@@ -569,6 +573,10 @@ class AutoImporter:
         mark_vod(link["user_id"], v["id"])  # first: a failing VOD must never be retried in a loop
         try:
             self.start_job(link["user_id"], dict(link["settings"]), v)
+        except RetryLater as exc:  # busy server: forget this attempt, the VOD stays new (48 h at most)
+            log.info("Twitch auto-import of VOD %s for user %s postponed: %s", v["id"], link["user_id"], exc)
+            mark_vod(link["user_id"], link["last_vod_id"], error=link["last_error"])
+            return 0
         except Exception as exc:  # noqa: BLE001 - recorded for the creator, the watcher goes on
             log.warning("Twitch auto-import of VOD %s for user %s failed: %s", v["id"], link["user_id"], exc)
             mark_vod(link["user_id"], v["id"], error=str(exc)[:300])

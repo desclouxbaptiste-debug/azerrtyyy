@@ -104,6 +104,20 @@ def test_import_refused_for_accounts_no_longer_pro(client, helix):
 def test_import_respects_the_queue_and_quota(client, helix, monkeypatch):
     user = as_user(client, "pro")
     monkeypatch.setattr(config, "MAX_QUEUED_JOBS", 0)
-    with pytest.raises(jobs.QueueFull):
+    with pytest.raises(twitch.RetryLater):  # a full queue is not the VOD's fault: retried at the next poll
         app_module._start_twitch_import(user.id, SETTINGS, helix.latest)
     assert accounts.used_this_month(user.id) == 0
+
+
+def test_auto_imports_of_different_creators_dont_share_a_connection_cap(client, helix, monkeypatch):
+    started = []
+    monkeypatch.setattr(app_module.store, "enqueue", lambda job: started.append(job))
+    monkeypatch.setattr(config, "MAX_ACTIVE_JOBS_PER_IP", 1)
+    try:
+        for _ in range(3):
+            app_module._start_twitch_import(as_user(client, "pro").id, SETTINGS, helix.latest)
+        assert len(started) == 3
+        assert all(not j.ip for j in started)
+    finally:
+        for job in started:
+            app_module.store.discard(job)

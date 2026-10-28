@@ -485,11 +485,15 @@ def _start_twitch_import(user_id: int, settings: dict, vod: dict) -> None:
     if not media.ffmpeg_available():
         raise RuntimeError(media.FFMPEG_MISSING)
     s = _import_settings(settings, user.plan_obj)
-    job = store.create(f"user:{user.id}", jobs.JobRequest(
-        url=vod["url"], filename=None, duration=s["duration"], count=s["count"], plan=user.plan,
-        options=s["options"], user_id=user.id, month=accounts.month_key(), notify=True,
-        auto={"kind": "twitch", "vod_id": vod["id"], "title": str(vod.get("title") or "")[:200]},
-    ), user, ip="twitch-auto")
+    try:
+        # no ip: the per-connection cap is for people, every creator's import would share it
+        job = store.create(f"user:{user.id}", jobs.JobRequest(
+            url=vod["url"], filename=None, duration=s["duration"], count=s["count"], plan=user.plan,
+            options=s["options"], user_id=user.id, month=accounts.month_key(), notify=True,
+            auto={"kind": "twitch", "vod_id": vod["id"], "title": str(vod.get("title") or "")[:200]},
+        ), user)
+    except jobs.QueueFull as exc:
+        raise twitch.RetryLater(str(exc)) from exc
     store.enqueue(job)
     log.info("automatic Twitch import of VOD %s for account %s: job %s", vod["id"], user.id, job.id)
 
