@@ -12,6 +12,12 @@ clips, out = sys.argv[1], sys.argv[2]
 fonts = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fonts")
 FX, FS = f"{fonts}/Montserrat-800.ttf", f"{fonts}/Montserrat-600.ttf"
 cat = json.load(open(f"{clips}/catalog.json"))
+# the line every voice reads, on two lines of the card (cut after the sentence closest to the middle)
+_line = cat.get("line", "Tu enverrais 450 volts à un inconnu… juste parce qu'on te le demande ?")
+_cuts = [i + 1 for i, c in enumerate(_line) if c in ".?!…" and i + 1 < len(_line)] or [len(_line) // 2]
+_cut = min(_cuts, key=lambda i: abs(i - len(_line) / 2))
+line1, line2 = f"« {_line[:_cut].strip()}", f"{_line[_cut:].strip()} »"
+LINE_SIZE = min(44, int(44 * 36 / max(len(line1), len(line2))))  # long lines get a smaller font to stay on the card
 
 
 def dur(path):
@@ -25,14 +31,14 @@ with tempfile.TemporaryDirectory() as d:
         norm = f"{d}/{e['n']:02d}.wav"
         subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", wav, "-af", "loudnorm=I=-16:TP=-1.5:LRA=11", "-ar", "44100", "-ac", "2", norm], check=True)
         D = dur(norm) + 1.3
-        texts = {"head": "CATALOGUE DES VOIX", "num": f"{e['n']:02d}", "name": e["name"], "desc": f"{e['desc']}  ·  ≈ {e['f0']} Hz" if e.get("f0") else e["desc"],
-                 "line1": "« Tu enverrais 450 volts à un inconnu…", "line2": "juste parce qu'on te le demande ? »", "foot": f"{e['n']} / {len(cat['entries'])}"}
+        texts = {"head": cat.get("title", "CATALOGUE DES VOIX"), "num": f"{e['n']:02d}", "name": e["name"], "desc": f"{e['desc']}  ·  ≈ {e['f0']} Hz" if e.get("f0") else e["desc"],
+                 "line1": line1, "line2": line2, "foot": f"{e['n']} / {len(cat['entries'])}"}
         for k, v in texts.items():
             open(f"{d}/{k}.txt", "w").write(v)
         dt = lambda k, font, size, color, y: f"drawtext=fontfile={font}:textfile={d}/{k}.txt:fontsize={size}:fontcolor={color}:x=(w-text_w)/2:y={y}"
         vf = ",".join([
             dt("head", FX, 40, "0xFFFFFF@0.55", 230), dt("num", FX, 300, "0xFFC93C", 420), dt("name", FX, 64, "white", 820),
-            dt("desc", FS, 44, "0xFFFFFF@0.75", 920), dt("line1", FS, 44, "0xFFFFFF@0.9", 1500), dt("line2", FS, 44, "0xFFFFFF@0.9", 1565),
+            dt("desc", FS, 44, "0xFFFFFF@0.75", 920), dt("line1", FS, LINE_SIZE, "0xFFFFFF@0.9", 1500), dt("line2", FS, LINE_SIZE, "0xFFFFFF@0.9", 1565),
             dt("foot", FS, 34, "0xFFFFFF@0.45", 1760)])
         seg = f"{d}/seg{e['n']:02d}.mp4"
         subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i", f"color=c=0x0D0F17:s=1080x1920:d={D:.2f}:r=30", "-i", norm,
