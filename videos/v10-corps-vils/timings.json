@@ -1,0 +1,1959 @@
+{
+ "duration": 105.869,
+ "speed": 1.07,
+ "reveals": [
+  8.24,
+  35.248,
+  55.003,
+  63.778,
+  99.335
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "Les plus grands savants de l'histoire ont fait des expériences...",
+     "spoken": "Les plus grands savants de l'histoire ont fait des expériences...",
+     "start": 0.45,
+     "end": 3.73,
+     "words": [
+      {
+       "w": "Les",
+       "s": 0.45,
+       "e": 0.69
+      },
+      {
+       "w": "plus",
+       "s": 0.69,
+       "e": 0.85
+      },
+      {
+       "w": "grands",
+       "s": 0.85,
+       "e": 1.09
+      },
+      {
+       "w": "savants",
+       "s": 1.09,
+       "e": 1.49
+      },
+      {
+       "w": "de",
+       "s": 1.49,
+       "e": 1.57
+      },
+      {
+       "w": "l'histoire",
+       "s": 1.57,
+       "e": 2.29
+      },
+      {
+       "w": "ont",
+       "s": 2.29,
+       "e": 2.45
+      },
+      {
+       "w": "fait",
+       "s": 2.45,
+       "e": 2.69
+      },
+      {
+       "w": "des",
+       "s": 2.69,
+       "e": 2.85
+      },
+      {
+       "w": "expériences...",
+       "s": 2.85,
+       "e": 3.73
+      }
+     ]
+    },
+    {
+     "text": "sur des gens jugés sans valeur.",
+     "spoken": "sur des gens jugés sans valeur.",
+     "start": 3.73,
+     "end": 5.83,
+     "words": [
+      {
+       "w": "sur",
+       "s": 3.73,
+       "e": 4.13
+      },
+      {
+       "w": "des",
+       "s": 4.13,
+       "e": 4.29
+      },
+      {
+       "w": "gens",
+       "s": 4.29,
+       "e": 4.53
+      },
+      {
+       "w": "jugés",
+       "s": 4.53,
+       "e": 5.09
+      },
+      {
+       "w": "sans",
+       "s": 5.09,
+       "e": 5.33
+      },
+      {
+       "w": "valeur.",
+       "s": 5.33,
+       "e": 5.83
+      }
+     ]
+    }
+   ],
+   "end": 6.15
+  },
+  {
+   "id": "name",
+   "start": 6.15,
+   "sentences": [
+    {
+     "text": "Il y avait même un nom pour eux.",
+     "spoken": "Il y avait même un nom pour eux.",
+     "start": 6.15,
+     "end": 7.59,
+     "words": [
+      {
+       "w": "Il",
+       "s": 6.15,
+       "e": 6.31
+      },
+      {
+       "w": "y",
+       "s": 6.31,
+       "e": 6.39
+      },
+      {
+       "w": "avait",
+       "s": 6.39,
+       "e": 6.63
+      },
+      {
+       "w": "même",
+       "s": 6.63,
+       "e": 6.79
+      },
+      {
+       "w": "un",
+       "s": 6.79,
+       "e": 6.95
+      },
+      {
+       "w": "nom",
+       "s": 6.95,
+       "e": 7.19
+      },
+      {
+       "w": "pour",
+       "s": 7.19,
+       "e": 7.35
+      },
+      {
+       "w": "eux.",
+       "s": 7.35,
+       "e": 7.59
+      }
+     ]
+    },
+    {
+     "text": "Les corps vils.",
+     "spoken": "Les corps vils.",
+     "start": 8.24,
+     "end": 9.192,
+     "words": [
+      {
+       "w": "Les",
+       "s": 8.24,
+       "e": 8.478
+      },
+      {
+       "w": "corps",
+       "s": 8.478,
+       "e": 8.875
+      },
+      {
+       "w": "vils.",
+       "s": 8.875,
+       "e": 9.192
+      }
+     ]
+    }
+   ],
+   "end": 9.492
+  },
+  {
+   "id": "setup",
+   "start": 9.492,
+   "sentences": [
+    {
+     "text": "C'est le titre d'un livre de Grégoire Chamayou.",
+     "spoken": "C'est le titre d'un livre de Grégoire Chamaillou.",
+     "start": 9.492,
+     "end": 12.263,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 9.492,
+       "e": 9.732
+      },
+      {
+       "w": "le",
+       "s": 9.732,
+       "e": 9.892
+      },
+      {
+       "w": "titre",
+       "s": 9.892,
+       "e": 10.132
+      },
+      {
+       "w": "d'un",
+       "s": 10.132,
+       "e": 10.292
+      },
+      {
+       "w": "livre",
+       "s": 10.292,
+       "e": 10.532
+      },
+      {
+       "w": "de",
+       "s": 10.532,
+       "e": 10.692
+      },
+      {
+       "w": "Grégoire",
+       "s": 10.692,
+       "e": 11.252
+      },
+      {
+       "w": "Chamayou.",
+       "s": 11.252,
+       "e": 12.263
+      }
+     ]
+    },
+    {
+     "text": "Corps vils, ça veut dire : les gens qui ne comptent pas.",
+     "spoken": "Corps vils, ça veut dire : les gens qui ne comptent pas.",
+     "start": 12.263,
+     "end": 15.892,
+     "words": [
+      {
+       "w": "Corps",
+       "s": 12.263,
+       "e": 12.768
+      },
+      {
+       "w": "vils,",
+       "s": 12.768,
+       "e": 13.172
+      },
+      {
+       "w": "ça",
+       "s": 13.172,
+       "e": 13.412
+      },
+      {
+       "w": "veut",
+       "s": 13.412,
+       "e": 13.652
+      },
+      {
+       "w": "dire:",
+       "s": 13.652,
+       "e": 14.132
+      },
+      {
+       "w": "les",
+       "s": 14.132,
+       "e": 14.292
+      },
+      {
+       "w": "gens",
+       "s": 14.292,
+       "e": 14.612
+      },
+      {
+       "w": "qui",
+       "s": 14.612,
+       "e": 14.772
+      },
+      {
+       "w": "ne",
+       "s": 14.772,
+       "e": 14.932
+      },
+      {
+       "w": "comptent",
+       "s": 14.932,
+       "e": 15.412
+      },
+      {
+       "w": "pas.",
+       "s": 15.412,
+       "e": 15.892
+      }
+     ]
+    },
+    {
+     "text": "Les prisonniers.",
+     "spoken": "Les prisonniers.",
+     "start": 15.892,
+     "end": 17.172,
+     "words": [
+      {
+       "w": "Les",
+       "s": 15.892,
+       "e": 16.132
+      },
+      {
+       "w": "prisonniers.",
+       "s": 16.132,
+       "e": 17.172
+      }
+     ]
+    },
+    {
+     "text": "Les pauvres.",
+     "spoken": "Les pauvres.",
+     "start": 17.172,
+     "end": 17.892,
+     "words": [
+      {
+       "w": "Les",
+       "s": 17.172,
+       "e": 17.332
+      },
+      {
+       "w": "pauvres.",
+       "s": 17.332,
+       "e": 17.892
+      }
+     ]
+    },
+    {
+     "text": "Ceux que personne ne défend.",
+     "spoken": "Ceux que personne ne défend.",
+     "start": 17.892,
+     "end": 19.512,
+     "words": [
+      {
+       "w": "Ceux",
+       "s": 17.892,
+       "e": 18.292
+      },
+      {
+       "w": "que",
+       "s": 18.292,
+       "e": 18.452
+      },
+      {
+       "w": "personne",
+       "s": 18.452,
+       "e": 18.852
+      },
+      {
+       "w": "ne",
+       "s": 18.852,
+       "e": 19.012
+      },
+      {
+       "w": "défend.",
+       "s": 19.012,
+       "e": 19.512
+      }
+     ]
+    }
+   ],
+   "end": 19.948
+  },
+  {
+   "id": "why",
+   "start": 19.948,
+   "sentences": [
+    {
+     "text": "Pourquoi ?",
+     "spoken": "Pourquoi ?",
+     "start": 19.948,
+     "end": 20.508,
+     "words": [
+      {
+       "w": "Pourquoi?",
+       "s": 19.948,
+       "e": 20.508
+      }
+     ]
+    },
+    {
+     "text": "Pour savoir si un remède marche...",
+     "spoken": "Pour savoir si un remède marche...",
+     "start": 20.508,
+     "end": 21.948,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 20.508,
+       "e": 20.748
+      },
+      {
+       "w": "savoir",
+       "s": 20.748,
+       "e": 20.988
+      },
+      {
+       "w": "si",
+       "s": 20.988,
+       "e": 21.148
+      },
+      {
+       "w": "un",
+       "s": 21.148,
+       "e": 21.308
+      },
+      {
+       "w": "remède",
+       "s": 21.308,
+       "e": 21.628
+      },
+      {
+       "w": "marche...",
+       "s": 21.628,
+       "e": 21.948
+      }
+     ]
+    },
+    {
+     "text": "il faut l'essayer sur quelqu'un.",
+     "spoken": "il faut l'essayer sur quelqu'un.",
+     "start": 21.948,
+     "end": 23.388,
+     "words": [
+      {
+       "w": "il",
+       "s": 21.948,
+       "e": 22.108
+      },
+      {
+       "w": "faut",
+       "s": 22.108,
+       "e": 22.268
+      },
+      {
+       "w": "l'essayer",
+       "s": 22.268,
+       "e": 22.828
+      },
+      {
+       "w": "sur",
+       "s": 22.828,
+       "e": 22.988
+      },
+      {
+       "w": "quelqu'un.",
+       "s": 22.988,
+       "e": 23.388
+      }
+     ]
+    },
+    {
+     "text": "Mais sur qui ?",
+     "spoken": "Mais sur qui ?",
+     "start": 23.388,
+     "end": 24.137,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 23.388,
+       "e": 23.548
+      },
+      {
+       "w": "sur",
+       "s": 23.548,
+       "e": 23.708
+      },
+      {
+       "w": "qui?",
+       "s": 23.708,
+       "e": 24.137
+      }
+     ]
+    }
+   ],
+   "end": 24.438
+  },
+  {
+   "id": "deal",
+   "start": 24.438,
+   "sentences": [
+    {
+     "text": "Les juges donnaient aux médecins les corps des condamnés à mort.",
+     "spoken": "Les juges donnaient aux médecins les corps des condamnés à mort.",
+     "start": 24.438,
+     "end": 27.958,
+     "words": [
+      {
+       "w": "Les",
+       "s": 24.438,
+       "e": 24.598
+      },
+      {
+       "w": "juges",
+       "s": 24.598,
+       "e": 24.998
+      },
+      {
+       "w": "donnaient",
+       "s": 24.998,
+       "e": 25.398
+      },
+      {
+       "w": "aux",
+       "s": 25.398,
+       "e": 25.558
+      },
+      {
+       "w": "médecins",
+       "s": 25.558,
+       "e": 25.958
+      },
+      {
+       "w": "les",
+       "s": 25.958,
+       "e": 26.118
+      },
+      {
+       "w": "corps",
+       "s": 26.118,
+       "e": 26.438
+      },
+      {
+       "w": "des",
+       "s": 26.438,
+       "e": 26.598
+      },
+      {
+       "w": "condamnés",
+       "s": 26.598,
+       "e": 27.318
+      },
+      {
+       "w": "à",
+       "s": 27.318,
+       "e": 27.398
+      },
+      {
+       "w": "mort.",
+       "s": 27.398,
+       "e": 27.958
+      }
+     ]
+    },
+    {
+     "text": "Et parfois, on proposait un marché au condamné vivant : une expérience dangereuse...",
+     "spoken": "Et parfois, on proposait un marché au condamné vivant : une expérience dangereuse...",
+     "start": 27.958,
+     "end": 33.238,
+     "words": [
+      {
+       "w": "Et",
+       "s": 27.958,
+       "e": 28.198
+      },
+      {
+       "w": "parfois,",
+       "s": 28.198,
+       "e": 28.758
+      },
+      {
+       "w": "on",
+       "s": 28.758,
+       "e": 28.998
+      },
+      {
+       "w": "proposait",
+       "s": 28.998,
+       "e": 29.558
+      },
+      {
+       "w": "un",
+       "s": 29.558,
+       "e": 29.638
+      },
+      {
+       "w": "marché",
+       "s": 29.638,
+       "e": 30.118
+      },
+      {
+       "w": "au",
+       "s": 30.118,
+       "e": 30.278
+      },
+      {
+       "w": "condamné",
+       "s": 30.278,
+       "e": 30.918
+      },
+      {
+       "w": "vivant:",
+       "s": 30.918,
+       "e": 31.398
+      },
+      {
+       "w": "une",
+       "s": 31.398,
+       "e": 31.638
+      },
+      {
+       "w": "expérience",
+       "s": 31.638,
+       "e": 32.278
+      },
+      {
+       "w": "dangereuse...",
+       "s": 32.278,
+       "e": 33.238
+      }
+     ]
+    },
+    {
+     "text": "et si tu survis...",
+     "spoken": "et si tu survis...",
+     "start": 33.238,
+     "end": 34.598,
+     "words": [
+      {
+       "w": "et",
+       "s": 33.238,
+       "e": 33.398
+      },
+      {
+       "w": "si",
+       "s": 33.398,
+       "e": 33.638
+      },
+      {
+       "w": "tu",
+       "s": 33.638,
+       "e": 33.878
+      },
+      {
+       "w": "survis...",
+       "s": 33.878,
+       "e": 34.598
+      }
+     ]
+    },
+    {
+     "text": "tu es libre.",
+     "spoken": "tu es libre.",
+     "start": 35.248,
+     "end": 36.068,
+     "words": [
+      {
+       "w": "tu",
+       "s": 35.248,
+       "e": 35.488
+      },
+      {
+       "w": "es",
+       "s": 35.488,
+       "e": 35.568
+      },
+      {
+       "w": "libre.",
+       "s": 35.568,
+       "e": 36.068
+      }
+     ]
+    }
+   ],
+   "end": 36.389
+  },
+  {
+   "id": "names",
+   "start": 36.389,
+   "sentences": [
+    {
+     "text": "Et devine qui est dans ce livre.",
+     "spoken": "Et devine qui est dans ce livre.",
+     "start": 36.389,
+     "end": 37.909,
+     "words": [
+      {
+       "w": "Et",
+       "s": 36.389,
+       "e": 36.549
+      },
+      {
+       "w": "devine",
+       "s": 36.549,
+       "e": 36.949
+      },
+      {
+       "w": "qui",
+       "s": 36.949,
+       "e": 37.109
+      },
+      {
+       "w": "est",
+       "s": 37.109,
+       "e": 37.269
+      },
+      {
+       "w": "dans",
+       "s": 37.269,
+       "e": 37.349
+      },
+      {
+       "w": "ce",
+       "s": 37.349,
+       "e": 37.509
+      },
+      {
+       "w": "livre.",
+       "s": 37.509,
+       "e": 37.909
+      }
+     ]
+    },
+    {
+     "text": "Pasteur a demandé à l'empereur du Brésil ses condamnés à mort, pour essayer son vaccin contre la rage.",
+     "spoken": "Pasteur a demandé à l'empereur du Brésil ses condamnés à mort, pour essayer son vaccin contre la rage.",
+     "start": 37.909,
+     "end": 44.309,
+     "words": [
+      {
+       "w": "Pasteur",
+       "s": 37.909,
+       "e": 38.389
+      },
+      {
+       "w": "a",
+       "s": 38.389,
+       "e": 38.549
+      },
+      {
+       "w": "demandé",
+       "s": 38.549,
+       "e": 38.949
+      },
+      {
+       "w": "à",
+       "s": 38.949,
+       "e": 39.029
+      },
+      {
+       "w": "l'empereur",
+       "s": 39.029,
+       "e": 39.749
+      },
+      {
+       "w": "du",
+       "s": 39.749,
+       "e": 39.989
+      },
+      {
+       "w": "Brésil",
+       "s": 39.989,
+       "e": 40.469
+      },
+      {
+       "w": "ses",
+       "s": 40.469,
+       "e": 40.709
+      },
+      {
+       "w": "condamnés",
+       "s": 40.709,
+       "e": 41.429
+      },
+      {
+       "w": "à",
+       "s": 41.429,
+       "e": 41.589
+      },
+      {
+       "w": "mort,",
+       "s": 41.589,
+       "e": 42.069
+      },
+      {
+       "w": "pour",
+       "s": 42.069,
+       "e": 42.309
+      },
+      {
+       "w": "essayer",
+       "s": 42.309,
+       "e": 42.789
+      },
+      {
+       "w": "son",
+       "s": 42.789,
+       "e": 42.949
+      },
+      {
+       "w": "vaccin",
+       "s": 42.949,
+       "e": 43.349
+      },
+      {
+       "w": "contre",
+       "s": 43.349,
+       "e": 43.589
+      },
+      {
+       "w": "la",
+       "s": 43.589,
+       "e": 43.749
+      },
+      {
+       "w": "rage.",
+       "s": 43.749,
+       "e": 44.309
+      }
+     ]
+    },
+    {
+     "text": "Et Koch a testé un remède à l'arsenic sur des gens enfermés dans des camps, en Afrique.",
+     "spoken": "Et Kok a testé un remède à l'arsenic sur des gens enfermés dans des camps, en Afrique.",
+     "start": 44.309,
+     "end": 49.289,
+     "words": [
+      {
+       "w": "Et",
+       "s": 44.309,
+       "e": 44.565
+      },
+      {
+       "w": "Koch",
+       "s": 44.565,
+       "e": 44.949
+      },
+      {
+       "w": "a",
+       "s": 44.949,
+       "e": 45.029
+      },
+      {
+       "w": "testé",
+       "s": 45.029,
+       "e": 45.429
+      },
+      {
+       "w": "un",
+       "s": 45.429,
+       "e": 45.509
+      },
+      {
+       "w": "remède",
+       "s": 45.509,
+       "e": 45.749
+      },
+      {
+       "w": "à",
+       "s": 45.749,
+       "e": 45.829
+      },
+      {
+       "w": "l'arsenic",
+       "s": 45.829,
+       "e": 46.629
+      },
+      {
+       "w": "sur",
+       "s": 46.629,
+       "e": 46.789
+      },
+      {
+       "w": "des",
+       "s": 46.789,
+       "e": 46.869
+      },
+      {
+       "w": "gens",
+       "s": 46.869,
+       "e": 47.189
+      },
+      {
+       "w": "enfermés",
+       "s": 47.189,
+       "e": 47.749
+      },
+      {
+       "w": "dans",
+       "s": 47.749,
+       "e": 47.909
+      },
+      {
+       "w": "des",
+       "s": 47.909,
+       "e": 48.069
+      },
+      {
+       "w": "camps,",
+       "s": 48.069,
+       "e": 48.629
+      },
+      {
+       "w": "en",
+       "s": 48.629,
+       "e": 48.789
+      },
+      {
+       "w": "Afrique.",
+       "s": 48.789,
+       "e": 49.289
+      }
+     ]
+    }
+   ],
+   "end": 49.793
+  },
+  {
+   "id": "worse",
+   "start": 49.793,
+   "sentences": [
+    {
+     "text": "Pour comprendre les maladies, on en a même donné à des gens en bonne santé.",
+     "spoken": "Pour comprendre les maladies, on en a même donné à des gens en bonne santé.",
+     "start": 49.793,
+     "end": 53.713,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 49.793,
+       "e": 50.113
+      },
+      {
+       "w": "comprendre",
+       "s": 50.113,
+       "e": 50.513
+      },
+      {
+       "w": "les",
+       "s": 50.513,
+       "e": 50.673
+      },
+      {
+       "w": "maladies,",
+       "s": 50.673,
+       "e": 51.233
+      },
+      {
+       "w": "on",
+       "s": 51.233,
+       "e": 51.393
+      },
+      {
+       "w": "en",
+       "s": 51.393,
+       "e": 51.553
+      },
+      {
+       "w": "a",
+       "s": 51.553,
+       "e": 51.713
+      },
+      {
+       "w": "même",
+       "s": 51.713,
+       "e": 51.953
+      },
+      {
+       "w": "donné",
+       "s": 51.953,
+       "e": 52.273
+      },
+      {
+       "w": "à",
+       "s": 52.273,
+       "e": 52.433
+      },
+      {
+       "w": "des",
+       "s": 52.433,
+       "e": 52.513
+      },
+      {
+       "w": "gens",
+       "s": 52.513,
+       "e": 52.673
+      },
+      {
+       "w": "en",
+       "s": 52.673,
+       "e": 52.753
+      },
+      {
+       "w": "bonne",
+       "s": 52.753,
+       "e": 52.993
+      },
+      {
+       "w": "santé.",
+       "s": 52.993,
+       "e": 53.713
+      }
+     ]
+    },
+    {
+     "text": "Parfois...",
+     "spoken": "Parfois...",
+     "start": 53.713,
+     "end": 54.353,
+     "words": [
+      {
+       "w": "Parfois...",
+       "s": 53.713,
+       "e": 54.353
+      }
+     ]
+    },
+    {
+     "text": "à des enfants.",
+     "spoken": "à des enfants.",
+     "start": 55.003,
+     "end": 55.903,
+     "words": [
+      {
+       "w": "à",
+       "s": 55.003,
+       "e": 55.243
+      },
+      {
+       "w": "des",
+       "s": 55.243,
+       "e": 55.403
+      },
+      {
+       "w": "enfants.",
+       "s": 55.403,
+       "e": 55.903
+      }
+     ]
+    }
+   ],
+   "end": 56.328
+  },
+  {
+   "id": "consent",
+   "start": 56.328,
+   "sentences": [
+    {
+     "text": "Puis, au début du vingtième siècle, on a commencé à demander leur accord.",
+     "spoken": "Puis, au début du vingtième siècle, on a commencé à demander leur accord.",
+     "start": 56.328,
+     "end": 60.808,
+     "words": [
+      {
+       "w": "Puis,",
+       "s": 56.328,
+       "e": 56.808
+      },
+      {
+       "w": "au",
+       "s": 56.808,
+       "e": 56.968
+      },
+      {
+       "w": "début",
+       "s": 56.968,
+       "e": 57.288
+      },
+      {
+       "w": "du",
+       "s": 57.288,
+       "e": 57.404
+      },
+      {
+       "w": "vingtième",
+       "s": 57.404,
+       "e": 57.928
+      },
+      {
+       "w": "siècle,",
+       "s": 57.928,
+       "e": 58.488
+      },
+      {
+       "w": "on",
+       "s": 58.488,
+       "e": 58.728
+      },
+      {
+       "w": "a",
+       "s": 58.728,
+       "e": 58.888
+      },
+      {
+       "w": "commencé",
+       "s": 58.888,
+       "e": 59.288
+      },
+      {
+       "w": "à",
+       "s": 59.288,
+       "e": 59.368
+      },
+      {
+       "w": "demander",
+       "s": 59.368,
+       "e": 59.848
+      },
+      {
+       "w": "leur",
+       "s": 59.848,
+       "e": 60.088
+      },
+      {
+       "w": "accord.",
+       "s": 60.088,
+       "e": 60.808
+      }
+     ]
+    },
+    {
+     "text": "Mais quand on est pauvre, ou en prison...",
+     "spoken": "Mais quand on est pauvre, ou en prison...",
+     "start": 60.808,
+     "end": 63.128,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 60.808,
+       "e": 61.048
+      },
+      {
+       "w": "quand",
+       "s": 61.048,
+       "e": 61.288
+      },
+      {
+       "w": "on",
+       "s": 61.288,
+       "e": 61.448
+      },
+      {
+       "w": "est",
+       "s": 61.448,
+       "e": 61.608
+      },
+      {
+       "w": "pauvre,",
+       "s": 61.608,
+       "e": 62.088
+      },
+      {
+       "w": "ou",
+       "s": 62.088,
+       "e": 62.248
+      },
+      {
+       "w": "en",
+       "s": 62.248,
+       "e": 62.408
+      },
+      {
+       "w": "prison...",
+       "s": 62.408,
+       "e": 63.128
+      }
+     ]
+    },
+    {
+     "text": "est-ce qu'on peut vraiment dire non ?",
+     "spoken": "est-ce qu'on peut vraiment dire non ?",
+     "start": 63.778,
+     "end": 65.246,
+     "words": [
+      {
+       "w": "est-ce",
+       "s": 63.778,
+       "e": 64.098
+      },
+      {
+       "w": "qu'on",
+       "s": 64.098,
+       "e": 64.338
+      },
+      {
+       "w": "peut",
+       "s": 64.338,
+       "e": 64.498
+      },
+      {
+       "w": "vraiment",
+       "s": 64.498,
+       "e": 64.658
+      },
+      {
+       "w": "dire",
+       "s": 64.658,
+       "e": 64.898
+      },
+      {
+       "w": "non?",
+       "s": 64.898,
+       "e": 65.246
+      }
+     ]
+    }
+   ],
+   "end": 65.545
+  },
+  {
+   "id": "inside",
+   "start": 65.545,
+   "sentences": [
+    {
+     "text": "Comment des gens si intelligents ont pu faire ça ?",
+     "spoken": "Comment des gens si intelligents ont pu faire ça ?",
+     "start": 65.545,
+     "end": 68.025,
+     "words": [
+      {
+       "w": "Comment",
+       "s": 65.545,
+       "e": 65.865
+      },
+      {
+       "w": "des",
+       "s": 65.865,
+       "e": 66.025
+      },
+      {
+       "w": "gens",
+       "s": 66.025,
+       "e": 66.265
+      },
+      {
+       "w": "si",
+       "s": 66.265,
+       "e": 66.425
+      },
+      {
+       "w": "intelligents",
+       "s": 66.425,
+       "e": 66.985
+      },
+      {
+       "w": "ont",
+       "s": 66.985,
+       "e": 67.145
+      },
+      {
+       "w": "pu",
+       "s": 67.145,
+       "e": 67.385
+      },
+      {
+       "w": "faire",
+       "s": 67.385,
+       "e": 67.545
+      },
+      {
+       "w": "ça?",
+       "s": 67.545,
+       "e": 68.025
+      }
+     ]
+    },
+    {
+     "text": "Avec une petite phrase dans la tête : c'est pour le bien de l'humanité.",
+     "spoken": "Avec une petite phrase dans la tête : c'est pour le bien de l'humanité.",
+     "start": 68.025,
+     "end": 71.785,
+     "words": [
+      {
+       "w": "Avec",
+       "s": 68.025,
+       "e": 68.345
+      },
+      {
+       "w": "une",
+       "s": 68.345,
+       "e": 68.505
+      },
+      {
+       "w": "petite",
+       "s": 68.505,
+       "e": 68.825
+      },
+      {
+       "w": "phrase",
+       "s": 68.825,
+       "e": 69.225
+      },
+      {
+       "w": "dans",
+       "s": 69.225,
+       "e": 69.385
+      },
+      {
+       "w": "la",
+       "s": 69.385,
+       "e": 69.465
+      },
+      {
+       "w": "tête:",
+       "s": 69.465,
+       "e": 70.025
+      },
+      {
+       "w": "c'est",
+       "s": 70.025,
+       "e": 70.265
+      },
+      {
+       "w": "pour",
+       "s": 70.265,
+       "e": 70.425
+      },
+      {
+       "w": "le",
+       "s": 70.425,
+       "e": 70.505
+      },
+      {
+       "w": "bien",
+       "s": 70.505,
+       "e": 70.745
+      },
+      {
+       "w": "de",
+       "s": 70.745,
+       "e": 70.825
+      },
+      {
+       "w": "l'humanité.",
+       "s": 70.825,
+       "e": 71.785
+      }
+     ]
+    },
+    {
+     "text": "Mais l'humanité, c'est tout le monde...",
+     "spoken": "Mais l'humanité, c'est tout le monde...",
+     "start": 71.785,
+     "end": 74.345,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 71.785,
+       "e": 72.025
+      },
+      {
+       "w": "l'humanité,",
+       "s": 72.025,
+       "e": 73.225
+      },
+      {
+       "w": "c'est",
+       "s": 73.225,
+       "e": 73.545
+      },
+      {
+       "w": "tout",
+       "s": 73.545,
+       "e": 73.785
+      },
+      {
+       "w": "le",
+       "s": 73.785,
+       "e": 73.865
+      },
+      {
+       "w": "monde...",
+       "s": 73.865,
+       "e": 74.345
+      }
+     ]
+    },
+    {
+     "text": "sauf la personne en face.",
+     "spoken": "sauf la personne en face.",
+     "start": 74.345,
+     "end": 75.865,
+     "words": [
+      {
+       "w": "sauf",
+       "s": 74.345,
+       "e": 74.745
+      },
+      {
+       "w": "la",
+       "s": 74.745,
+       "e": 74.905
+      },
+      {
+       "w": "personne",
+       "s": 74.905,
+       "e": 75.225
+      },
+      {
+       "w": "en",
+       "s": 75.225,
+       "e": 75.385
+      },
+      {
+       "w": "face.",
+       "s": 75.385,
+       "e": 75.865
+      }
+     ]
+    },
+    {
+     "text": "Personne ne naît corps vil.",
+     "spoken": "Personne ne naît corps vil.",
+     "start": 75.865,
+     "end": 77.545,
+     "words": [
+      {
+       "w": "Personne",
+       "s": 75.865,
+       "e": 76.265
+      },
+      {
+       "w": "ne",
+       "s": 76.265,
+       "e": 76.425
+      },
+      {
+       "w": "naît",
+       "s": 76.425,
+       "e": 76.798
+      },
+      {
+       "w": "corps",
+       "s": 76.798,
+       "e": 77.265
+      },
+      {
+       "w": "vil.",
+       "s": 77.265,
+       "e": 77.545
+      }
+     ]
+    },
+    {
+     "text": "On le devient...",
+     "spoken": "On le devient...",
+     "start": 77.545,
+     "end": 78.665,
+     "words": [
+      {
+       "w": "On",
+       "s": 77.545,
+       "e": 77.705
+      },
+      {
+       "w": "le",
+       "s": 77.705,
+       "e": 77.785
+      },
+      {
+       "w": "devient...",
+       "s": 77.785,
+       "e": 78.665
+      }
+     ]
+    },
+    {
+     "text": "quand les autres décident qu'on vaut moins.",
+     "spoken": "quand les autres décident qu'on vaut moins.",
+     "start": 78.665,
+     "end": 80.582,
+     "words": [
+      {
+       "w": "quand",
+       "s": 78.665,
+       "e": 78.825
+      },
+      {
+       "w": "les",
+       "s": 78.825,
+       "e": 78.985
+      },
+      {
+       "w": "autres",
+       "s": 78.985,
+       "e": 79.294
+      },
+      {
+       "w": "décident",
+       "s": 79.294,
+       "e": 79.705
+      },
+      {
+       "w": "qu'on",
+       "s": 79.705,
+       "e": 79.945
+      },
+      {
+       "w": "vaut",
+       "s": 79.945,
+       "e": 80.185
+      },
+      {
+       "w": "moins.",
+       "s": 80.185,
+       "e": 80.582
+      }
+     ]
+    }
+   ],
+   "end": 80.882
+  },
+  {
+   "id": "nuance",
+   "start": 80.882,
+   "sentences": [
+    {
+     "text": "Attention : certains médecins se sont battus contre ça.",
+     "spoken": "Attention : certains médecins se sont battus contre ça.",
+     "start": 80.882,
+     "end": 84.402,
+     "words": [
+      {
+       "w": "Attention:",
+       "s": 80.882,
+       "e": 81.842
+      },
+      {
+       "w": "certains",
+       "s": 81.842,
+       "e": 82.242
+      },
+      {
+       "w": "médecins",
+       "s": 82.242,
+       "e": 82.802
+      },
+      {
+       "w": "se",
+       "s": 82.802,
+       "e": 82.962
+      },
+      {
+       "w": "sont",
+       "s": 82.962,
+       "e": 83.202
+      },
+      {
+       "w": "battus",
+       "s": 83.202,
+       "e": 83.762
+      },
+      {
+       "w": "contre",
+       "s": 83.762,
+       "e": 84.002
+      },
+      {
+       "w": "ça.",
+       "s": 84.002,
+       "e": 84.402
+      }
+     ]
+    },
+    {
+     "text": "Et le philosophe Kant disait déjà : un humain n'est jamais un simple outil.",
+     "spoken": "Et le philosophe Kante disait déjà : un humain n'est jamais un simple outil.",
+     "start": 84.402,
+     "end": 89.264,
+     "words": [
+      {
+       "w": "Et",
+       "s": 84.402,
+       "e": 84.642
+      },
+      {
+       "w": "le",
+       "s": 84.642,
+       "e": 84.722
+      },
+      {
+       "w": "philosophe",
+       "s": 84.722,
+       "e": 85.522
+      },
+      {
+       "w": "Kant",
+       "s": 85.522,
+       "e": 85.922
+      },
+      {
+       "w": "disait",
+       "s": 85.922,
+       "e": 86.242
+      },
+      {
+       "w": "déjà:",
+       "s": 86.242,
+       "e": 86.962
+      },
+      {
+       "w": "un",
+       "s": 86.962,
+       "e": 87.202
+      },
+      {
+       "w": "humain",
+       "s": 87.202,
+       "e": 87.602
+      },
+      {
+       "w": "n'est",
+       "s": 87.602,
+       "e": 87.842
+      },
+      {
+       "w": "jamais",
+       "s": 87.842,
+       "e": 88.082
+      },
+      {
+       "w": "un",
+       "s": 88.082,
+       "e": 88.242
+      },
+      {
+       "w": "simple",
+       "s": 88.242,
+       "e": 88.8
+      },
+      {
+       "w": "outil.",
+       "s": 88.8,
+       "e": 89.264
+      }
+     ]
+    }
+   ],
+   "end": 89.565
+  },
+  {
+   "id": "now",
+   "start": 89.565,
+   "sentences": [
+    {
+     "text": "Et aujourd'hui ?",
+     "spoken": "Et aujourd'hui ?",
+     "start": 89.565,
+     "end": 90.605,
+     "words": [
+      {
+       "w": "Et",
+       "s": 89.565,
+       "e": 89.805
+      },
+      {
+       "w": "aujourd'hui?",
+       "s": 89.805,
+       "e": 90.605
+      }
+     ]
+    },
+    {
+     "text": "Des gens sont payés pour tester des médicaments.",
+     "spoken": "Des gens sont payés pour tester des médicaments.",
+     "start": 90.605,
+     "end": 93.245,
+     "words": [
+      {
+       "w": "Des",
+       "s": 90.605,
+       "e": 90.765
+      },
+      {
+       "w": "gens",
+       "s": 90.765,
+       "e": 91.085
+      },
+      {
+       "w": "sont",
+       "s": 91.085,
+       "e": 91.245
+      },
+      {
+       "w": "payés",
+       "s": 91.245,
+       "e": 91.645
+      },
+      {
+       "w": "pour",
+       "s": 91.645,
+       "e": 91.805
+      },
+      {
+       "w": "tester",
+       "s": 91.805,
+       "e": 92.205
+      },
+      {
+       "w": "des",
+       "s": 92.205,
+       "e": 92.365
+      },
+      {
+       "w": "médicaments.",
+       "s": 92.365,
+       "e": 93.245
+      }
+     ]
+    },
+    {
+     "text": "C'est encadré par la loi.",
+     "spoken": "C'est encadré par la loi.",
+     "start": 93.245,
+     "end": 95.165,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 93.245,
+       "e": 93.645
+      },
+      {
+       "w": "encadré",
+       "s": 93.645,
+       "e": 94.285
+      },
+      {
+       "w": "par",
+       "s": 94.285,
+       "e": 94.445
+      },
+      {
+       "w": "la",
+       "s": 94.445,
+       "e": 94.605
+      },
+      {
+       "w": "loi.",
+       "s": 94.605,
+       "e": 95.165
+      }
+     ]
+    },
+    {
+     "text": "Mais souvent...",
+     "spoken": "Mais souvent...",
+     "start": 95.165,
+     "end": 95.805,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 95.165,
+       "e": 95.405
+      },
+      {
+       "w": "souvent...",
+       "s": 95.405,
+       "e": 95.805
+      }
+     ]
+    },
+    {
+     "text": "ce sont ceux qui ont le plus besoin d'argent.",
+     "spoken": "ce sont ceux qui ont le plus besoin d'argent.",
+     "start": 95.805,
+     "end": 98.365,
+     "words": [
+      {
+       "w": "ce",
+       "s": 95.805,
+       "e": 96.285
+      },
+      {
+       "w": "sont",
+       "s": 96.285,
+       "e": 96.445
+      },
+      {
+       "w": "ceux",
+       "s": 96.445,
+       "e": 96.685
+      },
+      {
+       "w": "qui",
+       "s": 96.685,
+       "e": 96.845
+      },
+      {
+       "w": "ont",
+       "s": 96.845,
+       "e": 97.085
+      },
+      {
+       "w": "le",
+       "s": 97.085,
+       "e": 97.245
+      },
+      {
+       "w": "plus",
+       "s": 97.245,
+       "e": 97.405
+      },
+      {
+       "w": "besoin",
+       "s": 97.405,
+       "e": 97.725
+      },
+      {
+       "w": "d'argent.",
+       "s": 97.725,
+       "e": 98.365
+      }
+     ]
+    },
+    {
+     "text": "Alors...",
+     "spoken": "Alors...",
+     "start": 98.365,
+     "end": 98.685,
+     "words": [
+      {
+       "w": "Alors...",
+       "s": 98.365,
+       "e": 98.685
+      }
+     ]
+    },
+    {
+     "text": "qui sont les corps vils d'aujourd'hui ?",
+     "spoken": "qui sont les corps vils d'aujourd'hui ?",
+     "start": 99.335,
+     "end": 100.955,
+     "words": [
+      {
+       "w": "qui",
+       "s": 99.335,
+       "e": 99.495
+      },
+      {
+       "w": "sont",
+       "s": 99.495,
+       "e": 99.655
+      },
+      {
+       "w": "les",
+       "s": 99.655,
+       "e": 99.815
+      },
+      {
+       "w": "corps",
+       "s": 99.815,
+       "e": 100.171
+      },
+      {
+       "w": "vils",
+       "s": 100.171,
+       "e": 100.455
+      },
+      {
+       "w": "d'aujourd'hui?",
+       "s": 100.455,
+       "e": 100.955
+      }
+     ]
+    }
+   ],
+   "end": 101.411
+  },
+  {
+   "id": "cta",
+   "start": 101.411,
+   "sentences": [
+    {
+     "text": "Et toi, tu testerais un médicament pour de l'argent ?",
+     "spoken": "Et toi, tu testerais un médicament pour de l'argent ?",
+     "start": 101.411,
+     "end": 104.291,
+     "words": [
+      {
+       "w": "Et",
+       "s": 101.411,
+       "e": 101.651
+      },
+      {
+       "w": "toi,",
+       "s": 101.651,
+       "e": 102.051
+      },
+      {
+       "w": "tu",
+       "s": 102.051,
+       "e": 102.211
+      },
+      {
+       "w": "testerais",
+       "s": 102.211,
+       "e": 102.771
+      },
+      {
+       "w": "un",
+       "s": 102.771,
+       "e": 102.851
+      },
+      {
+       "w": "médicament",
+       "s": 102.851,
+       "e": 103.331
+      },
+      {
+       "w": "pour",
+       "s": 103.331,
+       "e": 103.491
+      },
+      {
+       "w": "de",
+       "s": 103.491,
+       "e": 103.651
+      },
+      {
+       "w": "l'argent?",
+       "s": 103.651,
+       "e": 104.291
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 104.291,
+     "end": 105.431,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 104.291,
+       "e": 104.851
+      },
+      {
+       "w": "en",
+       "s": 104.851,
+       "e": 104.931
+      },
+      {
+       "w": "commentaire.",
+       "s": 104.931,
+       "e": 105.431
+      }
+     ]
+    }
+   ],
+   "end": 105.869
+  }
+ ]
+}

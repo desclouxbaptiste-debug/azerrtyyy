@@ -1,0 +1,67 @@
+{
+ "engine": "supertonic",
+ "sid": 9,
+ "lang": "fr",
+ "steps": 12,
+ "speed": 1.07,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Les plus grands savants de l'histoire ont fait des expériences... sur des gens jugés sans valeur."
+  },
+  {
+   "id": "name",
+   "text": "Il y avait même un nom pour eux. <r>Les corps vils."
+  },
+  {
+   "id": "setup",
+   "text": "C'est le titre d'un livre de Grégoire {Chamayou|Chamaillou}. Corps vils, ça veut dire : les gens qui ne comptent pas. Les prisonniers. Les pauvres. Ceux que personne ne défend."
+  },
+  {
+   "id": "why",
+   "text": "Pourquoi ? Pour savoir si un remède marche... il faut l'essayer sur quelqu'un. Mais sur qui ?"
+  },
+  {
+   "id": "deal",
+   "text": "Les juges donnaient aux médecins les corps des condamnés à mort. Et parfois, on proposait un marché au condamné vivant : une expérience dangereuse... et si tu survis... <r>tu es libre."
+  },
+  {
+   "id": "names",
+   "text": "Et devine qui est dans ce livre. Pasteur a demandé à l'empereur du Brésil ses condamnés à mort, pour essayer son vaccin contre la rage. Et {Koch|Kok} a testé un remède à l'arsenic sur des gens enfermés dans des camps, en Afrique."
+  },
+  {
+   "id": "worse",
+   "text": "Pour comprendre les maladies, on en a même donné à des gens en bonne santé. Parfois... <r>à des enfants."
+  },
+  {
+   "id": "consent",
+   "text": "Puis, au début du vingtième siècle, on a commencé à demander leur accord. Mais quand on est pauvre, ou en prison... <r>est-ce qu'on peut vraiment dire non ?"
+  },
+  {
+   "id": "inside",
+   "text": "Comment des gens si intelligents ont pu faire ça ? Avec une petite phrase dans la tête : c'est pour le bien de l'humanité. Mais l'humanité, c'est tout le monde... sauf la personne en face. Personne ne naît corps vil. On le devient... quand les autres décident qu'on vaut moins."
+  },
+  {
+   "id": "nuance",
+   "text": "Attention : certains médecins se sont battus contre ça. Et le philosophe {Kant|Kante} disait déjà : un humain n'est jamais un simple outil."
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? Des gens sont payés pour tester des médicaments. C'est encadré par la loi. Mais souvent... ce sont ceux qui ont le plus besoin d'argent. Alors... <r>qui sont les corps vils d'aujourd'hui ?"
+  },
+  {
+   "id": "cta",
+   "text": "Et toi, tu testerais un médicament pour de l'argent ? Dis-le en commentaire."
+  }
+ ]
+}
