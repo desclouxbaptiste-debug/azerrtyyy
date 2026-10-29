@@ -1,7 +1,7 @@
 {
  "engine": "piper",
- "voice": "fr_FR-upmc-medium",
- "sid": 1,
+ "voice": "fr_FR-tom-medium",
+ "sid": 0,
  "speed": 0.95,
  "noise": 0.667,
  "noise_w": 0.8,
@@ -58,7 +58,7 @@
   },
   {
    "id": "now",
-   "text": "Et aujourd'hui ? On paie des gens pour essayer des médicaments. C'est surveillé par la loi. Mais souvent, ce sont ceux qui ont le plus besoin d'argent. Alors... <r>qui sont les corps vils d'aujourd'hui ?"
+   "text": "Et aujourd'hui ? On paie des gens pour essayer des médicaments. C'est surveillé par la loi. Mais souvent, ce sont ceux qui ont le plus besoin d'argent. Alors... <r>aujourd'hui, qui sont les corps vils ?"
   },
   {
    "id": "cta",
