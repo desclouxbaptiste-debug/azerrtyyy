@@ -1,0 +1,68 @@
+{
+ "engine": "piper",
+ "voice": "fr_FR-upmc-medium",
+ "sid": 1,
+ "speed": 0.95,
+ "noise": 0.667,
+ "noise_w": 0.8,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 3,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Tu sais comment on invente un médicament ? Il faut l'essayer... sur quelqu'un."
+  },
+  {
+   "id": "why",
+   "text": "Mais sur qui ? Pendant longtemps... sur des gens qui ne comptaient pas."
+  },
+  {
+   "id": "name",
+   "text": "Un livre de Grégoire {Chamayou|Chamaillou} leur donne un nom. <r>Les corps vils. Vil, ça veut dire : qui ne vaut rien."
+  },
+  {
+   "id": "setup",
+   "text": "Les prisonniers. Les gens très pauvres. Ceux que personne ne défend."
+  },
+  {
+   "id": "deal",
+   "text": "Par exemple, on disait à un prisonnier : tu veux bien essayer un truc dangereux ? Si tu t'en sors... <r>tu es libre."
+  },
+  {
+   "id": "names",
+   "text": "Et devine qui a fait ça ? Même des savants très connus. Pasteur a demandé des prisonniers à un empereur, pour essayer son vaccin. Et {Koch|Kok} a donné un remède dangereux à des gens enfermés, en Afrique."
+  },
+  {
+   "id": "worse",
+   "text": "On a même rendu malades des gens en bonne santé, exprès. Parfois... <r>des enfants."
+  },
+  {
+   "id": "consent",
+   "text": "Plus tard, on a dit : il faut demander « tu es d'accord ? ». Mais quand tu es très pauvre, ou en prison... <r>est-ce que tu peux vraiment dire non ?"
+  },
+  {
+   "id": "inside",
+   "text": "Pourquoi des gens si intelligents ont fait ça ? Ils se disaient : c'est pour aider tout le monde. Mais tout le monde... sauf la personne en face. C'est comme à l'école : quand le groupe décide qu'un enfant compte moins, plus personne ne le défend. Personne ne naît corps vil. On le devient."
+  },
+  {
+   "id": "nuance",
+   "text": "Heureusement, certains médecins ont dit non. Et un philosophe, {Kant|Kante}, disait : une personne, ce n'est jamais un simple objet."
+  },
+  {
+   "id": "now",
+   "text": "Et aujourd'hui ? On paie des gens pour essayer des médicaments. C'est surveillé par la loi. Mais souvent, ce sont ceux qui ont le plus besoin d'argent. Alors... <r>qui sont les corps vils d'aujourd'hui ?"
+  },
+  {
+   "id": "cta",
+   "text": "Et toi, tu essaierais un médicament pour de l'argent ? Dis-le en commentaire."
+  }
+ ]
+}
