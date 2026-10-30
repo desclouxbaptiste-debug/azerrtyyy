@@ -192,14 +192,16 @@ function render(t, o) {
   const frame = Math.round(t * FPS);
   let i = R.ORDER.findIndex(id => t < R.SEG[id].next);
   if (i < 0) i = R.ORDER.length - 1;
-  const s = R.SEG[R.ORDER[i]], tr = prog(t, s.start - 0.22, s.start + 0.22);
+  const s = R.SEG[R.ORDER[i]];
   ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
+  // a slide runs from 0.22 s before a set starts to 0.22 s after: the new set slides in, the old one slides out
+  // (a smooth slide, no streaks, no white)
+  const j = R.ORDER.findIndex((id, n) => n > 0 && Math.abs(t - S(id)) < 0.22);
   let d;
-  if (i > 0 && tr < 1) {
-    // the new set slides in, the old one slides out (a smooth slide, no streaks, no white)
-    const k = easeInOut(tr), dir = i % 2 ? 1 : -1;
-    drawShot(i - 1, t, -k * W * dir);
-    d = drawShot(i, t, (1 - k) * W * dir);
+  if (j > 0) {
+    const k = easeInOut(prog(t, S(R.ORDER[j]) - 0.22, S(R.ORDER[j]) + 0.22)), dir = j % 2 ? 1 : -1;
+    drawShot(j - 1, t, -k * W * dir);
+    d = drawShot(j, t, (1 - k) * W * dir);
   } else d = drawShot(i, t, 0);
   lueur(t);
   vignette(lerp(0.22, 0.6, d), 0.42);
