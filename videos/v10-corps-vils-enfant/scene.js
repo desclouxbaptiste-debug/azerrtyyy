@@ -1,8 +1,10 @@
-// "Les corps vils" (Grégoire Chamayou) told for a four-year-old, staged with the Quidams, narrated by a native French
-// voice (Piper, "Pierre"): who medicine experimented on, and the playground version of why.
+// "Les corps vils" (Grégoire Chamayou) told in very simple words (for TikTok's 13+ audience), staged with the Quidams,
+// narrated by a generic native French library voice (Piper, "Tom"): who medicine experimented on, and the playground
+// version of why. Follows the TikTok rules of the brief: no flash or sudden sound, no character speaks, every scene
+// labelled "Reconstitution" or "Illustration", source card at the end.
 // The grey figures are the "vile bodies"; the number tags on their chests are the idea of the book: people are not
 // born worthless, they are turned into numbers. One set per voice segment (lib/recit3d.js), timed on the words.
-import { plateau, figure, apparaitre, auDessus, tourneVers, chemin, droit, revele, plaque, encre, bulle, tampon,
+import { plateau, figure, apparaitre, auDessus, tourneVers, chemin, droit, revele, plaque, encre, tampon,
   st, S, E, wt, INK, AMBRE, demarrer } from "../lib/recit3d.js";
 import { creerFoule, creerChaise, fenetre } from "../lib/quidams.js";
 import { barreaux, table, contrat, palissade, flacon, livre, couronne, panneau } from "../lib/decors3d.js";
@@ -40,20 +42,19 @@ plateau("hook", g => {
 // ---------------------------------------------------------------- the name: LES CORPS VILS
 plateau("name", g => {
   const rang = [-1.0, -0.5, 0, 0.5, 1.0].map((x, i) => figure(g, "foule", x, 0, { graine: 51 + i, numero: [7, 12, 3, 28, 15][i] }));
-  const tb = table(1.0, 0.6); tb.position.set(0, 0, 2.4); g.add(tb);
-  const bk = livre("LES CORPS VILS", "Grégoire Chamayou"); bk.position.set(0, 0.76, 2.4); g.add(bk);
+  const tb = table(1.0, 0.6); tb.position.set(-1.9, 0, 1.4); g.add(tb);
+  const bk = livre("LES CORPS VILS", "Grégoire Chamayou"); bk.position.set(-1.9, 0.76, 1.4); g.add(bk);
   return {
     update(t) {
       const tr = revele("name", 2);
       bk.rotation.y = -0.35 + 0.25 * Math.sin(t * 0.7);
-      tb.visible = bk.visible = t < tr; // the reveal flash cuts from the book to the row
       rang.forEach((q, i) => q.pose("teteBaissee").regarder(0, -0.3).animer(t + i));
-      const c = chemin(t, [{ pos: [0.3, 1.38, 7.0], cible: [0, 1.05, 2.4], fov: 30 }, { t: tr - 0.15, d: 0.5, pos: [0, 1.6, 5.6], cible: [0, 1.15, 0] }]);
-      return { ...c, sombre: 0.75 * prog(t, tr - 0.05, tr + 0.1), focus: t < tr ? [0, 2.4] : [0, 0] };
+      const c = chemin(t, [{ pos: [-1.6, 1.38, 6.0], cible: [-1.9, 1.05, 1.4], fov: 30 }, { t: tr - 0.5, d: 1.1, pos: [0, 1.6, 5.6], cible: [0, 1.15, 0] }]);
+      return { ...c, sombre: 0.75 * easeInOut(prog(t, tr - 0.4, tr + 0.9)), focus: t < tr ? [-1.9, 1.4] : [0, 0] };
     },
     over(t) {
       const tr = revele("name", 2), td = wt("name", "dire", 4);
-      tampon("LES CORPS VILS", 440, prog(t, tr, tr + 0.4), { size: 118 });
+      tampon("LES CORPS VILS", 440, prog(t, tr - 0.1, tr + 0.7), { size: 118 });
       chalk("vil = qui ne vaut rien", W / 2, 565, prog(t, td - 0.6, td + 0.4), { size: 66 });
     },
   };
@@ -163,12 +164,12 @@ plateau("names", g => {
       dedans.forEach(q => q.pose("teteBaissee", 0.6).animer(t));
       koch.pose("pointer", fenetre(t, tk + 0.3, 0.5)).animer(t); koch.tenir();
       const c = chemin(t, [{ pos: [0.05, 1.7, 7.4], cible: [0.05, 1.15, 0], fov: 30 }, { t: tk - 0.45, d: 0.6, pos: [4.7, 1.9, 7.8], cible: [4.7, 1.1, -0.3] }]);
-      return { ...c, sombre: 0.6 * (1 - prog(t, tp - 0.25, tp + 0.05)), focus: t < tk ? [0, 0] : [5, -0.3] };
+      return { ...c, sombre: 0.6 * (1 - easeInOut(prog(t, tp - 0.7, tp + 0.4))), focus: t < tk ? [0, 0] : [5, -0.3] };
     },
     over(t, d) {
       const tp = wt("names", "Pasteur", 3), te = wt("names", "empereur", 5), tra = wt("names", "vaccin", 6.5), tk = wt("names", "Koch", 8), ta = wt("names", "remède", 9.5), tc = wt("names", "Afrique", 11);
-      tampon("PASTEUR", 420, prog(t, tp - 0.05, tp + 0.3) * (1 - prog(t, tp + 1.6, tp + 1.9)), { size: 120, color: AMBRE });
-      tampon("KOCH", 420, prog(t, tk - 0.05, tk + 0.3) * (1 - prog(t, tk + 1.6, tk + 1.9)), { size: 130, color: AMBRE });
+      tampon("PASTEUR", 420, prog(t, tp - 0.15, tp + 0.55) * (1 - prog(t, tp + 1.6, tp + 2.1)), { size: 120, color: AMBRE });
+      tampon("KOCH", 420, prog(t, tk - 0.15, tk + 0.55) * (1 - prog(t, tk + 1.6, tk + 2.1)), { size: 130, color: AMBRE });
       const a = auDessus(pasteur, 0.5), b = auDessus(emp, 0.75);
       if (t < tk) {
         encre("Pasteur", clamp(a.x, 190, W - 190), a.y, prog(t, tp + 0.4, tp + 0.8), { size: 58, sombre: d > 0.5 });
@@ -196,7 +197,7 @@ plateau("worse", g => {
       grands.forEach((q, i) => q.transitionExpression("joie", "tristesse", fenetre(t, tr + 0.3 + i * 0.05, 0.4)).animer(t));
       petits.forEach((q, i) => { apparaitre(q, easeOutBack(prog(t, tr - 0.05 + i * 0.07, tr + 0.3 + i * 0.07), 2)); q.regarder(-0.6, 0.5).animer(t); });
       const c = chemin(t, [{ pos: [0.05, 1.85, 8.8], cible: [0.0, 1.2, -0.4], fov: 30 }, { t: tr - 0.1, d: 0.6, pos: [0.6, 2.0, 6.0], cible: [0.55, 0.75, 0.0] }]);
-      return { ...c, sombre: lerp(0.2, 0.7, prog(t, tr - 0.05, tr + 0.1)) };
+      return { ...c, sombre: lerp(0.2, 0.7, easeInOut(prog(t, tr - 0.4, tr + 0.9))) };
     },
     over(t, d) {
       const tsa = wt("worse", "santé", 3), a = auDessus(grands[1], 0.55);
@@ -223,7 +224,7 @@ plateau("consent", g => {
       const k = easeOutCubic(prog(t, tpr - 0.1, tpr + 0.45)); // the bars grow out of the floor
       bar.visible = k > 0; bar.scale.y = Math.max(0.001, k);
       const c = chemin(t, [{ pos: [0.75, 1.8, 5.8], cible: [0.1, 0.95, 0], fov: 30 }, { t: tr - 0.1, d: 0.6, pos: [0.15, 1.25, 2.9], cible: [0, 1.02, -0.35] }]);
-      return { ...c, sombre: 0.35 * prog(t, tpr - 0.1, tpr + 0.3) + 0.25 * prog(t, tr - 0.05, tr + 0.1) };
+      return { ...c, sombre: 0.35 * easeInOut(prog(t, tpr - 0.3, tpr + 0.7)) + 0.25 * easeInOut(prog(t, tr - 0.4, tr + 0.9)) };
     },
     over(t, d) {
       const ts = wt("consent", "tard", 0.5), ta = wt("consent", "accord", 3), tr = revele("consent", 7.5);
@@ -276,7 +277,7 @@ plateau("inside", g => {
     over(t, d) {
       const tph = wt("inside", "disaient", 2.5), tm = wt("inside", "Mais", 5) + 0.5, tf = wt("inside", "face", 7), tmo = wt("inside", "moins", 12), te = wt("inside", "école", 9);
       const o = auDessus(sv, 0.5);
-      bulle("c'est pour aider tout le monde", clamp(o.x + 120, 330, W - 330), Math.max(o.y - 10, 470), prog(t, tph + 0.2, tph + 0.5) * (1 - prog(t, tm - 0.7, tm - 0.5)), { size: 50 });
+      chalk("l'excuse : « pour aider tout le monde »", W / 2, 420, prog(t, tph + 0.2, tph + 1.0) * (1 - prog(t, tm - 0.7, tm - 0.5)), { size: 54, color: "#FFE08A" });
       chalk("tout le monde…", W / 2, 420, prog(t, tm - 0.3, tm + 0.6) * (1 - prog(t, tf - 0.5, tf - 0.3)), { size: 62 });
       const l = auDessus(lui, 0);
       chalk("…sauf lui", l.x - 300, l.y - 40, prog(t, tf, tf + 0.5) * (1 - prog(t, te - 0.4, te - 0.1)), { size: 76, color: "#FFB3A8" });
@@ -308,7 +309,7 @@ plateau("nuance", g => {
       if (t < tk) encre("certains médecins : non !", b.x + 60, b.y - 20, prog(t, tb, tb + 0.6), { size: 58, color: "#2E9E5B" });
       const kk = auDessus(kant, 0);
       encre("Kant", kk.x + 190, kk.y, prog(t, tk + 0.2, tk + 0.6), { size: 68, align: "left" });
-      encre("une personne", W / 2, 400, prog(t, to - 1.4, to - 0.8), { size: 70 });
+      encre("pour Kant, une personne", W / 2, 400, prog(t, to - 1.4, to - 0.8), { size: 66 });
       encre("n'est jamais un simple objet", W / 2, 480, prog(t, to - 0.8, to + 0.3), { size: 62 });
     },
   };
@@ -326,7 +327,7 @@ plateau("now", g => {
       const ta = wt("now", "argent", 7), tr = revele("now", 10);
       file.forEach((q, i) => q.expression("doute", fenetre(t, ta - 0.2 + i * 0.05, 0.4)).regarder(0.3 * fenetre(t, tr + 0.2, 0.4) * (i % 2 ? 1 : -1), -0.2).animer(t));
       const c = chemin(t, [{ pos: [1.3, 2.0, 9.8], cible: [0.0, 1.2, -0.3], fov: 34 }, { t: tr - 0.1, d: 0.8, pos: [1.5, 1.75, 8.0], cible: [0.45, 1.1, 0], fov: 32 }]);
-      return { ...c, sombre: 0.55 * prog(t, tr - 0.05, tr + 0.1) };
+      return { ...c, sombre: 0.55 * easeInOut(prog(t, tr - 0.4, tr + 0.9)) };
     },
     over(t, d) {
       const tl = wt("now", "loi", 4), ta = wt("now", "argent", 7), tr = revele("now", 10);
@@ -335,7 +336,7 @@ plateau("now", g => {
       encre("surveillé par la loi", 340, 460, pl, { size: 64, align: "left" });
       file.forEach((q, i) => { const a = auDessus(q, 0.55); encre("€", a.x, a.y, prog(t, ta + i * 0.08, ta + 0.3 + i * 0.08) * (1 - prog(t, tr - 0.3, tr)), { size: 80, color: "#2E9E5B" }); });
       file.forEach((q, i) => plaque(q, `n° ${[52, 8, 31, 17][i]}`, prog(t, tr + 0.15 + i * 0.08, tr + 0.45 + i * 0.08)));
-      tampon("LES CORPS VILS", 420, prog(t, tr + 0.4, tr + 0.8), { size: 112 });
+      tampon("LES CORPS VILS", 420, prog(t, tr + 0.2, tr + 1.0), { size: 112 });
       chalk("d'aujourd'hui ?", W / 2, 540, prog(t, tr + 0.9, tr + 1.5), { size: 72 });
     },
   };
@@ -356,7 +357,7 @@ plateau("cta", g => {
       [["OUI", "#2E9E5B", 330], ["NON", ROUGE, 750]].forEach(([s, c, x], i) => {
         const p = easeOutBack(prog(t, t0 + 0.3 + i * 0.15, t0 + 0.65 + i * 0.15), 2);
         if (p <= 0) return;
-        const hl = Math.floor((t - t0) * 2.2) % 2 === i;
+        const hl = Math.floor((t - t0) * 1.2) % 2 === i;
         ctx.save(); ctx.translate(x, 470); ctx.scale(p * (hl ? 1.08 : 1), p * (hl ? 1.08 : 1));
         ctx.fillStyle = hl ? c : "rgba(255,255,255,.85)"; ctx.strokeStyle = c; ctx.lineWidth = 7;
         ctx.beginPath(); ctx.roundRect(-160, -70, 320, 140, 70); ctx.fill(); ctx.stroke();
@@ -377,26 +378,29 @@ const R_FIN = () => E("cta");
 
 // ---------------------------------------------------------------- sound
 function sons() {
-  sfx(0.2, "dark_whoosh", { gain: 0.6 });
-  sfx(wt("hook", "quelqu'un", 3.5), "impact_small", { gain: 0.45 });
-  sfx(wt("name", "livre", 0.5), "paper", { gain: 0.6 });
-  GENS.forEach(([mot], i) => { if (i) sfx(wt("setup", mot, 1 + 1.5 * i) - 0.4, "swish", { gain: 0.4 }); });
-  sfx(wt("why", "qui", 0.5) - 0.1, "stab", { gain: 0.45 });
-  sfx(wt("deal", "exemple", 0.3) + 0.2, "knock", { gain: 0.5 });
-  sfx(revele("deal", 9), "rumble", { gain: 0.5 });
-  sfx(wt("names", "Pasteur", 3) - 0.05, "hit", { gain: 0.55 });
-  sfx(wt("names", "Koch", 8) - 0.05, "hit", { gain: 0.55 });
-  sfx(wt("consent", "prison", 6) - 0.1, "rumble", { gain: 0.55 }); sfx(wt("consent", "prison", 6) + 0.35, "impact_small", { gain: 0.5 });
-  sfx(revele("consent", 7.5) + 0.1, "scratch", { gain: 0.6 });
-  sfx(wt("inside", "disaient", 2.5) - 0.1, "dark_whoosh", { gain: 0.55 });
-  sfx(wt("inside", "moins", 12), "hit", { gain: 0.5 });
-  sfx(wt("nuance", "non", 2), "chime", { gain: 0.4 });
-  sfx(wt("now", "argent", 7), "kaching", { gain: 0.45 });
-  [0, 1].forEach(i => sfx(S("cta") + 0.3 + i * 0.15, "pop", { gain: 0.45 }));
+  // soft sounds only (TikTok: nothing sudden, nothing louder than the voice); reveals get their rising note from the engine
+  sfx(wt("name", "livre", 0.5), "paper", { gain: 0.4 });
+  GENS.forEach(([mot], i) => { if (i) sfx(wt("setup", mot, 1 + 1.5 * i) - 0.4, "swish", { gain: 0.25 }); });
+  sfx(wt("names", "Pasteur", 3) - 0.05, "pop", { gain: 0.3 });
+  sfx(wt("names", "Koch", 8) - 0.05, "pop", { gain: 0.3 });
+  sfx(wt("consent", "prison", 6) - 0.1, "swish", { gain: 0.25 });
+  sfx(wt("inside", "moins", 12), "pop", { gain: 0.3 });
+  sfx(wt("nuance", "non", 2), "chime", { gain: 0.3 });
+  [0, 1].forEach(i => sfx(S("cta") + 0.3 + i * 0.15, "pop", { gain: 0.3 }));
 }
 
 demarrer({
   chapitres: { why: "LA QUESTION", name: "LE LIVRE", setup: "QUI ?", deal: "LE MARCHÉ", names: "LES NOMS", worse: "PIRE", consent: "L'ACCORD", inside: "DANS LA TÊTE", nuance: "HEUREUSEMENT", now: "AUJOURD'HUI" },
+  // the historical scenes are reconstructions, the rest are illustrations: nothing passes for real footage
+  mentions: Object.fromEntries(["hook", "why", "name", "setup", "deal", "names", "worse", "consent", "inside", "nuance", "now", "cta"]
+    .map(id => [id, ["deal", "names", "worse", "consent"].includes(id) ? "Reconstitution" : "Illustration"])),
+  sources: {
+    titre: "SOURCE", duree: 4.5, lignes: [
+      ["Grégoire Chamayou, Les Corps vils.", 42, "MontX"],
+      ["Expérimenter sur les êtres humains aux XVIIIe et XIXe siècles. La Découverte, 2008.", 34],
+      ["Scènes reconstituées en 3D · voix de synthèse.", 28],
+    ],
+  },
   musique: () => ({ style: "dark", root: 40, room: true, tick: true, heart: [[S("worse"), E("consent"), 64, 86]] }),
   sons,
   voix: { bed: 0.26, duck: 0.6 },

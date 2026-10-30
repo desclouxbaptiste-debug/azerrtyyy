@@ -1,5 +1,7 @@
 // Narrated videos staged with the Quidams (lib/quidams.js): one 3D set per voice segment, whip pans between sets,
-// word-by-word subtitles, chapter chip + progress bar, flash and punch-in on every <r> reveal of the voice.
+// word-by-word subtitles, chapter chip + progress bar. Every <r> reveal of the voice gets a soft light swell and a low
+// note rising into it: no flash, no hit, no sound louder than the voice (TikTok "For You" eligibility). Optional small
+// "Reconstitution" / "Illustration" mention per set and a sources card after the last line.
 // A video registers its sets with plateau(id, build) and calls demarrer({...}). Uses the classic globals of
 // core.js (ctx, W, H, prog, lerp, ease*, sfx, txt, grain, vignette…), narration.js and immersive.js (chalk…).
 import * as THREE from "three";
@@ -112,21 +114,49 @@ export function bulle(s, x, y, p, { size = 56 } = {}) {
   ctx.fillStyle = INK; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(s, 0, -h / 2 + 2);
   ctx.restore();
 }
-/** Big title slammed onto the picture (scale-in), centred at y. */
+/** Big title settling onto the picture (soft fade, slight zoom out), centred at y. */
 export function tampon(s, y, p, { size = 120, color = "#FFFFFF", trait = INK } = {}) {
   if (p <= 0) return;
-  const k = 1 + 0.9 * (1 - easeOutCubic(clamp(p * 1.6)));
-  ctx.save(); ctx.translate(W / 2, y); ctx.scale(k, k); ctx.globalAlpha = clamp(p * 3);
+  const k = 1 + 0.12 * (1 - easeOutCubic(clamp(p)));
+  ctx.save(); ctx.translate(W / 2, y); ctx.scale(k, k); ctx.globalAlpha = easeOutCubic(clamp(p));
   txt(s, 0, 0, size, "MontX", color, { stroke: trait, strokeW: size * 0.16 });
   ctx.restore();
 }
 
 // ---------------------------------------------------------------- frame
-const PUNCH = [];
-function punch(t) {
-  let z = 0;
-  for (const p of PUNCH) if (t >= p.t && t < p.t + 0.6) z = Math.max(z, p.z * Math.exp(-(t - p.t) * 7));
-  return z;
+// reveal: a warm light swelling slowly into the word and fading out (a fade, never a flash)
+function lueur(t) {
+  let a = 0;
+  for (const tr of R.REVEALS) a = Math.max(a, 0.16 * easeInOut(prog(t, tr - 0.6, tr + 0.2)) * (1 - easeInOut(prog(t, tr + 0.4, tr + 1.8))));
+  if (a <= 0) return;
+  const g = ctx.createRadialGradient(W / 2, H * 0.42, 60, W / 2, H * 0.42, H * 0.7);
+  g.addColorStop(0, `rgba(255,236,200,${a.toFixed(3)})`); g.addColorStop(1, "rgba(255,236,200,0)");
+  ctx.save(); ctx.globalCompositeOperation = "screen"; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore();
+}
+// small fixed mention so nothing passes for real footage
+function mention(s) {
+  if (!s) return;
+  ctx.save(); ctx.font = "26px MontS"; ctx.letterSpacing = "1px";
+  const w = ctx.measureText(s).width + 40;
+  ctx.fillStyle = "rgba(34,36,42,.72)"; ctx.beginPath(); ctx.roundRect(1020 - w, 193, w, 46, 23); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(s, 1020 - w / 2, 217);
+  ctx.restore();
+}
+// sources card over the last seconds, after the voice
+function cartouche(t, src) {
+  const p = easeInOut(prog(t, R.DURATION - src.duree, R.DURATION - src.duree + 0.6));
+  if (p <= 0) return;
+  const blocs = src.lignes.map(([l, size, font]) => ({ size, font: font || "MontS", lignes: wrap(l, size, font || "MontS", 840) }));
+  const h = 150 + blocs.reduce((a, b) => a + b.lignes.length * b.size * 1.35 + 18, 0), top = 930 - h / 2; // sized to its text
+  ctx.save(); ctx.globalAlpha = p;
+  ctx.fillStyle = "rgba(20,22,27,.9)"; ctx.beginPath(); ctx.roundRect(70, top, 940, h, 36); ctx.fill();
+  txt(src.titre || "SOURCE", W / 2, top + 70, 40, "MontX", AMBRE, { spacing: 4 });
+  let y = top + 140;
+  for (const b of blocs) {
+    for (const ligne of b.lignes) { txt(ligne, W / 2, y, b.size, b.font, "#F3F1EC"); y += b.size * 1.35; }
+    y += 18;
+  }
+  ctx.restore();
 }
 function chrome(t, id, chapitres) {
   const lab = chapitres[id];
@@ -158,38 +188,35 @@ function drawShot(i, t, dx) {
   ctx.restore();
   return d;
 }
-function render(t, chapitres) {
+function render(t, o) {
   const frame = Math.round(t * FPS);
   let i = R.ORDER.findIndex(id => t < R.SEG[id].next);
   if (i < 0) i = R.ORDER.length - 1;
-  const s = R.SEG[R.ORDER[i]], tr = prog(t, s.start - 0.14, s.start + 0.14);
+  const s = R.SEG[R.ORDER[i]], tr = prog(t, s.start - 0.22, s.start + 0.22);
   ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
-  const z = punch(t);
-  ctx.save(); ctx.translate(W / 2, H * 0.45); ctx.scale(1 + z, 1 + z); ctx.translate(-W / 2, -H * 0.45);
   let d;
   if (i > 0 && tr < 1) {
-    // whip pan with motion streaks
-    const k = easeInOutExpo(tr), dir = i % 2 ? 1 : -1, blur = Math.sin(k * Math.PI);
+    // the new set slides in, the old one slides out (a smooth slide, no streaks, no white)
+    const k = easeInOut(tr), dir = i % 2 ? 1 : -1;
     drawShot(i - 1, t, -k * W * dir);
     d = drawShot(i, t, (1 - k) * W * dir);
-    ctx.save(); ctx.globalAlpha = 0.4 * blur; ctx.fillStyle = "#fff";
-    const r = rng(i * 7);
-    for (let n = 0; n < 24; n++) { const yy = r() * H, len = 300 + r() * 700; ctx.fillRect(r() * W - len / 2, yy, len, 3 + r() * 6); }
-    ctx.restore();
   } else d = drawShot(i, t, 0);
-  ctx.restore();
-  for (const tr of R.REVEALS) if (t >= tr - 0.02 && t < tr + 0.6) { ctx.fillStyle = `rgba(255,250,240,${(0.45 * Math.exp(-(t - tr) * 8)).toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
+  lueur(t);
   vignette(lerp(0.22, 0.6, d), 0.42);
-  chrome(t, s.id, chapitres);
+  chrome(t, s.id, o.chapitres);
+  mention(o.mentions[s.id]);
   drawCaptions(R.CARDS, t, { y: 1590, size: 70, maxW: 900, style: "box", accent: AMBRE });
   grain(grains, frame, 0.03);
+  if (o.sources) cartouche(t, o.sources);
   const e = Math.max(prog(t, R.DURATION - 0.6, R.DURATION), 1 - prog(t, 0, 0.35));
   if (e > 0) { ctx.fillStyle = `rgba(0,0,0,${e})`; ctx.fillRect(0, 0, W, H); }
 }
 
 /** Loads timings.json, schedules the sounds, exposes window.render / window.TIMELINE.
- *  { chapitres: {segId: label}, musique: {style…} or () => {style…}, sons: () => void, voix: {bed, duck} } */
-export function demarrer({ chapitres = {}, musique = { style: "lofi", bpm: 88 }, sons, voix = {} }) {
+ *  { chapitres: {segId: label}, mentions: {segId: "Reconstitution" | "Illustration"},
+ *    sources: { titre, lignes: [[text, size, font?], …], duree }, musique: {style…} or () => {style…},
+ *    sons: () => void, voix: {bed, duck} } */
+export function demarrer({ chapitres = {}, mentions = {}, sources = null, musique = { style: "lofi", bpm: 88 }, sons, voix = {} }) {
   window.ready = (async () => {
     await Promise.all(["MontX", "MontS", "Caveat"].map(f => document.fonts.load(`100px ${f}`)));
     construire();
@@ -197,14 +224,14 @@ export function demarrer({ chapitres = {}, musique = { style: "lofi", bpm: 88 },
     R.SEG = segmentIndex(R.T);
     R.ORDER = R.T.segments.map(s => s.id);
     R.CARDS = buildCaptions(R.T);
-    R.DURATION = Math.ceil((R.T.duration + 1.4) * 10) / 10;
+    R.DURATION = Math.ceil((R.T.duration + 1.4 + (sources ? sources.duree : 0)) * 10) / 10;
     R.SEG[R.ORDER[R.ORDER.length - 1]].next = R.DURATION;
     R.REVEALS = R.T.reveals || [];
-    R.ORDER.forEach((id, i) => { if (i) sfx(S(id) - 0.16, "whoosh", { gain: 0.45, dur: 0.32 }); });
-    for (const tr of R.REVEALS) { PUNCH.push({ t: tr, z: 0.06 }); sfx(tr - 0.03, "impact_deep", { gain: 0.85 }); }
+    R.ORDER.forEach((id, i) => { if (i) sfx(S(id) - 0.2, "swish", { gain: 0.25 }); });
+    for (const tr of R.REVEALS) sfx(tr - 1.3, "montee", { dur: 2.2, gain: 0.9 }); // peaks on the revealed word
     if (sons) sons();
     window.TIMELINE = { FPS, DURATION: R.DURATION, LOUDNESS: -14, MUSIC: typeof musique === "function" ? musique() : musique, VOICE: { path: "voice.wav", bed: voix.bed ?? 0.24, duck: voix.duck ?? 0.55 } };
     return true;
   })();
-  window.render = t => render(t, chapitres);
+  window.render = t => render(t, { chapitres, mentions, sources });
 }

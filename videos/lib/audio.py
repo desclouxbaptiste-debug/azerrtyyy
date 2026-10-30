@@ -569,6 +569,14 @@ def fx(kind, dur=None):
         t = t_axis(dur or 2.0)
         x = t / t[-1]
         return (bp_sweep(rng.normal(0, 1, len(t)), 400, 9000, 3) * 0.6 + saw(1, t) * 0) * x**2 * 0.8
+    if kind == "montee":  # gentle reveal: a low note rising a fifth (98 -> 147 Hz), slow swell and fade, never a hit
+        t = t_axis(dur or 2.2)
+        x = t / t[-1]
+        f = 98 * 2 ** (7 / 12 * np.clip(x / 0.6, 0, 1))
+        ph = sweep_phase(f)
+        tone = np.sin(ph) + 0.4 * np.sin(2 * ph) + 0.15 * np.sin(3 * ph)
+        env = np.where(x < 0.6, (x / 0.6) ** 2, np.cos((x - 0.6) / 0.4 * np.pi / 2) ** 2)
+        return lp(tone, 900) * env * 0.22
     if kind == "ding":
         return bell(1568, 1.2) * 0.16
     if kind == "chime":
