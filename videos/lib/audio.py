@@ -662,6 +662,29 @@ def fx(kind, dur=None):
     if kind == "kaching":
         t = t_axis(1.0)
         return (bell(2093, 1.0) + np.where(t > 0.08, np.roll(bell(2637, 1.0), int(0.08 * SR)), 0)) * 0.12 + hp(rng.normal(0, 1, len(t)), 5000) * np.exp(-t * 30) * 0.2
+    if kind == "vent":  # night wind: slow gusts of low noise, fading in and out (an ambience bed, never in front)
+        d = dur or 6.0
+        t = t_axis(d)
+        gust = 0.55 + 0.45 * np.sin(2 * np.pi * 0.13 * t + 1.0) * np.sin(2 * np.pi * 0.07 * t + 0.3)
+        fade = np.clip(np.minimum(t / 1.2, (d - t) / 1.2), 0, 1)
+        return lp(bp(rng.normal(0, 1, len(t)), 120, 900), 700) * gust * fade * 0.5
+    if kind == "oiseaux":  # far birds over the meadow: a few soft chirps now and then
+        d = dur or 6.0
+        t = t_axis(d)
+        out = np.zeros(len(t))
+        r = np.random.default_rng(int(d * 1000) % 9973)
+        at = r.uniform(0.3, 1.0)
+        while at < d - 0.8:
+            f0, n = r.uniform(2600, 4200), int(0.09 * SR)
+            u = np.arange(n) / SR
+            for k in range(int(r.integers(2, 4))):
+                chirp = np.sin(2 * np.pi * (f0 * u + r.uniform(-4000, 4000) * u * u)) * np.sin(np.pi * u / u[-1]) ** 2 * 0.06
+                a = int((at + k * 0.13) * SR)
+                m = max(0, min(n, len(out) - a))
+                out[a:a + m] += chirp[:m]
+            at += r.uniform(1.4, 3.2)
+        fade = np.clip(np.minimum(t / 0.8, (d - t) / 0.8), 0, 1)
+        return reverb(out, 1.2, 0.3, seed=21)[:len(t)] * fade
     raise ValueError(kind)
 
 

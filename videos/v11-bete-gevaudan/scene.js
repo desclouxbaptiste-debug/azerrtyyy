@@ -4,7 +4,7 @@
 // no flash or sudden sound, nobody speaks, every scene labelled "Reconstitution" or "Illustration", sources at the end.
 // Nobody walks through anybody: lib/collisions.mjs checks every set.
 import * as THREE from "three";
-import { plateau, figure, auDessus, tourneVers, chemin, revele, encre, tampon, st, S, E, wt, INK, demarrer } from "../lib/recit3d.js";
+import { plateau, figure, auDessus, tourneVers, chemin, plans, glisse, revele, encre, tampon, st, S, E, wt, INK, demarrer } from "../lib/recit3d.js";
 import { LUMIERES } from "../lib/studio3d.js";
 import { creerFoule, fenetre, VITESSE_MARCHE } from "../lib/quidams.js";
 import { table, livre, couronne, sapin, pre, colline, mouton, loup, baton } from "../lib/decors3d.js";
@@ -129,7 +129,7 @@ plateau("hook", g => {
   // a path through the trees, kept clear of their branches
   campagne(g, [[-1.6, -1.2, 2.8], [1.9, -1.0, 2.6], [-0.8, -3.4, 3], [1.6, -4.0, 2.7], [-2.6, -2.6, 2.9], [2.9, -2.9, 3.1], [-0.9, -5.7, 3.2], [-3.6, -0.4, 2.5], [3.6, -0.6, 2.4], [-2.4, -6.6, 2.8], [2.2, -6.2, 3]], false);
   const b = bete(g, 0.45, -6.2);
-  const k = t => fenetre(t, 0.8, 1.2);
+  const k = t => fenetre(t, -1, 0.5);   // the eyes are there from the very first frame
   return {
     fond: () => ciel(0.95),
     update(t) {
@@ -137,13 +137,18 @@ plateau("hook", g => {
       nuit(1); regard(b, k(t));
       // it comes out of the forest, step by step, stops, and raises its head
       marcher(b, t, 0.5, [[0.45, -6.2], [0.45, -2.4]], { v: 0.85, tete: [0, 0.1 * fenetre(t, tr - 0.7, 0.7)] });
-      const p = easeInOut(prog(t, 0, E("hook")));
-      return { fov: 30, pos: [lerp(0.3, 0.45, p), lerp(1.3, 1.05, p), lerp(6.6, 4.4, p)], cible: [0.45, 0.8, -2.6], sombre: 0.9, lumieres: true };
+      const zt = b.position.z + 0.55;
+      const c = plans(t, [
+        [-1, glisse({ pos: [0.3, 1.3, 6.6], cible: [0.45, 0.8, -2.6] }, { pos: [0.35, 1.22, 5.9], cible: [0.45, 0.8, -2.6] })],
+        [wt("hook", "mystérieuse", 2.4) - 0.1, () => ({ fov: 28, pos: [0.95, 0.8, zt + 3.0], cible: [0.45, 0.78, zt - 0.2] })],   // its face, close
+        [wt("hook", "Et", 5.2), glisse({ pos: [0.4, 1.15, 5.3], cible: [0.45, 0.8, -2.6] }, { pos: [0.45, 1.05, 4.4], cible: [0.45, 0.8, -2.6] })],
+      ]);
+      return { ...c, sombre: 0.9, lumieres: true, focus: [0.45, -2.6] };
     },
     over(t) {
       const tr = revele("hook", 3);
       yeux(b, k(t), 20);
-      chalk("1764", W / 2, 420, prog(t, 0.4, 1.2) * (1 - prog(t, tr - 0.4, tr)), { size: 110 });
+      chalk("1764", W / 2, 420, prog(t, 0, 0.7) * (1 - prog(t, tr - 0.4, tr)), { size: 110 });
       tampon("LA BÊTE", 400, prog(t, tr + 0.1, tr + 0.9), { size: 150 });
       tampon("DU GÉVAUDAN", 540, prog(t, tr + 0.4, tr + 1.2), { size: 90, color: OR });
     },
@@ -164,8 +169,12 @@ plateau("lieu", g => {
     update(t) {
       moutons.forEach((m, i) => (m.rotation.y = i * 1.3 + 0.15 * Math.sin(t * 0.5 + i)));
       p1.regarder(0.4, -0.2).animer(t); p2.animer(t);
-      const ts = wt("lieu", "seuls", 7);
-      return chemin(t, [{ pos: [0.6, 5.5, 13], cible: [0.4, 0.6, -2], fov: 32 }, { t: ts - 1.6, d: 1.6, pos: [-0.6, 1.3, 3.6], cible: [-1.0, 0.75, 0.2], fov: 30 }]);
+      return plans(t, [
+        [-1, glisse({ pos: [0.6, 5.5, 13], cible: [0.4, 0.6, -2], fov: 32 }, { pos: [0.2, 5.0, 11.6], cible: [0.3, 0.8, -3], fov: 32 })],
+        [wt("lieu", "montagnes", 3) - 0.25, glisse({ pos: [1.2, 2.5, 8.2], cible: [-4, 2.3, -20], fov: 34 }, { pos: [0.2, 2.4, 7.8], cible: [-5, 2.3, -20], fov: 34 })],
+        [wt("lieu", "enfants", 4.6) - 0.25, glisse({ pos: [-0.3, 1.3, -2.4], cible: [2.3, 0.85, -0.45] }, { pos: [-0.1, 1.28, -2.3], cible: [2.3, 0.85, -0.45] })],
+        [wt("lieu", "souvent", 6.4) - 0.3, glisse({ pos: [-0.55, 1.3, 3.7], cible: [-1.0, 0.78, 0.2] }, { pos: [-0.7, 1.2, 3.1], cible: [-1.0, 0.75, 0.2] })],
+      ]);
     },
     over(t) {
       const tl = wt("lieu", "Lozère", 2.5), tm = wt("lieu", "montagnes", 4), tf = wt("lieu", "forêts", 5), ts = wt("lieu", "seuls", 7);
@@ -212,8 +221,15 @@ plateau("attaques", g => {
     fond: () => ciel(0.3),
     update(t) {
       gens.forEach((q, i) => q.transitionPose("debout", "teteBaissee", fenetre(t, S("attaques") + 0.6 + i * 0.1, 0.8)).expression("tristesse", fenetre(t, S("attaques") + 1 + i * 0.1, 0.8)).animer(t));
-      const p = easeInOut(prog(t, S("attaques") - 0.2, E("attaques")));
-      return { fov: 30, pos: [lerp(0.4, 0.1, p), lerp(1.5, 1.45, p), lerp(8.8, 8.0, p)], cible: [0, 1.05, 0], sombre: 0.35 };
+      const c = plans(t, [
+        [-1, glisse({ pos: [0.4, 1.5, 8.8], cible: [0, 1.05, 0] }, { pos: [0.25, 1.48, 8.3], cible: [0, 1.05, 0] })],
+        [wt("attaques", "jeune", 2.7) - 0.3, glisse({ pos: [0.4, 1.45, 3.9], cible: [0, 1.42, 0] }, { pos: [0.33, 1.45, 3.5], cible: [0, 1.42, 0] })],
+        [wt("attaques", "première", 5) - 0.3, glisse({ pos: [0.1, 1.6, 7.4], cible: [0, 1.05, 0] }, { pos: [0, 1.6, 7.0], cible: [0, 1.05, 0] })],
+        [wt("attaques", "Puis", 6.8) - 0.1, glisse({ pos: [1.8, 3.6, 6.5], cible: [0, 0.8, 0] }, { pos: [1.2, 3.4, 6.0], cible: [0, 0.8, 0] })],
+        [wt("attaques", "En", 8.6) - 0.1, glisse({ pos: [0, 1.5, 8.6], cible: [0, 1.05, 0] }, { pos: [0, 1.5, 8.0], cible: [0, 1.05, 0] })],
+        [wt("attaques", "surtout", 11.7) - 0.2, glisse({ pos: [0, 1.1, 5.2], cible: [0, 0.85, 0.8], fov: 34 }, { pos: [0, 1.05, 4.8], cible: [0, 0.85, 0.8], fov: 34 })],
+      ]);
+      return { ...c, sombre: 0.35, focus: [0, 0.2] };
     },
     over(t) {
       const tj = wt("attaques", "juin", 1), to = wt("attaques", "officielle", 4), tq = wt("attaques", "quatre-vingts", 9), te = wt("attaques", "enfants", 12);
@@ -274,7 +290,12 @@ plateau("rumeurs", g => {
     update(t) {
       nuit(0.8);
       cercle.forEach((q, i) => q.expression("peur", fenetre(t, S("rumeurs") + 0.8 + i * 0.15, 0.7)).regarder(Math.sin(t * 0.8 + i) * 0.6, 0.2).animer(t));
-      return { fov: 32, pos: [0, 1.25, 7.2], cible: [0, 1.8, -0.4], sombre: 0.8, lumieres: true };
+      const c = plans(t, [
+        [-1, glisse({ fov: 32, pos: [0, 1.25, 7.2], cible: [0, 1.8, -0.4] }, { fov: 32, pos: [0, 1.25, 6.7], cible: [0, 1.8, -0.4] })],
+        [wt("rumeurs", "court", 4.5) - 0.3, glisse({ fov: 34, pos: [0.95, 1.15, 0.95], cible: [-0.54, 1.85, -1.02] }, { fov: 34, pos: [0.88, 1.12, 0.86], cible: [-0.54, 1.85, -1.02] })],
+        [wt("rumeurs", "Pour", 7.6) - 0.1, glisse({ fov: 32, pos: [0, 1.6, 8.4], cible: [0, 1.9, -0.4] }, { fov: 32, pos: [0, 1.4, 7.6], cible: [0, 1.9, -0.4] })],
+      ]);
+      return { ...c, sombre: 0.8, lumieres: true, focus: [0, -0.3] };
     },
     over(t) {
       RUMEURS.forEach(([m, s], i) => {
@@ -308,8 +329,11 @@ plateau("journaux", g => {
   return {
     update(t) {
       redac.pose("noter").animer(t);
-      const p = easeInOut(prog(t, S("journaux") - 0.2, E("journaux")));
-      return { fov: 30, pos: [lerp(0.4, 0.2, p), lerp(1.6, 1.8, p), lerp(5.0, 6.6, p)], cible: [0, 1.4, -0.3] };
+      return { ...plans(t, [
+        [-1, glisse({ pos: [0.95, 1.95, 2.3], cible: [0, 1.35, -0.5] }, { pos: [0.8, 1.9, 2.0], cible: [0, 1.35, -0.5] })],
+        [wt("journaux", "Parce", 2) - 0.2, glisse({ pos: [0.4, 1.6, 5.0], cible: [0, 1.4, -0.3] }, { pos: [0.3, 1.7, 5.6], cible: [0, 1.4, -0.3] })],
+        [wt("journaux", "exagère", 5.4) - 0.5, glisse({ pos: [0.2, 1.8, 6.6], cible: [0, 1.4, -0.3] }, { pos: [0.1, 1.85, 7.0], cible: [0, 1.4, -0.3] })],
+      ]), focus: [0, -0.3] };
     },
     over(t) {
       const tc = wt("journaux", "Courrier", 2.5), tf = wt("journaux", "feuilleton", 4), tx = wt("journaux", "exagère", 5), tr = wt("journaux", "recopient", 6.5);
@@ -337,15 +361,21 @@ plateau("roi", g => {
   tourneVers(roi, 8.3, 0.1); chasseurs.forEach(c => tourneVers(c, 7.1, -0.3));
   return {
     update(t) {
-      const tr = wt("roi", "roi", 1.5), halte = tr - 0.3;
+      const tr = wt("roi", "roi", 1.5), halte = tr - 0.3, xs = parcours(t, S("roi") - 0.3, halte);
       soldats.forEach((q, i) => {
-        q.objet.position.x = -3.2 + i * 1.0 + parcours(t, S("roi") - 0.3, halte);
+        q.objet.position.x = -3.2 + i * 1.0 + xs;
         q.transitionPose("marche", "debout", fenetre(t, halte - 0.7, 0.7)).animer(t + i * 0.3);
       });
       roi.pose("pointer", fenetre(t, tr + 0.6, 0.6)).animer(t);
       chasseurs.forEach(c => c.animer(t));
-      const c = chemin(t, [{ pos: [0.4, 1.7, 6.4], cible: [0.2, 1.0, 0], fov: 30 }, { t: tr - 0.5, d: 0.8, pos: [7.85, 1.75, 7.7], cible: [7.85, 1.05, -0.1] }]);
-      return { ...c, focus: t < tr ? [0.5, 0] : [7.9, 0] };
+      const xc = -1.0 + xs;   // the middle of the files, followed by the camera
+      const c = plans(t, [
+        [-1, () => ({ pos: [xc + 0.3, 1.6, 6.2], cible: [xc, 1.0, 0] })],
+        [tr - 0.2, glisse({ pos: [7.35, 1.6, 3.7], cible: [7.2, 1.38, -0.3] }, { pos: [7.28, 1.6, 3.3], cible: [7.2, 1.38, -0.3] })],
+        [wt("roi", "chasseurs", 4) - 0.5, glisse({ pos: [8.5, 1.6, 5.1], cible: [8.35, 1.3, 0] }, { pos: [8.42, 1.6, 4.7], cible: [8.35, 1.3, 0] })],
+        [wt("roi", "promet", 4.8) - 0.2, glisse({ pos: [7.85, 1.75, 7.7], cible: [7.85, 1.05, -0.1] }, { pos: [7.85, 1.75, 7.2], cible: [7.85, 1.05, -0.1] })],
+      ]);
+      return { ...c, focus: t < tr - 0.2 ? [xc, 0] : [7.9, 0] };
     },
     over(t) {
       const tr = wt("roi", "roi", 1.5), tc = wt("roi", "chasseurs", 4), tp = wt("roi", "récompense", 6);
@@ -396,7 +426,15 @@ plateau("heros", g => {
       const face = fenetre(t, te - 0.7, 0.7), aLoup = Math.atan2(b.position.x - 0.25, b.position.z + 0.55), aNous = Math.atan2(NOUS[0] - 0.25, NOUS[2] + 0.55);
       jacques.objet.rotation.y = aLoup + angle(aNous - aLoup) * face;
       jacques.transitionPose("debout", "mainLevee", fenetre(t, tf - 0.2, 0.6) * (1 - face)).expression("joie", fenetre(t, te, 0.5)).animer(t);
-      const c = chemin(t, [{ pos: [1.75, 2.0, 7.3], cible: [0.4, 0.6, -0.4], fov: 30 }, { t: te - 0.8, d: 0.9, pos: NOUS, cible: [0.25, 0.9, -0.55] }]);
+      const large = glisse({ pos: [1.75, 2.0, 7.3], cible: [0.4, 0.6, -0.4] }, { pos: [1.6, 1.95, 6.9], cible: [0.4, 0.6, -0.4] });
+      const c = plans(t, [
+        [-1, large],
+        [wt("heros", "Jacques", 1.3) - 0.2, glisse({ pos: [0.75, 1.05, 1.6], cible: [0.25, 0.98, -0.55] }, { pos: [0.72, 1.05, 1.45], cible: [0.25, 0.98, -0.55] })],
+        [wt("heros", "refuse", 3) - 0.15, glisse({ pos: [-1.4, 0.95, 1.15], cible: [0.5, 0.8, 0.38] }, { pos: [-1.3, 0.95, 1.08], cible: [0.5, 0.8, 0.38] })],
+        [td - 0.1, large],
+        [wt("heros", "Pour", 5.8) - 0.1, glisse({ fov: 32, pos: [-1.6, 2.1, -3.0], cible: [2.4, 0.5, 0.9] }, { fov: 32, pos: [-1.5, 2.05, -2.85], cible: [2.7, 0.5, 1.0] })],
+        [te - 0.8, glisse({ pos: NOUS, cible: [0.25, 0.9, -0.55] }, { pos: [0.9, 1.15, 2.4], cible: [0.25, 0.92, -0.55] })],
+      ]);
       return { ...c, focus: [0.4, -0.4] };
     },
     over(t) {
@@ -435,8 +473,17 @@ plateau("antoine", g => {
       autre.animer(t, 0, { tete: [0.3, 0] });
       const n = 0.7 * easeInOut(prog(t, tr - 0.3, tr + 1.0));
       nuit(n); regard(autre, k(t));
-      const c = chemin(t, [{ pos: [0.2, 1.65, 6.2], cible: [0.25, 1.0, -0.8], fov: 30 }, { t: wt("antoine", "empaille", 4.5) - 0.5, d: 0.8, pos: [7.85, 1.9, 9.0], cible: [7.85, 1.0, -0.8] }]);
-      return { ...c, sombre: n, lumieres: true, focus: t < tv ? [0.2, -0.8] : [7.6, -0.6] };
+      const te = wt("antoine", "empaille", 4.5);
+      const versailles = glisse({ pos: [7.85, 1.9, 9.0], cible: [7.85, 1.0, -0.8] }, { pos: [7.8, 1.85, 8.4], cible: [7.85, 1.0, -0.8] });
+      const c = plans(t, [
+        [-1, glisse({ pos: [0.2, 1.65, 6.2], cible: [0.25, 1.0, -0.8] }, { pos: [0.25, 1.6, 5.8], cible: [0.25, 1.0, -0.8] })],
+        [wt("antoine", "chasseur", 2.4) - 0.2, glisse({ pos: [2.2, 1.65, -0.85], cible: [-0.5, 1.45, 0.3] }, { pos: [2.05, 1.65, -0.8], cible: [-0.5, 1.45, 0.3] })],
+        [wt("antoine", "abat", 4.9) - 0.2, glisse({ pos: [-1.75, 1.0, -0.8], cible: [0.56, 0.92, -1.39] }, { pos: [-1.6, 1.0, -0.85], cible: [0.56, 0.92, -1.39] })],
+        [te - 0.3, versailles],
+        [wt("antoine", "fini", 8.6) - 0.5, glisse({ pos: [8.25, 1.75, -1.45], cible: [6.35, 1.8, 0.8] }, { pos: [8.1, 1.75, -1.3], cible: [6.35, 1.8, 0.8] })],
+        [tr - 0.15, versailles],
+      ]);
+      return { ...c, sombre: n, lumieres: true, focus: t < te - 0.3 ? [0.2, -0.8] : [7.6, -0.6] };
     },
     over(t) {
       const tn = wt("antoine", "Antoine", 2.5), tl = wt("antoine", "loup", 3.5), tv = wt("antoine", "Versailles", 6), tf = wt("antoine", "fini", 7.5), tr = revele("antoine", 9);
@@ -468,8 +515,13 @@ plateau("chastel", g => {
       nuit(0.9 * (1 - jour(t))); regard(b, k(t));
       b.animer(t, 0, { tete: [versLui(b, -0.6, 0.6), 0] }); b.opacite(fin(t));
       jean.expression("joie", fenetre(t, tr + 0.8, 0.8)).regarder(0.6, 0).animer(t);
-      const c = chemin(t, [{ pos: [-1.5, 1.5, 5.4], cible: [0.1, 1.05, -0.8], fov: 30 }, { t: tr, d: 2.0, pos: [-1.0, 2.0, 7.0], cible: [0.2, 1.1, -1.2] }]);
-      return { ...c, sombre: 0.9 * (1 - jour(t)), lumieres: true };
+      const c = plans(t, [
+        [-1, glisse({ pos: [-1.5, 1.5, 5.4], cible: [0.1, 1.05, -0.8] }, { pos: [-1.4, 1.5, 5.0], cible: [0.1, 1.05, -0.8] })],
+        [wt("chastel", "paysan", 2.4) - 0.3, glisse({ pos: [0.3, 1.6, 3.7], cible: [-0.6, 1.5, 0.6] }, { pos: [0.25, 1.6, 3.4], cible: [-0.6, 1.5, 0.6] })],
+        [wt("chastel", "abat", 4.4) - 0.2, glisse({ pos: [-0.87, 0.98, -0.1], cible: [0.6, 0.85, -1.75] }, { pos: [-0.75, 0.97, -0.2], cible: [0.6, 0.85, -1.75] })],
+        [wt("chastel", "Et", 6.1) - 0.1, (u, t) => chemin(t, [{ pos: [-1.5, 1.5, 5.4], cible: [0.1, 1.05, -0.8], fov: 30 }, { t: tr, d: 2.0, pos: [-1.0, 2.0, 7.0], cible: [0.2, 1.1, -1.2] }])],
+      ]);
+      return { ...c, sombre: 0.9 * (1 - jour(t)), lumieres: true, focus: [0.2, -0.6] };
     },
     over(t) {
       const tj = wt("chastel", "Chastel", 2.5), ta = wt("chastel", "animal", 4), tr = revele("chastel", 5);
@@ -492,14 +544,21 @@ plateau("explication", g => {
   return {
     update(t) {
       meute.forEach((b, i) => marcher(b, t, S("explication") + 0.4 + i * 0.8, PISTES[i], { v: 1.1, tete: [0.3 * Math.sin(t * 0.4 + i * 2), 0] }));
-      const p = easeInOut(prog(t, S("explication") - 0.2, E("explication")));
-      return { fov: 30, pos: [lerp(0.2, 0.4, p), lerp(1.9, 2.5, p), lerp(7.2, 8.4, p)], cible: [0.1, 0.8, -0.6] };
+      const [l] = meute, mx = clamp(meute.reduce((a, b) => a + b.position.x, 0) / 3 + 0.4, -2.5, 0.1);
+      const c = plans(t, [
+        [-1, glisse({ pos: [0.2, 1.9, 7.2], cible: [0.1, 0.8, -0.6] }, { pos: [0.25, 2.0, 7.4], cible: [0.1, 0.8, -0.6] })],
+        [wt("explication", "plupart", 2.3) - 0.3, () => ({ pos: [l.position.x + 0.8, 1.1, l.position.z + 4.2], cible: [l.position.x + 0.35, 0.6, l.position.z] })],
+        [wt("explication", "plusieurs", 4.5) - 0.2, () => ({ pos: [mx + 0.2, 2.0, 7.4], cible: [mx, 0.75, -0.7] })],
+        [wt("explication", "chercheurs", 11) - 0.3, glisse({ pos: [2.2, 1.0, -0.2], cible: [0.45, 0.8, -1.65] }, { pos: [2.05, 0.98, -0.3], cible: [0.45, 0.8, -1.65] })],
+        [wt("explication", "comme", 13.9) - 0.3, glisse({ pos: [0.3, 2.3, 8.0], cible: [0.1, 0.8, -0.6] }, { pos: [0.4, 2.5, 8.4], cible: [0.1, 0.8, -0.6] })],
+      ]);
+      return { ...c, focus: [mx, -0.7] };
     },
     over(t) {
       const tp = wt("explication", "plusieurs", 4), tv = wt("explication", "vingt", 9), tc = wt("explication", "chien", 13), ts = wt("explication", "imaginait", 21);
       note("pas un monstre :", W / 2, 390, prog(t, tp - 1.2, tp - 0.6) * (1 - prog(t, ts - 1.4, ts - 1.1)), { size: 60 });
       note("plusieurs loups", W / 2, 490, prog(t, tp - 0.2, tp + 0.5) * (1 - prog(t, ts - 1.4, ts - 1.1)), { size: 74, color: VERT });
-      note("≈ 20 000 loups en France", W / 2, 1380, prog(t, tv - 0.3, tv + 0.6) * (1 - prog(t, tc - 0.5, tc - 0.2)), { size: 56 });
+      carte(t, wt("explication", "époque", 7.5) - 0.3, wt("explication", "chercheurs", 11) - 0.45);
       note("ou un mélange chien + loup ?", W / 2, 1380, prog(t, tc - 0.2, tc + 0.6) * (1 - prog(t, ts - 1.4, ts - 1.1)), { size: 56 });
       // one chalk circle around the whole pack: "the" Beast
       const pc = prog(t, ts - 1.2, ts - 0.2);
@@ -512,6 +571,42 @@ plateau("explication", g => {
   };
 });
 
+// a simple map of France (outline from a few coastal and border points), dots for the wolves, the Gévaudan marked
+const FRANCE = [[2.37, 51.05], [1.6, 50.9], [1.4, 50.1], [0.1, 49.55], [-1.25, 49.7], [-1.6, 49.65], [-1.35, 48.65], [-3.0, 48.85], [-4.75, 48.45],
+  [-4.4, 47.95], [-3.4, 47.7], [-2.25, 47.2], [-1.8, 46.5], [-1.15, 46.15], [-1.05, 45.6], [-1.25, 44.65], [-1.5, 43.5], [-1.78, 43.36],
+  [-0.5, 42.85], [1.0, 42.7], [2.4, 42.4], [3.17, 42.45], [3.05, 42.95], [3.9, 43.5], [4.6, 43.4], [5.35, 43.25], [5.95, 43.1], [6.8, 43.4],
+  [7.5, 43.78], [7.0, 44.2], [6.9, 45.1], [7.0, 45.9], [6.15, 46.2], [6.1, 46.9], [7.55, 47.55], [7.8, 48.6], [8.2, 48.97], [6.7, 49.15],
+  [6.0, 49.45], [4.85, 50.15], [4.2, 49.95], [3.0, 50.75]];
+const CORSE = [[8.6, 41.4], [9.25, 41.4], [9.55, 42.1], [9.45, 43.0], [9.0, 42.75], [8.6, 42.4]];
+const LOUPS = (() => { let a = 12345; const r = () => ((a = (a * 16807) % 2147483647) / 2147483647); return Array.from({ length: 700 }, () => [-4.8 + 13 * r(), 41.4 + 9.7 * r(), r()]); })();
+function carte(t, t0, t1) {
+  const p = clamp(prog(t, t0, t0 + 0.35)) * (1 - clamp(prog(t, t1, t1 + 0.35)));
+  if (p <= 0) return;
+  const k = 84, cx = W / 2 - 25, cy = 910, X = ([lon]) => cx + (lon - 2.2) * k * 0.69, Y = ([, lat]) => cy - (lat - 46.6) * k;
+  ctx.save(); ctx.globalAlpha = easeInOut(p);
+  ctx.fillStyle = "rgba(247,244,236,.96)"; ctx.beginPath(); ctx.roundRect(60, 330, W - 120, 1150, 40); ctx.fill();
+  const trace = pts => { const f = new Path2D(); pts.forEach((q, i) => (i ? f.lineTo(X(q), Y(q)) : f.moveTo(X(q), Y(q)))); f.closePath(); return f; };
+  const corse = trace(CORSE), france = trace(FRANCE);
+  ctx.fillStyle = "#E3DCC8"; ctx.strokeStyle = INK; ctx.lineWidth = 5; ctx.lineJoin = "round";
+  for (const f of [corse, france]) { ctx.fill(f); ctx.stroke(f); }
+  // the wolves appear over two seconds, all over the country
+  const n = Math.floor(LOUPS.length * easeInOut(prog(t, t0 + 0.4, t0 + 2.4)));
+  ctx.fillStyle = "#6A4C36";
+  for (let i = 0; i < n; i++) {
+    const [lon, lat] = LOUPS[i], x = X([lon]), y = Y([0, lat]);
+    if (!ctx.isPointInPath(france, x, y)) continue;
+    ctx.beginPath(); ctx.arc(x, y, 6, 0, 6.29); ctx.fill();
+  }
+  const gx = X([3.5]), gy = Y([0, 44.55]), pul = 1 + 0.12 * Math.sin(t * 5);
+  ctx.strokeStyle = ROUGE; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(gx, gy, 30 * pul, 0, 6.29); ctx.stroke();
+  ctx.restore();
+  ctx.save(); ctx.globalAlpha = easeInOut(p);
+  txt("≈ 20 000 LOUPS", W / 2, 420, 62, "MontX", INK);
+  txt("en France, au XVIIIe siècle", W / 2, 480, 36, "MontS", INK);
+  ctx.restore();
+  note("Gévaudan", gx + 150, gy + 70, p * prog(t, t0 + 0.8, t0 + 1.4), { size: 46, color: ROUGE });
+}
+
 // ---------------------------------------------------------------- the conspiracy stories come from novels
 plateau("mythes", g => {
   const tb = table(1.1, 0.62); tb.position.set(0, 0, 0.6); g.add(tb);
@@ -522,7 +617,14 @@ plateau("mythes", g => {
     update(t) {
       roman.rotation.y = -0.3 + 0.2 * Math.sin(t * 0.7);
       comte.pose("brasCroises").animer(t); dresseur.pose("hausseEpaules", 0.6).animer(t);
-      return { fov: 30, pos: [0.3, 1.6, 5.4], cible: [0, 1.05, -0.2] };
+      const livreProche = glisse({ pos: [0.35, 1.35, 3.2], cible: [0, 1.1, 0.55] }, { pos: [0.3, 1.3, 2.9], cible: [0, 1.1, 0.55] });
+      return plans(t, [
+        [-1, livreProche],
+        [wt("mythes", "comte", 1.5) - 0.3, glisse({ pos: [-0.55, 1.65, 2.6], cible: [-0.75, 1.5, -0.8] }, { pos: [-0.58, 1.65, 2.35], cible: [-0.75, 1.5, -0.8] })],
+        [wt("mythes", "dresseur", 2.4) - 0.3, glisse({ pos: [0.55, 1.65, 2.6], cible: [0.75, 1.5, -0.8] }, { pos: [0.58, 1.65, 2.35], cible: [0.75, 1.5, -0.8] })],
+        [wt("mythes", "Elles", 3.6) - 0.2, livreProche],
+        [wt("mythes", "Aucun", 4.9) - 0.3, glisse({ pos: [0.3, 1.6, 5.4], cible: [0, 1.05, -0.2] }, { pos: [0.25, 1.6, 5.1], cible: [0, 1.05, -0.2] })],
+      ]);
     },
     over(t) {
       const tc = wt("mythes", "comte", 1.5), td = wt("mythes", "dresseur", 2.5), tr = wt("mythes", "romans", 4), ta = wt("mythes", "document", 5.5);
@@ -554,7 +656,11 @@ plateau("aujourdhui", g => {
   return {
     update(t) {
       f.quidams.forEach((q, i) => q.regarder(0, -0.4).animer(t + i));
-      return { fov: 30, pos: [0.2, 2.6, 7.6], cible: [0, 1.1, -1.2] };
+      return plans(t, [
+        [-1, glisse({ pos: [0.2, 2.6, 7.6], cible: [0, 1.1, -1.2] }, { pos: [0.1, 2.4, 7.0], cible: [0, 1.1, -1.2] })],
+        [wt("aujourdhui", "légende", 3.4) - 0.6, glisse({ pos: [-0.1, 1.75, 3.0], cible: [-0.25, 1.55, -0.4] }, { pos: [-0.12, 1.75, 2.7], cible: [-0.25, 1.55, -0.4] })],
+        [wt("aujourdhui", "même", 3.9) - 0.2, glisse({ pos: [0.2, 2.2, 6.4], cible: [0, 1.1, -1.2] }, { pos: [0.2, 2.0, 6.0], cible: [0, 1.1, -1.2] })],
+      ]);
     },
     over(t) {
       const tr = wt("aujourdhui", "répétée", 1.5), tl = wt("aujourdhui", "légende", 4), tv = wt("aujourdhui", "vérité", 6);
@@ -601,6 +707,13 @@ plateau("cta", g => {
 
 // ---------------------------------------------------------------- sound: soft only (TikTok); reveals get their rising note from the engine
 function sons() {
+  const amb = (type, a, b, gain) => sfx(a, type, { dur: Math.max(1, b - a), gain });
+  amb("vent", 0, E("hook"), 0.5); amb("vent", S("question"), E("question"), 0.45); amb("vent", S("rumeurs"), E("rumeurs"), 0.5);
+  amb("vent", revele("antoine", 9) - 0.4, E("antoine"), 0.4); amb("vent", S("chastel"), revele("chastel", 5) + 1.2, 0.45);
+  amb("oiseaux", S("lieu"), E("lieu"), 0.6); amb("oiseaux", S("roi"), E("roi"), 0.45); amb("oiseaux", S("heros"), E("heros"), 0.4);
+  amb("oiseaux", S("antoine"), wt("antoine", "empaille", 4.5), 0.4); amb("oiseaux", revele("chastel", 5) + 0.8, E("chastel"), 0.6);
+  amb("oiseaux", S("explication"), E("explication"), 0.4); amb("oiseaux", S("cta"), E("cta"), 0.4);
+  sfx(wt("explication", "époque", 7.5) - 0.3, "paper", { gain: 0.35 });
   sfx(wt("journaux", "feuilleton", 4), "paper", { gain: 0.4 });
   for (let k = 0; k < 4; k++) sfx(wt("journaux", "recopient", 6.5) + k * 0.25, "paper", { gain: 0.25 });
   for (let s = S("roi") + 0.2; s < wt("roi", "roi", 1.5) - 0.3; s += 0.53) sfx(s, "step", { gain: 0.22 });
@@ -626,4 +739,8 @@ demarrer({
   musique: { style: "dark", root: 38, room: true, tick: true },
   sons,
   voix: { bed: 0.24, duck: 0.6 },
+  fonduDebut: false,
+  accents: () => [wt("hook", "1764", 0.3), wt("question", "Bête", 2.8), wt("attaques", "quatre-vingts", 9), wt("temoins", "grand", 1.8), wt("rumeurs", "sorcier", 9),
+    wt("journaux", "feuilleton", 4.6), wt("roi", "énorme", 5.5), wt("heros", "héros", 0.8), wt("heros", "études", 8), wt("explication", "plusieurs", 4.5),
+    wt("mythes", "romans", 4.3), wt("aujourdhui", "légende", 3.4)],
 });

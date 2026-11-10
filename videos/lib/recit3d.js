@@ -67,6 +67,17 @@ export function chemin(t, cles) {
   }
   return c;
 }
+/** Cuts inside a set: liste = [[t0, cam], …] in time order; cam is a camera or (u, t) => camera, u going 0 -> 1
+ *  across the shot (a slow drift). The first shot also covers the slide in. */
+export function plans(t, liste) {
+  liste = [...liste].sort((x, y) => x[0] - y[0]);
+  let i = 0;
+  while (i + 1 < liste.length && t >= liste[i + 1][0]) i++;
+  const a = liste[i][0], b = i + 1 < liste.length ? liste[i + 1][0] : a + 6, c = liste[i][1];
+  return typeof c === "function" ? c(clamp((t - a) / (b - a)), t) : c;
+}
+/** A shot drifting from camera a to camera b (pos, cible, fov) at a steady pace. */
+export const glisse = (a, b = a) => u => ({ fov: lerp(a.fov ?? 30, b.fov ?? a.fov ?? 30, u), pos: a.pos.map((v, i) => lerp(v, b.pos[i], u)), cible: a.cible.map((v, i) => lerp(v, b.cible[i], u)) });
 /** Keeps a prop held in a hand upright whatever the arm does (call after the figure's animer()). */
 const qtmp = new THREE.Quaternion();
 export function droit(obj) {
@@ -172,12 +183,19 @@ function chrome(t, id, chapitres) {
   ctx.fillStyle = "rgba(128,128,128,.25)"; ctx.fillRect(60, 268, 960, 6);
   ctx.fillStyle = AMBRE; ctx.fillRect(60, 268, 960 * clamp(t / R.DURATION), 6);
 }
+let ACCENTS = [];
+function accent(t) {
+  let a = 0;
+  for (const x of ACCENTS) a = Math.max(a, easeOutCubic(prog(t, x - 0.1, x + 0.12)) * (1 - easeInOut(prog(t, x + 0.6, x + 1.6))));
+  return a;
+}
 function drawShot(i, t, dx) {
   const id = R.ORDER[i], sh = SHOTS[id];
   for (const k in SHOTS) SHOTS[k].g.visible = k === id;
   ctx.save(); ctx.translate(dx, 0);
   // default studio light, dimmed by the set's "sombre" (sets with their own lights override after this)
   const cam = sh.update(t), d = cam.sombre || 0;
+  cam.fov = (cam.fov ?? 30) * (1 - 0.075 * accent(t));
   if (!cam.lumieres) {
     st.ciel.intensity = lerp(LUMIERES.ciel, 0.16, d); st.key.intensity = lerp(LUMIERES.cle, 0.85, d); st.contre.intensity = lerp(LUMIERES.contre, 2.5, d);
   }
@@ -210,7 +228,7 @@ function render(t, o) {
   drawCaptions(R.CARDS, t, { y: 1590, size: 70, maxW: 900, style: "box", accent: AMBRE });
   grain(grains, frame, 0.03);
   if (o.sources) cartouche(t, o.sources);
-  const e = Math.max(prog(t, R.DURATION - 0.6, R.DURATION), 1 - prog(t, 0, 0.35));
+  const e = Math.max(prog(t, R.DURATION - 0.6, R.DURATION), o.fonduDebut ? 1 - prog(t, 0, 0.35) : 0);
   if (e > 0) { ctx.fillStyle = `rgba(0,0,0,${e})`; ctx.fillRect(0, 0, W, H); }
 }
 
@@ -266,8 +284,9 @@ window.__collisions = (t, marge = 0.03) => {
 /** Loads timings.json, schedules the sounds, exposes window.render / window.TIMELINE.
  *  { chapitres: {segId: label}, mentions: {segId: "Reconstitution" | "Illustration"},
  *    sources: { titre, lignes: [[text, size, font?], …], duree }, musique: {style…} or () => {style…},
- *    sons: () => void, voix: {bed, duck} } */
-export function demarrer({ chapitres = {}, mentions = {}, sources = null, musique = { style: "lofi", bpm: 88 }, sons, voix = {} }) {
+ *    sons: () => void, voix: {bed, duck}, accents: () => [times] (push-ins on strong words, besides the reveals),
+ *    fonduDebut: false to open on a picture instead of black (the first frame is the thumbnail) } */
+export function demarrer({ chapitres = {}, mentions = {}, sources = null, musique = { style: "lofi", bpm: 88 }, sons, voix = {}, accents = null, fonduDebut = true }) {
   window.ready = (async () => {
     await Promise.all(["MontX", "MontS", "Caveat"].map(f => document.fonts.load(`100px ${f}`)));
     construire();
@@ -278,11 +297,12 @@ export function demarrer({ chapitres = {}, mentions = {}, sources = null, musiqu
     R.DURATION = Math.ceil((R.T.duration + 1.4 + (sources ? sources.duree : 0)) * 10) / 10;
     R.SEG[R.ORDER[R.ORDER.length - 1]].next = R.DURATION;
     R.REVEALS = R.T.reveals || [];
+    ACCENTS = [...R.REVEALS, ...(accents ? accents() : [])];
     R.ORDER.forEach((id, i) => { if (i) sfx(S(id) - 0.2, "swish", { gain: 0.25 }); });
     for (const tr of R.REVEALS) sfx(tr - 1.3, "montee", { dur: 2.2, gain: 0.9 }); // peaks on the revealed word
     if (sons) sons();
     window.TIMELINE = { FPS, DURATION: R.DURATION, LOUDNESS: -14, MUSIC: typeof musique === "function" ? musique() : musique, VOICE: { path: "voice.wav", bed: voix.bed ?? 0.24, duck: voix.duck ?? 0.55 } };
     return true;
   })();
-  window.render = t => render(t, { chapitres, mentions, sources });
+  window.render = t => render(t, { chapitres, mentions, sources, fonduDebut });
 }
