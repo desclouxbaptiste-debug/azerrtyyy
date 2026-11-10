@@ -7,6 +7,7 @@ import { plateau, figure, auDessus, tourneVers, chemin, revele, encre, tampon, s
 import { LUMIERES } from "../lib/studio3d.js";
 import { creerFoule, fenetre } from "../lib/quidams.js";
 import { table, livre, couronne, sapin, pre, colline, mouton, loup, baton } from "../lib/decors3d.js";
+import { habiller, TENUES } from "../lib/costumes.js";
 
 const VERT = "#2E9E5B", ROUGE = "#C8322B", OR = "#FFE08A";
 
@@ -82,7 +83,9 @@ function yeux(b, k, r = 16) {
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(s.x, s.y, r, 0, 6.29); ctx.fill();
   }
 }
-const enfant = (g, role, x, z, graine) => figure(g, role, x, z, { graine, taille: 0.62 });
+// everyone of 1764-1767 wears the clothes of the time (lib/costumes.js); the modern scenes stay plain
+const vetu = (q, tenue) => habiller(q, TENUES[tenue]);
+const enfant = (g, role, x, z, graine, tenue) => vetu(figure(g, role, x, z, { graine, taille: 0.62 }), tenue);
 
 // ---------------------------------------------------------------- 1764: something in the woods
 plateau("hook", g => {
@@ -114,7 +117,7 @@ plateau("lieu", g => {
   const moutons = [[-0.4, -1.2], [0.5, -1.6], [1.4, -0.9], [-1.3, -2.1], [2.1, -2.4], [0.2, -3]].map(([x, z], i) => {
     const m = mouton(); m.position.set(x, 0, z); m.rotation.y = i * 1.3; g.add(m); return m;
   });
-  const p1 = enfant(g, "sujet", -1.1, 0.4, 3), p2 = enfant(g, "foule", 2.4, -0.4, 4);
+  const p1 = enfant(g, "sujet", -1.1, 0.4, 3, "berger"), p2 = enfant(g, "foule", 2.4, -0.4, 4, "bergere");
   for (const p of [p1, p2]) p.articulations.mainD.add(baton(1.0));
   tourneVers(p2, 0.6, -1.6);
   return {
@@ -161,13 +164,13 @@ plateau("question", g => {
 plateau("attaques", g => {
   campagne(g, foret(-3.5, -5, 10, 2.5, 2));
   const gens = [[-0.9, 0, "foule", 1], [-0.3, -0.3, "foule", 1], [0.35, 0, "foule", 1], [0.95, -0.25, "foule", 1], [-0.6, 0.6, "foule", 0.62], [0.1, 0.65, "sujet", 0.62], [0.7, 0.6, "foule", 0.62]]
-    .map(([x, z, r, s], i) => figure(g, r, x, z, { graine: 21 + i, taille: s }));
+    .map(([x, z, r, s], i) => vetu(figure(g, r, x, z, { graine: 21 + i, taille: s }), s < 1 ? (i % 2 ? "bergere" : "berger") : (i % 2 ? "paysanne" : "paysan")));
   return {
     fond: () => ciel(0.3),
     update(t) {
       gens.forEach((q, i) => q.transitionPose("debout", "teteBaissee", fenetre(t, S("attaques") + 0.6 + i * 0.1, 0.8)).expression("tristesse", fenetre(t, S("attaques") + 1 + i * 0.1, 0.8)).animer(t));
       const p = easeInOut(prog(t, S("attaques") - 0.2, E("attaques")));
-      return { fov: 30, pos: [lerp(0.4, 0.1, p), lerp(1.9, 1.7, p), lerp(7.4, 6.2, p)], cible: [0, 1.0, 0], sombre: 0.35 };
+      return { fov: 30, pos: [lerp(0.4, 0.1, p), lerp(1.45, 1.4, p), lerp(7.8, 6.8, p)], cible: [0, 1.1, 0], sombre: 0.35 };
     },
     over(t) {
       const tj = wt("attaques", "juin", 1), to = wt("attaques", "officielle", 4), tq = wt("attaques", "quatre-vingts", 9), te = wt("attaques", "enfants", 12);
@@ -185,7 +188,7 @@ const RUMEURS = [["veau", "grande comme un veau"], ["cheval", "plus rapide qu'un
 plateau("rumeurs", g => {
   campagne(g, foret(0, -13, 14, 5, 4), false);
   const cercle = [0, 1, 2, 3, 4].map(i => {
-    const a = (i / 5) * Math.PI * 2 + 0.3, q = figure(g, i === 2 ? "sujet" : "foule", Math.cos(a) * 0.9, Math.sin(a) * 0.9 - 0.3, { graine: 31 + i });
+    const a = (i / 5) * Math.PI * 2 + 0.3, q = vetu(figure(g, i === 2 ? "sujet" : "foule", Math.cos(a) * 0.9, Math.sin(a) * 0.9 - 0.3, { graine: 31 + i }), i % 2 ? "paysanne" : "paysan");
     tourneVers(q, 0, -0.3); return q;
   });
   // the shadow on the sky grows a little more with every rumour
@@ -219,7 +222,13 @@ function journal(x, y, s, rot, p, titre) {
 }
 plateau("journaux", g => {
   const tb = table(1.3, 0.7); g.add(tb);
-  const redac = figure(g, "autre", 0, -0.55, { graine: 41, accessoires: ["blocNotes"] });
+  const redac = vetu(figure(g, "autre", 0, -0.55, { graine: 41 }), "ecrivain");
+  const plume = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.3, 8), new THREE.MeshStandardMaterial({ color: "#F4F1EA" }));
+  plume.position.set(0, -0.05, 0.08); plume.rotation.x = 0.9; redac.articulations.mainD.add(plume);
+  const feuille = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.006, 0.26), new THREE.MeshStandardMaterial({ color: "#F5F0E4" }));
+  feuille.position.set(0.05, 0.768, 0.05); feuille.rotation.y = 0.2; g.add(feuille);
+  const encrier = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.05, 0.08, 14), new THREE.MeshStandardMaterial({ color: "#15161B", roughness: 0.3 }));
+  encrier.position.set(-0.4, 0.805, 0.1); g.add(encrier);
   return {
     update(t) {
       redac.pose("noter").animer(t);
@@ -243,10 +252,10 @@ plateau("journaux", g => {
 // ---------------------------------------------------------------- soldiers, the king's hunters, a reward
 plateau("roi", g => {
   campagne(g, [...foret(-1, -4, 12, 3, 6), ...foret(6, -4, 8, 2.5, 1)]);
-  const soldats = [0, 1, 2, 3, 4].map(i => figure(g, "foule", -2.5 + i * 0.7, 0.2 - (i % 2) * 0.5, { graine: 51 + i, accessoires: ["casquette"] }));
-  const roi = figure(g, "autorite", 5.6, -0.3, { graine: 57, accessoires: [] });
+  const soldats = [0, 1, 2, 3, 4].map(i => vetu(figure(g, "foule", -2.5 + i * 0.7, 0.2 - (i % 2) * 0.5, { graine: 51 + i }), "soldat"));
+  const roi = vetu(figure(g, "autorite", 5.6, -0.3, { graine: 57, accessoires: [] }), "roi");
   roi.articulations.tete.add(couronne());
-  const chasseurs = [6.4, 7.0].map((x, i) => figure(g, "autre", x, 0.25, { graine: 58 + i, accessoires: ["casquette"] }));
+  const chasseurs = [6.4, 7.0].map((x, i) => vetu(figure(g, "autre", x, 0.25, { graine: 58 + i }), "chasseur"));
   tourneVers(roi, 6.7, 0.3); chasseurs.forEach(c => tourneVers(c, 5.6, -0.3));
   return {
     update(t) {
@@ -281,8 +290,8 @@ plateau("roi", g => {
 // ---------------------------------------------------------------- a hero: Jacques Portefaix, 12
 plateau("heros", g => {
   campagne(g, foret(1.8, -4.2, 12, 2.4, 8));
-  const amis = [[-0.55, -0.3], [-0.15, -0.55], [0.3, -0.45], [0.65, -0.2], [-0.35, -0.85], [0.15, -0.95]].map(([x, z], i) => enfant(g, "foule", x, z, 61 + i));
-  const jacques = enfant(g, "sujet", 0.05, 0.35, 3);
+  const amis = [[-0.55, -0.3], [-0.15, -0.55], [0.3, -0.45], [0.65, -0.2], [-0.35, -0.85], [0.15, -0.95]].map(([x, z], i) => enfant(g, "foule", x, z, 61 + i, i % 3 === 1 ? "bergere" : "berger"));
+  const jacques = enfant(g, "sujet", 0.05, 0.35, 3, "berger");
   jacques.articulations.mainD.add(baton(1.1));
   amis.slice(0, 3).forEach(a => a.articulations.mainD.add(baton(1.0)));
   const b = bete(g, 2.4, -2.0); b.rotation.y = -2.6;
@@ -306,14 +315,14 @@ plateau("heros", g => {
 // ---------------------------------------------------------------- 1765: the king's hunter, a big wolf at Versailles… and it starts again
 plateau("antoine", g => {
   campagne(g, [...foret(-0.6, -3.6, 10, 2.6, 4), ...foret(7.6, -7.5, 12, 3.2, 2)]);
-  const chasseur = figure(g, "autre", -0.5, 0.3, { graine: 71, accessoires: ["casquette"] });
+  const chasseur = vetu(figure(g, "autre", -0.5, 0.3, { graine: 71 }), "chasseur");
   const grand = bete(g, 1.0, -2.2); grand.rotation.y = -2.4; grand.scale.setScalar(1.15);
   // Versailles: the stuffed wolf on its stand, the king and the court
   const empaille = bete(g, 7.6, -0.6); empaille.rotation.y = -0.5; empaille.position.y = 0.2;
   const socle = table(1.8, 0.7, 0.18, "#8E6A45"); socle.position.set(7.6, 0, -0.6); g.add(socle);
-  const roi = figure(g, "autorite", 6.7, 0.5, { graine: 72, accessoires: [] });
+  const roi = vetu(figure(g, "autorite", 6.7, 0.5, { graine: 72, accessoires: [] }), "roi");
   roi.articulations.tete.add(couronne());
-  const cour = [8.4, 8.95].map((x, i) => figure(g, "foule", x, 0.45 - i * 0.3, { graine: 73 + i }));
+  const cour = [8.4, 8.95].map((x, i) => vetu(figure(g, "foule", x, 0.45 - i * 0.3, { graine: 73 + i }), "courtisan"));
   tourneVers(roi, 7.6, -0.6); cour.forEach(c => tourneVers(c, 7.6, -0.6)); tourneVers(chasseur, 1.0, -2.2);
   // …and in the woods behind Versailles, eyes again
   const autre = bete(g, 7.2, -5.2); autre.rotation.y = -Math.PI / 2;
@@ -344,7 +353,7 @@ plateau("antoine", g => {
 // ---------------------------------------------------------------- 1767: Jean Chastel, and the dawn
 plateau("chastel", g => {
   campagne(g, [[2.6, -1.4, 2.7], [-2.6, -1.8, 2.9], [0.6, -4.4, 3.1], [3.4, -3.6, 2.8], [-1.6, -4.0, 3], [2.0, -6.0, 3.2], [-3.4, -0.4, 2.6], [4.2, -1.0, 2.5]]);
-  const jean = figure(g, "sujet", -0.6, 0.6, { graine: 81 });
+  const jean = vetu(figure(g, "sujet", -0.6, 0.6, { graine: 81 }), "paysan");
   jean.objet.rotation.y = 0.45;
   const b = bete(g, 1.2, -2.4); b.rotation.y = -2.3;
   const jour = t => easeInOut(prog(t, revele("chastel", 5) - 0.2, revele("chastel", 5) + 2.2));
@@ -401,8 +410,8 @@ plateau("explication", g => {
 plateau("mythes", g => {
   const tb = table(1.1, 0.62); tb.position.set(0, 0, 0.6); g.add(tb);
   const roman = livre("ROMAN", "fiction, 1936", "#3E5A7A"); roman.position.set(0, 0.76, 0.6); g.add(roman);
-  const comte = figure(g, "autorite", -0.75, -0.8, { graine: 91, accessoires: [] });
-  const dresseur = figure(g, "foule", 0.75, -0.8, { graine: 92 });
+  const comte = vetu(figure(g, "autorite", -0.75, -0.8, { graine: 91, accessoires: [] }), "noble");
+  const dresseur = vetu(figure(g, "foule", 0.75, -0.8, { graine: 92 }), "paysan");
   return {
     update(t) {
       roman.rotation.y = -0.3 + 0.2 * Math.sin(t * 0.7);
