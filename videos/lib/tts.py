@@ -402,6 +402,13 @@ def synth_segments(speed):
         os.makedirs(f"{folder}/.takes", exist_ok=True)
         sf.write(cached, best, SR, subtype="FLOAT")
         clips.append((seg["id"], seg["text"], best))
+    # the dialogue voices do not come out at the narrator's level: every line is brought to it (active RMS)
+    if any(s.get("par") for s in cfg["segments"]):
+        def niveau(x):
+            a = x[np.abs(x) > 0.01]
+            return float(np.sqrt(np.mean(a ** 2))) if len(a) else 0.0
+        ref = float(np.median([niveau(c[2]) for c, s in zip(clips, cfg["segments"]) if not s.get("par")]))
+        clips = [(i, tx, a * (ref / niveau(a)) if s.get("par") and niveau(a) > 0 else a) for (i, tx, a), s in zip(clips, cfg["segments"])]
     total = LEAD + sum(len(c[2]) / SR for c in clips) + GAP_SEG * len(clips)
     return clips, total
 
