@@ -70,7 +70,7 @@ export function chemin(t, cles) {
 /** Cuts inside a set: liste = [[t0, cam], …] in time order; cam is a camera or (u, t) => camera, u going 0 -> 1
  *  across the shot (a slow drift). The first shot also covers the slide in. */
 // a cut is a quick cross-dissolve (FONDU s): the brightness never jumps from one frame to the next
-const FONDU = 0.25;
+const FONDU = 0.3;
 export function plans(t, liste) {
   liste = [...liste].sort((x, y) => x[0] - y[0]);
   let i = 0;
@@ -80,7 +80,7 @@ export function plans(t, liste) {
     return typeof c === "function" ? c(clamp((t - a) / (b - a)), t) : c;
   };
   const cam = quand(i);
-  if (i > 0 && t - liste[i][0] < FONDU) return { ...cam, avant: quand(i - 1), melange: easeInOut((t - liste[i][0]) / FONDU) };
+  if (i > 0 && t - liste[i][0] < FONDU) return { ...cam, avant: quand(i - 1), melange: clamp((t - liste[i][0]) / FONDU) };
   return cam;
 }
 /** A shot drifting from camera a to camera b (pos, cible, fov) at a steady pace. */
@@ -191,6 +191,7 @@ function chrome(t, id, chapitres) {
   ctx.fillStyle = AMBRE; ctx.fillRect(60, 268, 960 * clamp(t / R.DURATION), 6);
 }
 let ACCENTS = [];
+const calque = Object.assign(document.createElement("canvas"), { width: W, height: H });
 function accent(t) {
   let a = 0;
   for (const x of ACCENTS) a = Math.max(a, easeOutCubic(prog(t, x - 0.1, x + 0.12)) * (1 - easeInOut(prog(t, x + 0.6, x + 1.6))));
@@ -211,9 +212,12 @@ function drawShot(i, t, dx) {
   arriere(t);
   st.suivre(...(cam.focus || [cam.cible[0], cam.cible[2]]));
   if (cam.avant) {
-    // cut inside the set: the previous shot, then the new one fading in over it
+    // cut inside the set: the previous shot is kept aside, the new one drawn, then the old one laid over it fading
+    // out (a true cross-dissolve: every pixel goes straight from one picture to the other)
     st.tourner(ctx, 0, 0, W, H, { ...cam.avant, fov: (cam.avant.fov ?? 30) * zoom });
-    ctx.save(); ctx.globalAlpha = cam.melange; arriere(t); st.tourner(ctx, 0, 0, W, H, cam); ctx.restore();
+    calque.getContext("2d").drawImage(ctx.canvas, 0, 0);
+    arriere(t); st.tourner(ctx, 0, 0, W, H, cam);
+    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1 - cam.melange; ctx.drawImage(calque, 0, 0); ctx.restore();
   } else st.tourner(ctx, 0, 0, W, H, cam);
   if (sh.over) sh.over(t, d);
   ctx.restore();
