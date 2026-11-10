@@ -69,12 +69,19 @@ export function chemin(t, cles) {
 }
 /** Cuts inside a set: liste = [[t0, cam], …] in time order; cam is a camera or (u, t) => camera, u going 0 -> 1
  *  across the shot (a slow drift). The first shot also covers the slide in. */
+// a cut is a quick cross-dissolve (FONDU s): the brightness never jumps from one frame to the next
+const FONDU = 0.25;
 export function plans(t, liste) {
   liste = [...liste].sort((x, y) => x[0] - y[0]);
   let i = 0;
   while (i + 1 < liste.length && t >= liste[i + 1][0]) i++;
-  const a = liste[i][0], b = i + 1 < liste.length ? liste[i + 1][0] : a + 6, c = liste[i][1];
-  return typeof c === "function" ? c(clamp((t - a) / (b - a)), t) : c;
+  const quand = j => {
+    const a = liste[j][0], b = j + 1 < liste.length ? liste[j + 1][0] : a + 6, c = liste[j][1];
+    return typeof c === "function" ? c(clamp((t - a) / (b - a)), t) : c;
+  };
+  const cam = quand(i);
+  if (i > 0 && t - liste[i][0] < FONDU) return { ...cam, avant: quand(i - 1), melange: easeInOut((t - liste[i][0]) / FONDU) };
+  return cam;
 }
 /** A shot drifting from camera a to camera b (pos, cible, fov) at a steady pace. */
 export const glisse = (a, b = a) => u => ({ fov: lerp(a.fov ?? 30, b.fov ?? a.fov ?? 30, u), pos: a.pos.map((v, i) => lerp(v, b.pos[i], u)), cible: a.cible.map((v, i) => lerp(v, b.cible[i], u)) });
@@ -195,13 +202,19 @@ function drawShot(i, t, dx) {
   ctx.save(); ctx.translate(dx, 0);
   // default studio light, dimmed by the set's "sombre" (sets with their own lights override after this)
   const cam = sh.update(t), d = cam.sombre || 0;
-  cam.fov = (cam.fov ?? 30) * (1 - 0.075 * accent(t));
+  const zoom = 1 - 0.075 * accent(t);
+  cam.fov = (cam.fov ?? 30) * zoom;
   if (!cam.lumieres) {
     st.ciel.intensity = lerp(LUMIERES.ciel, 0.16, d); st.key.intensity = lerp(LUMIERES.cle, 0.85, d); st.contre.intensity = lerp(LUMIERES.contre, 2.5, d);
   }
-  (sh.fond || (() => fond(d)))(t);
+  const arriere = sh.fond || (() => fond(d));
+  arriere(t);
   st.suivre(...(cam.focus || [cam.cible[0], cam.cible[2]]));
-  st.tourner(ctx, 0, 0, W, H, cam);
+  if (cam.avant) {
+    // cut inside the set: the previous shot, then the new one fading in over it
+    st.tourner(ctx, 0, 0, W, H, { ...cam.avant, fov: (cam.avant.fov ?? 30) * zoom });
+    ctx.save(); ctx.globalAlpha = cam.melange; arriere(t); st.tourner(ctx, 0, 0, W, H, cam); ctx.restore();
+  } else st.tourner(ctx, 0, 0, W, H, cam);
   if (sh.over) sh.over(t, d);
   ctx.restore();
   return d;
