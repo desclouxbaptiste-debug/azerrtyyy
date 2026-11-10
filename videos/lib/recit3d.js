@@ -10,7 +10,9 @@ import { creerQuidam } from "./quidams.js";
 
 export const FPS = 30;
 export const INK = "#2A2C33", AMBRE = "#F4A531";
-export const R = { T: null, SEG: null, ORDER: null, CARDS: null, DURATION: 0, REVEALS: [] };
+export const R = { T: null, SEG: null, ORDER: null, CARDS: null, DURATION: 0, REVEALS: [], DECORS: {} };
+// the set a segment is played in (several lines of a dialogue share one set): decors[segId], else the segment's own id
+const decor = id => R.DECORS[id] || id;
 export const S = id => R.SEG[id].start;
 export const E = id => R.SEG[id].next;
 export const wt = (id, w, fb = 0) => wordTime(R.SEG[id], w, fb);
@@ -160,6 +162,19 @@ function mention(s) {
   ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(s, 1020 - w / 2, 217);
   ctx.restore();
 }
+// who is speaking: a small name tag above the subtitles while the line is said
+function quiParle(t, s, qui) {
+  if (!qui) return;
+  const [nom, couleur] = Array.isArray(qui) ? qui : [qui, AMBRE];
+  const a = clamp(prog(t, s.start - 0.1, s.start + 0.2)) * (1 - clamp(prog(t, s.next - 0.25, s.next)));
+  if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a; ctx.font = "34px MontX"; ctx.letterSpacing = "2px";
+  const w = ctx.measureText(nom).width + 84;
+  ctx.fillStyle = "rgba(24,26,31,.86)"; ctx.beginPath(); ctx.roundRect(W / 2 - w / 2, 1452, w, 62, 31); ctx.fill();
+  ctx.fillStyle = couleur; ctx.beginPath(); ctx.arc(W / 2 - w / 2 + 34, 1483, 10, 0, 6.29); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.textBaseline = "middle"; ctx.fillText(nom, W / 2 - w / 2 + 56, 1485);
+  ctx.restore();
+}
 // sources card over the last seconds, after the voice
 function cartouche(t, src) {
   const p = easeInOut(prog(t, R.DURATION - src.duree, R.DURATION - src.duree + 0.6));
@@ -177,9 +192,10 @@ function cartouche(t, src) {
   ctx.restore();
 }
 function chrome(t, id, chapitres) {
-  const lab = chapitres[id];
+  // the chip shows the chapter the segment belongs to: its own, else the last one before it
+  const k = R.ORDER.slice(0, R.ORDER.indexOf(id) + 1).reverse().find(x => chapitres[x]), lab = k && chapitres[k];
   if (lab) {
-    const n = Object.keys(chapitres).indexOf(id) + 1, str = `${n}/${Object.keys(chapitres).length} · ${lab}`;
+    const n = Object.keys(chapitres).indexOf(k) + 1, str = `${n}/${Object.keys(chapitres).length} · ${lab}`;
     ctx.save(); ctx.font = "30px MontX"; ctx.letterSpacing = "3px";
     const w = ctx.measureText(str).width + 76;
     ctx.fillStyle = "rgba(34,36,42,.88)"; ctx.beginPath(); ctx.roundRect(60, 186, w, 58, 29); ctx.fill();
@@ -198,7 +214,7 @@ function accent(t) {
   return a;
 }
 function drawShot(i, t, dx) {
-  const id = R.ORDER[i], sh = SHOTS[id];
+  const id = decor(R.ORDER[i]), sh = SHOTS[id];
   for (const k in SHOTS) SHOTS[k].g.visible = k === id;
   ctx.save(); ctx.translate(dx, 0);
   // default studio light, dimmed by the set's "sombre" (sets with their own lights override after this)
@@ -231,7 +247,7 @@ function render(t, o) {
   ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
   // a slide runs from 0.22 s before a set starts to 0.22 s after: the new set slides in, the old one slides out
   // (a smooth slide, no streaks, no white)
-  const j = R.ORDER.findIndex((id, n) => n > 0 && Math.abs(t - S(id)) < 0.22);
+  const j = R.ORDER.findIndex((id, n) => n > 0 && decor(id) !== decor(R.ORDER[n - 1]) && Math.abs(t - S(id)) < 0.22);
   let d;
   if (j > 0) {
     const k = easeInOut(prog(t, S(R.ORDER[j]) - 0.22, S(R.ORDER[j]) + 0.22)), dir = j % 2 ? 1 : -1;
@@ -242,6 +258,7 @@ function render(t, o) {
   vignette(lerp(0.22, 0.6, d), 0.42);
   chrome(t, s.id, o.chapitres);
   mention(o.mentions[s.id]);
+  if (o.interlocuteurs) quiParle(t, s, o.interlocuteurs[s.id]);
   drawCaptions(R.CARDS, t, { y: 1590, size: 70, maxW: 900, style: "box", accent: AMBRE });
   grain(grains, frame, 0.03);
   if (o.sources) cartouche(t, o.sources);
@@ -253,7 +270,7 @@ function render(t, o) {
 // window.__collisions(t) poses the set on screen at t and lists the solid things (figures, wolves, trees, sheep,
 // tables) whose shapes overlap by more than `marge` metres: each is a set of tight boxes, one per mesh (cones, i.e.
 // fir trees, as three stacked boxes), so arms or hats count but the empty air around them does not.
-const SOLIDES = /^(quidam|loup|sapin|mouton|table)/, bx = new THREE.Box3(), echelle = new THREE.Vector3();
+const SOLIDES = /^(quidam|loup|sapin|mouton|table|maison|eglise|fontaine|lavoir|muret|rocher|arbre|tonneau|banc|etagere|presse|colonne|trone|vitrine|lampadaire)/, bx = new THREE.Box3(), echelle = new THREE.Vector3();
 function solides(o, out) {
   if (!o.visible) return out;
   if (SOLIDES.test(o.name)) { o.getWorldScale(echelle); if (echelle.y > 0.05) out.push(o); return out; }
@@ -279,7 +296,7 @@ function boites(o) {
 window.__collisions = (t, marge = 0.03) => {
   let i = R.ORDER.findIndex(id => t < R.SEG[id].next);
   if (i < 0) i = R.ORDER.length - 1;
-  const id = R.ORDER[i], sh = SHOTS[id];
+  const id = decor(R.ORDER[i]), sh = SHOTS[id];
   for (const k in SHOTS) SHOTS[k].g.visible = k === id;
   sh.update(t); sh.g.updateMatrixWorld(true);
   const corps = solides(sh.g, []).map(o => {
@@ -302,8 +319,11 @@ window.__collisions = (t, marge = 0.03) => {
  *  { chapitres: {segId: label}, mentions: {segId: "Reconstitution" | "Illustration"},
  *    sources: { titre, lignes: [[text, size, font?], …], duree }, musique: {style…} or () => {style…},
  *    sons: () => void, voix: {bed, duck}, accents: () => [times] (push-ins on strong words, besides the reveals),
- *    fonduDebut: false to open on a picture instead of black (the first frame is the thumbnail) } */
-export function demarrer({ chapitres = {}, mentions = {}, sources = null, musique = { style: "lofi", bpm: 88 }, sons, voix = {}, accents = null, fonduDebut = true }) {
+ *    fonduDebut: false to open on a picture instead of black (the first frame is the thumbnail),
+ *    decors: {segId: setId} (lines of a dialogue played in one set, no slide between them),
+ *    interlocuteurs: {segId: [name, colour]} (who is speaking, shown over the subtitles) } */
+export function demarrer({ chapitres = {}, mentions = {}, sources = null, musique = { style: "lofi", bpm: 88 }, sons, voix = {}, accents = null, fonduDebut = true, decors = {}, interlocuteurs = null }) {
+  R.DECORS = decors;
   window.ready = (async () => {
     await Promise.all(["MontX", "MontS", "Caveat"].map(f => document.fonts.load(`100px ${f}`)));
     construire();
@@ -315,11 +335,11 @@ export function demarrer({ chapitres = {}, mentions = {}, sources = null, musiqu
     R.SEG[R.ORDER[R.ORDER.length - 1]].next = R.DURATION;
     R.REVEALS = R.T.reveals || [];
     ACCENTS = [...R.REVEALS, ...(accents ? accents() : [])];
-    R.ORDER.forEach((id, i) => { if (i) sfx(S(id) - 0.2, "swish", { gain: 0.25 }); });
+    R.ORDER.forEach((id, i) => { if (i && decor(id) !== decor(R.ORDER[i - 1])) sfx(S(id) - 0.2, "swish", { gain: 0.25 }); });
     for (const tr of R.REVEALS) sfx(tr - 1.3, "montee", { dur: 2.2, gain: 0.9 }); // peaks on the revealed word
     if (sons) sons();
     window.TIMELINE = { FPS, DURATION: R.DURATION, LOUDNESS: -14, MUSIC: typeof musique === "function" ? musique() : musique, VOICE: { path: "voice.wav", bed: voix.bed ?? 0.24, duck: voix.duck ?? 0.55 } };
     return true;
   })();
-  window.render = t => render(t, { chapitres, mentions, sources, fonduDebut });
+  window.render = t => render(t, { chapitres, mentions, sources, fonduDebut, interlocuteurs });
 }

@@ -20,6 +20,7 @@ short sentences); word timings then come from forced alignment with Parakeet (li
 Moods (chunk "segment" + Parakeet only): a sentence starting with <w> is whispered, <s> is read slower, <r> is a
 reveal (silence before it, slower read, listed in timings.json "reveals" for the flash + impact), <p> only adds the
 silence, <l> a long one. The segment is still synthesised in one go; the sentences are cut apart afterwards and reshaped.
+"par": "<voice name>" on a segment has it read by one of the dialogue voices of "voix" (see voice_synth).
 "emph": ["trois", ...] on a segment lifts those words (prefix match on the subtitle word) a few dB in the final mix.
 """
 import hashlib
@@ -79,6 +80,55 @@ else:
         a = _tts[ls].generate(text, sid=cfg.get("sid", 0), speed=1.0)
         return np.array(a.samples, dtype=np.float32)
     SR = json.load(open(f"{d}/{cfg['voice']}.onnx.json"))["audio"]["sample_rate"]
+
+
+# ---- dialogue voices: a segment with "par": "<name>" is read by cfg["voix"][name] instead of the narrator, e.g.
+#   "voix": {"siwis": {"engine": "piper", "voice": "fr_FR-siwis-medium"}, "pierre": {"engine": "piper", "voice": "fr_FR-upmc-medium", "sid": 1},
+#            "jules": {"engine": "supertonic", "sid": 8}}
+# Every voice is resampled to the narrator's rate.
+def resample(x, sr_in):
+    if sr_in == SR or not len(x):
+        return x
+    n = int(round(len(x) * SR / sr_in))
+    return (np.fft.irfft(np.fft.rfft(x), n) * (n / len(x))).astype(np.float32)
+
+
+_VOIX = {}
+
+
+def voice_synth(name):
+    if name in _VOIX:
+        return _VOIX[name]
+    import sherpa_onnx
+    vc = cfg["voix"][name]
+    if vc.get("engine", "piper") == "supertonic":
+        d = f"{models}/{vc.get('model', 'sherpa-onnx-supertonic-3-tts-int8-2026-05-11')}"
+        tts = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(
+            supertonic=sherpa_onnx.OfflineTtsSupertonicModelConfig(
+                duration_predictor=f"{d}/duration_predictor.int8.onnx", text_encoder=f"{d}/text_encoder.int8.onnx",
+                vector_estimator=f"{d}/vector_estimator.int8.onnx", vocoder=f"{d}/vocoder.int8.onnx", tts_json=f"{d}/tts.json",
+                unicode_indexer=f"{d}/unicode_indexer.bin", voice_style=f"{d}/voice.bin"), num_threads=4)))
+
+        def f(text, speed):
+            g = sherpa_onnx.GenerationConfig()
+            g.sid, g.num_steps, g.speed = vc.get("sid", 5), vc.get("steps", 8), speed * vc.get("tempo", 1.0)
+            g.extra["lang"] = "fr"
+            return resample(np.array(tts.generate(text, g).samples, dtype=np.float32), tts.sample_rate)
+    else:
+        d = f"{models}/vits-piper-{vc['voice']}"
+        sr = json.load(open(f"{d}/{vc['voice']}.onnx.json"))["audio"]["sample_rate"]
+        per_ls = {}
+
+        def f(text, speed):
+            ls = round(1.0 / (speed * vc.get("tempo", 1.0)), 3)
+            if ls not in per_ls:
+                per_ls[ls] = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(
+                    vits=sherpa_onnx.OfflineTtsVitsModelConfig(model=f"{d}/{vc['voice']}.onnx", tokens=f"{d}/tokens.txt", data_dir=f"{d}/espeak-ng-data",
+                                                               length_scale=ls, noise_scale=vc.get("noise", 0.667), noise_scale_w=vc.get("noise_w", 0.8)),
+                    num_threads=4)))
+            return resample(np.array(per_ls[ls].generate(text, sid=vc.get("sid", 0), speed=1.0).samples, dtype=np.float32), sr)
+    _VOIX[name] = f
+    return f
 
 
 def sentences(text):
@@ -326,7 +376,10 @@ def synth_segments(speed):
     for seg in cfg["segments"]:
         text = spoken(seg["text"]).replace("…", "...").replace("...", ".")
         # takes are cached per (voice, speed, text): editing one segment only re-synthesises that one
-        key = hashlib.sha1(f"{ENGINE}|{cfg.get('sid')}|{cfg.get('steps')}|{speed:.3f}|{n}|{text}".encode()).hexdigest()[:12]
+        par = seg.get("par")
+        voix = f"|{par}|{json.dumps(cfg['voix'][par], sort_keys=True)}" if par else ""
+        key = hashlib.sha1(f"{ENGINE}|{cfg.get('sid')}|{cfg.get('steps')}|{speed:.3f}|{n}|{text}{voix}".encode()).hexdigest()[:12]
+        lire = voice_synth(par) if par else synth
         cached = f"{folder}/.takes/{seg['id']}_{key}.wav"
         if os.path.exists(cached):
             best, _ = sf.read(cached, dtype="float32")
@@ -334,7 +387,7 @@ def synth_segments(speed):
             continue
         best, best_score = None, -1
         for k in range(n if have_asr else 1):
-            audio = trim(synth(text, speed))
+            audio = trim(lire(text, speed))
             if n == 1 or not have_asr:
                 best = audio
                 break
@@ -361,9 +414,12 @@ def build_segments(clips, verbose):
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         import align as asr_align
     moods_of = {s["id"]: s["moods"] for s in cfg["segments"]}
+    par_of = {s["id"]: s.get("par") for s in cfg["segments"]}
     out, t, segs, reveals, fixed = [np.zeros(int(LEAD * SR))], LEAD, [], [], LEAD
     for seg_id, text, audio in clips:
         seg = {"id": seg_id, "start": round(t, 3), "sentences": []}
+        if par_of.get(seg_id):
+            seg["par"] = par_of[seg_id]
         if use_asr:
             sents = sentences(text)
             toks = [(si, w) for si, st in enumerate(sents) for w in tokens(st)]

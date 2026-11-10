@@ -1,6 +1,6 @@
 // Lists, set by set, the solid things that pass through each other in a 3D story video (lib/recit3d.js).
 // Usage: NODE_PATH=$(npm root -g) node videos/lib/collisions.mjs videos/<folder> [--pas 0.2] [--marge 0.03] [--segment id]
-// Fir trees overlapping other fir trees are a forest, not a mistake: they are left out.
+// Trees overlapping other trees are a forest, not a mistake: they are left out.
 import { createRequire } from "node:module";
 import { readFile } from "node:fs/promises";
 import http from "node:http";
@@ -29,7 +29,8 @@ const pas = Number(arg("--pas", 0.2)), marge = Number(arg("--marge", 0.03)), seu
 const found = await page.evaluate(({ pas, marge, seul }) => {
   const out = {}, D = window.TIMELINE.DURATION;
   for (let t = 0; t < D; t += pas) for (const c of window.__collisions(t, marge)) {
-    if ((seul && c.id !== seul) || (c.a.startsWith("sapin") && c.b.startsWith("sapin"))) continue;
+    const arbre = n => /^(sapin|arbre)/.test(n);
+    if ((seul && c.id !== seul) || (arbre(c.a) && arbre(c.b))) continue;
     const k = `${c.id} | ${c.a.split("@")[0]} × ${c.b.split("@")[0]} | ${c.a.split("@")[1]} ~ ${c.b.split("@")[1]}`;
     const e = out[k] || (out[k] = { de: t, a: t, d: 0 });
     e.a = t; e.d = Math.max(e.d, c.d);

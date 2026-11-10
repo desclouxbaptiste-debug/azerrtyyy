@@ -1,0 +1,3471 @@
+{
+ "duration": 184.371,
+ "speed": 1.0,
+ "reveals": [
+  7.9,
+  123.016,
+  139.706
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.45,
+   "sentences": [
+    {
+     "text": "En 1764, une bête mystérieuse terrorise toute une région de France.",
+     "spoken": "En mille sept cent soixante-quatre, une bête mystérieuse terrorise toute une région de France.",
+     "start": 0.45,
+     "end": 5.89,
+     "words": [
+      {
+       "w": "En",
+       "s": 0.45,
+       "e": 0.69
+      },
+      {
+       "w": "1764,",
+       "s": 0.69,
+       "e": 2.21
+      },
+      {
+       "w": "une",
+       "s": 2.21,
+       "e": 2.53
+      },
+      {
+       "w": "bête",
+       "s": 2.53,
+       "e": 3.01
+      },
+      {
+       "w": "mystérieuse",
+       "s": 3.01,
+       "e": 3.73
+      },
+      {
+       "w": "terrorise",
+       "s": 3.73,
+       "e": 4.45
+      },
+      {
+       "w": "toute",
+       "s": 4.45,
+       "e": 4.69
+      },
+      {
+       "w": "une",
+       "s": 4.69,
+       "e": 4.85
+      },
+      {
+       "w": "région",
+       "s": 4.85,
+       "e": 5.17
+      },
+      {
+       "w": "de",
+       "s": 5.17,
+       "e": 5.33
+      },
+      {
+       "w": "France.",
+       "s": 5.33,
+       "e": 5.89
+      }
+     ]
+    },
+    {
+     "text": "Et pendant trois ans...",
+     "spoken": "Et pendant trois ans...",
+     "start": 5.89,
+     "end": 7.25,
+     "words": [
+      {
+       "w": "Et",
+       "s": 5.89,
+       "e": 6.13
+      },
+      {
+       "w": "pendant",
+       "s": 6.13,
+       "e": 6.53
+      },
+      {
+       "w": "trois",
+       "s": 6.53,
+       "e": 6.85
+      },
+      {
+       "w": "ans...",
+       "s": 6.85,
+       "e": 7.25
+      }
+     ]
+    },
+    {
+     "text": "personne n'arrive à l'arrêter.",
+     "spoken": "personne n'arrive à l'arrêter.",
+     "start": 7.9,
+     "end": 9.2,
+     "words": [
+      {
+       "w": "personne",
+       "s": 7.9,
+       "e": 8.22
+      },
+      {
+       "w": "n'arrive",
+       "s": 8.22,
+       "e": 8.62
+      },
+      {
+       "w": "à",
+       "s": 8.62,
+       "e": 8.7
+      },
+      {
+       "w": "l'arrêter.",
+       "s": 8.7,
+       "e": 9.2
+      }
+     ]
+    }
+   ],
+   "end": 9.605
+  },
+  {
+   "id": "lieu",
+   "start": 9.605,
+   "sentences": [
+    {
+     "text": "Ça se passe dans le Gévaudan, l'actuelle Lozère.",
+     "spoken": "Ça se passe dans le Gévaudan, l'actuelle Lozère.",
+     "start": 9.605,
+     "end": 12.885,
+     "words": [
+      {
+       "w": "Ça",
+       "s": 9.605,
+       "e": 9.925
+      },
+      {
+       "w": "se",
+       "s": 9.925,
+       "e": 10.005
+      },
+      {
+       "w": "passe",
+       "s": 10.005,
+       "e": 10.245
+      },
+      {
+       "w": "dans",
+       "s": 10.245,
+       "e": 10.325
+      },
+      {
+       "w": "le",
+       "s": 10.325,
+       "e": 10.485
+      },
+      {
+       "w": "Gévaudan,",
+       "s": 10.485,
+       "e": 11.365
+      },
+      {
+       "w": "l'actuelle",
+       "s": 11.365,
+       "e": 11.925
+      },
+      {
+       "w": "Lozère.",
+       "s": 11.925,
+       "e": 12.885
+      }
+     ]
+    },
+    {
+     "text": "Des montagnes, des forêts, des villages de pierre...",
+     "spoken": "Des montagnes, des forêts, des villages de pierre...",
+     "start": 12.885,
+     "end": 15.365,
+     "words": [
+      {
+       "w": "Des",
+       "s": 12.885,
+       "e": 13.125
+      },
+      {
+       "w": "montagnes,",
+       "s": 13.125,
+       "e": 13.685
+      },
+      {
+       "w": "des",
+       "s": 13.685,
+       "e": 13.845
+      },
+      {
+       "w": "forêts,",
+       "s": 13.845,
+       "e": 14.325
+      },
+      {
+       "w": "des",
+       "s": 14.325,
+       "e": 14.485
+      },
+      {
+       "w": "villages",
+       "s": 14.485,
+       "e": 14.885
+      },
+      {
+       "w": "de",
+       "s": 14.885,
+       "e": 15.045
+      },
+      {
+       "w": "pierre...",
+       "s": 15.045,
+       "e": 15.365
+      }
+     ]
+    },
+    {
+     "text": "et des enfants qui gardent les troupeaux, souvent seuls.",
+     "spoken": "et des enfants qui gardent les troupeaux, souvent seuls.",
+     "start": 15.365,
+     "end": 18.244,
+     "words": [
+      {
+       "w": "et",
+       "s": 15.365,
+       "e": 15.525
+      },
+      {
+       "w": "des",
+       "s": 15.525,
+       "e": 15.685
+      },
+      {
+       "w": "enfants",
+       "s": 15.685,
+       "e": 16.085
+      },
+      {
+       "w": "qui",
+       "s": 16.085,
+       "e": 16.245
+      },
+      {
+       "w": "gardent",
+       "s": 16.245,
+       "e": 16.725
+      },
+      {
+       "w": "les",
+       "s": 16.725,
+       "e": 16.885
+      },
+      {
+       "w": "troupeaux,",
+       "s": 16.885,
+       "e": 17.445
+      },
+      {
+       "w": "souvent",
+       "s": 17.445,
+       "e": 17.845
+      },
+      {
+       "w": "seuls.",
+       "s": 17.845,
+       "e": 18.244
+      }
+     ]
+    }
+   ],
+   "end": 18.543
+  },
+  {
+   "id": "question",
+   "start": 18.543,
+   "sentences": [
+    {
+     "text": "Alors, une question : c'était quoi, vraiment, la Bête ?",
+     "spoken": "Alors, une question : c'était quoi, vraiment, la Bête ?",
+     "start": 18.543,
+     "end": 22.003,
+     "words": [
+      {
+       "w": "Alors,",
+       "s": 18.543,
+       "e": 19.103
+      },
+      {
+       "w": "une",
+       "s": 19.103,
+       "e": 19.343
+      },
+      {
+       "w": "question:",
+       "s": 19.343,
+       "e": 19.903
+      },
+      {
+       "w": "c'était",
+       "s": 19.903,
+       "e": 20.383
+      },
+      {
+       "w": "quoi,",
+       "s": 20.383,
+       "e": 20.783
+      },
+      {
+       "w": "vraiment,",
+       "s": 20.783,
+       "e": 21.263
+      },
+      {
+       "w": "la",
+       "s": 21.263,
+       "e": 21.503
+      },
+      {
+       "w": "Bête?",
+       "s": 21.503,
+       "e": 22.003
+      }
+     ]
+    }
+   ],
+   "end": 22.359
+  },
+  {
+   "id": "attaques",
+   "start": 22.359,
+   "sentences": [
+    {
+     "text": "Le 30 juin 1764, une jeune fille de quatorze ans est tuée.",
+     "spoken": "Le trente juin mille sept cent soixante-quatre, une jeune fille de quatorze ans est tuée.",
+     "start": 22.359,
+     "end": 27.399,
+     "words": [
+      {
+       "w": "Le",
+       "s": 22.359,
+       "e": 22.599
+      },
+      {
+       "w": "30",
+       "s": 22.599,
+       "e": 22.999
+      },
+      {
+       "w": "juin",
+       "s": 22.999,
+       "e": 23.399
+      },
+      {
+       "w": "1764,",
+       "s": 23.399,
+       "e": 25.079
+      },
+      {
+       "w": "une",
+       "s": 25.079,
+       "e": 25.239
+      },
+      {
+       "w": "jeune",
+       "s": 25.239,
+       "e": 25.639
+      },
+      {
+       "w": "fille",
+       "s": 25.639,
+       "e": 25.879
+      },
+      {
+       "w": "de",
+       "s": 25.879,
+       "e": 26.039
+      },
+      {
+       "w": "quatorze",
+       "s": 26.039,
+       "e": 26.439
+      },
+      {
+       "w": "ans",
+       "s": 26.439,
+       "e": 26.759
+      },
+      {
+       "w": "est",
+       "s": 26.759,
+       "e": 26.919
+      },
+      {
+       "w": "tuée.",
+       "s": 26.919,
+       "e": 27.399
+      }
+     ]
+    },
+    {
+     "text": "C'est la première victime officielle.",
+     "spoken": "C'est la première victime officielle.",
+     "start": 27.399,
+     "end": 29.639,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 27.399,
+       "e": 27.719
+      },
+      {
+       "w": "la",
+       "s": 27.719,
+       "e": 27.879
+      },
+      {
+       "w": "première",
+       "s": 27.879,
+       "e": 28.279
+      },
+      {
+       "w": "victime",
+       "s": 28.279,
+       "e": 28.919
+      },
+      {
+       "w": "officielle.",
+       "s": 28.919,
+       "e": 29.639
+      }
+     ]
+    },
+    {
+     "text": "Puis les attaques se multiplient.",
+     "spoken": "Puis les attaques se multiplient.",
+     "start": 29.639,
+     "end": 31.179,
+     "words": [
+      {
+       "w": "Puis",
+       "s": 29.639,
+       "e": 29.959
+      },
+      {
+       "w": "les",
+       "s": 29.959,
+       "e": 30.119
+      },
+      {
+       "w": "attaques",
+       "s": 30.119,
+       "e": 30.519
+      },
+      {
+       "w": "se",
+       "s": 30.519,
+       "e": 30.679
+      },
+      {
+       "w": "multiplient.",
+       "s": 30.679,
+       "e": 31.179
+      }
+     ]
+    }
+   ],
+   "end": 31.618
+  },
+  {
+   "id": "lavoir1",
+   "start": 31.618,
+   "sentences": [
+    {
+     "text": "Tu as entendu ?",
+     "spoken": "Tu as entendu ?",
+     "start": 31.618,
+     "end": 32.738,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 31.618,
+       "e": 31.858
+      },
+      {
+       "w": "as",
+       "s": 31.858,
+       "e": 32.098
+      },
+      {
+       "w": "entendu?",
+       "s": 32.098,
+       "e": 32.738
+      }
+     ]
+    },
+    {
+     "text": "Encore une attaque, près de la forêt.",
+     "spoken": "Encore une attaque, près de la forêt.",
+     "start": 32.738,
+     "end": 34.598,
+     "words": [
+      {
+       "w": "Encore",
+       "s": 32.738,
+       "e": 33.058
+      },
+      {
+       "w": "une",
+       "s": 33.058,
+       "e": 33.218
+      },
+      {
+       "w": "attaque,",
+       "s": 33.218,
+       "e": 33.698
+      },
+      {
+       "w": "près",
+       "s": 33.698,
+       "e": 33.938
+      },
+      {
+       "w": "de",
+       "s": 33.938,
+       "e": 34.018
+      },
+      {
+       "w": "la",
+       "s": 34.018,
+       "e": 34.098
+      },
+      {
+       "w": "forêt.",
+       "s": 34.098,
+       "e": 34.598
+      }
+     ]
+    }
+   ],
+   "par": "siwis",
+   "end": 34.936
+  },
+  {
+   "id": "lavoir2",
+   "start": 34.936,
+   "sentences": [
+    {
+     "text": "Mon fils garde les vaches là-bas, demain...",
+     "spoken": "Mon fils garde les vaches là-bas, demain...",
+     "start": 34.936,
+     "end": 37.307,
+     "words": [
+      {
+       "w": "Mon",
+       "s": 34.936,
+       "e": 35.096
+      },
+      {
+       "w": "fils",
+       "s": 35.096,
+       "e": 35.336
+      },
+      {
+       "w": "garde",
+       "s": 35.336,
+       "e": 35.736
+      },
+      {
+       "w": "les",
+       "s": 35.736,
+       "e": 35.976
+      },
+      {
+       "w": "vaches",
+       "s": 35.976,
+       "e": 36.456
+      },
+      {
+       "w": "là-bas,",
+       "s": 36.456,
+       "e": 36.856
+      },
+      {
+       "w": "demain...",
+       "s": 36.856,
+       "e": 37.307
+      }
+     ]
+    }
+   ],
+   "par": "jessica",
+   "end": 37.607
+  },
+  {
+   "id": "lavoir3",
+   "start": 37.607,
+   "sentences": [
+    {
+     "text": "Qu'il reste avec les autres enfants.",
+     "spoken": "Qu'il reste avec les autres enfants.",
+     "start": 37.607,
+     "end": 39.527,
+     "words": [
+      {
+       "w": "Qu'il",
+       "s": 37.607,
+       "e": 37.927
+      },
+      {
+       "w": "reste",
+       "s": 37.927,
+       "e": 38.247
+      },
+      {
+       "w": "avec",
+       "s": 38.247,
+       "e": 38.407
+      },
+      {
+       "w": "les",
+       "s": 38.407,
+       "e": 38.567
+      },
+      {
+       "w": "autres",
+       "s": 38.567,
+       "e": 38.887
+      },
+      {
+       "w": "enfants.",
+       "s": 38.887,
+       "e": 39.527
+      }
+     ]
+    },
+    {
+     "text": "Jamais tout seul.",
+     "spoken": "Jamais tout seul.",
+     "start": 39.527,
+     "end": 40.731,
+     "words": [
+      {
+       "w": "Jamais",
+       "s": 39.527,
+       "e": 40.007
+      },
+      {
+       "w": "tout",
+       "s": 40.007,
+       "e": 40.247
+      },
+      {
+       "w": "seul.",
+       "s": 40.247,
+       "e": 40.731
+      }
+     ]
+    }
+   ],
+   "par": "siwis",
+   "end": 41.031
+  },
+  {
+   "id": "bilan",
+   "start": 41.031,
+   "sentences": [
+    {
+     "text": "En trois ans, plus de quatre-vingts personnes perdent la vie, surtout des enfants et des femmes.",
+     "spoken": "En trois ans, plus de quatre-vingts personnes perdent la vie, surtout des enfants et des femmes.",
+     "start": 41.031,
+     "end": 45.88,
+     "words": [
+      {
+       "w": "En",
+       "s": 41.031,
+       "e": 41.271
+      },
+      {
+       "w": "trois",
+       "s": 41.271,
+       "e": 41.511
+      },
+      {
+       "w": "ans,",
+       "s": 41.511,
+       "e": 41.831
+      },
+      {
+       "w": "plus",
+       "s": 41.831,
+       "e": 42.071
+      },
+      {
+       "w": "de",
+       "s": 42.071,
+       "e": 42.231
+      },
+      {
+       "w": "quatre-vingts",
+       "s": 42.231,
+       "e": 42.871
+      },
+      {
+       "w": "personnes",
+       "s": 42.871,
+       "e": 43.271
+      },
+      {
+       "w": "perdent",
+       "s": 43.271,
+       "e": 43.751
+      },
+      {
+       "w": "la",
+       "s": 43.751,
+       "e": 43.911
+      },
+      {
+       "w": "vie,",
+       "s": 43.911,
+       "e": 44.231
+      },
+      {
+       "w": "surtout",
+       "s": 44.231,
+       "e": 44.631
+      },
+      {
+       "w": "des",
+       "s": 44.631,
+       "e": 44.791
+      },
+      {
+       "w": "enfants",
+       "s": 44.791,
+       "e": 45.191
+      },
+      {
+       "w": "et",
+       "s": 45.191,
+       "e": 45.351
+      },
+      {
+       "w": "des",
+       "s": 45.351,
+       "e": 45.511
+      },
+      {
+       "w": "femmes.",
+       "s": 45.511,
+       "e": 45.88
+      }
+     ]
+    }
+   ],
+   "end": 46.18
+  },
+  {
+   "id": "temoins",
+   "start": 46.18,
+   "sentences": [
+    {
+     "text": "Ceux qui l'ont vue la décrivent tous de la même façon.",
+     "spoken": "Ceux qui l'ont vue la décrivent tous de la même façon.",
+     "start": 46.18,
+     "end": 48.893,
+     "words": [
+      {
+       "w": "Ceux",
+       "s": 46.18,
+       "e": 46.5
+      },
+      {
+       "w": "qui",
+       "s": 46.5,
+       "e": 46.66
+      },
+      {
+       "w": "l'ont",
+       "s": 46.66,
+       "e": 46.9
+      },
+      {
+       "w": "vue",
+       "s": 46.9,
+       "e": 47.14
+      },
+      {
+       "w": "la",
+       "s": 47.14,
+       "e": 47.3
+      },
+      {
+       "w": "décrivent",
+       "s": 47.3,
+       "e": 47.86
+      },
+      {
+       "w": "tous",
+       "s": 47.86,
+       "e": 48.1
+      },
+      {
+       "w": "de",
+       "s": 48.1,
+       "e": 48.18
+      },
+      {
+       "w": "la",
+       "s": 48.18,
+       "e": 48.26
+      },
+      {
+       "w": "même",
+       "s": 48.26,
+       "e": 48.5
+      },
+      {
+       "w": "façon.",
+       "s": 48.5,
+       "e": 48.893
+      }
+     ]
+    }
+   ],
+   "end": 49.193
+  },
+  {
+   "id": "temoin1",
+   "start": 49.193,
+   "sentences": [
+    {
+     "text": "Je l'ai vue de mes yeux !",
+     "spoken": "Je l'ai vue de mes yeux !",
+     "start": 49.193,
+     "end": 50.393,
+     "words": [
+      {
+       "w": "Je",
+       "s": 49.193,
+       "e": 49.353
+      },
+      {
+       "w": "l'ai",
+       "s": 49.353,
+       "e": 49.593
+      },
+      {
+       "w": "vue",
+       "s": 49.593,
+       "e": 49.833
+      },
+      {
+       "w": "de",
+       "s": 49.833,
+       "e": 49.993
+      },
+      {
+       "w": "mes",
+       "s": 49.993,
+       "e": 50.073
+      },
+      {
+       "w": "yeux!",
+       "s": 50.073,
+       "e": 50.393
+      }
+     ]
+    },
+    {
+     "text": "Un loup, mais énorme.",
+     "spoken": "Un loup, mais énorme.",
+     "start": 50.393,
+     "end": 51.756,
+     "words": [
+      {
+       "w": "Un",
+       "s": 50.393,
+       "e": 50.633
+      },
+      {
+       "w": "loup,",
+       "s": 50.633,
+       "e": 51.033
+      },
+      {
+       "w": "mais",
+       "s": 51.033,
+       "e": 51.273
+      },
+      {
+       "w": "énorme.",
+       "s": 51.273,
+       "e": 51.756
+      }
+     ]
+    }
+   ],
+   "par": "pierre",
+   "end": 52.056
+  },
+  {
+   "id": "temoin2",
+   "start": 52.056,
+   "sentences": [
+    {
+     "text": "Une grosse tête, un large poitrail, le ventre clair...",
+     "spoken": "Une grosse tête, un large poitrail, le ventre clair...",
+     "start": 52.056,
+     "end": 54.776,
+     "words": [
+      {
+       "w": "Une",
+       "s": 52.056,
+       "e": 52.296
+      },
+      {
+       "w": "grosse",
+       "s": 52.296,
+       "e": 52.536
+      },
+      {
+       "w": "tête,",
+       "s": 52.536,
+       "e": 52.936
+      },
+      {
+       "w": "un",
+       "s": 52.936,
+       "e": 53.016
+      },
+      {
+       "w": "large",
+       "s": 53.016,
+       "e": 53.416
+      },
+      {
+       "w": "poitrail,",
+       "s": 53.416,
+       "e": 54.056
+      },
+      {
+       "w": "le",
+       "s": 54.056,
+       "e": 54.136
+      },
+      {
+       "w": "ventre",
+       "s": 54.136,
+       "e": 54.376
+      },
+      {
+       "w": "clair...",
+       "s": 54.376,
+       "e": 54.776
+      }
+     ]
+    },
+    {
+     "text": "et une raie noire sur le dos.",
+     "spoken": "et une raie noire sur le dos.",
+     "start": 54.776,
+     "end": 56.026,
+     "words": [
+      {
+       "w": "et",
+       "s": 54.776,
+       "e": 54.856
+      },
+      {
+       "w": "une",
+       "s": 54.856,
+       "e": 54.936
+      },
+      {
+       "w": "raie",
+       "s": 54.936,
+       "e": 55.256
+      },
+      {
+       "w": "noire",
+       "s": 55.256,
+       "e": 55.496
+      },
+      {
+       "w": "sur",
+       "s": 55.496,
+       "e": 55.576
+      },
+      {
+       "w": "le",
+       "s": 55.576,
+       "e": 55.656
+      },
+      {
+       "w": "dos.",
+       "s": 55.656,
+       "e": 56.026
+      }
+     ]
+    }
+   ],
+   "par": "pierre",
+   "end": 56.327
+  },
+  {
+   "id": "auberge",
+   "start": 56.327,
+   "sentences": [
+    {
+     "text": "Le soir, à l'auberge, les rumeurs vont bon train.",
+     "spoken": "Le soir, à l'auberge, les rumeurs vont bon train.",
+     "start": 56.327,
+     "end": 59.167,
+     "words": [
+      {
+       "w": "Le",
+       "s": 56.327,
+       "e": 56.567
+      },
+      {
+       "w": "soir,",
+       "s": 56.567,
+       "e": 56.967
+      },
+      {
+       "w": "à",
+       "s": 56.967,
+       "e": 57.047
+      },
+      {
+       "w": "l'auberge,",
+       "s": 57.047,
+       "e": 57.927
+      },
+      {
+       "w": "les",
+       "s": 57.927,
+       "e": 58.007
+      },
+      {
+       "w": "rumeurs",
+       "s": 58.007,
+       "e": 58.327
+      },
+      {
+       "w": "vont",
+       "s": 58.327,
+       "e": 58.567
+      },
+      {
+       "w": "bon",
+       "s": 58.567,
+       "e": 58.887
+      },
+      {
+       "w": "train.",
+       "s": 58.887,
+       "e": 59.167
+      }
+     ]
+    }
+   ],
+   "end": 59.466
+  },
+  {
+   "id": "rumeur1",
+   "start": 59.466,
+   "sentences": [
+    {
+     "text": "On dit qu'elle court plus vite qu'un cheval !",
+     "spoken": "On dit qu'elle court plus vite qu'un cheval !",
+     "start": 59.466,
+     "end": 61.168,
+     "words": [
+      {
+       "w": "On",
+       "s": 59.466,
+       "e": 59.626
+      },
+      {
+       "w": "dit",
+       "s": 59.626,
+       "e": 59.786
+      },
+      {
+       "w": "qu'elle",
+       "s": 59.786,
+       "e": 59.946
+      },
+      {
+       "w": "court",
+       "s": 59.946,
+       "e": 60.266
+      },
+      {
+       "w": "plus",
+       "s": 60.266,
+       "e": 60.346
+      },
+      {
+       "w": "vite",
+       "s": 60.346,
+       "e": 60.506
+      },
+      {
+       "w": "qu'un",
+       "s": 60.506,
+       "e": 60.746
+      },
+      {
+       "w": "cheval!",
+       "s": 60.746,
+       "e": 61.168
+      }
+     ]
+    }
+   ],
+   "par": "jules",
+   "end": 61.469
+  },
+  {
+   "id": "rumeur2",
+   "start": 61.469,
+   "sentences": [
+    {
+     "text": "Et que les balles ne lui font rien.",
+     "spoken": "Et que les balles ne lui font rien.",
+     "start": 61.469,
+     "end": 62.862,
+     "words": [
+      {
+       "w": "Et",
+       "s": 61.469,
+       "e": 61.629
+      },
+      {
+       "w": "que",
+       "s": 61.629,
+       "e": 61.709
+      },
+      {
+       "w": "les",
+       "s": 61.709,
+       "e": 61.869
+      },
+      {
+       "w": "balles",
+       "s": 61.869,
+       "e": 62.109
+      },
+      {
+       "w": "ne",
+       "s": 62.109,
+       "e": 62.269
+      },
+      {
+       "w": "lui",
+       "s": 62.269,
+       "e": 62.429
+      },
+      {
+       "w": "font",
+       "s": 62.429,
+       "e": 62.589
+      },
+      {
+       "w": "rien.",
+       "s": 62.589,
+       "e": 62.862
+      }
+     ]
+    }
+   ],
+   "par": "pierre",
+   "end": 63.161
+  },
+  {
+   "id": "rumeur3",
+   "start": 63.161,
+   "sentences": [
+    {
+     "text": "Moi, je dis que c'est une hyène.",
+     "spoken": "Moi, je dis que c'est une hyène.",
+     "start": 63.161,
+     "end": 64.864,
+     "words": [
+      {
+       "w": "Moi,",
+       "s": 63.161,
+       "e": 63.481
+      },
+      {
+       "w": "je",
+       "s": 63.481,
+       "e": 63.641
+      },
+      {
+       "w": "dis",
+       "s": 63.641,
+       "e": 63.801
+      },
+      {
+       "w": "que",
+       "s": 63.801,
+       "e": 63.881
+      },
+      {
+       "w": "c'est",
+       "s": 63.881,
+       "e": 64.201
+      },
+      {
+       "w": "une",
+       "s": 64.201,
+       "e": 64.441
+      },
+      {
+       "w": "hyène.",
+       "s": 64.441,
+       "e": 64.864
+      }
+     ]
+    }
+   ],
+   "par": "jessica",
+   "end": 65.164
+  },
+  {
+   "id": "rumeur4",
+   "start": 65.164,
+   "sentences": [
+    {
+     "text": "Pour moi, c'est un sorcier qui se change en bête.",
+     "spoken": "Pour moi, c'est un sorcier qui se change en bête.",
+     "start": 65.164,
+     "end": 67.194,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 65.164,
+       "e": 65.324
+      },
+      {
+       "w": "moi,",
+       "s": 65.324,
+       "e": 65.564
+      },
+      {
+       "w": "c'est",
+       "s": 65.564,
+       "e": 65.724
+      },
+      {
+       "w": "un",
+       "s": 65.724,
+       "e": 65.804
+      },
+      {
+       "w": "sorcier",
+       "s": 65.804,
+       "e": 66.204
+      },
+      {
+       "w": "qui",
+       "s": 66.204,
+       "e": 66.364
+      },
+      {
+       "w": "se",
+       "s": 66.364,
+       "e": 66.444
+      },
+      {
+       "w": "change",
+       "s": 66.444,
+       "e": 66.684
+      },
+      {
+       "w": "en",
+       "s": 66.684,
+       "e": 66.844
+      },
+      {
+       "w": "bête.",
+       "s": 66.844,
+       "e": 67.194
+      }
+     ]
+    }
+   ],
+   "par": "jules",
+   "end": 67.494
+  },
+  {
+   "id": "journaux",
+   "start": 67.494,
+   "sentences": [
+    {
+     "text": "Bientôt, toute l'Europe en parle.",
+     "spoken": "Bientôt, toute l'Europe en parle.",
+     "start": 67.574,
+     "end": 69.494,
+     "words": [
+      {
+       "w": "Bientôt,",
+       "s": 67.574,
+       "e": 68.134
+      },
+      {
+       "w": "toute",
+       "s": 68.134,
+       "e": 68.374
+      },
+      {
+       "w": "l'Europe",
+       "s": 68.374,
+       "e": 68.854
+      },
+      {
+       "w": "en",
+       "s": 68.854,
+       "e": 69.014
+      },
+      {
+       "w": "parle.",
+       "s": 69.014,
+       "e": 69.494
+      }
+     ]
+    },
+    {
+     "text": "Un journal, le Courrier d'Avignon, en fait un feuilleton.",
+     "spoken": "Un journal, le Courrier d'Avignon, en fait un feuilleton.",
+     "start": 69.494,
+     "end": 72.614,
+     "words": [
+      {
+       "w": "Un",
+       "s": 69.494,
+       "e": 69.734
+      },
+      {
+       "w": "journal,",
+       "s": 69.734,
+       "e": 70.214
+      },
+      {
+       "w": "le",
+       "s": 70.214,
+       "e": 70.294
+      },
+      {
+       "w": "Courrier",
+       "s": 70.294,
+       "e": 70.774
+      },
+      {
+       "w": "d'Avignon,",
+       "s": 70.774,
+       "e": 71.574
+      },
+      {
+       "w": "en",
+       "s": 71.574,
+       "e": 71.654
+      },
+      {
+       "w": "fait",
+       "s": 71.654,
+       "e": 71.894
+      },
+      {
+       "w": "un",
+       "s": 71.894,
+       "e": 71.974
+      },
+      {
+       "w": "feuilleton.",
+       "s": 71.974,
+       "e": 72.614
+      }
+     ]
+    },
+    {
+     "text": "Il exagère tout...",
+     "spoken": "Il exagère tout...",
+     "start": 72.614,
+     "end": 73.654,
+     "words": [
+      {
+       "w": "Il",
+       "s": 72.614,
+       "e": 72.854
+      },
+      {
+       "w": "exagère",
+       "s": 72.854,
+       "e": 73.363
+      },
+      {
+       "w": "tout...",
+       "s": 73.363,
+       "e": 73.654
+      }
+     ]
+    },
+    {
+     "text": "et les autres journaux recopient.",
+     "spoken": "et les autres journaux recopient.",
+     "start": 73.654,
+     "end": 75.031,
+     "words": [
+      {
+       "w": "et",
+       "s": 73.654,
+       "e": 73.814
+      },
+      {
+       "w": "les",
+       "s": 73.814,
+       "e": 73.974
+      },
+      {
+       "w": "autres",
+       "s": 73.974,
+       "e": 74.214
+      },
+      {
+       "w": "journaux",
+       "s": 74.214,
+       "e": 74.534
+      },
+      {
+       "w": "recopient.",
+       "s": 74.534,
+       "e": 75.031
+      }
+     ]
+    }
+   ],
+   "end": 75.331
+  },
+  {
+   "id": "paris1",
+   "start": 75.331,
+   "sentences": [
+    {
+     "text": "Une bête que personne n'arrive à attraper ?",
+     "spoken": "Une bête que personne n'arrive à attraper ?",
+     "start": 75.331,
+     "end": 77.251,
+     "words": [
+      {
+       "w": "Une",
+       "s": 75.331,
+       "e": 75.491
+      },
+      {
+       "w": "bête",
+       "s": 75.491,
+       "e": 75.811
+      },
+      {
+       "w": "que",
+       "s": 75.811,
+       "e": 75.971
+      },
+      {
+       "w": "personne",
+       "s": 75.971,
+       "e": 76.211
+      },
+      {
+       "w": "n'arrive",
+       "s": 76.211,
+       "e": 76.611
+      },
+      {
+       "w": "à",
+       "s": 76.611,
+       "e": 76.771
+      },
+      {
+       "w": "attraper?",
+       "s": 76.771,
+       "e": 77.251
+      }
+     ]
+    },
+    {
+     "text": "Mais que fait le roi ?",
+     "spoken": "Mais que fait le roi ?",
+     "start": 77.251,
+     "end": 78.33,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 77.251,
+       "e": 77.491
+      },
+      {
+       "w": "que",
+       "s": 77.491,
+       "e": 77.651
+      },
+      {
+       "w": "fait",
+       "s": 77.651,
+       "e": 77.811
+      },
+      {
+       "w": "le",
+       "s": 77.811,
+       "e": 77.971
+      },
+      {
+       "w": "roi?",
+       "s": 77.971,
+       "e": 78.33
+      }
+     ]
+    }
+   ],
+   "par": "jessica",
+   "end": 78.63
+  },
+  {
+   "id": "paris2",
+   "start": 78.63,
+   "sentences": [
+    {
+     "text": "Après la guerre perdue contre les Anglais...",
+     "spoken": "Après la guerre perdue contre les Anglais...",
+     "start": 78.63,
+     "end": 80.71,
+     "words": [
+      {
+       "w": "Après",
+       "s": 78.63,
+       "e": 78.95
+      },
+      {
+       "w": "la",
+       "s": 78.95,
+       "e": 79.11
+      },
+      {
+       "w": "guerre",
+       "s": 79.11,
+       "e": 79.43
+      },
+      {
+       "w": "perdue",
+       "s": 79.43,
+       "e": 79.91
+      },
+      {
+       "w": "contre",
+       "s": 79.91,
+       "e": 80.07
+      },
+      {
+       "w": "les",
+       "s": 80.07,
+       "e": 80.23
+      },
+      {
+       "w": "Anglais...",
+       "s": 80.23,
+       "e": 80.71
+      }
+     ]
+    },
+    {
+     "text": "quelle honte !",
+     "spoken": "quelle honte !",
+     "start": 80.71,
+     "end": 81.53,
+     "words": [
+      {
+       "w": "quelle",
+       "s": 80.71,
+       "e": 81.03
+      },
+      {
+       "w": "honte!",
+       "s": 81.03,
+       "e": 81.53
+      }
+     ]
+    }
+   ],
+   "par": "jules",
+   "end": 81.857
+  },
+  {
+   "id": "soldats",
+   "start": 81.857,
+   "sentences": [
+    {
+     "text": "Le roi envoie d'abord des soldats, des dragons, qui fouillent les montagnes pendant des mois.",
+     "spoken": "Le roi envoie d'abord des soldats, des dragons, qui fouillent les montagnes pendant des mois.",
+     "start": 81.857,
+     "end": 86.817,
+     "words": [
+      {
+       "w": "Le",
+       "s": 81.857,
+       "e": 82.097
+      },
+      {
+       "w": "roi",
+       "s": 82.097,
+       "e": 82.417
+      },
+      {
+       "w": "envoie",
+       "s": 82.417,
+       "e": 82.897
+      },
+      {
+       "w": "d'abord",
+       "s": 82.897,
+       "e": 83.297
+      },
+      {
+       "w": "des",
+       "s": 83.297,
+       "e": 83.377
+      },
+      {
+       "w": "soldats,",
+       "s": 83.377,
+       "e": 83.937
+      },
+      {
+       "w": "des",
+       "s": 83.937,
+       "e": 84.097
+      },
+      {
+       "w": "dragons,",
+       "s": 84.097,
+       "e": 84.577
+      },
+      {
+       "w": "qui",
+       "s": 84.577,
+       "e": 84.817
+      },
+      {
+       "w": "fouillent",
+       "s": 84.817,
+       "e": 85.297
+      },
+      {
+       "w": "les",
+       "s": 85.297,
+       "e": 85.377
+      },
+      {
+       "w": "montagnes",
+       "s": 85.377,
+       "e": 85.937
+      },
+      {
+       "w": "pendant",
+       "s": 85.937,
+       "e": 86.257
+      },
+      {
+       "w": "des",
+       "s": 86.257,
+       "e": 86.417
+      },
+      {
+       "w": "mois.",
+       "s": 86.417,
+       "e": 86.817
+      }
+     ]
+    },
+    {
+     "text": "Sans succès.",
+     "spoken": "Sans succès.",
+     "start": 86.817,
+     "end": 87.446,
+     "words": [
+      {
+       "w": "Sans",
+       "s": 86.817,
+       "e": 86.977
+      },
+      {
+       "w": "succès.",
+       "s": 86.977,
+       "e": 87.446
+      }
+     ]
+    }
+   ],
+   "end": 87.746
+  },
+  {
+   "id": "roi",
+   "start": 87.746,
+   "sentences": [
+    {
+     "text": "Alors Louis XV envoie ses meilleurs chasseurs, et promet une énorme récompense.",
+     "spoken": "Alors Louis quinze envoie ses meilleurs chasseurs, et promet une énorme récompense.",
+     "start": 87.746,
+     "end": 92.086,
+     "words": [
+      {
+       "w": "Alors",
+       "s": 87.746,
+       "e": 88.066
+      },
+      {
+       "w": "Louis",
+       "s": 88.066,
+       "e": 88.43
+      },
+      {
+       "w": "XV",
+       "s": 88.43,
+       "e": 88.866
+      },
+      {
+       "w": "envoie",
+       "s": 88.866,
+       "e": 89.266
+      },
+      {
+       "w": "ses",
+       "s": 89.266,
+       "e": 89.426
+      },
+      {
+       "w": "meilleurs",
+       "s": 89.426,
+       "e": 89.746
+      },
+      {
+       "w": "chasseurs,",
+       "s": 89.746,
+       "e": 90.306
+      },
+      {
+       "w": "et",
+       "s": 90.306,
+       "e": 90.466
+      },
+      {
+       "w": "promet",
+       "s": 90.466,
+       "e": 90.946
+      },
+      {
+       "w": "une",
+       "s": 90.946,
+       "e": 91.106
+      },
+      {
+       "w": "énorme",
+       "s": 91.106,
+       "e": 91.586
+      },
+      {
+       "w": "récompense.",
+       "s": 91.586,
+       "e": 92.086
+      }
+     ]
+    }
+   ],
+   "end": 92.751
+  },
+  {
+   "id": "heros",
+   "start": 92.751,
+   "sentences": [
+    {
+     "text": "Il y a aussi des héros.",
+     "spoken": "Il y a aussi des héros.",
+     "start": 92.751,
+     "end": 94.191,
+     "words": [
+      {
+       "w": "Il",
+       "s": 92.751,
+       "e": 92.911
+      },
+      {
+       "w": "y",
+       "s": 92.911,
+       "e": 93.071
+      },
+      {
+       "w": "a",
+       "s": 93.071,
+       "e": 93.231
+      },
+      {
+       "w": "aussi",
+       "s": 93.231,
+       "e": 93.471
+      },
+      {
+       "w": "des",
+       "s": 93.471,
+       "e": 93.631
+      },
+      {
+       "w": "héros.",
+       "s": 93.631,
+       "e": 94.191
+      }
+     ]
+    },
+    {
+     "text": "En janvier 1765, Jacques Portefaix, douze ans, refuse de fuir et défend ses amis avec des bâtons.",
+     "spoken": "En janvier mille sept cent soixante-cinq, Jacques Portefaix, douze ans, refuse de fuir et défend ses amis avec des bâtons.",
+     "start": 94.191,
+     "end": 100.671,
+     "words": [
+      {
+       "w": "En",
+       "s": 94.191,
+       "e": 94.351
+      },
+      {
+       "w": "janvier",
+       "s": 94.351,
+       "e": 94.831
+      },
+      {
+       "w": "1765,",
+       "s": 94.831,
+       "e": 96.271
+      },
+      {
+       "w": "Jacques",
+       "s": 96.271,
+       "e": 96.761
+      },
+      {
+       "w": "Portefaix,",
+       "s": 96.761,
+       "e": 97.391
+      },
+      {
+       "w": "douze",
+       "s": 97.391,
+       "e": 97.631
+      },
+      {
+       "w": "ans,",
+       "s": 97.631,
+       "e": 97.951
+      },
+      {
+       "w": "refuse",
+       "s": 97.951,
+       "e": 98.431
+      },
+      {
+       "w": "de",
+       "s": 98.431,
+       "e": 98.511
+      },
+      {
+       "w": "fuir",
+       "s": 98.511,
+       "e": 98.831
+      },
+      {
+       "w": "et",
+       "s": 98.831,
+       "e": 98.991
+      },
+      {
+       "w": "défend",
+       "s": 98.991,
+       "e": 99.471
+      },
+      {
+       "w": "ses",
+       "s": 99.471,
+       "e": 99.631
+      },
+      {
+       "w": "amis",
+       "s": 99.631,
+       "e": 99.871
+      },
+      {
+       "w": "avec",
+       "s": 99.871,
+       "e": 100.031
+      },
+      {
+       "w": "des",
+       "s": 100.031,
+       "e": 100.191
+      },
+      {
+       "w": "bâtons.",
+       "s": 100.191,
+       "e": 100.671
+      }
+     ]
+    },
+    {
+     "text": "La Bête s'enfuit.",
+     "spoken": "La Bête s'enfuit.",
+     "start": 100.671,
+     "end": 102.031,
+     "words": [
+      {
+       "w": "La",
+       "s": 100.671,
+       "e": 100.911
+      },
+      {
+       "w": "Bête",
+       "s": 100.911,
+       "e": 101.391
+      },
+      {
+       "w": "s'enfuit.",
+       "s": 101.391,
+       "e": 102.031
+      }
+     ]
+    },
+    {
+     "text": "Pour le remercier, le roi lui paie ses études.",
+     "spoken": "Pour le remercier, le roi lui paie ses études.",
+     "start": 102.031,
+     "end": 104.688,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 102.031,
+       "e": 102.191
+      },
+      {
+       "w": "le",
+       "s": 102.191,
+       "e": 102.351
+      },
+      {
+       "w": "remercier,",
+       "s": 102.351,
+       "e": 103.071
+      },
+      {
+       "w": "le",
+       "s": 103.071,
+       "e": 103.231
+      },
+      {
+       "w": "roi",
+       "s": 103.231,
+       "e": 103.551
+      },
+      {
+       "w": "lui",
+       "s": 103.551,
+       "e": 103.791
+      },
+      {
+       "w": "paie",
+       "s": 103.791,
+       "e": 104.031
+      },
+      {
+       "w": "ses",
+       "s": 104.031,
+       "e": 104.191
+      },
+      {
+       "w": "études.",
+       "s": 104.191,
+       "e": 104.688
+      }
+     ]
+    }
+   ],
+   "end": 104.987
+  },
+  {
+   "id": "valet",
+   "start": 104.987,
+   "sentences": [
+    {
+     "text": "En août 1765, au bord d'une rivière, Marie-Jeanne Valet, vingt ans, repousse elle aussi la Bête, avec une lance.",
+     "spoken": "En août mille sept cent soixante-cinq, au bord d'une rivière, Marie-Jeanne Valet, vingt ans, repousse elle aussi la Bête, avec une lance.",
+     "start": 104.987,
+     "end": 112.687,
+     "words": [
+      {
+       "w": "En",
+       "s": 104.987,
+       "e": 105.147
+      },
+      {
+       "w": "août",
+       "s": 105.147,
+       "e": 105.547
+      },
+      {
+       "w": "1765,",
+       "s": 105.547,
+       "e": 106.987
+      },
+      {
+       "w": "au",
+       "s": 106.987,
+       "e": 107.147
+      },
+      {
+       "w": "bord",
+       "s": 107.147,
+       "e": 107.387
+      },
+      {
+       "w": "d'une",
+       "s": 107.387,
+       "e": 107.627
+      },
+      {
+       "w": "rivière,",
+       "s": 107.627,
+       "e": 108.107
+      },
+      {
+       "w": "Marie-Jeanne",
+       "s": 108.107,
+       "e": 109.042
+      },
+      {
+       "w": "Valet,",
+       "s": 109.042,
+       "e": 109.467
+      },
+      {
+       "w": "vingt",
+       "s": 109.467,
+       "e": 109.707
+      },
+      {
+       "w": "ans,",
+       "s": 109.707,
+       "e": 110.027
+      },
+      {
+       "w": "repousse",
+       "s": 110.027,
+       "e": 110.587
+      },
+      {
+       "w": "elle",
+       "s": 110.587,
+       "e": 110.827
+      },
+      {
+       "w": "aussi",
+       "s": 110.827,
+       "e": 111.067
+      },
+      {
+       "w": "la",
+       "s": 111.067,
+       "e": 111.227
+      },
+      {
+       "w": "Bête,",
+       "s": 111.227,
+       "e": 111.787
+      },
+      {
+       "w": "avec",
+       "s": 111.787,
+       "e": 111.947
+      },
+      {
+       "w": "une",
+       "s": 111.947,
+       "e": 112.187
+      },
+      {
+       "w": "lance.",
+       "s": 112.187,
+       "e": 112.687
+      }
+     ]
+    }
+   ],
+   "end": 113.128
+  },
+  {
+   "id": "antoine",
+   "start": 113.128,
+   "sentences": [
+    {
+     "text": "En septembre 1765, le chasseur du roi, François Antoine, abat un très grand loup.",
+     "spoken": "En septembre mille sept cent soixante-cinq, le chasseur du roi, François Antoine, abat un très grand loup.",
+     "start": 113.128,
+     "end": 119.266,
+     "words": [
+      {
+       "w": "En",
+       "s": 113.128,
+       "e": 113.368
+      },
+      {
+       "w": "septembre",
+       "s": 113.368,
+       "e": 114.008
+      },
+      {
+       "w": "1765,",
+       "s": 114.008,
+       "e": 115.608
+      },
+      {
+       "w": "le",
+       "s": 115.608,
+       "e": 115.768
+      },
+      {
+       "w": "chasseur",
+       "s": 115.768,
+       "e": 116.328
+      },
+      {
+       "w": "du",
+       "s": 116.328,
+       "e": 116.488
+      },
+      {
+       "w": "roi,",
+       "s": 116.488,
+       "e": 116.888
+      },
+      {
+       "w": "François",
+       "s": 116.888,
+       "e": 117.448
+      },
+      {
+       "w": "Antoine,",
+       "s": 117.448,
+       "e": 117.928
+      },
+      {
+       "w": "abat",
+       "s": 117.928,
+       "e": 118.408
+      },
+      {
+       "w": "un",
+       "s": 118.408,
+       "e": 118.488
+      },
+      {
+       "w": "très",
+       "s": 118.488,
+       "e": 118.648
+      },
+      {
+       "w": "grand",
+       "s": 118.648,
+       "e": 118.888
+      },
+      {
+       "w": "loup.",
+       "s": 118.888,
+       "e": 119.266
+      }
+     ]
+    }
+   ],
+   "end": 119.566
+  },
+  {
+   "id": "versailles",
+   "start": 119.566,
+   "sentences": [
+    {
+     "text": "On l'empaille, on le montre à Versailles.",
+     "spoken": "On l'empaille, on le montre à Versailles.",
+     "start": 119.566,
+     "end": 121.726,
+     "words": [
+      {
+       "w": "On",
+       "s": 119.566,
+       "e": 119.726
+      },
+      {
+       "w": "l'empaille,",
+       "s": 119.726,
+       "e": 120.366
+      },
+      {
+       "w": "on",
+       "s": 120.366,
+       "e": 120.526
+      },
+      {
+       "w": "le",
+       "s": 120.526,
+       "e": 120.686
+      },
+      {
+       "w": "montre",
+       "s": 120.686,
+       "e": 121.006
+      },
+      {
+       "w": "à",
+       "s": 121.006,
+       "e": 121.086
+      },
+      {
+       "w": "Versailles.",
+       "s": 121.086,
+       "e": 121.726
+      }
+     ]
+    },
+    {
+     "text": "C'est fini ?",
+     "spoken": "C'est fini ?",
+     "start": 121.726,
+     "end": 122.366,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 121.726,
+       "e": 121.966
+      },
+      {
+       "w": "fini?",
+       "s": 121.966,
+       "e": 122.366
+      }
+     ]
+    },
+    {
+     "text": "Non.",
+     "spoken": "Non.",
+     "start": 123.016,
+     "end": 123.274,
+     "words": [
+      {
+       "w": "Non.",
+       "s": 123.016,
+       "e": 123.274
+      }
+     ]
+    }
+   ],
+   "end": 123.573
+  },
+  {
+   "id": "nuit1",
+   "start": 123.573,
+   "sentences": [
+    {
+     "text": "Ferme bien les fenêtres.",
+     "spoken": "Ferme bien les fenêtres.",
+     "start": 123.573,
+     "end": 124.613,
+     "words": [
+      {
+       "w": "Ferme",
+       "s": 123.573,
+       "e": 123.893
+      },
+      {
+       "w": "bien",
+       "s": 123.893,
+       "e": 124.053
+      },
+      {
+       "w": "les",
+       "s": 124.053,
+       "e": 124.213
+      },
+      {
+       "w": "fenêtres.",
+       "s": 124.213,
+       "e": 124.613
+      }
+     ]
+    },
+    {
+     "text": "Elle est revenue.",
+     "spoken": "Elle est revenue.",
+     "start": 124.613,
+     "end": 125.44,
+     "words": [
+      {
+       "w": "Elle",
+       "s": 124.613,
+       "e": 124.853
+      },
+      {
+       "w": "est",
+       "s": 124.853,
+       "e": 125.013
+      },
+      {
+       "w": "revenue.",
+       "s": 125.013,
+       "e": 125.44
+      }
+     ]
+    }
+   ],
+   "par": "pierre",
+   "end": 125.74
+  },
+  {
+   "id": "nuit2",
+   "start": 125.74,
+   "sentences": [
+    {
+     "text": "Mais...",
+     "spoken": "Mais...",
+     "start": 125.74,
+     "end": 125.9,
+     "words": [
+      {
+       "w": "Mais...",
+       "s": 125.74,
+       "e": 125.9
+      }
+     ]
+    },
+    {
+     "text": "à Versailles, ils ont dit qu'elle était morte !",
+     "spoken": "à Versailles, ils ont dit qu'elle était morte !",
+     "start": 125.9,
+     "end": 128.223,
+     "words": [
+      {
+       "w": "à",
+       "s": 125.9,
+       "e": 126.06
+      },
+      {
+       "w": "Versailles,",
+       "s": 126.06,
+       "e": 126.7
+      },
+      {
+       "w": "ils",
+       "s": 126.7,
+       "e": 126.86
+      },
+      {
+       "w": "ont",
+       "s": 126.86,
+       "e": 127.02
+      },
+      {
+       "w": "dit",
+       "s": 127.02,
+       "e": 127.26
+      },
+      {
+       "w": "qu'elle",
+       "s": 127.26,
+       "e": 127.58
+      },
+      {
+       "w": "était",
+       "s": 127.58,
+       "e": 127.74
+      },
+      {
+       "w": "morte!",
+       "s": 127.74,
+       "e": 128.223
+      }
+     ]
+    }
+   ],
+   "par": "siwis",
+   "end": 128.523
+  },
+  {
+   "id": "reprise",
+   "start": 128.523,
+   "sentences": [
+    {
+     "text": "Les attaques recommencent, pendant encore un an et demi.",
+     "spoken": "Les attaques recommencent, pendant encore un an et demi.",
+     "start": 128.523,
+     "end": 131.903,
+     "words": [
+      {
+       "w": "Les",
+       "s": 128.523,
+       "e": 128.843
+      },
+      {
+       "w": "attaques",
+       "s": 128.843,
+       "e": 129.323
+      },
+      {
+       "w": "recommencent,",
+       "s": 129.323,
+       "e": 130.123
+      },
+      {
+       "w": "pendant",
+       "s": 130.123,
+       "e": 130.523
+      },
+      {
+       "w": "encore",
+       "s": 130.523,
+       "e": 130.923
+      },
+      {
+       "w": "un",
+       "s": 130.923,
+       "e": 131.083
+      },
+      {
+       "w": "an",
+       "s": 131.083,
+       "e": 131.323
+      },
+      {
+       "w": "et",
+       "s": 131.323,
+       "e": 131.403
+      },
+      {
+       "w": "demi.",
+       "s": 131.403,
+       "e": 131.903
+      }
+     ]
+    }
+   ],
+   "end": 132.256
+  },
+  {
+   "id": "chastel",
+   "start": 132.256,
+   "sentences": [
+    {
+     "text": "Le 19 juin 1767, un paysan, Jean Chastel, abat un autre grand animal.",
+     "spoken": "Le dix-neuf juin mille sept cent soixante-sept, un paysan, Jean Chastel, abat un autre grand animal.",
+     "start": 132.256,
+     "end": 138.416,
+     "words": [
+      {
+       "w": "Le",
+       "s": 132.256,
+       "e": 132.416
+      },
+      {
+       "w": "19",
+       "s": 132.416,
+       "e": 132.976
+      },
+      {
+       "w": "juin",
+       "s": 132.976,
+       "e": 133.296
+      },
+      {
+       "w": "1767,",
+       "s": 133.296,
+       "e": 134.736
+      },
+      {
+       "w": "un",
+       "s": 134.736,
+       "e": 134.896
+      },
+      {
+       "w": "paysan,",
+       "s": 134.896,
+       "e": 135.536
+      },
+      {
+       "w": "Jean",
+       "s": 135.536,
+       "e": 135.776
+      },
+      {
+       "w": "Chastel,",
+       "s": 135.776,
+       "e": 136.576
+      },
+      {
+       "w": "abat",
+       "s": 136.576,
+       "e": 137.056
+      },
+      {
+       "w": "un",
+       "s": 137.056,
+       "e": 137.216
+      },
+      {
+       "w": "autre",
+       "s": 137.216,
+       "e": 137.456
+      },
+      {
+       "w": "grand",
+       "s": 137.456,
+       "e": 137.776
+      },
+      {
+       "w": "animal.",
+       "s": 137.776,
+       "e": 138.416
+      }
+     ]
+    },
+    {
+     "text": "Et cette fois...",
+     "spoken": "Et cette fois...",
+     "start": 138.416,
+     "end": 139.056,
+     "words": [
+      {
+       "w": "Et",
+       "s": 138.416,
+       "e": 138.576
+      },
+      {
+       "w": "cette",
+       "s": 138.576,
+       "e": 138.736
+      },
+      {
+       "w": "fois...",
+       "s": 138.736,
+       "e": 139.056
+      }
+     ]
+    },
+    {
+     "text": "les attaques mortelles s'arrêtent pour de bon.",
+     "spoken": "les attaques mortelles s'arrêtent pour de bon.",
+     "start": 139.706,
+     "end": 142.046,
+     "words": [
+      {
+       "w": "les",
+       "s": 139.706,
+       "e": 139.866
+      },
+      {
+       "w": "attaques",
+       "s": 139.866,
+       "e": 140.266
+      },
+      {
+       "w": "mortelles",
+       "s": 140.266,
+       "e": 140.826
+      },
+      {
+       "w": "s'arrêtent",
+       "s": 140.826,
+       "e": 141.386
+      },
+      {
+       "w": "pour",
+       "s": 141.386,
+       "e": 141.546
+      },
+      {
+       "w": "de",
+       "s": 141.546,
+       "e": 141.786
+      },
+      {
+       "w": "bon.",
+       "s": 141.786,
+       "e": 142.046
+      }
+     ]
+    }
+   ],
+   "end": 142.347
+  },
+  {
+   "id": "fete1",
+   "start": 142.347,
+   "sentences": [
+    {
+     "text": "C'est fini...",
+     "spoken": "C'est fini...",
+     "start": 142.347,
+     "end": 142.987,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 142.347,
+       "e": 142.587
+      },
+      {
+       "w": "fini...",
+       "s": 142.587,
+       "e": 142.987
+      }
+     ]
+    },
+    {
+     "text": "c'est vraiment fini !",
+     "spoken": "c'est vraiment fini !",
+     "start": 142.987,
+     "end": 143.858,
+     "words": [
+      {
+       "w": "c'est",
+       "s": 142.987,
+       "e": 143.227
+      },
+      {
+       "w": "vraiment",
+       "s": 143.227,
+       "e": 143.467
+      },
+      {
+       "w": "fini!",
+       "s": 143.467,
+       "e": 143.858
+      }
+     ]
+    }
+   ],
+   "par": "jessica",
+   "end": 144.158
+  },
+  {
+   "id": "fete2",
+   "start": 144.158,
+   "sentences": [
+    {
+     "text": "Les enfants vont pouvoir retourner aux champs.",
+     "spoken": "Les enfants vont pouvoir retourner aux champs.",
+     "start": 144.158,
+     "end": 146.478,
+     "words": [
+      {
+       "w": "Les",
+       "s": 144.158,
+       "e": 144.398
+      },
+      {
+       "w": "enfants",
+       "s": 144.398,
+       "e": 144.798
+      },
+      {
+       "w": "vont",
+       "s": 144.798,
+       "e": 145.038
+      },
+      {
+       "w": "pouvoir",
+       "s": 145.038,
+       "e": 145.358
+      },
+      {
+       "w": "retourner",
+       "s": 145.358,
+       "e": 145.918
+      },
+      {
+       "w": "aux",
+       "s": 145.918,
+       "e": 146.105
+      },
+      {
+       "w": "champs.",
+       "s": 146.105,
+       "e": 146.478
+      }
+     ]
+    }
+   ],
+   "par": "jules",
+   "end": 146.778
+  },
+  {
+   "id": "explication",
+   "start": 146.778,
+   "sentences": [
+    {
+     "text": "Alors, c'était quoi, la Bête ?",
+     "spoken": "Alors, c'était quoi, la Bête ?",
+     "start": 146.778,
+     "end": 149.098,
+     "words": [
+      {
+       "w": "Alors,",
+       "s": 146.778,
+       "e": 147.418
+      },
+      {
+       "w": "c'était",
+       "s": 147.418,
+       "e": 147.898
+      },
+      {
+       "w": "quoi,",
+       "s": 147.898,
+       "e": 148.298
+      },
+      {
+       "w": "la",
+       "s": 148.298,
+       "e": 148.538
+      },
+      {
+       "w": "Bête?",
+       "s": 148.538,
+       "e": 149.098
+      }
+     ]
+    },
+    {
+     "text": "Pour la plupart des historiens : pas un monstre, mais plusieurs loups, qui avaient pris l'habitude d'attaquer les humains.",
+     "spoken": "Pour la plupart des historiens : pas un monstre, mais plusieurs loups, qui avaient pris l'habitude d'attaquer les humains.",
+     "start": 149.098,
+     "end": 154.698,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 149.098,
+       "e": 149.258
+      },
+      {
+       "w": "la",
+       "s": 149.258,
+       "e": 149.418
+      },
+      {
+       "w": "plupart",
+       "s": 149.418,
+       "e": 149.738
+      },
+      {
+       "w": "des",
+       "s": 149.738,
+       "e": 149.978
+      },
+      {
+       "w": "historiens:",
+       "s": 149.978,
+       "e": 150.618
+      },
+      {
+       "w": "pas",
+       "s": 150.618,
+       "e": 150.858
+      },
+      {
+       "w": "un",
+       "s": 150.858,
+       "e": 151.018
+      },
+      {
+       "w": "monstre,",
+       "s": 151.018,
+       "e": 151.418
+      },
+      {
+       "w": "mais",
+       "s": 151.418,
+       "e": 151.658
+      },
+      {
+       "w": "plusieurs",
+       "s": 151.658,
+       "e": 151.978
+      },
+      {
+       "w": "loups,",
+       "s": 151.978,
+       "e": 152.458
+      },
+      {
+       "w": "qui",
+       "s": 152.458,
+       "e": 152.618
+      },
+      {
+       "w": "avaient",
+       "s": 152.618,
+       "e": 152.858
+      },
+      {
+       "w": "pris",
+       "s": 152.858,
+       "e": 153.098
+      },
+      {
+       "w": "l'habitude",
+       "s": 153.098,
+       "e": 153.578
+      },
+      {
+       "w": "d'attaquer",
+       "s": 153.578,
+       "e": 154.138
+      },
+      {
+       "w": "les",
+       "s": 154.138,
+       "e": 154.298
+      },
+      {
+       "w": "humains.",
+       "s": 154.298,
+       "e": 154.698
+      }
+     ]
+    },
+    {
+     "text": "À l'époque, il y avait environ vingt mille loups en France.",
+     "spoken": "À l'époque, il y avait environ vingt mille loups en France.",
+     "start": 154.698,
+     "end": 157.738,
+     "words": [
+      {
+       "w": "À",
+       "s": 154.698,
+       "e": 154.858
+      },
+      {
+       "w": "l'époque,",
+       "s": 154.858,
+       "e": 155.338
+      },
+      {
+       "w": "il",
+       "s": 155.338,
+       "e": 155.578
+      },
+      {
+       "w": "y",
+       "s": 155.578,
+       "e": 155.738
+      },
+      {
+       "w": "avait",
+       "s": 155.738,
+       "e": 155.898
+      },
+      {
+       "w": "environ",
+       "s": 155.898,
+       "e": 156.218
+      },
+      {
+       "w": "vingt",
+       "s": 156.218,
+       "e": 156.538
+      },
+      {
+       "w": "mille",
+       "s": 156.538,
+       "e": 156.778
+      },
+      {
+       "w": "loups",
+       "s": 156.778,
+       "e": 157.258
+      },
+      {
+       "w": "en",
+       "s": 157.258,
+       "e": 157.338
+      },
+      {
+       "w": "France.",
+       "s": 157.338,
+       "e": 157.738
+      }
+     ]
+    },
+    {
+     "text": "D'autres chercheurs pensent à un mélange de chien et de loup.",
+     "spoken": "D'autres chercheurs pensent à un mélange de chien et de loup.",
+     "start": 157.738,
+     "end": 160.778,
+     "words": [
+      {
+       "w": "D'autres",
+       "s": 157.738,
+       "e": 158.138
+      },
+      {
+       "w": "chercheurs",
+       "s": 158.138,
+       "e": 158.618
+      },
+      {
+       "w": "pensent",
+       "s": 158.618,
+       "e": 159.018
+      },
+      {
+       "w": "à",
+       "s": 159.018,
+       "e": 159.178
+      },
+      {
+       "w": "un",
+       "s": 159.178,
+       "e": 159.258
+      },
+      {
+       "w": "mélange",
+       "s": 159.258,
+       "e": 159.658
+      },
+      {
+       "w": "de",
+       "s": 159.658,
+       "e": 159.795
+      },
+      {
+       "w": "chien",
+       "s": 159.795,
+       "e": 160.138
+      },
+      {
+       "w": "et",
+       "s": 160.138,
+       "e": 160.218
+      },
+      {
+       "w": "de",
+       "s": 160.218,
+       "e": 160.298
+      },
+      {
+       "w": "loup.",
+       "s": 160.298,
+       "e": 160.778
+      }
+     ]
+    },
+    {
+     "text": "Mais comme on parlait toujours de « la » Bête, tout le monde imaginait un seul monstre.",
+     "spoken": "Mais comme on parlait toujours de « la » Bête, tout le monde imaginait un seul monstre.",
+     "start": 160.778,
+     "end": 164.757,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 160.778,
+       "e": 160.938
+      },
+      {
+       "w": "comme",
+       "s": 160.938,
+       "e": 161.098
+      },
+      {
+       "w": "on",
+       "s": 161.098,
+       "e": 161.258
+      },
+      {
+       "w": "parlait",
+       "s": 161.258,
+       "e": 161.658
+      },
+      {
+       "w": "toujours",
+       "s": 161.658,
+       "e": 161.898
+      },
+      {
+       "w": "de",
+       "s": 161.898,
+       "e": 161.951
+      },
+      {
+       "w": "«",
+       "s": 161.951,
+       "e": 162.001
+      },
+      {
+       "w": "la",
+       "s": 161.978,
+       "e": 162.138
+      },
+      {
+       "w": "»",
+       "s": 162.138,
+       "e": 162.218
+      },
+      {
+       "w": "Bête,",
+       "s": 162.218,
+       "e": 162.698
+      },
+      {
+       "w": "tout",
+       "s": 162.698,
+       "e": 162.858
+      },
+      {
+       "w": "le",
+       "s": 162.858,
+       "e": 162.938
+      },
+      {
+       "w": "monde",
+       "s": 162.938,
+       "e": 163.281
+      },
+      {
+       "w": "imaginait",
+       "s": 163.281,
+       "e": 163.898
+      },
+      {
+       "w": "un",
+       "s": 163.898,
+       "e": 164.058
+      },
+      {
+       "w": "seul",
+       "s": 164.058,
+       "e": 164.298
+      },
+      {
+       "w": "monstre.",
+       "s": 164.298,
+       "e": 164.757
+      }
+     ]
+    }
+   ],
+   "end": 165.057
+  },
+  {
+   "id": "mythes",
+   "start": 165.057,
+   "sentences": [
+    {
+     "text": "Et les histoires de complot, avec un comte et un dresseur de bêtes ?",
+     "spoken": "Et les histoires de complot, avec un comte et un dresseur de bêtes ?",
+     "start": 165.057,
+     "end": 168.497,
+     "words": [
+      {
+       "w": "Et",
+       "s": 165.057,
+       "e": 165.297
+      },
+      {
+       "w": "les",
+       "s": 165.297,
+       "e": 165.457
+      },
+      {
+       "w": "histoires",
+       "s": 165.457,
+       "e": 165.697
+      },
+      {
+       "w": "de",
+       "s": 165.697,
+       "e": 165.857
+      },
+      {
+       "w": "complot,",
+       "s": 165.857,
+       "e": 166.497
+      },
+      {
+       "w": "avec",
+       "s": 166.497,
+       "e": 166.657
+      },
+      {
+       "w": "un",
+       "s": 166.657,
+       "e": 166.794
+      },
+      {
+       "w": "comte",
+       "s": 166.794,
+       "e": 167.137
+      },
+      {
+       "w": "et",
+       "s": 167.137,
+       "e": 167.297
+      },
+      {
+       "w": "un",
+       "s": 167.297,
+       "e": 167.377
+      },
+      {
+       "w": "dresseur",
+       "s": 167.377,
+       "e": 167.777
+      },
+      {
+       "w": "de",
+       "s": 167.777,
+       "e": 167.937
+      },
+      {
+       "w": "bêtes?",
+       "s": 167.937,
+       "e": 168.497
+      }
+     ]
+    },
+    {
+     "text": "Elles viennent de romans.",
+     "spoken": "Elles viennent de romans.",
+     "start": 168.497,
+     "end": 169.777,
+     "words": [
+      {
+       "w": "Elles",
+       "s": 168.497,
+       "e": 168.737
+      },
+      {
+       "w": "viennent",
+       "s": 168.737,
+       "e": 169.057
+      },
+      {
+       "w": "de",
+       "s": 169.057,
+       "e": 169.217
+      },
+      {
+       "w": "romans.",
+       "s": 169.217,
+       "e": 169.777
+      }
+     ]
+    },
+    {
+     "text": "Aucun document ne les prouve.",
+     "spoken": "Aucun document ne les prouve.",
+     "start": 169.777,
+     "end": 171.356,
+     "words": [
+      {
+       "w": "Aucun",
+       "s": 169.777,
+       "e": 170.177
+      },
+      {
+       "w": "document",
+       "s": 170.177,
+       "e": 170.577
+      },
+      {
+       "w": "ne",
+       "s": 170.577,
+       "e": 170.737
+      },
+      {
+       "w": "les",
+       "s": 170.737,
+       "e": 170.897
+      },
+      {
+       "w": "prouve.",
+       "s": 170.897,
+       "e": 171.356
+      }
+     ]
+    }
+   ],
+   "end": 171.656
+  },
+  {
+   "id": "aujourdhui",
+   "start": 171.656,
+   "sentences": [
+    {
+     "text": "Aujourd'hui, la Bête a même ses statues dans le Gévaudan.",
+     "spoken": "Aujourd'hui, la Bête a même ses statues dans le Gévaudan.",
+     "start": 171.656,
+     "end": 174.856,
+     "words": [
+      {
+       "w": "Aujourd'hui,",
+       "s": 171.656,
+       "e": 172.216
+      },
+      {
+       "w": "la",
+       "s": 172.216,
+       "e": 172.403
+      },
+      {
+       "w": "Bête",
+       "s": 172.403,
+       "e": 172.776
+      },
+      {
+       "w": "a",
+       "s": 172.776,
+       "e": 172.936
+      },
+      {
+       "w": "même",
+       "s": 172.936,
+       "e": 173.256
+      },
+      {
+       "w": "ses",
+       "s": 173.256,
+       "e": 173.416
+      },
+      {
+       "w": "statues",
+       "s": 173.416,
+       "e": 173.736
+      },
+      {
+       "w": "dans",
+       "s": 173.736,
+       "e": 173.816
+      },
+      {
+       "w": "le",
+       "s": 173.816,
+       "e": 173.896
+      },
+      {
+       "w": "Gévaudan.",
+       "s": 173.896,
+       "e": 174.856
+      }
+     ]
+    },
+    {
+     "text": "Une histoire répétée partout peut devenir une légende...",
+     "spoken": "Une histoire répétée partout peut devenir une légende...",
+     "start": 174.856,
+     "end": 177.656,
+     "words": [
+      {
+       "w": "Une",
+       "s": 174.856,
+       "e": 175.016
+      },
+      {
+       "w": "histoire",
+       "s": 175.016,
+       "e": 175.336
+      },
+      {
+       "w": "répétée",
+       "s": 175.336,
+       "e": 175.896
+      },
+      {
+       "w": "partout",
+       "s": 175.896,
+       "e": 176.296
+      },
+      {
+       "w": "peut",
+       "s": 176.296,
+       "e": 176.536
+      },
+      {
+       "w": "devenir",
+       "s": 176.536,
+       "e": 176.936
+      },
+      {
+       "w": "une",
+       "s": 176.936,
+       "e": 177.096
+      },
+      {
+       "w": "légende...",
+       "s": 177.096,
+       "e": 177.656
+      }
+     ]
+    },
+    {
+     "text": "même quand la vérité est plus simple.",
+     "spoken": "même quand la vérité est plus simple.",
+     "start": 177.656,
+     "end": 179.363,
+     "words": [
+      {
+       "w": "même",
+       "s": 177.656,
+       "e": 177.976
+      },
+      {
+       "w": "quand",
+       "s": 177.976,
+       "e": 178.136
+      },
+      {
+       "w": "la",
+       "s": 178.136,
+       "e": 178.296
+      },
+      {
+       "w": "vérité",
+       "s": 178.296,
+       "e": 178.616
+      },
+      {
+       "w": "est",
+       "s": 178.616,
+       "e": 178.776
+      },
+      {
+       "w": "plus",
+       "s": 178.776,
+       "e": 178.936
+      },
+      {
+       "w": "simple.",
+       "s": 178.936,
+       "e": 179.363
+      }
+     ]
+    }
+   ],
+   "end": 179.663
+  },
+  {
+   "id": "cta",
+   "start": 179.663,
+   "sentences": [
+    {
+     "text": "Et toi, tu penses que c'était des loups, ou autre chose ?",
+     "spoken": "Et toi, tu penses que c'était des loups, ou autre chose ?",
+     "start": 179.663,
+     "end": 182.543,
+     "words": [
+      {
+       "w": "Et",
+       "s": 179.663,
+       "e": 179.823
+      },
+      {
+       "w": "toi,",
+       "s": 179.823,
+       "e": 180.223
+      },
+      {
+       "w": "tu",
+       "s": 180.223,
+       "e": 180.383
+      },
+      {
+       "w": "penses",
+       "s": 180.383,
+       "e": 180.623
+      },
+      {
+       "w": "que",
+       "s": 180.623,
+       "e": 180.703
+      },
+      {
+       "w": "c'était",
+       "s": 180.703,
+       "e": 181.103
+      },
+      {
+       "w": "des",
+       "s": 181.103,
+       "e": 181.263
+      },
+      {
+       "w": "loups,",
+       "s": 181.263,
+       "e": 181.583
+      },
+      {
+       "w": "ou",
+       "s": 181.583,
+       "e": 181.743
+      },
+      {
+       "w": "autre",
+       "s": 181.743,
+       "e": 181.983
+      },
+      {
+       "w": "chose?",
+       "s": 181.983,
+       "e": 182.543
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 182.543,
+     "end": 183.843,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 182.543,
+       "e": 183.183
+      },
+      {
+       "w": "en",
+       "s": 183.183,
+       "e": 183.343
+      },
+      {
+       "w": "commentaire.",
+       "s": 183.343,
+       "e": 183.843
+      }
+     ]
+    }
+   ],
+   "end": 184.371
+  }
+ ]
+}

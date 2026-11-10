@@ -284,3 +284,301 @@ export function baton(l = 1.3) {
   tige(g, mat("#7A5A3C"), 0.018, l, 0, -0.1, 0);
   return g;
 }
+
+// ---------------------------------------------------------------- village and countryside of the 1760s
+// (granite walls and dark stone-slab roofs, as in the Gévaudan; every piece stands on y = 0, 1 unit = 1 m)
+const pierre = c => mat(c, { roughness: 0.95, flatShading: true });
+function bloc(g, m, w, h, d, x, y0, z, ry = 0) { const b = boite(g, m, w, h, d, x, y0 + h / 2, z); b.rotation.y = ry; return b; }
+// a roof prism: base w (across), height h, length l, ridge along X
+function toit(g, m, w, h, l, x, y0, z) {
+  const s = new THREE.Shape(); s.moveTo(-w / 2, 0); s.lineTo(w / 2, 0); s.lineTo(0, h); s.closePath();
+  const geo = new THREE.ExtrudeGeometry(s, { depth: l, bevelEnabled: false }); geo.translate(0, 0, -l / 2);
+  const t = new THREE.Mesh(geo, m); t.rotation.y = Math.PI / 2; t.position.set(x, y0, z); t.castShadow = t.receiveShadow = true; g.add(t); return t;
+}
+const vitre = nuit => nuit ? mat("#3A2E1E", { emissive: "#FFC874", emissiveIntensity: 1.1 }) : mat("#2D343C", { roughness: 0.25, metalness: 0.3 });
+/** Stone house facing +Z: door, shuttered windows (lit from inside at night), slab roof and chimney. */
+export function maison({ w = 3.2, d = 2.6, h = 2.3, mur = "#A39A8C", couverture = "#4B5058", volets = "#6B4E3A", nuit = false, etage = false } = {}) {
+  const g = new THREE.Group(); g.name = "maison";
+  const H = etage ? h + 1.4 : h;
+  bloc(g, pierre(mur), w, H, d, 0, 0, 0);
+  toit(g, pierre(couverture), d + 0.5, 1.15, w + 0.4, 0, H, 0);
+  bloc(g, pierre(mur), 0.42, 1.2, 0.42, w * 0.28, H + 0.3, -d * 0.15);
+  bloc(g, mat("#5A3E2B"), 0.8, 1.65, 0.08, -w * 0.22, 0, d / 2 + 0.02);
+  const fen = (x, y) => {
+    bloc(g, vitre(nuit), 0.6, 0.62, 0.06, x, y, d / 2 + 0.02);
+    for (const s of [-1, 1]) bloc(g, mat(volets), 0.3, 0.66, 0.05, x + s * 0.47, y - 0.02, d / 2 + 0.03);
+  };
+  fen(w * 0.2, 0.95);
+  if (etage) { fen(-w * 0.22, 2.45); fen(w * 0.2, 2.45); }
+  return g;
+}
+/** Village church: nave, square bell tower with a pyramid roof and a cross, arched door. */
+export function eglise({ mur = "#B3AA9A", couverture = "#454A52" } = {}) {
+  const g = new THREE.Group(); g.name = "eglise";
+  bloc(g, pierre(mur), 4.2, 3.4, 7, 0, 0, -2.5);
+  toit(g, pierre(couverture), 4.8, 1.8, 7.3, 0, 3.4, -2.5).rotation.y = 0;
+  bloc(g, pierre(mur), 2.4, 7.2, 2.4, 0, 0, 1.6);
+  const fleche = new THREE.Mesh(new THREE.ConeGeometry(1.85, 2.6, 4), pierre(couverture)); fleche.rotation.y = Math.PI / 4; fleche.position.set(0, 8.5, 1.6); fleche.castShadow = true; g.add(fleche);
+  bloc(g, mat("#1E2126"), 0.7, 0.9, 0.1, 0, 5.6, 2.82);
+  const fer = mat("#2A2C30", { metalness: 0.5 });
+  bloc(g, fer, 0.08, 0.9, 0.08, 0, 9.75, 1.6); bloc(g, fer, 0.5, 0.08, 0.08, 0, 10.3, 1.6);
+  bloc(g, mat("#4E3626"), 1.1, 1.9, 0.1, 0, 0, 2.82);
+  const arc = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.1, 20, 1, false, 0, Math.PI), mat("#4E3626"));
+  arc.rotation.set(Math.PI / 2, 0, -Math.PI / 2); arc.position.set(0, 1.9, 2.82); g.add(arc);
+  return g;
+}
+/** Round village fountain: stone basin with water, a column and a spout. */
+export function fontaine() {
+  const g = new THREE.Group(); g.name = "fontaine";
+  const p = pierre("#9C9486");
+  const bassin = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.12, 0.55, 28), p); bassin.position.y = 0.275; bassin.castShadow = bassin.receiveShadow = true; g.add(bassin);
+  const eau = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.95, 0.02, 28), mat("#7FA6B8", { roughness: 0.1, metalness: 0.2 })); eau.position.y = 0.5; g.add(eau);
+  tige(g, p, 0.16, 1.4, 0, 0.7, 0);
+  const coupe = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.2, 0.2, 20), p); coupe.position.y = 1.45; coupe.castShadow = true; g.add(coupe);
+  return g;
+}
+/** Wash-house: a long stone basin of water under a roof on four posts, laundry on the rim. */
+export function lavoir() {
+  const g = new THREE.Group(); g.name = "lavoir";
+  const p = pierre("#A0988A"), bois = mat("#5E4634");
+  bloc(g, p, 3.4, 0.55, 0.2, 0, 0, 0.7); bloc(g, p, 3.4, 0.55, 0.2, 0, 0, -0.7); bloc(g, p, 0.2, 0.55, 1.6, -1.6, 0, 0); bloc(g, p, 0.2, 0.55, 1.6, 1.6, 0, 0);
+  bloc(g, mat("#7AA2B2", { roughness: 0.08, metalness: 0.25 }), 3.0, 0.03, 1.2, 0, 0.42, 0);
+  for (const x of [-1.9, 1.9]) for (const z of [-1.3, 1.3]) bloc(g, bois, 0.16, 2.5, 0.16, x, 0, z);
+  toit(g, pierre("#4E535B"), 3.2, 0.9, 4.4, 0, 2.5, 0);
+  ["#F2EFE8", "#D9D2C2", "#C8D4DE"].forEach((c, i) => bloc(g, mat(c, { roughness: 1 }), 0.5, 0.05, 0.35, -1.0 + i * 0.9, 0.55, 0.7));
+  return g;
+}
+/** Low dry-stone wall along X. */
+export function muret(l = 4) { const g = new THREE.Group(); g.name = "muret"; bloc(g, pierre("#8F887C"), l, 0.7, 0.45, 0, 0, 0); return g; }
+/** Granite boulder (seeded shape). */
+export function rocher(s = 1, graine = 1) {
+  const g = new THREE.Group(); g.name = "rocher";
+  const r = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 0), pierre("#8E8A82"));
+  r.scale.set(s * (0.9 + (graine * 37 % 10) / 25), s * (0.55 + (graine * 53 % 10) / 40), s * (0.8 + (graine * 71 % 10) / 30));
+  r.rotation.set(graine * 0.7, graine * 1.3, 0); r.position.y = r.scale.y * 0.6; r.castShadow = r.receiveShadow = true; g.add(r);
+  return g;
+}
+/** Broad-leaved tree: autumn colours, summer green, or bare in winter (feuilles = null). */
+export function feuillu(h = 4, feuilles = "#C8742E", graine = 1) {
+  const g = new THREE.Group(); g.name = "arbre";
+  const ecorce = mat("#5A4636");
+  tige(g, ecorce, 0.13, h * 0.55, 0, h * 0.275, 0);
+  for (let i = 0; i < 4; i++) {
+    const a = graine + i * 1.7, b = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.07, h * 0.35, 8), ecorce);
+    b.position.set(Math.cos(a) * 0.25, h * (0.55 + i * 0.05), Math.sin(a) * 0.25); b.rotation.set(Math.sin(a) * 0.7, 0, -Math.cos(a) * 0.7); b.castShadow = true; g.add(b);
+  }
+  if (feuilles) for (let i = 0; i < 5; i++) {
+    const a = graine * 2.1 + i * 1.26, r = h * (0.2 + ((graine + i) * 13 % 5) / 40);
+    const f = new THREE.Mesh(new THREE.IcosahedronGeometry(r, 1), mat(feuilles, { roughness: 0.9, flatShading: true }));
+    f.position.set(Math.cos(a) * h * 0.14 * (i ? 1 : 0), h * (0.72 + (i ? 0.02 * i : 0.12)), Math.sin(a) * h * 0.14 * (i ? 1 : 0)); f.castShadow = true; g.add(f);
+  }
+  return g;
+}
+/** Fir tree under snow: the fir with a white cap on every tier. */
+export function sapinNeige(h = 2.8) {
+  const g = sapin(h, "#2C4F43");
+  for (let i = 0; i < 3; i++) {
+    const c = new THREE.Mesh(new THREE.ConeGeometry(h * (0.3 - i * 0.065) * 0.75, h * 0.22, 10), mat("#F4F6F8", { roughness: 1 }));
+    c.position.y = h * (0.52 + i * 0.19); g.add(c);
+  }
+  return g;
+}
+/** Field of strips (crops of different colours) on the ground, along X. */
+export function champs(w = 12, d = 6, couleurs = ["#B8A85C", "#93A05E", "#C4B46A", "#879A57"]) {
+  const g = new THREE.Group();
+  const n = couleurs.length * 2;
+  for (let i = 0; i < n; i++) {
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(w, d / n), mat(couleurs[i % couleurs.length], { roughness: 1 }));
+    p.rotation.x = -Math.PI / 2; p.position.set(0, 0.004, -d / 2 + (i + 0.5) * d / n); p.receiveShadow = true; g.add(p);
+  }
+  return g;
+}
+/** A strip of ground (path, road, river) along X, w wide. */
+export function bande(l = 20, w = 1.6, couleur = "#A8916E", o = {}) {
+  const p = new THREE.Mesh(new THREE.PlaneGeometry(l, w), mat(couleur, { roughness: 1, ...o }));
+  p.rotation.x = -Math.PI / 2; p.position.y = 0.006; p.receiveShadow = true;
+  return p;
+}
+/** Bunting: little coloured flags on a rope from a to b ([x, y, z]). */
+export function fanions(a, b, couleurs = ["#C8322B", "#F4F1EA", "#2F5D9A", "#E2B53E"]) {
+  const g = new THREE.Group(), A = new THREE.Vector3(...a), B = new THREE.Vector3(...b), n = Math.round(A.distanceTo(B) / 0.45);
+  for (let i = 0; i <= n; i++) {
+    const p = A.clone().lerp(B, i / n); p.y -= 0.35 * Math.sin(Math.PI * i / n);
+    if (i < n) {
+      const s = new THREE.Shape(); s.moveTo(-0.14, 0); s.lineTo(0.14, 0); s.lineTo(0, -0.3); s.closePath();
+      const f = new THREE.Mesh(new THREE.ShapeGeometry(s), mat(couleurs[i % couleurs.length], { side: THREE.DoubleSide }));
+      f.position.copy(p); f.lookAt(p.x, p.y, p.z + 1); g.add(f);
+    }
+  }
+  const corde = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([A, A.clone().lerp(B, 0.5).setY((A.y + B.y) / 2 - 0.35), B]), 20, 0.01, 4), mat("#3A3A3A"));
+  g.add(corde);
+  return g;
+}
+
+// ---------------------------------------------------------------- interiors
+/** A room seen from its open front: floor, back and side walls, ceiling beams (no ceiling, so the light gets in).
+ *  fenetres: [[wall "fond"|"gauche"|"droite", position along the wall, height of the sill, width, height]]. */
+export function piece({ w = 6, d = 5, h = 3.2, sol = "#7E6550", mur = "#C9BBA3", poutres = "#4A3628", fenetres = [], nuit = false, plancher = true } = {}) {
+  const g = new THREE.Group();
+  const m = mat(mur, { roughness: 0.95 });
+  const f = new THREE.Mesh(new THREE.BoxGeometry(w, 0.05, d), mat(sol, { roughness: 0.9 })); f.position.y = -0.02; f.receiveShadow = true; g.add(f);
+  if (plancher) for (let i = 1; i < Math.round(w / 0.3); i++) { const l = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.052, d), mat("#5E4A3A")); l.position.set(-w / 2 + i * 0.3, -0.02, 0); g.add(l); }
+  bloc(g, m, w, h, 0.2, 0, 0, -d / 2); bloc(g, m, 0.2, h, d, -w / 2, 0, 0); bloc(g, m, 0.2, h, d, w / 2, 0, 0);
+  for (let z = -d / 2 + 0.6; z < d / 2; z += 1.2) bloc(g, mat(poutres), w, 0.22, 0.2, 0, h - 0.22, z);
+  const verre = nuit ? mat("#1C2638", { emissive: "#24304A", emissiveIntensity: 0.6 }) : mat("#DCE7EE", { emissive: "#EAF2F6", emissiveIntensity: 0.85 });
+  for (const [mur_, p, y, fw, fh] of fenetres) {
+    const fen = new THREE.Group();
+    bloc(fen, verre, fw, fh, 0.04, 0, y, 0.11);
+    const bois = mat(poutres);
+    bloc(fen, bois, fw + 0.14, 0.08, 0.1, 0, y - 0.07, 0.13); bloc(fen, bois, fw + 0.14, 0.08, 0.1, 0, y + fh, 0.13);
+    bloc(fen, bois, 0.07, fh, 0.08, 0, y, 0.14); bloc(fen, bois, fw, 0.05, 0.08, 0, y + fh / 2, 0.14);
+    if (mur_ === "fond") fen.position.set(p, 0, -d / 2);
+    else { fen.position.set(mur_ === "gauche" ? -w / 2 : w / 2, 0, p); fen.rotation.y = mur_ === "gauche" ? Math.PI / 2 : -Math.PI / 2; }
+    g.add(fen);
+  }
+  return g;
+}
+/** Wooden barrel. */
+export function tonneau() {
+  const g = new THREE.Group(); g.name = "tonneau";
+  const pts = [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9].map(y => new THREE.Vector2(0.3 + 0.07 * Math.sin(Math.PI * y / 0.9), y));
+  const c = new THREE.Mesh(new THREE.LatheGeometry(pts, 18), mat("#7B5534")); c.castShadow = c.receiveShadow = true; g.add(c);
+  const dessus = new THREE.Mesh(new THREE.CircleGeometry(0.3, 18), mat("#6A4A2E")); dessus.rotation.x = -Math.PI / 2; dessus.position.y = 0.9; g.add(dessus);
+  for (const y of [0.18, 0.72]) { const r = new THREE.Mesh(new THREE.TorusGeometry(0.355, 0.015, 6, 24), mat("#3A3C40", { metalness: 0.5 })); r.rotation.x = Math.PI / 2; r.position.y = y; g.add(r); }
+  return g;
+}
+/** Bench, l long, along X. */
+export function banc(l = 1.6, couleur = "#6E5038") {
+  const g = new THREE.Group(); g.name = "banc";
+  const m = mat(couleur);
+  bloc(g, m, l, 0.06, 0.32, 0, 0.42, 0);
+  for (const x of [-l / 2 + 0.12, l / 2 - 0.12]) bloc(g, m, 0.06, 0.42, 0.28, x, 0, 0);
+  return g;
+}
+/** Shelves full of books against a wall (back at z = 0, facing +Z). */
+export function etagere(w = 2, h = 2.4, graine = 1, bois = "#5E4433") {
+  const g = new THREE.Group(); g.name = "etagere";
+  const m = mat(bois), cols = ["#7A2E2E", "#2E4A6B", "#3D5E3A", "#8C6A2E", "#4A3A5E", "#9A8C70", "#2A2A2A"];
+  bloc(g, m, w, h, 0.05, 0, 0, -0.17); bloc(g, m, 0.05, h, 0.38, -w / 2, 0, 0); bloc(g, m, 0.05, h, 0.38, w / 2, 0, 0);
+  let a = graine * 9301 + 49297;
+  const r = () => ((a = (a * 9301 + 49297) % 233280) / 233280);
+  for (let y = 0.05; y < h - 0.3; y += 0.46) {
+    bloc(g, m, w, 0.04, 0.38, 0, y, 0);
+    for (let x = -w / 2 + 0.06; x < w / 2 - 0.12;) {
+      const bw = 0.04 + r() * 0.05, bh = 0.26 + r() * 0.12;
+      bloc(g, mat(cols[Math.floor(r() * cols.length)]), bw, bh, 0.26, x + bw / 2, y + 0.04, 0.02);
+      x += bw + 0.005;
+    }
+  }
+  return g;
+}
+/** Wooden hand press of a printing shop (18th century), facing +Z. */
+export function presse() {
+  const g = new THREE.Group(); g.name = "presse";
+  const b = mat("#5C4230"), fer = mat("#3A3C40", { metalness: 0.6, roughness: 0.4 });
+  for (const x of [-0.55, 0.55]) bloc(g, b, 0.16, 2.2, 0.2, x, 0, 0);
+  bloc(g, b, 1.4, 0.24, 0.26, 0, 2.0, 0); bloc(g, b, 1.26, 0.2, 0.26, 0, 1.45, 0);
+  tige(g, fer, 0.05, 0.4, 0, 1.25, 0);
+  bloc(g, fer, 0.7, 0.07, 0.5, 0, 1.02, 0.05);
+  bloc(g, b, 0.9, 0.1, 1.5, 0, 0.82, 0.4); for (const x of [-0.4, 0.4]) bloc(g, b, 0.08, 0.82, 0.08, x, 0, 1.05);
+  bloc(g, mat("#F2EDE0"), 0.5, 0.01, 0.38, 0, 0.93, 0.75);
+  const levier = tige(g, fer, 0.025, 0.8, 0.4, 1.3, 0.3, [0, 0.6, Math.PI / 2]);
+  levier.rotation.set(0, 0.5, Math.PI / 2);
+  return g;
+}
+/** Printed sheets drying on a line from x0 to x1 at height y (along X). */
+export function sechoir(x0 = -2, x1 = 2, y = 2.4, n = 8) {
+  const g = new THREE.Group();
+  tige(g, mat("#3A3A3A"), 0.008, x1 - x0, (x0 + x1) / 2, y, 0, [0, 0, Math.PI / 2]);
+  for (let i = 0; i < n; i++) {
+    const tex = texte([["LA BÊTE", 70], ["", 20], ["≡≡≡≡≡≡≡≡", 40, "MontS"], ["≡≡≡≡≡≡≡≡", 40, "MontS"], ["≡≡≡≡≡≡≡≡", 40, "MontS"]], { w: 256, h: 340, fond: "#F2EDE0", encre: "#2A2C33" });
+    const f = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.48), new THREE.MeshStandardMaterial({ map: tex, side: THREE.DoubleSide, roughness: 1 }));
+    f.position.set(x0 + (i + 0.5) * (x1 - x0) / n, y - 0.25, 0); f.rotation.y = (i % 2 - 0.5) * 0.15; g.add(f);
+  }
+  return g;
+}
+/** Marble column with base and capital (palace). */
+export function colonne(h = 4, couleur = "#E8E2D6", or = "#C9A23E") {
+  const g = new THREE.Group(); g.name = "colonne";
+  tige(g, mat(couleur, { roughness: 0.35 }), 0.24, h - 0.5, 0, h / 2, 0);
+  bloc(g, mat(couleur, { roughness: 0.35 }), 0.7, 0.25, 0.7, 0, 0, 0);
+  bloc(g, mat(or, { metalness: 0.7, roughness: 0.3 }), 0.66, 0.25, 0.66, 0, h - 0.25, 0);
+  return g;
+}
+/** Throne on a dais with a red carpet, facing +Z. */
+export function trone() {
+  const g = new THREE.Group(); g.name = "trone";
+  const rouge = mat("#8E1F24", { roughness: 0.7 }), or = mat("#D2A73F", { metalness: 0.8, roughness: 0.3 });
+  bloc(g, rouge, 2.6, 0.3, 2.0, 0, 0, 0);
+  bloc(g, rouge, 0.8, 0.12, 0.7, 0, 0.75, 0); bloc(g, rouge, 0.8, 1.5, 0.12, 0, 0.75, -0.32);
+  bloc(g, or, 0.92, 0.1, 0.16, 0, 2.25, -0.32);
+  for (const x of [-0.42, 0.42]) { bloc(g, or, 0.08, 0.95, 0.08, x, 0.3, 0.3); bloc(g, or, 0.08, 1.95, 0.08, x, 0.3, -0.32); bloc(g, or, 0.08, 0.08, 0.66, x, 0.95, 0); }
+  const tapis = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 6), rouge); tapis.rotation.x = -Math.PI / 2; tapis.position.set(0, 0.01, 4); tapis.receiveShadow = true; g.add(tapis);
+  return g;
+}
+/** Wall panel: a framed mirror (galerie des Glaces), a painting, or a window, w × h, its back on the wall. */
+export function cadre(w = 1.2, h = 2, interieur = "miroir") {
+  const g = new THREE.Group();
+  const or = mat("#C9A23E", { metalness: 0.75, roughness: 0.3 });
+  const fond = interieur === "miroir" ? mat("#BFCBD3", { metalness: 0.85, roughness: 0.12, emissive: "#8FA3B3", emissiveIntensity: 0.25 })
+    : interieur === "fenetre" ? mat("#DCE7EE", { emissive: "#EAF2F6", emissiveIntensity: 0.85 }) : mat(interieur, { roughness: 0.8 });
+  bloc(g, fond, w, h, 0.03, 0, 0, 0.02);
+  bloc(g, or, w + 0.16, 0.08, 0.06, 0, -0.08, 0.04); bloc(g, or, w + 0.16, 0.08, 0.06, 0, h, 0.04);
+  bloc(g, or, 0.08, h, 0.06, -w / 2 - 0.04, 0, 0.04); bloc(g, or, 0.08, h, 0.06, w / 2 + 0.04, 0, 0.04);
+  return g;
+}
+/** Small round café table. */
+export function gueridon(r = 0.4, couleur = "#6B4A33") {
+  const g = new THREE.Group(); g.name = "table";
+  const m = mat(couleur);
+  const p = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.04, 24), m); p.position.y = 0.74; p.castShadow = p.receiveShadow = true; g.add(p);
+  tige(g, m, 0.04, 0.72, 0, 0.36, 0);
+  const pied = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.25, 0.04, 16), m); pied.position.y = 0.02; g.add(pied);
+  return g;
+}
+
+// ---------------------------------------------------------------- today
+/** Glass display case on a base (museum). */
+export function vitrine(w = 2.2, h = 1.4, d = 1.1) {
+  const g = new THREE.Group(); g.name = "vitrine";
+  bloc(g, mat("#E9E6E0"), w, 0.6, d, 0, 0, 0);
+  const verre = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({ color: "#DDEFF5", transparent: true, opacity: 0.16, roughness: 0.05, depthWrite: false }));
+  verre.position.y = 0.6 + h / 2; g.add(verre);
+  const arete = mat("#B9B4AC", { metalness: 0.6 });
+  for (const x of [-w / 2, w / 2]) for (const z of [-d / 2, d / 2]) bloc(g, arete, 0.03, h, 0.03, x, 0.6, z);
+  return g;
+}
+/** Building front of a small town today (facade along X, facing +Z), its windows printed on it. */
+export function immeuble(w = 5, h = 7, couleur = "#D9CBB4", graine = 1) {
+  const g = new THREE.Group(); g.name = "maison";
+  const c = document.createElement("canvas"); c.width = 256; c.height = Math.round(256 * h / w);
+  const x = c.getContext("2d"); x.fillStyle = couleur; x.fillRect(0, 0, c.width, c.height);
+  const cols = Math.round(w / 1.4), rows = Math.round(h / 2.2);
+  for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+    const cx = (i + 0.5) * c.width / cols, cy = (j + 0.5) * c.height / rows;
+    x.fillStyle = "#4A5A66"; x.fillRect(cx - 14, cy - 22, 28, 40);
+    x.fillStyle = (i + j + graine) % 3 ? "#6B7F8C" : "#55636E"; x.fillRect(cx - 11, cy - 19, 22, 34);
+  }
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  const m = mat(couleur);
+  const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, 3), [m, m, mat("#5A5E66"), m, mat("#FFFFFF", { map: tex }), m]);
+  b.position.y = h / 2; b.castShadow = b.receiveShadow = true; g.add(b);
+  return g;
+}
+/** Street lamp (electric). */
+export function lampadaire(h = 3.6) {
+  const g = new THREE.Group(); g.name = "lampadaire";
+  const m = mat("#2C3036", { metalness: 0.5 });
+  tige(g, m, 0.05, h, 0, h / 2, 0);
+  bloc(g, m, 0.3, 0.3, 0.3, 0, h, 0);
+  bloc(g, mat("#FFF4DA", { emissive: "#FFE9B8", emissiveIntensity: 0.6 }), 0.24, 0.22, 0.24, 0, h + 0.03, 0);
+  return g;
+}
+/** A newspaper of the time lying flat (to put on a table): "Courrier d'Avignon", a headline about the Beast. */
+export function gazette() {
+  const g = new THREE.Group();
+  const tex = texte([["COURRIER D'AVIGNON", 44], ["", 10], ["LA BÊTE DU GÉVAUDAN", 52], ["≡≡≡≡≡≡≡≡≡≡", 40, "MontS"], ["≡≡≡≡≡≡≡≡≡≡", 40, "MontS"]], { w: 512, h: 640, fond: "#F2EDE0", encre: "#2A2C33" });
+  const f = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.004, 0.46), [mat("#F2EDE0"), mat("#F2EDE0"), mat("#FFFFFF", { map: tex }), mat("#F2EDE0"), mat("#F2EDE0"), mat("#F2EDE0")]);
+  f.position.y = 0.003; f.receiveShadow = true; g.add(f);
+  return g;
+}

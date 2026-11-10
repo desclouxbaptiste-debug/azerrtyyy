@@ -126,5 +126,7 @@ export const TENUES = {
   noble: { chapeau: "tricorne", perruque: true, gilet: "#D9C9A0", veste: { couleur: "#7B2D3A", longue: true }, manches: "#7B2D3A", poignets: "#FAFAF5", culotte: "#7B2D3A", bas: "#F4F1EA", souliers: "#1E1F24", jabot: true },
   courtisan: { perruque: true, gilet: "#E2D5B0", veste: { couleur: "#3B4F7A", longue: true }, manches: "#3B4F7A", poignets: "#FAFAF5", culotte: "#3B4F7A", bas: "#F4F1EA", souliers: "#1E1F24", jabot: true },
   roi: { perruque: true, sansDessus: true, gilet: "#E2C26A", veste: { couleur: "#2A3E86", longue: true }, manches: "#2A3E86", poignets: "#FAFAF5", culotte: "#2A3E86", bas: "#F4F1EA", souliers: "#1E1F24", jabot: true, manteau: { couleur: "#1F3A8A" } },
+  dame: { perruque: true, gilet: "#E8D3D8", fichu: "#FAFAF5", manches: "#A8738A", poignets: "#FAFAF5", jupe: "#8E5A72", souliers: "#2B2420" },
+  imprimeur: { chapeau: "feutre", gilet: "#5C5246", manches: "#EDE6D6", culotte: "#3E3A36", bas: "#BDB7AC", souliers: "#2B2420" },
   ecrivain: { perruque: true, gilet: "#8A7A5C", veste: { couleur: "#2E3A4E", longue: true }, manches: "#2E3A4E", poignets: "#FAFAF5", culotte: "#2E3A4E", bas: "#E9E5DC", souliers: "#1E1F24", jabot: true },
 };
