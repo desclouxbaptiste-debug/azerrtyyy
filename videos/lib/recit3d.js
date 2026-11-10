@@ -214,6 +214,55 @@ function render(t, o) {
   if (e > 0) { ctx.fillStyle = `rgba(0,0,0,${e})`; ctx.fillRect(0, 0, W, H); }
 }
 
+// ---------------------------------------------------------------- check: nobody walks through anybody
+// window.__collisions(t) poses the set on screen at t and lists the solid things (figures, wolves, trees, sheep,
+// tables) whose shapes overlap by more than `marge` metres: each is a set of tight boxes, one per mesh (cones, i.e.
+// fir trees, as three stacked boxes), so arms or hats count but the empty air around them does not.
+const SOLIDES = /^(quidam|loup|sapin|mouton|table)/, bx = new THREE.Box3(), echelle = new THREE.Vector3();
+function solides(o, out) {
+  if (!o.visible) return out;
+  if (SOLIDES.test(o.name)) { o.getWorldScale(echelle); if (echelle.y > 0.05) out.push(o); return out; }
+  for (const c of o.children) solides(c, out);
+  return out;
+}
+function boites(o) {
+  const out = [];
+  o.traverse(m => {
+    if (!m.isMesh || !m.visible) return;
+    let v = m; while (v) { if (!v.visible) return; v = v.parent; }
+    bx.setFromObject(m, true);
+    if (m.geometry.type === "ConeGeometry") {
+      const c = bx.getCenter(new THREE.Vector3()), s = bx.getSize(new THREE.Vector3());
+      for (let k = 0; k < 3; k++) {
+        const f = 0.85 * (1 - k / 3), y0 = bx.min.y + s.y * k / 3;
+        out.push(new THREE.Box3(new THREE.Vector3(c.x - s.x / 2 * f, y0, c.z - s.z / 2 * f), new THREE.Vector3(c.x + s.x / 2 * f, y0 + s.y / 3, c.z + s.z / 2 * f)));
+      }
+    } else out.push(bx.clone());
+  });
+  return out;
+}
+window.__collisions = (t, marge = 0.03) => {
+  let i = R.ORDER.findIndex(id => t < R.SEG[id].next);
+  if (i < 0) i = R.ORDER.length - 1;
+  const id = R.ORDER[i], sh = SHOTS[id];
+  for (const k in SHOTS) SHOTS[k].g.visible = k === id;
+  sh.update(t); sh.g.updateMatrixWorld(true);
+  const corps = solides(sh.g, []).map(o => {
+    const p = o.getWorldPosition(new THREE.Vector3());
+    return { nom: `${o.name}@${p.x.toFixed(1)},${p.z.toFixed(1)}`, b: boites(o) };
+  });
+  const res = [];
+  for (let a = 0; a < corps.length; a++) for (let b = a + 1; b < corps.length; b++) {
+    let pire = 0;
+    for (const u of corps[a].b) for (const v of corps[b].b) {
+      const d = Math.min(Math.min(u.max.x, v.max.x) - Math.max(u.min.x, v.min.x), Math.min(u.max.y, v.max.y) - Math.max(u.min.y, v.min.y), Math.min(u.max.z, v.max.z) - Math.max(u.min.z, v.min.z));
+      if (d > pire) pire = d;
+    }
+    if (pire > marge) res.push({ id, a: corps[a].nom, b: corps[b].nom, d: +pire.toFixed(3) });
+  }
+  return res;
+};
+
 /** Loads timings.json, schedules the sounds, exposes window.render / window.TIMELINE.
  *  { chapitres: {segId: label}, mentions: {segId: "Reconstitution" | "Illustration"},
  *    sources: { titre, lignes: [[text, size, font?], …], duree }, musique: {style…} or () => {style…},

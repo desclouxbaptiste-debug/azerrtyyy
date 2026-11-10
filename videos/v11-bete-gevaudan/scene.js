@@ -1,11 +1,12 @@
 // La Bête du Gévaudan (1764-1767), about two minutes, simple words, staged with the Quidams and narrated by a generic
 // native French library voice (Piper, "Tom"). The Beast is never shown attacking: eyes in the woods, a shadow that
-// grows with the rumours, wolves standing still. TikTok rules of the brief (lib/recit3d.js): no flash or sudden sound,
-// nobody speaks, every scene labelled "Reconstitution" or "Illustration", sources at the end.
+// grows with the rumours, a wolf that walks, stops, looks, and goes away. TikTok rules of the brief (lib/recit3d.js):
+// no flash or sudden sound, nobody speaks, every scene labelled "Reconstitution" or "Illustration", sources at the end.
+// Nobody walks through anybody: lib/collisions.mjs checks every set.
 import * as THREE from "three";
 import { plateau, figure, auDessus, tourneVers, chemin, revele, encre, tampon, st, S, E, wt, INK, demarrer } from "../lib/recit3d.js";
 import { LUMIERES } from "../lib/studio3d.js";
-import { creerFoule, fenetre } from "../lib/quidams.js";
+import { creerFoule, fenetre, VITESSE_MARCHE } from "../lib/quidams.js";
 import { table, livre, couronne, sapin, pre, colline, mouton, loup, baton } from "../lib/decors3d.js";
 import { habiller, TENUES } from "../lib/costumes.js";
 
@@ -51,11 +52,47 @@ function ombreBete(x, y, s, alpha, yeux = 1) {
   }
   ctx.restore();
 }
-function bete(g, x, z, o = {}) {
-  const b = loup(o);
+// the Beast as the witnesses described it (a big wolf with a big head); ordinary wolves get tete: 1
+function bete(g, x, z, { taille = 0.85, ...o } = {}) {
+  const b = loup({ tete: 1.12, ...o });
+  b.scale.setScalar(taille);
   b.position.set(x, 0, z);
   g.add(b);
   return b;
+}
+// walking a path: the wolf sets off at t0, walks at about v m/s and stops smoothly at the end; its paws follow the
+// ground (the gait is driven by the distance walked) and it turns with the path. cap0: the heading it had before
+// (it turns on the spot from there over the first half metre). tete: [yaw, pitch] of the head.
+const lisse = x => x * x * (3 - 2 * x);
+const longueur = pts => pts.slice(1).reduce((a, q, i) => a + Math.hypot(q[0] - pts[i][0], q[1] - pts[i][1]), 0);
+function sur(pts, s) {
+  for (let i = 1; i < pts.length; i++) {
+    const [ax, az] = pts[i - 1], [bx, bz] = pts[i], l = Math.hypot(bx - ax, bz - az);
+    if (s <= l || i === pts.length - 1) return [ax + (bx - ax) * s / l, az + (bz - az) * s / l];
+    s -= l;
+  }
+}
+const cap = (pts, s, L) => { const [x0, z0] = sur(pts, Math.max(0, s - 0.25)), [x1, z1] = sur(pts, Math.min(L, s + 0.25)); return Math.atan2(-(z1 - z0), x1 - x0); };
+const angle = a => Math.atan2(Math.sin(a), Math.cos(a));
+function marcher(b, t, t0, pts, { v = 1, cap0 = null, tete } = {}) {
+  const L = longueur(pts), T = 1.5 * L / v, d = u => L * lisse(clamp((u - t0) / T));
+  const s = d(t), vit = (d(t + 0.04) - d(t - 0.04)) / 0.08;
+  const [x, z] = sur(pts, s);
+  let c = cap(pts, s, L);
+  if (cap0 !== null) c = cap0 + angle(c - cap0) * lisse(clamp(s / 0.5));
+  b.position.x = x; b.position.z = z; b.rotation.y = c;
+  b.animer(t, clamp(vit / 0.35), { d: s, tete });
+  return b;
+}
+// head yaw that makes the wolf look at the point (x, z)
+const versLui = (b, x, z) => clamp(angle(Math.atan2(-(z - b.position.z), x - b.position.x) - b.rotation.y), -1.2, 1.2);
+// metres walked by a Quidam at v from t0, slowing to a halt at t1 (the feet keep pace with the walk cycle)
+function parcours(t, t0, t1, v = VITESSE_MARCHE, stop = 0.7) {
+  const F = t1 - stop;
+  if (t < t0) return 0;
+  if (t < F) return v * (t - t0);
+  const x = Math.min(1, (t - F) / stop);
+  return v * (F - t0 + stop * (x - x ** 3 + x ** 4 / 2));
 }
 const regard = (b, k) => { b.lueur.emissiveIntensity = 2.6 * k; };
 // outdoor night: moonlight instead of the studio (the set returns lumieres: true)
@@ -89,17 +126,19 @@ const enfant = (g, role, x, z, graine, tenue) => vetu(figure(g, role, x, z, { gr
 
 // ---------------------------------------------------------------- 1764: something in the woods
 plateau("hook", g => {
-  campagne(g, [[-1.6, -1.2, 2.8], [1.9, -1.0, 2.6], [-0.8, -3.4, 3], [1.4, -4.0, 2.7], [-2.6, -2.6, 2.9], [2.9, -2.9, 3.1], [0.1, -5.2, 3.2], [-3.6, -0.4, 2.5], [3.6, -0.6, 2.4], [-1.9, -5.4, 2.8], [2.4, -5.8, 3]], false);
-  const b = bete(g, 0.5, -2.0); b.rotation.y = -Math.PI / 2;
-  const k = t => fenetre(t, 0.8, 1.2) * (1 - fenetre(t, revele("hook", 3) + 0.3, 1.0));
+  // a path through the trees, kept clear of their branches
+  campagne(g, [[-1.6, -1.2, 2.8], [1.9, -1.0, 2.6], [-0.8, -3.4, 3], [1.6, -4.0, 2.7], [-2.6, -2.6, 2.9], [2.9, -2.9, 3.1], [-0.9, -5.7, 3.2], [-3.6, -0.4, 2.5], [3.6, -0.6, 2.4], [-2.4, -6.6, 2.8], [2.2, -6.2, 3]], false);
+  const b = bete(g, 0.45, -6.2);
+  const k = t => fenetre(t, 0.8, 1.2);
   return {
     fond: () => ciel(0.95),
     update(t) {
       const tr = revele("hook", 3);
       nuit(1); regard(b, k(t));
-      b.position.z = -2.0 - 2.2 * fenetre(t, tr + 0.2, 1.4);
+      // it comes out of the forest, step by step, stops, and raises its head
+      marcher(b, t, 0.5, [[0.45, -6.2], [0.45, -2.4]], { v: 0.85, tete: [0, 0.1 * fenetre(t, tr - 0.7, 0.7)] });
       const p = easeInOut(prog(t, 0, E("hook")));
-      return { fov: 30, pos: [lerp(0.3, 0.45, p), lerp(1.3, 1.05, p), lerp(6.4, 4.4, p)], cible: [0.45, 0.85, -2], sombre: 0.9, lumieres: true };
+      return { fov: 30, pos: [lerp(0.3, 0.45, p), lerp(1.3, 1.05, p), lerp(6.6, 4.4, p)], cible: [0.45, 0.8, -2.6], sombre: 0.9, lumieres: true };
     },
     over(t) {
       const tr = revele("hook", 3);
@@ -141,15 +180,18 @@ plateau("lieu", g => {
 
 // ---------------------------------------------------------------- the question
 plateau("question", g => {
-  campagne(g, [[-1.4, -1.0, 2.7], [1.9, -0.7, 2.6], [0.2, -3.2, 3], [-2.4, -2.8, 2.9], [2.7, -3.0, 3.1], [-0.9, -4.6, 3.2], [1.6, -5.0, 2.8]], false);
-  const b = bete(g, 0.6, -1.9); b.rotation.y = -1.9;
+  campagne(g, [[-1.4, -0.9, 2.7], [1.9, -0.7, 2.6], [0.2, -3.4, 3], [-2.4, -2.9, 2.9], [2.9, -3.3, 3.1], [-0.9, -4.8, 3.2], [1.6, -5.2, 2.8]], false);
+  const b = bete(g, 2.4, -2.1);
   const k = t => 0.75 * fenetre(t, S("question") + 0.4, 1);
   return {
     fond: () => ciel(0.7),
     update(t) {
       nuit(0.7); regard(b, k(t));
-      const p = easeInOut(prog(t, S("question") - 0.2, E("question")));
-      return { fov: 30, pos: [lerp(-0.4, -0.1, p), 1.4, lerp(6.4, 5.4, p)], cible: [0.4, 1.0, -1.6], sombre: 0.7, lumieres: true };
+      // it crosses between the trees, stops, and turns its head to us
+      const tq = wt("question", "quoi", 1.5), p = easeInOut(prog(t, S("question") - 0.2, E("question")));
+      const cam = [lerp(-0.4, -0.1, p), 1.4, lerp(6.4, 5.4, p)];
+      marcher(b, t, S("question") + 0.1, [[2.4, -2.1], [0.5, -2.0]], { v: 1.0, tete: [versLui(b, cam[0], cam[2]) * fenetre(t, tq - 0.3, 0.7), 0] });
+      return { fov: 30, pos: cam, cible: [0.4, 1.0, -1.6], sombre: 0.7, lumieres: true };
     },
     over(t) {
       const tq = wt("question", "quoi", 1.5);
@@ -163,14 +205,15 @@ plateau("question", g => {
 // ---------------------------------------------------------------- 30 June 1764 and the toll
 plateau("attaques", g => {
   campagne(g, foret(-3.5, -5, 10, 2.5, 2));
-  const gens = [[-0.9, 0, "foule", 1], [-0.3, -0.3, "foule", 1], [0.35, 0, "foule", 1], [0.95, -0.25, "foule", 1], [-0.6, 0.6, "foule", 0.62], [0.1, 0.65, "sujet", 0.62], [0.7, 0.6, "foule", 0.62]]
+  // room for their hats: a metre between the grown-ups, the children in front
+  const gens = [[-1.0, -0.3, "foule", 1], [0, 0, "foule", 1], [1.0, -0.3, "foule", 1], [-0.5, 0.8, "foule", 0.62], [0.5, 0.8, "sujet", 0.62]]
     .map(([x, z, r, s], i) => vetu(figure(g, r, x, z, { graine: 21 + i, taille: s }), s < 1 ? (i % 2 ? "bergere" : "berger") : (i % 2 ? "paysanne" : "paysan")));
   return {
     fond: () => ciel(0.3),
     update(t) {
       gens.forEach((q, i) => q.transitionPose("debout", "teteBaissee", fenetre(t, S("attaques") + 0.6 + i * 0.1, 0.8)).expression("tristesse", fenetre(t, S("attaques") + 1 + i * 0.1, 0.8)).animer(t));
       const p = easeInOut(prog(t, S("attaques") - 0.2, E("attaques")));
-      return { fov: 30, pos: [lerp(0.4, 0.1, p), lerp(1.45, 1.4, p), lerp(7.8, 6.8, p)], cible: [0, 1.1, 0], sombre: 0.35 };
+      return { fov: 30, pos: [lerp(0.4, 0.1, p), lerp(1.5, 1.45, p), lerp(8.8, 8.0, p)], cible: [0, 1.05, 0], sombre: 0.35 };
     },
     over(t) {
       const tj = wt("attaques", "juin", 1), to = wt("attaques", "officielle", 4), tq = wt("attaques", "quatre-vingts", 9), te = wt("attaques", "enfants", 12);
@@ -179,6 +222,39 @@ plateau("attaques", g => {
       tampon("+ DE 80", 420, prog(t, tq - 0.1, tq + 0.7), { size: 140 });
       note("personnes tuées en 3 ans", W / 2, 540, prog(t, tq + 0.4, tq + 1.2), { size: 56 });
       note("surtout des enfants et des femmes", W / 2, 630, prog(t, te - 0.5, te + 0.6), { size: 50 });
+    },
+  };
+});
+
+// ---------------------------------------------------------------- what the witnesses saw: the portrait, trait by trait
+plateau("temoins", g => {
+  g.add(pre(30, "#B9B48E"));
+  const b = bete(g, 0, 0, { taille: 1 });
+  const ici = new THREE.Vector3();
+  const pt = r => { b.reperes[r].getWorldPosition(ici); return st.projeter(ici); };
+  return {
+    fond: () => ciel(0.05),
+    update(t) {
+      const p = easeInOut(prog(t, S("temoins") - 0.2, E("temoins")));
+      b.rotation.y = lerp(-1.0, -0.72, p);       // turns slowly, three-quarter view
+      b.animer(t, 0, { tete: [-0.1, 0.04] });
+      regard(b, 0);
+      return { fov: 30, pos: [lerp(0.45, 0.3, p), lerp(1.75, 1.65, p), lerp(6.1, 5.7, p)], cible: [0.1, 0.62, 0] };
+    },
+    over(t) {
+      const tg = wt("temoins", "grand", 1.8), tt = wt("temoins", "tête", 3), tp = wt("temoins", "poitrail", 4), tv = wt("temoins", "ventre", 5), tr = wt("temoins", "raie", 6);
+      note("ce que racontent les témoins", W / 2, 390, prog(t, S("temoins") + 0.1, S("temoins") + 0.7), { size: 50 });
+      note("un très grand loup", W / 2, 480, prog(t, tg - 0.3, tg + 0.4), { size: 66 });
+      const trait = (r, s, x, y, t0, o = {}) => {
+        const a = pt(r), q = prog(t, t0 - 0.2, t0 + 0.4);
+        if (q <= 0) return;
+        chalkArrow(x, y + (a.y > y ? 40 : -40), a.x, a.y, q, { bend: o.bend ?? 0.2, width: 6, color: INK });
+        note(s, x, y, q, { size: 52, color: o.color || INK });
+      };
+      trait("tete", "grosse tête", 900, 590, tt, { bend: 0.3 });
+      trait("poitrail", "large poitrail", 820, 1180, tp, { bend: -0.2 });
+      trait("ventre", "ventre clair", 380, 1300, tv);
+      trait("dos", "raie noire sur le dos", 330, 650, tr, { color: ROUGE, bend: -0.25 });
     },
   };
 });
@@ -222,7 +298,7 @@ function journal(x, y, s, rot, p, titre) {
 }
 plateau("journaux", g => {
   const tb = table(1.3, 0.7); g.add(tb);
-  const redac = vetu(figure(g, "autre", 0, -0.55, { graine: 41 }), "ecrivain");
+  const redac = vetu(figure(g, "autre", 0, -0.72, { graine: 41 }), "ecrivain");
   const plume = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.3, 8), new THREE.MeshStandardMaterial({ color: "#F4F1EA" }));
   plume.position.set(0, -0.05, 0.08); plume.rotation.x = 0.9; redac.articulations.mainD.add(plume);
   const feuille = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.006, 0.26), new THREE.MeshStandardMaterial({ color: "#F5F0E4" }));
@@ -251,21 +327,25 @@ plateau("journaux", g => {
 
 // ---------------------------------------------------------------- soldiers, the king's hunters, a reward
 plateau("roi", g => {
-  campagne(g, [...foret(-1, -4, 12, 3, 6), ...foret(6, -4, 8, 2.5, 1)]);
-  const soldats = [0, 1, 2, 3, 4].map(i => vetu(figure(g, "foule", -2.5 + i * 0.7, 0.2 - (i % 2) * 0.5, { graine: 51 + i }), "soldat"));
-  const roi = vetu(figure(g, "autorite", 5.6, -0.3, { graine: 57, accessoires: [] }), "roi");
+  campagne(g, [...foret(-1, -4.6, 12, 3, 6), ...foret(8, -4.8, 8, 2.5, 1)]);
+  // the soldiers march in two files and halt well before the king's camp
+  const soldats = [0, 1, 2, 3, 4].map(i => vetu(figure(g, "foule", -3.2 + i * 1.0, i % 2 ? -0.4 : 0.35, { graine: 51 + i }), "soldat"));
+  soldats.forEach(q => (q.objet.rotation.y = Math.PI / 2));
+  const roi = vetu(figure(g, "autorite", 7.1, -0.3, { graine: 57, accessoires: [] }), "roi");
   roi.articulations.tete.add(couronne());
-  const chasseurs = [6.4, 7.0].map((x, i) => vetu(figure(g, "autre", x, 0.25, { graine: 58 + i }), "chasseur"));
-  tourneVers(roi, 6.7, 0.3); chasseurs.forEach(c => tourneVers(c, 5.6, -0.3));
+  const chasseurs = [[7.95, 0.35], [8.75, -0.3]].map(([x, z], i) => vetu(figure(g, "autre", x, z, { graine: 58 + i }), "chasseur"));
+  tourneVers(roi, 8.3, 0.1); chasseurs.forEach(c => tourneVers(c, 7.1, -0.3));
   return {
     update(t) {
-      const x0 = S("roi");
-      soldats.forEach((q, i) => { q.objet.position.x = -2.5 + i * 0.7 + 0.9 * (t - x0); q.objet.rotation.y = Math.PI / 2; q.pose("marche").animer(t + i * 0.3); });
-      const tr = wt("roi", "roi", 1.5);
+      const tr = wt("roi", "roi", 1.5), halte = tr - 0.3;
+      soldats.forEach((q, i) => {
+        q.objet.position.x = -3.2 + i * 1.0 + parcours(t, S("roi") - 0.3, halte);
+        q.transitionPose("marche", "debout", fenetre(t, halte - 0.7, 0.7)).animer(t + i * 0.3);
+      });
       roi.pose("pointer", fenetre(t, tr + 0.6, 0.6)).animer(t);
       chasseurs.forEach(c => c.animer(t));
-      const c = chemin(t, [{ pos: [0.4, 1.7, 6.4], cible: [0.2, 1.0, 0], fov: 30 }, { t: tr - 0.5, d: 0.8, pos: [6.0, 1.7, 6.6], cible: [6.1, 1.05, 0] }]);
-      return { ...c, focus: t < tr ? [0.5, 0] : [6, 0] };
+      const c = chemin(t, [{ pos: [0.4, 1.7, 6.4], cible: [0.2, 1.0, 0], fov: 30 }, { t: tr - 0.5, d: 0.8, pos: [7.85, 1.75, 7.7], cible: [7.85, 1.05, -0.1] }]);
+      return { ...c, focus: t < tr ? [0.5, 0] : [7.9, 0] };
     },
     over(t) {
       const tr = wt("roi", "roi", 1.5), tc = wt("roi", "chasseurs", 4), tp = wt("roi", "récompense", 6);
@@ -289,58 +369,78 @@ plateau("roi", g => {
 
 // ---------------------------------------------------------------- a hero: Jacques Portefaix, 12
 plateau("heros", g => {
-  campagne(g, foret(1.8, -4.2, 12, 2.4, 8));
-  const amis = [[-0.55, -0.3], [-0.15, -0.55], [0.3, -0.45], [0.65, -0.2], [-0.35, -0.85], [0.15, -0.95]].map(([x, z], i) => enfant(g, "foule", x, z, 61 + i, i % 3 === 1 ? "bergere" : "berger"));
-  const jacques = enfant(g, "sujet", 0.05, 0.35, 3, "berger");
+  campagne(g, foret(1.4, -6.6, 12, 2.4, 8));
+  // seen over the Beast's shoulder: the children face it, and us
+  const amis = [[-0.6, -1.0], [0.2, -1.65], [-0.6, 0.05], [0.9, -1.05]].map(([x, z], i) => enfant(g, "foule", x, z, 61 + i, i === 1 ? "bergere" : "berger"));
+  const jacques = enfant(g, "sujet", 0.25, -0.55, 3, "berger");
   jacques.articulations.mainD.add(baton(1.1));
   amis.slice(0, 3).forEach(a => a.articulations.mainD.add(baton(1.0)));
-  const b = bete(g, 2.4, -2.0); b.rotation.y = -2.6;
+  const b = bete(g, 3.4, 1.3);
+  // it comes from the right towards the children, stops; they stand together with their sticks; it turns round and
+  // goes back the way it came
+  const VIENT = [[3.4, 1.3], [1.05, 0.55]], PART = [[1.05, 0.55], [1.8, 0.95], [3.3, 1.35], [5.8, 1.7]];
+  const finVient = cap(VIENT, longueur(VIENT), longueur(VIENT));
+  const NOUS = [0.95, 1.2, 2.7];
   return {
     update(t) {
-      const tf = wt("heros", "fuir", 3.5), td = wt("heros", "défend", 4.5), te = wt("heros", "études", 8);
-      amis.forEach((a, i) => a.expression("peur", fenetre(t, S("heros") + 0.5, 0.6) * (1 - fenetre(t, td + 0.4 + i * 0.1, 0.6))).regarder(0.6, 0).animer(t));
-      jacques.pose("pointer", fenetre(t, tf - 0.2, 0.6) * (1 - fenetre(t, te - 0.6, 0.6))).expression("joie", fenetre(t, te, 0.5)).regarder(0.5 * (1 - fenetre(t, te - 0.6, 0.5)), 0).animer(t);
-      b.position.x = 2.4 + 2.2 * fenetre(t, td + 0.6, 1.6); // it gives up and goes away
-      const c = chemin(t, [{ pos: [0.8, 1.55, 5.6], cible: [0.6, 0.75, -0.6], fov: 30 }, { t: te - 0.8, d: 0.9, pos: [0.15, 1.15, 3.6], cible: [0.05, 0.95, 0.3] }]);
-      return { ...c, focus: [0.4, -0.6] };
+      const tf = wt("heros", "fuir", 3.5), td = wt("heros", "défend", 4.5), te = wt("heros", "études", 8), part = td + 0.5;
+      if (t < part) marcher(b, t, S("heros") + 0.1, VIENT, { v: 1.3, tete: [0, -0.12 * fenetre(t, tf - 0.5, 0.6)] });
+      else marcher(b, t, part, PART, { v: 1.2, cap0: finVient });
+      const ensemble = fenetre(t, td - 0.1, 0.6) * (1 - fenetre(t, te - 0.8, 0.6));   // sticks up, together
+      amis.forEach((a, i) => {
+        tourneVers(a, b.position.x, b.position.z);
+        a.transitionPose("debout", i < 3 ? "mainLevee" : "debout", ensemble)
+          .expression("peur", fenetre(t, S("heros") + 0.8, 0.6) * (1 - fenetre(t, td + 0.4 + i * 0.1, 0.6))).animer(t + i * 0.7);
+      });
+      // Jacques stands up to it, then turns to us, happy
+      const face = fenetre(t, te - 0.7, 0.7), aLoup = Math.atan2(b.position.x - 0.25, b.position.z + 0.55), aNous = Math.atan2(NOUS[0] - 0.25, NOUS[2] + 0.55);
+      jacques.objet.rotation.y = aLoup + angle(aNous - aLoup) * face;
+      jacques.transitionPose("debout", "mainLevee", fenetre(t, tf - 0.2, 0.6) * (1 - face)).expression("joie", fenetre(t, te, 0.5)).animer(t);
+      const c = chemin(t, [{ pos: [1.75, 2.0, 7.3], cible: [0.4, 0.6, -0.4], fov: 30 }, { t: te - 0.8, d: 0.9, pos: NOUS, cible: [0.25, 0.9, -0.55] }]);
+      return { ...c, focus: [0.4, -0.4] };
     },
     over(t) {
-      const tj = wt("heros", "Portefaix", 1.5), te = wt("heros", "études", 8);
-      note("Jacques Portefaix, 12 ans", W / 2, 400, prog(t, tj - 0.2, tj + 0.6), { size: 60 });
-      note("études payées par le roi", W / 2, 500, prog(t, te - 0.3, te + 0.6), { size: 56, color: VERT });
+      const tj = wt("heros", "Portefaix", 1.5), td = wt("heros", "défend", 4.5), te = wt("heros", "études", 8);
+      note("Jacques Portefaix, 12 ans", W / 2, 400, prog(t, tj - 0.2, tj + 0.6) * (1 - prog(t, te - 0.9, te - 0.6)), { size: 60 });
+      note("ensemble, les enfants font face", W / 2, 500, prog(t, td - 0.1, td + 0.6) * (1 - prog(t, te - 0.9, te - 0.6)), { size: 52 });
+      note("la Bête s'enfuit", W / 2, 600, prog(t, td + 1.3, td + 2.0) * (1 - prog(t, te - 0.9, te - 0.6)), { size: 60, color: VERT });
+      note("études payées par le roi", W / 2, 420, prog(t, te - 0.3, te + 0.6), { size: 56, color: VERT });
     },
   };
 });
 
 // ---------------------------------------------------------------- 1765: the king's hunter, a big wolf at Versailles… and it starts again
 plateau("antoine", g => {
-  campagne(g, [...foret(-0.6, -3.6, 10, 2.6, 4), ...foret(7.6, -7.5, 12, 3.2, 2)]);
+  campagne(g, [...foret(-0.6, -5.2, 10, 2.4, 4), ...foret(7.6, -8.4, 12, 3.0, 2)]);
   const chasseur = vetu(figure(g, "autre", -0.5, 0.3, { graine: 71 }), "chasseur");
-  const grand = bete(g, 1.0, -2.2); grand.rotation.y = -2.4; grand.scale.setScalar(1.15);
-  // Versailles: the stuffed wolf on its stand, the king and the court
-  const empaille = bete(g, 7.6, -0.6); empaille.rotation.y = -0.5; empaille.position.y = 0.2;
-  const socle = table(1.8, 0.7, 0.18, "#8E6A45"); socle.position.set(7.6, 0, -0.6); g.add(socle);
-  const roi = vetu(figure(g, "autorite", 6.7, 0.5, { graine: 72, accessoires: [] }), "roi");
+  // a very big wolf (an ordinary head: it was a wolf) steps out of the wood and faces the king's hunter
+  const grand = bete(g, 1.55, -2.65, { taille: 1.0, tete: 1.0 });
+  // Versailles: the stuffed wolf on a low stand, the king and the court around it
+  const empaille = bete(g, 7.6, -0.6, { taille: 1.0, tete: 1.0 }); empaille.rotation.y = -0.5; empaille.position.y = 0.205; empaille.animer(0);
+  const socle = table(1.3, 0.62, 0.18, "#8E6A45"); socle.position.set(7.6, 0, -0.6); socle.rotation.y = -0.5; g.add(socle);
+  const roi = vetu(figure(g, "autorite", 6.35, 0.8, { graine: 72, accessoires: [] }), "roi");
   roi.articulations.tete.add(couronne());
-  const cour = [8.4, 8.95].map((x, i) => vetu(figure(g, "foule", x, 0.45 - i * 0.3, { graine: 73 + i }), "courtisan"));
-  tourneVers(roi, 7.6, -0.6); cour.forEach(c => tourneVers(c, 7.6, -0.6)); tourneVers(chasseur, 1.0, -2.2);
-  // …and in the woods behind Versailles, eyes again
-  const autre = bete(g, 7.2, -5.2); autre.rotation.y = -Math.PI / 2;
+  const cour = [[8.75, 0.55], [9.3, -0.15]].map(([x, z], i) => vetu(figure(g, "foule", x, z, { graine: 73 + i }), "courtisan"));
+  tourneVers(roi, 7.6, -0.6); cour.forEach(c => tourneVers(c, 7.6, -0.6)); tourneVers(chasseur, 1.0, -1.9);
+  // …and at the edge of the woods behind Versailles, eyes again
+  const autre = bete(g, 6.6, -4.0); autre.rotation.y = -Math.PI / 2 + 0.4; autre.animer(0);
   const k = t => fenetre(t, revele("antoine", 9) + 0.1, 1.0);
   return {
     update(t) {
       const tv = wt("antoine", "Versailles", 6), tr = revele("antoine", 9);
+      marcher(grand, t, S("antoine") + 0.3, [[1.55, -2.65], [1.0, -1.95]], { v: 0.8, tete: [0, 0.06] });
       chasseur.animer(t);
       roi.pose("pointer", fenetre(t, tv - 0.3, 0.6)).expression("doute", fenetre(t, tr + 0.2, 0.6)).animer(t);
       cour.forEach(c => c.expression("choc", fenetre(t, tr + 0.3, 0.6)).animer(t));
+      autre.animer(t, 0, { tete: [0.3, 0] });
       const n = 0.7 * easeInOut(prog(t, tr - 0.3, tr + 1.0));
       nuit(n); regard(autre, k(t));
-      const c = chemin(t, [{ pos: [0.2, 1.65, 6.0], cible: [0.2, 1.0, -0.8], fov: 30 }, { t: wt("antoine", "empaille", 4.5) - 0.5, d: 0.8, pos: [7.6, 1.9, 8.8], cible: [7.6, 1.0, -0.8] }]);
+      const c = chemin(t, [{ pos: [0.2, 1.65, 6.2], cible: [0.25, 1.0, -0.8], fov: 30 }, { t: wt("antoine", "empaille", 4.5) - 0.5, d: 0.8, pos: [7.85, 1.9, 9.0], cible: [7.85, 1.0, -0.8] }]);
       return { ...c, sombre: n, lumieres: true, focus: t < tv ? [0.2, -0.8] : [7.6, -0.6] };
     },
     over(t) {
       const tn = wt("antoine", "Antoine", 2.5), tl = wt("antoine", "loup", 3.5), tv = wt("antoine", "Versailles", 6), tf = wt("antoine", "fini", 7.5), tr = revele("antoine", 9);
-      yeux(autre, k(t), 14);
+      yeux(autre, k(t), 18);
       note("François Antoine, chasseur du roi", W / 2, 400, prog(t, tn - 0.3, tn + 0.6) * (1 - prog(t, tv - 1.2, tv - 0.9)), { size: 54 });
       note("un très grand loup", W / 2, 500, prog(t, tl - 0.2, tl + 0.6) * (1 - prog(t, tv - 1.2, tv - 0.9)), { size: 58 });
       note("empaillé · montré à Versailles", W / 2, 400, prog(t, tv - 0.6, tv + 0.4) * (1 - prog(t, tf - 0.4, tf - 0.1)), { size: 58 });
@@ -352,27 +452,31 @@ plateau("antoine", g => {
 
 // ---------------------------------------------------------------- 1767: Jean Chastel, and the dawn
 plateau("chastel", g => {
-  campagne(g, [[2.6, -1.4, 2.7], [-2.6, -1.8, 2.9], [0.6, -4.4, 3.1], [3.4, -3.6, 2.8], [-1.6, -4.0, 3], [2.0, -6.0, 3.2], [-3.4, -0.4, 2.6], [4.2, -1.0, 2.5]]);
+  campagne(g, [[2.6, -1.4, 2.7], [-2.6, -1.8, 2.9], [0.6, -4.6, 3.1], [3.4, -3.6, 2.8], [-1.6, -4.0, 3], [2.0, -6.0, 3.2], [-3.4, -0.4, 2.6], [4.2, -1.0, 2.5]]);
   const jean = vetu(figure(g, "sujet", -0.6, 0.6, { graine: 81 }), "paysan");
   jean.objet.rotation.y = 0.45;
-  const b = bete(g, 1.2, -2.4); b.rotation.y = -2.3;
+  const b = bete(g, 1.0, -2.2); b.rotation.y = -2.3;
   const jour = t => easeInOut(prog(t, revele("chastel", 5) - 0.2, revele("chastel", 5) + 2.2));
-  const k = t => fenetre(t, S("chastel") + 0.5, 1) * (1 - fenetre(t, revele("chastel", 5) - 0.2, 1.2));
+  // the animal stands in the dark; when Chastel brings it down its eyes go out and it fades into the night
+  // (nothing is shown): then the day comes up
+  const fin = t => 1 - fenetre(t, wt("chastel", "abat", 3.3) + 0.2, 1.4);
+  const k = t => fenetre(t, S("chastel") + 0.5, 1) * fin(t);
   return {
     fond: t => ciel(0.9 * (1 - jour(t))),
     update(t) {
       const tr = revele("chastel", 5);
       nuit(0.9 * (1 - jour(t))); regard(b, k(t));
-      b.position.z = -2.4 - 3 * fenetre(t, tr - 0.2, 1.8);
+      b.animer(t, 0, { tete: [versLui(b, -0.6, 0.6), 0] }); b.opacite(fin(t));
       jean.expression("joie", fenetre(t, tr + 0.8, 0.8)).regarder(0.6, 0).animer(t);
       const c = chemin(t, [{ pos: [-1.5, 1.5, 5.4], cible: [0.1, 1.05, -0.8], fov: 30 }, { t: tr, d: 2.0, pos: [-1.0, 2.0, 7.0], cible: [0.2, 1.1, -1.2] }]);
       return { ...c, sombre: 0.9 * (1 - jour(t)), lumieres: true };
     },
     over(t) {
-      const tj = wt("chastel", "Chastel", 2.5), tr = revele("chastel", 5);
+      const tj = wt("chastel", "Chastel", 2.5), ta = wt("chastel", "animal", 4), tr = revele("chastel", 5);
       yeux(b, k(t), 16);
       note("19 juin 1767", W / 2, 390, prog(t, S("chastel") + 0.2, S("chastel") + 0.9), { size: 68 });
       note("Jean Chastel, paysan", W / 2, 490, prog(t, tj, tj + 0.6) * (1 - prog(t, tr + 0.3, tr + 0.6)), { size: 56 });
+      note("un animal proche du loup", W / 2, 590, prog(t, ta - 0.1, ta + 0.6) * (1 - prog(t, tr + 0.3, tr + 0.6)), { size: 54 });
       note("plus aucune attaque mortelle", W / 2, 490, prog(t, tr + 0.6, tr + 1.6), { size: 60, color: VERT });
     },
   };
@@ -381,11 +485,13 @@ plateau("chastel", g => {
 // ---------------------------------------------------------------- the historians' answer
 plateau("explication", g => {
   campagne(g, foret(0, -7, 14, 4, 12));
-  const meute = [[-1.2, -0.6, 0.4], [0.2, -1.4, -0.3], [1.3, -0.4, 2.8]].map(([x, z, r]) => { const b = bete(g, x, z); b.rotation.y = r; return b; });
-  const centre = new THREE.Vector3(0.1, 0.7, -0.8), bord = new THREE.Vector3();
+  // a pack of ordinary wolves walks in, one after the other, each in its own lane, and stops
+  const PISTES = [[[-4.8, -0.9], [0.3, -0.85], [1.15, -0.3]], [[-4.8, -1.7], [-0.15, -1.65]], [[-4.8, -0.05], [-1.0, -0.05], [-1.35, 0.3]]];
+  const meute = PISTES.map(p => bete(g, p[0][0], p[0][1], { tete: 1 }));
+  const centre = new THREE.Vector3(-0.05, 0.6, -0.6), bord = new THREE.Vector3();
   return {
     update(t) {
-      meute.forEach((b, i) => (b.position.y = 0.01 * Math.sin(t * 2 + i)));
+      meute.forEach((b, i) => marcher(b, t, S("explication") + 0.4 + i * 0.8, PISTES[i], { v: 1.1, tete: [0.3 * Math.sin(t * 0.4 + i * 2), 0] }));
       const p = easeInOut(prog(t, S("explication") - 0.2, E("explication")));
       return { fov: 30, pos: [lerp(0.2, 0.4, p), lerp(1.9, 2.5, p), lerp(7.2, 8.4, p)], cible: [0.1, 0.8, -0.6] };
     },
@@ -398,7 +504,7 @@ plateau("explication", g => {
       // one chalk circle around the whole pack: "the" Beast
       const pc = prog(t, ts - 1.2, ts - 0.2);
       if (pc > 0) {
-        const c = st.projeter(centre); bord.copy(centre); bord.x += 1.75; const r = Math.min(470, Math.abs(st.projeter(bord).x - c.x));
+        const c = st.projeter(centre); bord.copy(centre); bord.x += 1.85; const r = Math.min(470, Math.abs(st.projeter(bord).x - c.x));
         chalkCircle(c.x, c.y, r, r * 0.45, pc, { color: ROUGE, width: 9 });
       }
       note("« la » Bête = un seul monstre ?", W / 2, 440, prog(t, ts - 0.8, ts + 0.2), { size: 60, color: ROUGE });
@@ -442,7 +548,7 @@ function telephone(x, y, s, p) {
   ctx.restore();
 }
 plateau("aujourdhui", g => {
-  const f = creerFoule({ nombre: 12, colonnes: 4, graine: 15 });
+  const f = creerFoule({ nombre: 12, colonnes: 3, ecartX: 1.0, ecartZ: 1.0, graine: 15 });
   f.groupe.position.z = -0.4;
   g.add(f.groupe);
   return {
@@ -505,9 +611,9 @@ function sons() {
 }
 
 demarrer({
-  chapitres: { question: "LA QUESTION", attaques: "1764", rumeurs: "LES RUMEURS", journaux: "LES JOURNAUX", roi: "LE ROI", heros: "UN HÉROS", antoine: "1765", chastel: "1767", explication: "LA RÉPONSE", mythes: "LES MYTHES", aujourdhui: "AUJOURD'HUI" },
+  chapitres: { question: "LA QUESTION", attaques: "1764", temoins: "LE PORTRAIT", rumeurs: "LES RUMEURS", journaux: "LES JOURNAUX", roi: "LE ROI", heros: "UN HÉROS", antoine: "1765", chastel: "1767", explication: "LA RÉPONSE", mythes: "LES MYTHES", aujourdhui: "AUJOURD'HUI" },
   // the historical scenes are reconstructions, the rest are illustrations: nothing passes for real footage
-  mentions: Object.fromEntries(["hook", "lieu", "question", "attaques", "rumeurs", "journaux", "roi", "heros", "antoine", "chastel", "explication", "mythes", "aujourdhui", "cta"]
+  mentions: Object.fromEntries(["hook", "lieu", "question", "attaques", "temoins", "rumeurs", "journaux", "roi", "heros", "antoine", "chastel", "explication", "mythes", "aujourdhui", "cta"]
     .map(id => [id, ["attaques", "roi", "heros", "antoine", "chastel"].includes(id) ? "Reconstitution" : "Illustration"])),
   sources: {
     titre: "SOURCES", duree: 5, lignes: [
