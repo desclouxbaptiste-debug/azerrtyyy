@@ -94,3 +94,66 @@ export function panneau(lignes, { w = 1.4, h = 0.8, haut = 2.0, fond = "#F7F5EF"
   tige(g, mat("#6B5A48"), 0.035, haut - h / 2, 0, (haut - h / 2) / 2, -0.03);
   return g;
 }
+
+// ---------------------------------------------------------------- outdoors
+/** Fir tree, h metres high. */
+export function sapin(h = 2.8, couleur = "#2F5D46") {
+  const g = new THREE.Group();
+  tige(g, mat("#5B4636"), 0.08, h * 0.3, 0, h * 0.15, 0);
+  for (let i = 0; i < 3; i++) {
+    const c = new THREE.Mesh(new THREE.ConeGeometry(h * (0.3 - i * 0.065), h * 0.42, 10), mat(couleur));
+    c.position.y = h * (0.4 + i * 0.19); c.castShadow = true; g.add(c);
+  }
+  return g;
+}
+/** Meadow ground that takes the shadows (the studio floor stays transparent). */
+export function pre(taille = 60, couleur = "#8C9566") {
+  const p = new THREE.Mesh(new THREE.PlaneGeometry(taille, taille), mat(couleur, { roughness: 0.95 }));
+  p.rotation.x = -Math.PI / 2; p.position.y = 0.001; p.receiveShadow = true;
+  return p;
+}
+/** Low rounded hill far away (scale it), fading into the sky by its colour. */
+export function colline(couleur = "#7F8E83") {
+  const m = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), mat(couleur, { roughness: 1 }));
+  m.scale.set(9, 2.6, 4);
+  return m;
+}
+/** Sheep facing +X: woolly body, dark head and legs. */
+export function mouton() {
+  const g = new THREE.Group(), laine = mat("#F1EEE6", { roughness: 1 }), noir = mat("#2B2B30");
+  for (const [x, y, z, r] of [[0, 0.48, 0, 0.26], [0.18, 0.5, 0.05, 0.2], [-0.18, 0.5, -0.04, 0.21], [0.05, 0.62, 0, 0.2]]) {
+    const s = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), laine); s.position.set(x, y, z); s.castShadow = true; g.add(s);
+  }
+  const t = new THREE.Mesh(new THREE.SphereGeometry(0.11, 12, 10), noir); t.scale.set(1.3, 1, 0.9); t.position.set(0.38, 0.56, 0); g.add(t);
+  for (const x of [-0.14, 0.16]) for (const z of [-0.09, 0.09]) tige(g, noir, 0.025, 0.32, x, 0.16, z);
+  return g;
+}
+/** Wolf facing +X (about 1.6 m long), with the dark stripe along the back the witnesses described.
+ *  Returns the group; group.yeux are the two eye meshes, whose glow (emissiveIntensity) the scene animates. */
+export function loup({ couleur = "#7A6552", raie = "#2B2420" } = {}) {
+  const g = new THREE.Group(), poil = mat(couleur, { roughness: 0.9 }), fonce = mat(raie, { roughness: 0.9 });
+  const corps = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.62, 8, 16), poil);
+  corps.rotation.z = Math.PI / 2; corps.position.set(0, 0.66, 0); corps.scale.set(1, 1, 0.85); corps.castShadow = true; g.add(corps);
+  const poitrail = new THREE.Mesh(new THREE.SphereGeometry(0.24, 16, 12), poil); poitrail.position.set(0.36, 0.72, 0); poitrail.castShadow = true; g.add(poitrail);
+  const bande = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.04, 0.07), fonce); bande.position.set(0.02, 0.86, 0); g.add(bande);
+  const cou = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.17, 0.3, 12), poil); cou.position.set(0.55, 0.86, 0); cou.rotation.z = -0.9; g.add(cou);
+  const tete = new THREE.Group(); tete.position.set(0.72, 0.98, 0); g.add(tete);
+  const crane = new THREE.Mesh(new THREE.SphereGeometry(0.15, 16, 12), poil); crane.scale.set(1.15, 0.95, 0.95); crane.castShadow = true; tete.add(crane);
+  const museau = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.26, 12), poil); museau.rotation.z = -Math.PI / 2; museau.position.set(0.2, -0.04, 0); tete.add(museau);
+  const truffe = new THREE.Mesh(new THREE.SphereGeometry(0.03, 8, 6), fonce); truffe.position.set(0.33, -0.04, 0); tete.add(truffe);
+  for (const z of [-0.07, 0.07]) {
+    const o = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.13, 8), poil); o.position.set(-0.02, 0.15, z); o.rotation.x = z * 2; tete.add(o);
+  }
+  const lueur = new THREE.MeshStandardMaterial({ color: "#2A2010", emissive: "#FFCF6A", emissiveIntensity: 0 });
+  g.yeux = [-0.055, 0.055].map(z => { const e = new THREE.Mesh(new THREE.SphereGeometry(0.022, 10, 8), lueur); e.position.set(0.12, 0.03, z); tete.add(e); return e; });
+  g.lueur = lueur;
+  for (const x of [-0.32, 0.34]) for (const z of [-0.1, 0.1]) tige(g, poil, 0.045, 0.55, x, 0.28, z);
+  const queue = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.5, 10), poil); queue.position.set(-0.6, 0.6, 0); queue.rotation.z = -2.2; g.add(queue);
+  return g;
+}
+/** Shepherd's stick, to attach to a hand (articulations.mainD.add(...)). */
+export function baton(l = 1.3) {
+  const g = new THREE.Group();
+  tige(g, mat("#7A5A3C"), 0.018, l, 0, -0.1, 0);
+  return g;
+}

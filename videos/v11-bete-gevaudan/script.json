@@ -1,0 +1,76 @@
+{
+ "engine": "piper",
+ "voice": "fr_FR-tom-medium",
+ "sid": 0,
+ "speed": 1.0,
+ "noise": 0.667,
+ "noise_w": 0.8,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 3,
+ "lead": 0.45,
+ "gap_segment": 0.3,
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "En {1764|mille sept cent soixante-quatre}, une bête mystérieuse terrorise toute une région de France. Et pendant trois ans... <r>personne n'arrive à l'arrêter."
+  },
+  {
+   "id": "lieu",
+   "text": "Ça se passe dans le Gévaudan, l'actuelle Lozère. Des montagnes, des forêts... et des enfants qui gardent les troupeaux, souvent seuls."
+  },
+  {
+   "id": "question",
+   "text": "Alors, une question : c'était quoi, vraiment, la Bête ?"
+  },
+  {
+   "id": "attaques",
+   "text": "Le {30|trente} juin {1764|mille sept cent soixante-quatre}, une jeune fille de quatorze ans est tuée. C'est la première victime officielle. Puis les attaques se multiplient. En trois ans, plus de quatre-vingts personnes perdent la vie, surtout des enfants et des femmes."
+  },
+  {
+   "id": "rumeurs",
+   "text": "La peur grandit, et les rumeurs aussi. On dit que la Bête est grande comme un veau. Qu'elle court plus vite qu'un cheval. Que les balles ne lui font rien. Pour certains, c'est une hyène... ou un sorcier."
+  },
+  {
+   "id": "journaux",
+   "text": "Pourquoi toute l'Europe en parle ? Parce qu'un journal, le Courrier d'Avignon, en fait un feuilleton. Il exagère tout... et les autres journaux recopient."
+  },
+  {
+   "id": "roi",
+   "text": "On envoie des soldats. Puis le roi, Louis {XV|quinze}, envoie ses meilleurs chasseurs, et promet une énorme récompense."
+  },
+  {
+   "id": "heros",
+   "text": "Il y a aussi des héros. Jacques Portefaix, douze ans, refuse de fuir et défend ses amis avec des bâtons. Pour le remercier, le roi lui paie ses études."
+  },
+  {
+   "id": "antoine",
+   "text": "En septembre {1765|mille sept cent soixante-cinq}, le chasseur du roi, François Antoine, abat un très grand loup. On l'empaille, on le montre à Versailles. C'est fini ? <r>Non. Les attaques recommencent."
+  },
+  {
+   "id": "chastel",
+   "text": "Le {19|dix-neuf} juin {1767|mille sept cent soixante-sept}, un paysan, Jean Chastel, abat un autre grand animal. Et cette fois... <r>les attaques mortelles s'arrêtent pour de bon."
+  },
+  {
+   "id": "explication",
+   "text": "Alors, c'était quoi, la Bête ? Pour la plupart des historiens : pas un monstre, mais plusieurs loups, qui avaient pris l'habitude d'attaquer les humains. À l'époque, il y avait environ vingt mille loups en France. D'autres chercheurs pensent à un mélange de chien et de loup. Mais comme on parlait toujours de « la » Bête, tout le monde imaginait un seul monstre."
+  },
+  {
+   "id": "mythes",
+   "text": "Et les histoires de complot, avec un comte et un dresseur de bêtes ? Elles viennent de romans. Aucun document ne les prouve."
+  },
+  {
+   "id": "aujourdhui",
+   "text": "Aujourd'hui aussi, une histoire répétée partout peut devenir une légende... même quand la vérité est plus simple."
+  },
+  {
+   "id": "cta",
+   "text": "Et toi, tu penses que c'était des loups, ou autre chose ? Dis-le en commentaire."
+  }
+ ]
+}
