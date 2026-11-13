@@ -84,26 +84,39 @@ def social_agent(instrument_id, crowd):
     """`crowd` : {instrument_id: (nb_acheteurs, nb_vendeurs), "_total": nb_investisseurs}."""
     buyers, sellers = crowd.get(instrument_id, (0, 0))
     total = crowd.get("_total", 0)
-    if not total:
-        return Opinion("social", 0.0, ["pas de données sur les investisseurs"])
-    share = (buyers - sellers) / total
-    score = clamp(share * 3)
-    return Opinion("social", score, [f"{buyers} des {total} meilleurs investisseurs suivis en détiennent"])
+    if total < MIN_INVESTORS:
+        return Opinion("social", 0.0, ["trop peu d'investisseurs suivis pour avoir un avis"])
+    # Linéaire : il faut que tous les investisseurs suivis en détiennent pour atteindre +1.
+    score = clamp((buyers - sellers) / total)
+    reasons = [f"{buyers} des {total} meilleurs investisseurs en détiennent au moins {crowd['_min_weight']:g} % de leur portefeuille"]
+    if sellers:
+        reasons.append(f"{sellers} parient sur la baisse")
+    return Opinion("social", score, reasons)
 
 
-def build_crowd(portfolios):
-    """Compte, pour chaque actif, combien d'investisseurs l'ont en achat ou en vente."""
-    crowd = {"_total": len(portfolios)}
+MIN_INVESTORS = 3
+
+
+def build_crowd(portfolios, min_weight=1.0):
+    """Compte, pour chaque actif, combien d'investisseurs y croient vraiment.
+
+    Une position ne compte que si elle pèse au moins `min_weight` % du
+    portefeuille de l'investisseur : une ligne de 0,1 % n'est pas une conviction.
+    """
+    crowd = {"_total": len(portfolios), "_min_weight": min_weight}
     for p in portfolios:
-        held = {}
+        weights = {}
         positions = list(p.get("positions") or [])
         for st in p.get("socialTrades") or []:
             positions.extend(st.get("positions") or [])
         for pos in positions:
-            held.setdefault(pos["instrumentId"], set()).add(bool(pos.get("isBuy", True)))
-        for iid, sides in held.items():
+            pct = pos.get("investmentPct")
+            pct = min_weight if pct is None else pct
+            sign = 1 if pos.get("isBuy", True) else -1
+            weights[pos["instrumentId"]] = weights.get(pos["instrumentId"], 0) + sign * pct
+        for iid, w in weights.items():
             b, s = crowd.get(iid, (0, 0))
-            crowd[iid] = (b + (True in sides), s + (sides == {False}))
+            crowd[iid] = (b + (w >= min_weight), s + (w <= -min_weight))
     return crowd
 
 

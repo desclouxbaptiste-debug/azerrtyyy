@@ -73,7 +73,7 @@ def gather_crowd(client, cfg):
         except EtoroError as e:
             say(f"  ! portefeuille de {username} indisponible : {e}")
         time.sleep(1.1)
-    return build_crowd(portfolios)
+    return build_crowd(portfolios, cfg.get("min_position_pct", 1.0))
 
 
 def close_all(client, positions, reason):

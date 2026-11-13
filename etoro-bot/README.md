@@ -15,7 +15,7 @@ dans des limites de risque qu'il ne peut pas dépasser.
 | Agent | Ce qu'il regarde | Poids |
 |---|---|---|
 | Technique | Moyennes mobiles 20 et 50 jours, élan sur 20 jours, RSI | 50 % |
-| Social | Ce que détiennent les meilleurs investisseurs eToro (classements « Beating the market »), en ignorant ceux trop risqués | 30 % |
+| Social | La part des meilleurs investisseurs eToro (classements « Beating the market », sans les profils trop risqués) qui détiennent l'actif. Une position ne compte que si elle pèse au moins `min_position_pct` % de leur portefeuille. Il faut que tous en détiennent pour atteindre le score maximal | 30 % |
 | Marché | Le S&P 500 par rapport à sa moyenne 50 jours : on achète moins quand tout le marché baisse | 20 % |
 | Décideur | Additionne les avis : achète au-dessus de `buy_threshold`, vend en dessous de `sell_threshold` | — |
 

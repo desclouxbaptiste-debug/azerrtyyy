@@ -19,6 +19,7 @@
   "ranking_presets": ["BeatingTheMarketUS", "BeatingtheMarketGlobalpro"],
   "max_investors": 15,
   "max_investor_risk": 6,
+  "min_position_pct": 1,
 
   "market_index": {"symbol": "SPX500", "id": 27},
   "watchlist": {

@@ -32,15 +32,38 @@ class AgentTests(unittest.TestCase):
 
     def test_crowd_counts_buyers_and_short_sellers(self):
         crowd = build_crowd([
-            {"positions": [{"instrumentId": 1, "isBuy": True}, {"instrumentId": 1, "isBuy": True}]},
-            {"positions": [{"instrumentId": 1, "isBuy": False}],
-             "socialTrades": [{"positions": [{"instrumentId": 2, "isBuy": True}]}]},
+            {"positions": [{"instrumentId": 1, "isBuy": True, "investmentPct": 2},
+                           {"instrumentId": 1, "isBuy": True, "investmentPct": 3}]},
+            {"positions": [{"instrumentId": 1, "isBuy": False, "investmentPct": 4}],
+             "socialTrades": [{"positions": [{"instrumentId": 2, "isBuy": True, "investmentPct": 5}]}]},
+            {"positions": []},
         ])
-        self.assertEqual(crowd["_total"], 2)
+        self.assertEqual(crowd["_total"], 3)
         self.assertEqual(crowd[1], (1, 1))
         self.assertEqual(crowd[2], (1, 0))
         self.assertEqual(social_agent(1, crowd).score, 0.0)
-        self.assertGreater(social_agent(2, crowd).score, 0)
+        self.assertAlmostEqual(social_agent(2, crowd).score, 1 / 3)
+
+    def test_tiny_positions_are_not_a_conviction(self):
+        crowd = build_crowd([
+            {"positions": [{"instrumentId": 1, "isBuy": True, "investmentPct": 0.2},
+                           {"instrumentId": 1, "isBuy": True, "investmentPct": 0.3}]},
+            {"positions": [{"instrumentId": 1, "isBuy": True, "investmentPct": 0.6},
+                           {"instrumentId": 1, "isBuy": True, "investmentPct": 0.6}]},
+            {"positions": []},
+        ], min_weight=1.0)
+        self.assertEqual(crowd[1], (1, 0))
+
+    def test_social_score_is_linear_and_needs_everyone_for_max(self):
+        portfolios = [{"positions": [{"instrumentId": 1, "investmentPct": 5}]}] * 4 + [{"positions": []}] * 5
+        crowd = build_crowd(portfolios)
+        self.assertAlmostEqual(social_agent(1, crowd).score, 4 / 9)
+        all_hold = build_crowd([{"positions": [{"instrumentId": 1, "investmentPct": 5}]}] * 9)
+        self.assertEqual(social_agent(1, all_hold).score, 1.0)
+
+    def test_too_few_investors_gives_no_opinion(self):
+        crowd = build_crowd([{"positions": [{"instrumentId": 1, "investmentPct": 5}]}] * 2)
+        self.assertEqual(social_agent(1, crowd).score, 0.0)
 
     def test_market_agent_sign(self):
         self.assertGreater(market_agent(candles([100 + i for i in range(60)])).score, 0)
