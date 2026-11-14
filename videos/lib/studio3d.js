@@ -6,8 +6,8 @@ import * as THREE from "three";
 export const LUMIERES = { ciel: 1.7, cle: 2.3, contre: 1.5 };
 const CLE_DECALAGE = new THREE.Vector3(1.6, 6, 2.6); // high: short shadows that stay under the figure
 
-export function creerStudio({ ombre = 0.2 } = {}) {
-  const gl = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+export function creerStudio({ ombre = 0.2, antialias = true } = {}) {
+  const gl = new THREE.WebGLRenderer({ antialias, alpha: true, preserveDrawingBuffer: true });
   gl.setPixelRatio(1);
   gl.shadowMap.enabled = true;
   gl.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -37,15 +37,18 @@ export function creerStudio({ ombre = 0.2 } = {}) {
   const camera = new THREE.PerspectiveCamera(22, 1, 0.1, 80);
   const rect = { x: 0, y: 0, w: 1, h: 1 };
   /** Renders `plateau` seen from `pos` towards `cible` into a w × h image and draws it at (x, y) of the 2D context. */
-  function tourner(ctx, x, y, w, h, { fov = 22, pos = [1, 1.3, 6], cible = [0, 1, 0] } = {}) {
+  // res < 1 renders a smaller image and enlarges it (the soft look of old consoles); filtre: a canvas filter
+  function tourner(ctx, x, y, w, h, { fov = 22, pos = [1, 1.3, 6], cible = [0, 1, 0], res = 1, filtre = null } = {}) {
     camera.fov = fov;
     camera.aspect = w / h;
     camera.position.set(...pos);
     camera.lookAt(...cible);
     camera.updateProjectionMatrix();
-    gl.setSize(w, h, false);
+    gl.setSize(Math.max(1, Math.round(w * res)), Math.max(1, Math.round(h * res)), false);
     gl.render(scene, camera);
+    if (filtre) { ctx.save(); ctx.filter = filtre; }
     ctx.drawImage(gl.domElement, x, y, w, h);
+    if (filtre) ctx.restore();
     Object.assign(rect, { x, y, w, h });
   }
   const v = new THREE.Vector3();
