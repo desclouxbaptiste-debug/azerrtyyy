@@ -25,14 +25,20 @@ const AJUSTE = {
 const POSES = Object.fromEntries(Object.entries(POSES_QUIDAMS).map(([k, p]) => [k, { ...p, ...(AJUSTE[k] || {}) }]));
 
 // ---------------------------------------------------------------- painted textures (small, softly filtered: PS2)
+let QUALITE = 1;
+/** Texture detail: 1 = the small soft textures of the old consoles; 3 or 4 = the same paintings drawn sharp, for a
+ *  full-definition picture with nothing enlarged. Call it before creating figures. */
+export function qualitePS2(q) { QUALITE = q; }
 function toile(w, h, dessin) {
-  const c = document.createElement("canvas"); c.width = w; c.height = h;
-  dessin(c.getContext("2d"), w, h);
+  const c = document.createElement("canvas"); c.width = w * QUALITE; c.height = h * QUALITE;
+  const x = c.getContext("2d"); x.scale(QUALITE, QUALITE);
+  dessin(x, w, h);
   const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace; t.generateMipmaps = false; t.minFilter = THREE.LinearFilter; t.magFilter = THREE.LinearFilter;
+  t.colorSpace = THREE.SRGBColorSpace; t.generateMipmaps = QUALITE > 1; t.minFilter = QUALITE > 1 ? THREE.LinearMipmapLinearFilter : THREE.LinearFilter; t.magFilter = THREE.LinearFilter;
   t.wrapS = THREE.RepeatWrapping;
   return t;
 }
+export { toile as texturePS2 };
 function bruit(x, w, h, a = 0.08, graine = 1, taille = 2) {
   for (let i = 0; i < (w * h) / (taille * taille * 3); i++) {
     const r = alea(graine + i * 1.7), s = alea(graine * 3 + i * 2.3);
@@ -128,6 +134,8 @@ const PEINTURES = {
     bruit(x, w, h, 0.08, 23);
   },
   // trainers / boots: upper, sole, laces
+  // a bare lower leg with a sock
+  jambe: ({ peau, chaussette = "#E4E0D6", haut = 0.6 }) => (x, w, h) => { x.fillStyle = peau; x.fillRect(0, 0, w, h); x.fillStyle = chaussette; x.fillRect(0, h * haut, w, h); bruit(x, w, h, 0.05, 31); },
   chaussure: ({ couleur, semelle = "#EDEDED", lacets = "#FFFFFF" }) => (x, w, h) => {
     x.fillStyle = couleur; x.fillRect(0, 0, w, h);
     x.fillStyle = semelle; x.fillRect(0, h * 0.72, w, h * 0.28);
@@ -143,6 +151,7 @@ const PEINTURES = {
     }
   },
 };
+export { PEINTURES, shade };
 function shade(c, k) {
   const n = parseInt(c.slice(1), 16), v = [n >> 16, (n >> 8) & 255, n & 255].map(x => clamp(Math.round(k > 0 ? x + (255 - x) * k : x * (1 + k)), 0, 255));
   return `#${v.map(x => x.toString(16).padStart(2, "0")).join("")}`;
@@ -286,7 +295,8 @@ const ombrePortee = (() => { let t = null; return () => t || (t = toile(64, 64, 
 
 export function creerQuidamPS2(options = {}) {
   const roleCle = ROLES[options.role] ? options.role : "foule";
-  const role = ROLES[roleCle], graine = options.graine ?? 1, d = design(roleCle, graine);
+  // options.design: a look of your own over the role's (see eleve1967 and prof1967 below)
+  const role = ROLES[roleCle], graine = options.graine ?? 1, d = { ...design(roleCle, graine), ...(options.design || {}) }, Q = QUALITE;
   const lambert = o => new THREE.MeshLambertMaterial(o);
   const tex = (peinture, w = 128, h = 128) => toile(w, h, peinture);
   const matPeau = lambert({ color: d.peau });
@@ -297,8 +307,9 @@ export function creerQuidamPS2(options = {}) {
   const matChaussure = lambert({ map: tex(PEINTURES.chaussure(d.chaussure), 64, 64) });
   const matCheveux = lambert({ map: tex(PEINTURES.cheveux({ couleur: d.cheveux }), 128, 128) });
   if (d.ombre) for (const m of [matHaut, matManche, matAvantBras, matBas, matChaussure, matCheveux]) { m.emissive = new THREE.Color("#141824"); }
-  const visage = document.createElement("canvas"); visage.width = 512; visage.height = 256;
-  const texVisage = new THREE.CanvasTexture(visage); texVisage.colorSpace = THREE.SRGBColorSpace; texVisage.generateMipmaps = false; texVisage.minFilter = THREE.LinearFilter;
+  const matMollet = d.mollet ? lambert({ map: tex(d.mollet, 64, 128) }) : matBas, kj = d.jupe ? 1.32 : 1;   // a skirt: wide thighs in its cloth, bare lower legs
+  const visage = document.createElement("canvas"); visage.width = 512 * Q; visage.height = 256 * Q;
+  const texVisage = new THREE.CanvasTexture(visage); texVisage.colorSpace = THREE.SRGBColorSpace; texVisage.generateMipmaps = Q > 1; texVisage.minFilter = Q > 1 ? THREE.LinearMipmapLinearFilter : THREE.LinearFilter;
   const matVisage = lambert({ map: texVisage, ...(d.ombre ? { emissive: "#FFFFFF", emissiveMap: texVisage } : {}) });
 
   const piv = (parent, pos, ordre) => { const g = new THREE.Group(); if (pos) g.position.set(...pos); if (ordre) g.rotation.order = ordre; parent.add(g); return g; };
@@ -343,10 +354,10 @@ export function creerQuidamPS2(options = {}) {
     mesh(new THREE.BoxGeometry(0.024, 0.055, 0.026), matPeau, main, [s * 0.038, -0.035, 0.012], [0, 0, s * 0.35]);
     if (cote === "G" && d.poignet) mesh(cyl(0.04, 0.04, 0.03), lambert({ color: d.poignet }), coude, [0, -AVANT_BRAS + 0.03, 0]);
     const hanche = piv(bassin, [s * 0.095, 0, 0]);
-    mesh(cyl(0.078, 0.06, CUISSE), matBas, hanche, [0, -CUISSE / 2, 0]);
+    mesh(cyl(0.078 * kj, 0.06 * kj, CUISSE), matBas, hanche, [0, -CUISSE / 2, 0]);
     const genou = piv(hanche, [0, -CUISSE, 0]);
-    mesh(new THREE.SphereGeometry(0.06, 8, 6), matBas, genou);
-    mesh(cyl(0.058, 0.045, JAMBE), matBas, genou, [0, -JAMBE / 2, 0]);
+    mesh(new THREE.SphereGeometry(0.06, 8, 6), d.jupe ? matPeau : matBas, genou);
+    mesh(cyl(0.058, 0.045, JAMBE), matMollet, genou, [0, -JAMBE / 2, 0]);
     mesh(new THREE.BoxGeometry(0.1, 0.075, 0.25), matChaussure, genou, [0, -JAMBE - 0.03, 0.045]);
     bras[cote] = { epaule, coude, main, hanche, genou };
   }
@@ -430,7 +441,7 @@ export function creerQuidamPS2(options = {}) {
       regardX: gx, regardY: gy, parle: etat.parle,
     };
     const cle = JSON.stringify(s, (k, val) => (typeof val === "number" ? Math.round(val * 20) / 20 : val));
-    if (cle !== derniere) { derniere = cle; dessinerVisage(visage.getContext("2d"), s); texVisage.needsUpdate = true; }
+    if (cle !== derniere) { derniere = cle; const vx = visage.getContext("2d"); vx.setTransform(Q, 0, 0, Q, 0, 0); dessinerVisage(vx, s); texVisage.needsUpdate = true; }
   }
 
   const perso = {
@@ -526,4 +537,91 @@ export function solPS2(type = "herbe", taille = 40) {
   const p = new THREE.Mesh(new THREE.PlaneGeometry(taille, taille), new THREE.MeshLambertMaterial({ map: t }));
   p.rotation.x = -Math.PI / 2;
   return p;
+}
+
+// ---------------------------------------------------------------- a 1967 Californian high school (dark palette)
+/** A student of 1967, a different one for every seed, in off-white and dark greys (o.rouge: the one in a red
+ *  sweater; o.fille: force a girl or a boy). Use it as creerQuidamPS2({ role: "foule", graine, design: eleve1967(graine) }). */
+export function eleve1967(g, o = {}) {
+  const r = n => alea(g * 17 + n), fille = o.fille ?? r(1) > 0.5;
+  const peau = ["#E8C3A2", "#DDB38E", "#F0CFB2", "#C99A72", "#8A5A3C", "#E3BC98"][Math.floor(r(2) * 6)];
+  const cheveux = ["#17120F", "#2E2018", "#4A3222", "#6E5434", "#8A7450", "#5A2E1E"][Math.floor(r(3) * 6)];
+  const blanc = o.rouge ? "#B5121E" : ["#E6E0D2", "#D9D4C8", "#CFCBC2", "#E0D8C6"][Math.floor(r(4) * 4)];
+  const sombre = ["#26272C", "#2E2C2A", "#33363C", "#1E1F23"][Math.floor(r(5) * 4)];
+  return {
+    peau, iris: ["#3A2416", "#4A6A8A", "#3E5A4A", "#5A4028"][Math.floor(r(10) * 4)], cheveux, levres: shade(peau, fille ? -0.32 : -0.25),
+    coiffure: fille ? ["carre", "queue", "meches"][Math.floor(r(7) * 3)] : (r(8) > 0.6 ? "raie" : "court"),
+    haut: o.rouge ? PEINTURES.uni({ couleur: blanc, grain: 0.1 }) : PEINTURES.chemise({ couleur: blanc, poches: !fille && r(6) > 0.5 }), hautCouleur: blanc,
+    manche: { couleur: blanc, court: !o.rouge && r(9) > 0.55 ? 0.5 : 0 },
+    bas: PEINTURES.uni({ couleur: sombre }), basCouleur: sombre, ...(fille ? { jupe: true, mollet: PEINTURES.jambe({ peau }) } : {}),
+    chaussure: { couleur: "#17171A", semelle: "#0C0C0E", lacets: "#2A2A2E" },
+  };
+}
+/** The young history teacher: white shirt, thin black tie, dark trousers. */
+export function prof1967() {
+  return {
+    peau: "#E6C0A0", iris: "#4A3A2A", cheveux: "#2A1C14", coiffure: "raie", levres: "#A8705E",
+    haut: PEINTURES.chemise({ couleur: "#ECE7DB", cravate: "#141417", poches: false }), hautCouleur: "#ECE7DB", manche: { couleur: "#ECE7DB" },
+    bas: PEINTURES.uni({ couleur: "#232429" }), basCouleur: "#232429", chaussure: { couleur: "#121214", semelle: "#0A0A0C", lacets: "#222222" },
+  };
+}
+
+// ---------------------------------------------------------------- a crowd for the far rows
+function fusion(parts) {
+  const pos = [], nor = [], col = [], c = new THREE.Color();
+  for (const [geo, couleur, p = [0, 0, 0], e = [1, 1, 1], rz = 0] of parts) {
+    const g = geo.toNonIndexed();
+    g.applyMatrix4(new THREE.Matrix4().compose(new THREE.Vector3(...p), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, rz)), new THREE.Vector3(...e)));
+    c.set(couleur);
+    const a = g.attributes.position.array, n = g.attributes.normal.array;
+    for (let i = 0; i < a.length; i += 3) { pos.push(a[i], a[i + 1], a[i + 2]); nor.push(n[i], n[i + 1], n[i + 2]); col.push(c.r, c.g, c.b); }
+  }
+  const out = new THREE.BufferGeometry();
+  out.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); out.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3)); out.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+  return out;
+}
+// one standing figure as a single low-poly shape with painted colours (the low-detail model of the far rows)
+function silhouette(v) {
+  const r = n => alea(v * 23 + n), peau = ["#E8C3A2", "#DDB38E", "#C99A72", "#8A5A3C", "#F0CFB2"][Math.floor(r(1) * 5)];
+  const cheveux = ["#17120F", "#2E2018", "#4A3222", "#6E5434", "#8A7450"][Math.floor(r(2) * 5)], blanc = ["#E6E0D2", "#D9D4C8", "#CFCBC2"][Math.floor(r(3) * 3)], sombre = ["#26272C", "#2E2C2A", "#1E1F23"][Math.floor(r(4) * 3)];
+  const C = (a, b, h, n = 7) => new THREE.CylinderGeometry(a, b, h, n, 1), long = r(5) > 0.5, yT = HANCHE + COU + TETE_Y;
+  const parts = [
+    [C(0.15, 0.158, 0.2, 8), sombre, [0, HANCHE, 0], [1, 1, 0.66]],
+    [C(0.178, 0.148, 0.46, 8), blanc, [0, HANCHE + 0.29, 0], [1, 1, 0.62]],
+    [new THREE.SphereGeometry(0.16, 8, 5), blanc, [0, HANCHE + 0.505, 0], [1.12, 0.3, 0.6]],
+    [C(0.046, 0.052, 0.12, 6), peau, [0, HANCHE + COU + 0.03, 0]],
+    [new THREE.SphereGeometry(TETE.r, 10, 8), peau, [0, yT, 0], [TETE.sx, TETE.sy, TETE.sz]],
+    [new THREE.SphereGeometry(TETE.r * 1.07, 10, 6, 0, TAU, 0, Math.PI * (long ? 0.5 : 0.4)), cheveux, [0, yT + 0.006, -0.008], [TETE.sx, TETE.sy, TETE.sz * 1.04]],
+    [new THREE.SphereGeometry(TETE.r * 1.05, 10, 6, Math.PI * 0.55, Math.PI * 0.9, Math.PI * 0.3, Math.PI * (long ? 0.42 : 0.26)), cheveux, [0, yT, -0.006], [TETE.sx, TETE.sy, TETE.sz]],
+  ];
+  for (const s of [1, -1]) {
+    parts.push([C(0.078, 0.06, CUISSE), sombre, [s * 0.095, HANCHE - CUISSE / 2, 0]], [C(0.058, 0.045, JAMBE), sombre, [s * 0.095, HANCHE - CUISSE - JAMBE / 2, 0]],
+      [new THREE.BoxGeometry(0.1, 0.075, 0.25), "#141416", [s * 0.095, 0.035, 0.045]],
+      [C(0.054, 0.046, BRAS), blanc, [s * 0.215, HANCHE + EPAULE.y - BRAS / 2, 0], [1, 1, 1], s * 0.07], [C(0.045, 0.036, AVANT_BRAS), r(6) > 0.5 ? blanc : peau, [s * 0.243, HANCHE + EPAULE.y - BRAS - AVANT_BRAS / 2, 0], [1, 1, 1], s * 0.05],
+      [new THREE.BoxGeometry(0.07, 0.1, 0.034), peau, [s * 0.255, HANCHE + EPAULE.y - BRAS - AVANT_BRAS - 0.05, 0]]);
+  }
+  return fusion(parts);
+}
+/** A crowd of standing students for the far rows: a few low-detail models drawn many times.
+ *  places: [{ x, z, ry? }]. animer(t, { desordre }) sways them; desordre (0..1) breaks the ranks. */
+export function creerFoulePS2(places, { graine = 1, variantes = 5 } = {}) {
+  const groupe = new THREE.Group(); groupe.name = "foulePS2";
+  const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
+  const lots = Array.from({ length: variantes }, () => []);
+  places.forEach((p, i) => lots[Math.floor(alea(graine * 3 + i) * variantes)].push({ ...p, i }));
+  const mailles = lots.filter(l => l.length).map((lot, v) => { const m = new THREE.InstancedMesh(silhouette(graine + v), mat, lot.length); m.frustumCulled = false; groupe.add(m); return { m, lot }; });
+  const M = new THREE.Matrix4(), P = new THREE.Vector3(), Qt = new THREE.Quaternion(), Sc = new THREE.Vector3(), Eu = new THREE.Euler();
+  function animer(t, { desordre = 0 } = {}) {
+    for (const { m, lot } of mailles) {
+      lot.forEach((p, k) => {
+        const a = alea(p.i * 7.3 + graine), e = 0.93 + 0.11 * alea(p.i * 3.1 + graine);
+        P.set(p.x + desordre * (alea(p.i * 5.1) - 0.5) * 0.45, 0, p.z + desordre * (alea(p.i * 9.7) - 0.5) * 0.45);
+        Eu.set(0, (p.ry || 0) + desordre * (a - 0.5) * 1.4 + 0.03 * Math.sin(t * 0.8 + a * 6), 0.012 * Math.sin(t * 1.1 + a * 9)); Qt.setFromEuler(Eu); Sc.set(e, e, e);
+        M.compose(P, Qt, Sc); m.setMatrixAt(k, M);
+      });
+      m.instanceMatrix.needsUpdate = true;
+    }
+  }
+  animer(0);
+  return { groupe, animer, n: places.length };
 }

@@ -1,0 +1,1980 @@
+{
+ "duration": 113.955,
+ "speed": 0.96,
+ "reveals": [
+  9.32,
+  82.567
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.5,
+   "sentences": [
+    {
+     "text": "En 1967, en Californie, un professeur d'histoire lance une expérience dans sa classe.",
+     "spoken": "En mille neuf cent soixante-sept, en Californie, un professeur d'histoire lance une expérience dans sa classe.",
+     "start": 0.5,
+     "end": 6.5,
+     "words": [
+      {
+       "w": "En",
+       "s": 0.5,
+       "e": 0.74
+      },
+      {
+       "w": "1967,",
+       "s": 0.74,
+       "e": 2.26
+      },
+      {
+       "w": "en",
+       "s": 2.26,
+       "e": 2.5
+      },
+      {
+       "w": "Californie,",
+       "s": 2.5,
+       "e": 3.3
+      },
+      {
+       "w": "un",
+       "s": 3.3,
+       "e": 3.46
+      },
+      {
+       "w": "professeur",
+       "s": 3.46,
+       "e": 3.86
+      },
+      {
+       "w": "d'histoire",
+       "s": 3.86,
+       "e": 4.5
+      },
+      {
+       "w": "lance",
+       "s": 4.5,
+       "e": 4.9
+      },
+      {
+       "w": "une",
+       "s": 4.9,
+       "e": 5.06
+      },
+      {
+       "w": "expérience",
+       "s": 5.06,
+       "e": 5.62
+      },
+      {
+       "w": "dans",
+       "s": 5.62,
+       "e": 5.78
+      },
+      {
+       "w": "sa",
+       "s": 5.78,
+       "e": 5.94
+      },
+      {
+       "w": "classe.",
+       "s": 5.94,
+       "e": 6.5
+      }
+     ]
+    },
+    {
+     "text": "Elle devait durer une journée.",
+     "spoken": "Elle devait durer une journée.",
+     "start": 6.5,
+     "end": 8.42,
+     "words": [
+      {
+       "w": "Elle",
+       "s": 6.5,
+       "e": 6.74
+      },
+      {
+       "w": "devait",
+       "s": 6.74,
+       "e": 7.14
+      },
+      {
+       "w": "durer",
+       "s": 7.14,
+       "e": 7.54
+      },
+      {
+       "w": "une",
+       "s": 7.54,
+       "e": 7.78
+      },
+      {
+       "w": "journée.",
+       "s": 7.78,
+       "e": 8.42
+      }
+     ]
+    },
+    {
+     "text": "En cinq jours, elle lui échappe.",
+     "spoken": "En cinq jours, elle lui échappe.",
+     "start": 9.32,
+     "end": 11.42,
+     "words": [
+      {
+       "w": "En",
+       "s": 9.32,
+       "e": 9.56
+      },
+      {
+       "w": "cinq",
+       "s": 9.56,
+       "e": 9.96
+      },
+      {
+       "w": "jours,",
+       "s": 9.96,
+       "e": 10.36
+      },
+      {
+       "w": "elle",
+       "s": 10.36,
+       "e": 10.6
+      },
+      {
+       "w": "lui",
+       "s": 10.6,
+       "e": 10.92
+      },
+      {
+       "w": "échappe.",
+       "s": 10.92,
+       "e": 11.42
+      }
+     ]
+    }
+   ],
+   "end": 11.919
+  },
+  {
+   "id": "question",
+   "start": 11.919,
+   "sentences": [
+    {
+     "text": "Tout part d'une question d'élève.",
+     "spoken": "Tout part d'une question d'élève.",
+     "start": 11.999,
+     "end": 13.759,
+     "words": [
+      {
+       "w": "Tout",
+       "s": 11.999,
+       "e": 12.319
+      },
+      {
+       "w": "part",
+       "s": 12.319,
+       "e": 12.559
+      },
+      {
+       "w": "d'une",
+       "s": 12.559,
+       "e": 12.799
+      },
+      {
+       "w": "question",
+       "s": 12.799,
+       "e": 13.039
+      },
+      {
+       "w": "d'élève.",
+       "s": 13.039,
+       "e": 13.759
+      }
+     ]
+    },
+    {
+     "text": "Comment tout un peuple a-t-il pu suivre les nazis...",
+     "spoken": "Comment tout un peuple a-t-il pu suivre les nazis...",
+     "start": 13.759,
+     "end": 16.159,
+     "words": [
+      {
+       "w": "Comment",
+       "s": 13.759,
+       "e": 14.079
+      },
+      {
+       "w": "tout",
+       "s": 14.079,
+       "e": 14.239
+      },
+      {
+       "w": "un",
+       "s": 14.239,
+       "e": 14.399
+      },
+      {
+       "w": "peuple",
+       "s": 14.399,
+       "e": 14.639
+      },
+      {
+       "w": "a-t-il",
+       "s": 14.639,
+       "e": 15.039
+      },
+      {
+       "w": "pu",
+       "s": 15.039,
+       "e": 15.199
+      },
+      {
+       "w": "suivre",
+       "s": 15.199,
+       "e": 15.519
+      },
+      {
+       "w": "les",
+       "s": 15.519,
+       "e": 15.679
+      },
+      {
+       "w": "nazis...",
+       "s": 15.679,
+       "e": 16.159
+      }
+     ]
+    },
+    {
+     "text": "puis dire qu'il ne savait rien ?",
+     "spoken": "puis dire qu'il ne savait rien ?",
+     "start": 16.159,
+     "end": 17.759,
+     "words": [
+      {
+       "w": "puis",
+       "s": 16.159,
+       "e": 16.399
+      },
+      {
+       "w": "dire",
+       "s": 16.399,
+       "e": 16.559
+      },
+      {
+       "w": "qu'il",
+       "s": 16.559,
+       "e": 16.879
+      },
+      {
+       "w": "ne",
+       "s": 16.879,
+       "e": 16.979
+      },
+      {
+       "w": "savait",
+       "s": 16.979,
+       "e": 17.279
+      },
+      {
+       "w": "rien?",
+       "s": 17.279,
+       "e": 17.759
+      }
+     ]
+    },
+    {
+     "text": "Le professeur n'a pas de bonne réponse.",
+     "spoken": "Le professeur n'a pas de bonne réponse.",
+     "start": 17.759,
+     "end": 20.079,
+     "words": [
+      {
+       "w": "Le",
+       "s": 17.759,
+       "e": 17.919
+      },
+      {
+       "w": "professeur",
+       "s": 17.919,
+       "e": 18.479
+      },
+      {
+       "w": "n'a",
+       "s": 18.479,
+       "e": 18.719
+      },
+      {
+       "w": "pas",
+       "s": 18.719,
+       "e": 18.879
+      },
+      {
+       "w": "de",
+       "s": 18.879,
+       "e": 19.039
+      },
+      {
+       "w": "bonne",
+       "s": 19.039,
+       "e": 19.359
+      },
+      {
+       "w": "réponse.",
+       "s": 19.359,
+       "e": 20.079
+      }
+     ]
+    },
+    {
+     "text": "Alors il décide de la leur faire vivre.",
+     "spoken": "Alors il décide de la leur faire vivre.",
+     "start": 20.079,
+     "end": 22.639,
+     "words": [
+      {
+       "w": "Alors",
+       "s": 20.079,
+       "e": 20.479
+      },
+      {
+       "w": "il",
+       "s": 20.479,
+       "e": 20.719
+      },
+      {
+       "w": "décide",
+       "s": 20.719,
+       "e": 21.119
+      },
+      {
+       "w": "de",
+       "s": 21.119,
+       "e": 21.279
+      },
+      {
+       "w": "la",
+       "s": 21.279,
+       "e": 21.519
+      },
+      {
+       "w": "leur",
+       "s": 21.519,
+       "e": 21.839
+      },
+      {
+       "w": "faire",
+       "s": 21.839,
+       "e": 22.079
+      },
+      {
+       "w": "vivre.",
+       "s": 22.079,
+       "e": 22.639
+      }
+     ]
+    },
+    {
+     "text": "Son but : montrer comment un groupe peut basculer.",
+     "spoken": "Son but : montrer comment un groupe peut basculer.",
+     "start": 22.639,
+     "end": 25.219,
+     "words": [
+      {
+       "w": "Son",
+       "s": 22.639,
+       "e": 22.879
+      },
+      {
+       "w": "but:",
+       "s": 22.879,
+       "e": 23.439
+      },
+      {
+       "w": "montrer",
+       "s": 23.439,
+       "e": 23.839
+      },
+      {
+       "w": "comment",
+       "s": 23.839,
+       "e": 24.079
+      },
+      {
+       "w": "un",
+       "s": 24.079,
+       "e": 24.239
+      },
+      {
+       "w": "groupe",
+       "s": 24.239,
+       "e": 24.559
+      },
+      {
+       "w": "peut",
+       "s": 24.559,
+       "e": 24.719
+      },
+      {
+       "w": "basculer.",
+       "s": 24.719,
+       "e": 25.219
+      }
+     ]
+    }
+   ],
+   "end": 25.707
+  },
+  {
+   "id": "lundi",
+   "start": 25.707,
+   "sentences": [
+    {
+     "text": "Lundi.",
+     "spoken": "Lundi.",
+     "start": 25.707,
+     "end": 26.507,
+     "words": [
+      {
+       "w": "Lundi.",
+       "s": 25.707,
+       "e": 26.507
+      }
+     ]
+    },
+    {
+     "text": "Première règle : la discipline.",
+     "spoken": "Première règle : la discipline.",
+     "start": 26.507,
+     "end": 28.587,
+     "words": [
+      {
+       "w": "Première",
+       "s": 26.507,
+       "e": 26.987
+      },
+      {
+       "w": "règle:",
+       "s": 26.987,
+       "e": 27.547
+      },
+      {
+       "w": "la",
+       "s": 27.547,
+       "e": 27.707
+      },
+      {
+       "w": "discipline.",
+       "s": 27.707,
+       "e": 28.587
+      }
+     ]
+    },
+    {
+     "text": "Se tenir droit.",
+     "spoken": "Se tenir droit.",
+     "start": 28.587,
+     "end": 29.707,
+     "words": [
+      {
+       "w": "Se",
+       "s": 28.587,
+       "e": 28.747
+      },
+      {
+       "w": "tenir",
+       "s": 28.747,
+       "e": 29.227
+      },
+      {
+       "w": "droit.",
+       "s": 29.227,
+       "e": 29.707
+      }
+     ]
+    },
+    {
+     "text": "Se lever pour parler.",
+     "spoken": "Se lever pour parler.",
+     "start": 29.707,
+     "end": 30.987,
+     "words": [
+      {
+       "w": "Se",
+       "s": 29.707,
+       "e": 29.867
+      },
+      {
+       "w": "lever",
+       "s": 29.867,
+       "e": 30.347
+      },
+      {
+       "w": "pour",
+       "s": 30.347,
+       "e": 30.507
+      },
+      {
+       "w": "parler.",
+       "s": 30.507,
+       "e": 30.987
+      }
+     ]
+    },
+    {
+     "text": "Répondre en trois mots.",
+     "spoken": "Répondre en trois mots.",
+     "start": 30.987,
+     "end": 32.427,
+     "words": [
+      {
+       "w": "Répondre",
+       "s": 30.987,
+       "e": 31.627
+      },
+      {
+       "w": "en",
+       "s": 31.627,
+       "e": 31.787
+      },
+      {
+       "w": "trois",
+       "s": 31.787,
+       "e": 32.027
+      },
+      {
+       "w": "mots.",
+       "s": 32.027,
+       "e": 32.427
+      }
+     ]
+    },
+    {
+     "text": "Et la classe n'a jamais été aussi efficace.",
+     "spoken": "Et la classe n'a jamais été aussi efficace.",
+     "start": 32.427,
+     "end": 34.927,
+     "words": [
+      {
+       "w": "Et",
+       "s": 32.427,
+       "e": 32.587
+      },
+      {
+       "w": "la",
+       "s": 32.587,
+       "e": 32.747
+      },
+      {
+       "w": "classe",
+       "s": 32.747,
+       "e": 33.147
+      },
+      {
+       "w": "n'a",
+       "s": 33.147,
+       "e": 33.387
+      },
+      {
+       "w": "jamais",
+       "s": 33.387,
+       "e": 33.787
+      },
+      {
+       "w": "été",
+       "s": 33.787,
+       "e": 34.107
+      },
+      {
+       "w": "aussi",
+       "s": 34.107,
+       "e": 34.427
+      },
+      {
+       "w": "efficace.",
+       "s": 34.427,
+       "e": 34.927
+      }
+     ]
+    }
+   ],
+   "end": 35.684
+  },
+  {
+   "id": "mardi",
+   "start": 35.684,
+   "sentences": [
+    {
+     "text": "Mardi.",
+     "spoken": "Mardi.",
+     "start": 35.764,
+     "end": 36.324,
+     "words": [
+      {
+       "w": "Mardi.",
+       "s": 35.764,
+       "e": 36.324
+      }
+     ]
+    },
+    {
+     "text": "Deuxième règle : la communauté.",
+     "spoken": "Deuxième règle : la communauté.",
+     "start": 36.324,
+     "end": 38.324,
+     "words": [
+      {
+       "w": "Deuxième",
+       "s": 36.324,
+       "e": 36.884
+      },
+      {
+       "w": "règle:",
+       "s": 36.884,
+       "e": 37.444
+      },
+      {
+       "w": "la",
+       "s": 37.444,
+       "e": 37.604
+      },
+      {
+       "w": "communauté.",
+       "s": 37.604,
+       "e": 38.324
+      }
+     ]
+    },
+    {
+     "text": "Le groupe reçoit un nom : la Troisième Vague.",
+     "spoken": "Le groupe reçoit un nom : la Troisième Vague.",
+     "start": 38.324,
+     "end": 40.964,
+     "words": [
+      {
+       "w": "Le",
+       "s": 38.324,
+       "e": 38.484
+      },
+      {
+       "w": "groupe",
+       "s": 38.484,
+       "e": 38.884
+      },
+      {
+       "w": "reçoit",
+       "s": 38.884,
+       "e": 39.284
+      },
+      {
+       "w": "un",
+       "s": 39.284,
+       "e": 39.444
+      },
+      {
+       "w": "nom:",
+       "s": 39.444,
+       "e": 39.844
+      },
+      {
+       "w": "la",
+       "s": 39.844,
+       "e": 40.004
+      },
+      {
+       "w": "Troisième",
+       "s": 40.004,
+       "e": 40.484
+      },
+      {
+       "w": "Vague.",
+       "s": 40.484,
+       "e": 40.964
+      }
+     ]
+    },
+    {
+     "text": "Un salut, la main en forme de vague.",
+     "spoken": "Un salut, la main en forme de vague.",
+     "start": 40.964,
+     "end": 42.964,
+     "words": [
+      {
+       "w": "Un",
+       "s": 40.964,
+       "e": 41.124
+      },
+      {
+       "w": "salut,",
+       "s": 41.124,
+       "e": 41.604
+      },
+      {
+       "w": "la",
+       "s": 41.604,
+       "e": 41.764
+      },
+      {
+       "w": "main",
+       "s": 41.764,
+       "e": 42.004
+      },
+      {
+       "w": "en",
+       "s": 42.004,
+       "e": 42.164
+      },
+      {
+       "w": "forme",
+       "s": 42.164,
+       "e": 42.404
+      },
+      {
+       "w": "de",
+       "s": 42.404,
+       "e": 42.564
+      },
+      {
+       "w": "vague.",
+       "s": 42.564,
+       "e": 42.964
+      }
+     ]
+    },
+    {
+     "text": "Et des slogans, répétés par toute la classe.",
+     "spoken": "Et des slogans, répétés par toute la classe.",
+     "start": 42.964,
+     "end": 45.544,
+     "words": [
+      {
+       "w": "Et",
+       "s": 42.964,
+       "e": 43.124
+      },
+      {
+       "w": "des",
+       "s": 43.124,
+       "e": 43.284
+      },
+      {
+       "w": "slogans,",
+       "s": 43.284,
+       "e": 44.004
+      },
+      {
+       "w": "répétés",
+       "s": 44.004,
+       "e": 44.564
+      },
+      {
+       "w": "par",
+       "s": 44.564,
+       "e": 44.724
+      },
+      {
+       "w": "toute",
+       "s": 44.724,
+       "e": 44.964
+      },
+      {
+       "w": "la",
+       "s": 44.964,
+       "e": 45.044
+      },
+      {
+       "w": "classe.",
+       "s": 45.044,
+       "e": 45.544
+      }
+     ]
+    }
+   ],
+   "end": 46.053
+  },
+  {
+   "id": "mercredi",
+   "start": 46.053,
+   "sentences": [
+    {
+     "text": "Mercredi.",
+     "spoken": "Mercredi.",
+     "start": 46.133,
+     "end": 47.013,
+     "words": [
+      {
+       "w": "Mercredi.",
+       "s": 46.133,
+       "e": 47.013
+      }
+     ]
+    },
+    {
+     "text": "Chaque élève reçoit sa carte du groupe.",
+     "spoken": "Chaque élève reçoit sa carte du groupe.",
+     "start": 47.013,
+     "end": 49.653,
+     "words": [
+      {
+       "w": "Chaque",
+       "s": 47.013,
+       "e": 47.413
+      },
+      {
+       "w": "élève",
+       "s": 47.413,
+       "e": 47.893
+      },
+      {
+       "w": "reçoit",
+       "s": 47.893,
+       "e": 48.373
+      },
+      {
+       "w": "sa",
+       "s": 48.373,
+       "e": 48.613
+      },
+      {
+       "w": "carte",
+       "s": 48.613,
+       "e": 48.933
+      },
+      {
+       "w": "du",
+       "s": 48.933,
+       "e": 49.093
+      },
+      {
+       "w": "groupe.",
+       "s": 49.093,
+       "e": 49.653
+      }
+     ]
+    },
+    {
+     "text": "Trois d'entre eux sont chargés de signaler ceux qui désobéissent.",
+     "spoken": "Trois d'entre eux sont chargés de signaler ceux qui désobéissent.",
+     "start": 49.653,
+     "end": 53.093,
+     "words": [
+      {
+       "w": "Trois",
+       "s": 49.653,
+       "e": 49.973
+      },
+      {
+       "w": "d'entre",
+       "s": 49.973,
+       "e": 50.213
+      },
+      {
+       "w": "eux",
+       "s": 50.213,
+       "e": 50.453
+      },
+      {
+       "w": "sont",
+       "s": 50.453,
+       "e": 50.613
+      },
+      {
+       "w": "chargés",
+       "s": 50.613,
+       "e": 51.013
+      },
+      {
+       "w": "de",
+       "s": 51.013,
+       "e": 51.173
+      },
+      {
+       "w": "signaler",
+       "s": 51.173,
+       "e": 51.733
+      },
+      {
+       "w": "ceux",
+       "s": 51.733,
+       "e": 51.893
+      },
+      {
+       "w": "qui",
+       "s": 51.893,
+       "e": 52.053
+      },
+      {
+       "w": "désobéissent.",
+       "s": 52.053,
+       "e": 53.093
+      }
+     ]
+    },
+    {
+     "text": "Selon le professeur, une vingtaine le font...",
+     "spoken": "Selon le professeur, une vingtaine le font...",
+     "start": 54.593,
+     "end": 56.993,
+     "words": [
+      {
+       "w": "Selon",
+       "s": 54.593,
+       "e": 54.993
+      },
+      {
+       "w": "le",
+       "s": 54.993,
+       "e": 55.153
+      },
+      {
+       "w": "professeur,",
+       "s": 55.153,
+       "e": 55.873
+      },
+      {
+       "w": "une",
+       "s": 55.873,
+       "e": 56.113
+      },
+      {
+       "w": "vingtaine",
+       "s": 56.113,
+       "e": 56.593
+      },
+      {
+       "w": "le",
+       "s": 56.593,
+       "e": 56.753
+      },
+      {
+       "w": "font...",
+       "s": 56.753,
+       "e": 56.993
+      }
+     ]
+    },
+    {
+     "text": "sans qu'on leur ait rien demandé.",
+     "spoken": "sans qu'on leur ait rien demandé.",
+     "start": 56.993,
+     "end": 58.593,
+     "words": [
+      {
+       "w": "sans",
+       "s": 56.993,
+       "e": 57.153
+      },
+      {
+       "w": "qu'on",
+       "s": 57.153,
+       "e": 57.393
+      },
+      {
+       "w": "leur",
+       "s": 57.393,
+       "e": 57.633
+      },
+      {
+       "w": "ait",
+       "s": 57.633,
+       "e": 57.793
+      },
+      {
+       "w": "rien",
+       "s": 57.793,
+       "e": 58.033
+      },
+      {
+       "w": "demandé.",
+       "s": 58.033,
+       "e": 58.593
+      }
+     ]
+    },
+    {
+     "text": "Et des élèves d'autres classes viennent les rejoindre.",
+     "spoken": "Et des élèves d'autres classes viennent les rejoindre.",
+     "start": 58.593,
+     "end": 61.253,
+     "words": [
+      {
+       "w": "Et",
+       "s": 58.593,
+       "e": 58.753
+      },
+      {
+       "w": "des",
+       "s": 58.753,
+       "e": 58.913
+      },
+      {
+       "w": "élèves",
+       "s": 58.913,
+       "e": 59.233
+      },
+      {
+       "w": "d'autres",
+       "s": 59.233,
+       "e": 59.633
+      },
+      {
+       "w": "classes",
+       "s": 59.633,
+       "e": 60.113
+      },
+      {
+       "w": "viennent",
+       "s": 60.113,
+       "e": 60.593
+      },
+      {
+       "w": "les",
+       "s": 60.593,
+       "e": 60.753
+      },
+      {
+       "w": "rejoindre.",
+       "s": 60.753,
+       "e": 61.253
+      }
+     ]
+    }
+   ],
+   "end": 61.972
+  },
+  {
+   "id": "jeudi",
+   "start": 61.972,
+   "sentences": [
+    {
+     "text": "Jeudi.",
+     "spoken": "Jeudi.",
+     "start": 62.052,
+     "end": 62.692,
+     "words": [
+      {
+       "w": "Jeudi.",
+       "s": 62.052,
+       "e": 62.692
+      }
+     ]
+    },
+    {
+     "text": "Le professeur sent que tout lui échappe.",
+     "spoken": "Le professeur sent que tout lui échappe.",
+     "start": 62.692,
+     "end": 65.012,
+     "words": [
+      {
+       "w": "Le",
+       "s": 62.692,
+       "e": 62.852
+      },
+      {
+       "w": "professeur",
+       "s": 62.852,
+       "e": 63.412
+      },
+      {
+       "w": "sent",
+       "s": 63.412,
+       "e": 63.732
+      },
+      {
+       "w": "que",
+       "s": 63.732,
+       "e": 63.892
+      },
+      {
+       "w": "tout",
+       "s": 63.892,
+       "e": 64.052
+      },
+      {
+       "w": "lui",
+       "s": 64.052,
+       "e": 64.292
+      },
+      {
+       "w": "échappe.",
+       "s": 64.292,
+       "e": 65.012
+      }
+     ]
+    },
+    {
+     "text": "Alors il annonce que la Troisième Vague est un mouvement national.",
+     "spoken": "Alors il annonce que la Troisième Vague est un mouvement national.",
+     "start": 65.012,
+     "end": 68.612,
+     "words": [
+      {
+       "w": "Alors",
+       "s": 65.012,
+       "e": 65.412
+      },
+      {
+       "w": "il",
+       "s": 65.412,
+       "e": 65.652
+      },
+      {
+       "w": "annonce",
+       "s": 65.652,
+       "e": 66.132
+      },
+      {
+       "w": "que",
+       "s": 66.132,
+       "e": 66.292
+      },
+      {
+       "w": "la",
+       "s": 66.292,
+       "e": 66.452
+      },
+      {
+       "w": "Troisième",
+       "s": 66.452,
+       "e": 66.852
+      },
+      {
+       "w": "Vague",
+       "s": 66.852,
+       "e": 67.332
+      },
+      {
+       "w": "est",
+       "s": 67.332,
+       "e": 67.492
+      },
+      {
+       "w": "un",
+       "s": 67.492,
+       "e": 67.652
+      },
+      {
+       "w": "mouvement",
+       "s": 67.652,
+       "e": 68.052
+      },
+      {
+       "w": "national.",
+       "s": 68.052,
+       "e": 68.612
+      }
+     ]
+    },
+    {
+     "text": "Et que son chef parlera demain, à midi, à la télévision.",
+     "spoken": "Et que son chef parlera demain, à midi, à la télévision.",
+     "start": 68.612,
+     "end": 71.592,
+     "words": [
+      {
+       "w": "Et",
+       "s": 68.612,
+       "e": 68.772
+      },
+      {
+       "w": "que",
+       "s": 68.772,
+       "e": 68.932
+      },
+      {
+       "w": "son",
+       "s": 68.932,
+       "e": 69.092
+      },
+      {
+       "w": "chef",
+       "s": 69.092,
+       "e": 69.412
+      },
+      {
+       "w": "parlera",
+       "s": 69.412,
+       "e": 69.892
+      },
+      {
+       "w": "demain,",
+       "s": 69.892,
+       "e": 70.292
+      },
+      {
+       "w": "à",
+       "s": 70.292,
+       "e": 70.372
+      },
+      {
+       "w": "midi,",
+       "s": 70.372,
+       "e": 70.852
+      },
+      {
+       "w": "à",
+       "s": 70.852,
+       "e": 70.932
+      },
+      {
+       "w": "la",
+       "s": 70.932,
+       "e": 71.092
+      },
+      {
+       "w": "télévision.",
+       "s": 71.092,
+       "e": 71.592
+      }
+     ]
+    }
+   ],
+   "end": 72.087
+  },
+  {
+   "id": "vendredi",
+   "start": 72.087,
+   "sentences": [
+    {
+     "text": "Vendredi, midi.",
+     "spoken": "Vendredi, midi.",
+     "start": 72.167,
+     "end": 73.527,
+     "words": [
+      {
+       "w": "Vendredi,",
+       "s": 72.167,
+       "e": 72.887
+      },
+      {
+       "w": "midi.",
+       "s": 72.887,
+       "e": 73.527
+      }
+     ]
+    },
+    {
+     "text": "Environ deux cents élèves attendent devant l'écran.",
+     "spoken": "Environ deux cents élèves attendent devant l'écran.",
+     "start": 73.527,
+     "end": 76.247,
+     "words": [
+      {
+       "w": "Environ",
+       "s": 73.527,
+       "e": 73.927
+      },
+      {
+       "w": "deux",
+       "s": 73.927,
+       "e": 73.977
+      },
+      {
+       "w": "cents",
+       "s": 73.947,
+       "e": 74.487
+      },
+      {
+       "w": "élèves",
+       "s": 74.487,
+       "e": 74.967
+      },
+      {
+       "w": "attendent",
+       "s": 74.967,
+       "e": 75.447
+      },
+      {
+       "w": "devant",
+       "s": 75.447,
+       "e": 75.687
+      },
+      {
+       "w": "l'écran.",
+       "s": 75.687,
+       "e": 76.247
+      }
+     ]
+    },
+    {
+     "text": "Le professeur allume la télévision.",
+     "spoken": "Le professeur allume la télévision.",
+     "start": 76.247,
+     "end": 78.567,
+     "words": [
+      {
+       "w": "Le",
+       "s": 76.247,
+       "e": 76.487
+      },
+      {
+       "w": "professeur",
+       "s": 76.487,
+       "e": 77.127
+      },
+      {
+       "w": "allume",
+       "s": 77.127,
+       "e": 77.687
+      },
+      {
+       "w": "la",
+       "s": 77.687,
+       "e": 77.847
+      },
+      {
+       "w": "télévision.",
+       "s": 77.847,
+       "e": 78.567
+      }
+     ]
+    },
+    {
+     "text": "Rien.",
+     "spoken": "Rien.",
+     "start": 80.067,
+     "end": 80.547,
+     "words": [
+      {
+       "w": "Rien.",
+       "s": 80.067,
+       "e": 80.547
+      }
+     ]
+    },
+    {
+     "text": "Un écran vide.",
+     "spoken": "Un écran vide.",
+     "start": 80.547,
+     "end": 81.667,
+     "words": [
+      {
+       "w": "Un",
+       "s": 80.547,
+       "e": 80.787
+      },
+      {
+       "w": "écran",
+       "s": 80.787,
+       "e": 81.187
+      },
+      {
+       "w": "vide.",
+       "s": 81.187,
+       "e": 81.667
+      }
+     ]
+    },
+    {
+     "text": "Il n'y a pas de chef.",
+     "spoken": "Il n'y a pas de chef.",
+     "start": 82.567,
+     "end": 84.087,
+     "words": [
+      {
+       "w": "Il",
+       "s": 82.567,
+       "e": 82.727
+      },
+      {
+       "w": "n'y",
+       "s": 82.727,
+       "e": 83.047
+      },
+      {
+       "w": "a",
+       "s": 83.047,
+       "e": 83.127
+      },
+      {
+       "w": "pas",
+       "s": 83.127,
+       "e": 83.287
+      },
+      {
+       "w": "de",
+       "s": 83.287,
+       "e": 83.447
+      },
+      {
+       "w": "chef.",
+       "s": 83.447,
+       "e": 84.087
+      }
+     ]
+    },
+    {
+     "text": "Il n'y a jamais eu de mouvement.",
+     "spoken": "Il n'y a jamais eu de mouvement.",
+     "start": 84.087,
+     "end": 85.666,
+     "words": [
+      {
+       "w": "Il",
+       "s": 84.087,
+       "e": 84.247
+      },
+      {
+       "w": "n'y",
+       "s": 84.247,
+       "e": 84.487
+      },
+      {
+       "w": "a",
+       "s": 84.487,
+       "e": 84.567
+      },
+      {
+       "w": "jamais",
+       "s": 84.567,
+       "e": 84.887
+      },
+      {
+       "w": "eu",
+       "s": 84.887,
+       "e": 85.047
+      },
+      {
+       "w": "de",
+       "s": 85.047,
+       "e": 85.207
+      },
+      {
+       "w": "mouvement.",
+       "s": 85.207,
+       "e": 85.666
+      }
+     ]
+    }
+   ],
+   "end": 86.066
+  },
+  {
+   "id": "film",
+   "start": 86.066,
+   "sentences": [
+    {
+     "text": "À la place, il leur projette un film sur l'Allemagne des années trente.",
+     "spoken": "À la place, il leur projette un film sur l'Allemagne des années trente.",
+     "start": 86.066,
+     "end": 89.986,
+     "words": [
+      {
+       "w": "À",
+       "s": 86.066,
+       "e": 86.306
+      },
+      {
+       "w": "la",
+       "s": 86.306,
+       "e": 86.466
+      },
+      {
+       "w": "place,",
+       "s": 86.466,
+       "e": 86.866
+      },
+      {
+       "w": "il",
+       "s": 86.866,
+       "e": 87.106
+      },
+      {
+       "w": "leur",
+       "s": 87.106,
+       "e": 87.346
+      },
+      {
+       "w": "projette",
+       "s": 87.346,
+       "e": 87.826
+      },
+      {
+       "w": "un",
+       "s": 87.826,
+       "e": 87.906
+      },
+      {
+       "w": "film",
+       "s": 87.906,
+       "e": 88.146
+      },
+      {
+       "w": "sur",
+       "s": 88.146,
+       "e": 88.306
+      },
+      {
+       "w": "l'Allemagne",
+       "s": 88.306,
+       "e": 89.026
+      },
+      {
+       "w": "des",
+       "s": 89.026,
+       "e": 89.186
+      },
+      {
+       "w": "années",
+       "s": 89.186,
+       "e": 89.426
+      },
+      {
+       "w": "trente.",
+       "s": 89.426,
+       "e": 89.986
+      }
+     ]
+    },
+    {
+     "text": "Des foules en rang.",
+     "spoken": "Des foules en rang.",
+     "start": 89.986,
+     "end": 91.346,
+     "words": [
+      {
+       "w": "Des",
+       "s": 89.986,
+       "e": 90.226
+      },
+      {
+       "w": "foules",
+       "s": 90.226,
+       "e": 90.706
+      },
+      {
+       "w": "en",
+       "s": 90.706,
+       "e": 90.866
+      },
+      {
+       "w": "rang.",
+       "s": 90.866,
+       "e": 91.346
+      }
+     ]
+    },
+    {
+     "text": "Des slogans.",
+     "spoken": "Des slogans.",
+     "start": 91.346,
+     "end": 91.986,
+     "words": [
+      {
+       "w": "Des",
+       "s": 91.346,
+       "e": 91.506
+      },
+      {
+       "w": "slogans.",
+       "s": 91.506,
+       "e": 91.986
+      }
+     ]
+    },
+    {
+     "text": "De la fierté.",
+     "spoken": "De la fierté.",
+     "start": 91.986,
+     "end": 92.946,
+     "words": [
+      {
+       "w": "De",
+       "s": 91.986,
+       "e": 92.146
+      },
+      {
+       "w": "la",
+       "s": 92.146,
+       "e": 92.226
+      },
+      {
+       "w": "fierté.",
+       "s": 92.226,
+       "e": 92.946
+      }
+     ]
+    },
+    {
+     "text": "Exactement comme eux, cette semaine.",
+     "spoken": "Exactement comme eux, cette semaine.",
+     "start": 92.946,
+     "end": 94.983,
+     "words": [
+      {
+       "w": "Exactement",
+       "s": 92.946,
+       "e": 93.586
+      },
+      {
+       "w": "comme",
+       "s": 93.586,
+       "e": 93.906
+      },
+      {
+       "w": "eux,",
+       "s": 93.906,
+       "e": 94.306
+      },
+      {
+       "w": "cette",
+       "s": 94.306,
+       "e": 94.546
+      },
+      {
+       "w": "semaine.",
+       "s": 94.546,
+       "e": 94.983
+      }
+     ]
+    }
+   ],
+   "end": 95.383
+  },
+  {
+   "id": "lecon",
+   "start": 95.383,
+   "sentences": [
+    {
+     "text": "La leçon ?",
+     "spoken": "La leçon ?",
+     "start": 95.383,
+     "end": 96.183,
+     "words": [
+      {
+       "w": "La",
+       "s": 95.383,
+       "e": 95.623
+      },
+      {
+       "w": "leçon?",
+       "s": 95.623,
+       "e": 96.183
+      }
+     ]
+    },
+    {
+     "text": "Personne n'est à l'abri.",
+     "spoken": "Personne n'est à l'abri.",
+     "start": 96.183,
+     "end": 97.783,
+     "words": [
+      {
+       "w": "Personne",
+       "s": 96.183,
+       "e": 96.663
+      },
+      {
+       "w": "n'est",
+       "s": 96.663,
+       "e": 96.983
+      },
+      {
+       "w": "à",
+       "s": 96.983,
+       "e": 97.143
+      },
+      {
+       "w": "l'abri.",
+       "s": 97.143,
+       "e": 97.783
+      }
+     ]
+    },
+    {
+     "text": "Il suffit d'un groupe, d'un chef...",
+     "spoken": "Il suffit d'un groupe, d'un chef...",
+     "start": 97.783,
+     "end": 99.703,
+     "words": [
+      {
+       "w": "Il",
+       "s": 97.783,
+       "e": 98.023
+      },
+      {
+       "w": "suffit",
+       "s": 98.023,
+       "e": 98.423
+      },
+      {
+       "w": "d'un",
+       "s": 98.423,
+       "e": 98.663
+      },
+      {
+       "w": "groupe,",
+       "s": 98.663,
+       "e": 99.143
+      },
+      {
+       "w": "d'un",
+       "s": 99.143,
+       "e": 99.383
+      },
+      {
+       "w": "chef...",
+       "s": 99.383,
+       "e": 99.703
+      }
+     ]
+    },
+    {
+     "text": "et de l'envie d'en faire partie.",
+     "spoken": "et de l'envie d'en faire partie.",
+     "start": 99.703,
+     "end": 101.188,
+     "words": [
+      {
+       "w": "et",
+       "s": 99.703,
+       "e": 99.783
+      },
+      {
+       "w": "de",
+       "s": 99.783,
+       "e": 99.863
+      },
+      {
+       "w": "l'envie",
+       "s": 99.863,
+       "e": 100.263
+      },
+      {
+       "w": "d'en",
+       "s": 100.263,
+       "e": 100.583
+      },
+      {
+       "w": "faire",
+       "s": 100.583,
+       "e": 100.823
+      },
+      {
+       "w": "partie.",
+       "s": 100.823,
+       "e": 101.188
+      }
+     ]
+    }
+   ],
+   "end": 101.588
+  },
+  {
+   "id": "nuance",
+   "start": 101.588,
+   "sentences": [
+    {
+     "text": "Ce récit vient surtout du professeur lui-même, et certains détails sont discutés.",
+     "spoken": "Ce récit vient surtout du professeur lui-même, et certains détails sont discutés.",
+     "start": 101.588,
+     "end": 106.148,
+     "words": [
+      {
+       "w": "Ce",
+       "s": 101.588,
+       "e": 101.828
+      },
+      {
+       "w": "récit",
+       "s": 101.828,
+       "e": 102.308
+      },
+      {
+       "w": "vient",
+       "s": 102.308,
+       "e": 102.548
+      },
+      {
+       "w": "surtout",
+       "s": 102.548,
+       "e": 102.948
+      },
+      {
+       "w": "du",
+       "s": 102.948,
+       "e": 103.108
+      },
+      {
+       "w": "professeur",
+       "s": 103.108,
+       "e": 103.668
+      },
+      {
+       "w": "lui-même,",
+       "s": 103.668,
+       "e": 104.228
+      },
+      {
+       "w": "et",
+       "s": 104.228,
+       "e": 104.468
+      },
+      {
+       "w": "certains",
+       "s": 104.468,
+       "e": 104.788
+      },
+      {
+       "w": "détails",
+       "s": 104.788,
+       "e": 105.348
+      },
+      {
+       "w": "sont",
+       "s": 105.348,
+       "e": 105.508
+      },
+      {
+       "w": "discutés.",
+       "s": 105.508,
+       "e": 106.148
+      }
+     ]
+    },
+    {
+     "text": "Mais d'anciens élèves en ont confirmé l'essentiel.",
+     "spoken": "Mais d'anciens élèves en ont confirmé l'essentiel.",
+     "start": 106.148,
+     "end": 108.808,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 106.148,
+       "e": 106.388
+      },
+      {
+       "w": "d'anciens",
+       "s": 106.388,
+       "e": 106.948
+      },
+      {
+       "w": "élèves",
+       "s": 106.948,
+       "e": 107.428
+      },
+      {
+       "w": "en",
+       "s": 107.428,
+       "e": 107.668
+      },
+      {
+       "w": "ont",
+       "s": 107.668,
+       "e": 107.908
+      },
+      {
+       "w": "confirmé",
+       "s": 107.908,
+       "e": 108.308
+      },
+      {
+       "w": "l'essentiel.",
+       "s": 108.308,
+       "e": 108.808
+      }
+     ]
+    }
+   ],
+   "end": 109.509
+  },
+  {
+   "id": "cta",
+   "start": 109.509,
+   "sentences": [
+    {
+     "text": "Et toi : tu aurais suivi...",
+     "spoken": "Et toi : tu aurais suivi...",
+     "start": 109.509,
+     "end": 110.869,
+     "words": [
+      {
+       "w": "Et",
+       "s": 109.509,
+       "e": 109.669
+      },
+      {
+       "w": "toi:",
+       "s": 109.669,
+       "e": 110.069
+      },
+      {
+       "w": "tu",
+       "s": 110.069,
+       "e": 110.229
+      },
+      {
+       "w": "aurais",
+       "s": 110.229,
+       "e": 110.549
+      },
+      {
+       "w": "suivi...",
+       "s": 110.549,
+       "e": 110.869
+      }
+     ]
+    },
+    {
+     "text": "ou tu aurais dit non ?",
+     "spoken": "ou tu aurais dit non ?",
+     "start": 110.869,
+     "end": 111.989,
+     "words": [
+      {
+       "w": "ou",
+       "s": 110.869,
+       "e": 111.029
+      },
+      {
+       "w": "tu",
+       "s": 111.029,
+       "e": 111.189
+      },
+      {
+       "w": "aurais",
+       "s": 111.189,
+       "e": 111.429
+      },
+      {
+       "w": "dit",
+       "s": 111.429,
+       "e": 111.589
+      },
+      {
+       "w": "non?",
+       "s": 111.589,
+       "e": 111.989
+      }
+     ]
+    },
+    {
+     "text": "Dis-le en commentaire.",
+     "spoken": "Dis-le en commentaire.",
+     "start": 111.989,
+     "end": 113.209,
+     "words": [
+      {
+       "w": "Dis-le",
+       "s": 111.989,
+       "e": 112.549
+      },
+      {
+       "w": "en",
+       "s": 112.549,
+       "e": 112.709
+      },
+      {
+       "w": "commentaire.",
+       "s": 112.709,
+       "e": 113.209
+      }
+     ]
+    }
+   ],
+   "end": 113.955
+  }
+ ]
+}
