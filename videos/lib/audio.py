@@ -596,6 +596,14 @@ def fx(kind, dur=None):
         t = t_axis(0.7)
         thump = lambda d: np.where(t >= d, np.sin(2 * np.pi * 55 * (t - d)) * np.exp(-(t - d) * 18), 0)
         return lp(thump(0) + thump(0.22) * 0.75, 200) * 1.2
+    if kind == "coeur":  # a heartbeat that still reads on a phone speaker: lub-dub with body up to ~350 Hz, soft attack (no click)
+        t = t_axis(0.75)
+
+        def coup(d, f, a):
+            x = np.clip(t - d, 0, None)
+            env = (1 - np.exp(-x * 220)) * np.exp(-x * 15) * (t >= d)
+            return a * env * (0.8 * np.sin(2 * np.pi * f * x) + 0.9 * np.sin(2 * np.pi * 2 * f * x) * np.exp(-x * 7) + 0.7 * np.sin(2 * np.pi * 3.1 * f * x) * np.exp(-x * 13) + 0.3 * np.sin(2 * np.pi * 4.3 * f * x) * np.exp(-x * 22))
+        return lp(coup(0, 68, 1.0) + coup(0.24, 82, 0.72), 520) * 0.9
     # ---- foley for the immersive cuts
     if kind == "switch":  # heavy bakelite toggle: click + small body thump
         t = t_axis(0.18)
@@ -699,11 +707,17 @@ def main(cue_path, out_path):
     fl, fr = np.zeros(n), np.zeros(n)
     cache = {}
     # "silence" cues: music and effects drop out completely (a real pause after a shock line)
+    # "retour": seconds over which the bed comes back after the silence (a slow swell instead of a restart)
     hush = np.ones(n)
     for e in cues["events"]:
         if e["type"] == "silence":
-            a, b = int(e["t"] * SR), int((e["t"] + e.get("dur", 1.0)) * SR)
-            hush[max(0, a):max(0, b)] = 0
+            a, b = max(0, int(e["t"] * SR)), max(0, int((e["t"] + e.get("dur", 1.0)) * SR))
+            hush[a:b] = 0
+            r = int(e.get("retour", 0) * SR)
+            if r > 0:
+                m = max(0, min(r, n - b))
+                x = np.linspace(0, 1, r)[:m]
+                hush[b:b + m] = np.minimum(hush[b:b + m], x * x * (3 - 2 * x))
     k = int(0.06 * SR)
     hush = np.convolve(hush, np.ones(k) / k, mode="same")
     L, R = L * hush, R * hush
@@ -734,6 +748,9 @@ def main(cue_path, out_path):
         peak = max(np.max(np.abs(L)), np.max(np.abs(R)), 1e-9)
         bed = voice.get("bed", 0.3) / peak
         vg = voice.get("gain", 1.0) / max(np.max(np.abs(v)), 1e-9)
+        if cues.get("stems"):  # check files: the bed and the voice alone, at the levels they have in the mix
+            write(out_path.replace(".wav", "_fond.wav"), np.stack([L * bed, R * bed], axis=1))
+            write(out_path.replace(".wav", "_voix.wav"), np.stack([v * vg, v * vg], axis=1))
         mix = np.stack([L * bed + v * vg, R * bed + v * vg], axis=1)
         mix = np.tanh(mix / np.max(np.abs(mix)) * 1.1) / np.tanh(1.1) * 0.95
         write(out_path, mix)

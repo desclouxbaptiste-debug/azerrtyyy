@@ -38,10 +38,16 @@ async function openPage() {
   await page.evaluate(() => window.ready);
   return page;
 }
-const grab = (page, t) => page.evaluate(t => { window.render(t); return document.getElementById("c").toDataURL("image/jpeg", 0.94); }, t);
+// TIMELINE.EXPORT (optional) asks for a master-quality file: { crf: 16, jpeg: 1, rec709: true, audio: { rate: 48000, bitrate: "320k" } }
+// = frames passed without chroma subsampling, x264 at that CRF with no bitrate cap, colours converted and tagged
+// Rec.709 (limited range), square pixels, sound resampled to that rate and encoded at that AAC bitrate.
+let QUALITE = 0.94;
+const grab = (page, t) => page.evaluate(([t, q]) => { window.render(t); return document.getElementById("c").toDataURL("image/jpeg", q); }, [t, QUALITE]);
 
 const page = await openPage();
 const tl = await page.evaluate(() => window.TIMELINE);
+const EXP = tl.EXPORT || {};
+if (EXP.jpeg) QUALITE = EXP.jpeg;
 
 const stills = arg("--stills");
 if (stills) {
@@ -62,7 +68,7 @@ if (tl.LOUDNESS) {
   const wav = join(out, "audio.wav"), tmp = join(out, "audio_ln.wav"), ln = `loudnorm=I=${tl.LOUDNESS}:TP=-1:LRA=11`;
   const probe = spawnSync("ffmpeg", ["-hide_banner", "-i", wav, "-af", `${ln}:print_format=json`, "-f", "null", "-"], { encoding: "utf8" }).stderr;
   const m = JSON.parse(probe.slice(probe.lastIndexOf("{")));
-  execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", wav, "-af", `${ln}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`, "-ar", "44100", tmp]);
+  execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", wav, "-af", `${ln}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`, "-ar", String(EXP.audio?.rate || 44100), tmp]);
   renameSync(tmp, wav);
 }
 if (process.argv.includes("--audio-only")) { await browser.close(); server.close(); process.exit(0); }
@@ -74,7 +80,10 @@ const per = Math.ceil(total / workers);
 async function renderRange(w, pg) {
   const seg = join(out, `seg_${w}.mp4`);
   const ff = spawn("ffmpeg", ["-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", String(tl.FPS), "-c:v", "mjpeg", "-i", "-",
-    "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-maxrate", "6M", "-bufsize", "12M", "-pix_fmt", "yuv420p", "-profile:v", "high", seg], { stdio: ["pipe", "inherit", "inherit"] });
+    ...(EXP.rec709 ? ["-vf", "scale=in_range=full:in_color_matrix=bt601:out_range=tv:out_color_matrix=bt709,format=yuv420p,setsar=1",
+      "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-color_range", "tv"] : []),
+    "-c:v", "libx264", "-preset", "slow", "-crf", String(EXP.crf || 19), ...(EXP.crf ? [] : ["-maxrate", "6M", "-bufsize", "12M"]),
+    "-pix_fmt", "yuv420p", "-profile:v", "high", seg], { stdio: ["pipe", "inherit", "inherit"] });
   const from = w * per, to = Math.min(total, from + per);
   for (let i = from; i < to; i++) {
     const data = await grab(pg, i / tl.FPS);
@@ -93,6 +102,7 @@ const list = join(out, "segments.txt");
 writeFileSync(list, segs.map(s => `file '${s}'`).join("\n"));
 const file = join(out, `${name}.mp4`);
 execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", list, "-i", join(out, "audio.wav"),
-  "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", file], { stdio: "inherit" });
+  "-c:v", "copy", "-c:a", "aac", "-b:a", EXP.audio?.bitrate || "192k", ...(EXP.audio?.rate ? ["-ar", String(EXP.audio.rate)] : []),
+  "-shortest", "-movflags", "+faststart", file], { stdio: "inherit" });
 segs.forEach(s => rmSync(s)); rmSync(list);
 console.log("done ->", file);

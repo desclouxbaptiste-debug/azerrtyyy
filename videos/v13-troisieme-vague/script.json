@@ -1,0 +1,74 @@
+{
+ "engine": "piper",
+ "voice": "fr_FR-tom-medium",
+ "sid": 0,
+ "speed": 0.96,
+ "noise": 0.667,
+ "noise_w": 0.8,
+ "target": null,
+ "chunk": "segment",
+ "best_of": 3,
+ "lead": 0.5,
+ "gap_segment": 0.4,
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0,
+  "long_pause": 1.5,
+  "reveal_pause": 0.9
+ },
+ "post": {
+  "semitones": -1.5,
+  "warmth": 3,
+  "presence": 1.5,
+  "threshold": 0.12,
+  "ratio": 2.5,
+  "makeup": 1.1
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "En {1967|mille neuf cent soixante-sept}, en Californie, un professeur d'histoire lance une expérience dans sa classe. Elle devait durer une journée. <r>En cinq jours, elle lui échappe."
+  },
+  {
+   "id": "question",
+   "text": "Tout part d'une question d'élève. Comment tout un peuple a-t-il pu suivre les nazis... puis dire qu'il ne savait rien ? Le professeur n'a pas de bonne réponse. Alors il décide de la leur faire vivre. Son but : montrer comment un groupe peut basculer."
+  },
+  {
+   "id": "lundi",
+   "text": "Lundi. Première règle : la discipline. Se tenir droit. Se lever pour parler. Répondre en trois mots. Et la classe n'a jamais été aussi efficace."
+  },
+  {
+   "id": "mardi",
+   "text": "Mardi. Deuxième règle : la communauté. Le groupe reçoit un nom : la Troisième Vague. Un salut, la main en forme de vague. Et des slogans, répétés par toute la classe."
+  },
+  {
+   "id": "mercredi",
+   "text": "Mercredi. Chaque élève reçoit sa carte du groupe. Trois d'entre eux sont chargés de signaler ceux qui désobéissent. <l>Selon le professeur, une vingtaine le font... sans qu'on leur ait rien demandé. Et des élèves d'autres classes viennent les rejoindre."
+  },
+  {
+   "id": "jeudi",
+   "text": "Jeudi. Le professeur sent que tout lui échappe. Alors il annonce que la Troisième Vague est un mouvement national. Et que son chef parlera demain, à midi, à la télévision."
+  },
+  {
+   "id": "vendredi",
+   "text": "Vendredi, midi. Environ deux cents élèves attendent devant l'écran. Le professeur allume la télévision. <l>Rien. Un écran vide. <r>Il n'y a pas de chef. Il n'y a jamais eu de mouvement."
+  },
+  {
+   "id": "film",
+   "text": "À la place, il leur projette un film sur l'Allemagne des années trente. Des foules en rang. Des slogans. De la fierté. Exactement comme eux, cette semaine."
+  },
+  {
+   "id": "lecon",
+   "text": "La leçon ? Personne n'est à l'abri. Il suffit d'un groupe, d'un chef... et de l'envie d'en faire partie."
+  },
+  {
+   "id": "nuance",
+   "text": "Ce récit vient surtout du professeur lui-même, et certains détails sont discutés. Mais d'anciens élèves en ont confirmé l'essentiel."
+  },
+  {
+   "id": "cta",
+   "text": "Et toi : tu aurais suivi... ou tu aurais dit non ? Dis-le en commentaire."
+  }
+ ]
+}
