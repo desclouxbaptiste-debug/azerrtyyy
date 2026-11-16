@@ -524,7 +524,7 @@ scene("hook", {
     texte("PERSONNE", CX, 400, 120, t, tb + 0.3);
     texte("NE L'A JAMAIS PRONONCÉE", CX, 505, ajuste("NE L'A JAMAIS PRONONCÉE", 60), t, tb + 0.55);
     texte("LA VRAIE HISTOIRE", CX, 1250, ajuste("LA VRAIE HISTOIRE", 70), t, mot("hook", "vraie", 10) - 0.2);
-    texte("EST PIRE.", CX, 1340, 70, t, mot("hook", "dérangeante", 11) - 0.3, { couleur: ACC });
+    texte("EST PIRE.", CX, 1340, 70, t, mot("hook", "inquiétante", 11) - 0.3, { couleur: ACC });
   },
 });
 function ctxLargeur(s) { ctx.save(); ctx.font = `${PH_T()}px MontX`; const w = ctx.measureText(s).width; ctx.restore(); return w; }
@@ -538,10 +538,17 @@ scene("explosion", {
   },
   texte(t) {
     const V = EUROPE_V(), [x, y] = V.p(LIEUX.tchernobyl), te = mot("explosion", "explose", 5) - 0.1;
-    texte("26 AVRIL 1986", CX, 380, ajuste("26 AVRIL 1986", 110), t, S("explosion") + 0.05);
-    texte("01:23", CX, 500, 96, t, mot("explosion", "heure", 2) - 0.2, { alpha: 0.85 });
-    texte("RÉACTEUR N°4", x - 30, y + 80, 48, t, mot("explosion", "réacteur", 4) - 0.2, { align: "right" });
+    const tr = S("radio"), tp = mot("radio", "poussières", 1.5) - 0.3, tm = mot("radio", "malade", 7) - 0.4;
+    texte("26 AVRIL 1986", CX, 380, ajuste("26 AVRIL 1986", 110), t, S("explosion") + 0.05, { fin: tr - 0.3 });
+    texte("01:23", CX, 500, 96, t, mot("explosion", "heure", 2) - 0.2, { alpha: 0.85, fin: tr - 0.3 });
+    texte("UNE CENTRALE NUCLÉAIRE", CX, 1270, ajuste("UNE CENTRALE NUCLÉAIRE", 64), t, mot("explosion", "centrale", 3) - 0.3, { fin: te - 0.3 });
+    texte("= DE L'ÉLECTRICITÉ", CX, 1360, ajuste("= DE L'ÉLECTRICITÉ", 56), t, mot("explosion", "électricité", 5) - 0.4, { fin: te - 0.3, alpha: 0.85 });
+    texte("RÉACTEUR N°4", x - 30, y + 80, 48, t, mot("explosion", "réacteur", 6) - 0.2, { align: "right" });
     texte("TCHERNOBYL", x - 30, y + 140, 52, t, te + 0.2, { align: "right" });
+    texte("UN NUAGE INVISIBLE", CX, 400, ajuste("UN NUAGE INVISIBLE", 84), t, tr + 0.05);
+    texte("POUSSIÈRES RADIOACTIVES", CX, 1270, ajuste("POUSSIÈRES RADIOACTIVES", 60), t, tp, { couleur: ACC, fin: tm - 0.3 });
+    texte("EN GRANDE QUANTITÉ :", CX, 1270, ajuste("EN GRANDE QUANTITÉ :", 60), t, tm - 0.2, { alpha: 0.85 });
+    texte("ELLES RENDENT MALADE", CX, 1360, ajuste("ELLES RENDENT MALADE", 64), t, tm);
   },
 });
 scene("chambre", {
@@ -663,8 +670,9 @@ scene("meteo", {
     texte("LA MÉTÉO", CX, 400, 110, t, mot("meteo", "météo", 4) - 0.3, { fin: tp - 0.4 });
     texte("UN PANNEAU STOP", CX, 400, ajuste("UN PANNEAU STOP", 84), t, tp, { fin: ta - 0.3 });
     texte("UN ANTICYCLONE", CX, 380, ajuste("UN ANTICYCLONE", 80), t, ta, { fin: t1 - 0.3 });
-    texte("PROTÉGERAIT LA FRANCE", CX, 470, ajuste("PROTÉGERAIT LA FRANCE", 60), t, ta + 0.3, { fin: t1 - 0.3, alpha: 0.85 });
-    texte("POUR 3 JOURS", CX, 1300, 64, t, mot("meteo", "trois", 13) - 0.3, { fin: t1 - 0.3, alpha: 0.85 });
+    texte("= UNE ZONE DE BEAU TEMPS", CX, 470, ajuste("= UNE ZONE DE BEAU TEMPS", 56), t, mot("meteo", "zone", 11) - 0.3, { fin: t1 - 0.3, alpha: 0.85 });
+    texte("PROTÈGE LA FRANCE", CX, 1300, ajuste("PROTÈGE LA FRANCE", 64), t, mot("meteo", "protège", 12) - 0.3, { fin: t1 - 0.3 });
+    texte("POUR 3 JOURS", CX, 1390, 60, t, mot("meteo", "trois", 13) - 0.3, { fin: t1 - 0.3, alpha: 0.85 });
   },
 });
 scene("entree", {
@@ -718,6 +726,8 @@ scene("mai2", {
     const t0 = S("mai2"), tc = mot("mai2", "Ce", 4) - 0.2, tm = mot("mai2", "maximum", 6) - 0.4;
     texte("UN VERRE DE LAIT", CX, 400, ajuste("UN VERRE DE LAIT", 76), t, mot("mai2", "verre", 1) - 0.3, { fin: tc - 0.3 });
     texte("LA SALADE DU JARDIN", CX, 490, ajuste("LA SALADE DU JARDIN", 60), t, mot("mai2", "salade", 3) - 0.3, { fin: tc - 0.3, alpha: 0.85 });
+    texte("LA PLUIE FAIT TOMBER", CX, 1300, ajuste("LA PLUIE FAIT TOMBER", 60), t, mot("mai2", "pluie", 3.5) - 0.3, { fin: tc - 0.3 });
+    texte("LES POUSSIÈRES", CX, 1390, ajuste("LES POUSSIÈRES", 64), t, mot("mai2", "poussières", 4) - 0.3, { couleur: ACC, fin: tc - 0.3 });
     texte("CE JOUR-LÀ", CX, 380, 84, t, tc, { alpha: 0.85 });
     texte("RADIOACTIVITÉ DE L'AIR", CX, 480, ajuste("RADIOACTIVITÉ DE L'AIR", 60), t, mot("mai2", "radioactivité", 5) - 0.3);
     texte("AU MAXIMUM", CX, 1400, ajuste("AU MAXIMUM", 110), t, tm, { couleur: ACC });
@@ -826,7 +836,7 @@ scene("aveu", {
   texte(t) {
     const t0 = S("aveu"), tc = mot("aveu", "cartes", 6) - 0.9, t1 = S("mere3");
     texte("10 MAI", CX, 400, 130, t, t0 + 0.05, { fin: tc - 0.3 });
-    texte("LES CARTES, ENFIN", CX, 1300, ajuste("LES CARTES, ENFIN", 72), t, tc - 0.3, { fin: mot("aveu", "survolé", 8) - 0.4 });
+    texte("LES CARTES, ENFIN", CX, 1300, ajuste("LES CARTES, ENFIN", 72), t, tc - 0.3, { fin: mot("aveu", "passé", 8) - 0.4 });
     texte("PRESQUE TOUTE", CX, 1260, ajuste("PRESQUE TOUTE", 80), t, mot("aveu", "Presque", 10) - 0.3, { fin: t1 - 0.3 });
     texte("LA FRANCE", CX, 1350, 80, t, mot("aveu", "Presque", 10) - 0.1, { couleur: ACC, fin: t1 - 0.3 });
   },
@@ -878,6 +888,7 @@ scene("annees", {
     texte(String(y), CX, 420, 170, t, t0 + 0.05);
     texte("TU GRANDIS", CX, 545, 64, t, t0 + 0.1, { alpha: 0.75, fin: t1 + 0.3 });
     texte("PLAINTES", CX, 545, 76, t, mot("annees", "plainte", 4) - 0.3);
+    texte("UNE GLANDE DANS LE COU", CX, 1210, ajuste("UNE GLANDE DANS LE COU", 52), t, mot("annees", "glande", 3.5) - 0.3, { alpha: 0.8 });
     texte("MALADES DE LA THYROÏDE", CX, 1300, ajuste("MALADES DE LA THYROÏDE", 60), t, mot("annees", "thyroïde", 3) - 0.6);
     texte("DES CENTAINES", CX, 1390, ajuste("DES CENTAINES", 72), t, mot("annees", "centaines", 6) - 0.4, { couleur: ACC });
   },
@@ -911,7 +922,8 @@ scene("justice", {
     const y = annee(t);
     texte(String(y), CX, 400, 130, t, t0 + 0.05, { fin: tq - 0.3 });
     if (y === 2006) texte("MIS EN EXAMEN", CX, 510, ajuste("MIS EN EXAMEN", 72), t, mot("justice", "examen", 2) - 0.4);
-    texte("NON-LIEU", CX, 1290, 120, t, tn, { fin: ti - 0.3, couleur: ACC });
+    texte("PAS DE PROCÈS", CX, 1290, ajuste("PAS DE PROCÈS", 84), t, mot("justice", "procès", 5) - 0.3, { fin: ti - 0.3 });
+    texte("NON-LIEU", CX, 530, 110, t, tn, { fin: tm - 0.8, couleur: ACC });
     if (y === 2012) texte("NON-LIEU CONFIRMÉ", CX, 510, ajuste("NON-LIEU CONFIRMÉ", 64), t, t12, { fin: tq - 0.3, alpha: 0.85 });
     texte("LIEN CERTAIN ?", CX, 1260, ajuste("LIEN CERTAIN ?", 80), t, ti, { fin: tm - 0.3 });
     texte("IMPOSSIBLE À PROUVER", CX, 1350, ajuste("IMPOSSIBLE À PROUVER", 60), t, ti + 0.4, { fin: tm - 0.3, alpha: 0.85 });
@@ -1044,10 +1056,10 @@ function geiger() {
 lancer({
   accent: ACC, boite: "#3E4A42", motsCles: ["nuage", "tchernobyl", "radioacti", "frontière", "stop", "lait", "maximum", "épargné", "mensonge", "non-lieu", "silence", "information", "pluie", "particules", "anticyclone"],
   carteMots: 3, carteMax: 15,
-  decors: { tech1: "suede", tech2: "suede", pere1: "meteo", mere1: "meteo", mere2: "mai", voisine: "frontiere", frontiere2: "frontiere", mere3: "aveu", pere2: "aveu" },
+  decors: { radio: "explosion", tech1: "suede", tech2: "suede", pere1: "meteo", mere1: "meteo", mere2: "mai", voisine: "frontiere", frontiere2: "frontiere", mere3: "aveu", pere2: "aveu" },
   flou: 2, grain: 0.035,
   mention: [ZONE.x0, 240, "left"],
-  mentions: Object.fromEntries(["hook", "explosion", "chambre", "moscou", "suede", "tech1", "tech2", "suede2", "meteo", "pere1", "mere1", "entree", "mai", "mere2", "mai2", "frontiere", "voisine", "frontiere2", "telex", "aveu", "mere3", "pere2", "aveu2", "annees", "malade", "justice", "chute", "fin"].map(id => [id, ["hook", "explosion", "moscou", "suede2", "telex", "aveu2", "annees", "chute"].includes(id) ? "ILLUSTRATION" : "RECONSTITUTION"])),
+  mentions: Object.fromEntries(["hook", "explosion", "radio", "chambre", "moscou", "suede", "tech1", "tech2", "suede2", "meteo", "pere1", "mere1", "entree", "mai", "mere2", "mai2", "frontiere", "voisine", "frontiere2", "telex", "aveu", "mere3", "pere2", "aveu2", "annees", "malade", "justice", "chute", "fin"].map(id => [id, ["hook", "explosion", "radio", "moscou", "suede2", "telex", "aveu2", "annees", "chute"].includes(id) ? "ILLUSTRATION" : "RECONSTITUTION"])),
   sources: { titre: "SOURCES", duree: 6, lignes: ["Communiqué du ministère de l'Agriculture, 6 mai 1986.", "Cour d'appel de Paris, non-lieu, 7 septembre 2011 ; Cour de cassation, 20 novembre 2012.", "Wikipédia, « Conséquences de la catastrophe de Tchernobyl en France ».", "Famille et dialogues inventés. Voix de synthèse."] },
   surcouche: balayage,
   interface(t, id) { journal(t); radar(t, id); },

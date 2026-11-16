@@ -1,9 +1,9 @@
 {
- "duration": 253.443,
- "speed": 0.96,
+ "duration": 281.627,
+ "speed": 1.02,
  "reveals": [
-  7.96,
-  235.785
+  9.72,
+  265.987
  ],
  "segments": [
   {
@@ -14,7 +14,7 @@
      "text": "« Le nuage de Tchernobyl s'est arrêté à la frontière.",
      "spoken": "« Le nuage de Tchernobyl s'est arrêté à la frontière.",
      "start": 0.5,
-     "end": 3.868,
+     "end": 3.308,
      "words": [
       {
        "w": "«",
@@ -29,3666 +29,4620 @@
       {
        "w": "nuage",
        "s": 0.66,
-       "e": 1.06
+       "e": 0.98
       },
       {
        "w": "de",
-       "s": 1.06,
-       "e": 1.14
+       "s": 0.98,
+       "e": 1.06
       },
       {
        "w": "Tchernobyl",
-       "s": 1.14,
-       "e": 2.1
+       "s": 1.06,
+       "e": 1.78
       },
       {
        "w": "s'est",
-       "s": 2.1,
-       "e": 2.42
+       "s": 1.78,
+       "e": 2.02
       },
       {
        "w": "arrêté",
-       "s": 2.42,
-       "e": 2.98
+       "s": 2.02,
+       "e": 2.42
       },
       {
        "w": "à",
-       "s": 2.98,
-       "e": 3.06
+       "s": 2.42,
+       "e": 2.58
       },
       {
        "w": "la",
-       "s": 3.06,
-       "e": 3.22
+       "s": 2.58,
+       "e": 2.66
       },
       {
        "w": "frontière.",
-       "s": 3.22,
-       "e": 3.868
+       "s": 2.66,
+       "e": 3.308
       }
      ]
     },
     {
-     "text": "» Tu connais cette phrase.",
-     "spoken": "» Tu connais cette phrase.",
-     "start": 3.868,
-     "end": 5.22,
+     "text": "» Tu as sûrement déjà entendu cette phrase.",
+     "spoken": "» Tu as sûrement déjà entendu cette phrase.",
+     "start": 3.308,
+     "end": 6.1,
      "words": [
       {
        "w": "»",
-       "s": 3.868,
-       "e": 3.94
+       "s": 3.308,
+       "e": 3.38
       },
       {
        "w": "Tu",
-       "s": 3.94,
-       "e": 4.18
+       "s": 3.38,
+       "e": 3.62
       },
       {
-       "w": "connais",
-       "s": 4.18,
-       "e": 4.5
+       "w": "as",
+       "s": 3.62,
+       "e": 3.78
+      },
+      {
+       "w": "sûrement",
+       "s": 3.78,
+       "e": 4.26
+      },
+      {
+       "w": "déjà",
+       "s": 4.26,
+       "e": 4.58
+      },
+      {
+       "w": "entendu",
+       "s": 4.58,
+       "e": 5.14
       },
       {
        "w": "cette",
-       "s": 4.5,
-       "e": 4.74
+       "s": 5.14,
+       "e": 5.38
       },
       {
        "w": "phrase.",
-       "s": 4.74,
-       "e": 5.22
+       "s": 5.38,
+       "e": 6.1
       }
      ]
     },
     {
-     "text": "Tout le monde la connaît.",
-     "spoken": "Tout le monde la connaît.",
-     "start": 5.22,
-     "end": 6.42,
+     "text": "Presque tout le monde la connaît.",
+     "spoken": "Presque tout le monde la connaît.",
+     "start": 6.1,
+     "end": 8.02,
      "words": [
       {
-       "w": "Tout",
-       "s": 5.22,
-       "e": 5.38
+       "w": "Presque",
+       "s": 6.1,
+       "e": 6.58
+      },
+      {
+       "w": "tout",
+       "s": 6.58,
+       "e": 6.74
       },
       {
        "w": "le",
-       "s": 5.38,
-       "e": 5.46
+       "s": 6.74,
+       "e": 6.82
       },
       {
        "w": "monde",
-       "s": 5.46,
-       "e": 5.78
+       "s": 6.82,
+       "e": 7.14
       },
       {
        "w": "la",
-       "s": 5.78,
-       "e": 5.94
+       "s": 7.14,
+       "e": 7.3
       },
       {
        "w": "connaît.",
-       "s": 5.94,
-       "e": 6.42
+       "s": 7.3,
+       "e": 8.02
       }
      ]
     },
     {
      "text": "Sauf que...",
      "spoken": "Sauf que...",
-     "start": 6.42,
-     "end": 7.06,
+     "start": 8.02,
+     "end": 8.82,
      "words": [
       {
        "w": "Sauf",
-       "s": 6.42,
-       "e": 6.82
+       "s": 8.02,
+       "e": 8.5
       },
       {
        "w": "que...",
-       "s": 6.82,
-       "e": 7.06
+       "s": 8.5,
+       "e": 8.82
       }
      ]
     },
     {
      "text": "Personne ne l'a jamais prononcée.",
      "spoken": "Personne ne l'a jamais prononcée.",
-     "start": 7.96,
-     "end": 9.72,
+     "start": 9.72,
+     "end": 11.4,
      "words": [
       {
        "w": "Personne",
-       "s": 7.96,
-       "e": 8.36
-      },
-      {
-       "w": "ne",
-       "s": 8.36,
-       "e": 8.52
-      },
-      {
-       "w": "l'a",
-       "s": 8.52,
-       "e": 8.76
-      },
-      {
-       "w": "jamais",
-       "s": 8.76,
-       "e": 9.08
-      },
-      {
-       "w": "prononcée.",
-       "s": 9.08,
-       "e": 9.72
-      }
-     ]
-    },
-    {
-     "text": "Et la vraie histoire est bien plus dérangeante.",
-     "spoken": "Et la vraie histoire est bien plus dérangeante.",
-     "start": 9.72,
-     "end": 11.98,
-     "words": [
-      {
-       "w": "Et",
        "s": 9.72,
-       "e": 9.88
-      },
-      {
-       "w": "la",
-       "s": 9.88,
        "e": 10.04
       },
       {
-       "w": "vraie",
+       "w": "ne",
        "s": 10.04,
-       "e": 10.36
+       "e": 10.2
+      },
+      {
+       "w": "l'a",
+       "s": 10.2,
+       "e": 10.44
+      },
+      {
+       "w": "jamais",
+       "s": 10.44,
+       "e": 10.76
+      },
+      {
+       "w": "prononcée.",
+       "s": 10.76,
+       "e": 11.4
+      }
+     ]
+    },
+    {
+     "text": "Et la vraie histoire est bien plus inquiétante.",
+     "spoken": "Et la vraie histoire est bien plus inquiétante.",
+     "start": 11.4,
+     "end": 13.9,
+     "words": [
+      {
+       "w": "Et",
+       "s": 11.4,
+       "e": 11.88
+      },
+      {
+       "w": "la",
+       "s": 11.88,
+       "e": 12.04
+      },
+      {
+       "w": "vraie",
+       "s": 12.04,
+       "e": 12.36
       },
       {
        "w": "histoire",
-       "s": 10.36,
-       "e": 10.92
+       "s": 12.36,
+       "e": 12.84
       },
       {
        "w": "est",
-       "s": 10.92,
-       "e": 11.08
+       "s": 12.84,
+       "e": 13.0
       },
       {
        "w": "bien",
-       "s": 11.08,
-       "e": 11.24
+       "s": 13.0,
+       "e": 13.24
       },
       {
        "w": "plus",
-       "s": 11.24,
-       "e": 11.48
+       "s": 13.24,
+       "e": 13.4
       },
       {
-       "w": "dérangeante.",
-       "s": 11.48,
-       "e": 11.98
+       "w": "inquiétante.",
+       "s": 13.4,
+       "e": 13.9
       }
      ]
     }
    ],
-   "end": 15.075
+   "end": 15.458
   },
   {
    "id": "explosion",
-   "start": 15.075,
+   "start": 15.458,
    "sentences": [
     {
-     "text": "26 avril 1986.",
-     "spoken": "Vingt-six avril mille neuf cent quatre-vingt-six.",
-     "start": 15.235,
-     "end": 18.275,
+     "text": "Nous sommes en 1986.",
+     "spoken": "Nous sommes en mille neuf cent quatre-vingt-six.",
+     "start": 15.458,
+     "end": 17.938,
      "words": [
       {
-       "w": "26",
-       "s": 15.235,
-       "e": 15.795
+       "w": "Nous",
+       "s": 15.458,
+       "e": 15.618
       },
       {
-       "w": "avril",
-       "s": 15.795,
-       "e": 16.275
+       "w": "sommes",
+       "s": 15.618,
+       "e": 15.858
+      },
+      {
+       "w": "en",
+       "s": 15.858,
+       "e": 16.018
       },
       {
        "w": "1986.",
-       "s": 16.275,
-       "e": 18.275
+       "s": 16.018,
+       "e": 17.938
       }
      ]
     },
     {
-     "text": "Une heure vingt-trois du matin.",
-     "spoken": "Une heure vingt-trois du matin.",
-     "start": 18.275,
-     "end": 20.035,
-     "words": [
-      {
-       "w": "Une",
-       "s": 18.275,
-       "e": 18.515
-      },
-      {
-       "w": "heure",
-       "s": 18.515,
-       "e": 18.835
-      },
-      {
-       "w": "vingt-trois",
-       "s": 18.835,
-       "e": 19.395
-      },
-      {
-       "w": "du",
-       "s": 19.395,
-       "e": 19.555
-      },
-      {
-       "w": "matin.",
-       "s": 19.555,
-       "e": 20.035
-      }
-     ]
-    },
-    {
-     "text": "Le réacteur numéro quatre explose.",
-     "spoken": "Le réacteur numéro quatre explose.",
-     "start": 20.035,
-     "end": 22.135,
+     "text": "Le 26 avril, à une heure vingt-trois du matin.",
+     "spoken": "Le vingt-six avril, à une heure vingt-trois du matin.",
+     "start": 17.938,
+     "end": 21.458,
      "words": [
       {
        "w": "Le",
-       "s": 20.035,
-       "e": 20.195
+       "s": 17.938,
+       "e": 18.178
+      },
+      {
+       "w": "26",
+       "s": 18.178,
+       "e": 18.818
+      },
+      {
+       "w": "avril,",
+       "s": 18.818,
+       "e": 19.378
+      },
+      {
+       "w": "à",
+       "s": 19.378,
+       "e": 19.428
+      },
+      {
+       "w": "une",
+       "s": 19.4,
+       "e": 19.467
+      },
+      {
+       "w": "heure",
+       "s": 19.467,
+       "e": 19.578
+      },
+      {
+       "w": "vingt-trois",
+       "s": 19.578,
+       "e": 20.498
+      },
+      {
+       "w": "du",
+       "s": 20.498,
+       "e": 20.738
+      },
+      {
+       "w": "matin.",
+       "s": 20.738,
+       "e": 21.458
+      }
+     ]
+    },
+    {
+     "text": "En Ukraine, il y a une centrale nucléaire.",
+     "spoken": "En Ukraine, il y a une centrale nucléaire.",
+     "start": 21.458,
+     "end": 24.32,
+     "words": [
+      {
+       "w": "En",
+       "s": 21.458,
+       "e": 21.778
+      },
+      {
+       "w": "Ukraine,",
+       "s": 21.778,
+       "e": 22.418
+      },
+      {
+       "w": "il",
+       "s": 22.418,
+       "e": 22.578
+      },
+      {
+       "w": "y",
+       "s": 22.578,
+       "e": 22.658
+      },
+      {
+       "w": "a",
+       "s": 22.658,
+       "e": 22.738
+      },
+      {
+       "w": "une",
+       "s": 22.738,
+       "e": 22.898
+      },
+      {
+       "w": "centrale",
+       "s": 22.898,
+       "e": 23.378
+      },
+      {
+       "w": "nucléaire.",
+       "s": 23.378,
+       "e": 24.32
+      }
+     ]
+    },
+    {
+     "text": "C'est une immense usine qui fabrique de l'électricité.",
+     "spoken": "C'est une immense usine qui fabrique de l'électricité.",
+     "start": 24.32,
+     "end": 27.378,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 24.32,
+       "e": 24.738
+      },
+      {
+       "w": "une",
+       "s": 24.738,
+       "e": 24.898
+      },
+      {
+       "w": "immense",
+       "s": 24.898,
+       "e": 25.298
+      },
+      {
+       "w": "usine",
+       "s": 25.298,
+       "e": 25.698
+      },
+      {
+       "w": "qui",
+       "s": 25.698,
+       "e": 25.858
+      },
+      {
+       "w": "fabrique",
+       "s": 25.858,
+       "e": 26.338
+      },
+      {
+       "w": "de",
+       "s": 26.338,
+       "e": 26.418
+      },
+      {
+       "w": "l'électricité.",
+       "s": 26.418,
+       "e": 27.378
+      }
+     ]
+    },
+    {
+     "text": "Cette nuit-là, son réacteur numéro quatre explose.",
+     "spoken": "Cette nuit-là, son réacteur numéro quatre explose.",
+     "start": 27.378,
+     "end": 30.358,
+     "words": [
+      {
+       "w": "Cette",
+       "s": 27.378,
+       "e": 27.698
+      },
+      {
+       "w": "nuit-là,",
+       "s": 27.698,
+       "e": 28.338
+      },
+      {
+       "w": "son",
+       "s": 28.338,
+       "e": 28.578
       },
       {
        "w": "réacteur",
-       "s": 20.195,
-       "e": 20.755
+       "s": 28.578,
+       "e": 29.138
       },
       {
        "w": "numéro",
-       "s": 20.755,
-       "e": 21.235
+       "s": 29.138,
+       "e": 29.538
       },
       {
        "w": "quatre",
-       "s": 21.235,
-       "e": 21.635
+       "s": 29.538,
+       "e": 29.858
       },
       {
        "w": "explose.",
-       "s": 21.635,
-       "e": 22.135
+       "s": 29.858,
+       "e": 30.358
       }
      ]
     }
    ],
-   "end": 24.264
+   "end": 31.33
+  },
+  {
+   "id": "radio",
+   "start": 31.33,
+   "sentences": [
+    {
+     "text": "Il en sort un nuage invisible, rempli de poussières radioactives.",
+     "spoken": "Il en sort un nuage invisible, rempli de poussières radioactives.",
+     "start": 31.33,
+     "end": 35.89,
+     "words": [
+      {
+       "w": "Il",
+       "s": 31.33,
+       "e": 31.49
+      },
+      {
+       "w": "en",
+       "s": 31.49,
+       "e": 31.65
+      },
+      {
+       "w": "sort",
+       "s": 31.65,
+       "e": 32.05
+      },
+      {
+       "w": "un",
+       "s": 32.05,
+       "e": 32.13
+      },
+      {
+       "w": "nuage",
+       "s": 32.13,
+       "e": 32.61
+      },
+      {
+       "w": "invisible,",
+       "s": 32.61,
+       "e": 33.49
+      },
+      {
+       "w": "rempli",
+       "s": 33.49,
+       "e": 34.13
+      },
+      {
+       "w": "de",
+       "s": 34.13,
+       "e": 34.263
+      },
+      {
+       "w": "poussières",
+       "s": 34.263,
+       "e": 34.93
+      },
+      {
+       "w": "radioactives.",
+       "s": 34.93,
+       "e": 35.89
+      }
+     ]
+    },
+    {
+     "text": "Ces poussières, on ne peut ni les voir, ni les sentir.",
+     "spoken": "Ces poussières, on ne peut ni les voir, ni les sentir.",
+     "start": 35.89,
+     "end": 39.57,
+     "words": [
+      {
+       "w": "Ces",
+       "s": 35.89,
+       "e": 36.13
+      },
+      {
+       "w": "poussières,",
+       "s": 36.13,
+       "e": 37.01
+      },
+      {
+       "w": "on",
+       "s": 37.01,
+       "e": 37.17
+      },
+      {
+       "w": "ne",
+       "s": 37.17,
+       "e": 37.33
+      },
+      {
+       "w": "peut",
+       "s": 37.33,
+       "e": 37.57
+      },
+      {
+       "w": "ni",
+       "s": 37.57,
+       "e": 37.81
+      },
+      {
+       "w": "les",
+       "s": 37.81,
+       "e": 37.97
+      },
+      {
+       "w": "voir,",
+       "s": 37.97,
+       "e": 38.53
+      },
+      {
+       "w": "ni",
+       "s": 38.53,
+       "e": 38.77
+      },
+      {
+       "w": "les",
+       "s": 38.77,
+       "e": 39.01
+      },
+      {
+       "w": "sentir.",
+       "s": 39.01,
+       "e": 39.57
+      }
+     ]
+    },
+    {
+     "text": "Mais quand il y en a beaucoup, elles peuvent rendre malade.",
+     "spoken": "Mais quand il y en a beaucoup, elles peuvent rendre malade.",
+     "start": 39.57,
+     "end": 42.95,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 39.57,
+       "e": 39.97
+      },
+      {
+       "w": "quand",
+       "s": 39.97,
+       "e": 40.21
+      },
+      {
+       "w": "il",
+       "s": 40.21,
+       "e": 40.37
+      },
+      {
+       "w": "y",
+       "s": 40.37,
+       "e": 40.53
+      },
+      {
+       "w": "en",
+       "s": 40.53,
+       "e": 40.69
+      },
+      {
+       "w": "a",
+       "s": 40.69,
+       "e": 40.85
+      },
+      {
+       "w": "beaucoup,",
+       "s": 40.85,
+       "e": 41.41
+      },
+      {
+       "w": "elles",
+       "s": 41.41,
+       "e": 41.65
+      },
+      {
+       "w": "peuvent",
+       "s": 41.65,
+       "e": 42.05
+      },
+      {
+       "w": "rendre",
+       "s": 42.05,
+       "e": 42.5
+      },
+      {
+       "w": "malade.",
+       "s": 42.5,
+       "e": 42.95
+      }
+     ]
+    }
+   ],
+   "end": 43.9
   },
   {
    "id": "chambre",
-   "start": 24.264,
+   "start": 43.9,
    "sentences": [
     {
      "text": "Toi, tu as dix ans.",
      "spoken": "Toi, tu as dix ans.",
-     "start": 24.264,
-     "end": 25.464,
+     "start": 43.98,
+     "end": 45.1,
      "words": [
       {
        "w": "Toi,",
-       "s": 24.264,
-       "e": 24.664
+       "s": 43.98,
+       "e": 44.3
       },
       {
        "w": "tu",
-       "s": 24.664,
-       "e": 24.824
+       "s": 44.3,
+       "e": 44.46
       },
       {
        "w": "as",
-       "s": 24.824,
-       "e": 24.984
+       "s": 44.46,
+       "e": 44.62
       },
       {
        "w": "dix",
-       "s": 24.984,
-       "e": 25.144
+       "s": 44.62,
+       "e": 44.86
       },
       {
        "w": "ans.",
-       "s": 25.144,
-       "e": 25.464
+       "s": 44.86,
+       "e": 45.1
       }
      ]
     },
     {
-     "text": "Tu dors, dans un village de l'est de la France, à près de deux mille kilomètres de là.",
-     "spoken": "Tu dors, dans un village de l'est de la France, à près de deux mille kilomètres de là.",
-     "start": 25.464,
-     "end": 29.861,
+     "text": "Tu dors, dans un petit village de l'est de la France, à presque deux mille kilomètres de là.",
+     "spoken": "Tu dors, dans un petit village de l'Este de la France, à presque deux mille kilomètres de là.",
+     "start": 45.1,
+     "end": 50.75,
      "words": [
       {
        "w": "Tu",
-       "s": 25.464,
-       "e": 25.624
+       "s": 45.1,
+       "e": 45.42
       },
       {
        "w": "dors,",
-       "s": 25.624,
-       "e": 26.104
+       "s": 45.42,
+       "e": 46.06
       },
       {
        "w": "dans",
-       "s": 26.104,
-       "e": 26.264
+       "s": 46.06,
+       "e": 46.3
       },
       {
        "w": "un",
-       "s": 26.264,
-       "e": 26.344
+       "s": 46.3,
+       "e": 46.46
+      },
+      {
+       "w": "petit",
+       "s": 46.46,
+       "e": 46.7
       },
       {
        "w": "village",
-       "s": 26.344,
-       "e": 26.664
+       "s": 46.7,
+       "e": 47.1
+      },
+      {
+       "w": "de l'est",
+       "s": 47.1,
+       "e": 47.66
       },
       {
        "w": "de",
-       "s": 26.664,
-       "e": 26.824
-      },
-      {
-       "w": "l'est",
-       "s": 26.824,
-       "e": 27.224
-      },
-      {
-       "w": "de",
-       "s": 27.224,
-       "e": 27.384
+       "s": 47.66,
+       "e": 47.74
       },
       {
        "w": "la",
-       "s": 27.384,
-       "e": 27.464
+       "s": 47.74,
+       "e": 47.9
       },
       {
        "w": "France,",
-       "s": 27.464,
-       "e": 27.944
+       "s": 47.9,
+       "e": 48.62
       },
       {
        "w": "à",
-       "s": 27.944,
-       "e": 28.104
+       "s": 48.62,
+       "e": 48.78
       },
       {
-       "w": "près",
-       "s": 28.104,
-       "e": 28.264
-      },
-      {
-       "w": "de",
-       "s": 28.264,
-       "e": 28.424
+       "w": "presque",
+       "s": 48.78,
+       "e": 49.1
       },
       {
        "w": "deux",
-       "s": 28.424,
-       "e": 28.474
+       "s": 49.1,
+       "e": 49.15
       },
       {
        "w": "mille",
-       "s": 28.444,
-       "e": 28.904
+       "s": 49.12,
+       "e": 49.66
       },
       {
        "w": "kilomètres",
-       "s": 28.904,
-       "e": 29.384
+       "s": 49.66,
+       "e": 50.22
       },
       {
        "w": "de",
-       "s": 29.384,
-       "e": 29.464
+       "s": 50.22,
+       "e": 50.3
       },
       {
        "w": "là.",
-       "s": 29.464,
-       "e": 29.861
+       "s": 50.3,
+       "e": 50.75
       }
      ]
     }
    ],
-   "end": 31.711
+   "end": 51.6
   },
   {
    "id": "moscou",
-   "start": 31.711,
+   "start": 51.6,
    "sentences": [
     {
-     "text": "Moscou ne dit rien.",
-     "spoken": "Moscou ne dit rien.",
-     "start": 31.791,
-     "end": 33.071,
+     "text": "À cette époque, c'est Moscou qui décide de tout en Ukraine.",
+     "spoken": "À cette époque, c'est Moscou qui décide de tout en Ukraine.",
+     "start": 51.6,
+     "end": 54.96,
      "words": [
       {
+       "w": "À",
+       "s": 51.6,
+       "e": 51.76
+      },
+      {
+       "w": "cette",
+       "s": 51.76,
+       "e": 52.0
+      },
+      {
+       "w": "époque,",
+       "s": 52.0,
+       "e": 52.48
+      },
+      {
+       "w": "c'est",
+       "s": 52.48,
+       "e": 52.72
+      },
+      {
        "w": "Moscou",
-       "s": 31.791,
-       "e": 32.351
+       "s": 52.72,
+       "e": 53.12
       },
       {
-       "w": "ne",
-       "s": 32.351,
-       "e": 32.511
+       "w": "qui",
+       "s": 53.12,
+       "e": 53.28
       },
       {
-       "w": "dit",
-       "s": 32.511,
-       "e": 32.671
+       "w": "décide",
+       "s": 53.28,
+       "e": 53.68
       },
       {
-       "w": "rien.",
-       "s": 32.671,
-       "e": 33.071
+       "w": "de",
+       "s": 53.68,
+       "e": 53.84
+      },
+      {
+       "w": "tout",
+       "s": 53.84,
+       "e": 54.16
+      },
+      {
+       "w": "en",
+       "s": 54.16,
+       "e": 54.32
+      },
+      {
+       "w": "Ukraine.",
+       "s": 54.32,
+       "e": 54.96
       }
      ]
     },
     {
-     "text": "Pendant deux jours, le monde entier ignore qu'un nuage vient de se lever.",
-     "spoken": "Pendant deux jours, le monde entier ignore qu'un nuage vient de se lever.",
-     "start": 33.071,
-     "end": 37.094,
+     "text": "Et Moscou ne dit rien.",
+     "spoken": "Et Moscou ne dit rien.",
+     "start": 54.96,
+     "end": 56.56,
+     "words": [
+      {
+       "w": "Et",
+       "s": 54.96,
+       "e": 55.28
+      },
+      {
+       "w": "Moscou",
+       "s": 55.28,
+       "e": 55.84
+      },
+      {
+       "w": "ne",
+       "s": 55.84,
+       "e": 56.0
+      },
+      {
+       "w": "dit",
+       "s": 56.0,
+       "e": 56.16
+      },
+      {
+       "w": "rien.",
+       "s": 56.16,
+       "e": 56.56
+      }
+     ]
+    },
+    {
+     "text": "Pendant deux jours, le monde entier ignore qu'un nuage vient de partir.",
+     "spoken": "Pendant deux jours, le monde entier ignore qu'un nuage vient de partir.",
+     "start": 56.56,
+     "end": 60.017,
      "words": [
       {
        "w": "Pendant",
-       "s": 33.071,
-       "e": 33.471
+       "s": 56.56,
+       "e": 56.88
       },
       {
        "w": "deux",
-       "s": 33.471,
-       "e": 33.631
+       "s": 56.88,
+       "e": 57.12
       },
       {
        "w": "jours,",
-       "s": 33.631,
-       "e": 34.111
+       "s": 57.12,
+       "e": 57.6
       },
       {
        "w": "le",
-       "s": 34.111,
-       "e": 34.271
+       "s": 57.6,
+       "e": 57.76
       },
       {
        "w": "monde",
-       "s": 34.271,
-       "e": 34.511
+       "s": 57.76,
+       "e": 57.92
       },
       {
        "w": "entier",
-       "s": 34.511,
-       "e": 34.911
+       "s": 57.92,
+       "e": 58.24
       },
       {
        "w": "ignore",
-       "s": 34.911,
-       "e": 35.391
+       "s": 58.24,
+       "e": 58.64
       },
       {
        "w": "qu'un",
-       "s": 35.391,
-       "e": 35.711
+       "s": 58.64,
+       "e": 58.88
       },
       {
        "w": "nuage",
-       "s": 35.711,
-       "e": 36.271
+       "s": 58.88,
+       "e": 59.36
       },
       {
        "w": "vient",
-       "s": 36.271,
-       "e": 36.431
+       "s": 59.36,
+       "e": 59.52
       },
       {
        "w": "de",
-       "s": 36.431,
-       "e": 36.591
+       "s": 59.52,
+       "e": 59.68
       },
       {
-       "w": "se",
-       "s": 36.591,
-       "e": 36.671
-      },
-      {
-       "w": "lever.",
-       "s": 36.671,
-       "e": 37.094
+       "w": "partir.",
+       "s": 59.68,
+       "e": 60.017
       }
      ]
     }
    ],
-   "end": 40.444
+   "end": 61.357
   },
   {
    "id": "suede",
-   "start": 40.444,
+   "start": 61.357,
    "sentences": [
     {
      "text": "28 avril.",
      "spoken": "Vingt-huit avril.",
-     "start": 40.604,
-     "end": 41.884,
+     "start": 61.437,
+     "end": 62.717,
      "words": [
       {
        "w": "28",
-       "s": 40.604,
-       "e": 41.244
+       "s": 61.437,
+       "e": 62.077
       },
       {
        "w": "avril.",
-       "s": 41.244,
-       "e": 41.884
+       "s": 62.077,
+       "e": 62.717
       }
      ]
     },
     {
-     "text": "En Suède, les alarmes d'une centrale nucléaire se déclenchent.",
-     "spoken": "En Suède, les alarmes d'une centrale nucléaire se déclenchent.",
-     "start": 41.884,
-     "end": 45.804,
+     "text": "En Suède, dans une autre centrale nucléaire, les alarmes se mettent à sonner.",
+     "spoken": "En Suède, dans une autre centrale nucléaire, les alarmes se mettent à sonner.",
+     "start": 62.717,
+     "end": 67.597,
      "words": [
       {
        "w": "En",
-       "s": 41.884,
-       "e": 42.124
+       "s": 62.717,
+       "e": 62.877
       },
       {
        "w": "Suède,",
-       "s": 42.124,
-       "e": 42.684
+       "s": 62.877,
+       "e": 63.597
       },
       {
-       "w": "les",
-       "s": 42.684,
-       "e": 42.924
+       "w": "dans",
+       "s": 63.597,
+       "e": 63.837
       },
       {
-       "w": "alarmes",
-       "s": 42.924,
-       "e": 43.404
+       "w": "une",
+       "s": 63.837,
+       "e": 63.997
       },
       {
-       "w": "d'une",
-       "s": 43.404,
-       "e": 43.644
+       "w": "autre",
+       "s": 63.997,
+       "e": 64.317
       },
       {
        "w": "centrale",
-       "s": 43.644,
-       "e": 44.124
+       "s": 64.317,
+       "e": 64.797
       },
       {
-       "w": "nucléaire",
-       "s": 44.124,
-       "e": 44.684
+       "w": "nucléaire,",
+       "s": 64.797,
+       "e": 65.597
+      },
+      {
+       "w": "les",
+       "s": 65.597,
+       "e": 65.837
+      },
+      {
+       "w": "alarmes",
+       "s": 65.837,
+       "e": 66.237
       },
       {
        "w": "se",
-       "s": 44.684,
-       "e": 44.844
+       "s": 66.237,
+       "e": 66.397
       },
       {
-       "w": "déclenchent.",
-       "s": 44.844,
-       "e": 45.804
+       "w": "mettent",
+       "s": 66.397,
+       "e": 66.717
+      },
+      {
+       "w": "à",
+       "s": 66.717,
+       "e": 66.877
+      },
+      {
+       "w": "sonner.",
+       "s": 66.877,
+       "e": 67.597
       }
      ]
     },
     {
-     "text": "Les techniciens cherchent la fuite.",
-     "spoken": "Les techniciens cherchent la fuite.",
-     "start": 45.804,
-     "end": 47.904,
+     "text": "Les techniciens cherchent une fuite chez eux.",
+     "spoken": "Les techniciens cherchent une fuite chez eux.",
+     "start": 67.597,
+     "end": 69.82,
      "words": [
       {
        "w": "Les",
-       "s": 45.804,
-       "e": 46.044
+       "s": 67.597,
+       "e": 67.917
       },
       {
        "w": "techniciens",
-       "s": 46.044,
-       "e": 46.764
+       "s": 67.917,
+       "e": 68.477
       },
       {
        "w": "cherchent",
-       "s": 46.764,
-       "e": 47.244
+       "s": 68.477,
+       "e": 68.877
       },
       {
-       "w": "la",
-       "s": 47.244,
-       "e": 47.404
+       "w": "une",
+       "s": 68.877,
+       "e": 69.037
       },
       {
-       "w": "fuite.",
-       "s": 47.404,
-       "e": 47.904
-      }
-     ]
-    }
-   ],
-   "end": 49.351
-  },
-  {
-   "id": "tech1",
-   "start": 49.351,
-   "sentences": [
-    {
-     "text": "On a trouvé des particules radioactives, sur les chaussures des employés !",
-     "spoken": "On a trouvé des particules radioactives, sur les chaussures des employés !",
-     "start": 49.351,
-     "end": 54.011,
-     "words": [
-      {
-       "w": "On",
-       "s": 49.351,
-       "e": 49.511
-      },
-      {
-       "w": "a",
-       "s": 49.511,
-       "e": 49.671
-      },
-      {
-       "w": "trouvé",
-       "s": 49.671,
-       "e": 49.991
-      },
-      {
-       "w": "des",
-       "s": 49.991,
-       "e": 50.151
-      },
-      {
-       "w": "particules",
-       "s": 50.151,
-       "e": 50.791
-      },
-      {
-       "w": "radioactives,",
-       "s": 50.791,
-       "e": 52.151
-      },
-      {
-       "w": "sur",
-       "s": 52.151,
-       "e": 52.471
-      },
-      {
-       "w": "les",
-       "s": 52.471,
-       "e": 52.631
-      },
-      {
-       "w": "chaussures",
-       "s": 52.631,
-       "e": 53.271
-      },
-      {
-       "w": "des",
-       "s": 53.271,
-       "e": 53.511
-      },
-      {
-       "w": "employés!",
-       "s": 53.511,
-       "e": 54.011
-      }
-     ]
-    }
-   ],
-   "par": "bastien",
-   "end": 54.549
-  },
-  {
-   "id": "tech2",
-   "start": 54.549,
-   "sentences": [
-    {
-     "text": "Ce n'est pas chez nous.",
-     "spoken": "Ce n'est pas chez nous.",
-     "start": 54.549,
-     "end": 55.669,
-     "words": [
-      {
-       "w": "Ce",
-       "s": 54.549,
-       "e": 54.709
-      },
-      {
-       "w": "n'est",
-       "s": 54.709,
-       "e": 54.949
-      },
-      {
-       "w": "pas",
-       "s": 54.949,
-       "e": 55.109
+       "w": "fuite",
+       "s": 69.037,
+       "e": 69.357
       },
       {
        "w": "chez",
-       "s": 55.109,
-       "e": 55.349
+       "s": 69.357,
+       "e": 69.517
+      },
+      {
+       "w": "eux.",
+       "s": 69.517,
+       "e": 69.82
+      }
+     ]
+    }
+   ],
+   "end": 70.5
+  },
+  {
+   "id": "tech1",
+   "start": 70.5,
+   "sentences": [
+    {
+     "text": "Regarde !",
+     "spoken": "Regarde !",
+     "start": 70.5,
+     "end": 71.3,
+     "words": [
+      {
+       "w": "Regarde!",
+       "s": 70.5,
+       "e": 71.3
+      }
+     ]
+    },
+    {
+     "text": "Il y a des poussières radioactives, sous les chaussures des employés !",
+     "spoken": "Il y a des poussières radioactives, sous les chaussures des employés !",
+     "start": 71.3,
+     "end": 74.76,
+     "words": [
+      {
+       "w": "Il",
+       "s": 71.3,
+       "e": 71.54
+      },
+      {
+       "w": "y",
+       "s": 71.54,
+       "e": 71.62
+      },
+      {
+       "w": "a",
+       "s": 71.62,
+       "e": 71.7
+      },
+      {
+       "w": "des",
+       "s": 71.7,
+       "e": 71.86
+      },
+      {
+       "w": "poussières",
+       "s": 71.86,
+       "e": 72.42
+      },
+      {
+       "w": "radioactives,",
+       "s": 72.42,
+       "e": 73.22
+      },
+      {
+       "w": "sous",
+       "s": 73.22,
+       "e": 73.46
+      },
+      {
+       "w": "les",
+       "s": 73.46,
+       "e": 73.62
+      },
+      {
+       "w": "chaussures",
+       "s": 73.62,
+       "e": 74.1
+      },
+      {
+       "w": "des",
+       "s": 74.1,
+       "e": 74.26
+      },
+      {
+       "w": "employés!",
+       "s": 74.26,
+       "e": 74.76
+      }
+     ]
+    }
+   ],
+   "par": "tech1",
+   "end": 75.208
+  },
+  {
+   "id": "tech2",
+   "start": 75.208,
+   "sentences": [
+    {
+     "text": "Ça ne vient pas de chez nous.",
+     "spoken": "Ça ne vient pas de chez nous.",
+     "start": 75.208,
+     "end": 76.408,
+     "words": [
+      {
+       "w": "Ça",
+       "s": 75.208,
+       "e": 75.448
+      },
+      {
+       "w": "ne",
+       "s": 75.448,
+       "e": 75.528
+      },
+      {
+       "w": "vient",
+       "s": 75.528,
+       "e": 75.768
+      },
+      {
+       "w": "pas",
+       "s": 75.768,
+       "e": 75.848
+      },
+      {
+       "w": "de",
+       "s": 75.848,
+       "e": 76.008
+      },
+      {
+       "w": "chez",
+       "s": 76.008,
+       "e": 76.168
       },
       {
        "w": "nous.",
-       "s": 55.349,
-       "e": 55.669
+       "s": 76.168,
+       "e": 76.408
       }
      ]
     },
     {
      "text": "Ça vient de dehors, avec le vent.",
      "spoken": "Ça vient de dehors, avec le vent.",
-     "start": 55.669,
-     "end": 57.462,
+     "start": 76.408,
+     "end": 78.344,
      "words": [
       {
        "w": "Ça",
-       "s": 55.669,
-       "e": 55.829
+       "s": 76.408,
+       "e": 76.568
       },
       {
        "w": "vient",
-       "s": 55.829,
-       "e": 56.069
+       "s": 76.568,
+       "e": 76.808
       },
       {
        "w": "de",
-       "s": 56.069,
-       "e": 56.229
+       "s": 76.808,
+       "e": 76.968
       },
       {
        "w": "dehors,",
-       "s": 56.229,
-       "e": 56.709
+       "s": 76.968,
+       "e": 77.528
       },
       {
        "w": "avec",
-       "s": 56.709,
-       "e": 56.869
+       "s": 77.528,
+       "e": 77.768
       },
       {
        "w": "le",
-       "s": 56.869,
-       "e": 57.029
+       "s": 77.768,
+       "e": 77.928
       },
       {
        "w": "vent.",
-       "s": 57.029,
-       "e": 57.462
+       "s": 77.928,
+       "e": 78.344
       }
      ]
     }
    ],
-   "par": "jules",
-   "end": 57.813
+   "par": "tech2",
+   "end": 78.694
   },
   {
    "id": "suede2",
-   "start": 57.813,
+   "start": 78.694,
    "sentences": [
     {
-     "text": "Il n'y a pas de fuite.",
-     "spoken": "Il n'y a pas de fuite.",
-     "start": 57.813,
-     "end": 59.413,
+     "text": "Il n'y a aucune fuite.",
+     "spoken": "Il n'y a aucune fuite.",
+     "start": 78.694,
+     "end": 79.974,
      "words": [
       {
        "w": "Il",
-       "s": 57.813,
-       "e": 57.973
+       "s": 78.694,
+       "e": 78.774
       },
       {
        "w": "n'y",
-       "s": 57.973,
-       "e": 58.293
+       "s": 78.774,
+       "e": 78.934
       },
       {
        "w": "a",
-       "s": 58.293,
-       "e": 58.373
+       "s": 78.934,
+       "e": 79.094
       },
       {
-       "w": "pas",
-       "s": 58.373,
-       "e": 58.533
-      },
-      {
-       "w": "de",
-       "s": 58.533,
-       "e": 58.693
+       "w": "aucune",
+       "s": 79.094,
+       "e": 79.334
       },
       {
        "w": "fuite.",
-       "s": 58.693,
-       "e": 59.413
+       "s": 79.334,
+       "e": 79.974
       }
      ]
     },
     {
-     "text": "La radioactivité ne vient pas de chez eux.",
-     "spoken": "La radioactivité ne vient pas de chez eux.",
-     "start": 59.413,
-     "end": 61.893,
+     "text": "Les poussières viennent de beaucoup plus loin, de l'est.",
+     "spoken": "Les poussières viennent de beaucoup plus loin, de l'est.",
+     "start": 79.974,
+     "end": 82.854,
      "words": [
       {
-       "w": "La",
-       "s": 59.413,
-       "e": 59.573
+       "w": "Les",
+       "s": 79.974,
+       "e": 80.214
       },
       {
-       "w": "radioactivité",
-       "s": 59.573,
-       "e": 60.613
+       "w": "poussières",
+       "s": 80.214,
+       "e": 80.747
       },
       {
-       "w": "ne",
-       "s": 60.613,
-       "e": 60.773
-      },
-      {
-       "w": "vient",
-       "s": 60.773,
-       "e": 61.013
-      },
-      {
-       "w": "pas",
-       "s": 61.013,
-       "e": 61.173
+       "w": "viennent",
+       "s": 80.747,
+       "e": 81.174
       },
       {
        "w": "de",
-       "s": 61.173,
-       "e": 61.333
+       "s": 81.174,
+       "e": 81.334
       },
       {
-       "w": "chez",
-       "s": 61.333,
-       "e": 61.573
+       "w": "beaucoup",
+       "s": 81.334,
+       "e": 81.574
       },
       {
-       "w": "eux.",
-       "s": 61.573,
-       "e": 61.893
-      }
-     ]
-    },
-    {
-     "text": "Elle vient de l'est.",
-     "spoken": "Elle vient de l'est.",
-     "start": 61.893,
-     "end": 62.88,
-     "words": [
-      {
-       "w": "Elle",
-       "s": 61.893,
-       "e": 62.053
+       "w": "plus",
+       "s": 81.574,
+       "e": 81.734
       },
       {
-       "w": "vient",
-       "s": 62.053,
-       "e": 62.293
+       "w": "loin,",
+       "s": 81.734,
+       "e": 82.294
       },
       {
        "w": "de",
-       "s": 62.293,
-       "e": 62.453
+       "s": 82.294,
+       "e": 82.534
       },
       {
        "w": "l'est.",
-       "s": 62.453,
-       "e": 62.88
+       "s": 82.534,
+       "e": 82.854
       }
      ]
     },
     {
-     "text": "Le soir même, Moscou avoue.",
-     "spoken": "Le soir même, Moscou avoue.",
-     "start": 62.88,
-     "end": 65.013,
+     "text": "Le soir même, Moscou finit par avouer.",
+     "spoken": "Le soir même, Moscou finit par avouer.",
+     "start": 82.854,
+     "end": 85.494,
      "words": [
       {
        "w": "Le",
-       "s": 62.88,
-       "e": 63.093
+       "s": 82.854,
+       "e": 83.094
       },
       {
        "w": "soir",
-       "s": 63.093,
-       "e": 63.493
+       "s": 83.094,
+       "e": 83.414
       },
       {
        "w": "même,",
-       "s": 63.493,
-       "e": 63.973
+       "s": 83.414,
+       "e": 83.814
       },
       {
        "w": "Moscou",
-       "s": 63.973,
-       "e": 64.54
+       "s": 83.814,
+       "e": 84.374
       },
       {
-       "w": "avoue.",
-       "s": 64.54,
-       "e": 65.013
+       "w": "finit",
+       "s": 84.374,
+       "e": 84.614
+      },
+      {
+       "w": "par",
+       "s": 84.614,
+       "e": 84.774
+      },
+      {
+       "w": "avouer.",
+       "s": 84.774,
+       "e": 85.494
       }
      ]
     },
     {
-     "text": "En quelques lignes.",
-     "spoken": "En quelques lignes.",
-     "start": 65.013,
-     "end": 65.942,
+     "text": "En quelques lignes seulement.",
+     "spoken": "En quelques lignes seulement.",
+     "start": 85.494,
+     "end": 86.768,
      "words": [
       {
        "w": "En",
-       "s": 65.013,
-       "e": 65.173
+       "s": 85.494,
+       "e": 85.654
       },
       {
        "w": "quelques",
-       "s": 65.173,
-       "e": 65.493
+       "s": 85.654,
+       "e": 85.974
       },
       {
-       "w": "lignes.",
-       "s": 65.493,
-       "e": 65.942
+       "w": "lignes",
+       "s": 85.974,
+       "e": 86.294
+      },
+      {
+       "w": "seulement.",
+       "s": 86.294,
+       "e": 86.768
       }
      ]
     }
    ],
-   "end": 69.292
+   "end": 88.108
   },
   {
    "id": "meteo",
-   "start": 69.292,
+   "start": 88.108,
    "sentences": [
     {
-     "text": "30 avril.",
-     "spoken": "Trente avril.",
-     "start": 69.372,
-     "end": 70.492,
+     "text": "30 avril, vingt heures.",
+     "spoken": "Trente avril, vingt heures.",
+     "start": 88.188,
+     "end": 89.868,
      "words": [
       {
        "w": "30",
-       "s": 69.372,
-       "e": 69.852
+       "s": 88.188,
+       "e": 88.508
       },
       {
-       "w": "avril.",
-       "s": 69.852,
-       "e": 70.492
-      }
-     ]
-    },
-    {
-     "text": "Vingt heures.",
-     "spoken": "Vingt heures.",
-     "start": 70.492,
-     "end": 71.372,
-     "words": [
+       "w": "avril,",
+       "s": 88.508,
+       "e": 88.988
+      },
       {
-       "w": "Vingt",
-       "s": 70.492,
-       "e": 70.812
+       "w": "vingt",
+       "s": 88.988,
+       "e": 89.388
       },
       {
        "w": "heures.",
-       "s": 70.812,
-       "e": 71.372
+       "s": 89.388,
+       "e": 89.868
       }
      ]
     },
     {
-     "text": "Toute la famille est devant la télé.",
-     "spoken": "Toute la famille est devant la télé.",
-     "start": 71.372,
-     "end": 73.452,
+     "text": "Toute la famille regarde la météo à la télé.",
+     "spoken": "Toute la famille regarde la météo à la télé.",
+     "start": 89.868,
+     "end": 92.508,
      "words": [
       {
        "w": "Toute",
-       "s": 71.372,
-       "e": 71.692
+       "s": 89.868,
+       "e": 90.108
       },
       {
        "w": "la",
-       "s": 71.692,
-       "e": 71.852
+       "s": 90.108,
+       "e": 90.268
       },
       {
        "w": "famille",
-       "s": 71.852,
-       "e": 72.252
+       "s": 90.268,
+       "e": 90.588
       },
       {
-       "w": "est",
-       "s": 72.252,
-       "e": 72.412
-      },
-      {
-       "w": "devant",
-       "s": 72.412,
-       "e": 72.812
+       "w": "regarde",
+       "s": 90.588,
+       "e": 90.988
       },
       {
        "w": "la",
-       "s": 72.812,
-       "e": 72.972
+       "s": 90.988,
+       "e": 91.148
+      },
+      {
+       "w": "météo",
+       "s": 91.148,
+       "e": 91.708
+      },
+      {
+       "w": "à",
+       "s": 91.708,
+       "e": 91.788
+      },
+      {
+       "w": "la",
+       "s": 91.788,
+       "e": 91.948
       },
       {
        "w": "télé.",
-       "s": 72.972,
-       "e": 73.452
+       "s": 91.948,
+       "e": 92.508
       }
      ]
     },
     {
-     "text": "C'est la météo.",
-     "spoken": "C'est la météo.",
-     "start": 73.452,
-     "end": 74.572,
-     "words": [
-      {
-       "w": "C'est",
-       "s": 73.452,
-       "e": 73.692
-      },
-      {
-       "w": "la",
-       "s": 73.692,
-       "e": 73.772
-      },
-      {
-       "w": "météo.",
-       "s": 73.772,
-       "e": 74.572
-      }
-     ]
-    },
-    {
-     "text": "Sur la carte, le nuage.",
-     "spoken": "Sur la carte, le nuage.",
-     "start": 74.572,
-     "end": 76.412,
+     "text": "Sur la carte, on voit le nuage.",
+     "spoken": "Sur la carte, on voit le nuage.",
+     "start": 92.508,
+     "end": 94.508,
      "words": [
       {
        "w": "Sur",
-       "s": 74.572,
-       "e": 74.732
+       "s": 92.508,
+       "e": 92.748
       },
       {
        "w": "la",
-       "s": 74.732,
-       "e": 74.892
+       "s": 92.748,
+       "e": 92.908
       },
       {
        "w": "carte,",
-       "s": 74.892,
-       "e": 75.372
+       "s": 92.908,
+       "e": 93.388
+      },
+      {
+       "w": "on",
+       "s": 93.388,
+       "e": 93.548
+      },
+      {
+       "w": "voit",
+       "s": 93.548,
+       "e": 93.788
       },
       {
        "w": "le",
-       "s": 75.372,
-       "e": 75.612
+       "s": 93.788,
+       "e": 93.948
       },
       {
        "w": "nuage.",
-       "s": 75.612,
-       "e": 76.412
+       "s": 93.948,
+       "e": 94.508
       }
      ]
     },
     {
      "text": "Et sur la frontière...",
      "spoken": "Et sur la frontière...",
-     "start": 76.412,
-     "end": 77.532,
+     "start": 94.508,
+     "end": 95.708,
      "words": [
       {
        "w": "Et",
-       "s": 76.412,
-       "e": 76.652
+       "s": 94.508,
+       "e": 94.748
       },
       {
        "w": "sur",
-       "s": 76.652,
-       "e": 76.812
+       "s": 94.748,
+       "e": 94.908
       },
       {
        "w": "la",
-       "s": 76.812,
-       "e": 76.972
+       "s": 94.908,
+       "e": 95.068
       },
       {
        "w": "frontière...",
-       "s": 76.972,
-       "e": 77.532
+       "s": 95.068,
+       "e": 95.708
       }
      ]
     },
     {
      "text": "un panneau stop.",
      "spoken": "un panneau stop.",
-     "start": 77.532,
-     "end": 78.812,
+     "start": 95.708,
+     "end": 97.068,
      "words": [
       {
        "w": "un",
-       "s": 77.532,
-       "e": 77.692
+       "s": 95.708,
+       "e": 95.868
       },
       {
        "w": "panneau",
-       "s": 77.692,
-       "e": 78.252
+       "s": 95.868,
+       "e": 96.428
       },
       {
        "w": "stop.",
-       "s": 78.252,
-       "e": 78.812
+       "s": 96.428,
+       "e": 97.068
       }
      ]
     },
     {
-     "text": "La présentatrice explique : un anticyclone protège la France.",
-     "spoken": "La présentatrice explique : un anticyclone protège la France.",
-     "start": 78.812,
-     "end": 83.052,
+     "text": "La présentatrice explique qu'un anticyclone, une grande zone de beau temps, protège la France.",
+     "spoken": "La présentatrice explique qu'un anticyclone, une grande zone de beau temps, protège la France.",
+     "start": 97.068,
+     "end": 102.748,
      "words": [
       {
        "w": "La",
-       "s": 78.812,
-       "e": 79.052
+       "s": 97.068,
+       "e": 97.228
       },
       {
        "w": "présentatrice",
-       "s": 79.052,
-       "e": 79.932
+       "s": 97.228,
+       "e": 98.108
       },
       {
-       "w": "explique:",
-       "s": 79.932,
-       "e": 80.572
+       "w": "explique",
+       "s": 98.108,
+       "e": 98.428
       },
       {
-       "w": "un",
-       "s": 80.572,
-       "e": 80.732
+       "w": "qu'un",
+       "s": 98.428,
+       "e": 98.748
       },
       {
-       "w": "anticyclone",
-       "s": 80.732,
-       "e": 81.852
+       "w": "anticyclone,",
+       "s": 98.748,
+       "e": 99.948
+      },
+      {
+       "w": "une",
+       "s": 99.948,
+       "e": 100.108
+      },
+      {
+       "w": "grande",
+       "s": 100.108,
+       "e": 100.428
+      },
+      {
+       "w": "zone",
+       "s": 100.428,
+       "e": 100.668
+      },
+      {
+       "w": "de",
+       "s": 100.668,
+       "e": 100.828
+      },
+      {
+       "w": "beau",
+       "s": 100.828,
+       "e": 101.148
+      },
+      {
+       "w": "temps,",
+       "s": 101.148,
+       "e": 101.628
       },
       {
        "w": "protège",
-       "s": 81.852,
-       "e": 82.332
+       "s": 101.628,
+       "e": 102.108
       },
       {
        "w": "la",
-       "s": 82.332,
-       "e": 82.492
+       "s": 102.108,
+       "e": 102.268
       },
       {
        "w": "France.",
-       "s": 82.492,
-       "e": 83.052
+       "s": 102.268,
+       "e": 102.748
       }
      ]
     },
     {
-     "text": "Pour trois jours au moins.",
-     "spoken": "Pour trois jours au moins.",
-     "start": 83.052,
-     "end": 84.314,
+     "text": "Pour au moins trois jours.",
+     "spoken": "Pour au moins trois jours.",
+     "start": 102.748,
+     "end": 104.026,
      "words": [
       {
        "w": "Pour",
-       "s": 83.052,
-       "e": 83.292
-      },
-      {
-       "w": "trois",
-       "s": 83.292,
-       "e": 83.532
-      },
-      {
-       "w": "jours",
-       "s": 83.532,
-       "e": 83.852
+       "s": 102.748,
+       "e": 102.988
       },
       {
        "w": "au",
-       "s": 83.852,
-       "e": 84.012
+       "s": 102.988,
+       "e": 103.068
       },
       {
-       "w": "moins.",
-       "s": 84.012,
-       "e": 84.314
+       "w": "moins",
+       "s": 103.068,
+       "e": 103.308
+      },
+      {
+       "w": "trois",
+       "s": 103.308,
+       "e": 103.548
+      },
+      {
+       "w": "jours.",
+       "s": 103.548,
+       "e": 104.026
       }
      ]
     }
    ],
-   "end": 85.664
+   "end": 104.706
   },
   {
    "id": "pere1",
-   "start": 85.664,
+   "start": 104.706,
    "sentences": [
     {
-     "text": "Tu vois.",
-     "spoken": "Tu vois.",
-     "start": 85.664,
-     "end": 86.304,
+     "text": "Tu vois ?",
+     "spoken": "Tu vois ?",
+     "start": 104.706,
+     "end": 105.186,
      "words": [
       {
        "w": "Tu",
-       "s": 85.664,
-       "e": 85.904
+       "s": 104.706,
+       "e": 104.866
       },
       {
-       "w": "vois.",
-       "s": 85.904,
-       "e": 86.304
+       "w": "vois?",
+       "s": 104.866,
+       "e": 105.186
       }
      ]
     },
     {
      "text": "On ne risque rien.",
      "spoken": "On ne risque rien.",
-     "start": 86.304,
-     "end": 87.289,
+     "start": 105.186,
+     "end": 106.036,
      "words": [
       {
        "w": "On",
-       "s": 86.304,
-       "e": 86.464
+       "s": 105.186,
+       "e": 105.266
       },
       {
        "w": "ne",
-       "s": 86.464,
-       "e": 86.544
+       "s": 105.266,
+       "e": 105.426
       },
       {
        "w": "risque",
-       "s": 86.544,
-       "e": 86.864
+       "s": 105.426,
+       "e": 105.746
       },
       {
        "w": "rien.",
-       "s": 86.864,
-       "e": 87.289
+       "s": 105.746,
+       "e": 106.036
       }
      ]
     }
    ],
-   "par": "pierre",
-   "end": 87.64
+   "par": "pere",
+   "end": 106.387
   },
   {
    "id": "mere1",
-   "start": 87.64,
+   "start": 106.387,
    "sentences": [
     {
      "text": "Tant mieux.",
      "spoken": "Tant mieux.",
-     "start": 87.64,
-     "end": 88.2,
+     "start": 106.387,
+     "end": 107.107,
      "words": [
       {
        "w": "Tant",
-       "s": 87.64,
-       "e": 87.88
+       "s": 106.387,
+       "e": 106.707
       },
       {
        "w": "mieux.",
-       "s": 87.88,
-       "e": 88.2
+       "s": 106.707,
+       "e": 107.107
       }
      ]
     },
     {
-     "text": "Allez, au lit, demain c'est le premier mai.",
-     "spoken": "Allez, au lit, demain c'est le premier mai.",
-     "start": 88.2,
-     "end": 90.337,
+     "text": "Allez, va te coucher, demain c'est le premier mai.",
+     "spoken": "Allez, va te coucher, demain c'est le premier mai.",
+     "start": 107.107,
+     "end": 109.978,
      "words": [
       {
        "w": "Allez,",
-       "s": 88.2,
-       "e": 88.6
+       "s": 107.107,
+       "e": 107.507
       },
       {
-       "w": "au",
-       "s": 88.6,
-       "e": 88.84
+       "w": "va",
+       "s": 107.507,
+       "e": 107.747
       },
       {
-       "w": "lit,",
-       "s": 88.84,
-       "e": 89.16
+       "w": "te",
+       "s": 107.747,
+       "e": 107.907
+      },
+      {
+       "w": "coucher,",
+       "s": 107.907,
+       "e": 108.547
       },
       {
        "w": "demain",
-       "s": 89.16,
-       "e": 89.48
+       "s": 108.547,
+       "e": 108.947
       },
       {
        "w": "c'est",
-       "s": 89.48,
-       "e": 89.64
+       "s": 108.947,
+       "e": 109.107
       },
       {
        "w": "le",
-       "s": 89.64,
-       "e": 89.729
+       "s": 109.107,
+       "e": 109.214
       },
       {
        "w": "premier",
-       "s": 89.729,
-       "e": 90.04
+       "s": 109.214,
+       "e": 109.587
       },
       {
        "w": "mai.",
-       "s": 90.04,
-       "e": 90.337
+       "s": 109.587,
+       "e": 109.978
       }
      ]
     }
    ],
-   "par": "siwis",
-   "end": 92.187
+   "par": "mere",
+   "end": 110.827
   },
   {
    "id": "entree",
-   "start": 92.187,
+   "start": 110.827,
    "sentences": [
     {
-     "text": "Ce soir-là, à l'heure où il dit ça...",
-     "spoken": "Ce soir-là, à l'heure où il dit ça...",
-     "start": 94.467,
-     "end": 96.467,
+     "text": "Mais ce soir-là, au moment où ton père dit ça...",
+     "spoken": "Mais ce soir-là, au moment où ton père dit ça...",
+     "start": 113.027,
+     "end": 115.667,
      "words": [
       {
-       "w": "Ce",
-       "s": 94.467,
-       "e": 94.707
+       "w": "Mais",
+       "s": 113.027,
+       "e": 113.267
+      },
+      {
+       "w": "ce",
+       "s": 113.267,
+       "e": 113.427
       },
       {
        "w": "soir-là,",
-       "s": 94.707,
-       "e": 95.187
+       "s": 113.427,
+       "e": 113.987
       },
       {
-       "w": "à",
-       "s": 95.187,
-       "e": 95.347
+       "w": "au",
+       "s": 113.987,
+       "e": 114.147
       },
       {
-       "w": "l'heure",
-       "s": 95.347,
-       "e": 95.587
+       "w": "moment",
+       "s": 114.147,
+       "e": 114.387
       },
       {
        "w": "où",
-       "s": 95.587,
-       "e": 95.747
+       "s": 114.387,
+       "e": 114.547
       },
       {
-       "w": "il",
-       "s": 95.747,
-       "e": 95.987
+       "w": "ton",
+       "s": 114.547,
+       "e": 114.787
+      },
+      {
+       "w": "père",
+       "s": 114.787,
+       "e": 115.027
       },
       {
        "w": "dit",
-       "s": 95.987,
-       "e": 96.227
+       "s": 115.027,
+       "e": 115.267
       },
       {
        "w": "ça...",
-       "s": 96.227,
-       "e": 96.467
+       "s": 115.267,
+       "e": 115.667
       }
      ]
     },
     {
-     "text": "le nuage est déjà en train d'entrer.",
-     "spoken": "le nuage est déjà en train d'entrer.",
-     "start": 96.467,
-     "end": 98.407,
+     "text": "le nuage est déjà en train d'entrer en France.",
+     "spoken": "le nuage est déjà en train d'entrer en France.",
+     "start": 115.667,
+     "end": 117.945,
      "words": [
       {
        "w": "le",
-       "s": 96.467,
-       "e": 96.627
+       "s": 115.667,
+       "e": 115.827
       },
       {
        "w": "nuage",
-       "s": 96.627,
-       "e": 97.107
+       "s": 115.827,
+       "e": 116.387
       },
       {
        "w": "est",
-       "s": 97.107,
-       "e": 97.267
+       "s": 116.387,
+       "e": 116.467
       },
       {
        "w": "déjà",
-       "s": 97.267,
-       "e": 97.587
+       "s": 116.467,
+       "e": 116.707
       },
       {
        "w": "en",
-       "s": 97.587,
-       "e": 97.667
+       "s": 116.707,
+       "e": 116.787
       },
       {
        "w": "train",
-       "s": 97.667,
-       "e": 97.907
+       "s": 116.787,
+       "e": 116.947
       },
       {
-       "w": "d'entrer.",
-       "s": 97.907,
-       "e": 98.407
+       "w": "d'entrer",
+       "s": 116.947,
+       "e": 117.347
+      },
+      {
+       "w": "en",
+       "s": 117.347,
+       "e": 117.507
+      },
+      {
+       "w": "France.",
+       "s": 117.507,
+       "e": 117.945
       }
      ]
     }
    ],
-   "end": 102.326
+   "end": 119.456
   },
   {
    "id": "mai",
-   "start": 102.326,
+   "start": 119.456,
    "sentences": [
     {
      "text": "Premier mai.",
      "spoken": "Premier mai.",
-     "start": 102.636,
-     "end": 103.286,
+     "start": 119.606,
+     "end": 120.176,
      "words": [
       {
        "w": "Premier",
-       "s": 102.636,
-       "e": 102.886
+       "s": 119.606,
+       "e": 119.856
       },
       {
        "w": "mai.",
-       "s": 102.886,
-       "e": 103.286
+       "s": 119.856,
+       "e": 120.176
       }
      ]
     },
     {
      "text": "Jour férié.",
      "spoken": "Jour férié.",
-     "start": 103.286,
-     "end": 104.246,
+     "start": 120.176,
+     "end": 121.216,
      "words": [
       {
        "w": "Jour",
-       "s": 103.286,
-       "e": 103.606
+       "s": 120.176,
+       "e": 120.416
       },
       {
        "w": "férié.",
-       "s": 103.606,
-       "e": 104.246
+       "s": 120.416,
+       "e": 121.216
       }
      ]
     },
     {
-     "text": "Tu vends du muguet, tu joues dans la rue, il pleut un peu.",
-     "spoken": "Tu vends du muguet, tu joues dans la rue, il pleut un peu.",
-     "start": 104.246,
-     "end": 107.022,
+     "text": "Tu vends du muguet devant la maison, tu joues dans la rue, et il pleut un peu.",
+     "spoken": "Tu vends du muguet devant la maison, tu joues dans la rue, et il pleut un peu.",
+     "start": 121.216,
+     "end": 125.313,
      "words": [
       {
        "w": "Tu",
-       "s": 104.246,
-       "e": 104.406
+       "s": 121.216,
+       "e": 121.456
       },
       {
        "w": "vends",
-       "s": 104.406,
-       "e": 104.646
+       "s": 121.456,
+       "e": 121.696
       },
       {
        "w": "du",
-       "s": 104.646,
-       "e": 104.806
+       "s": 121.696,
+       "e": 121.856
       },
       {
-       "w": "muguet,",
-       "s": 104.806,
-       "e": 105.286
+       "w": "muguet",
+       "s": 121.856,
+       "e": 122.496
       },
       {
-       "w": "tu",
-       "s": 105.286,
-       "e": 105.446
-      },
-      {
-       "w": "joues",
-       "s": 105.446,
-       "e": 105.686
-      },
-      {
-       "w": "dans",
-       "s": 105.686,
-       "e": 105.766
+       "w": "devant",
+       "s": 122.496,
+       "e": 122.736
       },
       {
        "w": "la",
-       "s": 105.766,
-       "e": 105.846
+       "s": 122.736,
+       "e": 122.816
+      },
+      {
+       "w": "maison,",
+       "s": 122.816,
+       "e": 123.216
+      },
+      {
+       "w": "tu",
+       "s": 123.216,
+       "e": 123.376
+      },
+      {
+       "w": "joues",
+       "s": 123.376,
+       "e": 123.696
+      },
+      {
+       "w": "dans",
+       "s": 123.696,
+       "e": 123.856
+      },
+      {
+       "w": "la",
+       "s": 123.856,
+       "e": 123.936
       },
       {
        "w": "rue,",
-       "s": 105.846,
-       "e": 106.166
+       "s": 123.936,
+       "e": 124.336
+      },
+      {
+       "w": "et",
+       "s": 124.336,
+       "e": 124.496
       },
       {
        "w": "il",
-       "s": 106.166,
-       "e": 106.326
+       "s": 124.496,
+       "e": 124.656
       },
       {
        "w": "pleut",
-       "s": 106.326,
-       "e": 106.726
+       "s": 124.656,
+       "e": 124.976
       },
       {
        "w": "un",
-       "s": 106.726,
-       "e": 106.806
+       "s": 124.976,
+       "e": 125.056
       },
       {
        "w": "peu.",
-       "s": 106.806,
-       "e": 107.022
+       "s": 125.056,
+       "e": 125.313
       }
      ]
     }
    ],
-   "end": 108.372
+   "end": 125.992
   },
   {
    "id": "mere2",
-   "start": 108.372,
+   "start": 125.992,
    "sentences": [
     {
      "text": "Rentre, tu es trempé !",
      "spoken": "Rentre, tu es trempé !",
-     "start": 108.372,
-     "end": 109.892,
+     "start": 125.992,
+     "end": 127.512,
      "words": [
       {
        "w": "Rentre,",
-       "s": 108.372,
-       "e": 109.012
+       "s": 125.992,
+       "e": 126.472
       },
       {
        "w": "tu",
-       "s": 109.012,
-       "e": 109.172
+       "s": 126.472,
+       "e": 126.712
       },
       {
        "w": "es",
-       "s": 109.172,
-       "e": 109.332
+       "s": 126.712,
+       "e": 126.872
       },
       {
        "w": "trempé!",
-       "s": 109.332,
-       "e": 109.892
+       "s": 126.872,
+       "e": 127.512
       }
      ]
     },
     {
      "text": "Et viens boire ton verre de lait.",
      "spoken": "Et viens boire ton verre de lait.",
-     "start": 109.892,
-     "end": 111.427,
+     "start": 127.512,
+     "end": 129.445,
      "words": [
       {
        "w": "Et",
-       "s": 109.892,
-       "e": 110.052
+       "s": 127.512,
+       "e": 127.672
       },
       {
        "w": "viens",
-       "s": 110.052,
-       "e": 110.292
+       "s": 127.672,
+       "e": 127.992
       },
       {
        "w": "boire",
-       "s": 110.292,
-       "e": 110.532
+       "s": 127.992,
+       "e": 128.312
       },
       {
        "w": "ton",
-       "s": 110.532,
-       "e": 110.692
+       "s": 128.312,
+       "e": 128.552
       },
       {
        "w": "verre",
-       "s": 110.692,
-       "e": 110.932
+       "s": 128.552,
+       "e": 128.872
       },
       {
        "w": "de",
-       "s": 110.932,
-       "e": 111.092
+       "s": 128.872,
+       "e": 129.032
       },
       {
        "w": "lait.",
-       "s": 111.092,
-       "e": 111.427
+       "s": 129.032,
+       "e": 129.445
       }
      ]
     }
    ],
-   "par": "siwis",
-   "end": 111.777
+   "par": "mere",
+   "end": 129.796
   },
   {
    "id": "mai2",
-   "start": 111.777,
+   "start": 129.796,
    "sentences": [
     {
-     "text": "Le soir, un verre de lait, la salade du jardin.",
-     "spoken": "Le soir, un verre de lait, la salade du jardin.",
-     "start": 111.777,
-     "end": 115.057,
+     "text": "Le soir, tu bois un grand verre de lait, et tu manges la salade du jardin.",
+     "spoken": "Le soir, tu bois un grand verre de lait, et tu manges la salade du jardin.",
+     "start": 129.796,
+     "end": 134.148,
      "words": [
       {
        "w": "Le",
-       "s": 111.777,
-       "e": 112.017
+       "s": 129.796,
+       "e": 130.036
       },
       {
        "w": "soir,",
-       "s": 112.017,
-       "e": 112.497
+       "s": 130.036,
+       "e": 130.436
+      },
+      {
+       "w": "tu",
+       "s": 130.436,
+       "e": 130.596
+      },
+      {
+       "w": "bois",
+       "s": 130.596,
+       "e": 130.996
       },
       {
        "w": "un",
-       "s": 112.497,
-       "e": 112.657
+       "s": 130.996,
+       "e": 131.076
+      },
+      {
+       "w": "grand",
+       "s": 131.076,
+       "e": 131.316
       },
       {
        "w": "verre",
-       "s": 112.657,
-       "e": 113.057
+       "s": 131.316,
+       "e": 131.636
       },
       {
        "w": "de",
-       "s": 113.057,
-       "e": 113.297
+       "s": 131.636,
+       "e": 131.796
       },
       {
        "w": "lait,",
-       "s": 113.297,
-       "e": 113.697
+       "s": 131.796,
+       "e": 132.196
+      },
+      {
+       "w": "et",
+       "s": 132.196,
+       "e": 132.356
+      },
+      {
+       "w": "tu",
+       "s": 132.356,
+       "e": 132.516
+      },
+      {
+       "w": "manges",
+       "s": 132.516,
+       "e": 132.836
       },
       {
        "w": "la",
-       "s": 113.697,
-       "e": 113.857
+       "s": 132.836,
+       "e": 132.916
       },
       {
        "w": "salade",
-       "s": 113.857,
-       "e": 114.337
+       "s": 132.916,
+       "e": 133.316
       },
       {
        "w": "du",
-       "s": 114.337,
-       "e": 114.497
+       "s": 133.316,
+       "e": 133.476
       },
       {
        "w": "jardin.",
-       "s": 114.497,
-       "e": 115.057
+       "s": 133.476,
+       "e": 134.148
       }
      ]
     },
     {
-     "text": "Ce jour-là, la radioactivité de l'air atteint son maximum en France.",
-     "spoken": "Ce jour-là, la radioactivité de l'air atteint son maximum en France.",
-     "start": 115.057,
-     "end": 119.397,
+     "text": "Mais la pluie a fait tomber les poussières du nuage sur l'herbe et sur les légumes.",
+     "spoken": "Mais la pluie a fait tomber les poussières du nuage sur l'herbe et sur les légumes.",
+     "start": 134.148,
+     "end": 139.316,
      "words": [
       {
-       "w": "Ce",
-       "s": 115.057,
-       "e": 115.217
-      },
-      {
-       "w": "jour-là,",
-       "s": 115.217,
-       "e": 115.857
+       "w": "Mais",
+       "s": 134.148,
+       "e": 134.596
       },
       {
        "w": "la",
-       "s": 115.857,
-       "e": 116.017
+       "s": 134.596,
+       "e": 134.756
       },
       {
-       "w": "radioactivité",
-       "s": 116.017,
-       "e": 116.897
+       "w": "pluie",
+       "s": 134.756,
+       "e": 135.156
       },
       {
-       "w": "de",
-       "s": 116.897,
-       "e": 116.977
+       "w": "a",
+       "s": 135.156,
+       "e": 135.236
       },
       {
-       "w": "l'air",
-       "s": 116.977,
-       "e": 117.457
+       "w": "fait",
+       "s": 135.236,
+       "e": 135.396
       },
       {
-       "w": "atteint",
-       "s": 117.457,
-       "e": 117.937
-      },
-      {
-       "w": "son",
-       "s": 117.937,
-       "e": 118.177
-      },
-      {
-       "w": "maximum",
-       "s": 118.177,
-       "e": 118.737
-      },
-      {
-       "w": "en",
-       "s": 118.737,
-       "e": 118.897
-      },
-      {
-       "w": "France.",
-       "s": 118.897,
-       "e": 119.397
-      }
-     ]
-    }
-   ],
-   "end": 121.849
-  },
-  {
-   "id": "frontiere",
-   "start": 121.849,
-   "sentences": [
-    {
-     "text": "À quelques kilomètres, de l'autre côté de la frontière, on déconseille le lait frais et les légumes du jardin.",
-     "spoken": "À quelques kilomètres, de l'autre côté de la frontière, on déconseille le lait frais et les légumes du jardin.",
-     "start": 121.849,
-     "end": 127.57,
-     "words": [
-      {
-       "w": "À",
-       "s": 121.849,
-       "e": 122.089
-      },
-      {
-       "w": "quelques",
-       "s": 122.089,
-       "e": 122.489
-      },
-      {
-       "w": "kilomètres,",
-       "s": 122.489,
-       "e": 123.129
-      },
-      {
-       "w": "de",
-       "s": 123.129,
-       "e": 123.289
-      },
-      {
-       "w": "l'autre",
-       "s": 123.289,
-       "e": 123.689
-      },
-      {
-       "w": "côté",
-       "s": 123.689,
-       "e": 124.009
-      },
-      {
-       "w": "de",
-       "s": 124.009,
-       "e": 124.089
-      },
-      {
-       "w": "la",
-       "s": 124.089,
-       "e": 124.249
-      },
-      {
-       "w": "frontière,",
-       "s": 124.249,
-       "e": 124.889
-      },
-      {
-       "w": "on",
-       "s": 124.889,
-       "e": 125.129
-      },
-      {
-       "w": "déconseille",
-       "s": 125.129,
-       "e": 125.769
-      },
-      {
-       "w": "le",
-       "s": 125.769,
-       "e": 125.849
-      },
-      {
-       "w": "lait",
-       "s": 125.849,
-       "e": 126.169
-      },
-      {
-       "w": "frais",
-       "s": 126.169,
-       "e": 126.489
-      },
-      {
-       "w": "et",
-       "s": 126.489,
-       "e": 126.569
+       "w": "tomber",
+       "s": 135.396,
+       "e": 135.716
       },
       {
        "w": "les",
-       "s": 126.569,
-       "e": 126.729
+       "s": 135.716,
+       "e": 135.796
       },
       {
-       "w": "légumes",
-       "s": 126.729,
-       "e": 127.129
+       "w": "poussières",
+       "s": 135.796,
+       "e": 136.276
       },
       {
        "w": "du",
-       "s": 127.129,
-       "e": 127.209
+       "s": 136.276,
+       "e": 136.436
       },
       {
-       "w": "jardin.",
-       "s": 127.209,
-       "e": 127.57
+       "w": "nuage",
+       "s": 136.436,
+       "e": 136.916
+      },
+      {
+       "w": "sur",
+       "s": 136.916,
+       "e": 136.996
+      },
+      {
+       "w": "l'herbe",
+       "s": 136.996,
+       "e": 137.636
+      },
+      {
+       "w": "et",
+       "s": 137.636,
+       "e": 137.876
+      },
+      {
+       "w": "sur",
+       "s": 137.876,
+       "e": 138.036
+      },
+      {
+       "w": "les",
+       "s": 138.036,
+       "e": 138.196
+      },
+      {
+       "w": "légumes.",
+       "s": 138.196,
+       "e": 139.316
+      }
+     ]
+    },
+    {
+     "text": "Et ce jour-là, en France, la radioactivité dans l'air est à son maximum.",
+     "spoken": "Et ce jour-là, en France, la radioactivité dans l'air est à son maximum.",
+     "start": 139.316,
+     "end": 143.896,
+     "words": [
+      {
+       "w": "Et",
+       "s": 139.316,
+       "e": 139.556
+      },
+      {
+       "w": "ce",
+       "s": 139.556,
+       "e": 139.716
+      },
+      {
+       "w": "jour-là,",
+       "s": 139.716,
+       "e": 140.276
+      },
+      {
+       "w": "en",
+       "s": 140.276,
+       "e": 140.436
+      },
+      {
+       "w": "France,",
+       "s": 140.436,
+       "e": 141.076
+      },
+      {
+       "w": "la",
+       "s": 141.076,
+       "e": 141.236
+      },
+      {
+       "w": "radioactivité",
+       "s": 141.236,
+       "e": 142.196
+      },
+      {
+       "w": "dans",
+       "s": 142.196,
+       "e": 142.356
+      },
+      {
+       "w": "l'air",
+       "s": 142.356,
+       "e": 142.916
+      },
+      {
+       "w": "est",
+       "s": 142.916,
+       "e": 143.076
+      },
+      {
+       "w": "à",
+       "s": 143.076,
+       "e": 143.236
+      },
+      {
+       "w": "son",
+       "s": 143.236,
+       "e": 143.396
+      },
+      {
+       "w": "maximum.",
+       "s": 143.396,
+       "e": 143.896
       }
      ]
     }
    ],
-   "end": 128.92
+   "end": 145.108
+  },
+  {
+   "id": "frontiere",
+   "start": 145.108,
+   "sentences": [
+    {
+     "text": "Juste à côté, de l'autre côté de la frontière, en Allemagne, on dit aux familles d'éviter le lait frais et les légumes du jardin.",
+     "spoken": "Juste à côté, de l'autre côté de la frontière, en Allemagne, on dit aux familles d'éviter le lait frais et les légumes du jardin.",
+     "start": 145.108,
+     "end": 153.348,
+     "words": [
+      {
+       "w": "Juste",
+       "s": 145.108,
+       "e": 145.428
+      },
+      {
+       "w": "à",
+       "s": 145.428,
+       "e": 145.588
+      },
+      {
+       "w": "côté,",
+       "s": 145.588,
+       "e": 146.148
+      },
+      {
+       "w": "de",
+       "s": 146.148,
+       "e": 146.308
+      },
+      {
+       "w": "l'autre",
+       "s": 146.308,
+       "e": 146.708
+      },
+      {
+       "w": "côté",
+       "s": 146.708,
+       "e": 147.028
+      },
+      {
+       "w": "de",
+       "s": 147.028,
+       "e": 147.108
+      },
+      {
+       "w": "la",
+       "s": 147.108,
+       "e": 147.268
+      },
+      {
+       "w": "frontière,",
+       "s": 147.268,
+       "e": 148.068
+      },
+      {
+       "w": "en",
+       "s": 148.068,
+       "e": 148.228
+      },
+      {
+       "w": "Allemagne,",
+       "s": 148.228,
+       "e": 149.028
+      },
+      {
+       "w": "on",
+       "s": 149.028,
+       "e": 149.268
+      },
+      {
+       "w": "dit",
+       "s": 149.268,
+       "e": 149.508
+      },
+      {
+       "w": "aux",
+       "s": 149.508,
+       "e": 149.668
+      },
+      {
+       "w": "familles",
+       "s": 149.668,
+       "e": 149.988
+      },
+      {
+       "w": "d'éviter",
+       "s": 149.988,
+       "e": 150.548
+      },
+      {
+       "w": "le",
+       "s": 150.548,
+       "e": 150.788
+      },
+      {
+       "w": "lait",
+       "s": 150.788,
+       "e": 151.108
+      },
+      {
+       "w": "frais",
+       "s": 151.108,
+       "e": 151.588
+      },
+      {
+       "w": "et",
+       "s": 151.588,
+       "e": 151.748
+      },
+      {
+       "w": "les",
+       "s": 151.748,
+       "e": 151.908
+      },
+      {
+       "w": "légumes",
+       "s": 151.908,
+       "e": 152.468
+      },
+      {
+       "w": "du",
+       "s": 152.468,
+       "e": 152.628
+      },
+      {
+       "w": "jardin.",
+       "s": 152.628,
+       "e": 153.348
+      }
+     ]
+    },
+    {
+     "text": "Parce que les vaches mangent l'herbe mouillée par la pluie, et les poussières passent dans leur lait.",
+     "spoken": "Parce que les vaches mangent l'herbe mouillée par la pluie, et les poussières passent dans leur lait.",
+     "start": 153.348,
+     "end": 158.39,
+     "words": [
+      {
+       "w": "Parce",
+       "s": 153.348,
+       "e": 153.588
+      },
+      {
+       "w": "que",
+       "s": 153.588,
+       "e": 153.668
+      },
+      {
+       "w": "les",
+       "s": 153.668,
+       "e": 153.908
+      },
+      {
+       "w": "vaches",
+       "s": 153.908,
+       "e": 154.388
+      },
+      {
+       "w": "mangent",
+       "s": 154.388,
+       "e": 154.708
+      },
+      {
+       "w": "l'herbe",
+       "s": 154.708,
+       "e": 155.188
+      },
+      {
+       "w": "mouillée",
+       "s": 155.188,
+       "e": 155.668
+      },
+      {
+       "w": "par",
+       "s": 155.668,
+       "e": 155.748
+      },
+      {
+       "w": "la",
+       "s": 155.748,
+       "e": 155.908
+      },
+      {
+       "w": "pluie,",
+       "s": 155.908,
+       "e": 156.388
+      },
+      {
+       "w": "et",
+       "s": 156.388,
+       "e": 156.548
+      },
+      {
+       "w": "les",
+       "s": 156.548,
+       "e": 156.708
+      },
+      {
+       "w": "poussières",
+       "s": 156.708,
+       "e": 157.268
+      },
+      {
+       "w": "passent",
+       "s": 157.268,
+       "e": 157.588
+      },
+      {
+       "w": "dans",
+       "s": 157.588,
+       "e": 157.668
+      },
+      {
+       "w": "leur",
+       "s": 157.668,
+       "e": 157.988
+      },
+      {
+       "w": "lait.",
+       "s": 157.988,
+       "e": 158.39
+      }
+     ]
+    }
+   ],
+   "end": 159.071
   },
   {
    "id": "voisine",
-   "start": 128.92,
+   "start": 159.071,
    "sentences": [
     {
      "text": "Restez à l'intérieur.",
      "spoken": "Restez à l'intérieur.",
-     "start": 129.23,
-     "end": 130.12,
+     "start": 159.071,
+     "end": 160.351,
      "words": [
       {
        "w": "Restez",
-       "s": 129.23,
-       "e": 129.48
+       "s": 159.071,
+       "e": 159.551
       },
       {
        "w": "à",
-       "s": 129.48,
-       "e": 129.56
+       "s": 159.551,
+       "e": 159.631
       },
       {
        "w": "l'intérieur.",
-       "s": 129.56,
-       "e": 130.12
+       "s": 159.631,
+       "e": 160.351
       }
      ]
     },
     {
      "text": "Et surtout, pas de lait du tout aujourd'hui, c'est compris ?",
      "spoken": "Et surtout, pas de lait du tout aujourd'hui, c'est compris ?",
-     "start": 130.12,
-     "end": 132.875,
+     "start": 160.351,
+     "end": 163.244,
      "words": [
       {
        "w": "Et",
-       "s": 130.12,
-       "e": 130.28
+       "s": 160.351,
+       "e": 160.511
       },
       {
        "w": "surtout,",
-       "s": 130.28,
-       "e": 130.6
+       "s": 160.511,
+       "e": 160.991
       },
       {
        "w": "pas",
-       "s": 130.6,
-       "e": 130.76
+       "s": 160.991,
+       "e": 161.231
       },
       {
        "w": "de",
-       "s": 130.76,
-       "e": 130.92
+       "s": 161.231,
+       "e": 161.391
       },
       {
        "w": "lait",
-       "s": 130.92,
-       "e": 131.24
+       "s": 161.391,
+       "e": 161.631
       },
       {
        "w": "du",
-       "s": 131.24,
-       "e": 131.48
+       "s": 161.631,
+       "e": 161.791
       },
       {
        "w": "tout",
-       "s": 131.48,
-       "e": 131.72
+       "s": 161.791,
+       "e": 161.951
       },
       {
        "w": "aujourd'hui,",
-       "s": 131.72,
-       "e": 132.2
+       "s": 161.951,
+       "e": 162.511
       },
       {
        "w": "c'est",
-       "s": 132.2,
-       "e": 132.44
+       "s": 162.511,
+       "e": 162.751
       },
       {
        "w": "compris?",
-       "s": 132.44,
-       "e": 132.875
+       "s": 162.751,
+       "e": 163.244
       }
      ]
     }
    ],
-   "par": "jessica",
-   "end": 133.225
+   "par": "voisine",
+   "end": 163.594
   },
   {
    "id": "frontiere2",
-   "start": 133.225,
+   "start": 163.594,
    "sentences": [
     {
-     "text": "Même pluie.",
-     "spoken": "Même pluie.",
-     "start": 133.385,
-     "end": 134.185,
+     "text": "C'est la même pluie, le même vent.",
+     "spoken": "C'est la même pluie, le même vent.",
+     "start": 163.594,
+     "end": 165.354,
      "words": [
       {
-       "w": "Même",
-       "s": 133.385,
-       "e": 133.741
+       "w": "C'est",
+       "s": 163.594,
+       "e": 163.834
       },
       {
-       "w": "pluie.",
-       "s": 133.741,
-       "e": 134.185
-      }
-     ]
-    },
-    {
-     "text": "Même vent.",
-     "spoken": "Même vent.",
-     "start": 134.185,
-     "end": 134.825,
-     "words": [
+       "w": "la",
+       "s": 163.834,
+       "e": 163.914
+      },
       {
-       "w": "Même",
-       "s": 134.185,
-       "e": 134.505
+       "w": "même",
+       "s": 163.914,
+       "e": 164.074
+      },
+      {
+       "w": "pluie,",
+       "s": 164.074,
+       "e": 164.634
+      },
+      {
+       "w": "le",
+       "s": 164.634,
+       "e": 164.714
+      },
+      {
+       "w": "même",
+       "s": 164.714,
+       "e": 164.954
       },
       {
        "w": "vent.",
-       "s": 134.505,
-       "e": 134.825
+       "s": 164.954,
+       "e": 165.354
       }
      ]
     },
     {
-     "text": "Deux pays.",
-     "spoken": "Deux pays.",
-     "start": 134.825,
-     "end": 135.475,
+     "text": "Mais deux pays, et deux vérités.",
+     "spoken": "Mais deux pays, et deux vérités.",
+     "start": 165.354,
+     "end": 166.974,
      "words": [
       {
-       "w": "Deux",
-       "s": 134.825,
-       "e": 135.145
+       "w": "Mais",
+       "s": 165.354,
+       "e": 165.594
       },
       {
-       "w": "pays.",
-       "s": 135.145,
-       "e": 135.475
-      }
-     ]
-    },
-    {
-     "text": "Deux vérités.",
-     "spoken": "Deux vérités.",
-     "start": 135.475,
-     "end": 136.306,
-     "words": [
+       "w": "deux",
+       "s": 165.594,
+       "e": 165.754
+      },
       {
-       "w": "Deux",
-       "s": 135.475,
-       "e": 135.806
+       "w": "pays,",
+       "s": 165.754,
+       "e": 166.154
+      },
+      {
+       "w": "et",
+       "s": 166.154,
+       "e": 166.314
+      },
+      {
+       "w": "deux",
+       "s": 166.314,
+       "e": 166.474
       },
       {
        "w": "vérités.",
-       "s": 135.806,
-       "e": 136.306
+       "s": 166.474,
+       "e": 166.974
       }
      ]
     }
    ],
-   "end": 140.234
+   "end": 168.633
   },
   {
    "id": "telex",
-   "start": 140.234,
+   "start": 168.633,
    "sentences": [
     {
-     "text": "Le plus étrange, c'est que les autorités savent.",
-     "spoken": "Le plus étrange, c'est que les autorités savent.",
-     "start": 140.234,
-     "end": 143.114,
+     "text": "Le plus étrange, c'est que les responsables savent.",
+     "spoken": "Le plus étrange, c'est que les responsables savent.",
+     "start": 168.633,
+     "end": 171.513,
      "words": [
       {
        "w": "Le",
-       "s": 140.234,
-       "e": 140.554
+       "s": 168.633,
+       "e": 168.873
       },
       {
        "w": "plus",
-       "s": 140.554,
-       "e": 140.794
+       "s": 168.873,
+       "e": 169.113
       },
       {
        "w": "étrange,",
-       "s": 140.794,
-       "e": 141.434
+       "s": 169.113,
+       "e": 169.673
       },
       {
        "w": "c'est",
-       "s": 141.434,
-       "e": 141.674
+       "s": 169.673,
+       "e": 169.913
       },
       {
        "w": "que",
-       "s": 141.674,
-       "e": 141.834
+       "s": 169.913,
+       "e": 170.073
       },
       {
        "w": "les",
-       "s": 141.834,
-       "e": 141.994
+       "s": 170.073,
+       "e": 170.233
       },
       {
-       "w": "autorités",
-       "s": 141.994,
-       "e": 142.634
+       "w": "responsables",
+       "s": 170.233,
+       "e": 170.873
       },
       {
        "w": "savent.",
-       "s": 142.634,
-       "e": 143.114
+       "s": 170.873,
+       "e": 171.513
       }
      ]
     },
     {
-     "text": "Dès la fin avril, un communiqué mentionne une légère hausse de la radioactivité.",
-     "spoken": "Dès la fin avril, un communiqué mentionne une légère hausse de la radioactivité.",
-     "start": 143.114,
-     "end": 147.914,
+     "text": "Dès la fin avril, le service qui mesure la radioactivité envoie un communiqué, un petit texte pour les journalistes.",
+     "spoken": "Dès la fin avril, le service qui mesure la radioactivité envoie un communiqué, un petit texte pour les journalistes.",
+     "start": 171.513,
+     "end": 178.153,
      "words": [
       {
        "w": "Dès",
-       "s": 143.114,
-       "e": 143.274
+       "s": 171.513,
+       "e": 171.753
       },
       {
        "w": "la",
-       "s": 143.274,
-       "e": 143.354
+       "s": 171.753,
+       "e": 171.833
       },
       {
        "w": "fin",
-       "s": 143.354,
-       "e": 143.674
+       "s": 171.833,
+       "e": 172.093
       },
       {
        "w": "avril,",
-       "s": 143.674,
-       "e": 144.234
+       "s": 172.093,
+       "e": 172.633
       },
       {
-       "w": "un",
-       "s": 144.234,
-       "e": 144.394
+       "w": "le",
+       "s": 172.633,
+       "e": 172.793
       },
       {
-       "w": "communiqué",
-       "s": 144.394,
-       "e": 145.034
+       "w": "service",
+       "s": 172.793,
+       "e": 173.193
       },
       {
-       "w": "mentionne",
-       "s": 145.034,
-       "e": 145.514
+       "w": "qui",
+       "s": 173.193,
+       "e": 173.353
       },
       {
-       "w": "une",
-       "s": 145.514,
-       "e": 145.674
-      },
-      {
-       "w": "légère",
-       "s": 145.674,
-       "e": 146.154
-      },
-      {
-       "w": "hausse",
-       "s": 146.154,
-       "e": 146.634
-      },
-      {
-       "w": "de",
-       "s": 146.634,
-       "e": 146.714
+       "w": "mesure",
+       "s": 173.353,
+       "e": 173.753
       },
       {
        "w": "la",
-       "s": 146.714,
-       "e": 146.794
+       "s": 173.753,
+       "e": 173.833
       },
       {
-       "w": "radioactivité.",
-       "s": 146.794,
-       "e": 147.914
+       "w": "radioactivité",
+       "s": 173.833,
+       "e": 174.633
+      },
+      {
+       "w": "envoie",
+       "s": 174.633,
+       "e": 175.113
+      },
+      {
+       "w": "un",
+       "s": 175.113,
+       "e": 175.193
+      },
+      {
+       "w": "communiqué,",
+       "s": 175.193,
+       "e": 175.993
+      },
+      {
+       "w": "un",
+       "s": 175.993,
+       "e": 176.153
+      },
+      {
+       "w": "petit",
+       "s": 176.153,
+       "e": 176.473
+      },
+      {
+       "w": "texte",
+       "s": 176.473,
+       "e": 176.953
+      },
+      {
+       "w": "pour",
+       "s": 176.953,
+       "e": 177.113
+      },
+      {
+       "w": "les",
+       "s": 177.113,
+       "e": 177.273
+      },
+      {
+       "w": "journalistes.",
+       "s": 177.273,
+       "e": 178.153
       }
      ]
     },
     {
-     "text": "Sans danger, dit-il.",
-     "spoken": "Sans danger, dit-il.",
-     "start": 147.914,
-     "end": 149.434,
+     "text": "Il parle d'une légère hausse, sans danger.",
+     "spoken": "Il parle d'une légère hausse, sans danger.",
+     "start": 178.153,
+     "end": 180.793,
      "words": [
       {
-       "w": "Sans",
-       "s": 147.914,
-       "e": 148.154
+       "w": "Il",
+       "s": 178.153,
+       "e": 178.393
       },
       {
-       "w": "danger,",
-       "s": 148.154,
-       "e": 148.714
+       "w": "parle",
+       "s": 178.393,
+       "e": 178.633
       },
       {
-       "w": "dit-il.",
-       "s": 148.714,
-       "e": 149.434
+       "w": "d'une",
+       "s": 178.633,
+       "e": 178.873
+      },
+      {
+       "w": "légère",
+       "s": 178.873,
+       "e": 179.433
+      },
+      {
+       "w": "hausse,",
+       "s": 179.433,
+       "e": 179.993
+      },
+      {
+       "w": "sans",
+       "s": 179.993,
+       "e": 180.313
+      },
+      {
+       "w": "danger.",
+       "s": 180.313,
+       "e": 180.793
       }
      ]
     },
     {
      "text": "Aucune consigne.",
      "spoken": "Aucune consigne.",
-     "start": 149.434,
-     "end": 150.554,
+     "start": 180.793,
+     "end": 182.633,
      "words": [
       {
        "w": "Aucune",
-       "s": 149.434,
-       "e": 149.834
+       "s": 180.793,
+       "e": 181.753
       },
       {
        "w": "consigne.",
-       "s": 149.834,
-       "e": 150.554
+       "s": 181.753,
+       "e": 182.633
       }
      ]
     },
     {
      "text": "Aucune précaution.",
      "spoken": "Aucune précaution.",
-     "start": 150.554,
-     "end": 151.674,
+     "start": 182.633,
+     "end": 184.953,
      "words": [
       {
        "w": "Aucune",
-       "s": 150.554,
-       "e": 151.034
+       "s": 182.633,
+       "e": 183.113
       },
       {
        "w": "précaution.",
-       "s": 151.034,
-       "e": 151.674
+       "s": 183.113,
+       "e": 184.953
       }
      ]
     },
     {
-     "text": "Et le six mai, un ministère écrit noir sur blanc que le territoire français a été...",
-     "spoken": "Et le six mai, un ministère écrit noir sur blanc que le territoire français a été...",
-     "start": 151.674,
-     "end": 156.474,
+     "text": "Et le six mai, un ministère écrit noir sur blanc que la France a été...",
+     "spoken": "Et le six mai, un ministère écrit noir sur blanc que la France a été...",
+     "start": 184.953,
+     "end": 189.353,
      "words": [
       {
        "w": "Et",
-       "s": 151.674,
-       "e": 151.834
+       "s": 184.953,
+       "e": 185.193
       },
       {
        "w": "le",
-       "s": 151.834,
-       "e": 151.994
+       "s": 185.193,
+       "e": 185.433
       },
       {
        "w": "six",
-       "s": 151.994,
-       "e": 152.314
+       "s": 185.433,
+       "e": 185.833
       },
       {
        "w": "mai,",
-       "s": 152.314,
-       "e": 152.634
+       "s": 185.833,
+       "e": 186.233
       },
       {
        "w": "un",
-       "s": 152.634,
-       "e": 152.794
+       "s": 186.233,
+       "e": 186.393
       },
       {
        "w": "ministère",
-       "s": 152.794,
-       "e": 153.354
+       "s": 186.393,
+       "e": 186.873
       },
       {
        "w": "écrit",
-       "s": 153.354,
-       "e": 153.754
+       "s": 186.873,
+       "e": 187.353
       },
       {
        "w": "noir",
-       "s": 153.754,
-       "e": 154.154
+       "s": 187.353,
+       "e": 187.673
       },
       {
        "w": "sur",
-       "s": 154.154,
-       "e": 154.314
+       "s": 187.673,
+       "e": 187.833
       },
       {
        "w": "blanc",
-       "s": 154.314,
-       "e": 154.714
+       "s": 187.833,
+       "e": 188.233
       },
       {
        "w": "que",
-       "s": 154.714,
-       "e": 154.874
+       "s": 188.233,
+       "e": 188.393
       },
       {
-       "w": "le",
-       "s": 154.874,
-       "e": 155.034
+       "w": "la",
+       "s": 188.393,
+       "e": 188.553
       },
       {
-       "w": "territoire",
-       "s": 155.034,
-       "e": 155.514
-      },
-      {
-       "w": "français",
-       "s": 155.514,
-       "e": 156.074
+       "w": "France",
+       "s": 188.553,
+       "e": 188.873
       },
       {
        "w": "a",
-       "s": 156.074,
-       "e": 156.234
+       "s": 188.873,
+       "e": 189.113
       },
       {
        "w": "été...",
-       "s": 156.234,
-       "e": 156.474
+       "s": 189.113,
+       "e": 189.353
       }
      ]
     },
     {
-     "text": "totalement épargné.",
-     "spoken": "totalement épargné.",
-     "start": 156.474,
-     "end": 157.374,
+     "text": "totalement épargnée.",
+     "spoken": "totalement épargnée.",
+     "start": 189.353,
+     "end": 190.253,
      "words": [
       {
        "w": "totalement",
-       "s": 156.474,
-       "e": 156.874
+       "s": 189.353,
+       "e": 189.753
       },
       {
-       "w": "épargné.",
-       "s": 156.874,
-       "e": 157.374
+       "w": "épargnée.",
+       "s": 189.753,
+       "e": 190.253
       }
      ]
     }
    ],
-   "end": 160.887
+   "end": 191.883
   },
   {
    "id": "aveu",
-   "start": 160.887,
+   "start": 191.883,
    "sentences": [
     {
      "text": "Dix mai.",
      "spoken": "Dix mai.",
-     "start": 160.967,
-     "end": 161.687,
+     "start": 191.883,
+     "end": 192.763,
      "words": [
       {
        "w": "Dix",
-       "s": 160.967,
-       "e": 161.287
+       "s": 191.883,
+       "e": 192.283
       },
       {
        "w": "mai.",
-       "s": 161.287,
-       "e": 161.687
+       "s": 192.283,
+       "e": 192.763
       }
      ]
     },
     {
-     "text": "À la télévision, le patron de la radioprotection française montre enfin les cartes.",
-     "spoken": "À la télévision, le patron de la radioprotection française montre enfin les cartes.",
-     "start": 161.687,
-     "end": 166.567,
+     "text": "À la télévision, le chef de ce service montre enfin les vraies cartes.",
+     "spoken": "À la télévision, le chef de ce service montre enfin les vraies cartes.",
+     "start": 192.763,
+     "end": 196.923,
      "words": [
       {
        "w": "À",
-       "s": 161.687,
-       "e": 161.847
+       "s": 192.763,
+       "e": 193.003
       },
       {
        "w": "la",
-       "s": 161.847,
-       "e": 161.927
+       "s": 193.003,
+       "e": 193.163
       },
       {
        "w": "télévision,",
-       "s": 161.927,
-       "e": 162.727
+       "s": 193.163,
+       "e": 193.963
       },
       {
        "w": "le",
-       "s": 162.727,
-       "e": 162.887
+       "s": 193.963,
+       "e": 194.123
       },
       {
-       "w": "patron",
-       "s": 162.887,
-       "e": 163.287
+       "w": "chef",
+       "s": 194.123,
+       "e": 194.443
       },
       {
        "w": "de",
-       "s": 163.287,
-       "e": 163.367
+       "s": 194.443,
+       "e": 194.603
       },
       {
-       "w": "la",
-       "s": 163.367,
-       "e": 163.527
+       "w": "ce",
+       "s": 194.603,
+       "e": 194.763
       },
       {
-       "w": "radioprotection",
-       "s": 163.527,
-       "e": 164.567
-      },
-      {
-       "w": "française",
-       "s": 164.567,
-       "e": 165.127
+       "w": "service",
+       "s": 194.763,
+       "e": 195.163
       },
       {
        "w": "montre",
-       "s": 165.127,
-       "e": 165.527
+       "s": 195.163,
+       "e": 195.563
       },
       {
        "w": "enfin",
-       "s": 165.527,
-       "e": 165.847
+       "s": 195.563,
+       "e": 195.883
       },
       {
        "w": "les",
-       "s": 165.847,
-       "e": 166.087
+       "s": 195.883,
+       "e": 196.043
+      },
+      {
+       "w": "vraies",
+       "s": 196.043,
+       "e": 196.363
       },
       {
        "w": "cartes.",
-       "s": 166.087,
-       "e": 166.567
+       "s": 196.363,
+       "e": 196.923
       }
      ]
     },
     {
-     "text": "Le nuage a survolé la France.",
-     "spoken": "Le nuage a survolé la France.",
-     "start": 166.567,
-     "end": 169.047,
+     "text": "Le nuage est bien passé au-dessus de la France.",
+     "spoken": "Le nuage est bien passé au-dessus de la France.",
+     "start": 196.923,
+     "end": 199.483,
      "words": [
       {
        "w": "Le",
-       "s": 166.567,
-       "e": 166.727
+       "s": 196.923,
+       "e": 197.163
       },
       {
        "w": "nuage",
-       "s": 166.727,
-       "e": 167.287
+       "s": 197.163,
+       "e": 197.643
       },
       {
-       "w": "a",
-       "s": 167.287,
-       "e": 167.447
+       "w": "est",
+       "s": 197.643,
+       "e": 197.803
       },
       {
-       "w": "survolé",
-       "s": 167.447,
-       "e": 168.167
+       "w": "bien",
+       "s": 197.803,
+       "e": 197.963
+      },
+      {
+       "w": "passé",
+       "s": 197.963,
+       "e": 198.283
+      },
+      {
+       "w": "au-dessus",
+       "s": 198.283,
+       "e": 198.763
+      },
+      {
+       "w": "de",
+       "s": 198.763,
+       "e": 198.923
       },
       {
        "w": "la",
-       "s": 168.167,
-       "e": 168.327
+       "s": 198.923,
+       "e": 199.003
       },
       {
        "w": "France.",
-       "s": 168.327,
-       "e": 169.047
+       "s": 199.003,
+       "e": 199.483
       }
      ]
     },
     {
      "text": "Presque toute la France.",
      "spoken": "Presque toute la France.",
-     "start": 169.047,
-     "end": 170.587,
+     "start": 199.483,
+     "end": 200.687,
      "words": [
       {
        "w": "Presque",
-       "s": 169.047,
-       "e": 169.607
+       "s": 199.483,
+       "e": 199.803
       },
       {
        "w": "toute",
-       "s": 169.607,
-       "e": 169.927
+       "s": 199.803,
+       "e": 200.043
       },
       {
        "w": "la",
-       "s": 169.927,
-       "e": 170.087
+       "s": 200.043,
+       "e": 200.203
       },
       {
        "w": "France.",
-       "s": 170.087,
-       "e": 170.587
+       "s": 200.203,
+       "e": 200.687
       }
      ]
     }
    ],
-   "end": 172.022
+   "end": 201.367
   },
   {
    "id": "mere3",
-   "start": 172.022,
+   "start": 201.367,
    "sentences": [
     {
      "text": "Presque toute la France ?",
      "spoken": "Presque toute la France ?",
-     "start": 172.022,
-     "end": 173.462,
+     "start": 201.527,
+     "end": 202.567,
      "words": [
       {
        "w": "Presque",
-       "s": 172.022,
-       "e": 172.502
+       "s": 201.527,
+       "e": 201.847
       },
       {
        "w": "toute",
-       "s": 172.502,
-       "e": 172.742
+       "s": 201.847,
+       "e": 202.087
       },
       {
        "w": "la",
-       "s": 172.742,
-       "e": 172.902
+       "s": 202.087,
+       "e": 202.167
       },
       {
        "w": "France?",
-       "s": 172.902,
-       "e": 173.462
+       "s": 202.167,
+       "e": 202.567
       }
      ]
     },
     {
      "text": "Mais ils avaient dit que...",
      "spoken": "Mais ils avaient dit que...",
-     "start": 173.462,
-     "end": 174.655,
+     "start": 202.567,
+     "end": 203.835,
      "words": [
       {
        "w": "Mais",
-       "s": 173.462,
-       "e": 173.702
+       "s": 202.567,
+       "e": 202.807
       },
       {
        "w": "ils",
-       "s": 173.702,
-       "e": 173.862
+       "s": 202.807,
+       "e": 203.047
       },
       {
        "w": "avaient",
-       "s": 173.862,
-       "e": 174.102
+       "s": 203.047,
+       "e": 203.287
       },
       {
        "w": "dit",
-       "s": 174.102,
-       "e": 174.378
+       "s": 203.287,
+       "e": 203.447
       },
       {
        "w": "que...",
-       "s": 174.378,
-       "e": 174.655
+       "s": 203.447,
+       "e": 203.835
       }
      ]
     }
    ],
-   "par": "siwis",
-   "end": 175.005
+   "par": "mere",
+   "end": 204.185
   },
   {
    "id": "pere2",
-   "start": 175.005,
+   "start": 204.185,
    "sentences": [
     {
      "text": "Qu'on ne risquait rien.",
      "spoken": "Qu'on ne risquait rien.",
-     "start": 175.005,
-     "end": 176.136,
+     "start": 204.185,
+     "end": 205.225,
      "words": [
       {
        "w": "Qu'on",
-       "s": 175.005,
-       "e": 175.245
+       "s": 204.185,
+       "e": 204.425
       },
       {
        "w": "ne",
-       "s": 175.245,
-       "e": 175.325
+       "s": 204.425,
+       "e": 204.505
       },
       {
        "w": "risquait",
-       "s": 175.325,
-       "e": 175.725
+       "s": 204.505,
+       "e": 204.825
       },
       {
        "w": "rien.",
-       "s": 175.725,
-       "e": 176.136
+       "s": 204.825,
+       "e": 205.225
       }
      ]
     },
     {
-     "text": "Oui.",
-     "spoken": "Oui.",
-     "start": 176.136,
-     "end": 176.445,
-     "words": [
-      {
-       "w": "Oui.",
-       "s": 176.136,
-       "e": 176.445
-      }
-     ]
-    },
-    {
-     "text": "Je le sais bien, va.",
-     "spoken": "Je le sais bien, va.",
-     "start": 176.445,
-     "end": 177.931,
+     "text": "Je sais, je sais bien.",
+     "spoken": "Je sais, je sais bien.",
+     "start": 205.225,
+     "end": 206.232,
      "words": [
       {
        "w": "Je",
-       "s": 176.445,
-       "e": 176.685
+       "s": 205.225,
+       "e": 205.385
       },
       {
-       "w": "le",
-       "s": 176.685,
-       "e": 176.845
+       "w": "sais,",
+       "s": 205.385,
+       "e": 205.625
+      },
+      {
+       "w": "je",
+       "s": 205.625,
+       "e": 205.785
       },
       {
        "w": "sais",
-       "s": 176.845,
-       "e": 177.085
+       "s": 205.785,
+       "e": 205.945
       },
       {
-       "w": "bien,",
-       "s": 177.085,
-       "e": 177.485
-      },
-      {
-       "w": "va.",
-       "s": 177.485,
-       "e": 177.931
+       "w": "bien.",
+       "s": 205.945,
+       "e": 206.232
       }
      ]
     }
    ],
-   "par": "pierre",
-   "end": 178.281
+   "par": "pere",
+   "end": 206.582
   },
   {
    "id": "aveu2",
-   "start": 178.281,
+   "start": 206.582,
    "sentences": [
     {
-     "text": "Les journaux crient au mensonge.",
-     "spoken": "Les journaux crient au mensonge.",
-     "start": 178.281,
-     "end": 180.441,
+     "text": "Les journaux parlent de mensonge.",
+     "spoken": "Les journaux parlent de mensonge.",
+     "start": 206.582,
+     "end": 208.182,
      "words": [
       {
        "w": "Les",
-       "s": 178.281,
-       "e": 178.521
+       "s": 206.582,
+       "e": 206.742
       },
       {
        "w": "journaux",
-       "s": 178.521,
-       "e": 179.001
+       "s": 206.742,
+       "e": 207.142
       },
       {
-       "w": "crient",
-       "s": 179.001,
-       "e": 179.401
+       "w": "parlent",
+       "s": 207.142,
+       "e": 207.382
       },
       {
-       "w": "au",
-       "s": 179.401,
-       "e": 179.561
+       "w": "de",
+       "s": 207.382,
+       "e": 207.542
       },
       {
        "w": "mensonge.",
-       "s": 179.561,
-       "e": 180.441
+       "s": 207.542,
+       "e": 208.182
       }
      ]
     },
     {
      "text": "Mais c'est trop tard.",
      "spoken": "Mais c'est trop tard.",
-     "start": 180.441,
-     "end": 181.801,
+     "start": 208.182,
+     "end": 209.302,
      "words": [
       {
        "w": "Mais",
-       "s": 180.441,
-       "e": 180.681
+       "s": 208.182,
+       "e": 208.422
       },
       {
        "w": "c'est",
-       "s": 180.681,
-       "e": 180.921
+       "s": 208.422,
+       "e": 208.662
       },
       {
        "w": "trop",
-       "s": 180.921,
-       "e": 181.161
+       "s": 208.662,
+       "e": 208.902
       },
       {
        "w": "tard.",
-       "s": 181.161,
-       "e": 181.801
+       "s": 208.902,
+       "e": 209.302
       }
      ]
     },
     {
      "text": "Le nuage, lui, est déjà reparti.",
      "spoken": "Le nuage, lui, est déjà reparti.",
-     "start": 181.801,
-     "end": 184.061,
+     "start": 209.302,
+     "end": 211.402,
      "words": [
       {
        "w": "Le",
-       "s": 181.801,
-       "e": 182.041
+       "s": 209.302,
+       "e": 209.542
       },
       {
        "w": "nuage,",
-       "s": 182.041,
-       "e": 182.761
+       "s": 209.542,
+       "e": 210.102
       },
       {
        "w": "lui,",
-       "s": 182.761,
-       "e": 183.161
+       "s": 210.102,
+       "e": 210.422
       },
       {
        "w": "est",
-       "s": 183.161,
-       "e": 183.321
+       "s": 210.422,
+       "e": 210.582
       },
       {
        "w": "déjà",
-       "s": 183.321,
-       "e": 183.561
+       "s": 210.582,
+       "e": 210.902
       },
       {
        "w": "reparti.",
-       "s": 183.561,
-       "e": 184.061
+       "s": 210.902,
+       "e": 211.402
       }
      ]
     }
    ],
-   "end": 188.027
+   "end": 212.99
   },
   {
    "id": "annees",
-   "start": 188.027,
+   "start": 212.99,
    "sentences": [
     {
      "text": "Tu grandis.",
      "spoken": "Tu grandis.",
-     "start": 188.027,
-     "end": 188.747,
+     "start": 213.07,
+     "end": 213.95,
      "words": [
       {
        "w": "Tu",
-       "s": 188.027,
-       "e": 188.267
+       "s": 213.07,
+       "e": 213.31
       },
       {
        "w": "grandis.",
-       "s": 188.267,
-       "e": 188.747
+       "s": 213.31,
+       "e": 213.95
       }
      ]
     },
     {
-     "text": "Et la question reste.",
-     "spoken": "Et la question reste.",
-     "start": 188.747,
-     "end": 190.027,
+     "text": "Et une question reste.",
+     "spoken": "Et une question reste.",
+     "start": 213.95,
+     "end": 215.55,
      "words": [
       {
        "w": "Et",
-       "s": 188.747,
-       "e": 188.907
+       "s": 213.95,
+       "e": 214.27
       },
       {
-       "w": "la",
-       "s": 188.907,
-       "e": 189.067
+       "w": "une",
+       "s": 214.27,
+       "e": 214.43
       },
       {
        "w": "question",
-       "s": 189.067,
-       "e": 189.387
+       "s": 214.43,
+       "e": 214.91
       },
       {
        "w": "reste.",
-       "s": 189.387,
-       "e": 190.027
+       "s": 214.91,
+       "e": 215.55
       }
      ]
     },
     {
-     "text": "En 2001, des malades de la thyroïde portent plainte.",
-     "spoken": "En deux mille un, des malades de la thyroïde portent plainte.",
-     "start": 190.027,
-     "end": 193.387,
+     "text": "En 2001, des malades de la thyroïde, une petite glande dans le cou, portent plainte devant la justice.",
+     "spoken": "En deux mille un, des malades de la thyroïde, une petite glande dans le cou, portent plainte devant la justice.",
+     "start": 215.55,
+     "end": 221.79,
      "words": [
       {
        "w": "En",
-       "s": 190.027,
-       "e": 190.187
+       "s": 215.55,
+       "e": 215.79
       },
       {
        "w": "2001,",
-       "s": 190.187,
-       "e": 190.987
+       "s": 215.79,
+       "e": 216.67
       },
       {
        "w": "des",
-       "s": 190.987,
-       "e": 191.147
+       "s": 216.67,
+       "e": 216.83
       },
       {
        "w": "malades",
-       "s": 191.147,
-       "e": 191.467
+       "s": 216.83,
+       "e": 217.23
       },
       {
        "w": "de",
-       "s": 191.467,
-       "e": 191.547
+       "s": 217.23,
+       "e": 217.31
       },
       {
        "w": "la",
-       "s": 191.547,
-       "e": 191.627
+       "s": 217.31,
+       "e": 217.47
       },
       {
-       "w": "thyroïde",
-       "s": 191.627,
-       "e": 192.427
+       "w": "thyroïde,",
+       "s": 217.47,
+       "e": 218.43
+      },
+      {
+       "w": "une",
+       "s": 218.43,
+       "e": 218.67
+      },
+      {
+       "w": "petite",
+       "s": 218.67,
+       "e": 218.99
+      },
+      {
+       "w": "glande",
+       "s": 218.99,
+       "e": 219.39
+      },
+      {
+       "w": "dans",
+       "s": 219.39,
+       "e": 219.47
+      },
+      {
+       "w": "le",
+       "s": 219.47,
+       "e": 219.55
+      },
+      {
+       "w": "cou,",
+       "s": 219.55,
+       "e": 219.95
       },
       {
        "w": "portent",
-       "s": 192.427,
-       "e": 192.827
+       "s": 219.95,
+       "e": 220.43
       },
       {
-       "w": "plainte.",
-       "s": 192.827,
-       "e": 193.387
+       "w": "plainte",
+       "s": 220.43,
+       "e": 220.83
+      },
+      {
+       "w": "devant",
+       "s": 220.83,
+       "e": 221.07
+      },
+      {
+       "w": "la",
+       "s": 221.07,
+       "e": 221.23
+      },
+      {
+       "w": "justice.",
+       "s": 221.23,
+       "e": 221.79
       }
      ]
     },
     {
      "text": "Ils seront des centaines.",
      "spoken": "Ils seront des centaines.",
-     "start": 193.387,
-     "end": 194.607,
+     "start": 221.79,
+     "end": 223.17,
      "words": [
       {
        "w": "Ils",
-       "s": 193.387,
-       "e": 193.627
+       "s": 221.79,
+       "e": 222.11
       },
       {
        "w": "seront",
-       "s": 193.627,
-       "e": 193.947
+       "s": 222.11,
+       "e": 222.51
       },
       {
        "w": "des",
-       "s": 193.947,
-       "e": 194.107
+       "s": 222.51,
+       "e": 222.67
       },
       {
        "w": "centaines.",
-       "s": 194.107,
-       "e": 194.607
+       "s": 222.67,
+       "e": 223.17
       }
      ]
     }
    ],
-   "end": 196.024
+   "end": 223.909
   },
   {
    "id": "malade",
-   "start": 196.024,
+   "start": 223.909,
    "sentences": [
     {
      "text": "J'avais dix ans.",
      "spoken": "J'avais dix ans.",
-     "start": 196.024,
-     "end": 197.064,
+     "start": 223.909,
+     "end": 224.869,
      "words": [
       {
        "w": "J'avais",
-       "s": 196.024,
-       "e": 196.424
+       "s": 223.909,
+       "e": 224.229
       },
       {
        "w": "dix",
-       "s": 196.424,
-       "e": 196.824
+       "s": 224.229,
+       "e": 224.629
       },
       {
        "w": "ans.",
-       "s": 196.824,
-       "e": 197.064
+       "s": 224.629,
+       "e": 224.869
       }
      ]
     },
     {
      "text": "Je jouais dehors, sous la pluie, le premier mai.",
      "spoken": "Je jouais dehors, sous la pluie, le premier mai.",
-     "start": 197.064,
-     "end": 200.017,
+     "start": 224.869,
+     "end": 227.489,
      "words": [
       {
        "w": "Je",
-       "s": 197.064,
-       "e": 197.304
+       "s": 224.869,
+       "e": 225.109
       },
       {
        "w": "jouais",
-       "s": 197.304,
-       "e": 197.624
+       "s": 225.109,
+       "e": 225.429
       },
       {
        "w": "dehors,",
-       "s": 197.624,
-       "e": 198.184
+       "s": 225.429,
+       "e": 225.909
       },
       {
        "w": "sous",
-       "s": 198.184,
-       "e": 198.424
+       "s": 225.909,
+       "e": 226.069
       },
       {
        "w": "la",
-       "s": 198.424,
-       "e": 198.584
+       "s": 226.069,
+       "e": 226.149
       },
       {
        "w": "pluie,",
-       "s": 198.584,
-       "e": 199.064
+       "s": 226.149,
+       "e": 226.629
       },
       {
        "w": "le",
-       "s": 199.064,
-       "e": 199.224
+       "s": 226.629,
+       "e": 226.736
       },
       {
        "w": "premier",
-       "s": 199.224,
-       "e": 199.624
+       "s": 226.736,
+       "e": 227.109
       },
       {
        "w": "mai.",
-       "s": 199.624,
-       "e": 200.017
+       "s": 227.109,
+       "e": 227.489
       }
      ]
     }
    ],
-   "par": "jules",
-   "end": 201.867
+   "par": "malade",
+   "end": 228.339
   },
   {
    "id": "justice",
-   "start": 201.867,
+   "start": 228.339,
    "sentences": [
     {
-     "text": "En 2006, l'ancien patron de la radioprotection est mis en examen.",
-     "spoken": "En deux mille six, l'ancien patron de la radioprotection est mis en examen.",
-     "start": 201.867,
-     "end": 206.347,
+     "text": "En 2006, l'ancien chef de ce service est mis en examen : la justice enquête sur lui.",
+     "spoken": "En deux mille six, l'ancien chef de ce service est mis en examen : la justice enquête sur lui.",
+     "start": 228.339,
+     "end": 234.419,
      "words": [
       {
        "w": "En",
-       "s": 201.867,
-       "e": 202.107
+       "s": 228.339,
+       "e": 228.499
       },
       {
        "w": "2006,",
-       "s": 202.107,
-       "e": 202.987
+       "s": 228.499,
+       "e": 229.379
       },
       {
        "w": "l'ancien",
-       "s": 202.987,
-       "e": 203.547
+       "s": 229.379,
+       "e": 229.939
       },
       {
-       "w": "patron",
-       "s": 203.547,
-       "e": 203.947
+       "w": "chef",
+       "s": 229.939,
+       "e": 230.259
       },
       {
        "w": "de",
-       "s": 203.947,
-       "e": 204.027
+       "s": 230.259,
+       "e": 230.419
       },
       {
-       "w": "la",
-       "s": 204.027,
-       "e": 204.187
+       "w": "ce",
+       "s": 230.419,
+       "e": 230.579
       },
       {
-       "w": "radioprotection",
-       "s": 204.187,
-       "e": 205.227
+       "w": "service",
+       "s": 230.579,
+       "e": 231.059
       },
       {
        "w": "est",
-       "s": 205.227,
-       "e": 205.387
+       "s": 231.059,
+       "e": 231.219
       },
       {
        "w": "mis",
-       "s": 205.387,
-       "e": 205.707
+       "s": 231.219,
+       "e": 231.459
       },
       {
        "w": "en",
-       "s": 205.707,
-       "e": 205.867
+       "s": 231.459,
+       "e": 231.619
       },
       {
-       "w": "examen.",
-       "s": 205.867,
-       "e": 206.347
-      }
-     ]
-    },
-    {
-     "text": "En 2011, la justice tranche : non-lieu.",
-     "spoken": "En deux mille onze, la justice tranche : non-lieu.",
-     "start": 206.347,
-     "end": 209.387,
-     "words": [
-      {
-       "w": "En",
-       "s": 206.347,
-       "e": 206.507
-      },
-      {
-       "w": "2011,",
-       "s": 206.507,
-       "e": 207.307
+       "w": "examen:",
+       "s": 231.619,
+       "e": 232.419
       },
       {
        "w": "la",
-       "s": 207.307,
-       "e": 207.547
+       "s": 232.419,
+       "e": 232.579
       },
       {
        "w": "justice",
-       "s": 207.547,
-       "e": 208.027
+       "s": 232.579,
+       "e": 233.059
       },
       {
-       "w": "tranche:",
-       "s": 208.027,
-       "e": 208.667
+       "w": "enquête",
+       "s": 233.059,
+       "e": 233.619
       },
       {
-       "w": "non-lieu.",
-       "s": 208.667,
-       "e": 209.387
+       "w": "sur",
+       "s": 233.619,
+       "e": 233.859
+      },
+      {
+       "w": "lui.",
+       "s": 233.859,
+       "e": 234.419
       }
      ]
     },
     {
-     "text": "Impossible, dit-elle, de prouver un lien certain entre le nuage et ces maladies.",
-     "spoken": "Impossible, dit-elle, de prouver un lien certain entre le nuage et ces maladies.",
-     "start": 209.387,
-     "end": 213.947,
+     "text": "En 2011, les juges décident qu'il n'y aura pas de procès.",
+     "spoken": "En deux mille onze, les juges décident qu'il n'y aura pas de procès.",
+     "start": 234.419,
+     "end": 238.659,
      "words": [
       {
-       "w": "Impossible,",
-       "s": 209.387,
-       "e": 210.107
+       "w": "En",
+       "s": 234.419,
+       "e": 234.659
       },
       {
-       "w": "dit-elle,",
-       "s": 210.107,
-       "e": 210.747
+       "w": "2011,",
+       "s": 234.659,
+       "e": 235.619
+      },
+      {
+       "w": "les",
+       "s": 235.619,
+       "e": 235.779
+      },
+      {
+       "w": "juges",
+       "s": 235.779,
+       "e": 236.241
+      },
+      {
+       "w": "décident",
+       "s": 236.241,
+       "e": 236.979
+      },
+      {
+       "w": "qu'il",
+       "s": 236.979,
+       "e": 237.219
+      },
+      {
+       "w": "n'y",
+       "s": 237.219,
+       "e": 237.379
+      },
+      {
+       "w": "aura",
+       "s": 237.379,
+       "e": 237.619
+      },
+      {
+       "w": "pas",
+       "s": 237.619,
+       "e": 237.859
       },
       {
        "w": "de",
-       "s": 210.747,
-       "e": 210.907
+       "s": 237.859,
+       "e": 238.099
       },
       {
-       "w": "prouver",
-       "s": 210.907,
-       "e": 211.227
+       "w": "procès.",
+       "s": 238.099,
+       "e": 238.659
+      }
+     ]
+    },
+    {
+     "text": "C'est ce qu'on appelle un non-lieu.",
+     "spoken": "C'est ce qu'on appelle un non-lieu.",
+     "start": 238.659,
+     "end": 240.259,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 238.659,
+       "e": 238.819
+      },
+      {
+       "w": "ce",
+       "s": 238.819,
+       "e": 238.899
+      },
+      {
+       "w": "qu'on",
+       "s": 238.899,
+       "e": 239.059
+      },
+      {
+       "w": "appelle",
+       "s": 239.059,
+       "e": 239.299
       },
       {
        "w": "un",
-       "s": 211.227,
-       "e": 211.387
+       "s": 239.299,
+       "e": 239.459
+      },
+      {
+       "w": "non-lieu.",
+       "s": 239.459,
+       "e": 240.259
+      }
+     ]
+    },
+    {
+     "text": "Impossible, disent-ils, de prouver un lien certain entre le nuage et ces maladies.",
+     "spoken": "Impossible, disent-ils, de prouver un lien certain entre le nuage et ces maladies.",
+     "start": 240.259,
+     "end": 246.499,
+     "words": [
+      {
+       "w": "Impossible,",
+       "s": 240.259,
+       "e": 241.139
+      },
+      {
+       "w": "disent-ils,",
+       "s": 241.139,
+       "e": 242.099
+      },
+      {
+       "w": "de",
+       "s": 242.099,
+       "e": 242.339
+      },
+      {
+       "w": "prouver",
+       "s": 242.339,
+       "e": 242.739
+      },
+      {
+       "w": "un",
+       "s": 242.739,
+       "e": 242.899
       },
       {
        "w": "lien",
-       "s": 211.387,
-       "e": 211.787
+       "s": 242.899,
+       "e": 243.219
       },
       {
        "w": "certain",
-       "s": 211.787,
-       "e": 212.267
+       "s": 243.219,
+       "e": 243.699
       },
       {
        "w": "entre",
-       "s": 212.267,
-       "e": 212.427
+       "s": 243.699,
+       "e": 243.939
       },
       {
        "w": "le",
-       "s": 212.427,
-       "e": 212.667
+       "s": 243.939,
+       "e": 244.019
       },
       {
        "w": "nuage",
-       "s": 212.667,
-       "e": 213.147
+       "s": 244.019,
+       "e": 244.579
       },
       {
        "w": "et",
-       "s": 213.147,
-       "e": 213.275
+       "s": 244.579,
+       "e": 244.707
       },
       {
        "w": "ces",
-       "s": 213.275,
-       "e": 213.467
+       "s": 244.707,
+       "e": 244.899
       },
       {
        "w": "maladies.",
-       "s": 213.467,
-       "e": 213.947
+       "s": 244.899,
+       "e": 246.499
       }
      ]
     },
     {
      "text": "Les malades, eux, n'y ont jamais cru.",
      "spoken": "Les malades, eux, n'y ont jamais cru.",
-     "start": 213.947,
-     "end": 215.867,
+     "start": 246.499,
+     "end": 249.059,
      "words": [
       {
        "w": "Les",
-       "s": 213.947,
-       "e": 214.107
+       "s": 246.499,
+       "e": 246.819
       },
       {
        "w": "malades,",
-       "s": 214.107,
-       "e": 214.507
+       "s": 246.819,
+       "e": 247.379
       },
       {
        "w": "eux,",
-       "s": 214.507,
-       "e": 214.827
+       "s": 247.379,
+       "e": 247.699
       },
       {
        "w": "n'y",
-       "s": 214.827,
-       "e": 215.147
+       "s": 247.699,
+       "e": 247.859
       },
       {
        "w": "ont",
-       "s": 215.147,
-       "e": 215.307
+       "s": 247.859,
+       "e": 248.019
       },
       {
        "w": "jamais",
-       "s": 215.307,
-       "e": 215.547
+       "s": 248.019,
+       "e": 248.259
       },
       {
        "w": "cru.",
-       "s": 215.547,
-       "e": 215.867
+       "s": 248.259,
+       "e": 249.059
       }
      ]
     },
     {
      "text": "Et aujourd'hui encore...",
      "spoken": "Et aujourd'hui encore...",
-     "start": 215.867,
-     "end": 216.987,
+     "start": 249.059,
+     "end": 250.419,
      "words": [
       {
        "w": "Et",
-       "s": 215.867,
-       "e": 216.107
+       "s": 249.059,
+       "e": 249.299
       },
       {
        "w": "aujourd'hui",
-       "s": 216.107,
-       "e": 216.587
+       "s": 249.299,
+       "e": 249.779
       },
       {
        "w": "encore...",
-       "s": 216.587,
-       "e": 216.987
+       "s": 249.779,
+       "e": 250.419
       }
      ]
     },
     {
      "text": "personne ne peut dire avec certitude qui a raison.",
      "spoken": "personne ne peut dire avec certitude qui a raison.",
-     "start": 216.987,
-     "end": 219.595,
+     "start": 250.419,
+     "end": 253.097,
      "words": [
       {
        "w": "personne",
-       "s": 216.987,
-       "e": 217.387
+       "s": 250.419,
+       "e": 250.819
       },
       {
        "w": "ne",
-       "s": 217.387,
-       "e": 217.547
+       "s": 250.819,
+       "e": 250.979
       },
       {
        "w": "peut",
-       "s": 217.547,
-       "e": 217.787
+       "s": 250.979,
+       "e": 251.219
       },
       {
        "w": "dire",
-       "s": 217.787,
-       "e": 218.107
+       "s": 251.219,
+       "e": 251.459
       },
       {
        "w": "avec",
-       "s": 218.107,
-       "e": 218.347
+       "s": 251.459,
+       "e": 251.699
       },
       {
        "w": "certitude",
-       "s": 218.347,
-       "e": 218.907
+       "s": 251.699,
+       "e": 252.259
       },
       {
        "w": "qui",
-       "s": 218.907,
-       "e": 219.067
+       "s": 252.259,
+       "e": 252.499
       },
       {
        "w": "a",
-       "s": 219.067,
-       "e": 219.307
+       "s": 252.499,
+       "e": 252.659
       },
       {
        "w": "raison.",
-       "s": 219.307,
-       "e": 219.595
+       "s": 252.659,
+       "e": 253.097
       }
      ]
     }
    ],
-   "end": 223.445
+   "end": 254.607
   },
   {
    "id": "chute",
-   "start": 223.445,
+   "start": 254.607,
    "sentences": [
     {
-     "text": "Alors cette fameuse phrase, d'où vient-elle ?",
-     "spoken": "Alors cette fameuse phrase, d'où vient-elle ?",
-     "start": 223.445,
-     "end": 225.925,
+     "text": "Alors, cette fameuse phrase, d'où vient-elle ?",
+     "spoken": "Alors, cette fameuse phrase, d'où vient-elle ?",
+     "start": 254.607,
+     "end": 257.007,
      "words": [
       {
-       "w": "Alors",
-       "s": 223.445,
-       "e": 223.845
+       "w": "Alors,",
+       "s": 254.607,
+       "e": 255.007
       },
       {
        "w": "cette",
-       "s": 223.845,
-       "e": 224.085
+       "s": 255.007,
+       "e": 255.247
       },
       {
        "w": "fameuse",
-       "s": 224.085,
-       "e": 224.565
+       "s": 255.247,
+       "e": 255.647
       },
       {
        "w": "phrase,",
-       "s": 224.565,
-       "e": 225.045
+       "s": 255.647,
+       "e": 256.047
       },
       {
        "w": "d'où",
-       "s": 225.045,
-       "e": 225.285
+       "s": 256.047,
+       "e": 256.287
       },
       {
        "w": "vient-elle?",
-       "s": 225.285,
-       "e": 225.925
+       "s": 256.287,
+       "e": 257.007
       }
      ]
     },
     {
      "text": "D'un panneau stop sur une carte météo.",
      "spoken": "D'un panneau stop sur une carte météo.",
-     "start": 225.925,
-     "end": 228.405,
+     "start": 257.007,
+     "end": 258.927,
      "words": [
       {
        "w": "D'un",
-       "s": 225.925,
-       "e": 226.085
+       "s": 257.007,
+       "e": 257.247
       },
       {
        "w": "panneau",
-       "s": 226.085,
-       "e": 226.725
+       "s": 257.247,
+       "e": 257.647
       },
       {
        "w": "stop",
-       "s": 226.725,
-       "e": 227.125
+       "s": 257.647,
+       "e": 257.887
       },
       {
        "w": "sur",
-       "s": 227.125,
-       "e": 227.285
+       "s": 257.887,
+       "e": 258.047
       },
       {
        "w": "une",
-       "s": 227.285,
-       "e": 227.365
+       "s": 258.047,
+       "e": 258.127
       },
       {
        "w": "carte",
-       "s": 227.365,
-       "e": 227.765
+       "s": 258.127,
+       "e": 258.367
       },
       {
        "w": "météo.",
-       "s": 227.765,
-       "e": 228.405
+       "s": 258.367,
+       "e": 258.927
       }
      ]
     },
     {
      "text": "D'un communiqué de trop.",
      "spoken": "D'un communiqué de trop.",
-     "start": 228.405,
-     "end": 229.845,
+     "start": 258.927,
+     "end": 260.527,
      "words": [
       {
        "w": "D'un",
-       "s": 228.405,
-       "e": 228.725
+       "s": 258.927,
+       "e": 259.247
       },
       {
        "w": "communiqué",
-       "s": 228.725,
-       "e": 229.205
+       "s": 259.247,
+       "e": 259.727
       },
       {
        "w": "de",
-       "s": 229.205,
-       "e": 229.365
+       "s": 259.727,
+       "e": 259.967
       },
       {
        "w": "trop.",
-       "s": 229.365,
-       "e": 229.845
+       "s": 259.967,
+       "e": 260.527
       }
      ]
     },
     {
      "text": "Et de dix jours de silence.",
      "spoken": "Et de dix jours de silence.",
-     "start": 229.845,
-     "end": 231.765,
+     "start": 260.527,
+     "end": 262.287,
      "words": [
       {
        "w": "Et",
-       "s": 229.845,
-       "e": 230.005
+       "s": 260.527,
+       "e": 260.847
       },
       {
        "w": "de",
-       "s": 230.005,
-       "e": 230.165
+       "s": 260.847,
+       "e": 261.087
       },
       {
        "w": "dix",
-       "s": 230.165,
-       "e": 230.485
+       "s": 261.087,
+       "e": 261.327
       },
       {
        "w": "jours",
-       "s": 230.485,
-       "e": 230.805
+       "s": 261.327,
+       "e": 261.567
       },
       {
        "w": "de",
-       "s": 230.805,
-       "e": 230.965
+       "s": 261.567,
+       "e": 261.727
       },
       {
        "w": "silence.",
-       "s": 230.965,
-       "e": 231.765
+       "s": 261.727,
+       "e": 262.287
       }
      ]
     },
     {
      "text": "Le nuage ne s'est jamais arrêté à la frontière.",
      "spoken": "Le nuage ne s'est jamais arrêté à la frontière.",
-     "start": 231.765,
-     "end": 234.885,
+     "start": 262.287,
+     "end": 265.087,
      "words": [
       {
        "w": "Le",
-       "s": 231.765,
-       "e": 231.925
+       "s": 262.287,
+       "e": 262.447
       },
       {
        "w": "nuage",
-       "s": 231.925,
-       "e": 232.485
+       "s": 262.447,
+       "e": 263.007
       },
       {
        "w": "ne",
-       "s": 232.485,
-       "e": 232.645
+       "s": 263.007,
+       "e": 263.087
       },
       {
        "w": "s'est",
-       "s": 232.645,
-       "e": 232.885
+       "s": 263.087,
+       "e": 263.327
       },
       {
        "w": "jamais",
-       "s": 232.885,
-       "e": 233.205
+       "s": 263.327,
+       "e": 263.647
       },
       {
        "w": "arrêté",
-       "s": 233.205,
-       "e": 233.765
+       "s": 263.647,
+       "e": 264.047
       },
       {
        "w": "à",
-       "s": 233.765,
-       "e": 233.925
+       "s": 264.047,
+       "e": 264.207
       },
       {
        "w": "la",
-       "s": 233.925,
-       "e": 234.085
+       "s": 264.207,
+       "e": 264.287
       },
       {
        "w": "frontière.",
-       "s": 234.085,
-       "e": 234.885
+       "s": 264.287,
+       "e": 265.087
       }
      ]
     },
     {
      "text": "C'est l'information...",
      "spoken": "C'est l'information...",
-     "start": 235.785,
-     "end": 236.745,
+     "start": 265.987,
+     "end": 267.107,
      "words": [
       {
        "w": "C'est",
-       "s": 235.785,
-       "e": 236.025
+       "s": 265.987,
+       "e": 266.307
       },
       {
        "w": "l'information...",
-       "s": 236.025,
-       "e": 236.745
+       "s": 266.307,
+       "e": 267.107
       }
      ]
     },
     {
      "text": "qui s'y est arrêtée.",
      "spoken": "qui s'y est arrêtée.",
-     "start": 236.745,
-     "end": 237.965,
+     "start": 267.107,
+     "end": 268.327,
      "words": [
       {
        "w": "qui",
-       "s": 236.745,
-       "e": 236.985
+       "s": 267.107,
+       "e": 267.347
       },
       {
        "w": "s'y",
-       "s": 236.985,
-       "e": 237.035
+       "s": 267.347,
+       "e": 267.397
       },
       {
        "w": "est",
-       "s": 237.005,
-       "e": 237.465
+       "s": 267.367,
+       "e": 267.827
       },
       {
        "w": "arrêtée.",
-       "s": 237.465,
-       "e": 237.965
+       "s": 267.827,
+       "e": 268.327
       }
      ]
     }
    ],
-   "end": 240.842
+   "end": 269.557
   },
   {
    "id": "fin",
-   "start": 240.842,
+   "start": 269.557,
    "sentences": [
     {
-     "text": "Tes parents étaient là en 1986.",
-     "spoken": "Tes parents étaient là en mille neuf cent quatre-vingt-six.",
-     "start": 243.042,
-     "end": 246.322,
+     "text": "Tes parents, ou tes grands-parents, étaient là en 1986.",
+     "spoken": "Tes parents, ou tes grands-parents, étaient là en mille neuf cent quatre-vingt-six.",
+     "start": 271.757,
+     "end": 276.477,
      "words": [
       {
        "w": "Tes",
-       "s": 243.042,
-       "e": 243.362
+       "s": 271.757,
+       "e": 272.077
       },
       {
-       "w": "parents",
-       "s": 243.362,
-       "e": 243.762
+       "w": "parents,",
+       "s": 272.077,
+       "e": 272.637
+      },
+      {
+       "w": "ou",
+       "s": 272.637,
+       "e": 272.877
+      },
+      {
+       "w": "tes",
+       "s": 272.877,
+       "e": 273.117
+      },
+      {
+       "w": "grands-parents,",
+       "s": 273.117,
+       "e": 273.997
       },
       {
        "w": "étaient",
-       "s": 243.762,
-       "e": 244.082
+       "s": 273.997,
+       "e": 274.317
       },
       {
        "w": "là",
-       "s": 244.082,
-       "e": 244.242
+       "s": 274.317,
+       "e": 274.557
       },
       {
        "w": "en",
-       "s": 244.242,
-       "e": 244.402
+       "s": 274.557,
+       "e": 274.637
       },
       {
        "w": "1986.",
-       "s": 244.402,
-       "e": 246.322
+       "s": 274.637,
+       "e": 276.477
       }
      ]
     },
     {
      "text": "Demande-leur ce qu'on leur a dit.",
      "spoken": "Demande-leur ce qu'on leur a dit.",
-     "start": 246.322,
-     "end": 248.093,
+     "start": 276.477,
+     "end": 278.278,
      "words": [
       {
        "w": "Demande-leur",
-       "s": 246.322,
-       "e": 247.122
+       "s": 276.477,
+       "e": 277.277
       },
       {
        "w": "ce",
-       "s": 247.122,
-       "e": 247.282
+       "s": 277.277,
+       "e": 277.437
       },
       {
        "w": "qu'on",
-       "s": 247.282,
-       "e": 247.442
+       "s": 277.437,
+       "e": 277.677
       },
       {
        "w": "leur",
-       "s": 247.442,
-       "e": 247.682
+       "s": 277.677,
+       "e": 277.917
       },
       {
        "w": "a",
-       "s": 247.682,
-       "e": 247.842
+       "s": 277.917,
+       "e": 277.997
       },
       {
        "w": "dit.",
-       "s": 247.842,
-       "e": 248.093
+       "s": 277.997,
+       "e": 278.278
       }
      ]
     }
    ],
-   "end": 253.443
+   "end": 281.627
   }
  ]
 }

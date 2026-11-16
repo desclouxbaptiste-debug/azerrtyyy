@@ -1,13 +1,10 @@
 {
- "engine": "piper",
- "voice": "fr_FR-tom-medium",
- "sid": 0,
- "speed": 0.96,
- "noise": 0.667,
- "noise_w": 0.8,
+ "engine": "supertonic",
+ "sid": 6,
+ "speed": 1.02,
  "target": null,
  "chunk": "segment",
- "best_of": 3,
+ "best_of": 4,
  "lead": 0.5,
  "gap_segment": 0.35,
  "moods": {
@@ -18,179 +15,193 @@
   "reveal_pause": 0.9
  },
  "post": {
-  "semitones": -1.5,
-  "warmth": 3,
-  "presence": 1.5,
-  "threshold": 0.12,
-  "ratio": 2.5,
-  "makeup": 1.1
+  "semitones": 0,
+  "warmth": 1.5,
+  "presence": 1.0,
+  "threshold": 0.15,
+  "ratio": 2.0,
+  "makeup": 1.05
  },
  "voix": {
-  "siwis": {
-   "engine": "piper",
-   "voice": "fr_FR-siwis-medium"
-  },
-  "jessica": {
-   "engine": "piper",
-   "voice": "fr_FR-upmc-medium",
-   "sid": 0
-  },
-  "pierre": {
-   "engine": "piper",
-   "voice": "fr_FR-upmc-medium",
-   "sid": 1
-  },
-  "jules": {
+  "pere": {
    "engine": "supertonic",
-   "sid": 8
+   "sid": 5,
+   "steps": 16
   },
-  "bastien": {
+  "mere": {
    "engine": "supertonic",
-   "sid": 6
+   "sid": 2,
+   "steps": 16
+  },
+  "voisine": {
+   "engine": "supertonic",
+   "sid": 0,
+   "steps": 16
+  },
+  "malade": {
+   "engine": "supertonic",
+   "sid": 4,
+   "steps": 16
+  },
+  "tech1": {
+   "engine": "supertonic",
+   "sid": 7,
+   "steps": 16
+  },
+  "tech2": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 16
   }
  },
  "segments": [
   {
    "id": "hook",
-   "text": "« Le nuage de Tchernobyl s'est arrêté à la frontière. » Tu connais cette phrase. Tout le monde la connaît. Sauf que... <r>Personne ne l'a jamais prononcée. Et la vraie histoire est bien plus dérangeante.",
-   "apres": 2.5
+   "text": "« Le nuage de Tchernobyl s'est arrêté à la frontière. » Tu as sûrement déjà entendu cette phrase. Presque tout le monde la connaît. Sauf que... <r>Personne ne l'a jamais prononcée. Et la vraie histoire est bien plus inquiétante.",
+   "apres": 0.83
   },
   {
    "id": "explosion",
-   "text": "{26|Vingt-six} avril {1986|mille neuf cent quatre-vingt-six}. Une heure vingt-trois du matin. Le réacteur numéro quatre explose.",
-   "apres": 1.5
+   "text": "Nous sommes en {1986|mille neuf cent quatre-vingt-six}. Le {26|vingt-six} avril, à une heure vingt-trois du matin. En Ukraine, il y a une centrale nucléaire. C'est une immense usine qui fabrique de l'électricité. Cette nuit-là, son réacteur numéro quatre explose.",
+   "apres": 0.5
+  },
+  {
+   "id": "radio",
+   "text": "Il en sort un nuage invisible, rempli de poussières radioactives. Ces poussières, on ne peut ni les voir, ni les sentir. Mais quand il y en a beaucoup, elles peuvent rendre malade.",
+   "apres": 0.6
   },
   {
    "id": "chambre",
-   "text": "Toi, tu as dix ans. Tu dors, dans un village de l'est de la France, à près de deux mille kilomètres de là.",
-   "apres": 1.5
+   "text": "Toi, tu as dix ans. Tu dors, dans un petit village {de l'est|de l'Este} de la France, à presque deux mille kilomètres de là.",
+   "apres": 0.5
   },
   {
    "id": "moscou",
-   "text": "Moscou ne dit rien. Pendant deux jours, le monde entier ignore qu'un nuage vient de se lever.",
-   "apres": 3.0
+   "text": "À cette époque, c'est Moscou qui décide de tout en Ukraine. Et Moscou ne dit rien. Pendant deux jours, le monde entier ignore qu'un nuage vient de partir.",
+   "apres": 0.99
   },
   {
    "id": "suede",
-   "text": "{28|Vingt-huit} avril. En Suède, les alarmes d'une centrale nucléaire se déclenchent. Les techniciens cherchent la fuite.",
-   "apres": 1.0
+   "text": "{28|Vingt-huit} avril. En Suède, dans une autre centrale nucléaire, les alarmes se mettent à sonner. Les techniciens cherchent une fuite chez eux.",
+   "apres": 0.33
   },
   {
    "id": "tech1",
-   "text": "On a trouvé des particules radioactives, sur les chaussures des employés !",
-   "par": "bastien"
+   "text": "Regarde ! Il y a des poussières radioactives, sous les chaussures des employés !",
+   "par": "tech1"
   },
   {
    "id": "tech2",
-   "text": "Ce n'est pas chez nous. Ça vient de dehors, avec le vent.",
-   "par": "jules"
+   "text": "Ça ne vient pas de chez nous. Ça vient de dehors, avec le vent.",
+   "par": "tech2"
   },
   {
    "id": "suede2",
-   "text": "Il n'y a pas de fuite. La radioactivité ne vient pas de chez eux. Elle vient de l'est. Le soir même, Moscou avoue. En quelques lignes.",
-   "apres": 3.0
+   "text": "Il n'y a aucune fuite. Les poussières viennent de beaucoup plus loin, de l'est. Le soir même, Moscou finit par avouer. En quelques lignes seulement.",
+   "apres": 0.99
   },
   {
    "id": "meteo",
-   "text": "{30|Trente} avril. Vingt heures. Toute la famille est devant la télé. C'est la météo. Sur la carte, le nuage. Et sur la frontière... un panneau stop. La présentatrice explique : un anticyclone protège la France. Pour trois jours au moins.",
-   "apres": 1.0
+   "text": "{30|Trente} avril, vingt heures. Toute la famille regarde la météo à la télé. Sur la carte, on voit le nuage. Et sur la frontière... un panneau stop. La présentatrice explique qu'un anticyclone, une grande zone de beau temps, protège la France. Pour au moins trois jours.",
+   "apres": 0.33
   },
   {
    "id": "pere1",
-   "text": "Tu vois. On ne risque rien.",
-   "par": "pierre"
+   "text": "Tu vois ? On ne risque rien.",
+   "par": "pere"
   },
   {
    "id": "mere1",
-   "text": "Tant mieux. Allez, au lit, demain c'est le premier mai.",
-   "par": "siwis",
-   "apres": 1.5
+   "text": "Tant mieux. Allez, va te coucher, demain c'est le premier mai.",
+   "par": "mere",
+   "apres": 0.5
   },
   {
    "id": "entree",
-   "text": "<l>Ce soir-là, à l'heure où il dit ça... le nuage est déjà en train d'entrer.",
-   "apres": 3.5
+   "text": "<l>Mais ce soir-là, au moment où ton père dit ça... le nuage est déjà en train d'entrer en France.",
+   "apres": 1.16
   },
   {
    "id": "mai",
-   "text": "Premier mai. Jour férié. Tu vends du muguet, tu joues dans la rue, il pleut un peu.",
-   "apres": 1.0
+   "text": "Premier mai. Jour férié. Tu vends du muguet devant la maison, tu joues dans la rue, et il pleut un peu.",
+   "apres": 0.33
   },
   {
    "id": "mere2",
    "text": "Rentre, tu es trempé ! Et viens boire ton verre de lait.",
-   "par": "siwis"
+   "par": "mere"
   },
   {
    "id": "mai2",
-   "text": "Le soir, un verre de lait, la salade du jardin. Ce jour-là, la radioactivité de l'air atteint son maximum en France.",
-   "apres": 2.0
+   "text": "Le soir, tu bois un grand verre de lait, et tu manges la salade du jardin. Mais la pluie a fait tomber les poussières du nuage sur l'herbe et sur les légumes. Et ce jour-là, en France, la radioactivité dans l'air est à son maximum.",
+   "apres": 0.66
   },
   {
    "id": "frontiere",
-   "text": "À quelques kilomètres, de l'autre côté de la frontière, on déconseille le lait frais et les légumes du jardin.",
-   "apres": 1.0
+   "text": "Juste à côté, de l'autre côté de la frontière, en Allemagne, on dit aux familles d'éviter le lait frais et les légumes du jardin. Parce que les vaches mangent l'herbe mouillée par la pluie, et les poussières passent dans leur lait.",
+   "apres": 0.33
   },
   {
    "id": "voisine",
    "text": "Restez à l'intérieur. Et surtout, pas de lait du tout aujourd'hui, c'est compris ?",
-   "par": "jessica"
+   "par": "voisine"
   },
   {
    "id": "frontiere2",
-   "text": "Même pluie. Même vent. Deux pays. Deux vérités.",
-   "apres": 3.5
+   "text": "C'est la même pluie, le même vent. Mais deux pays, et deux vérités.",
+   "apres": 1.16
   },
   {
    "id": "telex",
-   "text": "Le plus étrange, c'est que les autorités savent. Dès la fin avril, un communiqué mentionne une légère hausse de la radioactivité. Sans danger, dit-il. Aucune consigne. Aucune précaution. Et le six mai, un ministère écrit noir sur blanc que le territoire français a été... totalement épargné.",
-   "apres": 3.0
+   "text": "Le plus étrange, c'est que les responsables savent. Dès la fin avril, le service qui mesure la radioactivité envoie un communiqué, un petit texte pour les journalistes. Il parle d'une légère hausse, sans danger. Aucune consigne. Aucune précaution. Et le six mai, un ministère écrit noir sur blanc que la France a été... totalement épargnée.",
+   "apres": 0.99
   },
   {
    "id": "aveu",
-   "text": "Dix mai. À la télévision, le patron de la radioprotection française montre enfin les cartes. Le nuage a survolé la France. Presque toute la France.",
-   "apres": 1.0
+   "text": "Dix mai. À la télévision, le chef de ce service montre enfin les vraies cartes. Le nuage est bien passé au-dessus de la France. Presque toute la France.",
+   "apres": 0.33
   },
   {
    "id": "mere3",
    "text": "Presque toute la France ? Mais ils avaient dit que...",
-   "par": "siwis"
+   "par": "mere"
   },
   {
    "id": "pere2",
-   "text": "Qu'on ne risquait rien. Oui. Je le sais bien, va.",
-   "par": "pierre"
+   "text": "Qu'on ne risquait rien. Je sais, je sais bien.",
+   "par": "pere"
   },
   {
    "id": "aveu2",
-   "text": "Les journaux crient au mensonge. Mais c'est trop tard. Le nuage, lui, est déjà reparti.",
-   "apres": 3.5
+   "text": "Les journaux parlent de mensonge. Mais c'est trop tard. Le nuage, lui, est déjà reparti.",
+   "apres": 1.16
   },
   {
    "id": "annees",
-   "text": "Tu grandis. Et la question reste. En {2001|deux mille un}, des malades de la thyroïde portent plainte. Ils seront des centaines.",
-   "apres": 1.0
+   "text": "Tu grandis. Et une question reste. En {2001|deux mille un}, des malades de la thyroïde, une petite glande dans le cou, portent plainte devant la justice. Ils seront des centaines.",
+   "apres": 0.33
   },
   {
    "id": "malade",
    "text": "J'avais dix ans. Je jouais dehors, sous la pluie, le premier mai.",
-   "par": "jules",
-   "apres": 1.5
+   "par": "malade",
+   "apres": 0.5
   },
   {
    "id": "justice",
-   "text": "En {2006|deux mille six}, l'ancien patron de la radioprotection est mis en examen. En {2011|deux mille onze}, la justice tranche : non-lieu. Impossible, dit-elle, de prouver un lien certain entre le nuage et ces maladies. Les malades, eux, n'y ont jamais cru. Et aujourd'hui encore... personne ne peut dire avec certitude qui a raison.",
-   "apres": 3.5
+   "text": "En {2006|deux mille six}, l'ancien chef de ce service est mis en examen : la justice enquête sur lui. En {2011|deux mille onze}, les juges décident qu'il n'y aura pas de procès. C'est ce qu'on appelle un non-lieu. Impossible, disent-ils, de prouver un lien certain entre le nuage et ces maladies. Les malades, eux, n'y ont jamais cru. Et aujourd'hui encore... personne ne peut dire avec certitude qui a raison.",
+   "apres": 1.16
   },
   {
    "id": "chute",
-   "text": "Alors cette fameuse phrase, d'où vient-elle ? D'un panneau stop sur une carte météo. D'un communiqué de trop. Et de dix jours de silence. Le nuage ne s'est jamais arrêté à la frontière. <r>C'est l'information... qui s'y est arrêtée.",
-   "apres": 2.5
+   "text": "Alors, cette fameuse phrase, d'où vient-elle ? D'un panneau stop sur une carte météo. D'un communiqué de trop. Et de dix jours de silence. Le nuage ne s'est jamais arrêté à la frontière. <r>C'est l'information... qui s'y est arrêtée.",
+   "apres": 0.83
   },
   {
    "id": "fin",
-   "text": "<l>Tes parents étaient là en {1986|mille neuf cent quatre-vingt-six}. Demande-leur ce qu'on leur a dit.",
-   "apres": 5.0
+   "text": "<l>Tes parents, ou tes grands-parents, étaient là en {1986|mille neuf cent quatre-vingt-six}. Demande-leur ce qu'on leur a dit.",
+   "apres": 3.0
   }
- ]
+ ],
+ "steps": 16
 }
