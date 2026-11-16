@@ -693,6 +693,57 @@ def fx(kind, dur=None):
             at += r.uniform(1.4, 3.2)
         fade = np.clip(np.minimum(t / 0.8, (d - t) / 0.8), 0, 1)
         return reverb(out, 1.2, 0.3, seed=21)[:len(t)] * fade
+    if kind == "geiger":  # one Geiger counter click: a dry, very short tick (discreet, never a pop)
+        t = t_axis(0.012)
+        return hp(rng.normal(0, 1, len(t)), 1800) * np.exp(-t * 900) * 0.5 + np.sin(2 * np.pi * 2400 * t) * np.exp(-t * 1400) * 0.25
+    if kind == "pluie":  # fine rain: soft broadband hiss with scattered drops, fading in and out (an ambience bed)
+        d = dur or 6.0
+        t = t_axis(d)
+        r = np.random.default_rng(int(d * 1000) % 9973 + 3)
+        hiss = bp(r.normal(0, 1, len(t)), 900, 7000) * 0.16
+        drops = np.zeros(len(t))
+        for at in np.cumsum(r.exponential(0.035, int(d / 0.035) + 20)):
+            if at >= d - 0.02:
+                break
+            a = int(at * SR)
+            k = np.arange(int(0.006 * SR)) / SR
+            drops[a:a + len(k)] += np.sin(2 * np.pi * r.uniform(2500, 6000) * k) * np.exp(-k * 900) * r.uniform(0.02, 0.12)
+        fade = np.clip(np.minimum(t / 1.5, (d - t) / 1.5), 0, 1)
+        return lp(hiss + drops, 6500) * fade
+    if kind == "salon":  # a living room in 1986: the low whine of a CRT, a faint mains hum, a wall clock (bed)
+        d = dur or 6.0
+        t = t_axis(d)
+        r = np.random.default_rng(31)
+        air = lp(r.normal(0, 1, len(t)), 300)
+        air = air / (np.max(np.abs(air)) + 1e-9) * 0.12
+        crt = np.sin(2 * np.pi * 15625 * t) * 0.004 + sum(np.sin(2 * np.pi * 50 * h * t) / h for h in (1, 2, 3)) * 0.012
+        clock = np.zeros(len(t))
+        for k in range(int(d)):
+            add(clock, fx("tick" if k % 2 == 0 else "click"), k + 0.37, 0.18)
+        fade = np.clip(np.minimum(t / 1.0, (d - t) / 1.0), 0, 1)
+        return (air + crt + clock[:len(t)]) * fade
+    if kind == "alarme":  # a far plant alarm, soft: a two-tone pulse with a slow attack (nothing sudden)
+        d = dur or 4.0
+        t = t_axis(d)
+        f = np.where((t % 1.0) < 0.5, 740, 620)
+        tone = np.sin(sweep_phase(f)) * 0.5 + np.sin(sweep_phase(f * 2)) * 0.12
+        gate = 0.5 - 0.5 * np.cos(2 * np.pi * (t % 0.5) / 0.5)
+        fade = np.clip(np.minimum(t / 1.2, (d - t) / 1.0), 0, 1)
+        return reverb(lp(tone * gate, 2500), 1.5, 0.45, seed=33)[:len(t)] * fade * 0.35
+    if kind == "telex":  # a teleprinter line: fast dry strikes (softer and quicker than the typewriter)
+        d = dur or 1.5
+        t = t_axis(d)
+        out = np.zeros(len(t))
+        r = np.random.default_rng(int(d * 100) + 7)
+        at = 0.02
+        while at < d - 0.03:
+            k = t_axis(0.015)
+            add(out, bp(r.normal(0, 1, len(k)), 1200, 5000) * np.exp(-k * 400) * r.uniform(0.15, 0.3), at, 1)
+            at += r.uniform(0.045, 0.075)
+        return out[:len(t)]
+    if kind == "marteau":  # a judge's gavel, muffled: wood on wood, low body, no crack
+        t = t_axis(0.5)
+        return (lp(rng.normal(0, 1, len(t)), 900) * np.exp(-t * 40) * 0.6 + np.sin(2 * np.pi * 180 * t) * np.exp(-t * 18) * 0.4) * 0.6
     raise ValueError(kind)
 
 

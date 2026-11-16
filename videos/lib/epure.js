@@ -9,6 +9,7 @@
 const NOIR = "#050506", BLANC = "#EDE7DA", ROUGE = "#B5121E";
 const ZONE = { x0: 70, x1: 930, y0: 130, y1: 1670 }, CX = (ZONE.x0 + ZONE.x1) / 2;
 const FPS = 30, TAILLE_MIN = 48;
+let ACCENT = ROUGE;   // the one accent colour: blood red by default, lancer({ accent }) changes it
 const EP = { scenes: {}, decors: {}, T: null, SEG: null, ORDRE: [], CARTES: [], DUREE: 0, o: null, audit: null, grains: [], acc: null, battements: [] };
 
 function scene(id, def) { EP.scenes[id] = def; }
@@ -104,6 +105,7 @@ function rendre(t) {
   }
   ctx.drawImage(EP.acc, 0, 0);
   vignette(EP.o.vignette ?? 0.55, 0.34);
+  if (EP.o.surcouche) EP.o.surcouche(t);
   grainFin(Math.round(t * FPS));
   // text and interface: drawn once, sharp, over the grain
   const id = passe(t, "texte");
@@ -142,9 +144,10 @@ function habillage(t, id) {
   const m = (o.mentions || {})[id];
   if (m) {
     const k = EP.ORDRE.indexOf(id), prec = k > 0 ? (o.mentions || {})[EP.ORDRE[k - 1]] : null;
-    const a = prec === m ? 1 : sort(t, S(id), 0.5);
-    ecrire(m, ZONE.x1, 176, TAILLE_MIN, { align: "right", alpha: 0.4 * a });
+    const a = prec === m ? 1 : sort(t, S(id), 0.5), [mx, my, ma] = o.mention || [ZONE.x1, 176, "right"];
+    ecrire(m, mx, my, TAILLE_MIN, { align: ma, alpha: 0.4 * a });
   }
+  if (o.interface) o.interface(t, id);
   sousTitres(t);
   if (o.sources) cartonSources(t, o.sources);
   const fin = va(t, EP.DUREE - 0.6, 0.6);
@@ -162,20 +165,25 @@ function sousTitres(t) {
   const k = Math.min(1, (ZONE.x1 - ZONE.x0 - 40) / tot), taille = taille0 * k, y = y0 + (1 - p) * 10;
   let x = CX - tot * k / 2;
   mots.forEach((w, i) => {
-    const actif = t >= w.s - 0.03 && (i === mots.length - 1 || t < mots[i + 1].s - 0.03), l = larg[i] * k, cx = x + l / 2;
+    const cle = motCle(w.txt), actif = t >= w.s - 0.03 && (i === mots.length - 1 || t < mots[i + 1].s - 0.03), l = larg[i] * k, cx = x + l / 2;
     if (actif) {
       const pop = 1 + 0.07 * (1 - sort(t, w.s - 0.03, 0.2)), bw = (l + taille * 0.42) * pop, bh = taille * 1.22 * pop;
       ctx.save(); ctx.globalAlpha = p;
       ctx.fillStyle = "rgba(0,0,0,.6)"; ctx.beginPath(); ctx.roundRect(cx - bw / 2 + 5, y - bh / 2 + 7, bw, bh, taille * 0.2); ctx.fill();   // sharp shadow
-      ctx.fillStyle = ROUGE; ctx.beginPath(); ctx.roundRect(cx - bw / 2, y - bh / 2, bw, bh, taille * 0.2); ctx.fill();
+      ctx.fillStyle = cle ? ACCENT : (EP.o.boite || ROUGE); ctx.beginPath(); ctx.roundRect(cx - bw / 2, y - bh / 2, bw, bh, taille * 0.2); ctx.fill();
       ctx.restore();
-      ecrire(w.txt, cx, y + taille * 0.04, taille * pop, { alpha: p, contour: false });
+      ecrire(w.txt, cx, y + taille * 0.04, taille * pop, { alpha: p, contour: false, couleur: cle ? NOIR : BLANC });
     } else {
       ecrire(w.txt, cx + 4, y + 6, taille, { alpha: p * 0.8, couleur: "#000000", contour: "#000000" });   // sharp shadow
-      ecrire(w.txt, cx, y, taille, { alpha: p });
+      ecrire(w.txt, cx, y, taille, { alpha: p, couleur: cle ? ACCENT : BLANC });
     }
     x += l + esp * k;
   });
+}
+// key words of the subtitles (lancer({ motsCles: ["nuage", ...] }), prefix match): written in the accent colour
+function motCle(txt) {
+  const x = txt.toLowerCase().replace(/^[a-zàâçéèêëîïôûùüÿœ]{1,2}['’]/, "").replace(/[«»"!?]/g, "");
+  return (EP.o.motsCles || []).some(k => x.startsWith(k));
 }
 // sources, over the last seconds after the voice
 function cartonSources(t, src) {
@@ -185,7 +193,7 @@ function cartonSources(t, src) {
   const lignes = [];
   for (const l of src.lignes) { lignes.push(...wrap(l, TAILLE_MIN, "MontX", ZONE.x1 - ZONE.x0 - 40).map((s, i) => [s, i === 0])); }
   const pas = 66, haut = 150 + lignes.length * pas + (src.lignes.length - 1) * 26, y0 = 870 - haut / 2;
-  ecrire(src.titre || "SOURCES", CX, y0 + 40, 76, { couleur: ROUGE, alpha: sort(t, t0 + 0.1, 0.5), espace: 6 });
+  ecrire(src.titre || "SOURCES", CX, y0 + 40, 76, { couleur: ACCENT, alpha: sort(t, t0 + 0.1, 0.5), espace: 6 });
   let y = y0 + 170, n = -1;
   for (const [s, debut] of lignes) {
     if (debut) { n++; if (n) y += 26; }
@@ -208,13 +216,13 @@ window.__audit = t => {
  *    musique: () => music options, sons: () => void, silences: () => [[t0, t1, retour]], battements: () => [times],
  *    voix: {bed, duck} } */
 function lancer(o) {
-  EP.o = o; EP.decors = o.decors || {};
+  EP.o = o; EP.decors = o.decors || {}; ACCENT = o.accent || ROUGE;
   window.ready = (async () => {
     await document.fonts.load("100px MontX");
     EP.T = await (await fetch("timings.json")).json();
     EP.SEG = segmentIndex(EP.T);
     EP.ORDRE = EP.T.segments.map(s => s.id);
-    EP.CARTES = buildCaptions(EP.T, { maxChars: 14, maxWords: 3 });
+    EP.CARTES = buildCaptions(EP.T, { maxChars: o.carteMax ?? 14, maxWords: o.carteMots ?? 3 });
     EP.DUREE = Math.ceil((EP.T.duration + 0.9 + (o.sources ? o.sources.duree : 0)) * 10) / 10;
     EP.SEG[EP.ORDRE[EP.ORDRE.length - 1]].next = EP.DUREE;
     EP.acc = document.createElement("canvas"); EP.acc.width = W; EP.acc.height = H;
@@ -222,6 +230,7 @@ function lancer(o) {
     if (o.battements) { EP.battements = o.battements(); for (const b of EP.battements) sfx(b, "coeur", { gain: o.coeur ?? 0.5 }); }
     for (const [a, b, retour] of (o.silences ? o.silences() : [])) sfx(a, "silence", { dur: b - a, retour: retour ?? 0.6 });
     if (o.sons) o.sons();
+    if (o.pret) await o.pret();
     window.TIMELINE = {
       FPS, DURATION: EP.DUREE, LOUDNESS: -14, MUSIC: o.musique ? o.musique() : { style: "dark" },
       VOICE: { path: "voice.wav", bed: o.voix?.bed ?? 0.22, duck: o.voix?.duck ?? 0.65 },

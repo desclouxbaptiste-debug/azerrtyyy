@@ -20,6 +20,7 @@ short sentences); word timings then come from forced alignment with Parakeet (li
 Moods (chunk "segment" + Parakeet only): a sentence starting with <w> is whispered, <s> is read slower, <r> is a
 reveal (silence before it, slower read, listed in timings.json "reveals" for the flash + impact), <p> only adds the
 silence, <l> a long one. The segment is still synthesised in one go; the sentences are cut apart afterwards and reshaped.
+"apres": 1.5 on a segment adds that much silence after it (a scene change the picture tells alone).
 "par": "<voice name>" on a segment has it read by one of the dialogue voices of "voix" (see voice_synth).
 "emph": ["trois", ...] on a segment lifts those words (prefix match on the subtitle word) a few dB in the final mix.
 """
@@ -422,6 +423,7 @@ def build_segments(clips, verbose):
         import align as asr_align
     moods_of = {s["id"]: s["moods"] for s in cfg["segments"]}
     par_of = {s["id"]: s.get("par") for s in cfg["segments"]}
+    apres_of = {s["id"]: s.get("apres", 0) for s in cfg["segments"]}  # extra silence after a segment (scene change)
     out, t, segs, reveals, fixed = [np.zeros(int(LEAD * SR))], LEAD, [], [], LEAD
     for seg_id, text, audio in clips:
         seg = {"id": seg_id, "start": round(t, 3), "sentences": []}
@@ -444,9 +446,10 @@ def build_segments(clips, verbose):
             wl = [{"w": w, "s": round(t + a, 3), "e": round(t + b, 3)} for w, a, b in words]
             seg["sentences"].append({"text": shown(st), "spoken": spoken(st), "start": wl[0]["s"], "end": wl[-1]["e"], "words": wl})
         out.append(audio)
-        out.append(np.zeros(int(GAP_SEG * SR)))
-        t += len(audio) / SR + GAP_SEG
-        fixed += GAP_SEG
+        gap = GAP_SEG + apres_of.get(seg_id, 0)
+        out.append(np.zeros(int(gap * SR)))
+        t += len(audio) / SR + gap
+        fixed += gap
         seg["end"] = round(t, 3)
         segs.append(seg)
     return out, segs, reveals, t, fixed
