@@ -1,4 +1,5 @@
-"""E-mails to creators: the shorts of an automatic import are ready, or why it failed (standard library SMTP)."""
+"""E-mails to creators (standard library SMTP): the shorts of an automatic import are ready or why it failed,
+and the confirmations of a subscription, its cancellation or a withdrawal."""
 
 from __future__ import annotations
 
@@ -43,7 +44,9 @@ def _redact(exc: Exception, address: str) -> str:
     return text[:300]
 
 
-def build_message(to: str, subject: str, text: str, html: str | None = None) -> EmailMessage:
+def build_message(to: str, subject: str, text: str, html: str | None = None,
+                  attachments: list[tuple[str, str]] | None = None) -> EmailMessage:
+    """`attachments`: (file name, HTML) pairs, e.g. the CGV the customer just accepted."""
     msg = EmailMessage()
     msg["From"] = _header(config.SMTP_FROM)
     msg["To"] = _header(to)
@@ -54,10 +57,13 @@ def build_message(to: str, subject: str, text: str, html: str | None = None) -> 
     msg.set_content(text)
     if html:
         msg.add_alternative(html, subtype="html")
+    for name, content in attachments or []:
+        msg.add_attachment(content.encode("utf-8"), maintype="text", subtype="html", filename=name)
     return msg
 
 
-def send(to: str, subject: str, text: str, html: str | None = None) -> bool:
+def send(to: str, subject: str, text: str, html: str | None = None,
+         attachments: list[tuple[str, str]] | None = None) -> bool:
     """Send one e-mail. Never raises: False when SMTP isn't configured or the server refused it."""
     if not smtp_configured():
         return False
@@ -68,7 +74,7 @@ def send(to: str, subject: str, text: str, html: str | None = None) -> bool:
     security = (config.SMTP_SECURITY or "starttls").strip().lower()
     sent = False
     try:
-        msg = build_message(address, subject, text, html)
+        msg = build_message(address, subject, text, html, attachments)
         if security == "ssl":
             server = smtplib.SMTP_SSL(config.SMTP_HOST, config.SMTP_PORT, timeout=SMTP_TIMEOUT,
                                       context=ssl.create_default_context())
@@ -128,6 +134,68 @@ def job_failed(to: str, title: str, reason: str, url: str) -> bool:
         "Seuls les shorts livrés sont décomptés de ton forfait. Tu peux relancer l'analyse depuis ton studio.",
     ]
     return send(to, subject, _text(lines, url), _html("L'import n'a pas marché", lines, "Ouvrir mon studio", url))
+
+
+# Subscription e-mails: the "support durable" the Code de la consommation asks for (art. L221-13, L221-21,
+# L215-1-1). They are sent to the account's address from the Stripe webhooks and the withdrawal endpoint.
+
+def _account_url() -> str:
+    return f"{config.site_url()}/#compte"
+
+
+def subscription_confirmed(to: str, plan_label: str, price: str, started_at: float, withdrawal_until: float) -> bool:
+    from . import legal
+
+    lines = [
+        f"Merci ! Ton abonnement Clipzo {plan_label} ({price}) a commencé le {legal.french_day(started_at)}.",
+        f"Tu as accepté les conditions générales du {legal.french_date(config.TERMS_VERSION)}, jointes à cet e-mail, "
+        "et demandé que ton abonnement démarre tout de suite.",
+        f"Droit de rétractation : tu peux te rétracter jusqu'au {legal.french_day(withdrawal_until - 1)} inclus, "
+        "avec le bouton « Me rétracter » de ton compte ou le formulaire des conditions générales. "
+        "On te rembourse tout, sauf les jours déjà commencés.",
+        "Tu peux résilier quand tu veux avec le bouton « Résilier mon abonnement » de ton compte : "
+        "ton forfait reste actif jusqu'à la fin de la période payée.",
+    ]
+    cgv = [("conditions-generales-clipzo.html", legal.render("cgv"))]
+    return send(to, f"Ton abonnement Clipzo {plan_label} est actif", _text(lines, _account_url()),
+                _html("Ton abonnement est actif", lines, "Ouvrir mon compte", _account_url()), cgv)
+
+
+def subscription_cancelled(to: str, plan_label: str, ends_at: float | None) -> bool:
+    from . import legal
+
+    until = f"jusqu'au {legal.french_day(ends_at)}" if ends_at else "jusqu'à la fin de la période payée"
+    lines = [
+        f"Nous avons bien reçu la résiliation de ton abonnement Clipzo {plan_label}.",
+        f"Tu gardes ton forfait {until}. Ensuite, ton compte repasse au forfait Gratuit et plus rien n'est prélevé.",
+        "Tu as changé d'avis ? Tu peux reprendre ton abonnement depuis ton compte avant cette date.",
+    ]
+    return send(to, "Ta résiliation est enregistrée", _text(lines, _account_url()),
+                _html("Ta résiliation est enregistrée", lines, "Ouvrir mon compte", _account_url()))
+
+
+def withdrawal_confirmed(to: str, plan_label: str, at: float, paid_cents: int, kept_cents: int,
+                         refunded_cents: int, days_used: int) -> bool:
+    from . import legal
+
+    lines = [
+        f"Nous avons bien reçu ta rétractation de l'abonnement Clipzo {plan_label}, le {legal.french_day(at)}. "
+        "Ton abonnement est arrêté et ton compte est repassé au forfait Gratuit.",
+    ]
+    owed = paid_cents - kept_cents
+    if refunded_cents >= owed:
+        lines.append(
+            f"Remboursement : {legal.euros(refunded_cents)} sur {legal.euros(paid_cents)} payés "
+            f"({legal.euros(kept_cents)} pour {days_used} jour{'s' if days_used > 1 else ''} utilisé"
+            f"{'s' if days_used > 1 else ''}). Il part sur le moyen de paiement utilisé et arrive en général "
+            "sous 5 à 10 jours.")
+    else:
+        lines.append(
+            f"Le remboursement de {legal.euros(owed - refunded_cents)} n'a pas pu partir automatiquement : "
+            "nous le faisons à la main, au plus tard 14 jours après ta rétractation.")
+    lines.append("Les shorts déjà produits restent à toi.")
+    return send(to, "Ta rétractation est enregistrée", _text(lines, _account_url()),
+                _html("Ta rétractation est enregistrée", lines, "Ouvrir mon compte", _account_url()))
 
 
 def _title(title: str) -> str:

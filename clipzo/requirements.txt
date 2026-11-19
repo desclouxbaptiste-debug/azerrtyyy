@@ -12,3 +12,5 @@ opencv-python-headless>=4.10,<5
 anthropic>=1.11,<2
 stripe>=12,<17
 pydantic>=2.8
+# French time zone for the 14-day withdrawal period (Windows has no time zone database of its own)
+tzdata; sys_platform == "win32"

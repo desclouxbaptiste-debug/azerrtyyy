@@ -3,10 +3,12 @@
     python -m server.admin users                    list accounts with their plan and usage
     python -m server.admin set-plan <email> <plan>  give a plan by hand (free, creator, pro)
     python -m server.admin backup [file]            copy the accounts database (safe while running)
+    python -m server.admin proofs <email>           what a customer agreed to: CGV, withdrawals, refunds
 """
 
 from __future__ import annotations
 
+import json
 import sqlite3
 import sys
 import time
@@ -54,6 +56,16 @@ def main(argv: list[str]) -> int:
             with accounts._lock:
                 accounts.db().backup(out)
         print(f"Sauvegarde écrite : {dest}")
+        return 0
+    if cmd == "proofs" and len(args) == 1:
+        # also after the account was deleted: the proofs are kept by e-mail address
+        rows = accounts.db().execute("SELECT * FROM consents WHERE email = ? COLLATE NOCASE ORDER BY id",
+                                     (accounts.normalize_email(args[0]),)).fetchall()
+        for r in rows:
+            when = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(r["at"]))
+            details = json.dumps(json.loads(r["details"] or "{}"), ensure_ascii=False)
+            print(f"{when}  {r['kind']:<11} CGV du {r['terms_version']}  {details}")
+        print(f"{len(rows)} preuve(s)")
         return 0
     print(__doc__)
     return 1

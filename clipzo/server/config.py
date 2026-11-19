@@ -130,6 +130,33 @@ SMTP_PASSWORD = os.environ.get("CLIPZO_SMTP_PASSWORD", "")
 SMTP_FROM = os.environ.get("CLIPZO_SMTP_FROM", "")
 SMTP_SECURITY = os.environ.get("CLIPZO_SMTP_SECURITY", "starttls")  # starttls | ssl | none
 
+# Legal notices: who runs the site, shown on /mentions-legales, /cgv and /confidentialite.
+# Required by French law before selling anything (README, « Mentions légales »). Empty = shown
+# as "à compléter" on the pages and listed in the server log at start-up.
+LEGAL = {
+    "name": os.environ.get("CLIPZO_LEGAL_NAME", ""),  # Prénom Nom, or the company's name
+    "status": os.environ.get("CLIPZO_LEGAL_STATUS", ""),  # "Entrepreneur individuel (micro-entreprise)", "SAS au capital de 1 000 €"
+    "address": os.environ.get("CLIPZO_LEGAL_ADDRESS", ""),
+    "siren": os.environ.get("CLIPZO_LEGAL_SIREN", ""),  # SIREN or SIRET, and the RCS city for a company
+    "vat": os.environ.get("CLIPZO_LEGAL_VAT", ""),  # VAT number, or "franchise" (art. 293 B du CGI)
+    "email": os.environ.get("CLIPZO_LEGAL_EMAIL", ""),
+    "phone": os.environ.get("CLIPZO_LEGAL_PHONE", ""),
+    "director": os.environ.get("CLIPZO_LEGAL_DIRECTOR", ""),  # directeur de la publication (default: name)
+    "host_name": os.environ.get("CLIPZO_LEGAL_HOST_NAME", ""),  # the hosting company of the server
+    "host_address": os.environ.get("CLIPZO_LEGAL_HOST_ADDRESS", ""),
+    "host_phone": os.environ.get("CLIPZO_LEGAL_HOST_PHONE", ""),
+    "mediator_name": os.environ.get("CLIPZO_LEGAL_MEDIATOR_NAME", ""),  # médiateur de la consommation
+    "mediator_url": os.environ.get("CLIPZO_LEGAL_MEDIATOR_URL", ""),
+}
+def site_url() -> str:
+    """The site's address for links in e-mails (the public one, else this machine)."""
+    return PUBLIC_URL or f"http://localhost:{PORT}"
+
+
+# Date of the current CGV: shown on the pages and recorded with each consent. Change it with the texts.
+TERMS_VERSION = "2026-11-19"
+WITHDRAWAL_DAYS = 14  # droit de rétractation (art. L221-18 du Code de la consommation)
+
 MIN_CLIP_SECONDS = 60
 MAX_CLIP_SECONDS = 180
 

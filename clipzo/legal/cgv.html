@@ -1,0 +1,277 @@
+<p class="eyebrow">Contrat</p>
+<h1>Conditions générales d'utilisation et de vente</h1>
+<p class="updated">Version du {{ terms_date }}</p>
+
+<div class="card key">
+  <p><strong>L'essentiel</strong></p>
+  <ul>
+    <li>Le forfait {{ plan.free.label }} est gratuit, sans carte bancaire.</li>
+    <li>Les abonnements {{ plan.creator.label }} et {{ plan.pro.label }} se renouvellent chaque mois ou chaque année
+      jusqu'à ce que tu les résilies, en quelques clics depuis ton compte.</li>
+    <li>Tu as {{ withdrawal_days }} jours pour te rétracter d'un abonnement : on te rembourse tout, sauf les jours
+      déjà commencés (<a href="#retractation">article 8</a>).</li>
+    <li>Tes vidéos et tes shorts restent à toi. Ils sont effacés automatiquement {{ job_ttl }} après l'analyse :
+      télécharge-les avant.</li>
+  </ul>
+</div>
+
+<nav class="toc" aria-label="Sommaire">
+  <ol>
+    <li><a href="#objet">Objet et acceptation</a></li>
+    <li><a href="#editeur">L'éditeur</a></li>
+    <li><a href="#service">Le service</a></li>
+    <li><a href="#compte">Ton compte</a></li>
+    <li><a href="#prix">Forfaits et prix</a></li>
+    <li><a href="#souscription">Souscription et paiement</a></li>
+    <li><a href="#duree">Durée, renouvellement et résiliation</a></li>
+    <li><a href="#retractation">Droit de rétractation</a></li>
+    <li><a href="#recredite">Garantie « satisfait ou recrédité »</a></li>
+    <li><a href="#garanties">Garantie légale de conformité</a></li>
+    <li><a href="#contenus">Tes vidéos et tes shorts</a></li>
+    <li><a href="#interdits">Usages interdits et suspension</a></li>
+    <li><a href="#twitch">Import automatique Twitch</a></li>
+    <li><a href="#responsabilite">Disponibilité et responsabilité</a></li>
+    <li><a href="#donnees">Données personnelles</a></li>
+    <li><a href="#modifications">Modification des conditions</a></li>
+    <li><a href="#mediation">Réclamations et médiation</a></li>
+    <li><a href="#droit">Droit applicable</a></li>
+  </ol>
+</nav>
+
+<h2 id="objet">Article 1. Objet et acceptation</h2>
+<p>Ces conditions encadrent l'utilisation de Clipzo, le site {{ site }} et son logiciel, ainsi que la vente des
+abonnements payants. Tu les acceptes en créant ton compte. Pour un abonnement payant, tu les acceptes à nouveau
+en cochant la case prévue avant le paiement. La version acceptée est enregistrée avec sa date.</p>
+
+<h2 id="editeur">Article 2. L'éditeur</h2>
+<p>Clipzo est édité par {{ legal.name }}, {{ legal.status }}, {{ legal.address }}, SIREN / SIRET
+{{ legal.siren }}. Contact : {{ legal.email }}, {{ legal.phone }}. Le détail figure dans les
+<a href="/mentions-legales">mentions légales</a>.</p>
+
+<h2 id="service">Article 3. Le service</h2>
+<p>Clipzo transforme une longue vidéo (un lien YouTube, Twitch, TikTok, X… ou un fichier envoyé) en shorts
+verticaux de 1 à 3 minutes. Le service :</p>
+<ul>
+  <li>transcrit la parole et mesure des signaux de la vidéo pour repérer les moments forts ;</li>
+  <li>découpe ces moments, les recadre en 9:16 et ajoute, selon le forfait, des sous-titres{{#if llm}}, des
+    titres, des accroches et des hashtags proposés par une intelligence artificielle (Claude, d'Anthropic){{/if}} ;</li>
+  <li>permet de retoucher gratuitement les coupes et de remplacer un short par un autre moment, dans les limites
+    affichées dans le studio.</li>
+</ul>
+<p>Les shorts sont disponibles {{ job_ttl }} après la fin de l'analyse, puis effacés. La vidéo source est gardée
+{{ keep_source }} pour permettre la retouche. Clipzo est un outil d'aide au montage : nous ne promettons aucun
+nombre de vues ni aucun résultat sur les plateformes.</p>
+
+<h2 id="compte">Article 4. Ton compte</h2>
+<p>Il faut avoir au moins 15 ans pour créer un compte. Un abonnement payant est souscrit par une personne majeure
+ou avec l'accord de ses parents. Ton adresse e-mail doit être valide : elle sert à te connecter et à recevoir les
+confirmations de ton abonnement. Ton mot de passe est personnel : garde-le secret.</p>
+<p>Créer plusieurs comptes pour contourner le quota du forfait {{ plan.free.label }} est interdit.</p>
+<p>Tu peux supprimer ton compte à tout moment avec le bouton « Supprimer mon compte » de ton espace. Tes
+analyses et tes shorts sont alors effacés immédiatement. Si un abonnement est en cours, il s'arrête aussitôt,
+sans remboursement de la période commencée. Pendant le délai de rétractation, rétracte-toi d'abord
+(article 8) pour être remboursé.</p>
+
+<h2 id="prix">Article 5. Forfaits et prix</h2>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Forfait</th><th>Mensuel</th><th>Annuel</th><th>Contenu</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>{{ plan.free.label }}</td><td class="num">0 €</td><td class="num">0 €</td>
+        <td>{{ plan.free.quota }} shorts par mois, jusqu'à {{ plan.free.max_clips }} shorts par vidéo, vidéos
+          jusqu'à {{ plan.free.hours }}, export {{ plan.free.width }}, filigrane Clipzo, sans sous-titres</td>
+      </tr>
+      <tr>
+        <td>{{ plan.creator.label }}</td><td class="num">{{ price.creator.month }}</td>
+        <td class="num">{{ price.creator.year }}</td>
+        <td>{{ plan.creator.quota }} shorts par mois, jusqu'à {{ plan.creator.max_clips }} shorts par vidéo,
+          vidéos jusqu'à {{ plan.creator.hours }}, export {{ plan.creator.width }}, sous-titres, mode streamer,
+          sans filigrane</td>
+      </tr>
+      <tr>
+        <td>{{ plan.pro.label }}</td><td class="num">{{ price.pro.month }}</td>
+        <td class="num">{{ price.pro.year }}</td>
+        <td>Shorts {{ plan.pro.quota }}, jusqu'à {{ plan.pro.max_clips }} shorts par vidéo, vidéos jusqu'à
+          {{ plan.pro.hours }}, sous-titres animés, titres et accroches écrits par l'IA, import automatique Twitch,
+          export 4K quand la source est en 4K</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Les prix sont en euros, {{ price_tax }}. Le prix annuel correspond à 12 mois avec une remise de 20 %.</p>
+<p>Le quota se compte par mois civil et repart à zéro le 1er du mois. Les shorts non utilisés ne se reportent
+pas. Seuls les shorts livrés sont décomptés : une analyse qui échoue ne coûte rien.</p>
+<p>« Illimité » sur le forfait {{ plan.pro.label }} veut dire sans quota mensuel. Les limites techniques
+indiquées dans le tableau s'appliquent toujours, et {{ max_jobs }} analyses au plus tournent en même temps par compte, pour
+que le service reste rapide pour tout le monde.</p>
+<p>Nous pouvons modifier nos prix. Pour un abonnement en cours, nous te prévenons par e-mail au moins 30 jours
+avant : le nouveau prix ne s'applique qu'au renouvellement suivant, et tu peux résilier d'ici là.</p>
+
+<h2 id="souscription">Article 6. Souscription et paiement</h2>
+<p>Pour t'abonner, connecte-toi, choisis un forfait et une facturation (mensuelle ou annuelle) dans « Tarifs »,
+coche la case par laquelle tu acceptes ces conditions et demandes le démarrage immédiat de ton abonnement, puis
+paie sur la page sécurisée de notre prestataire Stripe. Cette page récapitule le forfait, le prix et la
+fréquence de paiement avant que tu valides. Tu peux revenir en arrière tant que tu n'as pas payé.</p>
+<p>Le contrat est conclu dès que le paiement est accepté. Tu reçois alors par e-mail une confirmation qui
+reprend le forfait, le prix, la date de début, ta demande de démarrage immédiat et le lien vers ces conditions.</p>
+<p>Le paiement se fait par carte bancaire ou par un autre moyen proposé par Stripe. Le premier paiement a lieu à
+la souscription, puis à chaque renouvellement. Tes factures sont disponibles dans ton compte, rubrique
+« Gérer mon abonnement ». Les codes promotionnels se saisissent sur la page de paiement.</p>
+<p>Si un paiement échoue, Stripe réessaie plusieurs fois et tu gardes ton forfait pendant ce temps. S'il reste
+impayé, l'abonnement s'arrête et ton compte repasse au forfait {{ plan.free.label }}.</p>
+
+<h2 id="duree">Article 7. Durée, renouvellement et résiliation</h2>
+<p>L'abonnement dure un mois ou un an selon ton choix. Il se renouvelle automatiquement pour la même durée tant
+que tu ne le résilies pas. Il n'y a aucun engagement au-delà de la période payée.</p>
+<p><strong>Résilier</strong> : dans ton compte, bouton « Résilier mon abonnement », à tout moment
+(article L215-1-1 du Code de la consommation). Tu peux aussi nous écrire à {{ legal.email }}. La résiliation prend
+effet à la fin de la période déjà payée : tu gardes ton forfait jusque-là et rien n'est plus prélevé ensuite. La
+période commencée n'est pas remboursée, sauf rétractation (article 8). Tu reçois une confirmation par e-mail
+avec la date de fin.</p>
+<p>Pour un abonnement annuel, nous te rappelons par e-mail, entre un et trois mois avant l'échéance, que tu peux
+ne pas le renouveler (article L215-1 du Code de la consommation).</p>
+<p>Tu peux changer de forfait depuis ton compte. Le changement est immédiat et la différence de prix est
+calculée au prorata sur ta facture suivante.</p>
+
+<h2 id="retractation">Article 8. Droit de rétractation</h2>
+<h3>8.1 Le délai</h3>
+<p>Tu as <strong>{{ withdrawal_days }} jours</strong> pour te rétracter d'un abonnement payant, sans avoir à te
+justifier et sans pénalité (article L221-18 du Code de la consommation). Le délai court à partir du jour de ta
+souscription. Chaque nouvel abonnement ouvre un nouveau délai. Un changement de forfait au cours d'un abonnement
+n'en ouvre pas.</p>
+<h3>8.2 Ton abonnement commence tout de suite</h3>
+<p>Ton forfait est actif dès le paiement, donc pendant le délai de rétractation. Pour cela, avant de payer, tu
+demandes expressément ce démarrage immédiat en cochant la case prévue (article L221-25). Si tu te rétractes
+ensuite, tu paies seulement le service déjà fourni, en proportion de sa durée :</p>
+<div class="card">
+  <p><strong>Montant gardé</strong> = montant payé × jours commencés depuis la souscription ÷ nombre de jours de
+    la période payée. Tout le reste t'est remboursé.</p>
+  <p class="muted">Exemple : forfait {{ plan.creator.label }} mensuel à {{ example.paid }} pour une période de
+    30 jours, rétractation le 3<sup>e</sup> jour. On garde {{ example.kept }} et on te rembourse
+    {{ example.back }}.</p>
+</div>
+<h3>8.3 Comment te rétracter</h3>
+<p>Au choix :</p>
+<ul>
+  <li>dans ton compte, avec le bouton <strong>« Me rétracter »</strong>, affiché pendant tout le délai. Ton
+    abonnement s'arrête aussitôt et le remboursement part immédiatement ;</li>
+  <li>en nous envoyant, avant la fin du délai, le <a href="#formulaire-retractation">formulaire ci-dessous</a> ou
+    toute déclaration dénuée d'ambiguïté, par e-mail à {{ legal.email }} ou par courrier à
+    {{ legal.address }}.</li>
+</ul>
+<p>Nous t'envoyons sans délai un accusé de réception par e-mail.</p>
+<h3>8.4 Le remboursement</h3>
+<p>Nous te remboursons au plus tard 14 jours après avoir reçu ta décision, avec le même moyen de paiement que
+celui de ton abonnement et sans frais (article L221-24). Ton compte repasse au forfait {{ plan.free.label }}. Les
+shorts déjà produits restent à toi.</p>
+<p>Le forfait {{ plan.free.label }} ne coûte rien : il n'y a rien à rembourser, et tu peux supprimer ton compte
+quand tu veux.</p>
+
+<h2 id="recredite">Article 9. Garantie « satisfait ou recrédité »</h2>
+<p>Sur les forfaits qui ont un quota mensuel ({{ plan.free.label }} et {{ plan.creator.label }}), si un short ne te
+plaît pas, le bouton « Ne me plaît pas », puis « Le supprimer et récupérer mon crédit », l'efface et te rend ce
+short sur ton quota du mois, dans la limite de
+{{ refunds }} shorts par mois. Cette garantie commerciale ne donne lieu à aucun remboursement en argent et s'ajoute
+à tes droits légaux, sans les remplacer. Le forfait {{ plan.pro.label }} étant sans quota, elle ne le concerne
+pas.</p>
+
+<h2 id="garanties">Article 10. Garantie légale de conformité</h2>
+<div class="card">
+  <p>Tu disposes d'un délai de deux ans à compter de la fourniture du service numérique pour obtenir la mise en
+    œuvre de la garantie légale de conformité en cas d'apparition d'un défaut de conformité. Pour un abonnement,
+    la garantie s'applique pendant toute la durée de fourniture du service. Tu n'as pas à prouver le défaut
+    pendant cette durée.</p>
+  <p>La garantie te donne droit à la mise en conformité du service sans retard injustifié suivant ta demande,
+    sans frais et sans inconvénient majeur pour toi. Tu peux obtenir une réduction du prix ou mettre fin au
+    contrat et être remboursé si nous refusons la mise en conformité, si elle est retardée de manière injustifiée,
+    si elle ne peut se faire sans frais ou sans inconvénient majeur pour toi, ou si le défaut persiste malgré
+    notre tentative. Tu y as droit aussi immédiatement si le défaut est si grave qu'il le justifie. Tu peux
+    suspendre le paiement de tout ou partie du prix tant que nous n'avons pas satisfait à ces obligations.</p>
+  <p>Ces règles sont prévues aux articles L224-25-1 à L224-25-31 du Code de la consommation. Le professionnel qui
+    fait obstacle de mauvaise foi à la garantie légale de conformité encourt une amende civile de 300 000 € au
+    plus, qui peut être portée à 10 % de son chiffre d'affaires annuel moyen (article L242-18-1).</p>
+</div>
+<p>Pour signaler un défaut, écris à {{ legal.email }} en décrivant le problème et l'analyse concernée.</p>
+
+<h2 id="contenus">Article 11. Tes vidéos et tes shorts</h2>
+<p><strong>Tes droits.</strong> Tu gardes tous tes droits sur les vidéos que tu analyses et sur les shorts
+obtenus. Tu nous autorises seulement à les copier, transcrire, analyser et transformer pour te fournir le
+service, pendant les durées de conservation indiquées. Clipzo ne publie jamais tes vidéos et ne les utilise pas
+pour entraîner une IA.</p>
+<p><strong>Ta responsabilité.</strong> N'analyse que des vidéos que tu as le droit d'utiliser : les tiennes, ou
+celles pour lesquelles tu as l'accord de leurs auteurs. Respecte les conditions des plateformes d'où elles
+viennent. Quand tu publies un short, tu es responsable de son contenu : droit d'auteur (musique, extraits),
+droit à l'image des personnes filmées, respect de la loi.</p>
+<p><strong>Textes proposés par l'IA.</strong> Les titres, accroches et hashtags sont générés automatiquement et
+peuvent contenir des erreurs : relis-les avant de les publier.</p>
+<p>Sur le forfait {{ plan.free.label }}, les shorts portent un filigrane Clipzo.</p>
+
+<h2 id="interdits">Article 12. Usages interdits et suspension</h2>
+<p>Il est interdit d'utiliser Clipzo pour :</p>
+<ul>
+  <li>traiter des contenus illicites : pédocriminalité, apologie du terrorisme, incitation à la haine ou à la
+    violence, harcèlement, atteinte à la vie privée ;</li>
+  <li>porter atteinte aux droits d'autrui, notamment au droit d'auteur ;</li>
+  <li>contourner les quotas et les limites, par exemple avec plusieurs comptes ou des scripts automatiques ;</li>
+  <li>perturber le service, tenter d'accéder aux données d'autres utilisateurs, ou revendre l'accès sans notre
+    accord.</li>
+</ul>
+<p>Nous ne regardons pas tes vidéos a priori. Si nous recevons un signalement (voir les
+<a href="/mentions-legales#contact">mentions légales</a>) ou constatons un abus, nous pouvons supprimer le contenu
+en cause ou suspendre le compte. Nous t'en expliquons les raisons par e-mail, et tu peux les contester en
+répondant à ce message. Sauf urgence (contenu manifestement illicite, atteinte à la sécurité du service), nous
+t'avertissons d'abord et te laissons 8 jours pour faire cesser le problème. En cas de manquement grave, nous
+pouvons résilier ton abonnement.</p>
+
+<h2 id="twitch">Article 13. Import automatique Twitch</h2>
+<p>Avec le forfait {{ plan.pro.label }}, tu peux lier une chaîne Twitch dans ton compte : après chaque live,
+Clipzo récupère la VOD publique et la découpe avec les réglages enregistrés. Lie uniquement une chaîne qui
+t'appartient ou pour laquelle tu as l'autorisation de son titulaire. Tu peux désactiver l'import ou retirer la
+chaîne à tout moment.</p>
+
+<h2 id="responsabilite">Article 14. Disponibilité et responsabilité</h2>
+<p>Clipzo est accessible en permanence, sauf maintenance ou panne. Nous faisons le nécessaire pour rétablir le
+service au plus vite. Une analyse peut échouer si la vidéo source est supprimée, privée, trop longue pour ton
+forfait ou bloquée dans le pays du serveur : dans ce cas elle ne t'est pas décomptée.</p>
+<p>Nous répondons des dommages causés par un manquement à nos obligations, dans les conditions prévues par la
+loi. Notre responsabilité ne peut être engagée si le dommage vient de ta faute, du fait imprévisible et
+insurmontable d'un tiers ou d'un cas de force majeure. Les décisions des plateformes sur lesquelles tu publies
+(retrait, démonétisation, visibilité) ne dépendent pas de nous.</p>
+
+<h2 id="donnees">Article 15. Données personnelles</h2>
+<p>Ce que nous faisons de tes données et tes droits sont décrits dans la
+<a href="/confidentialite">politique de confidentialité</a>.</p>
+
+<h2 id="modifications">Article 16. Modification des conditions</h2>
+<p>Nous pouvons faire évoluer ces conditions. La version en vigueur est toujours sur cette page, avec sa date.
+Si tu as un abonnement, nous te prévenons par e-mail au moins 30 jours avant tout changement important : il
+s'applique à ton renouvellement suivant, et tu peux résilier d'ici là. La version que tu as acceptée en
+t'abonnant reste enregistrée.</p>
+
+<h2 id="mediation">Article 17. Réclamations et médiation</h2>
+<p>Pour toute réclamation, écris d'abord à {{ legal.email }}. Si nous ne trouvons pas de solution, tu peux
+recourir gratuitement au médiateur de la consommation (articles L612-1 et suivants du Code de la consommation) :
+{{ legal.mediator_name }}, {{ legal.mediator_url }}. Tu dois le saisir dans l'année qui suit ta réclamation
+écrite auprès de nous.</p>
+
+<h2 id="droit">Article 18. Droit applicable</h2>
+<p>Ces conditions sont soumises au droit français. Si tu résides dans un autre pays de l'Union européenne, tu
+gardes la protection des règles impératives de ton pays. En cas de litige, tu peux saisir le tribunal du lieu où
+tu demeurais au moment de la souscription ou de la survenance du fait dommageable, ou celui de notre siège.</p>
+
+<h2 id="formulaire-retractation">Annexe. Formulaire de rétractation</h2>
+<p>Remplis et renvoie ce formulaire uniquement si tu veux te rétracter et que tu n'utilises pas le bouton
+« Me rétracter » de ton compte (annexe à l'article R221-1 du Code de la consommation).</p>
+<div class="form-model" id="form-model">
+  <p>À l'attention de {{ legal.name }}, {{ legal.address }}, {{ legal.email }} :</p>
+  <p>Je vous notifie par la présente ma rétractation du contrat portant sur la prestation de services ci-dessous :
+    abonnement Clipzo, forfait <span class="blank">&nbsp;</span></p>
+  <p>Souscrit le : <span class="blank">&nbsp;</span></p>
+  <p>Nom : <span class="blank">&nbsp;</span></p>
+  <p>Adresse e-mail du compte Clipzo : <span class="blank">&nbsp;</span></p>
+  <p>Adresse postale : <span class="blank">&nbsp;</span></p>
+  <p>Signature (uniquement si ce formulaire est envoyé sur papier) : <span class="blank">&nbsp;</span></p>
+  <p>Date : <span class="blank">&nbsp;</span></p>
+</div>
+<button class="copy" type="button" data-copy="form-model">Copier le formulaire</button>

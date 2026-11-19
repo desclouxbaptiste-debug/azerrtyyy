@@ -18,7 +18,7 @@
   --trust-border: rgba(255, 255, 255, 0.4);
   --trust-text: #c4c2c3;
   --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
-  --font-display: "BubbledotICG-FinePos", "Geist Pixel Circle", monospace;
+  --font-display: "Geist Pixel Circle", monospace;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --accent: #ff3b5c;
@@ -2111,6 +2111,152 @@ button {
   align-self: center;
   margin-top: 4px;
   padding: 6px 4px;
+}
+
+/* Résilier · Me rétracter · Supprimer mon compte: plain links, findable without competing with the plan buttons */
+.acct-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2px 18px;
+}
+
+.acct-links .link-btn {
+  padding: 6px 4px;
+}
+
+.acct-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+
+.acct-withdraw {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.acct-withdraw p,
+.acct-delete p {
+  margin: 0;
+}
+
+.acct-withdraw-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #d4d4d8;
+}
+
+.acct-delete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.acct-delete-open {
+  color: var(--muted);
+  padding: 4px;
+}
+
+.acct-delete-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 59, 92, 0.06);
+  border: 1px solid rgba(255, 59, 92, 0.35);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.acct-delete-go {
+  border-color: rgba(255, 59, 92, 0.6);
+}
+
+.acct-withdraw[hidden],
+.acct-withdraw-confirm[hidden],
+.acct-cancel[hidden],
+.acct-delete-box[hidden],
+.auth-legal[hidden],
+.terms-consent[hidden] {
+  display: none;
+}
+
+/* The box ticked before paying (CGV + immediate start) */
+.terms-consent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 720px;
+  margin: 18px auto 0;
+}
+
+.terms-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #d4d4d8;
+  cursor: pointer;
+}
+
+.terms-check input {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  accent-color: var(--accent);
+}
+
+.terms-check a,
+.auth-legal a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.auth-legal {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Legal links under the home screen */
+.site-foot {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 18px;
+  margin-top: clamp(10px, 2.2vh, 22px);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.site-foot a:hover,
+.site-foot a:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Toast */

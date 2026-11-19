@@ -267,7 +267,7 @@ def _after_auto_import(job: Job) -> None:
     if user is None or not notify.smtp_configured():
         return
     title = (job.source or {}).get("title") or (req.auto or {}).get("title") or "ta vidéo"
-    base = config.PUBLIC_URL or f"http://localhost:{config.PORT}"
+    base = config.site_url()
     url = f"{base}/?job={job.id}"
     if job.status == "done":
         notify.send_async(notify.shorts_ready, user.email, title, len(job.clips), url)

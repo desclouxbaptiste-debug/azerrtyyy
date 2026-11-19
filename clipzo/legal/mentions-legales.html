@@ -1,0 +1,75 @@
+<p class="eyebrow">Informations légales</p>
+<h1>Mentions légales</h1>
+<p class="updated">Mises à jour le {{ terms_date }}</p>
+
+<p class="lead">Qui édite Clipzo, où le site est hébergé et comment nous joindre (article 6 de la loi n° 2004-575 du
+21 juin 2004 pour la confiance dans l'économie numérique).</p>
+
+<h2 id="editeur">Éditeur du site et du logiciel</h2>
+<dl class="ids">
+  <dt>Éditeur</dt><dd>{{ legal.name }}</dd>
+  <dt>Statut</dt><dd>{{ legal.status }}</dd>
+  <dt>Adresse</dt><dd>{{ legal.address }}</dd>
+  <dt>SIREN / SIRET</dt><dd>{{ legal.siren }}</dd>
+  <dt>TVA</dt><dd>{{ vat_line }}</dd>
+  <dt>E-mail</dt><dd>{{ legal.email }}</dd>
+  <dt>Téléphone</dt><dd>{{ legal.phone }}</dd>
+  <dt>Directeur de la publication</dt><dd>{{ legal.director }}</dd>
+</dl>
+
+<h2 id="hebergeur">Hébergeur</h2>
+<dl class="ids">
+  <dt>Hébergeur</dt><dd>{{ legal.host_name }}</dd>
+  <dt>Adresse</dt><dd>{{ legal.host_address }}</dd>
+  <dt>Téléphone</dt><dd>{{ legal.host_phone }}</dd>
+</dl>
+<p>Les vidéos que tu envoies, les shorts produits et les données de ton compte sont stockés sur ce serveur.</p>
+
+<h2 id="contact">Contact et signalement d'un contenu illicite</h2>
+<p>Pour toute question sur le site, ton compte ou ton abonnement, écris à {{ legal.email }}. Nous répondons en
+français ou en anglais. Cette adresse est aussi notre point de contact unique pour les utilisateurs et pour les
+autorités (articles 11 et 12 du règlement européen 2022/2065 sur les services numériques).</p>
+<p>Pour signaler un contenu que tu estimes illicite, envoie à la même adresse :</p>
+<ul>
+  <li>ton nom et ton adresse e-mail ;</li>
+  <li>le lien du short ou de l'analyse concernée ;</li>
+  <li>pourquoi ce contenu te semble illicite, avec les textes de loi concernés si tu les connais ;</li>
+  <li>une déclaration confirmant que tu fais ce signalement de bonne foi.</li>
+</ul>
+<p>Nous accusons réception du signalement, l'examinons rapidement et te tenons informé de la suite donnée.</p>
+
+<h2 id="propriete">Propriété intellectuelle</h2>
+<p>Le nom Clipzo, le logo, le site, le logiciel, son code et ses textes appartiennent à l'éditeur. Toute reproduction,
+représentation ou réutilisation, totale ou partielle, sans autorisation écrite est interdite (articles L122-4 et
+L335-2 du Code de la propriété intellectuelle).</p>
+<p>Les vidéos que tu analyses et les shorts que tu obtiens ne nous appartiennent pas : voir l'article
+« Tes vidéos et tes shorts » des <a href="/cgv#contenus">conditions générales</a>.</p>
+
+<h2 id="logiciels-tiers">Logiciels, polices et icônes tiers</h2>
+<p>Clipzo s'appuie sur des logiciels libres, utilisés selon leurs licences :</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Composant</th><th>Rôle</th><th>Licence</th></tr></thead>
+    <tbody>
+      <tr><td>FFmpeg</td><td>Lecture, découpe et encodage des vidéos</td><td>LGPL 2.1 ou GPL 2 selon la version installée</td></tr>
+      <tr><td>yt-dlp</td><td>Récupération des vidéos depuis un lien</td><td>Unlicense (domaine public)</td></tr>
+      <tr><td>faster-whisper et modèles Whisper</td><td>Transcription de la parole, sur notre serveur</td><td>MIT</td></tr>
+      <tr><td>OpenCV</td><td>Détection des visages pour le cadrage 9:16</td><td>Apache 2.0</td></tr>
+      <tr><td>NumPy</td><td>Calcul des signaux audio</td><td>BSD 3 clauses</td></tr>
+      <tr><td>FastAPI, Starlette, Uvicorn, Pydantic</td><td>Serveur web</td><td>MIT et BSD 3 clauses</td></tr>
+      <tr><td>Bibliothèques Stripe et Anthropic</td><td>Paiement et analyse par l'IA</td><td>MIT</td></tr>
+      <tr><td>Inter, Geist Pixel</td><td>Polices du site</td><td>SIL Open Font License 1.1</td></tr>
+      <tr><td>Montserrat, Anton, Bebas Neue, Poppins, Bangers, Luckiest Guy, Permanent Marker, DejaVu Sans</td><td>Polices des sous-titres</td><td>SIL Open Font License 1.1, Apache 2.0, licence DejaVu</td></tr>
+      <tr><td>Font Awesome Free</td><td>Icônes du site</td><td>Icônes CC BY 4.0, police SIL OFL 1.1, code MIT</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="muted">Les textes complets des licences sont fournis avec le logiciel : polices de sous-titres dans
+<code>fonts/subs</code> et <code>server/fonts</code>, icônes et police Inter dans <code>vendor</code>.</p>
+
+<h2 id="autres-pages">Autres informations</h2>
+<ul>
+  <li><a href="/cgv">Conditions générales d'utilisation et de vente</a>, dont le
+    <a href="/cgv#retractation">droit de rétractation</a> ;</li>
+  <li><a href="/confidentialite">Politique de confidentialité</a> : tes données, les cookies et tes droits.</li>
+</ul>

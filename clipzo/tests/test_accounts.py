@@ -254,12 +254,20 @@ def test_billing_without_stripe_is_clearly_refused(client):
 def test_checkout_then_webhooks_drive_the_plan(client, stripe_mock):
     signup(client, "ines@example.com")
     user = accounts.get_user_by_email("ines@example.com")
+    # no subscription without the ticked box (CGV + immediate start, art. L221-25)
     r = client.post("/api/billing/checkout", json={"plan": "pro", "interval": "year"})
+    assert r.status_code == 400 and "Coche la case" in r.json()["detail"] and not stripe_mock["checkout"]
+    r = client.post("/api/billing/checkout", json={"plan": "pro", "interval": "year", "accept_terms": True})
     assert r.status_code == 200 and r.json() == {"url": "https://checkout.stripe.com/c/pay/test"}
     params = stripe_mock["checkout"][0]
     assert params["mode"] == "subscription" and params["customer_email"] == "ines@example.com"
     assert params["client_reference_id"] == str(user.id)
-    assert params["subscription_data"]["metadata"] == {"user_id": str(user.id), "plan": "pro"}
+    assert params["subscription_data"]["metadata"] == {"user_id": str(user.id), "plan": "pro",
+                                                       "terms_version": config.TERMS_VERSION}
+    assert "/cgv" in params["custom_text"]["submit"]["message"]
+    proof = accounts.consents(user.id)
+    assert [(c["kind"], c["terms_version"], c["details"]["start_now"]) for c in proof] == [
+        ("subscribe", config.TERMS_VERSION, True)]
     assert params["line_items"][0]["price_data"]["unit_amount"] == 9600
     assert params["line_items"][0]["price_data"]["recurring"] == {"interval": "year"}
     assert params["success_url"] == "http://testserver/?billing=success"
@@ -285,7 +293,7 @@ def test_checkout_then_webhooks_drive_the_plan(client, stripe_mock):
     assert client.get("/api/me").json()["user"]["plan"] == "pro"
 
     # already subscribed: "checkout" sends to the portal instead of a second subscription
-    r = client.post("/api/billing/checkout", json={"plan": "creator", "interval": "month"})
+    r = client.post("/api/billing/checkout", json={"plan": "creator", "interval": "month", "accept_terms": True})
     assert r.json() == {"url": "https://billing.stripe.com/p/session/test", "portal": True}
     assert stripe_mock["portal"][0]["customer"] == "cus_1"
 
@@ -320,7 +328,7 @@ def test_past_due_keeps_access_unpaid_removes_it(client, stripe_mock):
     assert accounts.get_user(user.id).plan == "free"
     # Stripe no longer charges an unpaid subscription: subscribing again goes through Checkout...
     client.cookies.set("clipzo_session", accounts.create_session(user.id))
-    r = client.post("/api/billing/checkout", json={"plan": "creator", "interval": "month"})
+    r = client.post("/api/billing/checkout", json={"plan": "creator", "interval": "month", "accept_terms": True})
     assert r.json() == {"url": "https://checkout.stripe.com/c/pay/test"}
     # ...and once the new one is paid, the unpaid one is cancelled so it can't come back alongside it
     sub_event(client, stripe_mock, "evt_d", "customer.subscription.created",

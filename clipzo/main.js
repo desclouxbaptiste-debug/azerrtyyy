@@ -260,7 +260,12 @@
   const acctSub = $(".acct-sub");
   const acctRenew = $(".acct-renew");
   const acctManage = $(".acct-manage");
+  const acctCancel = $(".acct-cancel");
   const acctLogout = $(".acct-logout");
+  const authLegal = $(".auth-legal");
+  const termsBox = $(".terms-consent");
+  const termsCheck = $("#terms-consent");
+  const termsError = $(".terms-error");
 
   function quotaLine(user) {
     if (user) {
@@ -330,6 +335,10 @@
 
     $$(".sign-in, .m-sign-in").forEach((b) => (b.textContent = user ? "Mon compte" : "Connexion"));
     refreshBillingBanner(user);
+    // The CGV box before paying: only where a new subscription can be bought (a subscribed account
+    // changes plan in the Stripe portal, the demo pays nothing)
+    termsBox.hidden = !isLive() || billingOff() || (!!user && key !== "free");
+    if (termsBox.hidden) termsError.hidden = true;
     if (openPanel === panels.account) renderAccount();
   }
 
@@ -424,6 +433,8 @@
         renewsAt: Number.isFinite(b.renews_at) && b.renews_at > 0 ? b.renews_at * 1000 : null,
         cancelAtEnd: b.cancel_at_period_end === true,
         canManage: b.can_manage === true,
+        // end of the 14-day withdrawal period of the running subscription (null: over or none)
+        withdrawalUntil: Number.isFinite(b.withdrawal_until) && b.withdrawal_until > 0 ? b.withdrawal_until * 1000 : null,
       },
       // "satisfait ou recrédité" credits left this month (null: unlimited plan)
       refunds: r ? { left: count(r.left) || 0, limit: count(r.limit) || 0 } : null,
@@ -508,8 +519,129 @@
     acctRenew.textContent = renew;
     acctRenew.hidden = !renew;
     acctManage.hidden = !b.canManage;
+    const subscribed = user.plan !== "free" && ["active", "trialing", "past_due"].includes(b.status);
+    acctCancel.hidden = !(b.canManage && subscribed && !b.cancelAtEnd);
+    renderWithdrawal(user);
+    renderDelete(user);
     renderTwitch(user);
   }
+
+  /* ---------- Droit de rétractation (14 days) and account deletion ---------- */
+  const withdrawBox = $(".acct-withdraw");
+  const withdrawText = $(".acct-withdraw-text");
+  const withdrawOpen = $(".acct-withdraw-open");
+  const withdrawConfirm = $(".acct-withdraw-confirm");
+  const withdrawGo = $(".acct-withdraw-go");
+  const withdrawError = $(".acct-withdraw-error");
+  const deleteForm = $(".acct-delete");
+  const deleteOpen = $(".acct-delete-open");
+  const deleteBox = $(".acct-delete-box");
+  const deleteWarn = $(".acct-delete-warn");
+  const deletePassword = $("#delete-password");
+  const deleteError = $(".acct-delete-error");
+  const deleteGo = $(".acct-delete-go");
+  const euros = (cents) => `${(cents / 100).toFixed(2).replace(".", ",").replace(",00", "")} €`;
+
+  function renderWithdrawal(user) {
+    const until = user.billing.withdrawalUntil;
+    withdrawBox.hidden = !until;
+    if (!until) {
+      withdrawConfirm.hidden = true;
+      return;
+    }
+    // the period ends at midnight in France: the last day is the one before
+    const last = new Date(until - 1000)
+      .toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Paris" })
+      .replace(/^1 /, "1er ");
+    withdrawText.textContent = `Tu peux te rétracter jusqu'au ${last} inclus : on te rembourse tout, sauf les jours déjà commencés.`;
+  }
+
+  function setOpen(btn, box, open) {
+    box.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+  }
+
+  withdrawOpen.addEventListener("click", () => {
+    withdrawError.hidden = true;
+    setOpen(withdrawOpen, withdrawConfirm, withdrawConfirm.hidden);
+    if (!withdrawConfirm.hidden) withdrawGo.focus();
+  });
+  $(".acct-withdraw-cancel").addEventListener("click", () => {
+    setOpen(withdrawOpen, withdrawConfirm, false);
+    withdrawOpen.focus();
+  });
+  withdrawGo.addEventListener("click", async () => {
+    setBusy(withdrawGo, "Rétractation…");
+    const res = await apiCall("POST", "/api/billing/withdraw").catch(() => null);
+    setIdle(withdrawGo);
+    if (res && res.status === 200 && res.data) {
+      setOpen(withdrawOpen, withdrawConfirm, false);
+      const w = res.data.withdrawal || {};
+      setUser(res.data.user);
+      toast(Number.isFinite(w.refunded_cents) && w.refunded_cents > 0
+        ? `Rétractation enregistrée : ${euros(w.refunded_cents)} remboursés sur ta carte.`
+        : "Rétractation enregistrée : ton abonnement est arrêté.");
+      return;
+    }
+    if (res && res.status === 401) {
+      setUser(null);
+      openAccount("login", "Ta session a expiré : reconnecte-toi pour continuer.");
+      return;
+    }
+    withdrawError.textContent = res ? apiError(res.status, res.data) : MSG_OFFLINE;
+    withdrawError.hidden = false;
+    if (res && res.status === 502) loadMe(); // stopped even though the refund didn't go: show the new plan
+  });
+
+  function renderDelete(user) {
+    const paid = user.plan !== "free" && user.billing.status && user.billing.status !== "canceled";
+    deleteWarn.textContent = "Ton compte, tes analyses et tes shorts sont effacés tout de suite, sans retour possible." +
+      (paid
+        ? user.billing.withdrawalUntil
+          ? " Ton abonnement s'arrête aussi, sans remboursement : rétracte-toi d'abord pour être remboursé."
+          : " Ton abonnement s'arrête aussi, sans remboursement de la période en cours."
+        : "");
+  }
+
+  deleteOpen.addEventListener("click", () => {
+    deleteError.hidden = true;
+    setOpen(deleteOpen, deleteBox, deleteBox.hidden);
+    if (!deleteBox.hidden) deletePassword.focus();
+  });
+  $(".acct-delete-cancel").addEventListener("click", () => {
+    deletePassword.value = "";
+    setOpen(deleteOpen, deleteBox, false);
+    deleteOpen.focus();
+  });
+  deleteForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (deleteBox.hidden || deleteGo.disabled) return;
+    if (!deletePassword.value) {
+      deleteError.textContent = "Entre ton mot de passe pour confirmer.";
+      deleteError.hidden = false;
+      deletePassword.focus();
+      return;
+    }
+    setBusy(deleteGo, "Suppression…");
+    const res = await apiCall("POST", "/api/me/delete", { password: deletePassword.value }).catch(() => null);
+    setIdle(deleteGo);
+    if (res && res.status === 200) {
+      deletePassword.value = "";
+      setOpen(deleteOpen, deleteBox, false);
+      stopJob();
+      showForm();
+      authForm.reset();
+      setUser(null);
+      hidePanel();
+      toast("Ton compte est supprimé. À bientôt peut-être !");
+      return;
+    }
+    deleteError.textContent = res ? apiError(res.status, res.data) : MSG_OFFLINE;
+    deleteError.hidden = false;
+    if (res && res.status === 403) deletePassword.select();
+  });
+
+  acctCancel.addEventListener("click", () => billingRedirect(acctCancel, "/api/billing/portal", { flow: "cancel" }));
 
   // Signed out: login / sign-up form (with an optional reason). Signed in: the account summary
   async function openAccount(mode, note, back) {
@@ -545,6 +677,7 @@
     }
     pwHint.hidden = !signup;
     authNote.hidden = !signup;
+    authLegal.hidden = !signup;
     if (!authSubmit.classList.contains("is-loading")) authSubmit.textContent = submitLabel();
     authError.hidden = true;
     if (!currentUser) accountTitle.textContent = signup ? "Crée ton compte" : "Connecte-toi";
@@ -692,9 +825,22 @@
       return;
     }
     if (choice === planKey()) return;
-    if (choice === "free") billingRedirect(btn, "/api/billing/portal"); // back to free: cancel in the portal
-    else billingRedirect(btn, "/api/billing/checkout", { plan: choice, interval: billingInterval });
+    if (choice === "free") {
+      billingRedirect(btn, "/api/billing/portal", { flow: "cancel" }); // back to free: cancel in the portal
+      return;
+    }
+    if (!termsBox.hidden && !termsCheck.checked) {
+      termsError.hidden = false;
+      termsBox.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+      termsCheck.focus({ preventScroll: true });
+      return;
+    }
+    billingRedirect(btn, "/api/billing/checkout", { plan: choice, interval: billingInterval, accept_terms: termsCheck.checked });
   }
+
+  termsCheck.addEventListener("change", () => {
+    if (termsCheck.checked) termsError.hidden = true;
+  });
 
   // Checkout or customer portal: the server answers with the Stripe page to send the person to
   async function billingRedirect(btn, endpoint, payload) {
@@ -702,7 +848,7 @@
     const res = await apiCall("POST", endpoint, payload).catch(() => null);
     const url = res && res.status === 200 && res.data ? safeUrl(res.data.url) : null;
     if (url) {
-      if (payload && res.data.portal !== true) session.set(CHECKOUT_KEY, { from: planKey() });
+      if (payload && payload.plan && res.data.portal !== true) session.set(CHECKOUT_KEY, { from: planKey() });
       window.location.assign(url);
       return;
     }
@@ -2463,6 +2609,11 @@
       session.remove(CHECKOUT_KEY);
       toast("Paiement annulé");
       showPanel("pricing");
+    } else if (billingReturn === "cancelled" && isLive()) {
+      // back from the Stripe cancellation page: the webhook marks the end date a moment later
+      toast("Résiliation enregistrée : ton forfait reste actif jusqu'à la fin de la période payée.");
+      openAccount();
+      setTimeout(loadMe, 3000);
     }
     // Reload during an analysis: bring the studio back with the job it was following
     if (activeJob && !openPanel) showPanel("studio");
@@ -2477,7 +2628,8 @@
     toast("Démo : ce formulaire n'envoie encore rien (service d'envoi à brancher)");
   });
 
-  // Deep links: #studio, #tarifs, #contact
+  // Deep links: #studio, #tarifs, #contact, #compte (the link of the subscription e-mails)
   const hashMap = { "#studio": "studio", "#tarifs": "pricing", "#contact": "contact" };
   if (hashMap[location.hash]) showPanel(hashMap[location.hash]);
+  else if (location.hash === "#compte" && !billingReturn) openAccount("login");
 })();

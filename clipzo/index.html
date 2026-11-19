@@ -10,23 +10,9 @@
     />
     <link rel="icon" href="assets/logo.webp" type="image/webp" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <!-- Fonts and icons are served by this site: no visitor's address goes to a font service (RGPD) -->
+    <link rel="stylesheet" href="vendor/inter/inter.css" />
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -113,6 +99,13 @@
           <span class="stat-label">De vidéo analysées d'un coup</span>
         </div>
       </section>
+
+      <footer class="site-foot" aria-label="Informations légales">
+        <a href="/mentions-legales">Mentions légales</a>
+        <a href="/cgv">Conditions générales</a>
+        <a href="/cgv#retractation">Rétractation</a>
+        <a href="/confidentialite">Confidentialité</a>
+      </footer>
     </div>
 
     <!-- Mobile menu -->
@@ -498,7 +491,18 @@
             <button class="plan-btn plan-btn-pro" type="button" data-choose="pro">Passer Pro</button>
           </article>
         </div>
-        <p class="fine">Sans engagement · Résiliable en un clic · Paiement sécurisé</p>
+        <div class="terms-consent" hidden>
+          <label class="terms-check" for="terms-consent">
+            <input type="checkbox" id="terms-consent" aria-describedby="terms-error" />
+            <span>
+              J'accepte les <a href="/cgv" target="_blank" rel="noopener">conditions générales</a> et je demande que
+              mon abonnement commence tout de suite. Si je me rétracte dans les 14 jours, je paie seulement les jours
+              commencés (<a href="/cgv#retractation" target="_blank" rel="noopener">droit de rétractation</a>).
+            </span>
+          </label>
+          <p class="form-error terms-error" id="terms-error" role="alert" hidden>Coche la case ci-dessus pour t'abonner.</p>
+        </div>
+        <p class="fine">Sans engagement · Résiliable à tout moment · 14 jours pour te rétracter · Paiement sécurisé par Stripe</p>
       </div>
     </section>
 
@@ -580,6 +584,11 @@
             <p class="auth-note" hidden>
               <i class="fa-solid fa-gift" aria-hidden="true"></i>Gratuit : 3 shorts par mois, sans carte bancaire.
             </p>
+            <p class="auth-legal" hidden>
+              En créant ton compte, tu acceptes les <a href="/cgv" target="_blank" rel="noopener">conditions
+              générales</a> et tu as lu la <a href="/confidentialite" target="_blank" rel="noopener">politique de
+              confidentialité</a>.
+            </p>
           </form>
         </div>
 
@@ -620,11 +629,47 @@
             </form>
           </div>
 
+          <div class="acct-withdraw" hidden>
+            <p class="acct-withdraw-text"></p>
+            <button class="link-btn acct-withdraw-open" type="button" aria-expanded="false"
+              aria-controls="acct-withdraw-confirm">Me rétracter</button>
+            <div class="acct-withdraw-confirm" id="acct-withdraw-confirm" hidden>
+              <p class="acct-withdraw-ask">
+                Ton abonnement s'arrête tout de suite et ton compte repasse au forfait Gratuit. On te rembourse tout,
+                sauf les jours déjà commencés, sur ta carte.
+              </p>
+              <div class="acct-row">
+                <button class="plan-btn acct-withdraw-go" type="button">Confirmer ma rétractation</button>
+                <button class="link-btn acct-withdraw-cancel" type="button">Annuler</button>
+              </div>
+            </div>
+            <p class="form-error acct-withdraw-error" role="alert" hidden></p>
+          </div>
+
           <div class="acct-actions">
             <button class="cta cta-block acct-manage" type="button" hidden>Gérer mon abonnement</button>
             <button class="plan-btn acct-plans" type="button" data-open="pricing">Voir les forfaits</button>
-            <button class="link-btn acct-logout" type="button">Se déconnecter</button>
+            <div class="acct-links">
+              <button class="link-btn acct-cancel" type="button" hidden>Résilier mon abonnement</button>
+              <button class="link-btn acct-logout" type="button">Se déconnecter</button>
+            </div>
           </div>
+
+          <form class="acct-delete" novalidate>
+            <button class="link-btn acct-delete-open" type="button" aria-expanded="false" aria-controls="acct-delete-box">
+              Supprimer mon compte
+            </button>
+            <div class="acct-delete-box" id="acct-delete-box" hidden>
+              <p class="acct-delete-warn"></p>
+              <label class="field-label" for="delete-password">Ton mot de passe, pour confirmer</label>
+              <input class="text-input" id="delete-password" type="password" autocomplete="current-password" />
+              <p class="form-error acct-delete-error" role="alert" hidden></p>
+              <div class="acct-row">
+                <button class="plan-btn acct-delete-go" type="submit">Supprimer définitivement</button>
+                <button class="link-btn acct-delete-cancel" type="button">Annuler</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </section>

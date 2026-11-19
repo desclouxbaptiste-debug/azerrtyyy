@@ -181,8 +181,9 @@ jamais la garder : plus de retouches), puis l'efface. Les shorts restent disponi
 | `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | vide | Application Twitch : clips des viewers et import automatique (voir « Twitch ») |
 | `CLIPZO_TWITCH_POLL_MINUTES` | `10` | Fréquence à laquelle l'import automatique regarde les fins de live |
 | `CLIPZO_TWITCH_CHAT` | `on` | `off` pour ne pas récupérer le chat des VOD Twitch |
-| `CLIPZO_SMTP_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_FROM` | vide / `587` | Serveur d'envoi des e-mails « shorts prêts » |
+| `CLIPZO_SMTP_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_FROM` | vide / `587` | Serveur d'envoi des e-mails : confirmation d'abonnement (avec les CGV jointes), de résiliation et de rétractation, « shorts prêts » |
 | `CLIPZO_SMTP_SECURITY` | `starttls` | `ssl` (port 465) ou `none` |
+| `CLIPZO_LEGAL_*` | vide | Qui édite le site, pour les mentions légales, les CGV et la politique de confidentialité (voir « Mentions légales et droits des clients ») |
 
 ## Comptes et abonnements
 
@@ -193,6 +194,10 @@ jamais la garder : plus de retouches), puis l'efface. Les shorts restent disponi
 - Les abonnements Créateur et Pro passent par Stripe : page de paiement Stripe pour s'abonner, portail
   client Stripe pour changer de carte, de forfait ou résilier. Le serveur suit l'état de l'abonnement grâce
   aux notifications (webhooks) de Stripe.
+- Avant de payer, le client coche une case : il accepte les CGV et demande que son abonnement commence tout
+  de suite. Sans elle, le serveur refuse l'abonnement. Dans son compte, il trouve « Résilier mon abonnement »,
+  « Me rétracter » pendant 14 jours, et « Supprimer mon compte » (voir « Mentions légales et droits des
+  clients »).
 - Sans clé Stripe, personne ne peut acheter de forfait (la page Tarifs l'indique), mais tu peux en donner
   un à la main, par exemple pour tester les options payantes sur ton ordinateur. Dans un **autre terminal**,
   ouvert dans le dossier `clipzo` (avec le `.venv` activé si tu en utilises un), pendant que le serveur
@@ -272,8 +277,86 @@ Hetzner, OVH ou Scaleway, autour de 5 € par mois), et un nom de domaine.
   avec une carte graphique, beaucoup plus sur un simple processeur.
 - **yt-dlp.** Les plateformes changent souvent : reconstruis l'image régulièrement
   (`up -d --build`) pour avoir la dernière version de yt-dlp.
-- **Factures et TVA.** Stripe envoie les reçus ; pour la TVA et les mentions légales (CGV, politique de
-  confidentialité), renseigne-toi selon ton statut (micro-entreprise, société).
+- **Factures et TVA.** Stripe envoie les reçus. En micro-entreprise sous la franchise de TVA, mets
+  `CLIPZO_LEGAL_VAT=franchise` : les pages indiquent « TVA non applicable, article 293 B du CGI ». Si tu
+  factures la TVA, mets ton numéro de TVA. Les prix affichés sont alors TTC. Au-delà de 10 000 € de ventes
+  par an à des particuliers d'autres pays de l'UE, c'est la TVA de leur pays qui s'applique (guichet OSS,
+  Stripe Tax peut s'en charger).
+
+## Mentions légales et droits des clients
+
+Le site publie trois pages, liées en bas de l'accueil, dans le formulaire d'inscription et à côté de la case
+à cocher avant le paiement :
+
+- `/mentions-legales` : qui édite le site, l'hébergeur, le contact et les logiciels tiers ;
+- `/cgv` : conditions générales d'utilisation et de vente, avec le droit de rétractation et son formulaire ;
+- `/confidentialite` : les données traitées, leurs durées de conservation, les cookies et les droits RGPD.
+
+Les prix, les quotas et les durées de conservation sont repris des réglages du serveur : si tu les changes,
+les pages suivent. Les textes eux-mêmes sont dans `legal/*.html`. Si tu les modifies, change aussi
+`TERMS_VERSION` dans `server/config.py` : cette date est affichée sur les pages et enregistrée avec
+chaque accord des clients.
+
+### Ce que tu dois renseigner avant d'ouvrir le site
+
+Tant qu'une information manque, les pages l'affichent surlignée « à compléter », le serveur la liste au
+démarrage, et `/api/health` répond `"legal_notices": false`. Mets-les dans `.env` :
+
+| Variable | Exemple |
+|---|---|
+| `CLIPZO_LEGAL_NAME` | `Camille Dupont` ou le nom de ta société |
+| `CLIPZO_LEGAL_STATUS` | `Entrepreneur individuel (micro-entreprise)`, `SAS au capital de 1 000 €` |
+| `CLIPZO_LEGAL_ADDRESS` | Adresse postale (celle de l'entreprise ou de domiciliation) |
+| `CLIPZO_LEGAL_SIREN` | `123 456 789 00012` (et `RCS Lyon` pour une société) |
+| `CLIPZO_LEGAL_VAT` | `FR12345678901`, ou `franchise` en franchise de TVA |
+| `CLIPZO_LEGAL_EMAIL` | Adresse de contact, aussi utilisée pour les rétractations et les demandes RGPD |
+| `CLIPZO_LEGAL_PHONE` | Numéro de téléphone (obligatoire dans les mentions légales) |
+| `CLIPZO_LEGAL_DIRECTOR` | Directeur de la publication (par défaut : le nom ci-dessus) |
+| `CLIPZO_LEGAL_HOST_NAME` / `_HOST_ADDRESS` / `_HOST_PHONE` | L'hébergeur de ton serveur (Hetzner, OVH, Scaleway…), coordonnées sur son site |
+| `CLIPZO_LEGAL_MEDIATOR_NAME` / `_MEDIATOR_URL` | Ton médiateur de la consommation |
+
+- **Médiateur de la consommation.** Obligatoire dès que tu vends à des particuliers (article L612-1 du
+  Code de la consommation) : adhère à un médiateur agréé (la liste est sur le site du ministère de
+  l'Économie, cherche « médiateurs de la consommation agréés ») puis renseigne son nom et son site.
+- **E-mails.** Configure `CLIPZO_SMTP_*` avant de vendre : la loi demande de confirmer sur un « support
+  durable » l'abonnement (le serveur envoie l'e-mail avec les CGV acceptées en pièce jointe), la
+  résiliation et la rétractation.
+- **Dans Stripe**, en plus de « Brancher Stripe » :
+  - Portail client : autorise la résiliation (à la fin de la période) et l'historique des factures ;
+  - Paramètres → Facturation → Abonnements et e-mails : active les rappels avant le renouvellement des
+    abonnements annuels (article L215-1 : prévenir entre un et trois mois avant), et les reçus de paiement
+    et de remboursement.
+
+### Ce que le site fait pour les clients
+
+- **Consentement.** Avant le paiement, le client coche la case « J'accepte les conditions générales et je
+  demande que mon abonnement commence tout de suite ». Le serveur refuse l'abonnement sans elle et garde la
+  preuve (date, version des CGV).
+- **Résiliation.** Le bouton « Résilier mon abonnement » du compte ouvre directement la page de résiliation
+  de Stripe (article L215-1-1 : résiliation en quelques clics). Le forfait reste actif jusqu'à la fin de la
+  période payée et le client reçoit une confirmation par e-mail.
+- **Rétractation (14 jours).** Le bouton « Me rétracter » est affiché pendant le délai, calculé comme le
+  veut la loi : 14 jours après le jour de l'abonnement, prolongé au jour ouvrable suivant s'il finit un
+  samedi, un dimanche ou un jour férié. Un clic arrête l'abonnement et rembourse sur la carte tout sauf les
+  jours commencés (montant payé × jours commencés ÷ jours de la période), avec un e-mail d'accusé de
+  réception. Si Stripe refuse le remboursement, l'abonnement est quand même arrêté, le client est prévenu et
+  le serveur l'écrit dans son journal : rembourse alors à la main dans Stripe (Paiements → le paiement →
+  Rembourser) dans les 14 jours. Un client peut aussi se rétracter par e-mail avec le formulaire des CGV :
+  rembourse-le de la même façon depuis Stripe.
+- **Suppression du compte.** « Supprimer mon compte » (avec le mot de passe) arrête l'abonnement, efface le
+  compte, les analyses, les shorts et la chaîne Twitch liée. Seules les preuves d'accord et de rétractation
+  sont gardées 5 ans, comme l'annonce la politique de confidentialité.
+- **Preuves.** `python -m server.admin proofs client@exemple.com` affiche ce qu'un client a accepté et ses
+  rétractations, même après la suppression de son compte.
+- **Aucun pisteur.** Les polices et les icônes sont servies par le site lui-même (dossier `vendor`) : la
+  page n'envoie l'adresse des visiteurs ni à Google ni à un autre service. Seule exception, la vidéo
+  d'arrière-plan de l'accueil, servie par Amazon CloudFront (c'est écrit dans la politique de
+  confidentialité). Pour la supprimer aussi, place la vidéo dans `assets/` et change sa source dans
+  `index.html`.
+
+Ces textes suivent le fonctionnement réel du logiciel et le droit français en vigueur à leur date. Ils ne
+remplacent pas l'avis d'un professionnel : fais-les relire (avocat, ou service juridique de ta banque ou de
+ton assurance) avant d'ouvrir les ventes, surtout si ton activité ou tes prix changent.
 
 ## Tests
 

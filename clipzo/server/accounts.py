@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import json
 import re
 import secrets
 import sqlite3
@@ -51,7 +52,24 @@ CREATE TABLE IF NOT EXISTS refunds (
     count INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (user_id, month)
 );
+-- Proof of what the customer agreed to (CGV + immediate start, art. L221-25) and of their withdrawals.
+-- No foreign key: kept for the limitation period after the account is deleted (purge_old_consents).
+CREATE TABLE IF NOT EXISTS consents (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    email TEXT NOT NULL,
+    kind TEXT NOT NULL,
+    terms_version TEXT NOT NULL,
+    details TEXT NOT NULL DEFAULT '{}',
+    at REAL NOT NULL
+);
+CREATE INDEX IF NOT EXISTS consents_user ON consents(user_id);
 """
+# Columns added after the first release: (table, column, definition), added to older databases at start-up
+MIGRATIONS = [
+    ("users", "subscription_started_at", "REAL"),
+]
+CONSENT_YEARS = 5  # limitation period (art. 2224 du Code civil)
 
 EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s]+\.[^@\s]{2,}$")
 MIN_PASSWORD = 8
@@ -81,6 +99,7 @@ class User:
     current_period_end: float | None
     cancel_at_period_end: bool
     billing_updated_at: float
+    subscription_started_at: float | None = None
 
     @property
     def plan_obj(self) -> config.Plan:
@@ -102,6 +121,9 @@ def db() -> sqlite3.Connection:
             conn.execute("PRAGMA journal_mode=WAL")
             conn.execute("PRAGMA foreign_keys=ON")
             conn.executescript(SCHEMA)
+            for table, column, definition in MIGRATIONS:
+                if column not in {r["name"] for r in conn.execute(f"PRAGMA table_info({table})")}:
+                    conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
             _conn = conn
         return _conn
 
@@ -164,6 +186,7 @@ def _row_to_user(row: sqlite3.Row | None) -> User | None:
         billing_status=row["billing_status"], stripe_customer_id=row["stripe_customer_id"],
         stripe_subscription_id=row["stripe_subscription_id"], current_period_end=row["current_period_end"],
         cancel_at_period_end=bool(row["cancel_at_period_end"]), billing_updated_at=row["billing_updated_at"] or 0,
+        subscription_started_at=row["subscription_started_at"],
     )
 
 
@@ -243,18 +266,24 @@ def set_plan(user_id: int, plan: str) -> None:
 
 def update_billing(user_id: int, *, plan: str, status: str | None, customer_id: str | None,
                    subscription_id: str | None, period_end: float | None, cancel_at_period_end: bool,
-                   event_time: float) -> bool:
-    """Apply a Stripe subscription state. Events older than the last one applied are ignored."""
+                   event_time: float, started_at: float | None = None) -> bool:
+    """Apply a Stripe subscription state. Events older than the last one applied are ignored.
+    `started_at`: when the subscription began (the withdrawal period starts then); None keeps the known one."""
     with _lock:
-        row = one("SELECT billing_updated_at FROM users WHERE id = ?", (user_id,))
+        row = one("SELECT billing_updated_at, stripe_subscription_id, subscription_started_at FROM users WHERE id = ?",
+                  (user_id,))
         if row is None or event_time < (row["billing_updated_at"] or 0):
             return False
+        if subscription_id is None:
+            started_at = None
+        elif started_at is None and subscription_id == row["stripe_subscription_id"]:
+            started_at = row["subscription_started_at"]
         execute(
             """UPDATE users SET plan = ?, billing_status = ?, stripe_customer_id = COALESCE(?, stripe_customer_id),
-               stripe_subscription_id = ?, current_period_end = ?, cancel_at_period_end = ?, billing_updated_at = ?
-               WHERE id = ?""",
+               stripe_subscription_id = ?, current_period_end = ?, cancel_at_period_end = ?, billing_updated_at = ?,
+               subscription_started_at = ? WHERE id = ?""",
             (plan if plan in config.PLANS else "free", status, customer_id, subscription_id, period_end,
-             int(cancel_at_period_end), event_time, user_id),
+             int(cancel_at_period_end), event_time, started_at, user_id),
         )
     return True
 
@@ -339,6 +368,36 @@ def mark_event(event_id: str) -> bool:
     except sqlite3.IntegrityError:
         return False
     return True
+
+
+# ------------------------------------------------------------------------------ proofs and account deletion
+
+def record_consent(user: User, kind: str, details: dict | None = None, at: float | None = None) -> None:
+    """Keep proof of what the customer agreed to or asked for ("subscribe", "withdrawal")."""
+    execute("INSERT INTO consents (user_id, email, kind, terms_version, details, at) VALUES (?, ?, ?, ?, ?, ?)",
+            (user.id, user.email, kind, config.TERMS_VERSION, json.dumps(details or {}, ensure_ascii=False),
+             time.time() if at is None else at))
+
+
+def consents(user_id: int, kind: str | None = None) -> list[dict]:
+    with _lock:
+        rows = db().execute("SELECT * FROM consents WHERE user_id = ? AND (? IS NULL OR kind = ?) ORDER BY id",
+                            (user_id, kind, kind)).fetchall()
+    return [{"kind": r["kind"], "email": r["email"], "terms_version": r["terms_version"],
+             "details": json.loads(r["details"] or "{}"), "at": r["at"]} for r in rows]
+
+
+def purge_old_consents(now: float | None = None) -> int:
+    """Forget proofs older than the limitation period, unless their subscription is still running."""
+    cutoff = (time.time() if now is None else now) - CONSENT_YEARS * 365.25 * 86400
+    cur = execute("""DELETE FROM consents WHERE at < ? AND user_id NOT IN
+                     (SELECT id FROM users WHERE stripe_subscription_id IS NOT NULL)""", (cutoff,))
+    return cur.rowcount
+
+
+def delete_user(user_id: int) -> None:
+    """Erase the account: its sessions, usage and credits go with it (ON DELETE CASCADE). The proofs stay."""
+    execute("DELETE FROM users WHERE id = ?", (user_id,))
 
 
 def public_user(user: User, reserved: int = 0) -> dict:

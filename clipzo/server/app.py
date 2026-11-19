@@ -15,12 +15,12 @@ from urllib.parse import urlsplit
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.datastructures import UploadFile
 
-from . import accounts, billing, config, edits, jobs, media, notify, reframe, sources, transcribe, twitch
+from . import accounts, billing, config, edits, jobs, legal, media, notify, reframe, sources, transcribe, twitch
 from . import styles as sub_styles  # `styles` is also the name of the styles.css route
 
 logging.basicConfig(level=os.environ.get("CLIPZO_LOG_LEVEL", "INFO"), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -33,6 +33,10 @@ importer: twitch.AutoImporter | None = None
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     accounts.db()  # create the database file and tables
+    accounts.purge_old_consents()
+    if legal.missing():
+        log.warning("Mentions légales incomplètes, à renseigner avant d'ouvrir le site au public (README, "
+                    "« Mentions légales ») : %s", ", ".join(legal.missing()))
     if not media.ffmpeg_available():
         log.error("=" * 70)
         log.error("ffmpeg est introuvable : aucune vidéo ne pourra être analysée.")
@@ -180,6 +184,16 @@ class Credentials(BaseModel):
 class CheckoutIn(BaseModel):
     plan: Literal["creator", "pro"]
     interval: Literal["month", "year"] = "month"
+    # the ticked box: CGV accepted, immediate start asked for (art. L221-25)
+    accept_terms: bool = False
+
+
+class PortalIn(BaseModel):
+    flow: Literal["manage", "cancel"] = "manage"  # cancel: the "Résilier mon abonnement" button
+
+
+class DeleteAccountIn(BaseModel):
+    password: str = Field(max_length=accounts.MAX_PASSWORD)
 
 
 def _client_id(request: Request) -> str:
@@ -230,7 +244,9 @@ def _base_url(request: Request) -> str:
 
 
 def _me(user: accounts.User) -> dict:
-    return accounts.public_user(user, reserved=store.reserved_for(user.id))
+    me = accounts.public_user(user, reserved=store.reserved_for(user.id))
+    me["billing"]["withdrawal_until"] = billing.withdrawal_until(user)
+    return me
 
 
 def _check_plan(plan: config.Plan, count: int) -> None:
@@ -299,18 +315,58 @@ def billing_checkout(body: CheckoutIn, request: Request) -> dict:
     if user is None:
         raise HTTPException(401, "Connecte-toi pour t'abonner.")
     try:
-        return billing.checkout(user, body.plan, body.interval, _base_url(request))
+        return billing.checkout(user, body.plan, body.interval, _base_url(request), consent=body.accept_terms)
     except billing.BillingError as exc:
         raise HTTPException(exc.status, str(exc)) from exc
 
 
+@app.post("/api/billing/withdraw")
+def billing_withdraw(request: Request) -> dict:
+    """Droit de rétractation: the subscription stops now, the unused part is refunded."""
+    user = _current_user(request)
+    if user is None:
+        raise HTTPException(401, "Connecte-toi pour te rétracter.")
+    try:
+        result = billing.withdraw(user)
+    except billing.BillingError as exc:
+        raise HTTPException(exc.status, str(exc)) from exc
+    return {"withdrawal": result, "user": _me(accounts.get_user(user.id) or user)}
+
+
+@app.post("/api/me/delete")
+def delete_account(body: DeleteAccountIn, request: Request, response: Response) -> dict:
+    """Erase the account and everything made with it (RGPD art. 17). The password is asked again."""
+    user = _current_user(request)
+    if user is None:
+        raise HTTPException(401, "Connecte-toi pour supprimer ton compte.")
+    try:
+        accounts.authenticate(user.email, body.password, _client_id(request))
+    except accounts.AccountError as exc:
+        if exc.status == 401:
+            raise HTTPException(403, "Mot de passe incorrect.") from exc
+        raise HTTPException(exc.status, str(exc)) from exc  # too many tries
+    if store.busy_for(user.id):
+        raise HTTPException(409, "Une analyse ou une retouche est en cours : attends qu'elle soit finie "
+                                 "(ou annule-la), puis supprime ton compte.")
+    try:
+        billing.cancel_now(user)  # nothing may be charged to an account that no longer exists
+    except billing.BillingError as exc:
+        raise HTTPException(exc.status, f"{exc} Ton compte n'a pas été supprimé.") from exc
+    twitch.delete_link(user.id)
+    store.delete_jobs_of(user.id)
+    accounts.delete_user(user.id)
+    response.delete_cookie(SESSION_COOKIE, path="/")
+    log.info("account %s deleted at its owner's request", user.id)
+    return {"ok": True}
+
+
 @app.post("/api/billing/portal")
-def billing_portal(request: Request) -> dict:
+def billing_portal(request: Request, body: PortalIn | None = None) -> dict:
     user = _current_user(request)
     if user is None:
         raise HTTPException(401, "Connecte-toi pour gérer ton abonnement.")
     try:
-        return billing.portal(user, _base_url(request))
+        return billing.portal(user, _base_url(request), cancel=bool(body and body.flow == "cancel"))
     except billing.BillingError as exc:
         raise HTTPException(exc.status, str(exc)) from exc
 
@@ -342,8 +398,10 @@ def health() -> dict:
             "ffmpeg": media.ffmpeg_available(),
             "twitch_auto": twitch.helix_configured(),
             "email": notify.smtp_configured(),
+            "legal_notices": not legal.missing(),  # every CLIPZO_LEGAL_* filled in
         },
         "limits": {"max_upload_mb": config.MAX_UPLOAD_MB},
+        "withdrawal_days": config.WITHDRAWAL_DAYS,
         "plans": {k: p.public() for k, p in config.PLANS.items()},
     }
     if not billing.configured():
@@ -627,5 +685,30 @@ def script():
     return _site_file("main.js", "text/javascript; charset=utf-8")
 
 
+def _legal_page(page: str) -> HTMLResponse:
+    return HTMLResponse(legal.render(page), headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/mentions-legales", include_in_schema=False)
+def legal_notice():
+    return _legal_page("mentions-legales")
+
+
+@app.get("/cgv", include_in_schema=False)
+def terms():
+    return _legal_page("cgv")
+
+
+@app.get("/cgu", include_in_schema=False)
+def terms_of_use():
+    return RedirectResponse("/cgv", status_code=301)
+
+
+@app.get("/confidentialite", include_in_schema=False)
+def privacy():
+    return _legal_page("confidentialite")
+
+
 app.mount("/assets", StaticFiles(directory=config.ROOT / "assets"), name="assets")
 app.mount("/fonts", StaticFiles(directory=config.ROOT / "fonts"), name="fonts")
+app.mount("/vendor", StaticFiles(directory=config.ROOT / "vendor"), name="vendor")  # Inter, Font Awesome

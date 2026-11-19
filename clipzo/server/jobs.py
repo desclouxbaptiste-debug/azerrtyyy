@@ -457,6 +457,20 @@ class JobStore:
             self.jobs.pop(job.id, None)
         shutil.rmtree(job_dir(job.id), ignore_errors=True)
 
+    def busy_for(self, user_id: int) -> bool:
+        """An analysis of this user still queued or running, or one of their shorts being re-rendered."""
+        with self.lock:
+            return any(j.request.user_id == user_id and (j.status in ("queued", "running") or any(
+                c.get("status") == "rendering" for c in j.clips)) for j in self.jobs.values())
+
+    def delete_jobs_of(self, user_id: int) -> int:
+        """Erase every analysis of this user, files included (account deletion). Call when not busy_for()."""
+        with self.lock:
+            mine = [j for j in self.jobs.values() if j.request.user_id == user_id]
+        for job in mine:
+            self.discard(job)
+        return len(mine)
+
     def get(self, job_id: str) -> Job | None:
         with self.lock:
             return self.jobs.get(job_id)

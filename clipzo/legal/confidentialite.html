@@ -1,0 +1,197 @@
+<p class="eyebrow">Données personnelles</p>
+<h1>Politique de confidentialité</h1>
+<p class="updated">Mise à jour le {{ terms_date }}</p>
+
+<p class="lead">Ce que Clipzo fait de tes données, pourquoi, combien de temps on les garde et comment exercer tes
+droits (règlement européen 2016/679, dit RGPD, et loi Informatique et Libertés). En bref : on garde le minimum,
+on supprime tes vidéos automatiquement, on ne vend rien et il n'y a ni publicité ni pisteur.</p>
+
+<nav class="toc" aria-label="Sommaire">
+  <ol>
+    <li><a href="#responsable">Responsable du traitement</a></li>
+    <li><a href="#donnees">Données, raisons et durées</a></li>
+    <li><a href="#ia">Ce que fait l'IA</a></li>
+    <li><a href="#destinataires">Qui reçoit tes données</a></li>
+    <li><a href="#transferts">Transferts hors de l'Union européenne</a></li>
+    <li><a href="#cookies">Cookies et stockage du navigateur</a></li>
+    <li><a href="#securite">Sécurité</a></li>
+    <li><a href="#droits">Tes droits</a></li>
+    <li><a href="#mineurs">Âge minimum</a></li>
+    <li><a href="#modifications">Modifications</a></li>
+  </ol>
+</nav>
+
+<h2 id="responsable">1. Responsable du traitement</h2>
+<p>{{ legal.name }}, {{ legal.address }}. Pour toute question sur tes données : {{ legal.email }}.</p>
+
+<h2 id="donnees">2. Données, raisons et durées de conservation</h2>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Données</th><th>Pourquoi</th><th>Base légale</th><th>Conservation</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Compte : adresse e-mail, mot de passe, date d'inscription, forfait</td>
+        <td>Créer ton compte et te connecter. Le mot de passe est enregistré sous une forme irréversible (scrypt) :
+          personne, nous compris, ne peut le relire.</td>
+        <td>Exécution du contrat (art. 6.1.b RGPD)</td>
+        <td>Tant que ton compte existe. Effacées dès que tu le supprimes.</td>
+      </tr>
+      <tr>
+        <td>Session de connexion</td>
+        <td>Te garder connecté. Nous ne gardons qu'une empreinte de l'identifiant du cookie.</td>
+        <td>Exécution du contrat</td>
+        <td class="num">{{ session_days }} jours au plus, ou jusqu'à ta déconnexion</td>
+      </tr>
+      <tr>
+        <td>Vidéo source : le lien ou le fichier envoyé, et le son extrait</td>
+        <td>Analyser la vidéo et produire tes shorts, puis te permettre de les retoucher.</td>
+        <td>Exécution du contrat</td>
+        <td>Le son est effacé dès la fin de l'analyse. La vidéo est gardée {{ keep_source }} après l'analyse pour
+          la retouche, puis effacée.</td>
+      </tr>
+      <tr>
+        <td>Résultats : transcription, moments repérés, shorts, miniatures, titres</td>
+        <td>Te livrer tes shorts.</td>
+        <td>Exécution du contrat</td>
+        <td>{{ job_ttl }} après la fin de l'analyse, puis effacés automatiquement. Télécharge tes shorts avant.</td>
+      </tr>
+      <tr>
+        <td>Utilisation : nombre de shorts par mois, shorts recrédités</td>
+        <td>Appliquer le quota de ton forfait et la garantie « satisfait ou recrédité ».</td>
+        <td>Exécution du contrat</td>
+        <td>Tant que ton compte existe.</td>
+      </tr>
+      <tr>
+        <td>Abonnement : identifiants client et abonnement Stripe, statut, date de renouvellement</td>
+        <td>Gérer ton abonnement. Ta carte est saisie chez Stripe : Clipzo ne voit jamais son numéro.</td>
+        <td>Exécution du contrat</td>
+        <td>Tant que ton compte existe. Les factures sont conservées 10 ans par Stripe et par nous (obligation
+          comptable, art. L123-22 du Code de commerce).</td>
+      </tr>
+      <tr>
+        <td>Preuves de ton accord : acceptation des conditions générales, demande de démarrage immédiat,
+          rétractation, avec leur date</td>
+        <td>Prouver le contrat et ta demande en cas de litige (articles L221-25 et L221-21 du Code de la
+          consommation).</td>
+        <td>Obligation légale et intérêt légitime (art. 6.1.c et 6.1.f)</td>
+        <td>5 ans après leur enregistrement (délai de prescription), et au moins tant que ton abonnement est en
+          cours, même si tu supprimes ton compte. Puis effacées automatiquement.</td>
+      </tr>
+      {{#if twitch}}<tr>
+        <td>Import Twitch (forfait Pro) : nom de ta chaîne, identifiant Twitch, tes réglages, dernière VOD importée</td>
+        <td>Importer automatiquement tes VOD après chaque live.</td>
+        <td>Exécution du contrat</td>
+        <td>Jusqu'à ce que tu retires ta chaîne ou supprimes ton compte.</td>
+      </tr>{{/if}}
+      <tr>
+        <td>Adresse IP</td>
+        <td>Limiter les abus : créations de comptes en série, tentatives de connexion, analyses lancées en même
+          temps. Elle reste en mémoire et n'est pas enregistrée dans notre base. Le serveur ne tient pas de
+          journal des visites.</td>
+        <td>Intérêt légitime : la sécurité du service (art. 6.1.f)</td>
+        <td>Une heure au plus, ou le temps de l'analyse en cours</td>
+      </tr>
+      <tr>
+        <td>Messages que tu nous envoies par e-mail</td>
+        <td>Te répondre.</td>
+        <td>Intérêt légitime</td>
+        <td>Le temps de traiter ta demande, puis 3 ans au plus.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Nous n'utilisons tes données ni pour de la publicité, ni pour du profilage, et nous ne les vendons pas.
+Tes vidéos et tes shorts ne sont jamais publiés par Clipzo et ne servent pas à entraîner une IA.</p>
+
+<h2 id="ia">3. Ce que fait l'intelligence artificielle</h2>
+<ul>
+  <li><strong>Transcription.</strong> La parole est transcrite sur notre propre serveur (modèle Whisper) :
+    le son de ta vidéo n'est envoyé à aucun service extérieur.</li>
+  <li><strong>Repérage des moments.</strong> Un algorithme mesure des signaux de la vidéo (volume, rires,
+    changements de plan, activité du chat, passages les plus revus) sur notre serveur.</li>
+  {{#if llm}}<li><strong>Choix des meilleurs moments et rédaction.</strong> Le titre de la vidéo et la transcription
+    des passages candidats sont envoyés à Claude, l'IA d'Anthropic, qui choisit les moments les plus forts et
+    propose les titres, accroches et hashtags. Ni ton e-mail ni les images de ta vidéo ne lui sont envoyés.
+    Anthropic traite ces textes pour notre compte et ne les utilise pas pour entraîner ses modèles.</li>{{/if}}
+</ul>
+<p>Aucune décision ayant un effet juridique sur toi n'est prise par l'IA. Les titres, accroches et hashtags sont
+des propositions générées automatiquement : relis-les avant de publier.</p>
+
+<h2 id="destinataires">4. Qui reçoit tes données</h2>
+<p>Seules les personnes qui font fonctionner Clipzo y ont accès, et uniquement quand c'est nécessaire. Nos
+sous-traitants traitent tes données pour notre compte, selon nos instructions :</p>
+<ul>
+  <li><strong>{{ legal.host_name }}</strong>, hébergeur du serveur : stocke toutes les données du service.</li>
+  <li><strong>Stripe Payments Europe, Ltd.</strong> (Dublin, Irlande) : paiement et gestion de l'abonnement.
+    Stripe a sa propre <a href="https://stripe.com/fr/privacy" rel="noopener">politique de confidentialité</a>
+    pour les données de paiement.</li>
+  {{#if llm}}<li><strong>Anthropic PBC</strong> (San Francisco, États-Unis) : choix des moments et rédaction
+    des titres, voir ci-dessus.</li>{{/if}}
+  {{#if smtp}}<li><strong>Notre service d'envoi d'e-mails</strong> (serveur {{ smtp_host }}) : reçoit ton adresse
+    e-mail pour t'envoyer la confirmation de ton abonnement, de ta résiliation ou de ta rétractation, et
+    l'avis « tes shorts sont prêts ».</li>{{/if}}
+</ul>
+<p>Pour récupérer une vidéo depuis un lien (YouTube, Twitch, TikTok, X…), notre serveur la télécharge
+lui-même : la plateforme voit notre serveur, pas ton adresse IP. {{#if twitch}}Pour l'import Twitch, nous
+interrogeons l'API publique de Twitch avec le nom de ta chaîne.{{/if}}</p>
+<p>La vidéo d'arrière-plan de la page d'accueil est servie par le réseau Amazon CloudFront (Amazon Web
+Services) : pour l'afficher, ton navigateur lui transmet ton adresse IP, comme pour tout site web.</p>
+<p>Nous pouvons transmettre des données aux autorités si la loi nous y oblige.</p>
+
+<h2 id="transferts">5. Transferts hors de l'Union européenne</h2>
+<p>Stripe{{#if llm}} et Anthropic{{/if}} peuvent traiter des données aux États-Unis. Ces transferts sont encadrés
+par le cadre de protection des données UE–États-Unis (Data Privacy Framework) quand l'entreprise y adhère, et
+par les clauses contractuelles types de la Commission européenne. Tu peux nous demander une copie de ces
+garanties à {{ legal.email }}.</p>
+
+<h2 id="cookies">6. Cookies et stockage du navigateur</h2>
+<p>Clipzo n'utilise <strong>aucun cookie publicitaire ni de mesure d'audience</strong>, c'est pourquoi tu n'as
+pas de bandeau à accepter. Seuls sont utilisés :</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Nom</th><th>Rôle</th><th>Durée</th></tr></thead>
+    <tbody>
+      <tr><td>Cookie <code>clipzo_session</code></td><td>Te garder connecté. Indispensable au service, il est
+        dispensé de consentement (article 82 de la loi Informatique et Libertés).</td>
+        <td class="num">{{ session_days }} jours</td></tr>
+      <tr><td>Stockage local <code>clipzo.look</code>, <code>clipzo.plan</code></td><td>Retenir ton style de
+        sous-titres et le forfait choisi. Reste dans ton navigateur, n'est jamais envoyé.</td>
+        <td>Jusqu'à ce que tu vides les données du site</td></tr>
+      <tr><td>Stockage de session <code>clipzo.job</code>, <code>clipzo.checkout</code></td><td>Reprendre
+        l'analyse en cours ou le paiement si tu recharges la page.</td><td>Jusqu'à la fermeture de l'onglet</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>La page de paiement est hébergée par Stripe, qui y dépose ses propres cookies pour sécuriser le paiement et
+lutter contre la fraude.</p>
+
+<h2 id="securite">7. Sécurité</h2>
+<p>Le site est servi en HTTPS. Les mots de passe sont hachés avec scrypt, les identifiants de session sont
+stockés sous forme d'empreinte, et chaque analyse n'est visible que par le compte qui l'a lancée. En cas de
+violation de données présentant un risque pour toi, nous prévenons la CNIL sous 72 heures et, si le risque est
+élevé, nous te prévenons directement.</p>
+
+<h2 id="droits">8. Tes droits</h2>
+<p>Tu peux à tout moment :</p>
+<ul>
+  <li><strong>accéder</strong> à tes données et en obtenir une copie ;</li>
+  <li>les faire <strong>rectifier</strong> si elles sont inexactes ;</li>
+  <li>les faire <strong>effacer</strong> : le bouton « Supprimer mon compte » de ton espace efface ton compte, tes
+    analyses et tes shorts immédiatement ;</li>
+  <li>demander la <strong>limitation</strong> d'un traitement, ou t'<strong>opposer</strong> à ceux fondés sur
+    notre intérêt légitime ;</li>
+  <li>recevoir tes données dans un format lisible par une machine (<strong>portabilité</strong>) ;</li>
+  <li>définir des <strong>directives</strong> sur le sort de tes données après ton décès.</li>
+</ul>
+<p>Écris à {{ legal.email }} depuis l'adresse de ton compte. Nous répondons sous un mois. En cas de doute sur ton
+identité, nous pouvons te demander de la confirmer.</p>
+<p>Si tu estimes que tes droits ne sont pas respectés, tu peux saisir la CNIL : 3 place de Fontenoy,
+TSA 80715, 75334 Paris Cedex 07, <a href="https://www.cnil.fr/fr/plaintes" rel="noopener">cnil.fr/fr/plaintes</a>.</p>
+
+<h2 id="mineurs">9. Âge minimum</h2>
+<p>Clipzo s'adresse aux personnes de 15 ans et plus. Un abonnement payant doit être souscrit par une personne
+majeure, ou avec l'accord de ses parents.</p>
+
+<h2 id="modifications">10. Modifications</h2>
+<p>Si cette politique change de façon importante, nous te prévenons par e-mail ou sur le site avant que le
+changement s'applique. La date de mise à jour figure en haut de la page.</p>
