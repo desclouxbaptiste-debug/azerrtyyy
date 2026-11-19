@@ -348,11 +348,10 @@ démarrage, et `/api/health` répond `"legal_notices": false`. Mets-les dans `.e
   sont gardées 5 ans, comme l'annonce la politique de confidentialité.
 - **Preuves.** `python -m server.admin proofs client@exemple.com` affiche ce qu'un client a accepté et ses
   rétractations, même après la suppression de son compte.
-- **Aucun pisteur.** Les polices et les icônes sont servies par le site lui-même (dossier `vendor`) : la
-  page n'envoie l'adresse des visiteurs ni à Google ni à un autre service. Seule exception, la vidéo
-  d'arrière-plan de l'accueil, servie par Amazon CloudFront (c'est écrit dans la politique de
-  confidentialité). Pour la supprimer aussi, place la vidéo dans `assets/` et change sa source dans
-  `index.html`.
+- **Aucun pisteur.** Les polices, les icônes (dossier `vendor`) et la vidéo d'arrière-plan
+  (`assets/bg.mp4`) sont servies par le site lui-même : la page n'envoie l'adresse des visiteurs à aucun
+  autre service. Si tu ajoutes une ressource externe (police Google, statistiques, vidéo hébergée
+  ailleurs), mentionne-la dans la politique de confidentialité.
 
 Ces textes suivent le fonctionnement réel du logiciel et le droit français en vigueur à leur date. Ils ne
 remplacent pas l'avis d'un professionnel : fais-les relire (avocat, ou service juridique de ta banque ou de
