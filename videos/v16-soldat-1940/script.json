@@ -1,0 +1,198 @@
+{
+ "engine": "supertonic",
+ "sid": 5,
+ "steps": 16,
+ "speed": 1.0,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.5,
+ "gap_segment": 0.35,
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0,
+  "long_pause": 2.2,
+  "reveal_pause": 0.9
+ },
+ "post": {
+  "semitones": 0,
+  "warmth": 1.5,
+  "presence": 1.0,
+  "threshold": 0.15,
+  "ratio": 2.0,
+  "makeup": 1.05
+ },
+ "voix": {
+  "sergent": {
+   "engine": "supertonic",
+   "sid": 6,
+   "steps": 16
+  },
+  "marcel": {
+   "engine": "supertonic",
+   "sid": 7,
+   "steps": 16
+  },
+  "vaguemestre": {
+   "engine": "supertonic",
+   "sid": 7,
+   "steps": 16,
+   "tempo": 0.98
+  },
+  "maman": {
+   "engine": "supertonic",
+   "sid": 4,
+   "steps": 16
+  },
+  "lucien": {
+   "engine": "supertonic",
+   "sid": 5,
+   "steps": 16
+  },
+  "cuisinier": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 16,
+   "tempo": 1.05
+  }
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Je m'appelle Lucien. J'ai vingt ans. Et je suis soldat... <r>dans une guerre où il ne se passe presque rien.",
+   "apres": 1.2
+  },
+  {
+   "id": "contexte",
+   "text": "Nous sommes en janvier {1940|mille neuf cent quarante}. En septembre, la France a déclaré la guerre à l'Allemagne. Mais depuis, presque personne ne se bat. Les journaux appellent ça la drôle de guerre.",
+   "apres": 1.0
+  },
+  {
+   "id": "maginot",
+   "text": "Moi, je vis sous la terre, dans la ligne Maginot. C'est une longue chaîne de forts en béton, construits le long de la frontière. À l'intérieur, il y a des dortoirs, des cuisines, et même un petit train électrique.",
+   "apres": 0.8
+  },
+  {
+   "id": "train",
+   "text": "Les galeries font des kilomètres de long. Alors, pour aller d'un bout à l'autre, on monte dans le petit train, au milieu des caisses de matériel.",
+   "apres": 0.6
+  },
+  {
+   "id": "reveil",
+   "text": "Six heures du matin. Le clairon sonne.",
+   "apres": 0.2
+  },
+  {
+   "id": "sergent1",
+   "text": "Debout là-dedans ! Dehors, il fait moins quinze. Couvrez-vous bien, les gars !",
+   "par": "sergent"
+  },
+  {
+   "id": "marcel1",
+   "text": "Encore une journée à attendre, hein, Lucien ?",
+   "par": "marcel"
+  },
+  {
+   "id": "lucien0",
+   "text": "Oui, Marcel. Tous les jours se ressemblent, ici.",
+   "par": "lucien",
+   "apres": 1.0
+  },
+  {
+   "id": "garde",
+   "text": "Ce matin, je monte la garde dehors. Cet hiver est l'un des plus froids depuis des années. La neige recouvre tout.",
+   "apres": 0.3
+  },
+  {
+   "id": "sergent3",
+   "text": "Lucien, n'oublie pas de taper des pieds. Sinon, avec ce froid, tes orteils vont geler.",
+   "par": "sergent",
+   "apres": 0.3
+  },
+  {
+   "id": "jumelles",
+   "text": "Avec mes jumelles, je regarde la forêt, en face. Là-bas, de l'autre côté de la frontière, il y a les soldats allemands. Eux aussi, ils attendent.",
+   "apres": 0.4
+  },
+  {
+   "id": "sergent2",
+   "text": "Alors, Lucien ? Tu vois quelque chose ?",
+   "par": "sergent"
+  },
+  {
+   "id": "lucien1",
+   "text": "Rien, sergent. Juste de la neige, et des sapins.",
+   "par": "lucien",
+   "apres": 1.0
+  },
+  {
+   "id": "midi",
+   "text": "À midi, on descend manger. De la soupe, du pain, et un café bien chaud. C'est le meilleur moment de la journée.",
+   "apres": 0.2
+  },
+  {
+   "id": "cuisinier",
+   "text": "Allez, tendez vos gamelles ! Il y en a pour tout le monde, aujourd'hui !",
+   "par": "cuisinier",
+   "apres": 0.3
+  },
+  {
+   "id": "marcel2",
+   "text": "Tu sais ce qui me manque le plus ? Le pain de ma mère, tout chaud, le dimanche matin.",
+   "par": "marcel",
+   "apres": 1.0
+  },
+  {
+   "id": "courrier",
+   "text": "L'après-midi, le vaguemestre arrive. C'est lui qui apporte le courrier.",
+   "apres": 0.1
+  },
+  {
+   "id": "vaguemestre",
+   "text": "Le courrier est arrivé ! Lucien, il y a une lettre pour toi !",
+   "par": "vaguemestre"
+  },
+  {
+   "id": "lettre",
+   "text": "C'est ma mère. Les lettres, c'est notre seul lien avec la maison.",
+   "apres": 0.6
+  },
+  {
+   "id": "maman",
+   "text": "Mon petit Lucien, ici aussi il fait très froid. Je t'envoie des chaussettes que j'ai tricotées. Couvre-toi bien, et écris-nous vite.",
+   "par": "maman",
+   "apres": 1.2
+  },
+  {
+   "id": "reponse",
+   "text": "Le soir, je lui réponds. Je ne lui dis pas que j'ai froid, ni que je m'ennuie. Je ne veux pas qu'elle s'inquiète.",
+   "apres": 0.6
+  },
+  {
+   "id": "soir",
+   "text": "Après la soupe du soir, on joue aux cartes, on chante un peu. Pour ne pas penser. Pour ne pas avoir le cafard : c'est comme ça qu'on appelle la tristesse, quand la maison nous manque.",
+   "apres": 0.4
+  },
+  {
+   "id": "marcel3",
+   "text": "Tu crois qu'on sera rentrés pour l'été ?",
+   "par": "marcel"
+  },
+  {
+   "id": "lucien2",
+   "text": "J'espère, Marcel. J'espère.",
+   "par": "lucien",
+   "apres": 1.0
+  },
+  {
+   "id": "extinction",
+   "text": "Vingt-deux heures. On éteint les lumières. Dans le noir, j'entends les copains respirer. Et demain... tout recommencera.",
+   "apres": 0.8
+  },
+  {
+   "id": "fin",
+   "text": "On ne le sait pas encore. Mais le dix mai {1940|mille neuf cent quarante}, la drôle de guerre va s'arrêter d'un coup. <l>Et toi... tu aurais tenu combien de temps, à attendre ?",
+   "apres": 3.0
+  }
+ ]
+}

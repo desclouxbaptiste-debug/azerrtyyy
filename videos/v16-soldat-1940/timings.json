@@ -1,0 +1,2974 @@
+{
+ "duration": 181.963,
+ "speed": 1.0,
+ "reveals": [
+  5.48
+ ],
+ "segments": [
+  {
+   "id": "hook",
+   "start": 0.5,
+   "sentences": [
+    {
+     "text": "Je m'appelle Lucien.",
+     "spoken": "Je m'appelle Lucien.",
+     "start": 0.5,
+     "end": 2.02,
+     "words": [
+      {
+       "w": "Je",
+       "s": 0.5,
+       "e": 0.66
+      },
+      {
+       "w": "m'appelle",
+       "s": 0.66,
+       "e": 1.06
+      },
+      {
+       "w": "Lucien.",
+       "s": 1.06,
+       "e": 2.02
+      }
+     ]
+    },
+    {
+     "text": "J'ai vingt ans.",
+     "spoken": "J'ai vingt ans.",
+     "start": 2.02,
+     "end": 3.14,
+     "words": [
+      {
+       "w": "J'ai",
+       "s": 2.02,
+       "e": 2.34
+      },
+      {
+       "w": "vingt",
+       "s": 2.34,
+       "e": 2.74
+      },
+      {
+       "w": "ans.",
+       "s": 2.74,
+       "e": 3.14
+      }
+     ]
+    },
+    {
+     "text": "Et je suis soldat...",
+     "spoken": "Et je suis soldat...",
+     "start": 3.14,
+     "end": 4.58,
+     "words": [
+      {
+       "w": "Et",
+       "s": 3.14,
+       "e": 3.3
+      },
+      {
+       "w": "je",
+       "s": 3.3,
+       "e": 3.46
+      },
+      {
+       "w": "suis",
+       "s": 3.46,
+       "e": 3.78
+      },
+      {
+       "w": "soldat...",
+       "s": 3.78,
+       "e": 4.58
+      }
+     ]
+    },
+    {
+     "text": "dans une guerre où il ne se passe presque rien.",
+     "spoken": "dans une guerre où il ne se passe presque rien.",
+     "start": 5.48,
+     "end": 7.806,
+     "words": [
+      {
+       "w": "dans",
+       "s": 5.48,
+       "e": 5.8
+      },
+      {
+       "w": "une",
+       "s": 5.8,
+       "e": 5.96
+      },
+      {
+       "w": "guerre",
+       "s": 5.96,
+       "e": 6.28
+      },
+      {
+       "w": "où",
+       "s": 6.28,
+       "e": 6.44
+      },
+      {
+       "w": "il",
+       "s": 6.44,
+       "e": 6.6
+      },
+      {
+       "w": "ne",
+       "s": 6.6,
+       "e": 6.76
+      },
+      {
+       "w": "se",
+       "s": 6.76,
+       "e": 6.84
+      },
+      {
+       "w": "passe",
+       "s": 6.84,
+       "e": 7.16
+      },
+      {
+       "w": "presque",
+       "s": 7.16,
+       "e": 7.48
+      },
+      {
+       "w": "rien.",
+       "s": 7.48,
+       "e": 7.806
+      }
+     ]
+    }
+   ],
+   "end": 9.356
+  },
+  {
+   "id": "contexte",
+   "start": 9.356,
+   "sentences": [
+    {
+     "text": "Nous sommes en janvier 1940.",
+     "spoken": "Nous sommes en janvier mille neuf cent quarante.",
+     "start": 9.356,
+     "end": 12.316,
+     "words": [
+      {
+       "w": "Nous",
+       "s": 9.356,
+       "e": 9.596
+      },
+      {
+       "w": "sommes",
+       "s": 9.596,
+       "e": 9.916
+      },
+      {
+       "w": "en",
+       "s": 9.916,
+       "e": 10.076
+      },
+      {
+       "w": "janvier",
+       "s": 10.076,
+       "e": 10.636
+      },
+      {
+       "w": "1940.",
+       "s": 10.636,
+       "e": 12.316
+      }
+     ]
+    },
+    {
+     "text": "En septembre, la France a déclaré la guerre à l'Allemagne.",
+     "spoken": "En septembre, la France a déclaré la guerre à l'Allemagne.",
+     "start": 12.316,
+     "end": 16.076,
+     "words": [
+      {
+       "w": "En",
+       "s": 12.316,
+       "e": 12.556
+      },
+      {
+       "w": "septembre,",
+       "s": 12.556,
+       "e": 13.276
+      },
+      {
+       "w": "la",
+       "s": 13.276,
+       "e": 13.436
+      },
+      {
+       "w": "France",
+       "s": 13.436,
+       "e": 13.836
+      },
+      {
+       "w": "a",
+       "s": 13.836,
+       "e": 13.996
+      },
+      {
+       "w": "déclaré",
+       "s": 13.996,
+       "e": 14.556
+      },
+      {
+       "w": "la",
+       "s": 14.556,
+       "e": 14.716
+      },
+      {
+       "w": "guerre",
+       "s": 14.716,
+       "e": 14.956
+      },
+      {
+       "w": "à",
+       "s": 14.956,
+       "e": 15.036
+      },
+      {
+       "w": "l'Allemagne.",
+       "s": 15.036,
+       "e": 16.076
+      }
+     ]
+    },
+    {
+     "text": "Mais depuis, presque personne ne se bat.",
+     "spoken": "Mais depuis, presque personne ne se bat.",
+     "start": 16.076,
+     "end": 19.676,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 16.076,
+       "e": 16.316
+      },
+      {
+       "w": "depuis,",
+       "s": 16.316,
+       "e": 17.276
+      },
+      {
+       "w": "presque",
+       "s": 17.276,
+       "e": 17.916
+      },
+      {
+       "w": "personne",
+       "s": 17.916,
+       "e": 18.476
+      },
+      {
+       "w": "ne",
+       "s": 18.476,
+       "e": 18.716
+      },
+      {
+       "w": "se",
+       "s": 18.716,
+       "e": 18.956
+      },
+      {
+       "w": "bat.",
+       "s": 18.956,
+       "e": 19.676
+      }
+     ]
+    },
+    {
+     "text": "Les journaux appellent ça la drôle de guerre.",
+     "spoken": "Les journaux appellent ça la drôle de guerre.",
+     "start": 19.676,
+     "end": 22.044,
+     "words": [
+      {
+       "w": "Les",
+       "s": 19.676,
+       "e": 19.836
+      },
+      {
+       "w": "journaux",
+       "s": 19.836,
+       "e": 20.316
+      },
+      {
+       "w": "appellent",
+       "s": 20.316,
+       "e": 20.709
+      },
+      {
+       "w": "ça",
+       "s": 20.709,
+       "e": 20.796
+      },
+      {
+       "w": "la",
+       "s": 20.796,
+       "e": 20.956
+      },
+      {
+       "w": "drôle",
+       "s": 20.956,
+       "e": 21.436
+      },
+      {
+       "w": "de",
+       "s": 21.436,
+       "e": 21.596
+      },
+      {
+       "w": "guerre.",
+       "s": 21.596,
+       "e": 22.044
+      }
+     ]
+    }
+   ],
+   "end": 23.394
+  },
+  {
+   "id": "maginot",
+   "start": 23.394,
+   "sentences": [
+    {
+     "text": "Moi, je vis sous la terre, dans la ligne Maginot.",
+     "spoken": "Moi, je vis sous la terre, dans la ligne Maginot.",
+     "start": 23.394,
+     "end": 26.514,
+     "words": [
+      {
+       "w": "Moi,",
+       "s": 23.394,
+       "e": 23.714
+      },
+      {
+       "w": "je",
+       "s": 23.714,
+       "e": 23.874
+      },
+      {
+       "w": "vis",
+       "s": 23.874,
+       "e": 24.114
+      },
+      {
+       "w": "sous",
+       "s": 24.114,
+       "e": 24.274
+      },
+      {
+       "w": "la",
+       "s": 24.274,
+       "e": 24.354
+      },
+      {
+       "w": "terre,",
+       "s": 24.354,
+       "e": 24.754
+      },
+      {
+       "w": "dans",
+       "s": 24.754,
+       "e": 24.834
+      },
+      {
+       "w": "la",
+       "s": 24.834,
+       "e": 24.994
+      },
+      {
+       "w": "ligne",
+       "s": 24.994,
+       "e": 25.394
+      },
+      {
+       "w": "Maginot.",
+       "s": 25.394,
+       "e": 26.514
+      }
+     ]
+    },
+    {
+     "text": "C'est une longue chaîne de forts en béton, construits le long de la frontière.",
+     "spoken": "C'est une longue chaîne de forts en béton, construits le long de la frontière.",
+     "start": 26.514,
+     "end": 31.074,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 26.514,
+       "e": 26.834
+      },
+      {
+       "w": "une",
+       "s": 26.834,
+       "e": 26.994
+      },
+      {
+       "w": "longue",
+       "s": 26.994,
+       "e": 27.234
+      },
+      {
+       "w": "chaîne",
+       "s": 27.234,
+       "e": 27.554
+      },
+      {
+       "w": "de",
+       "s": 27.554,
+       "e": 27.714
+      },
+      {
+       "w": "forts",
+       "s": 27.714,
+       "e": 28.114
+      },
+      {
+       "w": "en",
+       "s": 28.114,
+       "e": 28.274
+      },
+      {
+       "w": "béton,",
+       "s": 28.274,
+       "e": 28.727
+      },
+      {
+       "w": "construits",
+       "s": 28.727,
+       "e": 29.634
+      },
+      {
+       "w": "le",
+       "s": 29.634,
+       "e": 29.794
+      },
+      {
+       "w": "long",
+       "s": 29.794,
+       "e": 30.034
+      },
+      {
+       "w": "de",
+       "s": 30.034,
+       "e": 30.114
+      },
+      {
+       "w": "la",
+       "s": 30.114,
+       "e": 30.274
+      },
+      {
+       "w": "frontière.",
+       "s": 30.274,
+       "e": 31.074
+      }
+     ]
+    },
+    {
+     "text": "À l'intérieur, il y a des dortoirs, des cuisines, et même un petit train électrique.",
+     "spoken": "À l'intérieur, il y a des dortoirs, des cuisines, et même un petit train électrique.",
+     "start": 31.074,
+     "end": 36.534,
+     "words": [
+      {
+       "w": "À",
+       "s": 31.074,
+       "e": 31.314
+      },
+      {
+       "w": "l'intérieur,",
+       "s": 31.314,
+       "e": 32.194
+      },
+      {
+       "w": "il",
+       "s": 32.194,
+       "e": 32.354
+      },
+      {
+       "w": "y",
+       "s": 32.354,
+       "e": 32.514
+      },
+      {
+       "w": "a",
+       "s": 32.514,
+       "e": 32.594
+      },
+      {
+       "w": "des",
+       "s": 32.594,
+       "e": 32.834
+      },
+      {
+       "w": "dortoirs,",
+       "s": 32.834,
+       "e": 33.634
+      },
+      {
+       "w": "des",
+       "s": 33.634,
+       "e": 33.874
+      },
+      {
+       "w": "cuisines,",
+       "s": 33.874,
+       "e": 34.594
+      },
+      {
+       "w": "et",
+       "s": 34.594,
+       "e": 34.834
+      },
+      {
+       "w": "même",
+       "s": 34.834,
+       "e": 35.154
+      },
+      {
+       "w": "un",
+       "s": 35.154,
+       "e": 35.314
+      },
+      {
+       "w": "petit",
+       "s": 35.314,
+       "e": 35.554
+      },
+      {
+       "w": "train",
+       "s": 35.554,
+       "e": 36.034
+      },
+      {
+       "w": "électrique.",
+       "s": 36.034,
+       "e": 36.534
+      }
+     ]
+    }
+   ],
+   "end": 37.781
+  },
+  {
+   "id": "train",
+   "start": 37.781,
+   "sentences": [
+    {
+     "text": "Les galeries font des kilomètres de long.",
+     "spoken": "Les galeries font des kilomètres de long.",
+     "start": 37.781,
+     "end": 40.501,
+     "words": [
+      {
+       "w": "Les",
+       "s": 37.781,
+       "e": 38.021
+      },
+      {
+       "w": "galeries",
+       "s": 38.021,
+       "e": 38.661
+      },
+      {
+       "w": "font",
+       "s": 38.661,
+       "e": 38.901
+      },
+      {
+       "w": "des",
+       "s": 38.901,
+       "e": 39.061
+      },
+      {
+       "w": "kilomètres",
+       "s": 39.061,
+       "e": 39.701
+      },
+      {
+       "w": "de",
+       "s": 39.701,
+       "e": 39.861
+      },
+      {
+       "w": "long.",
+       "s": 39.861,
+       "e": 40.501
+      }
+     ]
+    },
+    {
+     "text": "Alors, pour aller d'un bout à l'autre, on monte dans le petit train, au milieu des caisses de matériel.",
+     "spoken": "Alors, pour aller d'un bout à l'autre, on monte dans le petit train, au milieu des caisses de matériel.",
+     "start": 40.501,
+     "end": 46.281,
+     "words": [
+      {
+       "w": "Alors,",
+       "s": 40.501,
+       "e": 41.061
+      },
+      {
+       "w": "pour",
+       "s": 41.061,
+       "e": 41.381
+      },
+      {
+       "w": "aller",
+       "s": 41.381,
+       "e": 41.621
+      },
+      {
+       "w": "d'un",
+       "s": 41.621,
+       "e": 41.861
+      },
+      {
+       "w": "bout",
+       "s": 41.861,
+       "e": 42.261
+      },
+      {
+       "w": "à",
+       "s": 42.261,
+       "e": 42.341
+      },
+      {
+       "w": "l'autre,",
+       "s": 42.341,
+       "e": 42.821
+      },
+      {
+       "w": "on",
+       "s": 42.821,
+       "e": 42.981
+      },
+      {
+       "w": "monte",
+       "s": 42.981,
+       "e": 43.381
+      },
+      {
+       "w": "dans",
+       "s": 43.381,
+       "e": 43.461
+      },
+      {
+       "w": "le",
+       "s": 43.461,
+       "e": 43.621
+      },
+      {
+       "w": "petit",
+       "s": 43.621,
+       "e": 43.941
+      },
+      {
+       "w": "train,",
+       "s": 43.941,
+       "e": 44.581
+      },
+      {
+       "w": "au",
+       "s": 44.581,
+       "e": 44.741
+      },
+      {
+       "w": "milieu",
+       "s": 44.741,
+       "e": 45.061
+      },
+      {
+       "w": "des",
+       "s": 45.061,
+       "e": 45.221
+      },
+      {
+       "w": "caisses",
+       "s": 45.221,
+       "e": 45.701
+      },
+      {
+       "w": "de",
+       "s": 45.701,
+       "e": 45.781
+      },
+      {
+       "w": "matériel.",
+       "s": 45.781,
+       "e": 46.281
+      }
+     ]
+    }
+   ],
+   "end": 47.419
+  },
+  {
+   "id": "reveil",
+   "start": 47.419,
+   "sentences": [
+    {
+     "text": "Six heures du matin.",
+     "spoken": "Six heures du matin.",
+     "start": 47.419,
+     "end": 48.539,
+     "words": [
+      {
+       "w": "Six",
+       "s": 47.419,
+       "e": 47.606
+      },
+      {
+       "w": "heures",
+       "s": 47.606,
+       "e": 47.979
+      },
+      {
+       "w": "du",
+       "s": 47.979,
+       "e": 48.139
+      },
+      {
+       "w": "matin.",
+       "s": 48.139,
+       "e": 48.539
+      }
+     ]
+    },
+    {
+     "text": "Le clairon sonne.",
+     "spoken": "Le clairon sonne.",
+     "start": 48.539,
+     "end": 49.709,
+     "words": [
+      {
+       "w": "Le",
+       "s": 48.539,
+       "e": 48.699
+      },
+      {
+       "w": "clairon",
+       "s": 48.699,
+       "e": 49.339
+      },
+      {
+       "w": "sonne.",
+       "s": 49.339,
+       "e": 49.709
+      }
+     ]
+    }
+   ],
+   "end": 50.258
+  },
+  {
+   "id": "sergent1",
+   "start": 50.258,
+   "sentences": [
+    {
+     "text": "Debout là-dedans !",
+     "spoken": "Debout là-dedans !",
+     "start": 50.258,
+     "end": 51.698,
+     "words": [
+      {
+       "w": "Debout",
+       "s": 50.258,
+       "e": 50.818
+      },
+      {
+       "w": "là-dedans!",
+       "s": 50.818,
+       "e": 51.698
+      }
+     ]
+    },
+    {
+     "text": "Dehors, il fait moins quinze.",
+     "spoken": "Dehors, il fait moins quinze.",
+     "start": 51.698,
+     "end": 53.858,
+     "words": [
+      {
+       "w": "Dehors,",
+       "s": 51.698,
+       "e": 52.418
+      },
+      {
+       "w": "il",
+       "s": 52.418,
+       "e": 52.578
+      },
+      {
+       "w": "fait",
+       "s": 52.578,
+       "e": 52.978
+      },
+      {
+       "w": "moins",
+       "s": 52.978,
+       "e": 53.298
+      },
+      {
+       "w": "quinze.",
+       "s": 53.298,
+       "e": 53.858
+      }
+     ]
+    },
+    {
+     "text": "Couvrez-vous bien, les gars !",
+     "spoken": "Couvrez-vous bien, les gars !",
+     "start": 53.858,
+     "end": 55.615,
+     "words": [
+      {
+       "w": "Couvrez-vous",
+       "s": 53.858,
+       "e": 54.578
+      },
+      {
+       "w": "bien,",
+       "s": 54.578,
+       "e": 54.818
+      },
+      {
+       "w": "les",
+       "s": 54.818,
+       "e": 55.138
+      },
+      {
+       "w": "gars!",
+       "s": 55.138,
+       "e": 55.615
+      }
+     ]
+    }
+   ],
+   "par": "sergent",
+   "end": 55.966
+  },
+  {
+   "id": "marcel1",
+   "start": 55.966,
+   "sentences": [
+    {
+     "text": "Encore une journée à attendre, hein, Lucien ?",
+     "spoken": "Encore une journée à attendre, hein, Lucien ?",
+     "start": 55.966,
+     "end": 57.599,
+     "words": [
+      {
+       "w": "Encore",
+       "s": 55.966,
+       "e": 56.286
+      },
+      {
+       "w": "une",
+       "s": 56.286,
+       "e": 56.366
+      },
+      {
+       "w": "journée",
+       "s": 56.366,
+       "e": 56.526
+      },
+      {
+       "w": "à",
+       "s": 56.526,
+       "e": 56.606
+      },
+      {
+       "w": "attendre,",
+       "s": 56.606,
+       "e": 56.926
+      },
+      {
+       "w": "hein,",
+       "s": 56.926,
+       "e": 57.166
+      },
+      {
+       "w": "Lucien?",
+       "s": 57.166,
+       "e": 57.599
+      }
+     ]
+    }
+   ],
+   "par": "marcel",
+   "end": 57.948
+  },
+  {
+   "id": "lucien0",
+   "start": 57.948,
+   "sentences": [
+    {
+     "text": "Oui, Marcel.",
+     "spoken": "Oui, Marcel.",
+     "start": 57.948,
+     "end": 59.068,
+     "words": [
+      {
+       "w": "Oui,",
+       "s": 57.948,
+       "e": 58.268
+      },
+      {
+       "w": "Marcel.",
+       "s": 58.268,
+       "e": 59.068
+      }
+     ]
+    },
+    {
+     "text": "Tous les jours se ressemblent, ici.",
+     "spoken": "Tous les jours se ressemblent, ici.",
+     "start": 59.068,
+     "end": 61.021,
+     "words": [
+      {
+       "w": "Tous",
+       "s": 59.068,
+       "e": 59.308
+      },
+      {
+       "w": "les",
+       "s": 59.308,
+       "e": 59.468
+      },
+      {
+       "w": "jours",
+       "s": 59.468,
+       "e": 59.788
+      },
+      {
+       "w": "se",
+       "s": 59.788,
+       "e": 59.948
+      },
+      {
+       "w": "ressemblent,",
+       "s": 59.948,
+       "e": 60.588
+      },
+      {
+       "w": "ici.",
+       "s": 60.588,
+       "e": 61.021
+      }
+     ]
+    }
+   ],
+   "par": "lucien",
+   "end": 62.371
+  },
+  {
+   "id": "garde",
+   "start": 62.371,
+   "sentences": [
+    {
+     "text": "Ce matin, je monte la garde dehors.",
+     "spoken": "Ce matin, je monte la garde dehors.",
+     "start": 62.371,
+     "end": 65.251,
+     "words": [
+      {
+       "w": "Ce",
+       "s": 62.371,
+       "e": 62.691
+      },
+      {
+       "w": "matin,",
+       "s": 62.691,
+       "e": 63.171
+      },
+      {
+       "w": "je",
+       "s": 63.171,
+       "e": 63.411
+      },
+      {
+       "w": "monte",
+       "s": 63.411,
+       "e": 63.811
+      },
+      {
+       "w": "la",
+       "s": 63.811,
+       "e": 63.971
+      },
+      {
+       "w": "garde",
+       "s": 63.971,
+       "e": 64.291
+      },
+      {
+       "w": "dehors.",
+       "s": 64.291,
+       "e": 65.251
+      }
+     ]
+    },
+    {
+     "text": "Cet hiver est l'un des plus froids depuis des années.",
+     "spoken": "Cet hiver est l'un des plus froids depuis des années.",
+     "start": 65.251,
+     "end": 68.051,
+     "words": [
+      {
+       "w": "Cet",
+       "s": 65.251,
+       "e": 65.571
+      },
+      {
+       "w": "hiver",
+       "s": 65.571,
+       "e": 66.051
+      },
+      {
+       "w": "est",
+       "s": 66.051,
+       "e": 66.131
+      },
+      {
+       "w": "l'un",
+       "s": 66.131,
+       "e": 66.371
+      },
+      {
+       "w": "des",
+       "s": 66.371,
+       "e": 66.531
+      },
+      {
+       "w": "plus",
+       "s": 66.531,
+       "e": 66.691
+      },
+      {
+       "w": "froids",
+       "s": 66.691,
+       "e": 67.091
+      },
+      {
+       "w": "depuis",
+       "s": 67.091,
+       "e": 67.331
+      },
+      {
+       "w": "des",
+       "s": 67.331,
+       "e": 67.491
+      },
+      {
+       "w": "années.",
+       "s": 67.491,
+       "e": 68.051
+      }
+     ]
+    },
+    {
+     "text": "La neige recouvre tout.",
+     "spoken": "La neige recouvre tout.",
+     "start": 68.051,
+     "end": 69.538,
+     "words": [
+      {
+       "w": "La",
+       "s": 68.051,
+       "e": 68.291
+      },
+      {
+       "w": "neige",
+       "s": 68.291,
+       "e": 68.771
+      },
+      {
+       "w": "recouvre",
+       "s": 68.771,
+       "e": 69.251
+      },
+      {
+       "w": "tout.",
+       "s": 69.251,
+       "e": 69.538
+      }
+     ]
+    }
+   ],
+   "end": 70.188
+  },
+  {
+   "id": "sergent3",
+   "start": 70.188,
+   "sentences": [
+    {
+     "text": "Lucien, n'oublie pas de taper des pieds.",
+     "spoken": "Lucien, n'oublie pas de taper des pieds.",
+     "start": 70.188,
+     "end": 72.508,
+     "words": [
+      {
+       "w": "Lucien,",
+       "s": 70.188,
+       "e": 70.748
+      },
+      {
+       "w": "n'oublie",
+       "s": 70.748,
+       "e": 71.068
+      },
+      {
+       "w": "pas",
+       "s": 71.068,
+       "e": 71.148
+      },
+      {
+       "w": "de",
+       "s": 71.148,
+       "e": 71.308
+      },
+      {
+       "w": "taper",
+       "s": 71.308,
+       "e": 71.708
+      },
+      {
+       "w": "des",
+       "s": 71.708,
+       "e": 72.008
+      },
+      {
+       "w": "pieds.",
+       "s": 72.008,
+       "e": 72.508
+      }
+     ]
+    },
+    {
+     "text": "Sinon, avec ce froid, tes orteils vont geler.",
+     "spoken": "Sinon, avec ce froid, tes orteils vont geler.",
+     "start": 72.508,
+     "end": 75.227,
+     "words": [
+      {
+       "w": "Sinon,",
+       "s": 72.508,
+       "e": 73.068
+      },
+      {
+       "w": "avec",
+       "s": 73.068,
+       "e": 73.308
+      },
+      {
+       "w": "ce",
+       "s": 73.308,
+       "e": 73.548
+      },
+      {
+       "w": "froid,",
+       "s": 73.548,
+       "e": 73.948
+      },
+      {
+       "w": "tes",
+       "s": 73.948,
+       "e": 74.108
+      },
+      {
+       "w": "orteils",
+       "s": 74.108,
+       "e": 74.668
+      },
+      {
+       "w": "vont",
+       "s": 74.668,
+       "e": 74.828
+      },
+      {
+       "w": "geler.",
+       "s": 74.828,
+       "e": 75.227
+      }
+     ]
+    }
+   ],
+   "par": "sergent",
+   "end": 75.877
+  },
+  {
+   "id": "jumelles",
+   "start": 75.877,
+   "sentences": [
+    {
+     "text": "Avec mes jumelles, je regarde la forêt, en face.",
+     "spoken": "Avec mes jumelles, je regarde la forêt, en face.",
+     "start": 75.877,
+     "end": 79.317,
+     "words": [
+      {
+       "w": "Avec",
+       "s": 75.877,
+       "e": 76.117
+      },
+      {
+       "w": "mes",
+       "s": 76.117,
+       "e": 76.277
+      },
+      {
+       "w": "jumelles,",
+       "s": 76.277,
+       "e": 76.997
+      },
+      {
+       "w": "je",
+       "s": 76.997,
+       "e": 77.157
+      },
+      {
+       "w": "regarde",
+       "s": 77.157,
+       "e": 77.637
+      },
+      {
+       "w": "la",
+       "s": 77.637,
+       "e": 77.717
+      },
+      {
+       "w": "forêt,",
+       "s": 77.717,
+       "e": 78.517
+      },
+      {
+       "w": "en",
+       "s": 78.517,
+       "e": 78.757
+      },
+      {
+       "w": "face.",
+       "s": 78.757,
+       "e": 79.317
+      }
+     ]
+    },
+    {
+     "text": "Là-bas, de l'autre côté de la frontière, il y a les soldats allemands.",
+     "spoken": "Là-bas, de l'autre côté de la frontière, il y a les soldats allemands.",
+     "start": 79.317,
+     "end": 83.717,
+     "words": [
+      {
+       "w": "Là-bas,",
+       "s": 79.317,
+       "e": 79.957
+      },
+      {
+       "w": "de",
+       "s": 79.957,
+       "e": 80.117
+      },
+      {
+       "w": "l'autre",
+       "s": 80.117,
+       "e": 80.597
+      },
+      {
+       "w": "côté",
+       "s": 80.597,
+       "e": 80.917
+      },
+      {
+       "w": "de",
+       "s": 80.917,
+       "e": 80.997
+      },
+      {
+       "w": "la",
+       "s": 80.997,
+       "e": 81.157
+      },
+      {
+       "w": "frontière,",
+       "s": 81.157,
+       "e": 81.957
+      },
+      {
+       "w": "il",
+       "s": 81.957,
+       "e": 82.117
+      },
+      {
+       "w": "y",
+       "s": 82.117,
+       "e": 82.277
+      },
+      {
+       "w": "a",
+       "s": 82.277,
+       "e": 82.357
+      },
+      {
+       "w": "les",
+       "s": 82.357,
+       "e": 82.517
+      },
+      {
+       "w": "soldats",
+       "s": 82.517,
+       "e": 82.997
+      },
+      {
+       "w": "allemands.",
+       "s": 82.997,
+       "e": 83.717
+      }
+     ]
+    },
+    {
+     "text": "Eux aussi, ils attendent.",
+     "spoken": "Eux aussi, ils attendent.",
+     "start": 83.717,
+     "end": 85.177,
+     "words": [
+      {
+       "w": "Eux",
+       "s": 83.717,
+       "e": 84.117
+      },
+      {
+       "w": "aussi,",
+       "s": 84.117,
+       "e": 84.437
+      },
+      {
+       "w": "ils",
+       "s": 84.437,
+       "e": 84.677
+      },
+      {
+       "w": "attendent.",
+       "s": 84.677,
+       "e": 85.177
+      }
+     ]
+    }
+   ],
+   "end": 86.102
+  },
+  {
+   "id": "sergent2",
+   "start": 86.102,
+   "sentences": [
+    {
+     "text": "Alors, Lucien ?",
+     "spoken": "Alors, Lucien ?",
+     "start": 86.102,
+     "end": 86.982,
+     "words": [
+      {
+       "w": "Alors,",
+       "s": 86.102,
+       "e": 86.342
+      },
+      {
+       "w": "Lucien?",
+       "s": 86.342,
+       "e": 86.982
+      }
+     ]
+    },
+    {
+     "text": "Tu vois quelque chose ?",
+     "spoken": "Tu vois quelque chose ?",
+     "start": 86.982,
+     "end": 87.895,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 86.982,
+       "e": 87.142
+      },
+      {
+       "w": "vois",
+       "s": 87.142,
+       "e": 87.302
+      },
+      {
+       "w": "quelque",
+       "s": 87.302,
+       "e": 87.542
+      },
+      {
+       "w": "chose?",
+       "s": 87.542,
+       "e": 87.895
+      }
+     ]
+    }
+   ],
+   "par": "sergent",
+   "end": 88.245
+  },
+  {
+   "id": "lucien1",
+   "start": 88.245,
+   "sentences": [
+    {
+     "text": "Rien, sergent.",
+     "spoken": "Rien, sergent.",
+     "start": 88.245,
+     "end": 89.445,
+     "words": [
+      {
+       "w": "Rien,",
+       "s": 88.245,
+       "e": 88.725
+      },
+      {
+       "w": "sergent.",
+       "s": 88.725,
+       "e": 89.445
+      }
+     ]
+    },
+    {
+     "text": "Juste de la neige, et des sapins.",
+     "spoken": "Juste de la neige, et des sapins.",
+     "start": 89.445,
+     "end": 91.065,
+     "words": [
+      {
+       "w": "Juste",
+       "s": 89.445,
+       "e": 89.685
+      },
+      {
+       "w": "de",
+       "s": 89.685,
+       "e": 89.765
+      },
+      {
+       "w": "la",
+       "s": 89.765,
+       "e": 89.925
+      },
+      {
+       "w": "neige,",
+       "s": 89.925,
+       "e": 90.325
+      },
+      {
+       "w": "et",
+       "s": 90.325,
+       "e": 90.405
+      },
+      {
+       "w": "des",
+       "s": 90.405,
+       "e": 90.565
+      },
+      {
+       "w": "sapins.",
+       "s": 90.565,
+       "e": 91.065
+      }
+     ]
+    }
+   ],
+   "par": "lucien",
+   "end": 92.47
+  },
+  {
+   "id": "midi",
+   "start": 92.47,
+   "sentences": [
+    {
+     "text": "À midi, on descend manger.",
+     "spoken": "À midi, on descend manger.",
+     "start": 92.47,
+     "end": 94.55,
+     "words": [
+      {
+       "w": "À",
+       "s": 92.47,
+       "e": 92.63
+      },
+      {
+       "w": "midi,",
+       "s": 92.63,
+       "e": 93.11
+      },
+      {
+       "w": "on",
+       "s": 93.11,
+       "e": 93.35
+      },
+      {
+       "w": "descend",
+       "s": 93.35,
+       "e": 93.91
+      },
+      {
+       "w": "manger.",
+       "s": 93.91,
+       "e": 94.55
+      }
+     ]
+    },
+    {
+     "text": "De la soupe, du pain, et un café bien chaud.",
+     "spoken": "De la soupe, du pain, et un café bien chaud.",
+     "start": 94.55,
+     "end": 97.75,
+     "words": [
+      {
+       "w": "De",
+       "s": 94.55,
+       "e": 94.79
+      },
+      {
+       "w": "la",
+       "s": 94.79,
+       "e": 94.95
+      },
+      {
+       "w": "soupe,",
+       "s": 94.95,
+       "e": 95.59
+      },
+      {
+       "w": "du",
+       "s": 95.59,
+       "e": 95.75
+      },
+      {
+       "w": "pain,",
+       "s": 95.75,
+       "e": 96.23
+      },
+      {
+       "w": "et",
+       "s": 96.23,
+       "e": 96.39
+      },
+      {
+       "w": "un",
+       "s": 96.39,
+       "e": 96.47
+      },
+      {
+       "w": "café",
+       "s": 96.47,
+       "e": 96.95
+      },
+      {
+       "w": "bien",
+       "s": 96.95,
+       "e": 97.306
+      },
+      {
+       "w": "chaud.",
+       "s": 97.306,
+       "e": 97.75
+      }
+     ]
+    },
+    {
+     "text": "C'est le meilleur moment de la journée.",
+     "spoken": "C'est le meilleur moment de la journée.",
+     "start": 97.75,
+     "end": 99.517,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 97.75,
+       "e": 98.07
+      },
+      {
+       "w": "le",
+       "s": 98.07,
+       "e": 98.23
+      },
+      {
+       "w": "meilleur",
+       "s": 98.23,
+       "e": 98.55
+      },
+      {
+       "w": "moment",
+       "s": 98.55,
+       "e": 98.79
+      },
+      {
+       "w": "de",
+       "s": 98.79,
+       "e": 98.87
+      },
+      {
+       "w": "la",
+       "s": 98.87,
+       "e": 99.03
+      },
+      {
+       "w": "journée.",
+       "s": 99.03,
+       "e": 99.517
+      }
+     ]
+    }
+   ],
+   "end": 100.067
+  },
+  {
+   "id": "cuisinier",
+   "start": 100.067,
+   "sentences": [
+    {
+     "text": "Allez, tendez vos gamelles !",
+     "spoken": "Allez, tendez vos gamelles !",
+     "start": 100.067,
+     "end": 101.827,
+     "words": [
+      {
+       "w": "Allez,",
+       "s": 100.067,
+       "e": 100.467
+      },
+      {
+       "w": "tendez",
+       "s": 100.467,
+       "e": 100.867
+      },
+      {
+       "w": "vos",
+       "s": 100.867,
+       "e": 101.107
+      },
+      {
+       "w": "gamelles!",
+       "s": 101.107,
+       "e": 101.827
+      }
+     ]
+    },
+    {
+     "text": "Il y en a pour tout le monde, aujourd'hui !",
+     "spoken": "Il y en a pour tout le monde, aujourd'hui !",
+     "start": 101.827,
+     "end": 103.927,
+     "words": [
+      {
+       "w": "Il",
+       "s": 101.827,
+       "e": 101.987
+      },
+      {
+       "w": "y",
+       "s": 101.987,
+       "e": 102.067
+      },
+      {
+       "w": "en",
+       "s": 102.067,
+       "e": 102.307
+      },
+      {
+       "w": "a",
+       "s": 102.307,
+       "e": 102.467
+      },
+      {
+       "w": "pour",
+       "s": 102.467,
+       "e": 102.627
+      },
+      {
+       "w": "tout",
+       "s": 102.627,
+       "e": 102.787
+      },
+      {
+       "w": "le",
+       "s": 102.787,
+       "e": 102.867
+      },
+      {
+       "w": "monde,",
+       "s": 102.867,
+       "e": 103.427
+      },
+      {
+       "w": "aujourd'hui!",
+       "s": 103.427,
+       "e": 103.927
+      }
+     ]
+    }
+   ],
+   "par": "cuisinier",
+   "end": 104.887
+  },
+  {
+   "id": "marcel2",
+   "start": 104.887,
+   "sentences": [
+    {
+     "text": "Tu sais ce qui me manque le plus ?",
+     "spoken": "Tu sais ce qui me manque le plus ?",
+     "start": 104.887,
+     "end": 106.247,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 104.887,
+       "e": 105.047
+      },
+      {
+       "w": "sais",
+       "s": 105.047,
+       "e": 105.207
+      },
+      {
+       "w": "ce",
+       "s": 105.207,
+       "e": 105.287
+      },
+      {
+       "w": "qui",
+       "s": 105.287,
+       "e": 105.447
+      },
+      {
+       "w": "me",
+       "s": 105.447,
+       "e": 105.527
+      },
+      {
+       "w": "manque",
+       "s": 105.527,
+       "e": 105.767
+      },
+      {
+       "w": "le",
+       "s": 105.767,
+       "e": 105.847
+      },
+      {
+       "w": "plus?",
+       "s": 105.847,
+       "e": 106.247
+      }
+     ]
+    },
+    {
+     "text": "Le pain de ma mère, tout chaud, le dimanche matin.",
+     "spoken": "Le pain de ma mère, tout chaud, le dimanche matin.",
+     "start": 106.247,
+     "end": 108.579,
+     "words": [
+      {
+       "w": "Le",
+       "s": 106.247,
+       "e": 106.407
+      },
+      {
+       "w": "pain",
+       "s": 106.407,
+       "e": 106.727
+      },
+      {
+       "w": "de",
+       "s": 106.727,
+       "e": 106.807
+      },
+      {
+       "w": "ma",
+       "s": 106.807,
+       "e": 106.887
+      },
+      {
+       "w": "mère,",
+       "s": 106.887,
+       "e": 107.207
+      },
+      {
+       "w": "tout",
+       "s": 107.207,
+       "e": 107.447
+      },
+      {
+       "w": "chaud,",
+       "s": 107.447,
+       "e": 107.767
+      },
+      {
+       "w": "le",
+       "s": 107.767,
+       "e": 107.847
+      },
+      {
+       "w": "dimanche",
+       "s": 107.847,
+       "e": 108.247
+      },
+      {
+       "w": "matin.",
+       "s": 108.247,
+       "e": 108.579
+      }
+     ]
+    }
+   ],
+   "par": "marcel",
+   "end": 109.93
+  },
+  {
+   "id": "courrier",
+   "start": 109.93,
+   "sentences": [
+    {
+     "text": "L'après-midi, le vaguemestre arrive.",
+     "spoken": "L'après-midi, le vaguemestre arrive.",
+     "start": 109.93,
+     "end": 112.17,
+     "words": [
+      {
+       "w": "L'après-midi,",
+       "s": 109.93,
+       "e": 110.73
+      },
+      {
+       "w": "le",
+       "s": 110.73,
+       "e": 110.878
+      },
+      {
+       "w": "vaguemestre",
+       "s": 110.878,
+       "e": 111.69
+      },
+      {
+       "w": "arrive.",
+       "s": 111.69,
+       "e": 112.17
+      }
+     ]
+    },
+    {
+     "text": "C'est lui qui apporte le courrier.",
+     "spoken": "C'est lui qui apporte le courrier.",
+     "start": 112.17,
+     "end": 113.79,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 112.17,
+       "e": 112.41
+      },
+      {
+       "w": "lui",
+       "s": 112.41,
+       "e": 112.65
+      },
+      {
+       "w": "qui",
+       "s": 112.65,
+       "e": 112.81
+      },
+      {
+       "w": "apporte",
+       "s": 112.81,
+       "e": 113.21
+      },
+      {
+       "w": "le",
+       "s": 113.21,
+       "e": 113.29
+      },
+      {
+       "w": "courrier.",
+       "s": 113.29,
+       "e": 113.79
+      }
+     ]
+    }
+   ],
+   "end": 114.299
+  },
+  {
+   "id": "vaguemestre",
+   "start": 114.299,
+   "sentences": [
+    {
+     "text": "Le courrier est arrivé !",
+     "spoken": "Le courrier est arrivé !",
+     "start": 114.299,
+     "end": 115.739,
+     "words": [
+      {
+       "w": "Le",
+       "s": 114.299,
+       "e": 114.379
+      },
+      {
+       "w": "courrier",
+       "s": 114.379,
+       "e": 114.859
+      },
+      {
+       "w": "est",
+       "s": 114.859,
+       "e": 115.019
+      },
+      {
+       "w": "arrivé!",
+       "s": 115.019,
+       "e": 115.739
+      }
+     ]
+    },
+    {
+     "text": "Lucien, il y a une lettre pour toi !",
+     "spoken": "Lucien, il y a une lettre pour toi !",
+     "start": 115.739,
+     "end": 117.778,
+     "words": [
+      {
+       "w": "Lucien,",
+       "s": 115.739,
+       "e": 116.539
+      },
+      {
+       "w": "il",
+       "s": 116.539,
+       "e": 116.699
+      },
+      {
+       "w": "y",
+       "s": 116.699,
+       "e": 116.779
+      },
+      {
+       "w": "a",
+       "s": 116.779,
+       "e": 116.829
+      },
+      {
+       "w": "une",
+       "s": 116.779,
+       "e": 116.939
+      },
+      {
+       "w": "lettre",
+       "s": 116.939,
+       "e": 117.259
+      },
+      {
+       "w": "pour",
+       "s": 117.259,
+       "e": 117.419
+      },
+      {
+       "w": "toi!",
+       "s": 117.419,
+       "e": 117.778
+      }
+     ]
+    }
+   ],
+   "par": "vaguemestre",
+   "end": 118.128
+  },
+  {
+   "id": "lettre",
+   "start": 118.128,
+   "sentences": [
+    {
+     "text": "C'est ma mère.",
+     "spoken": "C'est ma mère.",
+     "start": 118.128,
+     "end": 119.088,
+     "words": [
+      {
+       "w": "C'est",
+       "s": 118.128,
+       "e": 118.368
+      },
+      {
+       "w": "ma",
+       "s": 118.368,
+       "e": 118.528
+      },
+      {
+       "w": "mère.",
+       "s": 118.528,
+       "e": 119.088
+      }
+     ]
+    },
+    {
+     "text": "Les lettres, c'est notre seul lien avec la maison.",
+     "spoken": "Les lettres, c'est notre seul lien avec la maison.",
+     "start": 119.088,
+     "end": 121.532,
+     "words": [
+      {
+       "w": "Les",
+       "s": 119.088,
+       "e": 119.328
+      },
+      {
+       "w": "lettres,",
+       "s": 119.328,
+       "e": 119.808
+      },
+      {
+       "w": "c'est",
+       "s": 119.808,
+       "e": 119.968
+      },
+      {
+       "w": "notre",
+       "s": 119.968,
+       "e": 120.208
+      },
+      {
+       "w": "seul",
+       "s": 120.208,
+       "e": 120.448
+      },
+      {
+       "w": "lien",
+       "s": 120.448,
+       "e": 120.768
+      },
+      {
+       "w": "avec",
+       "s": 120.768,
+       "e": 120.928
+      },
+      {
+       "w": "la",
+       "s": 120.928,
+       "e": 121.088
+      },
+      {
+       "w": "maison.",
+       "s": 121.088,
+       "e": 121.532
+      }
+     ]
+    }
+   ],
+   "end": 122.482
+  },
+  {
+   "id": "maman",
+   "start": 122.482,
+   "sentences": [
+    {
+     "text": "Mon petit Lucien, ici aussi il fait très froid.",
+     "spoken": "Mon petit Lucien, ici aussi il fait très froid.",
+     "start": 122.562,
+     "end": 125.602,
+     "words": [
+      {
+       "w": "Mon",
+       "s": 122.562,
+       "e": 122.722
+      },
+      {
+       "w": "petit",
+       "s": 122.722,
+       "e": 123.042
+      },
+      {
+       "w": "Lucien,",
+       "s": 123.042,
+       "e": 123.842
+      },
+      {
+       "w": "ici",
+       "s": 123.842,
+       "e": 124.162
+      },
+      {
+       "w": "aussi",
+       "s": 124.162,
+       "e": 124.402
+      },
+      {
+       "w": "il",
+       "s": 124.402,
+       "e": 124.642
+      },
+      {
+       "w": "fait",
+       "s": 124.642,
+       "e": 124.882
+      },
+      {
+       "w": "très",
+       "s": 124.882,
+       "e": 125.042
+      },
+      {
+       "w": "froid.",
+       "s": 125.042,
+       "e": 125.602
+      }
+     ]
+    },
+    {
+     "text": "Je t'envoie des chaussettes que j'ai tricotées.",
+     "spoken": "Je t'envoie des chaussettes que j'ai tricotées.",
+     "start": 125.602,
+     "end": 128.322,
+     "words": [
+      {
+       "w": "Je",
+       "s": 125.602,
+       "e": 125.842
+      },
+      {
+       "w": "t'envoie",
+       "s": 125.842,
+       "e": 126.322
+      },
+      {
+       "w": "des",
+       "s": 126.322,
+       "e": 126.482
+      },
+      {
+       "w": "chaussettes",
+       "s": 126.482,
+       "e": 127.042
+      },
+      {
+       "w": "que",
+       "s": 127.042,
+       "e": 127.122
+      },
+      {
+       "w": "j'ai",
+       "s": 127.122,
+       "e": 127.362
+      },
+      {
+       "w": "tricotées.",
+       "s": 127.362,
+       "e": 128.322
+      }
+     ]
+    },
+    {
+     "text": "Couvre-toi bien, et écris-nous vite.",
+     "spoken": "Couvre-toi bien, et écris-nous vite.",
+     "start": 128.322,
+     "end": 130.716,
+     "words": [
+      {
+       "w": "Couvre-toi",
+       "s": 128.322,
+       "e": 129.042
+      },
+      {
+       "w": "bien,",
+       "s": 129.042,
+       "e": 129.362
+      },
+      {
+       "w": "et",
+       "s": 129.362,
+       "e": 129.602
+      },
+      {
+       "w": "écris-nous",
+       "s": 129.602,
+       "e": 130.322
+      },
+      {
+       "w": "vite.",
+       "s": 130.322,
+       "e": 130.716
+      }
+     ]
+    }
+   ],
+   "par": "maman",
+   "end": 132.266
+  },
+  {
+   "id": "reponse",
+   "start": 132.266,
+   "sentences": [
+    {
+     "text": "Le soir, je lui réponds.",
+     "spoken": "Le soir, je lui réponds.",
+     "start": 132.266,
+     "end": 134.346,
+     "words": [
+      {
+       "w": "Le",
+       "s": 132.266,
+       "e": 132.586
+      },
+      {
+       "w": "soir,",
+       "s": 132.586,
+       "e": 133.226
+      },
+      {
+       "w": "je",
+       "s": 133.226,
+       "e": 133.466
+      },
+      {
+       "w": "lui",
+       "s": 133.466,
+       "e": 133.706
+      },
+      {
+       "w": "réponds.",
+       "s": 133.706,
+       "e": 134.346
+      }
+     ]
+    },
+    {
+     "text": "Je ne lui dis pas que j'ai froid, ni que je m'ennuie.",
+     "spoken": "Je ne lui dis pas que j'ai froid, ni que je m'ennuie.",
+     "start": 134.346,
+     "end": 137.226,
+     "words": [
+      {
+       "w": "Je",
+       "s": 134.346,
+       "e": 134.586
+      },
+      {
+       "w": "ne",
+       "s": 134.586,
+       "e": 134.666
+      },
+      {
+       "w": "lui",
+       "s": 134.666,
+       "e": 134.826
+      },
+      {
+       "w": "dis",
+       "s": 134.826,
+       "e": 134.986
+      },
+      {
+       "w": "pas",
+       "s": 134.986,
+       "e": 135.146
+      },
+      {
+       "w": "que",
+       "s": 135.146,
+       "e": 135.226
+      },
+      {
+       "w": "j'ai",
+       "s": 135.226,
+       "e": 135.526
+      },
+      {
+       "w": "froid,",
+       "s": 135.526,
+       "e": 136.026
+      },
+      {
+       "w": "ni",
+       "s": 136.026,
+       "e": 136.266
+      },
+      {
+       "w": "que",
+       "s": 136.266,
+       "e": 136.346
+      },
+      {
+       "w": "je",
+       "s": 136.346,
+       "e": 136.506
+      },
+      {
+       "w": "m'ennuie.",
+       "s": 136.506,
+       "e": 137.226
+      }
+     ]
+    },
+    {
+     "text": "Je ne veux pas qu'elle s'inquiète.",
+     "spoken": "Je ne veux pas qu'elle s'inquiète.",
+     "start": 137.226,
+     "end": 138.526,
+     "words": [
+      {
+       "w": "Je",
+       "s": 137.226,
+       "e": 137.386
+      },
+      {
+       "w": "ne",
+       "s": 137.386,
+       "e": 137.466
+      },
+      {
+       "w": "veux",
+       "s": 137.466,
+       "e": 137.626
+      },
+      {
+       "w": "pas",
+       "s": 137.626,
+       "e": 137.706
+      },
+      {
+       "w": "qu'elle",
+       "s": 137.706,
+       "e": 138.026
+      },
+      {
+       "w": "s'inquiète.",
+       "s": 138.026,
+       "e": 138.526
+      }
+     ]
+    }
+   ],
+   "end": 139.593
+  },
+  {
+   "id": "soir",
+   "start": 139.593,
+   "sentences": [
+    {
+     "text": "Après la soupe du soir, on joue aux cartes, on chante un peu.",
+     "spoken": "Après la soupe du soir, on joue aux cartes, on chante un peu.",
+     "start": 139.593,
+     "end": 144.473,
+     "words": [
+      {
+       "w": "Après",
+       "s": 139.593,
+       "e": 139.913
+      },
+      {
+       "w": "la",
+       "s": 139.913,
+       "e": 140.073
+      },
+      {
+       "w": "soupe",
+       "s": 140.073,
+       "e": 140.473
+      },
+      {
+       "w": "du",
+       "s": 140.473,
+       "e": 140.633
+      },
+      {
+       "w": "soir,",
+       "s": 140.633,
+       "e": 141.193
+      },
+      {
+       "w": "on",
+       "s": 141.193,
+       "e": 141.433
+      },
+      {
+       "w": "joue",
+       "s": 141.433,
+       "e": 141.753
+      },
+      {
+       "w": "aux",
+       "s": 141.753,
+       "e": 141.913
+      },
+      {
+       "w": "cartes,",
+       "s": 141.913,
+       "e": 142.633
+      },
+      {
+       "w": "on",
+       "s": 142.633,
+       "e": 142.873
+      },
+      {
+       "w": "chante",
+       "s": 142.873,
+       "e": 143.353
+      },
+      {
+       "w": "un",
+       "s": 143.353,
+       "e": 143.593
+      },
+      {
+       "w": "peu.",
+       "s": 143.593,
+       "e": 144.473
+      }
+     ]
+    },
+    {
+     "text": "Pour ne pas penser.",
+     "spoken": "Pour ne pas penser.",
+     "start": 144.473,
+     "end": 146.073,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 144.473,
+       "e": 144.793
+      },
+      {
+       "w": "ne",
+       "s": 144.793,
+       "e": 144.953
+      },
+      {
+       "w": "pas",
+       "s": 144.953,
+       "e": 145.193
+      },
+      {
+       "w": "penser.",
+       "s": 145.193,
+       "e": 146.073
+      }
+     ]
+    },
+    {
+     "text": "Pour ne pas avoir le cafard : c'est comme ça qu'on appelle la tristesse, quand la maison nous manque.",
+     "spoken": "Pour ne pas avoir le cafard : c'est comme ça qu'on appelle la tristesse, quand la maison nous manque.",
+     "start": 146.073,
+     "end": 151.767,
+     "words": [
+      {
+       "w": "Pour",
+       "s": 146.073,
+       "e": 146.313
+      },
+      {
+       "w": "ne",
+       "s": 146.313,
+       "e": 146.473
+      },
+      {
+       "w": "pas",
+       "s": 146.473,
+       "e": 146.633
+      },
+      {
+       "w": "avoir",
+       "s": 146.633,
+       "e": 146.873
+      },
+      {
+       "w": "le",
+       "s": 146.873,
+       "e": 147.033
+      },
+      {
+       "w": "cafard:",
+       "s": 147.033,
+       "e": 147.993
+      },
+      {
+       "w": "c'est",
+       "s": 147.993,
+       "e": 148.313
+      },
+      {
+       "w": "comme",
+       "s": 148.313,
+       "e": 148.473
+      },
+      {
+       "w": "ça",
+       "s": 148.473,
+       "e": 148.713
+      },
+      {
+       "w": "qu'on",
+       "s": 148.713,
+       "e": 149.033
+      },
+      {
+       "w": "appelle",
+       "s": 149.033,
+       "e": 149.353
+      },
+      {
+       "w": "la",
+       "s": 149.353,
+       "e": 149.513
+      },
+      {
+       "w": "tristesse,",
+       "s": 149.513,
+       "e": 150.393
+      },
+      {
+       "w": "quand",
+       "s": 150.393,
+       "e": 150.633
+      },
+      {
+       "w": "la",
+       "s": 150.633,
+       "e": 150.793
+      },
+      {
+       "w": "maison",
+       "s": 150.793,
+       "e": 151.033
+      },
+      {
+       "w": "nous",
+       "s": 151.033,
+       "e": 151.273
+      },
+      {
+       "w": "manque.",
+       "s": 151.273,
+       "e": 151.767
+      }
+     ]
+    }
+   ],
+   "end": 152.517
+  },
+  {
+   "id": "marcel3",
+   "start": 152.517,
+   "sentences": [
+    {
+     "text": "Tu crois qu'on sera rentrés pour l'été ?",
+     "spoken": "Tu crois qu'on sera rentrés pour l'été ?",
+     "start": 152.517,
+     "end": 153.891,
+     "words": [
+      {
+       "w": "Tu",
+       "s": 152.517,
+       "e": 152.677
+      },
+      {
+       "w": "crois",
+       "s": 152.677,
+       "e": 152.837
+      },
+      {
+       "w": "qu'on",
+       "s": 152.837,
+       "e": 152.997
+      },
+      {
+       "w": "sera",
+       "s": 152.997,
+       "e": 153.142
+      },
+      {
+       "w": "rentrés",
+       "s": 153.142,
+       "e": 153.397
+      },
+      {
+       "w": "pour",
+       "s": 153.397,
+       "e": 153.477
+      },
+      {
+       "w": "l'été?",
+       "s": 153.477,
+       "e": 153.891
+      }
+     ]
+    }
+   ],
+   "par": "marcel",
+   "end": 154.241
+  },
+  {
+   "id": "lucien2",
+   "start": 154.241,
+   "sentences": [
+    {
+     "text": "J'espère, Marcel.",
+     "spoken": "J'espère, Marcel.",
+     "start": 154.241,
+     "end": 155.121,
+     "words": [
+      {
+       "w": "J'espère,",
+       "s": 154.241,
+       "e": 154.721
+      },
+      {
+       "w": "Marcel.",
+       "s": 154.721,
+       "e": 155.121
+      }
+     ]
+    },
+    {
+     "text": "J'espère.",
+     "spoken": "J'espère.",
+     "start": 155.121,
+     "end": 155.621,
+     "words": [
+      {
+       "w": "J'espère.",
+       "s": 155.121,
+       "e": 155.621
+      }
+     ]
+    }
+   ],
+   "par": "lucien",
+   "end": 156.995
+  },
+  {
+   "id": "extinction",
+   "start": 156.995,
+   "sentences": [
+    {
+     "text": "Vingt-deux heures.",
+     "spoken": "Vingt-deux heures.",
+     "start": 156.995,
+     "end": 158.275,
+     "words": [
+      {
+       "w": "Vingt-deux",
+       "s": 156.995,
+       "e": 157.555
+      },
+      {
+       "w": "heures.",
+       "s": 157.555,
+       "e": 158.275
+      }
+     ]
+    },
+    {
+     "text": "On éteint les lumières.",
+     "spoken": "On éteint les lumières.",
+     "start": 158.275,
+     "end": 159.875,
+     "words": [
+      {
+       "w": "On",
+       "s": 158.275,
+       "e": 158.595
+      },
+      {
+       "w": "éteint",
+       "s": 158.595,
+       "e": 159.075
+      },
+      {
+       "w": "les",
+       "s": 159.075,
+       "e": 159.235
+      },
+      {
+       "w": "lumières.",
+       "s": 159.235,
+       "e": 159.875
+      }
+     ]
+    },
+    {
+     "text": "Dans le noir, j'entends les copains respirer.",
+     "spoken": "Dans le noir, j'entends les copains respirer.",
+     "start": 159.875,
+     "end": 162.995,
+     "words": [
+      {
+       "w": "Dans",
+       "s": 159.875,
+       "e": 160.115
+      },
+      {
+       "w": "le",
+       "s": 160.115,
+       "e": 160.355
+      },
+      {
+       "w": "noir,",
+       "s": 160.355,
+       "e": 160.835
+      },
+      {
+       "w": "j'entends",
+       "s": 160.835,
+       "e": 161.475
+      },
+      {
+       "w": "les",
+       "s": 161.475,
+       "e": 161.635
+      },
+      {
+       "w": "copains",
+       "s": 161.635,
+       "e": 162.195
+      },
+      {
+       "w": "respirer.",
+       "s": 162.195,
+       "e": 162.995
+      }
+     ]
+    },
+    {
+     "text": "Et demain...",
+     "spoken": "Et demain...",
+     "start": 162.995,
+     "end": 163.875,
+     "words": [
+      {
+       "w": "Et",
+       "s": 162.995,
+       "e": 163.235
+      },
+      {
+       "w": "demain...",
+       "s": 163.235,
+       "e": 163.875
+      }
+     ]
+    },
+    {
+     "text": "tout recommencera.",
+     "spoken": "tout recommencera.",
+     "start": 163.875,
+     "end": 164.695,
+     "words": [
+      {
+       "w": "tout",
+       "s": 163.875,
+       "e": 164.195
+      },
+      {
+       "w": "recommencera.",
+       "s": 164.195,
+       "e": 164.695
+      }
+     ]
+    }
+   ],
+   "end": 166.328
+  },
+  {
+   "id": "fin",
+   "start": 166.328,
+   "sentences": [
+    {
+     "text": "On ne le sait pas encore.",
+     "spoken": "On ne le sait pas encore.",
+     "start": 166.328,
+     "end": 167.768,
+     "words": [
+      {
+       "w": "On",
+       "s": 166.328,
+       "e": 166.488
+      },
+      {
+       "w": "ne",
+       "s": 166.488,
+       "e": 166.568
+      },
+      {
+       "w": "le",
+       "s": 166.568,
+       "e": 166.728
+      },
+      {
+       "w": "sait",
+       "s": 166.728,
+       "e": 166.968
+      },
+      {
+       "w": "pas",
+       "s": 166.968,
+       "e": 167.208
+      },
+      {
+       "w": "encore.",
+       "s": 167.208,
+       "e": 167.768
+      }
+     ]
+    },
+    {
+     "text": "Mais le dix mai 1940, la drôle de guerre va s'arrêter d'un coup.",
+     "spoken": "Mais le dix mai mille neuf cent quarante, la drôle de guerre va s'arrêter d'un coup.",
+     "start": 167.768,
+     "end": 172.888,
+     "words": [
+      {
+       "w": "Mais",
+       "s": 167.768,
+       "e": 167.928
+      },
+      {
+       "w": "le",
+       "s": 167.928,
+       "e": 168.168
+      },
+      {
+       "w": "dix",
+       "s": 168.168,
+       "e": 168.408
+      },
+      {
+       "w": "mai",
+       "s": 168.408,
+       "e": 168.648
+      },
+      {
+       "w": "1940,",
+       "s": 168.648,
+       "e": 169.848
+      },
+      {
+       "w": "la",
+       "s": 169.848,
+       "e": 170.088
+      },
+      {
+       "w": "drôle",
+       "s": 170.088,
+       "e": 170.568
+      },
+      {
+       "w": "de",
+       "s": 170.568,
+       "e": 170.728
+      },
+      {
+       "w": "guerre",
+       "s": 170.728,
+       "e": 171.048
+      },
+      {
+       "w": "va",
+       "s": 171.048,
+       "e": 171.208
+      },
+      {
+       "w": "s'arrêter",
+       "s": 171.208,
+       "e": 171.768
+      },
+      {
+       "w": "d'un",
+       "s": 171.768,
+       "e": 172.008
+      },
+      {
+       "w": "coup.",
+       "s": 172.008,
+       "e": 172.888
+      }
+     ]
+    },
+    {
+     "text": "Et toi...",
+     "spoken": "Et toi...",
+     "start": 175.088,
+     "end": 175.888,
+     "words": [
+      {
+       "w": "Et",
+       "s": 175.088,
+       "e": 175.328
+      },
+      {
+       "w": "toi...",
+       "s": 175.328,
+       "e": 175.888
+      }
+     ]
+    },
+    {
+     "text": "tu aurais tenu combien de temps, à attendre ?",
+     "spoken": "tu aurais tenu combien de temps, à attendre ?",
+     "start": 175.888,
+     "end": 178.468,
+     "words": [
+      {
+       "w": "tu",
+       "s": 175.888,
+       "e": 176.128
+      },
+      {
+       "w": "aurais",
+       "s": 176.128,
+       "e": 176.528
+      },
+      {
+       "w": "tenu",
+       "s": 176.528,
+       "e": 176.928
+      },
+      {
+       "w": "combien",
+       "s": 176.928,
+       "e": 177.248
+      },
+      {
+       "w": "de",
+       "s": 177.248,
+       "e": 177.408
+      },
+      {
+       "w": "temps,",
+       "s": 177.408,
+       "e": 177.808
+      },
+      {
+       "w": "à",
+       "s": 177.808,
+       "e": 177.968
+      },
+      {
+       "w": "attendre?",
+       "s": 177.968,
+       "e": 178.468
+      }
+     ]
+    }
+   ],
+   "end": 181.963
+  }
+ ]
+}

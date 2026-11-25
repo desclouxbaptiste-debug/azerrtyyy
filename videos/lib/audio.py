@@ -744,6 +744,15 @@ def fx(kind, dur=None):
     if kind == "marteau":  # a judge's gavel, muffled: wood on wood, low body, no crack
         t = t_axis(0.5)
         return (lp(rng.normal(0, 1, len(t)), 900) * np.exp(-t * 40) * 0.6 + np.sin(2 * np.pi * 180 * t) * np.exp(-t * 18) * 0.4) * 0.6
+    if kind == "clairon":  # a far bugle call in the gallery: four soft brass notes (G C E G), slow attack, echo
+        t = t_axis(3.4)
+        out = np.zeros(len(t))
+        for i, (f, d) in enumerate(((392, 0.45), (523, 0.45), (659, 0.45), (784, 1.3))):
+            n = t_axis(d)
+            env = np.clip(n / 0.05, 0, 1) * np.clip((d - n) / 0.12, 0, 1)
+            tone = lp(saw(f, n) * 0.6 + np.sin(2 * np.pi * f * n) * 0.4, 1800) * env * (1 + 0.04 * np.sin(2 * np.pi * 5.5 * n))
+            add(out, tone, [0, 0.5, 1.0, 1.5][i], 0.5)
+        return reverb(out, 2.5, 0.5, seed=41)[:len(t)] * 0.6
     raise ValueError(kind)
 
 
