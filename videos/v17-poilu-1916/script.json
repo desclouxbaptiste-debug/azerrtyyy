@@ -1,0 +1,171 @@
+{
+ "engine": "supertonic",
+ "sid": 5,
+ "steps": 16,
+ "speed": 1.0,
+ "chunk": "segment",
+ "best_of": 4,
+ "lead": 0.5,
+ "gap_segment": 0.35,
+ "moods": {
+  "reveal_tempo": 1.0,
+  "slow_tempo": 1.0,
+  "whisper_tempo": 1.0,
+  "long_pause": 2.2,
+  "reveal_pause": 0.9
+ },
+ "post": {
+  "semitones": 0,
+  "warmth": 1.5,
+  "presence": 1.0,
+  "threshold": 0.15,
+  "ratio": 2.0,
+  "makeup": 1.05
+ },
+ "voix": {
+  "sergent": {
+   "engine": "supertonic",
+   "sid": 6,
+   "steps": 16
+  },
+  "gaston": {
+   "engine": "supertonic",
+   "sid": 7,
+   "steps": 16
+  },
+  "porteur": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 16,
+   "tempo": 1.05
+  },
+  "louise": {
+   "engine": "supertonic",
+   "sid": 2,
+   "steps": 16
+  },
+  "emile": {
+   "engine": "supertonic",
+   "sid": 5,
+   "steps": 16
+  }
+ },
+ "segments": [
+  {
+   "id": "hook",
+   "text": "Je m'appelle Émile. J'ai dix-neuf ans. Et depuis un an... <r>je vis dans un trou, creusé dans la terre.",
+   "apres": 1.0
+  },
+  {
+   "id": "contexte",
+   "text": "Nous sommes en novembre {1916|mille neuf cent seize}. La guerre a commencé il y a plus de deux ans. Pour se protéger, les soldats des deux camps ont creusé des tranchées : de longs fossés, où l'on vit jour et nuit. Elles traversent la France, de la mer du Nord jusqu'à la Suisse.",
+   "apres": 0.8
+  },
+  {
+   "id": "poilus",
+   "text": "À l'arrière, on nous appelle les poilus. Avant la guerre, ce mot voulait dire : un homme courageux.",
+   "apres": 0.8
+  },
+  {
+   "id": "reveil",
+   "text": "Cinq heures du matin. Je me réveille dans la cagna, notre abri creusé sous la terre. Il fait froid, et tout est humide.",
+   "apres": 0.2
+  },
+  {
+   "id": "sergent1",
+   "text": "Allez, debout, Émile ! C'est ton tour de guet.",
+   "par": "sergent"
+  },
+  {
+   "id": "gaston1",
+   "text": "Fais bien attention à toi, là-haut. Et garde toujours la tête baissée.",
+   "par": "gaston",
+   "apres": 0.6
+  },
+  {
+   "id": "boue",
+   "text": "Je monte dans la tranchée. Partout, il y a de la boue. On marche sur des planches de bois, les caillebotis, pour ne pas s'enfoncer.",
+   "apres": 0.4
+  },
+  {
+   "id": "periscope",
+   "text": "Pour regarder de l'autre côté sans lever la tête, j'utilise un périscope : un long tube avec des miroirs à l'intérieur.",
+   "apres": 0.2
+  },
+  {
+   "id": "nomans",
+   "text": "En face, il y a les tranchées allemandes. Entre les deux, une bande de terre où personne ne peut aller. On l'appelle le no man's land : la terre de personne.",
+   "apres": 0.5
+  },
+  {
+   "id": "sergent2",
+   "text": "Alors, Émile ? Rien de nouveau, en face ?",
+   "par": "sergent"
+  },
+  {
+   "id": "emile1",
+   "text": "Rien, sergent. Juste la pluie, et la boue.",
+   "par": "emile",
+   "apres": 0.6
+  },
+  {
+   "id": "canons",
+   "text": "Au loin, on entend les canons. Ça ne s'arrête presque jamais. Et dans la tranchée, il y a aussi des rats, et des poux. Nous, les poux, on les appelle les totos.",
+   "apres": 0.8
+  },
+  {
+   "id": "soupe",
+   "text": "La soupe arrive quand il fait noir. Des soldats la portent depuis l'arrière, dans de grandes marmites. Le chemin est long : quand elle arrive, elle est souvent froide.",
+   "apres": 0.2
+  },
+  {
+   "id": "porteur",
+   "text": "La soupe est là ! Tendez vos gamelles, les gars, avant qu'elle gèle complètement !",
+   "par": "porteur",
+   "apres": 0.3
+  },
+  {
+   "id": "gaston2",
+   "text": "Froide ou pas, je la trouve délicieuse, ce soir.",
+   "par": "gaston",
+   "apres": 0.6
+  },
+  {
+   "id": "courrier",
+   "text": "Ce soir, il y a aussi du courrier. Une lettre de Louise, ma fiancée.",
+   "apres": 0.3
+  },
+  {
+   "id": "louise",
+   "text": "Mon Émile, je compte les jours jusqu'à ta permission. Ici, tout le monde pense à toi. Prends bien soin de toi, je t'attends.",
+   "par": "louise",
+   "apres": 0.8
+  },
+  {
+   "id": "reponse",
+   "text": "Une permission, c'est quelques jours pour rentrer chez soi. Je lui réponds tout de suite. Mais je ne lui raconte pas tout. Je ne veux pas lui faire peur.",
+   "apres": 0.6
+  },
+  {
+   "id": "nuit",
+   "text": "La nuit, on dort à tour de rôle. Toujours un œil ouvert.",
+   "apres": 0.2
+  },
+  {
+   "id": "gaston3",
+   "text": "Tu crois qu'on la verra, la fin de cette guerre, nous deux ?",
+   "par": "gaston"
+  },
+  {
+   "id": "emile2",
+   "text": "Oui, Gaston. On doit y croire, tous les jours. Sinon, on ne tiendrait pas.",
+   "par": "emile",
+   "apres": 1.0
+  },
+  {
+   "id": "fin",
+   "text": "On ne le sait pas encore. Mais la guerre va durer encore deux ans. Elle s'arrêtera le onze novembre {1918|mille neuf cent dix-huit}. <l>Aujourd'hui, chaque onze novembre, on se souvient d'eux. Et toi... tu connais le nom d'un poilu, dans ta famille ?",
+   "apres": 3.0
+  }
+ ]
+}
